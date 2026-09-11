@@ -1,0 +1,113 @@
+{
+  "tools": [
+    {
+      "name": "bench_detail",
+      "description": "返回单条记录的全部业务字段与公开链接；不含正文、逐字稿、图片、视频与精确互动数据。",
+      "inputSchema": {
+        "properties": {
+          "id": {
+            "description": "bench_search返回的记录id",
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "object"
+      },
+      "outputSchema": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "_meta": {
+        "_fastmcp": {
+          "tags": []
+        }
+      }
+    },
+    {
+      "name": "bench_search",
+      "description": "按选题、形式、标签、平台、时间窗筛选爆款记录，返回公开链接、原标题、原创标签与原创拆解结论、观察日期与数据截至时间。可用offset翻页。",
+      "inputSchema": {
+        "properties": {
+          "topic": {
+            "default": "",
+            "description": "选题分类或来源关键词，如 AI工具、AI变现、Codex",
+            "maxLength": 60,
+            "type": "string"
+          },
+          "format": {
+            "default": "",
+            "description": "内容形式：图文 或 视频",
+            "maxLength": 20,
+            "type": "string"
+          },
+          "tag": {
+            "default": "",
+            "description": "标签：标题公式 / 内容角度 / 封面版式 / 话题词；取值见 bench_taxonomy",
+            "maxLength": 60,
+            "type": "string"
+          },
+          "platform": {
+            "default": "",
+            "description": "平台，如 小红书、抖音、视频号、TikTok",
+            "maxLength": 20,
+            "type": "string"
+          },
+          "time_window": {
+            "default": "",
+            "description": "发布时间窗：90d 表示近90天，或 2026 / 2026-08。约一半记录未公开发布时间，带时间窗会被排除",
+            "maxLength": 20,
+            "type": "string"
+          },
+          "keyword": {
+            "default": "",
+            "description": "在原标题与拆解结论中搜关键词",
+            "maxLength": 100,
+            "type": "string"
+          },
+          "limit": {
+            "default": 20,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "outputSchema": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "_meta": {
+        "_fastmcp": {
+          "tags": []
+        }
+      }
+    },
+    {
+      "name": "bench_taxonomy",
+      "description": "返回选题分类、标题公式、封面版式、内容角度等标签体系及各类记录数量，并说明哪些维度本期未标注。",
+      "inputSchema": {
+        "properties": {},
+        "type": "object"
+      },
+      "outputSchema": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "_meta": {
+        "_fastmcp": {
+          "tags": []
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–3，真实默认值是 10。 腾讯校招岗位原文和活动标题都没写届别、也没有发布时间，按来源登记（sources_registry.jsonl 的 scope_graduation_year=2027届）推断，依据“来源专场注明”；按届别筛选时社招岗位不返回，见 excluded_social_total。",
+  "request": {
+    "tool": "jobs_search",
+    "arguments": {
+      "company": "腾讯",
+      "graduation_year": "2027届",
+      "page_size": 2,
+      "offset": 2
+    }
+  },
+  "response": {
+    "applied_filters": {
+      "company": "腾讯",
+      "graduation_year": "2027届"
+    },
+    "total": 814,
+    "explicit_total": 2,
+    "inferred_total": 812,
+    "unspecified_total": 0,
+    "excluded_social_total": 1,
+    "sort": "published_desc",
+    "offset": 2,
+    "page_size": 2,
+    "returned": 2,
+    "has_next": true,
+    "next_offset": 4,
+    "truncated": false,
+    "data_as_of": "2026-09-11T12:00:00+08:00",
+    "notices": [
+      "另有 1 条社会招聘岗位未返回：社招不限届别，按届别筛选时不返回；要看请加 recruitment_type=社会招聘。"
+    ],
+    "jobs": [
+      {
+        "id": "tencent-1294744848557342720",
+        "match": {
+          "level": "推断匹配",
+          "graduation_year": "来源专场注明"
+        },
+        "job_title": "内容培训生-内容技术方向（含AIGC）",
+        "company": "腾讯科技（深圳）有限公司",
+        "recruiting_unit_raw": "IEG",
+        "hiring_department_raw": "IEG",
+        "job_category": "产品",
+        "job_category_raw": "产品",
+        "recruitment_type": "校园招聘",
+        "industry": "互联网/科技",
+        "cities": [
+          "深圳"
+        ],
+        "region": "中国大陆",
+        "country": "中国",
+        "graduation_years": [
+          "2027届"
+        ],
+        "graduation_year_basis": {
+          "2027届": "来源专场注明"
+        },
+        "cohort_raw": "应届毕业生",
+        "campaign_title": "应届毕业生",
+        "education": "本科",
+        "education_raw": "本科",
+        "major_category": "未注明",
+        "deadline": null,
+        "deadline_kind": "招满即止或长期",
+        "status": "招聘中",
+        "status_note": "公开校招岗位列表可见；未披露截止日期，未尝试投递。",
+        "published_at": null,
+        "description_raw": "【岗位职责】\n本岗位聚焦AI技术与内容创作的融合领域，无需算法专业背景，核心围绕 AI工具在动画/影视内容生产中的应用，主要负责以下工作:\n1、AI 效果评估与反馈：参与 AI相关算法在内容生产场景中的效果评估，结合审美判断与实际应用需求，输出客观、精准的评估结果，为算法优化提供有效反馈;\n2、验证内容制作：基于业务需求，制作算法验证所需的相关内容，确保验证过程的审美与有效性;\n3、AIGC工具探索：使用已有AIGC工具，深入探索工具在镜头制作中的应用边界，挖掘工具使用潜力，为提升内容制作效率与质量提供支持。\n\n【任职要求】\n1、本科及以上，专业不限;\n2、具备视频制作/视频表达相关专业经验，对AI工具抱有浓厚兴趣，拥有良好的审美能力;\n3、工作认真负责，具备较强的学习能力与探索精神，能够积极配合团队完成相关工作。\n\n【加分项】\n1、作品加分：拥有个人或团队的AIGC视频代表作，或在各类AIGC视频生成大赛中获奖者优先；\n2.、工具熟练度加分：熟练使用主流AIGC内容生成工具，或熟悉AIGC工具的工作流搭建；\n​3、跨界能力加分：具备基础的脚本写作、分镜绘制、剪辑包装能力，能将AI生成素材有效整合成完整作品。",
+        "application_url": "https://join.qq.com/post_detail.html?postid=1294744848557342720",
+        "source_url": "https://join.qq.com/post_detail.html?postid=1294744848557342720",
+        "campaign_url": "https://join.qq.com/post.html",
+        "job_listing_url": "https://join.qq.com/post.html",
+        "source_name": "腾讯校园招聘官方网站",
+        "reviewed_at": "2026-09-10T17:29:32+08:00"
+      },
+      {
+        "id": "tencent-1294711245765017600",
+        "match": {
+          "level": "推断匹配",
+          "graduation_year": "来源专场注明"
+        },
+        "job_title": "游戏动效设计(UI向)",
+        "company": "腾讯科技（深圳）有限公司",
+        "recruiting_unit_raw": "IEG",
+        "hiring_department_raw": "IEG",
+        "job_category": "设计",
+        "job_category_raw": "设计",
+        "recruitment_type": "校园招聘",
+        "industry": "互联网/科技",
+        "cities": [
+          "深圳"
+        ],
+        "region": "中国大陆",
+        "country": "中国",
+        "graduation_years": [
+          "2027届"
+        ],
+        "graduation_year_basis": {
+          "2027届": "来源专场注明"
+        },
+        "cohort_raw": "应届毕业生",
+        "campaign_title": "应届毕业生",
+        "education": "未注明",
+        "major_category": "未注明",
+        "deadline": null,
+        "deadline_kind": "招满即止或长期",
+        "status": "招聘中",
+        "status_note": "公开校招岗位列表可见；未披露截止日期，未尝试投递。",
+        "published_at": null,
+        "description_raw": "【岗位职责】\n1、设计并实现游戏界面的基础动效（如按钮反馈、页面切换、提示信息动效等）；\n2、参与制作关键主界面的流程动效预览视频，协助把控项目UI动效风格；\n3、学习跟进动效在引擎中的实现流程，协助优化动效效果与性能。\n\n【任职要求】\n​1、专业基础力：​​ 动画、设计、数字媒体等相关专业优先。熟悉Adobe After Effects基础操作。对UI设计有基本认知和兴趣。熟悉PS 有商业引擎（unity、ue等）和Spine基础者更佳。\n​2、审美节奏感：​​ 对动效的节奏、缓动有感觉，具备良好的平面设计审美基础。能理解不同风格（如现代简约、奇幻、科幻）对动效的需求差异。\n​3、学习与潜力：​​ 热爱设计，思维活跃，关注游戏和影视动效新趋势，有强烈的学习和探索意愿。\n​4、协作沟通力：​​ 具备良好的团队协作精神和沟通表达能力。\n\n【加分项】\n1、有游戏相关行业经验或实习经验；\n2、作品展示：提供个人设计/动效作品集（包含基础动效作品或能体现潜力的练习片段）。",
+        "application_url": "https://join.qq.com/post_detail.html?postid=1294711245765017600",
+        "source_url": "https://join.qq.com/post_detail.html?postid=1294711245765017600",
+        "campaign_url": "https://join.qq.com/post.html",
+        "job_listing_url": "https://join.qq.com/post.html",
+        "source_name": "腾讯校园招聘官方网站",
+        "reviewed_at": "2026-09-10T17:29:32+08:00"
+      }
+    ]
+  }
+}

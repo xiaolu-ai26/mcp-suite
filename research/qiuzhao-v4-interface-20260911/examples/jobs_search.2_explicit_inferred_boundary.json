@@ -1,5 +1,5 @@
 {
-  "_说明": "模拟：用 data/jobs.json（2026-09-11 拉取，去重后）按 SPEC.md 第 6 节修正规则与第 3 节匹配规则在本地生成，线上尚未实现。按规则模拟的字段：match、graduation_years、graduation_year_basis、education、major_category（含 不限/未注明）、cities（修复 area_code）、job_category（修正错分）、deadline/deadline_kind、status（中文）、region、company/campaign_title（改名）。其余字段是原始数据。“今天”固定为 2026-09-11。response 是工具结果 JSON（线上为 content[0].text 的内容）。 offset 取 explicit_total-1，让同一页同时出现最后一条明确匹配和最前面的含未注明岗位。",
+  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–3，真实默认值是 10。 offset 取 explicit_total-1：同一页里先是最后一条明确匹配，再是最前面的推断匹配。",
   "request": {
     "tool": "jobs_search",
     "arguments": {
@@ -7,7 +7,7 @@
       "graduation_year": "2027届",
       "major": "计算机类",
       "page_size": 3,
-      "offset": 217
+      "offset": 224
     }
   },
   "response": {
@@ -16,17 +16,22 @@
       "graduation_year": "2027届",
       "major": "计算机类"
     },
-    "total": 2095,
-    "explicit_total": 218,
-    "unspecified_total": 1877,
+    "total": 1914,
+    "explicit_total": 225,
+    "inferred_total": 26,
+    "unspecified_total": 1663,
+    "excluded_social_total": 167,
     "sort": "published_desc",
-    "offset": 217,
+    "offset": 224,
     "page_size": 3,
     "returned": 3,
     "has_next": true,
-    "next_offset": 220,
+    "next_offset": 227,
     "truncated": false,
     "data_as_of": "2026-09-11T12:00:00+08:00",
+    "notices": [
+      "另有 167 条社会招聘岗位未返回：社招不限届别，按届别筛选时不返回；要看请加 recruitment_type=社会招聘。"
+    ],
     "jobs": [
       {
         "id": "meituan-4697288183",
@@ -99,8 +104,8 @@
       {
         "id": "guopin-217595509173388749",
         "match": {
-          "level": "含未注明",
-          "graduation_year": "未注明",
+          "level": "推断匹配",
+          "graduation_year": "按招聘季推断",
           "city": "全国",
           "major": "岗位写明"
         },
@@ -117,8 +122,12 @@
         ],
         "region": "中国大陆",
         "country": "中国",
-        "graduation_years": [],
-        "graduation_year_basis": {},
+        "graduation_years": [
+          "2027届"
+        ],
+        "graduation_year_basis": {
+          "2027届": "按招聘季推断"
+        },
         "education": "本科",
         "education_raw": "本科",
         "major_category": "计算机类",
@@ -135,40 +144,46 @@
         "reviewed_at": "2026-09-11T12:00:00+08:00"
       },
       {
-        "id": "guopin-217477396666778906",
+        "id": "guopin-217638293339112912",
         "match": {
-          "level": "含未注明",
-          "graduation_year": "未注明",
+          "level": "推断匹配",
+          "graduation_year": "按招聘季推断",
           "city": "全国",
-          "major": "未注明"
+          "major": "专业不限"
         },
-        "job_title": "机械研发工程师",
-        "company": "河北力准机械制造有限公司",
-        "recruiting_unit_raw": "河北力准机械制造有限公司",
-        "hiring_department_raw": "河北力准机械制造有限公司",
-        "job_category": "技术/研发",
-        "job_category_raw": "机械工程师",
+        "job_title": "风控岗",
+        "company": "国投证券国际金融控股有限公司",
+        "recruiting_unit_raw": "国投证券国际金融控股有限公司",
+        "hiring_department_raw": "国投证券国际金融控股有限公司",
+        "job_category": "金融",
+        "job_category_raw": "投资风险管理/控制/稽查",
         "recruitment_type": "校园招聘",
-        "industry": "制造/工业",
+        "industry": "金融",
         "cities": [
           "全国"
         ],
         "region": "中国大陆",
         "country": "中国",
-        "graduation_years": [],
-        "graduation_year_basis": {},
-        "education": "硕士",
-        "education_raw": "硕士",
-        "major_category": "未注明",
-        "deadline": "2026-12-07",
+        "graduation_years": [
+          "2027届"
+        ],
+        "graduation_year_basis": {
+          "2027届": "按招聘季推断"
+        },
+        "education": "本科",
+        "education_raw": "本科",
+        "major_category": "不限",
+        "major_requirements_raw": "职责：\n1.负责部门日常事务处理及业务流程支持；\n2.完成数据整理、报表编制、文件归档等基础运营工作；\n3.协助内外部沟通协调，确保工作合规高效开展；\n4.配合完成系统维护、信息管理或综合行政事务；\n5.完成领导交办的其他相关工作。\n\n任职要求：\n1.本科及以上学历，专业不限（相关专业如法律/财会/计算机/人力等优先）；\n2.具备良好的沟通能力与学习能力；\n3.工作认真细致，有责任心及团队合作精神",
+        "deadline": "2026-10-31",
         "deadline_kind": "明确日期",
         "status": "招聘中",
-        "published_at": "2026-09-16",
-        "description_raw": "岗位职责：\n1、负责数控机床的整体方案规划，包括主轴、转台、刀库、床身等核心功能部件或整机的结构设计；\n2、负责项目设计工作的分配，对设计进度、设计质量的检查和监督，确保设计进度和设计质量；\n3、跟进自动化设备、生产线的生产装配、整机组装、现场调试及试产工作，优化设计方案，解决各类机械技术问题；\n4、跟踪行业前沿技术，如智能控制算法、AI在加工中的应用等，参与新技术的预研和专利布局等。\n任职要求：\n1、硕士研究生及以上学历，机械类相关专业，熟练使用三维设计软件。\n2、掌握机械原理(结构、传动系统等)、有输送线、桁架机械手、AGV配套等设计经验优先。\n3、掌握常用金属/非金属材料特性、热处理工艺及表面处理。\n4、了解机加工(车铣刨磨)、钣金、注塑、铸造、焊接等工艺特点及设计限制。",
-        "application_url": "https://www.iguopin.com/job/detail?id=217477396666778906",
-        "source_url": "https://www.iguopin.com/job/detail?id=217477396666778906",
-        "source_name": "国聘官方企业校招专场：河北力准机械制造有限公司",
-        "reviewed_at": "2026-09-11T02:40:28+08:00"
+        "published_at": "2026-09-14",
+        "description_raw": "职责：\n1.负责部门日常事务处理及业务流程支持；\n2.完成数据整理、报表编制、文件归档等基础运营工作；\n3.协助内外部沟通协调，确保工作合规高效开展；\n4.配合完成系统维护、信息管理或综合行政事务；\n5.完成领导交办的其他相关工作。\n\n任职要求：\n1.本科及以上学历，专业不限（相关专业如法律/财会/计算机/人力等优先）；\n2.具备良好的沟通能力与学习能力；\n3.工作认真细致，有责任心及团队合作精神；\n4.熟练使用常用办公软件，有相关实习经验优先。\n5.持有香港合法工作签证或身份证。",
+        "application_url": "https://www.iguopin.com/job/detail?id=217638293339112912",
+        "source_url": "https://www.iguopin.com/job/detail?id=217638293339112912",
+        "campaign_url": "https://www.iguopin.com/",
+        "source_name": "国聘官方企业校招专场：国投证券国际金融控股有限公司",
+        "reviewed_at": "2026-09-11T12:00:00+08:00"
       }
     ]
   }

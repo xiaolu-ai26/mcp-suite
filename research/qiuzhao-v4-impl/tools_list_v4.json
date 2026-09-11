@@ -1,0 +1,349 @@
+{
+  "tools": [
+    {
+      "name": "jobs_detail",
+      "description": "【岗位详情】按 id 取 1–10 个岗位的全部业务字段。\n【何时用】用户要对比几个岗位、细看某一个（“第 2 个详细说说”），或跨轮对话复查之前看过的岗位时用。\n【参数来源】ids 只能取 jobs_search 返回的 jobs[i].id（或之前 jobs_detail 返回的 id），不要自己拼；多个用英文逗号分隔。\n【返回】requested、found、not_found[]、data_as_of、jobs[]（字段与 jobs_search 的每条相同，不含 match）。\n【下一步】not_found 不为空，说明岗位已下线或 id 有误，改用 jobs_search 重新查。\n【限制】一次最多 10 个 id，超过报错。",
+      "inputSchema": {
+        "properties": {
+          "ids": {
+            "description": "1–10 个岗位 id，英文逗号分隔，重复的会去掉；只能取 jobs_search 返回的 jobs[i].id，不要自己拼",
+            "maxLength": 2200,
+            "type": "string"
+          }
+        },
+        "required": [
+          "ids"
+        ],
+        "type": "object"
+      },
+      "_meta": {
+        "_fastmcp": {
+          "tags": []
+        }
+      }
+    },
+    {
+      "name": "jobs_search",
+      "description": "【岗位搜索】按条件找秋招、实习、社招岗位。每条返回全部业务字段（岗位描述、城市、届别、学历、专业、截止日、投递链接、原公告链接）和匹配依据 match。\n【何时用】用户要看具体岗位时用，例如“北京有哪些产品岗”“字节在招算法吗”“我是27届计算机硕士能投什么”“这周截止的校招”“国企的财务岗”。只问数量、分布、排名（“哪个城市最多”“有几家公司”）时，先用 jobs_stats。\n【参数来源】keyword、company、city、major 取自用户原话。job_category、graduation_year、education、recruitment_type、industry、sort 只能填 schema 列出的值，“27届”“校招”“研究生”这类说法服务端会自动归一。也可以把 jobs_stats.groups[i].value 原样填到 jobs_stats.fill_param 指定的参数。offset 只能取上一次返回的 next_offset。\n【参数用法】各条件需同时满足。city、company 可用英文逗号写多个，满足任一即可。届别、城市、专业、学历四个条件分三档返回并按此排序：明确匹配（岗位写明、活动标题写明、全国、专业不限、学历不限）→ 推断匹配（按招聘季推断、来源专场注明、实习未写届别）→ 含未注明；每条的 match 写明档次和依据。用户说“只看写明的”时传 explicit_only=true（只留明确匹配）。按届别筛选时社招岗位不返回（社招不限届别，excluded_social_total 给出条数），要看社招请加 recruitment_type=社会招聘。education 填用户本人的学历，返回最低学历要求不高于它的岗位。recruitment_type 不传时校招、实习、社招都返回。deadline_within_days=N 只返回今天起 N 天内有明确截止日的岗位（招满即止和没写截止日的不返回），一般配 sort=deadline_asc。默认不返回已截止岗位。\n【返回】applied_filters（服务端实际使用、已归一的条件；与你传的不一致又没有 notices 说明时，说明客户端丢了参数，要告诉用户，不要重复同样的调用）、total、explicit_total、inferred_total、unspecified_total、分页信息（returned、has_next、next_offset、truncated）、data_as_of、notices（参数被归一或调整时的说明），以及 jobs[]。\n【下一步】has_next=true 且用户要更多时，用 next_offset 翻页。要对比或复查某几个岗位时，把 jobs[i].id 传给 jobs_detail。要看分布时，用相同条件调 jobs_stats。\n【限制】page_size 默认 10、最大 20。一页超过约 60KB 时，在完整岗位处截断并置 truncated=true，用 next_offset 接着取。城市只认城市名，不认省份。数据只包含公告里写了的信息：回答时把明确匹配、推断匹配和未注明分开说，推断和未注明都不代表一定符合条件，并附 source_url 和 data_as_of。",
+      "inputSchema": {
+        "properties": {
+          "keyword": {
+            "default": "",
+            "description": "岗位名、技能或单位关键词，取自用户原话，如 算法、转正；在岗位名、类目、描述、单位名里做不区分大小写的包含匹配",
+            "maxLength": 100,
+            "type": "string"
+          },
+          "company": {
+            "default": "",
+            "description": "公司或单位，取自用户原话、jobs_stats(group_by=company) 的组值或 jobs[i].company；多个用英文逗号分隔，满足任一即可，如 腾讯,阿里巴巴",
+            "maxLength": 100,
+            "type": "string"
+          },
+          "city": {
+            "default": "",
+            "description": "工作城市（只认城市名，不认省份），多个用英文逗号分隔，满足任一即可，如 北京,上海；也可填 全国、未注明。城市为空的岗位默认返回并标 未注明；写“全国”的岗位对大陆城市算明确匹配",
+            "maxLength": 100,
+            "type": "string"
+          },
+          "job_category": {
+            "default": "",
+            "description": "岗位大类，只能填列出的值；“产品经理”“技术岗”这类说法会自动归一；找具体岗位名请用 keyword",
+            "enum": [
+              "",
+              "技术/研发",
+              "产品",
+              "运营",
+              "设计",
+              "市场/营销",
+              "销售",
+              "职能/支持",
+              "金融",
+              "咨询",
+              "医疗/医药",
+              "制造/生产",
+              "科研",
+              "教育/培训",
+              "法律/合规",
+              "其他"
+            ],
+            "type": "string"
+          },
+          "graduation_year": {
+            "default": "",
+            "description": "用户的毕业届别，只能填列出的值；2027、27届、2027年 会自动归一为 2027届。默认返回明确匹配、推断匹配和未注明三档；填 未注明 时只看没写届别的岗位。按届别筛选时社招岗位不返回",
+            "enum": [
+              "",
+              "2028届",
+              "2027届",
+              "2026届",
+              "2025届",
+              "2024届",
+              "未注明"
+            ],
+            "type": "string"
+          },
+          "major": {
+            "default": "",
+            "description": "专业：可填专业大类名（计算机类、电子信息类、金融经济类、机械制造类、医药生物类、管理类、文科类、理科类、设计艺术类、农业类、其他）、专业关键词（如 统计），或 不限、未注明。“专业不限”的岗位算明确匹配",
+            "maxLength": 50,
+            "type": "string"
+          },
+          "education": {
+            "default": "",
+            "description": "用户本人的学历，只能填列出的值（研究生→硕士、专科→大专 会自动归一）；返回最低学历要求不高于它的岗位；不限 只看写明学历不限的岗位",
+            "enum": [
+              "",
+              "不限",
+              "中专及以下",
+              "大专",
+              "本科",
+              "硕士",
+              "博士",
+              "未注明"
+            ],
+            "type": "string"
+          },
+          "recruitment_type": {
+            "default": "",
+            "description": "招聘类型，只能填列出的值（校招、秋招→校园招聘，实习→实习招聘，社招→社会招聘）；不传时三种都返回",
+            "enum": [
+              "",
+              "校园招聘",
+              "实习招聘",
+              "社会招聘"
+            ],
+            "type": "string"
+          },
+          "industry": {
+            "default": "",
+            "description": "行业，只能填列出的值（国企、央企→国企/央企，互联网→互联网/科技 会自动归一）",
+            "enum": [
+              "",
+              "互联网/科技",
+              "国企/央企",
+              "制造/工业",
+              "能源/电力",
+              "金融",
+              "医药/医疗",
+              "教育",
+              "物流/运输",
+              "传媒/广告",
+              "消费/零售",
+              "农业",
+              "房地产",
+              "其他"
+            ],
+            "type": "string"
+          },
+          "deadline_within_days": {
+            "default": 0,
+            "description": "只返回今天起 N 天内（含今天）有明确截止日的岗位，招满即止和没写截止日的不返回；模型把“国庆前”这类说法换算成天数；0 表示不筛截止日",
+            "maximum": 366,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "explicit_only": {
+            "default": false,
+            "description": "true 时只返回明确匹配（去掉推断匹配和含未注明）；用户说“只看写明的”时用；不能和取值 未注明 同时用",
+            "type": "boolean"
+          },
+          "include_expired": {
+            "default": false,
+            "description": "true 时包含已截止岗位；默认不返回已截止岗位",
+            "type": "boolean"
+          },
+          "sort": {
+            "default": "published_desc",
+            "description": "排序：published_desc 按发布时间从新到旧（默认）；deadline_asc 按截止日从近到远，没写截止日的排在同档最后。明确匹配始终排在推断匹配前，推断匹配排在含未注明前",
+            "enum": [
+              "published_desc",
+              "deadline_asc"
+            ],
+            "type": "string"
+          },
+          "page_size": {
+            "default": 10,
+            "description": "每页条数，默认 10、最大 20（超过按 20 返回并在 notices 说明）；用户要“多给点”时填 20",
+            "maximum": 20,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "description": "翻页起点，只能取上一次返回的 next_offset",
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "_meta": {
+        "_fastmcp": {
+          "tags": []
+        }
+      }
+    },
+    {
+      "name": "jobs_stats",
+      "description": "【岗位统计】用与 jobs_search 相同的筛选条件计数，可按一个维度分组。\n【何时用】问数量、分布、排名、对比时用，例如“北京和上海哪个产品岗多”“哪些国企招计算机最多”“27届和26届各有多少岗位”“字节的岗位主要在哪些城市”“一共有多少家公司”。也可以在 jobs_search 之前先看规模。\n【参数来源】筛选参数的来源同 jobs_search。group_by 只能填 schema 列出的值。\n【参数用法】group_by 不传时只返回总数。一条岗位写了多个城市或多个届别时，按 city、graduation_year 分组会计入多个组，各组之和可能大于 total（此时 multi_valued=true）。top 控制返回的组数（默认 20、最大 100），其余组的计数合计在 other_count。\n【返回】applied_filters、total、explicit_total、inferred_total、unspecified_total、excluded_social_total（按届别筛选时没计入的社招条数）、data_as_of；分组时另有 group_by、fill_param、multi_valued、groups_total、returned_groups、other_count、groups[]（value、count、explicit_count、inferred_count、unspecified_count）。组内三档同时看筛选条件和组值本身：未注明 组算未注明，届别组按该届的依据分档（如按招聘季推断的计入 inferred_count）。\n【下一步】用户要看某一组的岗位时，把 groups[i].value 原样填到 jobs_search 中 fill_param 指定的参数，其余条件保持不变。graduation_year 分组里的“实习未写届别”“社招不限届别”不是届别，不能填回，改用 recruitment_type。\n【限制】计数单位是岗位条数，不是招聘人数，数据里没有招聘人数。education 分组是岗位写明的最低学历；填回 jobs_search.education 时按“门槛不高于该档”匹配，所以返回的数量会不少于该组计数。",
+      "inputSchema": {
+        "properties": {
+          "keyword": {
+            "default": "",
+            "description": "岗位名、技能或单位关键词，取自用户原话，如 算法、转正；在岗位名、类目、描述、单位名里做不区分大小写的包含匹配",
+            "maxLength": 100,
+            "type": "string"
+          },
+          "company": {
+            "default": "",
+            "description": "公司或单位，取自用户原话、jobs_stats(group_by=company) 的组值或 jobs[i].company；多个用英文逗号分隔，满足任一即可，如 腾讯,阿里巴巴",
+            "maxLength": 100,
+            "type": "string"
+          },
+          "city": {
+            "default": "",
+            "description": "工作城市（只认城市名，不认省份），多个用英文逗号分隔，满足任一即可，如 北京,上海；也可填 全国、未注明。城市为空的岗位默认返回并标 未注明；写“全国”的岗位对大陆城市算明确匹配",
+            "maxLength": 100,
+            "type": "string"
+          },
+          "job_category": {
+            "default": "",
+            "description": "岗位大类，只能填列出的值；“产品经理”“技术岗”这类说法会自动归一；找具体岗位名请用 keyword",
+            "enum": [
+              "",
+              "技术/研发",
+              "产品",
+              "运营",
+              "设计",
+              "市场/营销",
+              "销售",
+              "职能/支持",
+              "金融",
+              "咨询",
+              "医疗/医药",
+              "制造/生产",
+              "科研",
+              "教育/培训",
+              "法律/合规",
+              "其他"
+            ],
+            "type": "string"
+          },
+          "graduation_year": {
+            "default": "",
+            "description": "用户的毕业届别，只能填列出的值；2027、27届、2027年 会自动归一为 2027届。默认返回明确匹配、推断匹配和未注明三档；填 未注明 时只看没写届别的岗位。按届别筛选时社招岗位不返回",
+            "enum": [
+              "",
+              "2028届",
+              "2027届",
+              "2026届",
+              "2025届",
+              "2024届",
+              "未注明"
+            ],
+            "type": "string"
+          },
+          "major": {
+            "default": "",
+            "description": "专业：可填专业大类名（计算机类、电子信息类、金融经济类、机械制造类、医药生物类、管理类、文科类、理科类、设计艺术类、农业类、其他）、专业关键词（如 统计），或 不限、未注明。“专业不限”的岗位算明确匹配",
+            "maxLength": 50,
+            "type": "string"
+          },
+          "education": {
+            "default": "",
+            "description": "用户本人的学历，只能填列出的值（研究生→硕士、专科→大专 会自动归一）；返回最低学历要求不高于它的岗位；不限 只看写明学历不限的岗位",
+            "enum": [
+              "",
+              "不限",
+              "中专及以下",
+              "大专",
+              "本科",
+              "硕士",
+              "博士",
+              "未注明"
+            ],
+            "type": "string"
+          },
+          "recruitment_type": {
+            "default": "",
+            "description": "招聘类型，只能填列出的值（校招、秋招→校园招聘，实习→实习招聘，社招→社会招聘）；不传时三种都返回",
+            "enum": [
+              "",
+              "校园招聘",
+              "实习招聘",
+              "社会招聘"
+            ],
+            "type": "string"
+          },
+          "industry": {
+            "default": "",
+            "description": "行业，只能填列出的值（国企、央企→国企/央企，互联网→互联网/科技 会自动归一）",
+            "enum": [
+              "",
+              "互联网/科技",
+              "国企/央企",
+              "制造/工业",
+              "能源/电力",
+              "金融",
+              "医药/医疗",
+              "教育",
+              "物流/运输",
+              "传媒/广告",
+              "消费/零售",
+              "农业",
+              "房地产",
+              "其他"
+            ],
+            "type": "string"
+          },
+          "deadline_within_days": {
+            "default": 0,
+            "description": "只返回今天起 N 天内（含今天）有明确截止日的岗位，招满即止和没写截止日的不返回；模型把“国庆前”这类说法换算成天数；0 表示不筛截止日",
+            "maximum": 366,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "explicit_only": {
+            "default": false,
+            "description": "true 时只返回明确匹配（去掉推断匹配和含未注明）；用户说“只看写明的”时用；不能和取值 未注明 同时用",
+            "type": "boolean"
+          },
+          "include_expired": {
+            "default": false,
+            "description": "true 时包含已截止岗位；默认不返回已截止岗位",
+            "type": "boolean"
+          },
+          "group_by": {
+            "default": "",
+            "description": "分组维度，只能填列出的值；不传时只返回总数。major_category 的组值填回 jobs_search.major，其余填回同名参数",
+            "enum": [
+              "",
+              "company",
+              "city",
+              "job_category",
+              "graduation_year",
+              "education",
+              "major_category",
+              "industry",
+              "recruitment_type"
+            ],
+            "type": "string"
+          },
+          "top": {
+            "default": 20,
+            "description": "返回前几组，按 count 从大到小，默认 20、最大 100（超过按 100 返回）",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "_meta": {
+        "_fastmcp": {
+          "tags": []
+        }
+      }
+    }
+  ]
+}

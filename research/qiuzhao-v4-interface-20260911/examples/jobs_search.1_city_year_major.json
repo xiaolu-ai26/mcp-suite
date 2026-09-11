@@ -1,5 +1,5 @@
 {
-  "_说明": "模拟：用 data/jobs.json（2026-09-11 拉取，去重后）按 SPEC.md 第 6 节修正规则与第 3 节匹配规则在本地生成，线上尚未实现。按规则模拟的字段：match、graduation_years、graduation_year_basis、education、major_category（含 不限/未注明）、cities（修复 area_code）、job_category（修正错分）、deadline/deadline_kind、status（中文）、region、company/campaign_title（改名）。其余字段是原始数据。“今天”固定为 2026-09-11。response 是工具结果 JSON（线上为 content[0].text 的内容）。 城市取 成都：候选城市里第一个在第 1 页就出现“全国”依据的。",
+  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–3，真实默认值是 10。 城市取 成都：候选城市里第一个在第 1 页就出现“全国”依据的。",
   "request": {
     "tool": "jobs_search",
     "arguments": {
@@ -15,9 +15,11 @@
       "graduation_year": "2027届",
       "major": "计算机类"
     },
-    "total": 2095,
-    "explicit_total": 218,
-    "unspecified_total": 1877,
+    "total": 1914,
+    "explicit_total": 225,
+    "inferred_total": 26,
+    "unspecified_total": 1663,
+    "excluded_social_total": 167,
     "sort": "published_desc",
     "offset": 0,
     "page_size": 3,
@@ -26,7 +28,52 @@
     "next_offset": 3,
     "truncated": false,
     "data_as_of": "2026-09-11T12:00:00+08:00",
+    "notices": [
+      "另有 167 条社会招聘岗位未返回：社招不限届别，按届别筛选时不返回；要看请加 recruitment_type=社会招聘。"
+    ],
     "jobs": [
+      {
+        "id": "guopin-217630802530272720",
+        "match": {
+          "level": "明确匹配",
+          "graduation_year": "岗位写明",
+          "city": "全国",
+          "major": "岗位写明"
+        },
+        "job_title": "集控运行岗",
+        "company": "中电神头发电有限责任公司",
+        "recruiting_unit_raw": "中电神头发电有限责任公司",
+        "hiring_department_raw": "发电部",
+        "job_category": "技术/研发",
+        "job_category_raw": "核力/火力工程师",
+        "recruitment_type": "校园招聘",
+        "industry": "国企/央企",
+        "cities": [
+          "全国"
+        ],
+        "region": "中国大陆",
+        "country": "中国",
+        "graduation_years": [
+          "2027届"
+        ],
+        "graduation_year_basis": {
+          "2027届": "岗位写明"
+        },
+        "education": "本科",
+        "education_raw": "本科",
+        "major_category": "计算机类",
+        "major_requirements_raw": "1.岗位职责\n负责机组的设备巡回检查、监盘和就地操作\n2.招聘条件\n全国普通高等学校2027年应届毕业生，本科及以上学历,具有学士学位\n英语四级以上，有较强的计算机应用能力\n身体健康，具备正常履行岗位职责的身体条件\n能接受倒班\n3.薪酬福利\n实习期6个月，转正定级后按照公司薪酬制度以岗定薪，并提供有竞争力的薪资\n按时足额缴纳六险二金\n提供免费住宿、年度免费健康体检和职业健康体检、取暖补助、高温补贴",
+        "deadline": "2026-12-31",
+        "deadline_kind": "明确日期",
+        "status": "招聘中",
+        "published_at": "2026-09-13",
+        "description_raw": "1.岗位职责\n负责机组的设备巡回检查、监盘和就地操作\n2.招聘条件\n全国普通高等学校2027年应届毕业生，本科及以上学历,具有学士学位\n英语四级以上，有较强的计算机应用能力\n身体健康，具备正常履行岗位职责的身体条件\n能接受倒班\n3.薪酬福利\n实习期6个月，转正定级后按照公司薪酬制度以岗定薪，并提供有竞争力的薪资\n按时足额缴纳六险二金\n提供免费住宿、年度免费健康体检和职业健康体检、取暖补助、高温补贴、节日福利、工作餐费补助、上下班通勤车等。\n享受法定节假日、带薪年休假、婚 (丧)假、（陪）产假、探亲假等国家法定的各类假期。\n提供职业发展多通道（经营管理、专业技术和技能操作通道）",
+        "application_url": "https://www.iguopin.com/job/detail?id=217630802530272720",
+        "source_url": "https://www.iguopin.com/job/detail?id=217630802530272720",
+        "campaign_url": "https://www.iguopin.com/",
+        "source_name": "国聘官方企业校招专场：中电神头发电有限责任公司",
+        "reviewed_at": "2026-09-11T12:00:00+08:00"
+      },
       {
         "id": "zhiye-tal-tech-2027",
         "match": {
@@ -111,47 +158,6 @@
         "source_url": "https://starnet.zhiye.com/campus/jobs",
         "source_name": "北森招聘",
         "reviewed_at": "2026-09-11T01:35:13+08:00"
-      },
-      {
-        "id": "zhiye-keyence-sales-2027",
-        "match": {
-          "level": "明确匹配",
-          "graduation_year": "岗位写明",
-          "city": "全国",
-          "major": "专业不限"
-        },
-        "job_title": "销售工程师(2027秋季校园招聘)",
-        "company": "基恩士(中国)有限公司",
-        "contracting_entity": "基恩士(中国)有限公司",
-        "job_category": "销售",
-        "job_category_raw": "销售",
-        "recruitment_type": "校园招聘",
-        "industry": "其他",
-        "cities": [
-          "全国"
-        ],
-        "region": "中国大陆",
-        "country": "中国",
-        "graduation_years": [
-          "2027届"
-        ],
-        "graduation_year_basis": {
-          "2027届": "岗位写明"
-        },
-        "cohort_raw": "2027届本科及以上应届毕业生(毕业时间2026年9月1日-2027年8月31日)",
-        "education": "本科",
-        "education_raw": "本科",
-        "major_category": "不限",
-        "major_requirements_raw": "专业不限",
-        "deadline": null,
-        "deadline_kind": "未注明",
-        "status": "招聘中",
-        "published_at": "2026-09-11",
-        "description_raw": "顾问式销售，在所负责区域范围内推广、销售基恩士产品，帮助客户解决问题；直接对应最终用户，了解客户显在和潜在需求（B2B销售）；分析所负责区域的行业动态并制定相应的战略计划，实现指定区域销售业绩最大化。\n\n福利：专属工作电脑及手机，外出安排专车与司机接送，定制Demo箱携带演示产品。",
-        "application_url": "https://keyence.zhiye.com/campus/jobs",
-        "source_url": "https://keyence.zhiye.com/campus/jobs",
-        "source_name": "北森招聘",
-        "reviewed_at": "2026-09-11T01:31:15+08:00"
       }
     ]
   }

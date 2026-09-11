@@ -1,0 +1,171 @@
+..............F......................................................... [ 55%]
+..........................................................               [100%]
+=================================== FAILURES ===================================
+____________________________ test_atomic_redemption ____________________________
+
+store = <core.store.Store object at 0x10be2f7d0>
+
+    def test_atomic_redemption(store):
+        code = store.generate_codes(1)[0]
+        def redeem(_):
+            try:
+                return store.redeem(code)
+            except AccessError:
+                return None
+        with ThreadPoolExecutor(max_workers=12) as executor:
+            results = list(executor.map(redeem, range(12)))
+        assert sum(x is not None for x in results) == 1
+        token = next(x['api_key'] for x in results if x)
+        assert store.authorize(token)['remaining_today'] == 999999  # qiuzhao-2026 now allows 999999/day
+        # Database and SQLite WAL must not contain raw credentials.
+        with store.connect() as db:
+            dump = '\n'.join(db.iterdump())
+>       assert code not in dump and token not in dump
+E       AssertionError: assert ('QZ-D04E5A88...1186210276B3' not in 'BEGIN TRANS...L);\nCOMMIT;'
+E         
+E         'QZ-[redacted-test-code]' is contained here:
+E           6bf2464','QZ-[redacted-test-code]');
+E           CREATE TABLE usage_log (
+E                           key_id TEXT NOT NULL, product TEXT NOT NULL, tool TEXT NOT NULL, at TEXT NOT NULL);
+E           COMMIT;)
+
+tests/test_core.py:30: AssertionError
+=============================== warnings summary ===============================
+tests/test_call_log.py::test_threaded_writes_keep_long_lines_whole
+
+tests/test_call_log.py::test_threaded_writes_keep_long_lines_whole
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_call_log.py::test_call_log_line_fields_and_values
+PASSED tests/test_call_log.py::test_result_total_for_stats_and_detail
+PASSED tests/test_call_log.py::test_tool_is_the_name_the_client_called
+PASSED tests/test_call_log.py::test_value_errors_are_invalid_arguments
+PASSED tests/test_call_log.py::test_overlong_string_is_logged_cut_to_200_even_when_rejected
+PASSED tests/test_call_log.py::test_call_log_bounds_lists_dicts_and_redacts_pasted_credentials
+PASSED tests/test_call_log.py::test_call_log_has_no_credentials_and_private_modes
+PASSED tests/test_call_log.py::test_user_ref_stable_distinct_and_not_a_credential
+PASSED tests/test_call_log.py::test_unwritable_log_dir_keeps_calls_working
+PASSED tests/test_call_log.py::test_concurrent_http_calls_write_whole_lines
+PASSED tests/test_call_log.py::test_threaded_writes_keep_long_lines_whole
+PASSED tests/test_call_log.py::test_value_bounds_and_line_cap
+PASSED tests/test_call_log.py::test_old_day_files_are_kept
+PASSED tests/test_call_log.py::test_analyze_script_reports_repeats_and_zero_results
+PASSED tests/test_core.py::test_atomic_daily_limit
+PASSED tests/test_core.py::test_expiry_product_and_invalid
+PASSED tests/test_core.py::test_midnight_resets_and_handshake_free
+PASSED tests/test_core.py::test_jobs_preserve_facts_and_deadline_order
+PASSED tests/test_core.py::test_role_cohort_and_campaign_title_bases
+PASSED tests/test_core.py::test_qiuzhao_code_and_key_format_unchanged
+PASSED tests/test_core.py::test_bench_plan_is_thirty_days_from_activation
+PASSED tests/test_core.py::test_quota_message_uses_plan_limit
+PASSED tests/test_core.py::test_bench_returns_links_tags_and_no_body
+PASSED tests/test_schema.py::test_qiuzhao_tools_list_is_three_flat_tools_without_output_schema
+PASSED tests/test_schema.py::test_bench_schemas_are_flat
+PASSED tests/test_schema.py::test_search_and_stats_share_the_same_filters
+PASSED tests/test_schema.py::test_enum_values_and_defaults
+PASSED tests/test_schema.py::test_enums_equal_the_values_in_the_data
+PASSED tests/test_schema.py::test_enum_check_fails_when_data_drifts
+PASSED tests/test_schema.py::test_jobs_search_omitted
+PASSED tests/test_schema.py::test_all_params_null
+PASSED tests/test_schema.py::test_unknown_parameters_are_rejected_by_fastmcp
+PASSED tests/test_schema.py::test_instructions
+PASSED tests/test_schema.py::test_bench_search_null_omitted_and_value
+PASSED tests/test_v4_fields.py::test_description_years[1\u3001\u76f8\u5173\u8981\u6c42\uff1a2027\u5e74\u5e94\u5c4a\u9ad8\u6821\u6bd5\u4e1a\u751f\uff0c\u672c\u79d1\u53ca\u4ee5\u4e0a-years0]
+PASSED tests/test_v4_fields.py::test_description_years[\u6bd5\u4e1a\u65f6\u95f4\uff1a2027\u5e7410\u6708\u524d-years1]
+PASSED tests/test_v4_fields.py::test_description_years[\u62db\u8058\u5bf9\u8c61\u4e3a\u6bd5\u4e1a\u65f6\u95f4\u4e3a2027\u5e747\u6708\u7684\u5728\u6821\u5e94\u5c4a\u6bd5\u4e1a\u751f-years2]
+PASSED tests/test_v4_fields.py::test_description_years[\u5b66\u5386\u8981\u6c42\uff1a2026\u5c4a\u672a\u5c31\u4e1a\u30012027\u5c4a\u666e\u901a\u9ad8\u6821\u6bd5\u4e1a\u751f-years3]
+PASSED tests/test_v4_fields.py::test_description_years[1.2025-2027\u5c4a\u672c\u79d1\u53ca\u4ee5\u4e0a\u5b66\u5386\u6bd5\u4e1a\u751f-years4]
+PASSED tests/test_v4_fields.py::test_description_years[2\u30012026\u3001 2027\u5c4a\u666e\u901a\u9ad8\u7b49\u9662\u6821\u56fd\u5bb6\u7edf\u62db\u672c\u79d1-years5]
+PASSED tests/test_v4_fields.py::test_description_years[\u56fd\uff08\u5883\uff09\u5916\u5b66\u751f\uff1a2026\u5e741\u6708\u81f32027\u5e748\u6708\u6bd5\u4e1a-years6]
+PASSED tests/test_v4_fields.py::test_description_years[\u6bd5\u4e1a\u65f6\u95f4\u4e3a2026\u5e747\u67081\u65e5\u81f32027\u5e746\u670830\u65e5-years7]
+PASSED tests/test_v4_fields.py::test_description_years[1\u30012027\u5c4a\u62162028\u5c4a\u7855\u58eb\u7814\u7a76\u751f\u5728\u8bfb-years8]
+PASSED tests/test_v4_fields.py::test_description_years[1.2026\u5e74\u5ea6\u5e94\u5c4a\u7855\u58eb\u7814\u7a76\u751f\u53ca\u4ee5\u4e0a-years9]
+PASSED tests/test_v4_fields.py::test_description_years[Candidates in the Class of 2027-years10]
+PASSED tests/test_v4_fields.py::test_description_years[\u5e74\u9f84\u8ba1\u7b97\u7684\u622a\u6b62\u65f6\u95f4\u4e3a2027\u5e747\u670831\u65e5\uff1b-years11]
+PASSED tests/test_v4_fields.py::test_description_years[\u81ea2024\u5e74\u8d77\uff0c\u5b9e\u4e60\u7559\u7528\u662f\u83b7\u5f97\u817e\u8baf\u6b63\u5f0f offer \u7684\u4e3b\u8981\u65b9\u5f0f-years12]
+PASSED tests/test_v4_fields.py::test_description_years[\u97002027\u5e749\u67081\u65e5\u524d\u53d6\u5f97\u76f8\u5e94\u6bd5\u4e1a\u8bc1-years13]
+PASSED tests/test_v4_fields.py::test_description_years[\u7edf\u4e00\u6a21\u578b\u57282025\u5e74\u5df2\u7ecf\u53d6\u5f97\u4e86\u5de8\u5927\u8fdb\u6b65-years14]
+PASSED tests/test_v4_fields.py::test_description_years[2026\u5e747\u67081\u65e5\u81f32027\u5e746\u670830\u65e5\u671f\u95f4\u5165\u804c-years15]
+PASSED tests/test_v4_fields.py::test_description_years[2024/2025/2026\u4ee5\u53ca\u5e94\u5c4a\u6bd5\u4e1a\u751f-years16]
+PASSED tests/test_v4_fields.py::test_title_years_need_a_cohort_word[\u4e4b\u5bb6-\u7434\u56ed-\u5168\u79d1\u533b\u751f\u30102027\u5c4a\u3011(J85495)-years0]
+PASSED tests/test_v4_fields.py::test_title_years_need_a_cohort_word[\u541b\u4e50\u5b9d2027\u6821\u62db-\u7535\u5546\u7ba1\u57f9\u751f-years1]
+PASSED tests/test_v4_fields.py::test_title_years_need_a_cohort_word[Software Engineer Graduate - 2027 Start-years2]
+PASSED tests/test_v4_fields.py::test_title_years_need_a_cohort_word[\u7535\u6c60\u53ca\u80fd\u6e90\u7cfb\u7edf\u7c7b-campus-2027(\u535a\u58eb\u62db\u8058\uff09-years3]
+PASSED tests/test_v4_fields.py::test_title_years_need_a_cohort_word[2026\u5e94\u5c4a\u751f-\u9500\u552e-years4]
+PASSED tests/test_v4_fields.py::test_title_years_need_a_cohort_word[QDG20260031-\u52a9\u7406\u5de5\u7a0b\u5e08-years5]
+PASSED tests/test_v4_fields.py::test_title_years_need_a_cohort_word[2026-\u6c22\u80fd\u4e0e\u71c3\u6599\u7535\u6c60\u3010\u535a\u58eb\u540e\u3011-years6]
+PASSED tests/test_v4_fields.py::test_title_years_need_a_cohort_word[\uff082026\uff09\u5b9e\u9a8c\u5458-years7]
+PASSED tests/test_v4_fields.py::test_years_in_keeps_the_spec_window_rule
+PASSED tests/test_v4_fields.py::test_graduation_order[r0-years0-basis0--cohort_raw]
+PASSED tests/test_v4_fields.py::test_graduation_order[r1-years1-basis1--campaign_title]
+PASSED tests/test_v4_fields.py::test_graduation_order[r2-years2-basis2-\u793e\u62db\u4e0d\u9650\u5c4a\u522b-social]
+PASSED tests/test_v4_fields.py::test_graduation_order[r3-years3-basis3--job_title]
+PASSED tests/test_v4_fields.py::test_graduation_order[r4-years4-basis4--description]
+PASSED tests/test_v4_fields.py::test_graduation_order[r5-years5-basis5-\u5b9e\u4e60\u672a\u5199\u5c4a\u522b-intern]
+PASSED tests/test_v4_fields.py::test_graduation_order[r6-years6-basis6--season]
+PASSED tests/test_v4_fields.py::test_graduation_order[r7-years7-basis7-\u672a\u6ce8\u660e-unspecified]
+PASSED tests/test_v4_fields.py::test_graduation_order[r8-years8-basis8--source_scope]
+PASSED tests/test_v4_fields.py::test_graduation_order[r9-years9-basis9-\u672a\u6ce8\u660e-campus_no_date_unmatched]
+PASSED tests/test_v4_fields.py::test_graduation_order[r10-years10-basis10-\u672a\u6ce8\u660e-unspecified]
+PASSED tests/test_v4_fields.py::test_source_scopes_match_the_registry
+PASSED tests/test_v4_fields.py::test_test_rules[r0-title_test_n]
+PASSED tests/test_v4_fields.py::test_test_rules[r1-title_test_post]
+PASSED tests/test_v4_fields.py::test_test_rules[r2-title_test_post]
+PASSED tests/test_v4_fields.py::test_test_rules[r3-desc_placeholder_only]
+PASSED tests/test_v4_fields.py::test_test_rules[r4-desc_do_not_apply]
+PASSED tests/test_v4_fields.py::test_test_rules[r5-desc_template_text]
+PASSED tests/test_v4_fields.py::test_test_rules[r6-None]
+PASSED tests/test_v4_fields.py::test_test_rules[r7-None]
+PASSED tests/test_v4_fields.py::test_test_rules[r8-None]
+PASSED tests/test_v4_fields.py::test_test_rules[r9-None]
+PASSED tests/test_v4_fields.py::test_test_rules[r10-None]
+PASSED tests/test_v4_fields.py::test_test_rules_hit_only_the_known_records
+PASSED tests/test_v4_fields.py::test_shared_rules_match_the_spec_reference
+PASSED tests/test_v4_fields.py::test_build_report_numbers
+PASSED tests/test_v4_fields.py::test_fallbacks_when_normalized_fields_are_absent
+PASSED tests/test_v4_fields.py::test_status_is_computed_at_read_time
+PASSED tests/test_v4_fields.py::test_iter_json_file_across_chunk_boundaries[1]
+PASSED tests/test_v4_fields.py::test_iter_json_file_across_chunk_boundaries[2]
+PASSED tests/test_v4_fields.py::test_iter_json_file_across_chunk_boundaries[3]
+PASSED tests/test_v4_fields.py::test_iter_json_file_across_chunk_boundaries[7]
+PASSED tests/test_v4_fields.py::test_iter_json_file_across_chunk_boundaries[64]
+PASSED tests/test_v4_fields.py::test_iter_json_file_across_chunk_boundaries[1048576]
+PASSED tests/test_v4_fields.py::test_iter_json_file_equals_json_load
+PASSED tests/test_v4_fields.py::test_cache_rebuilds_only_when_the_file_changes
+PASSED tests/test_v4_fields.py::test_budget_keeps_at_least_one_whole_job
+PASSED tests/test_v4_fields.py::test_counts_match_an_independent_reading_of_the_spec
+PASSED tests/test_v4_tools.py::test_single_copy_content_only
+PASSED tests/test_v4_tools.py::test_default_search_shape
+PASSED tests/test_v4_tools.py::test_pagination_chain
+PASSED tests/test_v4_tools.py::test_budget_cuts_at_a_whole_job
+PASSED tests/test_v4_tools.py::test_page_size_over_20_is_clamped_with_notice
+PASSED tests/test_v4_tools.py::test_synonyms_normalize_with_notice
+PASSED tests/test_v4_tools.py::test_errors_are_chinese_and_actionable[jobs_search-args0-parts0]
+PASSED tests/test_v4_tools.py::test_errors_are_chinese_and_actionable[jobs_search-args1-parts1]
+PASSED tests/test_v4_tools.py::test_errors_are_chinese_and_actionable[jobs_search-args2-parts2]
+PASSED tests/test_v4_tools.py::test_errors_are_chinese_and_actionable[jobs_search-args3-parts3]
+PASSED tests/test_v4_tools.py::test_errors_are_chinese_and_actionable[jobs_search-args4-parts4]
+PASSED tests/test_v4_tools.py::test_errors_are_chinese_and_actionable[jobs_search-args5-parts5]
+PASSED tests/test_v4_tools.py::test_errors_are_chinese_and_actionable[jobs_search-args6-parts6]
+PASSED tests/test_v4_tools.py::test_errors_are_chinese_and_actionable[jobs_search-args7-parts7]
+PASSED tests/test_v4_tools.py::test_errors_are_chinese_and_actionable[jobs_search-args8-parts8]
+PASSED tests/test_v4_tools.py::test_errors_are_chinese_and_actionable[jobs_search-args9-parts9]
+PASSED tests/test_v4_tools.py::test_errors_are_chinese_and_actionable[jobs_stats-args10-parts10]
+PASSED tests/test_v4_tools.py::test_errors_are_chinese_and_actionable[jobs_stats-args11-parts11]
+PASSED tests/test_v4_tools.py::test_errors_are_chinese_and_actionable[jobs_stats-args12-parts12]
+PASSED tests/test_v4_tools.py::test_errors_are_chinese_and_actionable[jobs_stats-args13-parts13]
+PASSED tests/test_v4_tools.py::test_errors_are_chinese_and_actionable[jobs_detail-args14-parts14]
+PASSED tests/test_v4_tools.py::test_errors_are_chinese_and_actionable[jobs_detail-args15-parts15]
+PASSED tests/test_v4_tools.py::test_errors_are_chinese_and_actionable[jobs_search-args16-parts16]
+PASSED tests/test_v4_tools.py::test_three_tiers_order_and_explicit_only
+PASSED tests/test_v4_tools.py::test_inferred_bases_are_labelled
+PASSED tests/test_v4_tools.py::test_social_recruitment_is_excluded_by_graduation_year
+PASSED tests/test_v4_tools.py::test_stats_groups_fill_back
+PASSED tests/test_v4_tools.py::test_detail
+PASSED tests/test_v4_tools.py::test_test_records_are_gone
+PASSED tests/test_v4_tools.py::test_deadline_window_and_order
+PASSED tests/test_v4_tools.py::test_acceptance_http_equals_in_process
+FAILED tests/test_core.py::test_atomic_redemption - AssertionError: assert ('...
+1 failed, 129 passed, 2 warnings in 20.40s

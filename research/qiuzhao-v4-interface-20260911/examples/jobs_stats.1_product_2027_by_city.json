@@ -1,5 +1,5 @@
 {
-  "_说明": "模拟：用 data/jobs.json（2026-09-11 拉取，去重后）按 SPEC.md 第 6 节修正规则与第 3 节匹配规则在本地生成，线上尚未实现。按规则模拟的字段：match、graduation_years、graduation_year_basis、education、major_category（含 不限/未注明）、cities（修复 area_code）、job_category（修正错分）、deadline/deadline_kind、status（中文）、region、company/campaign_title（改名）。其余字段是原始数据。“今天”固定为 2026-09-11。response 是工具结果 JSON（线上为 content[0].text 的内容）。",
+  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–3，真实默认值是 10。",
   "request": {
     "tool": "jobs_stats",
     "arguments": {
@@ -14,75 +14,90 @@
       "job_category": "产品",
       "graduation_year": "2027届"
     },
-    "total": 1278,
-    "explicit_total": 1155,
-    "unspecified_total": 123,
+    "total": 1232,
+    "explicit_total": 1163,
+    "inferred_total": 67,
+    "unspecified_total": 2,
+    "excluded_social_total": 46,
     "data_as_of": "2026-09-11T12:00:00+08:00",
     "group_by": "city",
     "fill_param": "city",
     "multi_valued": true,
-    "groups_total": 156,
+    "groups_total": 151,
     "returned_groups": 10,
-    "other_count": 394,
+    "other_count": 370,
+    "notices": [
+      "另有 46 条社会招聘岗位未计入：社招不限届别，按届别筛选时不返回；要看请加 recruitment_type=社会招聘。"
+    ],
     "groups": [
       {
         "value": "北京",
-        "count": 530,
-        "explicit_count": 494,
-        "unspecified_count": 36
+        "count": 523,
+        "explicit_count": 496,
+        "inferred_count": 27,
+        "unspecified_count": 0
       },
       {
         "value": "上海",
-        "count": 375,
+        "count": 370,
         "explicit_count": 343,
-        "unspecified_count": 32
+        "inferred_count": 26,
+        "unspecified_count": 1
       },
       {
         "value": "深圳",
-        "count": 126,
-        "explicit_count": 84,
-        "unspecified_count": 42
+        "count": 125,
+        "explicit_count": 85,
+        "inferred_count": 40,
+        "unspecified_count": 0
       },
       {
         "value": "杭州",
-        "count": 90,
+        "count": 89,
         "explicit_count": 83,
-        "unspecified_count": 7
+        "inferred_count": 6,
+        "unspecified_count": 0
       },
       {
         "value": "广州",
-        "count": 37,
+        "count": 36,
         "explicit_count": 22,
-        "unspecified_count": 15
+        "inferred_count": 14,
+        "unspecified_count": 0
       },
       {
         "value": "未注明",
-        "count": 37,
-        "explicit_count": 24,
-        "unspecified_count": 13
+        "count": 34,
+        "explicit_count": 0,
+        "inferred_count": 0,
+        "unspecified_count": 34
       },
       {
         "value": "成都",
-        "count": 27,
+        "count": 25,
         "explicit_count": 15,
-        "unspecified_count": 12
+        "inferred_count": 10,
+        "unspecified_count": 0
       },
       {
         "value": "哈尔滨",
         "count": 21,
         "explicit_count": 21,
+        "inferred_count": 0,
         "unspecified_count": 0
       },
       {
         "value": "全国",
-        "count": 20,
-        "explicit_count": 9,
-        "unspecified_count": 11
+        "count": 16,
+        "explicit_count": 11,
+        "inferred_count": 5,
+        "unspecified_count": 0
       },
       {
         "value": "南京",
         "count": 16,
         "explicit_count": 16,
+        "inferred_count": 0,
         "unspecified_count": 0
       }
     ]

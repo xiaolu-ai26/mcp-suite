@@ -1,0 +1,221 @@
+{
+  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–3，真实默认值是 10。 本文件的 response 都是真实 HTTP 调用的返回。",
+  "cases": [
+    {
+      "场景": "同义词自动归一（产品经理→产品，校招→校园招聘，27届→2027届，研究生→硕士），notices 说明",
+      "request": {
+        "tool": "jobs_search",
+        "arguments": {
+          "job_category": "产品经理",
+          "recruitment_type": "校招",
+          "graduation_year": "27届",
+          "education": "研究生",
+          "page_size": 1
+        }
+      },
+      "response": {
+        "applied_filters": {
+          "job_category": "产品",
+          "graduation_year": "2027届",
+          "education": "硕士",
+          "recruitment_type": "校园招聘"
+        },
+        "total": 903,
+        "explicit_total": 348,
+        "inferred_total": 20,
+        "unspecified_total": 535,
+        "excluded_social_total": 0,
+        "sort": "published_desc",
+        "offset": 0,
+        "page_size": 1,
+        "returned": 1,
+        "has_next": true,
+        "next_offset": 1,
+        "truncated": false,
+        "data_as_of": "2026-09-11T12:00:00+08:00",
+        "notices": [
+          "参数 job_category 的值「产品经理」已按「产品」处理。",
+          "参数 graduation_year 的值「27届」已按「2027届」处理。",
+          "参数 education 的值「研究生」已按「硕士」处理。",
+          "参数 recruitment_type 的值「校招」已按「校园招聘」处理。"
+        ],
+        "jobs": [],
+        "_jobs_省略": "只保留前 0 条以便阅读"
+      }
+    },
+    {
+      "场景": "page_size 超过 20：按 20 返回并说明",
+      "request": {
+        "tool": "jobs_search",
+        "arguments": {
+          "page_size": 50
+        }
+      },
+      "response": {
+        "applied_filters": {},
+        "total": 25458,
+        "explicit_total": 25458,
+        "inferred_total": 0,
+        "unspecified_total": 0,
+        "sort": "published_desc",
+        "offset": 0,
+        "page_size": 20,
+        "returned": 20,
+        "has_next": true,
+        "next_offset": 20,
+        "truncated": false,
+        "data_as_of": "2026-09-11T12:00:00+08:00",
+        "notices": [
+          "page_size=50 超过上限 20，本次按 20 返回，用 next_offset 翻页。"
+        ],
+        "jobs": [],
+        "_jobs_省略": "只保留前 0 条以便阅读"
+      }
+    },
+    {
+      "场景": "枚举外的值",
+      "request": {
+        "tool": "jobs_search",
+        "arguments": {
+          "job_category": "游戏策划"
+        }
+      },
+      "response": {
+        "isError": true,
+        "content": [
+          {
+            "type": "text",
+            "text": "参数 job_category 的值「游戏策划」不在可选范围。可选：技术/研发、产品、运营、设计、市场/营销、销售、职能/支持、金融、咨询、医疗/医药、制造/生产、科研、教育/培训、法律/合规、其他。找具体岗位名（如游戏策划、UI设计）请用 keyword。"
+          }
+        ]
+      }
+    },
+    {
+      "场景": "explicit_only 与 未注明 矛盾",
+      "request": {
+        "tool": "jobs_search",
+        "arguments": {
+          "graduation_year": "未注明",
+          "explicit_only": true
+        }
+      },
+      "response": {
+        "isError": true,
+        "content": [
+          {
+            "type": "text",
+            "text": "explicit_only=true 与取值「未注明」矛盾：只看明确匹配时不能再筛未注明。请去掉其中一个再调用。"
+          }
+        ]
+      }
+    },
+    {
+      "场景": "deadline_within_days 超范围",
+      "request": {
+        "tool": "jobs_search",
+        "arguments": {
+          "deadline_within_days": 400
+        }
+      },
+      "response": {
+        "isError": true,
+        "content": [
+          {
+            "type": "text",
+            "text": "参数 deadline_within_days 取 1–366（今天起 N 天内截止），不筛截止日时不传或传 0。本次为 400。"
+          }
+        ]
+      }
+    },
+    {
+      "场景": "ids 超过 10 个",
+      "request": {
+        "tool": "jobs_detail",
+        "arguments": {
+          "ids": "guopin-216471935930860193,iguopin-217583980105434575,iguopin-217583871741396436,iguopin-217331639267624095,guopin-217490703364654366,guopin-217332139480319147,guopin-217331639267624095,guopin-217331097044780193,guopin-217330022581535903,gp_海南博泰农业开发有限公司-216568056795628307,gp_海南博泰农业开发有限公司-216569377447740178"
+        }
+      },
+      "response": {
+        "isError": true,
+        "content": [
+          {
+            "type": "text",
+            "text": "参数 ids 最多 10 个，本次收到 11 个。请分批调用。"
+          }
+        ]
+      }
+    },
+    {
+      "场景": "group_by 枚举外",
+      "request": {
+        "tool": "jobs_stats",
+        "arguments": {
+          "group_by": "salary"
+        }
+      },
+      "response": {
+        "isError": true,
+        "content": [
+          {
+            "type": "text",
+            "text": "参数 group_by 的值「salary」不在可选范围。可选：company、city、job_category、graduation_year、education、major_category、industry、recruitment_type。不分组时不传。"
+          }
+        ]
+      }
+    },
+    {
+      "场景": "v3 参数名 limit：v4 不做兼容，FastMCP 在进入工具函数前拒绝",
+      "request": {
+        "tool": "jobs_search",
+        "arguments": {
+          "limit": 5
+        }
+      },
+      "response": {
+        "isError": true,
+        "content": [
+          {
+            "type": "text",
+            "text": "1 validation error for call[jobs_search]\nlimit\n  Unexpected keyword argument [type=unexpected_keyword_argument, input_value=5, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.13/v/unexpected_keyword_argument"
+          }
+        ]
+      }
+    },
+    {
+      "场景": "v3 参数名 cohort：同上",
+      "request": {
+        "tool": "jobs_search",
+        "arguments": {
+          "cohort": "2027"
+        }
+      },
+      "response": {
+        "isError": true,
+        "content": [
+          {
+            "type": "text",
+            "text": "1 validation error for call[jobs_search]\ncohort\n  Unexpected keyword argument [type=unexpected_keyword_argument, input_value='2027', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.13/v/unexpected_keyword_argument"
+          }
+        ]
+      }
+    },
+    {
+      "场景": "v3 工具 jobs_deadlines：已并入 jobs_search，没有别名",
+      "request": {
+        "tool": "jobs_deadlines",
+        "arguments": {
+          "days": 7
+        }
+      },
+      "response": {
+        "isError": true,
+        "content": [
+          {
+            "type": "text",
+            "text": "未知工具，请刷新工具列表。"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+## MCP_PRODUCT=qiuzhao (4118fe8)
+qiuzhao jobs_detail: params=1 anyOf/oneOf=False missing_type=[]
+qiuzhao jobs_search: params=15 anyOf/oneOf=False missing_type=[]
+qiuzhao jobs_stats: params=14 anyOf/oneOf=False missing_type=[]
+RESULT OK []
+## MCP_PRODUCT=bench (4118fe8)
+bench bench_detail: params=1 anyOf/oneOf=False missing_type=[]
+bench bench_search: params=8 anyOf/oneOf=False missing_type=[]
+bench bench_taxonomy: params=0 anyOf/oneOf=False missing_type=[]
+RESULT OK []
+## call log dir created by import only? no

@@ -1,5 +1,5 @@
 {
-  "_说明": "模拟：用 data/jobs.json（2026-09-11 拉取，去重后）按 SPEC.md 第 6 节修正规则与第 3 节匹配规则在本地生成，线上尚未实现。按规则模拟的字段：match、graduation_years、graduation_year_basis、education、major_category（含 不限/未注明）、cities（修复 area_code）、job_category（修正错分）、deadline/deadline_kind、status（中文）、region、company/campaign_title（改名）。其余字段是原始数据。“今天”固定为 2026-09-11。response 是工具结果 JSON（线上为 content[0].text 的内容）。",
+  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–3，真实默认值是 10。",
   "request": {
     "tool": "jobs_stats",
     "arguments": {
@@ -16,6 +16,7 @@
     },
     "total": 3182,
     "explicit_total": 2606,
+    "inferred_total": 0,
     "unspecified_total": 576,
     "data_as_of": "2026-09-11T12:00:00+08:00",
     "group_by": "company",
@@ -29,60 +30,70 @@
         "value": "中国移动通信集团有限公司",
         "count": 1356,
         "explicit_count": 1332,
+        "inferred_count": 0,
         "unspecified_count": 24
       },
       {
         "value": "中国邮政集团有限公司",
         "count": 1070,
         "explicit_count": 1070,
+        "inferred_count": 0,
         "unspecified_count": 0
       },
       {
         "value": "中国航天科工集团有限公司",
         "count": 488,
         "explicit_count": 184,
+        "inferred_count": 0,
         "unspecified_count": 304
       },
       {
         "value": "中国移动通信集团江苏有限公司",
         "count": 7,
         "explicit_count": 0,
+        "inferred_count": 0,
         "unspecified_count": 7
       },
       {
         "value": "中国企业经营咨询公司",
         "count": 6,
         "explicit_count": 0,
+        "inferred_count": 0,
         "unspecified_count": 6
       },
       {
         "value": "中国移动通信集团安徽有限公司",
         "count": 6,
         "explicit_count": 0,
+        "inferred_count": 0,
         "unspecified_count": 6
       },
       {
         "value": "中国移动通信集团山西有限公司",
         "count": 6,
         "explicit_count": 0,
+        "inferred_count": 0,
         "unspecified_count": 6
       },
       {
         "value": "中建六局第八建设有限公司",
         "count": 6,
         "explicit_count": 0,
+        "inferred_count": 0,
         "unspecified_count": 6
       },
       {
         "value": "国投吉能（舟山）燃气发电有限公司",
         "count": 6,
         "explicit_count": 0,
+        "inferred_count": 0,
         "unspecified_count": 6
       },
       {
         "value": "中国移动通信集团浙江有限公司",
         "count": 5,
         "explicit_count": 0,
+        "inferred_count": 0,
         "unspecified_count": 5
       }
     ]

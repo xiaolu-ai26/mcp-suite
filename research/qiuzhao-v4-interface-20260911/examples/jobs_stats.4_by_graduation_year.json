@@ -1,0 +1,81 @@
+{
+  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–3，真实默认值是 10。 “实习未写届别”“社招不限届别”两组不是届别取值，不能填回 graduation_year。",
+  "request": {
+    "tool": "jobs_stats",
+    "arguments": {
+      "group_by": "graduation_year"
+    }
+  },
+  "response": {
+    "applied_filters": {},
+    "total": 25458,
+    "explicit_total": 25458,
+    "inferred_total": 0,
+    "unspecified_total": 0,
+    "data_as_of": "2026-09-11T12:00:00+08:00",
+    "group_by": "graduation_year",
+    "fill_param": "graduation_year",
+    "multi_valued": true,
+    "groups_total": 8,
+    "returned_groups": 8,
+    "other_count": 0,
+    "groups": [
+      {
+        "value": "2027届",
+        "count": 21533,
+        "explicit_count": 18715,
+        "inferred_count": 2818,
+        "unspecified_count": 0
+      },
+      {
+        "value": "社招不限届别",
+        "count": 3016,
+        "explicit_count": 0,
+        "inferred_count": 3016,
+        "unspecified_count": 0
+      },
+      {
+        "value": "2026届",
+        "count": 2206,
+        "explicit_count": 2206,
+        "inferred_count": 0,
+        "unspecified_count": 0
+      },
+      {
+        "value": "实习未写届别",
+        "count": 509,
+        "explicit_count": 0,
+        "inferred_count": 509,
+        "unspecified_count": 0
+      },
+      {
+        "value": "未注明",
+        "count": 319,
+        "explicit_count": 0,
+        "inferred_count": 0,
+        "unspecified_count": 319
+      },
+      {
+        "value": "2025届",
+        "count": 53,
+        "explicit_count": 53,
+        "inferred_count": 0,
+        "unspecified_count": 0
+      },
+      {
+        "value": "2028届",
+        "count": 4,
+        "explicit_count": 4,
+        "inferred_count": 0,
+        "unspecified_count": 0
+      },
+      {
+        "value": "2024届",
+        "count": 3,
+        "explicit_count": 3,
+        "inferred_count": 0,
+        "unspecified_count": 0
+      }
+    ]
+  }
+}
