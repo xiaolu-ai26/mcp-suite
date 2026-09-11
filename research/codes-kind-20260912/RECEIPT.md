@@ -1,6 +1,6 @@
 # 秋招兑换码测试 / 正式分离收据（codes-kind-20260912）
 
-日期：2026-09-12　分支：`feat/codes-kind`（worktree `~/Projects/mcp-suite-wt-codes`），基于 `feat/v4` 2f0f070（开工时 0098267，收尾前 rebase 到 2f0f070，无冲突）。没有合并、没有 push、没有部署。
+日期：2026-09-12　分支：`feat/codes-kind`（worktree `~/Projects/mcp-suite-wt-codes`），基于 `feat/v4` 98ca784（开工时 0098267；收尾前两次 rebase，先到 2f0f070、再到 98ca784，都没有冲突）。没有合并、没有 push、没有部署。
 
 服务器 `root@114.215.188.109` 只做了只读操作：`ssh cat` 拉 6 个页面文件到本地临时目录（没带 `backups/`、`*.bak*`）、`sha256sum`、`ls`、`systemctl show/status/cat`（环境变量只看名字）、`ss`、nginx 扩展配置的 `sha256sum`、在代码目录和 cron 里 grep `redemption_codes`。**没有打开线上 access.sqlite3**，没有读取任何 token、兑换码或 key。
 
@@ -16,12 +16,12 @@
 
 | 提交 | 内容 |
 |---|---|
-| `8031c29` | store：类别列与一次性迁移、三个触发器、删除规则、早鸟状态；CLI `generate-codes` 必须带 `--kind` |
-| `9842293` | server + 后台：`/api/pricing`、管理接口带类别、删除日志；后台页面、admin.js、admin.css |
-| `0355a60` | 兑换页：index.html 去掉写死的价格，app.js 读 `/api/pricing` 渲染 |
-| `1b8ac2f` | `tests/test_codes_kind.py` |
-| `46d8e88` | 截图脚本与截图、UI 核对记录 |
-| 本收据所在提交 | RECEIPT.md、KIMI-DEPLOY.md、pytest 输出 |
+| `540aa7a` | store：类别列与一次性迁移、三个触发器、删除规则、早鸟状态；CLI `generate-codes` 必须带 `--kind` |
+| `6920392` | server + 后台：`/api/pricing`、管理接口带类别、删除日志；后台页面、admin.js、admin.css |
+| `fe433e7` | 兑换页：index.html 去掉写死的价格，app.js 读 `/api/pricing` 渲染 |
+| `7a3c2a6` | `tests/test_codes_kind.py` |
+| `4cabf1d` | 截图脚本与截图、UI 核对记录 |
+| `9263515` 及其后的文档提交 | RECEIPT.md、KIMI-DEPLOY.md、pytest 输出（任务书按 v4 任务书的约定改过一版） |
 
 没有改：`core/store.py` 文件头 docstring（rebase 后是另一会话 55bd3ee 的新版本）、`tests/test_core.py`、`qiuzhao/tools.py`、`qiuzhao/v4_fields.py`、`_dist_admin_ok`（Bearer 和 `?token=` 照旧）、`private/`、main、其他工作副本。
 
@@ -129,9 +129,16 @@
 
 ## 部署方案
 
-只写、未执行，见同目录 `KIMI-DEPLOY.md`（给 Kimi 的完整任务书）。要点：必须在 v4 部署之后；先确认 `feat/codes-kind` 包含已部署的 v4 提交、线上 7 个文件的哈希等于那个提交；只读检查库结构（只看列名、触发器名和计数）；在 `/opt/mcp-suite/deploy/` 下建一份完整代码的暂存副本，覆盖 7 个文件后用临时库 import 一次两个产品；停 `mcp-suite.service` → `cp -p` 复制 access.sqlite3（不读取）→ 备份并替换 7 个文件 → 启动 → 核验（`/api/pricing` 应为已售 0、剩 10；库里只看 `SELECT code_kind, count(*) ... GROUP BY 1` 这类聚合数）；回滚是恢复 7 个文件 + 删掉“插入必须带类别”这一个触发器 + 重启，库不需要恢复。
+只写、未执行，见同目录 `KIMI-DEPLOY.md`（给 Kimi 的完整任务书）。它接在 v4 任务书（feat/v4 98ca784 的 `research/qiuzhao-v4-impl/KIMI-DEPLOY.md`，部署提交 `2f0f070`）之后执行，沿用那份的约定：只在 v4 部署成功后做、05:55–07:30 不做、本地命令 bash / zsh 都能照抄、`install -m 644` 安装、库文件副本放在代码备份目录的 `data/` 下、日志输出按同样规则打码。步骤要点：
 
-要替换的文件（本分支 46d8e88 起的 sha256）：
+1. 前置：v4 部署收据写明成功、部署提交 `2f0f070`；`feat/codes-kind` 包含它，且两者之间只有本次 3 个代码提交；从分支 `git archive` 出 7 个文件，哈希等于下表。
+2. 线上 7 个文件必须等于 `2f0f070` 的版本（不等就停，防止覆盖豆包之后的线上改动）；只读检查库结构（列名、触发器名、计数），已有 `code_kind` 就停。
+3. 在 `/opt/mcp-suite/deploy/` 下建线上代码的完整暂存副本、覆盖 7 个文件，用 `/tmp` 临时空库对 qiuzhao、bench 各 import 一次，确认 `/api/pricing` 分别是 200（已售 0、剩 10）和 404。这一步线上文件和服务都不动，所以替换静态页不会出现“新页面配旧服务”的空档。
+4. 停 `mcp-suite.service`（`STOP_BENCH=yes` 时连 bench）→ 备份 7 个文件 → `cp -p` 复制库文件（不读取）→ 安装 → 启动；停机约 30 秒。
+5. 核验：`/api/pricing` 已售 0、第 1 档、剩 10、`no-store`；后台接口无令牌 401；bench 404 / 200；库里只看 `SELECT code_kind, count(*) ... GROUP BY 1` 等聚合数，应只有 `('test', 原总数)`。
+6. 回滚：恢复 7 个文件 + 删掉“插入必须带类别”这一个触发器 + 启动，库不需要恢复；库文件副本只在库损坏且 Max 同意时用。
+
+要替换的文件（本分支 4cabf1d 起的 sha256；部署前线上应为 `2f0f070` 的版本，两列都写在任务书里）：
 
 | 文件 | sha256 |
 |---|---|
@@ -153,6 +160,7 @@
 4. **回滚时保留两个触发器。** 回滚只删“插入必须带类别”那一个（否则 v4 的生成接口会失败），“类别不许改”“正式码不许删”留着，以免回滚期间误删已卖出的正式码。要彻底恢复原样的话也可以三个都删，任务书里写了。
 5. **两处小现状要不要顺手改**：`index.html` 第 117 行的 `style="margin-top: 16px;"` 被 CSP 拦掉，线上这个间距实际从未生效；后台说明“系统只存哈希；明文兑换码仅在生成时显示一次。”与现状不符。另外 `core/static/admin.html` 是没人用的旧文件。
 6. **列表只取最新 200 条**（原有行为）。筛选只在这 200 条里做；码多了以后旧码在列表里看不到，统计卡片不受影响。
+7. **部署后把 `feat/codes-kind` 合进 main。** v4 任务书在 v4 上线后会把 main 快进到 feat/v4；本分支就在它上面，上线后同样快进即可让 main 与线上一致。任务书按你的要求不做合并，由你决定时机。
 
 另有两处行为变化，已按改动清单说明，不需要决定：删除不存在的码由 400 改为 404（两个产品都是）；生成接口参数错误由 500 改为 400。
 

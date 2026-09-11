@@ -1,4 +1,4 @@
-# 2026-09-12 01:36:07 +0800  HEAD=46d8e88
+# 2026-09-12 01:49:56 +0800  HEAD=9263515
 tests/test_codes_kind.py::test_migration_makes_every_existing_code_a_test_code_once[without-code_plain] PASSED [  4%]
 tests/test_codes_kind.py::test_migration_makes_every_existing_code_a_test_code_once[with-code_plain] PASSED [  9%]
 tests/test_codes_kind.py::test_migration_is_safe_when_both_services_start_together PASSED [ 13%]
@@ -21,4 +21,4 @@ tests/test_codes_kind.py::test_generate_needs_an_explicit_kind PASSED    [ 86%]
 tests/test_codes_kind.py::test_delete_over_http_follows_the_kind_rules_and_leaves_a_trace PASSED [ 90%]
 tests/test_codes_kind.py::test_admin_stats_and_list_carry_the_rules PASSED [ 95%]
 tests/test_codes_kind.py::test_bench_process_keeps_its_behaviour PASSED  [100%]
-============================== 22 passed in 1.79s ==============================
+============================== 22 passed in 1.70s ==============================
