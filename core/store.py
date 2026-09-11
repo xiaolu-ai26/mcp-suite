@@ -75,13 +75,22 @@ class Store:
                 PRIMARY KEY (key_id, product));
               CREATE TABLE IF NOT EXISTS redemption_codes (
                 code_hash TEXT PRIMARY KEY, plan TEXT NOT NULL, created_at TEXT NOT NULL,
-                redeemed_at TEXT, key_id TEXT REFERENCES api_keys(id));
+                redeemed_at TEXT, key_id TEXT REFERENCES api_keys(id), code_plain TEXT);
               CREATE TABLE IF NOT EXISTS daily_usage (
                 key_id TEXT NOT NULL, product TEXT NOT NULL, day TEXT NOT NULL,
                 used INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(key_id, product, day));
               CREATE TABLE IF NOT EXISTS usage_log (
                 key_id TEXT NOT NULL, product TEXT NOT NULL, tool TEXT NOT NULL, at TEXT NOT NULL);
             """)
+            # Databases created before code_plain was part of the schema (the production DB got the
+            # column by hand): add it once. Safe to run on every start and from two processes.
+            columns = {row[1] for row in db.execute("PRAGMA table_info(redemption_codes)")}
+            if "code_plain" not in columns:
+                try:
+                    db.execute("ALTER TABLE redemption_codes ADD COLUMN code_plain TEXT")
+                except sqlite3.OperationalError as exc:
+                    if "duplicate column" not in str(exc):
+                        raise
 
     @contextmanager
     def connect(self):

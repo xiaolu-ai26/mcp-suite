@@ -23,7 +23,7 @@ def test_atomic_redemption(store):
         results = list(executor.map(redeem, range(12)))
     assert sum(x is not None for x in results) == 1
     token = next(x['api_key'] for x in results if x)
-    assert store.authorize(token)['remaining_today'] == 200
+    assert store.authorize(token)['remaining_today'] == 999999  # qiuzhao-2026 now allows 999999/day
     # Database and SQLite WAL must not contain raw credentials.
     with store.connect() as db:
         dump = '\n'.join(db.iterdump())
@@ -32,6 +32,10 @@ def test_atomic_redemption(store):
 
 def test_atomic_daily_limit(store):
     token = store.redeem(store.generate_codes(1)[0])['api_key']
+    # qiuzhao-2026 now allows 999999 calls a day; pin this entitlement to 200 so 220 concurrent
+    # calls still prove the limit is enforced atomically.
+    with store.connect() as db:
+        db.execute('UPDATE entitlements SET daily_limit=200')
     def consume(_):
         try:
             store.consume(token, 'qiuzhao', 'jobs_search')
@@ -66,10 +70,10 @@ def test_midnight_resets_and_handshake_free(store, monkeypatch):
     token = store.redeem(store.generate_codes(1)[0])['api_key']
     store.consume(token, 'qiuzhao', 'jobs_search')
     for _ in range(3):
-        assert store.authorize(token)['remaining_today'] == 199
+        assert store.authorize(token)['remaining_today'] == 999998  # daily limit 999999
     time += timedelta(seconds=2)
-    assert store.authorize(token)['remaining_today'] == 200
-    assert store.consume(token, 'qiuzhao', 'jobs_search')['remaining_today'] == 199
+    assert store.authorize(token)['remaining_today'] == 999999
+    assert store.consume(token, 'qiuzhao', 'jobs_search')['remaining_today'] == 999998
 
 
 def _job(**kw):
@@ -128,15 +132,20 @@ def test_role_cohort_and_campaign_title_bases(tmp_path):
     assert 'cohort_filter_scope' not in job and 'match' not in job
 
 
-def test_qiuzhao_code_and_key_format_unchanged(store):
+def test_qiuzhao_code_and_key_format_unchanged(store, monkeypatch):
+    # qiuzhao-2026 is now 59.9 元 / 30 days from activation / 999999 calls a day (it used to end on
+    # a fixed 2027-01-01 with 200 a day), so pin the activation time like the bench test does.
+    import core.store as module
+    activated = datetime(2026, 9, 11, 21, 0, 0, tzinfo=TZ)
+    monkeypatch.setattr(module, 'now', lambda: activated)
     code = store.generate_codes(1, 'qiuzhao-2026')[0]
     assert code.startswith('QZ-') and len(code) == 35
     result = store.redeem(code)
     assert result['api_key'].startswith('qz_')
     assert result['product'] == 'qiuzhao'
-    assert result['valid_through'] == '2026-12-31'
-    assert result['expires_at'] == '2027-01-01T00:00:00+08:00'
-    assert result['daily_limit'] == 200
+    assert result['expires_at'] == (activated + timedelta(days=30)).isoformat() == '2026-10-11T21:00:00+08:00'
+    assert result['valid_through'] == '2026-10-11'
+    assert result['daily_limit'] == 999999
     with pytest.raises(AccessError, match='兑换码无效，请检查输入。'):
         store.redeem('QZ-TOO-SHORT')
 
