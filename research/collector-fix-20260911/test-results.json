@@ -1,0 +1,133 @@
+{
+  "T1_idempotency": {
+    "would_change_existing": 0,
+    "second_run_filled": {
+      "job_category_normalized": 0,
+      "graduation_year_normalized": 0,
+      "major_normalized": 0,
+      "city_normalized": 0,
+      "cities_normalized": 0,
+      "industry": 0,
+      "country": 0,
+      "overseas_flag": 0,
+      "region": 0,
+      "recruitment_type": 0
+    },
+    "first_run_filled": {
+      "job_category_normalized": 0,
+      "graduation_year_normalized": 0,
+      "major_normalized": 0,
+      "city_normalized": 0,
+      "cities_normalized": 1,
+      "industry": 0,
+      "country": 0,
+      "overseas_flag": 1110,
+      "region": 1735,
+      "recruitment_type": 0
+    }
+  },
+  "T2_reproduction": {
+    "job_category_normalized": {
+      "original_nonempty": 28616,
+      "matched": 28616,
+      "rate": 1.0
+    },
+    "graduation_year_normalized": {
+      "original_nonempty": 28616,
+      "matched": 28511,
+      "rate": 0.9963
+    },
+    "major_normalized": {
+      "original_nonempty": 28616,
+      "matched": 27639,
+      "rate": 0.9659
+    },
+    "city_normalized": {
+      "original_nonempty": 28616,
+      "matched": 28616,
+      "rate": 1.0
+    },
+    "cities_normalized": {
+      "original_nonempty": 28615,
+      "matched": 28615,
+      "rate": 1.0
+    },
+    "industry": {
+      "original_nonempty": 28616,
+      "matched": 28575,
+      "rate": 0.9986
+    },
+    "country": {
+      "original_nonempty": 28616,
+      "matched": 28616,
+      "rate": 1.0
+    },
+    "overseas_flag": {
+      "original_nonempty": 27506,
+      "matched": 27461,
+      "rate": 0.9984
+    },
+    "region": {
+      "original_nonempty": 26881,
+      "matched": 25666,
+      "rate": 0.9548
+    },
+    "recruitment_type": {
+      "original_nonempty": 28616,
+      "matched": 28606,
+      "rate": 0.9997
+    }
+  },
+  "T3_merge_restore": {
+    "records": 500,
+    "mismatched_fields": 0
+  },
+  "T4_unseen": {
+    "new-1": {
+      "job_category_normalized": "技术/研发",
+      "graduation_year_normalized": "2027届",
+      "major_normalized": "计算机类",
+      "city_normalized": "深圳",
+      "cities_normalized": [
+        "深圳"
+      ],
+      "industry": "其他",
+      "country": "中国",
+      "overseas_flag": false,
+      "region": "mainland",
+      "recruitment_type": "校园招聘"
+    },
+    "new-2": {
+      "job_category_normalized": "其他",
+      "graduation_year_normalized": "未披露",
+      "major_normalized": "未披露",
+      "city_normalized": "NewYork",
+      "cities_normalized": [
+        "NewYork"
+      ],
+      "industry": "其他",
+      "country": "美国",
+      "overseas_flag": true,
+      "region": "海外",
+      "recruitment_type": "校园招聘"
+    },
+    "new-3": {
+      "job_category_normalized": "销售",
+      "graduation_year_normalized": "未披露",
+      "major_normalized": "未披露",
+      "city_normalized": "未披露",
+      "cities_normalized": [
+        "未披露"
+      ],
+      "industry": "其他",
+      "country": "中国",
+      "overseas_flag": false,
+      "region": "mainland",
+      "recruitment_type": "校园招聘"
+    }
+  },
+  "T5_timing": {
+    "records": 28616,
+    "seconds": 0.3
+  }
+}
