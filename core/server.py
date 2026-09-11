@@ -29,7 +29,7 @@ from pydantic import BeforeValidator, Field, ValidationError
 from starlette.requests import Request
 from starlette.responses import FileResponse, HTMLResponse, JSONResponse
 
-from core.store import PLANS, TZ, AccessError, Store, digest
+from core.store import CODE_KINDS, PLANS, TZ, AccessError, Store, digest
 from core.distribution import DistributionStore
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -61,6 +61,8 @@ STATIC = CONFIG["static"]
 TOOLS = CONFIG["tools"]
 PUBLIC_BASE = os.environ.get("MCP_PUBLIC_BASE_URL", CONFIG["base"]).rstrip("/")
 CODE_PREFIXES = tuple(sorted(p["code_prefix"] for p in PLANS.values() if p["product"] == PRODUCT))
+# The plan whose early-bird tiers /api/pricing publishes; None for products without tiers (bench).
+EARLY_BIRD_PLAN = next((name for name, p in PLANS.items() if p["product"] == PRODUCT and p.get("early_bird")), None)
 store = Store(os.environ.get("MCP_DB_PATH", ROOT / "private" / "access.sqlite3"))
 # 独立的分销账本（绝不写 access.sqlite3）；首次调用时才建库建表。
 dist = DistributionStore(os.environ.get("MCP_DIST_DB_PATH", "/var/lib/mcp-suite/distribution.db"))
@@ -656,6 +658,13 @@ async def admin_page(request: Request):
           <div class="card stat-card"><div class="label">今日新增</div><div class="num" id="stat-today-new">—</div><div class="sub">按创建时间计</div></div>
           <div class="card stat-card"><div class="label">今日兑换</div><div class="num" id="stat-today-redeemed">—</div><div class="sub">按兑换时间计</div></div>
         </div>
+        <p class="subhead">正式码 / 测试码 · 早鸟名额</p>
+        <div class="stat-grid">
+          <div class="card stat-card"><div class="label">正式码</div><div class="num accent" id="stat-formal-total">—</div><div class="sub" id="stat-formal-sub">—</div></div>
+          <div class="card stat-card"><div class="label">测试码</div><div class="num" id="stat-test-total">—</div><div class="sub" id="stat-test-sub">—</div></div>
+          <div class="card stat-card"><div class="label">早鸟进度（只计正式码兑换）</div><div class="num small" id="stat-early-sold">—</div><div class="sub" id="stat-early-sub">—</div></div>
+        </div>
+        <p id="stat-other" class="hint" hidden></p>
         <p class="subhead">分销</p>
         <div class="stat-grid">
           <div class="card stat-card"><div class="label">总推荐数</div><div class="num" id="dist-referrals">—</div></div>
@@ -672,11 +681,13 @@ async def admin_page(request: Request):
         </div>
         <div class="toolbar">
           <div class="field"><label for="gen-plan">套餐</label><select id="gen-plan" class="select"></select></div>
+          <div class="field"><label for="gen-kind">类别</label><select id="gen-kind" class="select" autocomplete="off"><option value="test" selected>测试码</option><option value="formal">正式码</option></select></div>
           <div class="field"><label for="gen-count">生成数量</label><input id="gen-count" class="input mono" type="number" value="1" min="1" max="100"></div>
           <button id="gen-btn" class="btn btn-primary" type="button">
             <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>生成兑换码
           </button>
         </div>
+        <p class="hint">测试码随时可删，不计入早鸟名额；正式码生成后不能删除，兑换成功后计入早鸟名额。</p>
         <p id="gen-msg" class="msg" role="status" aria-live="polite"></p>
         <div id="gen-out" class="gen-out" hidden>
           <div class="gen-head"><b>本次生成的兑换码</b><button id="gen-copy-all" class="icon-btn" type="button" data-codes="">复制全部</button></div>
@@ -687,12 +698,16 @@ async def admin_page(request: Request):
           <button class="chip-btn on" type="button" data-filter="all">全部</button>
           <button class="chip-btn" type="button" data-filter="pending">未兑换</button>
           <button class="chip-btn" type="button" data-filter="redeemed">已兑换</button>
+          <span class="filter-sep" aria-hidden="true"></span>
+          <button class="chip-btn on" type="button" data-kind="all">全部类别</button>
+          <button class="chip-btn" type="button" data-kind="formal">正式</button>
+          <button class="chip-btn" type="button" data-kind="test">测试</button>
           <span class="spacer"></span>
           <button id="codes-refresh" class="btn btn-ghost btn-sm" type="button">刷新列表</button>
         </div>
         <div class="table-wrap"><div class="table-scroll"><table>
-          <thead><tr><th class="mono">兑换码</th><th>套餐</th><th>创建时间</th><th>状态</th><th>兑换时间</th><th>操作</th></tr></thead>
-          <tbody id="codes-body"><tr><td colspan="6" class="state-row">加载中…</td></tr></tbody>
+          <thead><tr><th class="mono">兑换码</th><th>类别</th><th>套餐</th><th>创建时间</th><th>状态</th><th>兑换时间</th><th>操作</th></tr></thead>
+          <tbody id="codes-body"><tr><td colspan="7" class="state-row">加载中…</td></tr></tbody>
         </table></div></div>
       </section>
 
@@ -758,16 +773,47 @@ async def img_qianwen_2(request: Request):
     return FileResponse(STATIC / "img/guide/qianwen-2.jpeg")
 
 
+@mcp.custom_route("/api/pricing", methods=["GET"])
+async def pricing(request: Request):
+    """Public and read-only: standard price, tiers, the number of redeemed formal codes and the
+    current tier's price and remaining places. Aggregates only; never a code, hash or key.
+    Guard adds cache-control: no-store to this response like to every other one."""
+    if not EARLY_BIRD_PLAN:
+        return JSONResponse({"error": "该产品没有早鸟价。"}, status_code=404)
+    return JSONResponse(store.early_bird(EARLY_BIRD_PLAN))
+
+
+# Admin action log: one JSON line per deleted redemption code, appended to $MCP_ADMIN_LOG_PATH
+# (file 0600, directory 0700). It holds the first 12 hex characters of the code hash, the plan,
+# the kind and what happened; never the code or a key.
+ADMIN_LOG_PATH = Path(os.environ.get("MCP_ADMIN_LOG_PATH", "/var/lib/mcp-suite/admin_actions.jsonl"))
+_admin_log_lock = threading.Lock()
+
+
+def append_admin_log(entry: dict) -> None:
+    """Raises when the line cannot be written, so the delete it records is rolled back."""
+    line = json.dumps({"ts": datetime.now(TZ).isoformat(timespec="seconds"), **entry},
+                      ensure_ascii=False, separators=(",", ":")) + "\n"
+    data = memoryview(line.encode("utf-8"))
+    with _admin_log_lock:
+        if not ADMIN_LOG_PATH.parent.is_dir():
+            ADMIN_LOG_PATH.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+        fd = os.open(ADMIN_LOG_PATH, os.O_WRONLY | os.O_APPEND | os.O_CREAT | os.O_CLOEXEC, 0o600)
+        try:
+            while data:
+                data = data[os.write(fd, data):]
+        finally:
+            os.close(fd)
+
+
 @mcp.custom_route("/api/admin/stats", methods=["GET"])
 async def admin_stats(request: Request):
     auth = _dist_admin_ok(request)
     if auth is not True:
         return auth
-    with store.connect() as db:
-        total = db.execute("SELECT COUNT(*) as c FROM redemption_codes").fetchone()["c"]
-        redeemed = db.execute("SELECT COUNT(*) as c FROM redemption_codes WHERE redeemed_at IS NOT NULL").fetchone()["c"]
-        pending = total - redeemed
-    return JSONResponse({"total": total, "redeemed": redeemed, "pending": pending})
+    counts = store.code_stats()
+    return JSONResponse({**counts["all"], "kinds": {k: counts[k] for k in ("formal", "test", "other")},
+                         "early_bird": store.early_bird(EARLY_BIRD_PLAN) if EARLY_BIRD_PLAN else None})
 
 
 @mcp.custom_route("/api/admin/codes", methods=["GET"])
@@ -775,11 +821,13 @@ async def admin_codes(request: Request):
     auth = _dist_admin_ok(request)
     if auth is not True:
         return auth
-    limit = int(request.query_params.get("limit", "100"))
-    with store.connect() as db:
-        rows = db.execute("SELECT code_hash, code_plain, plan, created_at, redeemed_at FROM redemption_codes ORDER BY created_at DESC LIMIT ?", (limit,)).fetchall()
-        codes = [dict(r) for r in rows]
-    return JSONResponse({"codes": codes})
+    try:
+        limit = int(request.query_params.get("limit", "100"))
+    except ValueError:
+        limit = 100
+    # Each row also says whether it may be deleted and whether that would disable its key,
+    # so the page shows the server's rule instead of repeating it.
+    return JSONResponse({"codes": store.list_codes(limit)})
 
 
 @mcp.custom_route("/api/admin/delete_code", methods=["POST", "DELETE"])
@@ -787,15 +835,21 @@ async def admin_delete_code(request: Request):
     auth = _dist_admin_ok(request)
     if auth is not True:
         return auth
-    body = await request.json()
-    code_hash = body.get("code_hash", "")
-    if not code_hash:
-        return JSONResponse({"error": "缺少code_hash参数"}, status_code=400)
-    success = store.delete_code(code_hash)
-    if success:
-        return JSONResponse({"success": True})
-    else:
-        return JSONResponse({"error": "删除失败：码不存在或已被兑换"}, status_code=400)
+    try:
+        body = await request.json()
+    except ValueError:
+        body = None
+    code_hash = body.get("code_hash") if isinstance(body, dict) else None
+    if not isinstance(code_hash, str) or not re.fullmatch(r"[0-9a-f]{64}", code_hash):
+        return JSONResponse({"error": "缺少或无效的 code_hash 参数"}, status_code=400)
+    try:
+        entry = store.delete_code(code_hash, audit=lambda e: append_admin_log({"action": "delete_code", **e}))
+    except AccessError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=exc.status)
+    except OSError:
+        return JSONResponse({"error": "管理日志写入失败，本次删除已取消。"}, status_code=500)
+    return JSONResponse({"success": True, "code_kind": entry["code_kind"], "redeemed": entry["redeemed"],
+                         "key_revoked": entry["key_revoked"]})
 
 
 @mcp.custom_route("/api/admin/generate", methods=["GET", "POST"])
@@ -803,10 +857,24 @@ async def admin_generate(request: Request):
     auth = _dist_admin_ok(request)
     if auth is not True:
         return auth
-    count = int(request.query_params.get("count", "1"))
     plan = request.query_params.get("plan", "qiuzhao-2026")
-    codes = store.generate_codes(count, plan)
-    return JSONResponse({"codes": codes})
+    kind = request.query_params.get("kind", "")
+    try:
+        count = int(request.query_params.get("count", "1"))
+    except ValueError:
+        return JSONResponse({"error": "数量必须是整数。"}, status_code=400)
+    # Plans with code kinds must name the kind on every call; other plans (bench) keep working
+    # without it and get test codes, which behave there exactly as codes always did.
+    if not kind and not PLANS.get(plan, {}).get("code_kinds"):
+        kind = "test"
+    if kind not in CODE_KINDS:
+        return JSONResponse({"error": "请指定兑换码类别：kind=test（测试码）或 kind=formal（正式码）。"},
+                            status_code=400)
+    try:
+        codes = store.generate_codes(count, plan, kind)
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=400)
+    return JSONResponse({"codes": codes, "plan": plan, "code_kind": kind})
 
 
 class Guard:

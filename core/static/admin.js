@@ -1,6 +1,8 @@
 /* 秋招岗位库 · 管理后台交互。CSP 安全：无内联脚本、无 eval、无第三方库；全部 addEventListener。
  * API 路径相对当前文档解析：页面在 /qiuzhao/admin，./api/... 自动解析到 /qiuzhao/api/...。
- * Token 只存 sessionStorage（随标签页关闭清除），仅用于 Authorization 请求头，绝不写入 URL、日志或页面。 */
+ * Token 只存 sessionStorage（随标签页关闭清除），仅用于 Authorization 请求头，绝不写入 URL、日志或页面。
+ * 正式码 / 测试码：能否删除、删除时是否作废 key 由服务端判定（codes 列表里的 deletable、delete_revokes_key）；
+ * 早鸟阶梯和剩余名额来自服务端（stats.early_bird）。这里不写死任何规则或价格数字。 */
 (function () {
   'use strict';
   var TOKEN_KEY = 'qz_admin_token';
@@ -8,6 +10,7 @@
   var token = '';
   var allCodes = [];
   var codeFilter = 'all';
+  var kindFilter = 'all';
 
   var $ = function (id) { return document.getElementById(id); };
   // 接口前缀相对当前后台页解析：去掉末尾的 /admin、/admin/ 或 /admin.html，得到 /qiuzhao/ 前缀。
@@ -26,6 +29,7 @@
     return t.length >= 16 ? t.slice(0, 16) : t;
   }
   function money(n) { var v = Number(n); return '¥' + (isFinite(v) ? v : 0).toFixed(2); }
+  function yuan(n) { var v = Number(n); return isFinite(v) ? '¥' + v.toLocaleString('zh-CN', { maximumFractionDigits: 2 }) : '—'; }
 
   var toastTimer;
   function toast(text) {
@@ -45,9 +49,13 @@
   function AuthError() { this.name = 'AuthError'; }
   AuthError.prototype = Object.create(Error.prototype);
 
-  function request(path) {
+  // opts: { method, body }（body 为 JSON 字符串）。
+  function request(path, opts) {
+    opts = opts || {};
+    var headers = { 'Authorization': 'Bearer ' + token };
+    if (opts.body != null) headers['Content-Type'] = 'application/json';
     return fetch(api(path), {
-      headers: { 'Authorization': 'Bearer ' + token },
+      method: opts.method || 'GET', body: opts.body, headers: headers,
       cache: 'no-store', credentials: 'omit'
     }).then(function (res) {
       if (res.status === 401 || res.status === 403) throw new AuthError();
@@ -92,13 +100,31 @@
   }
 
   // ---- overview ----
+  function kindLine(k) { return k ? '已兑换 ' + k.redeemed + ' · 未兑换 ' + k.pending : '—'; }
+  function renderEarlyBird(e) {
+    if (!e) { $('stat-early-sold').textContent = '—'; $('stat-early-sub').textContent = '暂时无法读取早鸟进度'; return; }
+    $('stat-early-sold').textContent = '已售 ' + e.sold;
+    $('stat-early-sub').textContent = e.early_bird_active
+      ? '当前第 ' + e.current_tier + ' 档，剩 ' + e.remaining + ' 个名额 · ' + yuan(e.current_price_cny) + '/月'
+      : '早鸟名额已满，恢复标准价 ' + yuan(e.standard_price_cny) + '/月';
+  }
   function renderStats(s) {
-    $('stat-total').textContent = s.total; 
+    $('stat-total').textContent = s.total;
     $('stat-redeemed').textContent = s.redeemed;
     $('stat-pending').textContent = s.pending;
     var pct = s.total > 0 ? Math.round((s.redeemed / s.total) * 100) : 0;
     $('usage-fill').style.width = pct + '%';
     $('usage-label').textContent = '兑换率 ' + pct + '%';
+    var kinds = s.kinds || {};
+    $('stat-formal-total').textContent = kinds.formal ? kinds.formal.total : '—';
+    $('stat-formal-sub').textContent = kindLine(kinds.formal);
+    $('stat-test-total').textContent = kinds.test ? kinds.test.total : '—';
+    $('stat-test-sub').textContent = kindLine(kinds.test);
+    var other = kinds.other;
+    $('stat-other').hidden = !(other && other.total > 0);
+    $('stat-other').textContent = other && other.total > 0
+      ? '另有其他产品的兑换码 ' + other.total + ' 个（不区分正式 / 测试），已计入上方总数。' : '';
+    renderEarlyBird(s.early_bird);
   }
   function renderToday() {
     var today = sh(Date.now()), nNew = 0, nRed = 0;
@@ -124,6 +150,7 @@
   }
 
   // ---- codes ----
+  var CODE_COLS = 7;
   function setState(bodyId, cols, text, isError) {
     var body = $(bodyId);
     body.innerHTML = '';
@@ -141,17 +168,46 @@
     b.className = 'badge ' + (ok ? 'ok' : 'pending'); b.textContent = ok ? '已兑换' : '未兑换';
     td.appendChild(b); return td;
   }
+  function kindBadge(c) {
+    var td = document.createElement('td'); var b = document.createElement('span');
+    if (!c.kind_applies) { b.className = 'badge kind-na'; b.textContent = '不区分'; }
+    else if (c.code_kind === 'formal') { b.className = 'badge kind-formal'; b.textContent = '正式'; }
+    else { b.className = 'badge kind-test'; b.textContent = '测试'; }
+    td.appendChild(b); return td;
+  }
   function filteredCodes() {
     return allCodes.filter(function (c) {
-      if (codeFilter === 'redeemed') return !!c.redeemed_at;
-      if (codeFilter === 'pending') return !c.redeemed_at;
+      if (codeFilter === 'redeemed' && !c.redeemed_at) return false;
+      if (codeFilter === 'pending' && c.redeemed_at) return false;
+      if (kindFilter !== 'all' && !(c.kind_applies && c.code_kind === kindFilter)) return false;
       return true;
+    });
+  }
+  function shortCode(c) { var s = c.code_plain || c.code_hash || ''; return s.length > 15 ? s.slice(0, 15) + '…' : s; }
+  function deleteConfirmText(c) {
+    if (!c.kind_applies) return '确定删除这个兑换码吗？删除后无法恢复。';
+    var text = '确定删除测试码 ' + shortCode(c) + ' 吗？删除后无法恢复。';
+    if (c.delete_revokes_key) text += '\n\n该码已兑换，对应的 key 会同时作废，之后用这把 key 的调用都会被拒绝。';
+    return text;
+  }
+  function deleteCode(c, btn) {
+    if (!confirm(deleteConfirmText(c))) return;
+    btn.disabled = true;
+    request('api/admin/delete_code', {
+      method: 'POST',
+      body: JSON.stringify({ code_hash: c.code_hash })
+    }).then(function (d) {
+      toast(d && d.key_revoked ? '已删除，对应的 key 已作废' : '删除成功');
+      loadStats(); loadCodes();
+    }).catch(function (e) {
+      btn.disabled = false;
+      if (!handleError(e)) toast(e.message || '删除失败');
     });
   }
   function renderCodes() {
     var rows = filteredCodes();
     var body = $('codes-body'); body.innerHTML = '';
-    if (!rows.length) { setState('codes-body', 6, '暂无符合条件的兑换码'); return; }
+    if (!rows.length) { setState('codes-body', CODE_COLS, '暂无符合条件的兑换码'); return; }
     rows.forEach(function (c) {
       var tr = document.createElement('tr');
       // 第一列：完整兑换码 + 复制按钮
@@ -183,54 +239,52 @@
       codeCell.appendChild(codeText);
       codeCell.appendChild(copyBtn);
       tr.appendChild(codeCell);
+      tr.appendChild(kindBadge(c));
       tr.appendChild(cell(c.plan || '—', 'mono'));
       tr.appendChild(cell(fmtTime(c.created_at), 'mono'));
       tr.appendChild(badge(!!c.redeemed_at));
       tr.appendChild(cell(c.redeemed_at ? fmtTime(c.redeemed_at) : '—', 'mono'));
-      // 第六列：删除按钮
+      // 最后一列：服务端判定可删的才有删除按钮；正式码永远没有。
       var actionCell = document.createElement('td');
-      if (!c.redeemed_at) {
+      if (c.deletable) {
         var delBtn = document.createElement('button');
-        delBtn.className = 'btn btn-ghost btn-sm';
-        delBtn.style.color = '#ff4d4f';
+        delBtn.type = 'button';
+        delBtn.className = 'btn btn-ghost btn-sm btn-danger-text';
         delBtn.textContent = '删除';
-        delBtn.onclick = function() {
-          if (confirm('确定删除这个兑换码吗？删除后无法恢复。')) {
-            request('api/admin/delete_code', {
-              method: 'POST',
-              body: JSON.stringify({ code_hash: c.code_hash })
-            }).then(function() {
-              toast('删除成功');
-              loadCodes();
-            }).catch(function(e) {
-              toast(e.message || '删除失败');
-            });
-          }
-        };
+        delBtn.addEventListener('click', function () { deleteCode(c, delBtn); });
         actionCell.appendChild(delBtn);
       } else {
-        actionCell.textContent = '—';
+        var note = document.createElement('span');
+        note.className = 'dim';
+        note.textContent = c.kind_applies && c.code_kind === 'formal' ? '不可删除' : '—';
+        actionCell.appendChild(note);
       }
       tr.appendChild(actionCell);
       body.appendChild(tr);
     });
   }
   function loadCodes() {
-    setState('codes-body', 6, '加载中…');
+    setState('codes-body', CODE_COLS, '加载中…');
     return request('api/admin/codes?limit=200').then(function (d) {
       allCodes = Array.isArray(d.codes) ? d.codes : [];
       renderCodes(); renderToday();
-    }).catch(function (e) { if (!handleError(e)) setState('codes-body', 6, e.message || '加载失败', true); });
+    }).catch(function (e) { if (!handleError(e)) setState('codes-body', CODE_COLS, e.message || '加载失败', true); });
   }
   function generate() {
     var count = parseInt($('gen-count').value, 10);
     var plan = $('gen-plan').value;
+    var kind = $('gen-kind').value;
     if (!(count >= 1 && count <= 100)) { msg('gen-msg', '数量需在 1–100 之间。', 'error'); return; }
+    if (kind !== 'test' && kind !== 'formal') { msg('gen-msg', '请选择兑换码类别。', 'error'); return; }
+    if (kind === 'formal' && !confirm('正式码生成后不能删除，将计入早鸟名额（兑换成功时计入）。\n\n确定生成 ' + count + ' 个正式码吗？')) {
+      msg('gen-msg', '已取消，没有生成正式码。', 'ok'); return;
+    }
     var btn = $('gen-btn'); btn.disabled = true; msg('gen-msg', '生成中…', 'ok');
-    request('api/admin/generate?count=' + count + '&plan=' + encodeURIComponent(plan)).then(function (d) {
+    request('api/admin/generate?count=' + count + '&plan=' + encodeURIComponent(plan) + '&kind=' + kind, { method: 'POST' }).then(function (d) {
       btn.disabled = false;
       var codes = Array.isArray(d.codes) ? d.codes : [];
-      msg('gen-msg', '成功生成 ' + codes.length + ' 个兑换码。新码已出现在下方列表中。', 'ok');
+      msg('gen-msg', '成功生成 ' + codes.length + ' 个' + (kind === 'formal' ? '正式' : '测试') + '兑换码。新码已出现在下方列表中。', 'ok');
+      $('gen-kind').value = 'test';  // 每次生成后回到默认的测试码，防手滑
       loadStats(); loadCodes();
     }).catch(function (e) { btn.disabled = false; handleError(e, 'gen-msg'); });
   }
@@ -276,11 +330,22 @@
 
   function refreshAll() { loadStats().then(loadCodes).then(loadDistribution); }
 
+  function wireChips(attr, onPick) {
+    var chips = document.querySelectorAll('.chip-btn[' + attr + ']');
+    Array.prototype.forEach.call(chips, function (btn) {
+      btn.addEventListener('click', function () {
+        Array.prototype.forEach.call(chips, function (b) { b.classList.remove('on'); });
+        this.classList.add('on'); onPick(this.getAttribute(attr)); renderCodes();
+      });
+    });
+  }
+
   // ---- wire up ----
   function init() {
     // plans
     var sel = $('gen-plan');
     PLANS.forEach(function (p) { var o = document.createElement('option'); o.value = p; o.textContent = p; sel.appendChild(o); });
+    $('gen-kind').value = 'test';  // 浏览器可能恢复上次的选择；每次打开都从测试码开始
 
     $('login-btn').addEventListener('click', function () { attemptLogin($('token-input').value.trim()); });
     $('token-input').addEventListener('keydown', function (e) { if (e.key === 'Enter') attemptLogin(this.value.trim()); });
@@ -292,13 +357,9 @@
     $('gen-copy-all').addEventListener('click', function () {
       var all = this.getAttribute('data-codes') || ''; if (all) copy(all, '已复制全部兑换码');
     });
-    Array.prototype.forEach.call(document.querySelectorAll('.chip-btn[data-filter]'), function (btn) {
-      btn.addEventListener('click', function () {
-        codeFilter = this.getAttribute('data-filter');
-        Array.prototype.forEach.call(document.querySelectorAll('.chip-btn[data-filter]'), function (b) { b.classList.remove('on'); });
-        this.classList.add('on'); renderCodes();
-      });
-    });
+    // 状态筛选（全部 / 未兑换 / 已兑换）与类别筛选（全部类别 / 正式 / 测试）同时生效。
+    wireChips('data-filter', function (v) { codeFilter = v; });
+    wireChips('data-kind', function (v) { kindFilter = v; });
 
     var saved = readToken();
     if (saved) { token = saved; request('api/admin/stats').then(function () { showApp(); }).catch(function () { logout(); }); }
