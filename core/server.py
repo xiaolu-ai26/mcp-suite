@@ -409,7 +409,7 @@ def jobs_stats(
 【何时用】问数量、分布、排名、对比时用，例如“北京和上海哪个产品岗多”“哪些国企招计算机最多”“27届和26届各有多少岗位”“字节的岗位主要在哪些城市”“一共有多少家公司”。也可以在 jobs_search 之前先看规模。
 【参数来源】筛选参数的来源同 jobs_search。group_by 只能填 schema 列出的值。
 【参数用法】group_by 不传时只返回总数。一条岗位写了多个城市或多个届别时，按 city、graduation_year 分组会计入多个组，各组之和可能大于 total（此时 multi_valued=true）。top 控制返回的组数（默认 20、最大 100），其余组的计数合计在 other_count。
-【返回】applied_filters、total、explicit_total、inferred_total、unspecified_total、excluded_social_total（按届别筛选时没计入的社招条数）、data_as_of；分组时另有 group_by、fill_param、multi_valued、groups_total、returned_groups、other_count、groups[]（value、count、explicit_count、inferred_count、unspecified_count）。
+【返回】applied_filters、total、explicit_total、inferred_total、unspecified_total、excluded_social_total（按届别筛选时没计入的社招条数）、data_as_of；分组时另有 group_by、fill_param、multi_valued、groups_total、returned_groups、other_count、groups[]（value、count、explicit_count、inferred_count、unspecified_count）。组内三档同时看筛选条件和组值本身：未注明 组算未注明，届别组按该届的依据分档（如按招聘季推断的计入 inferred_count）。
 【下一步】用户要看某一组的岗位时，把 groups[i].value 原样填到 jobs_search 中 fill_param 指定的参数，其余条件保持不变。graduation_year 分组里的“实习未写届别”“社招不限届别”不是届别，不能填回，改用 recruitment_type。
 【限制】计数单位是岗位条数，不是招聘人数，数据里没有招聘人数。education 分组是岗位写明的最低学历；填回 jobs_search.education 时按“门槛不高于该档”匹配，所以返回的数量会不少于该组计数。"""
     return _reply(jobs.stats, keyword=keyword, company=company, city=city, job_category=job_category,

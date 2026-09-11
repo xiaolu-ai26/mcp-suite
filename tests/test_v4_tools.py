@@ -192,6 +192,20 @@ def test_stats_groups_fill_back(qz, jobs_inproc):
     years = structured(qz.call("jobs_stats", {"group_by": "graduation_year", "top": 20}))
     values = {g["value"] for g in years["groups"]}
     assert {"2027届", "2026届", "未注明", "实习未写届别", "社招不限届别"} <= values and years["multi_valued"]
+    # Group tiers follow the group value too: 2027届 splits by its basis, 未注明 is unspecified.
+    g = {x["value"]: x for x in years["groups"]}
+    y27 = [it for it in jobs_inproc.dataset().items if "2027届" in it["graduation_years"]]
+    inferred = sum(1 for it in y27 if it["graduation_year_basis"]["2027届"] in ("按招聘季推断", "来源专场注明"))
+    assert (g["2027届"]["explicit_count"], g["2027届"]["inferred_count"]) == (len(y27) - inferred, inferred) and inferred > 2000
+    assert g["实习未写届别"]["inferred_count"] == g["实习未写届别"]["count"]
+    assert g["社招不限届别"]["inferred_count"] == g["社招不限届别"]["count"]
+    assert g["未注明"]["unspecified_count"] == g["未注明"]["count"]
+    # The explicit part of the 2027届 group is exactly what explicit_only returns for 2027届.
+    only = structured(qz.call("jobs_stats", {"graduation_year": "2027届", "explicit_only": True}))
+    assert only["total"] == g["2027届"]["explicit_count"]
+    cities = structured(qz.call("jobs_stats", {"group_by": "city", "top": 100}))
+    unspecified = next(x for x in cities["groups"] if x["value"] == "未注明")
+    assert unspecified["unspecified_count"] == unspecified["count"] and cities["unspecified_total"] == 0
     edu = structured(qz.call("jobs_stats", {"group_by": "education"}))
     assert edu["fill_param"] == "education" and {g["value"] for g in edu["groups"]} == set(V.EDUCATIONS)
     maj = structured(qz.call("jobs_stats", {"group_by": "major_category", "top": 13}))

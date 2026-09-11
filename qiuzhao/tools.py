@@ -480,6 +480,17 @@ class Jobs:
             return it["graduation_years"] or [it.get("graduation_year_note") or V.UNSPECIFIED]
         return [it[group_by] or V.UNSPECIFIED]
 
+    @staticmethod
+    def group_tier(it, group_by, value):
+        """How firmly the row has this group value: 未注明 groups are unspecified, and a 届别 group
+        is as firm as the row's basis for that year (按招聘季推断 → inferred)."""
+        if value == V.UNSPECIFIED:
+            return 2
+        if group_by == "graduation_year":
+            basis = it["graduation_year_basis"].get(value)
+            return V.BASIS_TIER[basis] if basis else V.BASIS_TIER.get(value, 0)
+        return 0
+
     def stats(self, group_by="", top=TOP_DEFAULT, **filters):
         notices = []
         data = self.dataset()
@@ -501,7 +512,7 @@ class Jobs:
             for it, _, tier in res:
                 for v in self.group_values(it, group_by):
                     counts[v] += 1
-                    tiers[tier][v] += 1
+                    tiers[max(tier, self.group_tier(it, group_by, v))][v] += 1
             ordered = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))
             out.update({"group_by": group_by, "fill_param": GROUP_BY[group_by],
                         "multi_valued": group_by in MULTI_VALUED, "groups_total": len(ordered),
