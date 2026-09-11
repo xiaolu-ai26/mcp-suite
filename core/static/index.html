@@ -5,106 +5,322 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
   <meta name="description" content="兑换秋招岗位库访问权限，生成适合你的AI客户端的专属接入指令。岗位以原公告为准。">
+  <meta name="theme-color" content="#F6F3EE">
   <title>兑换与接入 · 秋招岗位库</title>
-  <link rel="stylesheet" href="./site.css?v=3">
-  <script src="./app.js?v=3" defer></script>
+  <link rel="stylesheet" href="./site.css?v=4">
+  <script src="./app.js?v=4" defer></script>
 </head>
 <body data-page="redeem">
   <a class="skip" href="#main">跳到主要内容</a>
   <div class="preview-banner" id="preview-banner" hidden>离线交互预览 · 使用虚构凭证，不连接线上，也不能兑换真实码。</div>
-  <header class="site-header wrap">
-    <a class="brand" href="./"><span class="brand-mark" aria-hidden="true">秋</span><span>秋招岗位库<small>让机会有据可查</small></span></a>
-    <nav aria-label="主导航"><a class="nav-current" href="./">兑换开通</a><a href="./guide" target="_blank" rel="noopener noreferrer">接入指南 ↗</a><a href="#faq">常见问题</a></nav>
-  </header>
-  <main id="main" class="wrap">
-    <div class="hero-layout">
-      <section class="hero-copy">
-        <p class="eyebrow"><span class="status-dot"></span> 2026 秋招季 · MCP 数据服务</p>
-        <h1>让你的 AI，<br>用<span class="accent">真实岗位</span><br>帮你找工作。</h1>
-        <p class="lead">兑换后，复制一段专属指令。<br>让 AI 接入岗位库，帮你查机会、读要求、比岗位。</p>
-        <div class="value-list">
-          <p><span>01</span> 按城市、专业和届别寻找机会</p>
-          <p><span>02</span> 保留原始链接，条件不明就标注</p>
-          <p><span>03</span> 读取具体要求，再安排投递准备</p>
-        </div>
-        <div class="plan-summary"><strong>¥39</strong><span>／秋招季<br><small>兑换生效 · 有效至 2026.12.31</small></span></div>
-        <p class="fine-print">每天 200 次工具调用，多客户端共用额度。AI 客户端本身的账号、会员或模型费用另计。并非全网全量收录，不承诺录取或代投。</p>
-        <div class="data-status" aria-live="polite"><span class="tiny-dot"></span><span id="data-status">正在读取服务状态…</span></div>
-      </section>
-      <section class="activation-card" aria-label="兑换并接入">
-        <div class="step-rail" aria-label="开通流程">
-          <span class="step active" id="step-redeem"><b>1</b>兑换</span><i></i>
-          <span class="step" id="step-connect"><b>2</b>接入 AI</span><i></i>
-          <span class="step" id="step-use"><b>3</b>开始查询</span>
-        </div>
-        <div id="redeem-panel">
-          <div class="section-kicker">已经购买？从这里开始</div>
-          <h2>兑换你的秋招季权限</h2>
-          <p class="muted">粘贴订单中收到的兑换码。系统将生成只属于你的访问凭证。</p>
-          <form id="redeem-form" autocomplete="off">
-            <label for="code">兑换码</label>
-            <input id="code" name="redemption_code" type="text" spellcheck="false" autocapitalize="characters" autocomplete="off" maxlength="80" placeholder="QZ-…" required aria-describedby="code-note">
-            <p id="code-note" class="field-note">每个兑换码只能使用一次。提交前请关闭录屏与屏幕共享。</p>
-            <button class="button primary full" id="redeem-button" type="submit">兑换并生成专属接入指令 <span aria-hidden="true">→</span></button>
-          </form>
-          <p id="redeem-message" class="message" role="status" aria-live="polite"></p>
-          <div class="divider"><span>已经兑换过</span></div>
-          <details class="existing-key">
-            <summary>我保存了 API key，重新生成接入指令</summary>
-            <form id="existing-form" autocomplete="off">
-              <label for="existing-token">已保存的 API key（不是兑换码）</label>
-              <input id="existing-token" type="password" autocomplete="off" maxlength="200" placeholder="qz_…" spellcheck="false" required>
-              <button class="button secondary full" type="submit" id="existing-button">校验权限并继续</button>
-              <p class="field-note">只检查凭证状态，不消耗岗位工具调用额度；无法找回已经丢失的 key。</p>
-              <p class="message" id="existing-message" role="status"></p>
-            </form>
-          </details>
-          <div class="card-footnote"><span class="lock-icon" aria-hidden="true">◇</span> 只在本页内存中处理凭证，不写入本网站的浏览器持久存储。</div>
-        </div>
-        <div id="success-panel" hidden>
-          <div class="success-heading"><span class="success-icon" aria-hidden="true">✓</span><div><h2 id="success-title" tabindex="-1">兑换成功</h2><p class="muted">下一步，选择你使用的 AI。</p></div></div>
-          <div class="entitlement-grid" aria-label="当前权益"><div><small>有效至（北京时间）</small><strong id="valid-through">—</strong></div><div><small>今日剩余 / 每日额度</small><strong id="quota-text">—</strong></div></div>
-          <p class="save-warning">请先妥善保存 key。关闭或刷新页面后，本页不会再显示它；需要原购买渠道处理丢失问题。</p>
-          <fieldset class="client-fieldset"><legend>选择你的 AI 客户端</legend>
-            <div class="client-grid" id="client-options"></div>
-            <details class="more-clients"><summary>Hermes、OpenClaw 及其他方式</summary><div class="client-grid" id="extra-client-options"></div></details>
-          </fieldset>
-          <div class="client-explainer"><strong id="client-name">WorkBuddy</strong><span id="client-badge" class="badge">接入待实测</span><p id="client-note"></p></div>
-          <label class="consent"><input type="checkbox" id="secret-consent"><span>我知道指令含有私人 key，只会发给自己信任的 Agent。其服务商可能保存对话；不要发群聊或公开分享。</span></label>
-          <button class="button primary full" id="copy-prompt" type="button" disabled>复制专属接入指令（含我的 key） <span aria-hidden="true">↗</span></button>
-          <p id="copy-message" class="message" role="status" aria-live="polite"></p>
-          <details id="prompt-details" class="code-details"><summary>查看将复制的指令（默认隐藏 key）</summary><pre id="prompt-preview" class="code-block"></pre></details>
-          <div class="post-copy-note"><b>复制后做什么？</b><p>粘贴到所选 Agent 的私人任务中。有配置权限时让它代配置；需要点击连接器或重开会话时，按指引操作。只有返回真实工具结果，才算接通。</p></div>
-          <details class="code-details" id="manual-details"><summary>手动接入 / 单独保存 key</summary>
-            <label for="key-display">个人 API key</label><div class="key-row"><input id="key-display" type="password" readonly autocomplete="off" aria-label="个人API key" spellcheck="false"><button class="button compact" id="toggle-key" type="button" aria-pressed="false">显示</button><button class="button compact" id="copy-key" type="button">复制</button></div>
-            <p class="field-note">建议存入密码管理器。手动把 key 填到客户端连接器配置，可以避免将它发送到聊天框。</p>
-            <pre class="code-block" id="config-preview"></pre>
-            <button class="button secondary full" type="button" id="copy-config">复制所选客户端配置（含 key）</button>
-            <p class="field-note">预览隐藏 key，复制得到真实值。不要整份覆盖已有连接器；具体配置位置以客户端当前版本为准。</p>
-          </details>
-          <div class="account-actions"><button class="text-button" type="button" id="check-usage">检查账号权限</button><button class="text-button danger" type="button" id="clear-key">清除本页凭证</button></div>
-          <p id="usage-message" class="message" role="status"></p>
-        </div>
-      </section>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="./"><span class="brand-mark" aria-hidden="true">秋</span><span class="brand-text">秋招岗位库<small>让机会有据可查</small></span></a>
+      <nav aria-label="主导航">
+        <a class="nav-current" href="./">兑换开通</a>
+        <a href="./guide" target="_blank" rel="noopener noreferrer">接入指南<svg class="ico ico-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></a>
+        <a href="#faq">常见问题</a>
+        <span class="status-chip"><i aria-hidden="true"></i>数据每日更新</span>
+      </nav>
     </div>
-    <section class="after-connect" aria-labelledby="examples-title">
-      <div class="section-heading"><div><p class="eyebrow">接入后，从这三句话开始</p><h2 id="examples-title">不止找岗位，也帮你想清楚下一步。</h2></div><span class="muted">以下是用法示例，不是岗位推荐结果。</span></div>
-      <div class="example-grid">
-        <article class="example-card"><span class="example-num">01 / 找机会</span><h3>先缩小范围</h3><p>“用秋招岗位库查深圳的运营岗位，先给我 5 条，保留要求、原链接和复核时间。”</p><button class="text-button example-copy" type="button" data-example="search">复制问题 ↗</button></article>
-        <article class="example-card"><span class="example-num">02 / 读条件</span><h3>逐条核对能不能投</h3><p>“读取我选中的岗位详情，分清明确符合、明确冲突和还需要确认的条件。”</p><button class="text-button example-copy" type="button" data-example="compare">复制问题 ↗</button></article>
-        <article class="example-card"><span class="example-num">03 / 排顺序</span><h3>先准备快截止的</h3><p>“查未来 7 天有明确截止日的岗位。将返回结果按临近程度重排，给我原投递入口。”</p><button class="text-button example-copy" type="button" data-example="deadline">复制问题 ↗</button></article>
-      </div><p id="example-message" class="message" role="status"></p>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap hero-layout">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span>2026-2027 秋招季 · MCP 数据服务</p>
+          <h1>让你的 AI，<br>用<span class="accent">真实岗位</span><br>帮你找工作。</h1>
+          <div class="seal" aria-hidden="true"><span>有据<br>可查</span></div>
+          <p class="lead">兑换后，复制一段专属指令。<br>让 AI 接入岗位库，帮你查机会、读要求、比岗位。</p>
+          <ol class="ledger-list value-list">
+            <li><span>01</span>按城市、专业和届别寻找机会</li>
+            <li><span>02</span>保留原始链接，条件不明就标注</li>
+            <li><span>03</span>读取具体要求，再安排投递准备</li>
+          </ol>
+          <div class="data-status" aria-live="polite"><span class="tiny-dot" aria-hidden="true"></span><span id="data-status">数据每日更新，确保信息时效性</span></div>
+        </div>
+
+        <section class="activation-card" aria-label="兑换并接入">
+          <div class="step-rail" aria-label="开通流程">
+            <span class="step active" id="step-redeem"><b>1</b>兑换</span><i></i>
+            <span class="step" id="step-connect"><b>2</b>接入 AI</span><i></i>
+            <span class="step" id="step-use"><b>3</b>开始查询</span>
+          </div>
+          <div id="redeem-panel">
+            <div class="section-kicker">已经购买？从这里开始</div>
+            <h2>兑换你的秋招季权限</h2>
+            <p class="muted">粘贴订单中收到的兑换码。系统将生成只属于你的访问凭证。</p>
+            <form id="redeem-form" autocomplete="off">
+              <label for="code">兑换码</label>
+              <input id="code" name="redemption_code" type="text" spellcheck="false" autocapitalize="characters" autocomplete="off" maxlength="80" placeholder="QZ-…" required aria-describedby="code-note">
+              <p id="code-note" class="field-note">每个兑换码只能使用一次。提交前请关闭录屏与屏幕共享。</p>
+              <button class="button primary full" id="redeem-button" type="submit">兑换并生成专属接入指令<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
+            </form>
+            <p id="redeem-message" class="message" role="status" aria-live="polite"></p>
+            <div class="divider"><span>已经兑换过</span></div>
+            <details class="existing-key">
+              <summary>我保存了 API key，重新生成接入指令</summary>
+              <form id="existing-form" autocomplete="off">
+                <label for="existing-token">已保存的 API key（不是兑换码）</label>
+                <input id="existing-token" type="password" autocomplete="off" maxlength="200" placeholder="qz_…" spellcheck="false" required>
+                <button class="button secondary full" type="submit" id="existing-button">校验权限并继续</button>
+                <p class="field-note">只检查凭证状态；无法找回已经丢失的 key。</p>
+                <p class="message" id="existing-message" role="status"></p>
+              </form>
+            </details>
+            <div class="card-footnote"><svg class="ico ico-sm lock-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>只在本页内存中处理凭证，不写入本网站的浏览器持久存储。</span></div>
+          </div>
+
+          <div id="success-panel" hidden>
+            <div class="success-heading"><span class="success-icon" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><div><h2 id="success-title" tabindex="-1">兑换成功</h2><p class="muted">下一步，选择你使用的 AI。</p></div></div>
+            <div class="entitlement-grid" aria-label="当前权益"><div><small>有效至（北京时间）</small><strong id="valid-through" class="mono">—</strong></div><div><small>调用额度</small><strong id="quota-text">订阅期内无限次</strong></div></div>
+            <p class="save-warning">请先妥善保存 key。关闭或刷新页面后，本页不会再显示它；需要原购买渠道处理丢失问题。</p>
+            <fieldset class="client-fieldset"><legend>选择你的 AI 客户端</legend>
+              <div class="client-grid" id="client-options"></div>
+              <details class="more-clients"><summary>Hermes、OpenClaw 及其他方式</summary><div class="client-grid" id="extra-client-options"></div></details>
+            </fieldset>
+            <div class="client-explainer"><strong id="client-name">WorkBuddy</strong><span id="client-badge" class="badge">接入待实测</span><p id="client-note"></p></div>
+            <label class="consent"><input type="checkbox" id="secret-consent"><span>我知道指令含有私人 key，只会发给自己信任的 Agent。其服务商可能保存对话；不要发群聊或公开分享。</span></label>
+            <button class="button primary full" id="copy-prompt" type="button" disabled>复制专属接入指令（含我的 key）<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></button>
+            <p id="copy-message" class="message" role="status" aria-live="polite"></p>
+            
+            <!-- 手动配置区域：只有这三个平台显示 -->
+            <div id="manual-config" hidden>
+              <div class="config-step">
+                <label>第一步：复制服务器地址</label>
+                <div class="key-row">
+                  <input id="server-url" type="text" readonly value="https://savegems.top/qiuzhao/mcp" spellcheck="false">
+                  <button class="button compact" id="copy-url" type="button">复制</button>
+                </div>
+              </div>
+              <div class="config-step">
+                <label>第二步：复制Header名称</label>
+                <div class="key-row">
+                  <input id="header-name" type="text" readonly value="Authorization" spellcheck="false">
+                  <button class="button compact" id="copy-header-name" type="button">复制</button>
+                </div>
+              </div>
+              <div class="config-step">
+                <label>第三步：复制Header值（直接粘贴就能用）</label>
+                <div class="key-row">
+                  <input id="bearer-value" type="text" readonly spellcheck="false">
+                  <button class="button compact" id="copy-bearer" type="button">复制</button>
+                </div>
+                <p class="field-note">Header名称填上面复制的 Authorization，值直接复制这个就行</p>
+              </div>
+              <div class="config-step">
+                <label>第四步：按步骤配置连接器</label>
+                <div id="manual-steps" class="manual-steps"></div>
+              </div>
+              <details class="code-details" style="margin-top: 16px;">
+                <summary>单独保存你的API Key</summary>
+                <div class="key-row">
+                  <input id="manual-key" type="password" readonly spellcheck="false">
+                  <button class="button compact" id="toggle-manual-key" type="button">显示</button>
+                  <button class="button compact" id="copy-manual-key" type="button">复制</button>
+                </div>
+                <p class="field-note">建议存入密码管理器，上面的Header值已经包含这个key了</p>
+              </details>
+            </div>
+            
+            <details id="prompt-details" class="code-details"><summary>查看将复制的指令（默认隐藏 key）</summary><pre id="prompt-preview" class="code-block"></pre></details>
+            <div class="post-copy-note"><b>复制后做什么？</b><p>粘贴到所选 Agent 的私人任务中。有配置权限时让它代配置；需要点击连接器或重开会话时，按指引操作。只有返回真实工具结果，才算接通。</p></div>
+            <details class="code-details" id="manual-details"><summary>手动接入 / 单独保存 key</summary>
+              <label for="key-display">个人 API key</label><div class="key-row"><input id="key-display" type="password" readonly autocomplete="off" aria-label="个人API key" spellcheck="false"><button class="button compact" id="toggle-key" type="button" aria-pressed="false">显示</button><button class="button compact" id="copy-key" type="button">复制</button></div>
+              <p class="field-note">建议存入密码管理器。手动把 key 填到客户端连接器配置，可以避免将它发送到聊天框。</p>
+              <pre class="code-block" id="config-preview"></pre>
+              <button class="button secondary full" type="button" id="copy-config">复制所选客户端配置（含 key）</button>
+              <p class="field-note">预览隐藏 key，复制得到真实值。不要整份覆盖已有连接器；具体配置位置以客户端当前版本为准。</p>
+            </details>
+            <div class="account-actions"><button class="text-button" type="button" id="check-usage">检查账号权限</button><button class="text-button danger" type="button" id="clear-key">清除本页凭证</button></div>
+            <p id="usage-message" class="message" role="status"></p>
+          </div>
+        </section>
+      </div>
     </section>
-    <section class="faq-section" id="faq"><div><p class="eyebrow">常见问题</p><h2>开通之前，<br>把这些说清楚。</h2></div><div class="faq-list">
-      <details><summary>购买之后，兑换码从哪里拿？</summary><p>回到原购买平台的订单交付内容或卖家发送的消息中查收。收到的是兑换码，不是 API key。卖家是否自动发货以该渠道实际设置为准，本页不会根据付款截图开通权限。</p></details>
-      <details><summary>复制提示词就一定能接通吗？</summary><p>指令会带上所选客户端需要的地址和凭证，但客户端必须支持远程 MCP 和请求头鉴权，并有相应配置权限。普通聊天页面不一定能安装连接器。保存配置也不等于已接通，需要真实工具调用验证。</p></details>
-      <details><summary>200 次是每天能问 200 个问题吗？</summary><p>按工具调用计数，不按聊天条数。一次提问可能调用多个工具，空结果也计次；连接握手和列工具不扣次。同一 key 在不同客户端使用，共用每天 200 次，北京时间 00:00 重置。</p></details>
-      <details><summary>刷新页面之后，key 丢了怎么办？</summary><p>兑换时只生成并返回一次明文 key，系统不提供原 key 明文找回。已经保存过的，可以在本页重新校验并生成指令；完全丢失请凭订单联系原卖家处理，不要重复购买或公开自己的 key。</p></details>
-      <details><summary>是不是包含所有企业、所有岗位？</summary><p>不是。来源正在持续扩展，岗位库只返回实际收录的数据。未收录不代表企业没有招聘；“世界500强目标清单”不等于已经覆盖500家在招岗位。具体条件、状态及可投情况以原公告为准。</p></details>
-      <details><summary>手机能不能用？</summary><p>手机可以打开兑换页，但各 Agent 的连接器入口和权限不同。建议在准备使用的电脑上兑换并完成接入；不把电脑版教程直接当作手机版支持证明。</p></details>
-    </div></section>
+
+    <section class="section" id="pricing" aria-labelledby="pricing-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><p class="sec-index">§ 01 · 价格</p><h2 id="pricing-title">一个秋招季的订阅，按月计。</h2></div>
+          <p class="sec-note">购买在原渠道完成；本页只负责兑换与接入。</p>
+        </div>
+        <div class="price-grid">
+          <div class="card price-card">
+            <div>
+              <div class="price-label"><span class="eyebrow-plain">当前价格</span><span class="chip chip-accent">前 10 名早鸟价 · 剩 10 个名额</span></div>
+              <div class="price-figure"><strong>¥29.9</strong><span>/月</span><s class="mono">标准价 ¥59.9</s></div>
+              <p class="price-desc">订阅生效后 30 天内有效，到期后可续费继续使用。</p>
+            </div>
+            <p class="fine-print">订阅期内无限次调用，多客户端共用额度。AI 客户端本身的账号、会员或模型费用另计。并非全网全量收录，不承诺录取或代投。</p>
+          </div>
+          <div class="card tier-card">
+            <p class="eyebrow-plain">早鸟阶梯</p>
+            <ol class="tier-list">
+              <li class="tier current"><span class="tier-name"><i class="tier-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></i>前 10 名<span class="chip chip-accent">当前 · 剩 10 个名额</span></span><span class="mono">¥29.9 /月</span></li>
+              <li class="tier"><span class="tier-name"><i class="tier-mark" aria-hidden="true"></i>前 50 名</span><span class="mono">¥39.9 /月</span></li>
+              <li class="tier"><span class="tier-name"><i class="tier-mark" aria-hidden="true"></i>前 100 名</span><span class="mono">¥49.9 /月</span></li>
+              <li class="tier is-muted"><span class="tier-name"><i class="tier-mark" aria-hidden="true"></i>100 名后恢复标准价</span><span class="mono">¥59.9 /月</span></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="examples-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><p class="sec-index">§ 02 · 用法</p><p class="eyebrow-plain">接入后，从这四句话开始</p><h2 id="examples-title">不止找岗位，也帮你想清楚下一步。</h2></div>
+          <p class="sec-note">复制提示词，粘贴到你正在用的 AI 里。</p>
+        </div>
+      </div>
+      <div class="usage-marquee">
+        <div class="usage-row" id="usage-row-a">
+          <article class="card example-card"><span class="example-num">01 / 按公司搜</span><h3>一键查目标公司</h3><p>“帮我找字节跳动2027届秋招的所有产品岗。”</p><button class="button ghost sm example-copy" type="button" data-example="by-company"><svg class="ico ico-sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>复制提示词</button></article>
+          <article class="card example-card"><span class="example-num">02 / 按城市搜</span><h3>只看想去的城市</h3><p>“帮我找杭州和成都的2027届秋招技术岗。”</p><button class="button ghost sm example-copy" type="button" data-example="by-city"><svg class="ico ico-sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>复制提示词</button></article>
+          <article class="card example-card"><span class="example-num">03 / 按岗位搜</span><h3>只看感兴趣的岗位</h3><p>“帮我找2027届秋招的所有UI/UX设计岗。”</p><button class="button ghost sm example-copy" type="button" data-example="by-job"><svg class="ico ico-sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>复制提示词</button></article>
+          <article class="card example-card"><span class="example-num">04 / 组合筛选</span><h3>多条件一次命中</h3><p>“帮我找北京和上海的互联网大厂2027届秋招产品岗，包括字节、腾讯、阿里、美团。”</p><button class="button ghost sm example-copy" type="button" data-example="combined"><svg class="ico ico-sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>复制提示词</button></article>
+          <article class="card example-card"><span class="example-num">05 / 排除公司</span><h3>不想去的直接排除</h3><p>“帮我找2027届秋招的所有Java开发岗，排除拼多多和字节跳动。”</p><button class="button ghost sm example-copy" type="button" data-example="exclude"><svg class="ico ico-sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>复制提示词</button></article>
+        </div>
+        <div class="usage-row reverse" id="usage-row-b">
+          <article class="card example-card"><span class="example-num">06 / 新岗提醒</span><h3>新岗位第一时间通知</h3><p>“帮我监控字节跳动2027届秋招的新增岗位，每天早上9点推送给我。”</p><button class="button ghost sm example-copy" type="button" data-example="monitor"><svg class="ico ico-sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>复制提示词</button></article>
+          <article class="card example-card"><span class="example-num">07 / 截止提醒</span><h3>不错过投递窗口</h3><p>“帮我列出未来7天内即将截止的岗位，按截止日期排序，给我原投递链接。”</p><button class="button ghost sm example-copy" type="button" data-example="deadline"><svg class="ico ico-sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>复制提示词</button></article>
+          <article class="card example-card"><span class="example-num">08 / 汇总整理</span><h3>按公司整理成表格</h3><p>“把我搜索到的秋招岗位按公司整理成表格，包含岗位名称、工作地点、截止日期、投递链接。”</p><button class="button ghost sm example-copy" type="button" data-example="summarize"><svg class="ico ico-sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>复制提示词</button></article>
+          <article class="card example-card"><span class="example-num">09 / 岗位对比</span><h3>两个岗位帮你对比</h3><p>“帮我对比字节跳动产品经理岗和美团产品经理岗的工作地点、岗位要求、截止时间。”</p><button class="button ghost sm example-copy" type="button" data-example="compare"><svg class="ico ico-sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>复制提示词</button></article>
+        </div>
+      </div>
+      <div class="wrap">
+        <p id="example-message" class="message" role="status"></p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="reviews-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><p class="sec-index">§ 03 · 评价</p><h2 id="reviews-title">他们已经在用秋招岗位库</h2></div>
+        </div>
+      </div>
+      <div class="marquee-wrap" id="danmaku-container" aria-hidden="true">
+        <div class="marquee" id="marquee-a"></div>
+        <div class="marquee reverse" id="marquee-b"></div>
+      </div>
+    </section>
+
+    <section class="section changelog-section" aria-labelledby="changelog-title">
+      <div class="wrap">
+        <div class="sec-head tight">
+          <div><p class="sec-index">§ 04 · 更新日志</p><h2 id="changelog-title">持续扩源，记录每一次更新。</h2></div>
+        </div>
+        <div class="changelog-list">
+          <article class="changelog-item">
+            <time class="changelog-date mono" datetime="2026-09-11T20:00+08:00">2026-09-11 20:00</time>
+            <div class="changelog-content">
+              <h3>用法场景上线，UI整体优化</h3>
+              <ul><li>新增9个核心用法场景卡片，支持一键复制提示词</li><li>覆盖按公司/城市/岗位搜索、组合筛选、新岗提醒、截止提醒、汇总对比等场景</li><li>整体UI按"公告纸"风格重新设计，视觉更简洁专业</li></ul>
+            </div>
+          </article>
+          <article class="changelog-item">
+            <time class="changelog-date mono" datetime="2026-09-11T19:00+08:00">2026-09-11 19:00</time>
+            <div class="changelog-content">
+              <h3>接入指南完善</h3>
+              <ul><li>新增豆包工作、WorkBuddy、千问办公三个平台的详细接入教程</li><li>每个平台配2张操作截图，新手也能照着一步步连</li></ul>
+            </div>
+          </article>
+          <article class="changelog-item">
+            <time class="changelog-date mono" datetime="2026-09-11T17:00+08:00">2026-09-11 17:00</time>
+            <div class="changelog-content">
+              <h3>套餐规则调整</h3>
+              <ul><li>改为订阅制：从兑换日起30天有效，到期可续费</li><li>订阅期内无限次调用，不再限制每天200次</li><li>早鸟价上线：前10名29.9元/月，前50名39.9元/月</li></ul>
+            </div>
+          </article>
+          <article class="changelog-item">
+            <time class="changelog-date mono" datetime="2026-09-11T15:30+08:00">2026-09-11 15:30</time>
+            <div class="changelog-content">
+              <h3>字段归一化与筛选能力升级</h3>
+              <ul><li>新增城市、岗位大类、毕业届别、专业四个归一化字段</li><li>岗位大类优化为 15 类，技术/研发岗位从 7,450 增至 13,935</li><li>专业提取为 12 类，MCP 新增对应筛选参数</li></ul>
+              <div class="changelog-stats"><span class="chip chip-green mono">岗位 28,616</span><span class="chip chip-green mono">企业 4,006</span></div>
+            </div>
+          </article>
+          <article class="changelog-item">
+            <time class="changelog-date mono" datetime="2026-09-11T10:30+08:00">2026-09-11 10:30</time>
+            <div class="changelog-content">
+              <h3>企业总数突破 4,000 家</h3>
+              <ul><li>第一优先级 48 家高热度国内企业全部上线</li><li>第二优先级 100 家行业龙头全部上线</li><li>国内企业达 3,710 家，远超 300 家目标</li></ul>
+            </div>
+          </article>
+          <article class="changelog-item">
+            <time class="changelog-date mono" datetime="2026-09-10T16:00+08:00">2026-09-10 16:00</time>
+            <div class="changelog-content">
+              <h3>数据质量修复与筛选功能上线</h3>
+              <ul><li>修复 539 条编码异常记录</li><li>行业标签从 433 种统一为 13 类</li><li>招聘类型归一化，补齐必填字段</li></ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="referral" aria-labelledby="referral-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><p class="sec-index">§ 05 · 推荐与联系</p><h2 id="referral-title">推荐给朋友，赚取 20% 佣金。</h2></div>
+          <p class="sec-note">佣金按月结算，无上限。</p>
+        </div>
+        <div class="referral-grid">
+          <div class="card referral-card">
+            <div class="referral-copy">
+              <h3>分享你的专属链接</h3>
+              <p>朋友通过你的链接购买，你即可获得订单金额 20% 的佣金。</p>
+              <ol class="ledger-list small">
+                <li><span>01</span>朋友通过你的链接购买后，系统自动记录推荐关系。</li>
+                <li><span>02</span>佣金按月结算，联系微信领取。</li>
+                <li><span>03</span>佣金比例为订单金额的 20%，无上限。</li>
+              </ol>
+            </div>
+            <form id="distribution-form" autocomplete="off">
+              <label for="wechat-id">微信号 <span class="req">*</span></label>
+              <input type="text" id="wechat-id" required maxlength="60" placeholder="用于结算佣金">
+              <label for="referrer-name">推荐人姓名或昵称 <span class="optional">（选填）</span></label>
+              <input type="text" id="referrer-name" maxlength="40" placeholder="你的姓名或昵称">
+              <button type="submit" class="button ink full">生成分销链接<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
+              <p class="field-note">生成后自动复制到剪贴板，分享给朋友即可。</p>
+              <div id="link-result" class="link-result" hidden>
+                <p>分销链接已生成并复制，分享给朋友即可赚取佣金。</p>
+                <div id="generated-link" class="code-block mono"></div>
+              </div>
+            </form>
+          </div>
+          <div class="card contact-card">
+            <img id="wechat-qr" src="./wechat-qr.png" alt="微信二维码" width="196" height="196">
+            <h3>有任何问题，欢迎联系我</h3>
+            <p class="field-note">扫码添加微信，获取更多帮助</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section wrap" id="faq" aria-labelledby="faq-title">
+      <div><p class="sec-index">§ 06 · 常见问题</p><h2 id="faq-title">开通之前，<br>把这些说清楚。</h2></div>
+      <div class="faq-list">
+        <details><summary>购买之后，兑换码从哪里拿？</summary><p>回到原购买平台的订单交付内容或卖家发送的消息中查收。收到的是兑换码，不是 API key。卖家是否自动发货以该渠道实际设置为准，本页不会根据付款截图开通权限。</p></details>
+        <details><summary>复制提示词就一定能接通吗？</summary><p>指令会带上所选客户端需要的地址和凭证，但客户端必须支持远程 MCP 和请求头鉴权，并有相应配置权限。普通聊天页面不一定能安装连接器。保存配置也不等于已接通，需要真实工具调用验证。</p></details>
+        <details><summary>调用次数有限制吗？</summary><p>订阅期内无限次调用，同一 key 可在多个客户端共用。AI 客户端本身的账号、会员或模型费用另计。</p></details>
+        <details><summary>刷新页面之后，key 丢了怎么办？</summary><p>兑换时只生成并返回一次明文 key，系统不提供原 key 明文找回。已经保存过的，可以在本页重新校验并生成指令；完全丢失请凭订单联系原卖家处理，不要重复购买或公开自己的 key。</p></details>
+        <details><summary>是不是包含所有企业、所有岗位？</summary><p>不是。来源正在持续扩展，岗位库只返回实际收录的数据。未收录不代表企业没有招聘；“世界500强目标清单”不等于已经覆盖500家在招岗位。具体条件、状态及可投情况以原公告为准。</p></details>
+        <details><summary>手机能不能用？</summary><p>手机可以打开兑换页，但各 Agent 的连接器入口和权限不同。建议在准备使用的电脑上兑换并完成接入；不把电脑版教程直接当作手机版支持证明。</p></details>
+      </div>
+    </section>
   </main>
-  <footer class="wrap site-footer"><span>秋招岗位库 · 事实来自来源，判断保留边界。</span><a href="./guide" target="_blank" rel="noopener noreferrer">接入与隐私说明 ↗</a></footer>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <span>秋招岗位库 · 事实来自来源，判断保留边界。</span>
+      <div class="footer-links"><a href="./guide" target="_blank" rel="noopener noreferrer">接入与隐私说明<svg class="ico ico-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></a><span class="mono">2026-2027 秋招季</span></div>
+    </div>
+  </footer>
+
   <div class="modal-backdrop" id="clipboard-dialog" hidden><section class="clipboard-modal" role="dialog" aria-modal="true" aria-labelledby="clipboard-title"><h2 id="clipboard-title">浏览器未允许自动复制</h2><p>请手动全选并复制下方内容。内容可能包含私人 key，请勿截图。</p><textarea id="clipboard-fallback" readonly spellcheck="false" aria-label="待复制内容"></textarea><button class="button primary full" type="button" id="close-clipboard">已处理，关闭并清空</button></section></div>
   <noscript><div class="wrap message error">本页需要 JavaScript 才能兑换。请启用后刷新；不要把兑换码放进网址。</div></noscript>
-</body></html>
+</body>
+</html>

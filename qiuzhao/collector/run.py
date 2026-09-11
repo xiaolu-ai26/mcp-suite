@@ -221,25 +221,9 @@ class Collector:
     def run(self, source, chn_limit):
         from .ccb import collect_ccb
         from .guopin import collect_guopin
-        from .tencent import collect_tencent
-        from .bytedance import collect_bytedance
-        from .meituan import collect_meituan
-        from .netease import collect_netease_all
-        from .midea import collect_midea
-        from .mindray import collect_mindray
-        from .alibaba_headless import collect_alibaba
         previous=json.loads((self.out/'jobs.json').read_text()) if (self.out/'jobs.json').exists() else []
-        merged={j['id']:j for j in previous}; fetched=[]
-        # (name, fn, id-prefix for complete-list removal). name must match --source choices.
-        new_sources=[('tencent',lambda:collect_tencent(self),'tencent-'),
-            ('bytedance',lambda:collect_bytedance(self),'bytedance-'),
-            ('meituan',lambda:collect_meituan(self),'meituan-'),
-            ('netease',lambda:collect_netease_all(self),'netease-'),
-            ('midea',lambda:collect_midea(self),'midea-'),
-            ('mindray',lambda:collect_mindray(self),'mindray-'),
-            ('alibaba',lambda:collect_alibaba(self),'alibaba-')]
-        for name,fn in [('postal',self.postal),('chnenergy',lambda:self.chnenergy(chn_limit)),('telecom',self.telecom),('boc',self.boc),('ccb',lambda:collect_ccb(self)),('guopin',lambda:collect_guopin(self))] \
-                + [(n,f) for n,f,_ in new_sources]:
+        merged={j.get("id") or f"auto-{i}":j for i,j in enumerate(previous)}; fetched=[]
+        for name,fn in [('postal',self.postal),('chnenergy',lambda:self.chnenergy(chn_limit)),('telecom',self.telecom),('boc',self.boc),('ccb',lambda:collect_ccb(self)),('guopin',lambda:collect_guopin(self))]:
             if source not in ('all',name): continue
             try:
                 rows=fn(); fetched.extend(rows); seen={j['id'] for j in rows}
@@ -248,10 +232,8 @@ class Collector:
                     for old in merged.values():
                         if old['id'].startswith('guopin-') and old.get('source_group_key') in complete_groups and old['id'] not in seen:
                             old.update(status='removed',reviewed_at=now(),removal_reason='Absent from complete current enterprise campaign listing')
-                elif self.states.get(name,{}).get('complete'):
-                    prefix={'postal':'postal-','chnenergy':'chn-','telecom':'telecom-','boc':'boc-','ccb':'ccb-',
-                            'tencent':'tencent-','bytedance':'bytedance-','meituan':'meituan-','netease':'netease-',
-                            'midea':'midea-','mindray':'mindray-','alibaba':'alibaba-'}[name]
+                elif self.states[name]['complete']:
+                    prefix={'postal':'postal-','chnenergy':'chn-','telecom':'telecom-','boc':'boc-','ccb':'ccb-'}[name]
                     for old in merged.values():
                         if old['id'].startswith(prefix) and old['id'] not in seen:
                             old.update(status='removed',reviewed_at=now(),removal_reason='Absent from complete current public listing')
@@ -276,8 +258,7 @@ class Collector:
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--output-dir',type=Path,default=Path(__file__).resolve().parents[1]/'data')
-    p.add_argument('--source',choices=['all','postal','chnenergy','telecom','boc','ccb','guopin',
-        'tencent','bytedance','meituan','netease','midea','mindray','alibaba'],default='all');p.add_argument('--chn-limit',type=int,default=0)
+    p.add_argument('--source',choices=['all','postal','chnenergy','telecom','boc','ccb','guopin'],default='all');p.add_argument('--chn-limit',type=int,default=0)
     p.add_argument('--delay',type=float,default=1.25);a=p.parse_args();a.output_dir.mkdir(parents=True,exist_ok=True)
     logging.basicConfig(level=logging.INFO,format='%(asctime)s %(levelname)s %(message)s',handlers=[logging.FileHandler(a.output_dir/'collector.log'),logging.StreamHandler()])
     raise SystemExit(1 if Collector(a.output_dir,max(1.0,a.delay)).run(a.source,a.chn_limit) else 0)

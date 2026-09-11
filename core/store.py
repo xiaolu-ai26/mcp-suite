@@ -15,11 +15,11 @@ TZ = ZoneInfo("Asia/Shanghai")
 # sold-out message are all derived from here, so adding a product never edits the flow.
 # "expires_at" = fixed season end; "days" = N days counted from activation.
 PLANS = {
-    "qiuzhao-2026": {"product": "qiuzhao", "price_cny": 39, "daily_limit": 200,
-                     "expires_at": "2027-01-01T00:00:00+08:00",
-                     "sale_ends_at": "2027-01-01T00:00:00+08:00",
+    "qiuzhao-2026": {"product": "qiuzhao", "price_cny": 59.9, "daily_limit": 999999,
+                     "days": 30,
+                     "sale_ends_at": "2027-12-31T00:00:00+08:00",
                      "code_prefix": "QZ-", "key_prefix": "qz_",
-                     "ended_message": "该秋招季套餐已结束，请联系卖家续费。"},
+                     "ended_message": "该套餐已停售，请联系卖家续费。"},
     "bench-monthly": {"product": "bench", "price_cny": 29, "daily_limit": 200, "days": 30,
                       "sale_ends_at": "2027-12-31T00:00:00+08:00",
                       "code_prefix": "BM-", "key_prefix": "bm_",
@@ -105,9 +105,16 @@ class Store:
         prefix = PLANS[plan]["code_prefix"]
         codes = [prefix + secrets.token_hex(CODE_BODY // 2).upper() for _ in range(count)]
         with self.connect() as db:
-            db.executemany("INSERT INTO redemption_codes(code_hash,plan,created_at) VALUES(?,?,?)",
-                           [(digest(c), plan, now().isoformat()) for c in codes])
+            db.executemany("INSERT INTO redemption_codes(code_hash,plan,created_at,code_plain) VALUES(?,?,?,?)",
+                           [(digest(c), plan, now().isoformat(), c) for c in codes])
         return codes
+
+    def delete_code(self, code_hash: str) -> bool:
+        """删除未兑换的兑换码。已兑换的不能删。"""
+        with self.connect() as db:
+            cur = db.execute("DELETE FROM redemption_codes WHERE code_hash=? AND redeemed_at IS NULL",
+                           (code_hash,))
+            return cur.rowcount > 0
 
     def redeem(self, code: str) -> dict:
         code = code.strip().upper()
