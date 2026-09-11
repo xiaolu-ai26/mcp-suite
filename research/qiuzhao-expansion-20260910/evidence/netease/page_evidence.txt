@@ -1,0 +1,53 @@
+=== 网易校招导航API证据 ===
+URL: https://campus.163.com/api/campuspc/project/navigation/list
+返回所有校招项目入口:
+- 网易互娱2027届校园招聘: https://campus.game.163.com/app/job/position?id=102
+- 网易游戏雷火2027届校园招聘: https://leihuo.163.com/campus/#/full?channel=iSfFmJe
+- 网易互联网2027届校园招聘: https://campus.163.com/app/job/position?id=103
+- 星火计划2027届人力资源培训生: https://campus.163.com/app/talents/stars
+- 蛋仔派对AI实习生专项: https://campus.game.163.com/app/job/position?id=75
+- 日常实习生: https://hr.163.com/job-list.html?workType=1
+
+=== 网易互联网校招岗位列表页证据 ===
+URL: https://campus.163.com/app/job/position?id=103
+采集时间: 2026-09-10
+页面标题: 网易校园招聘
+
+关键内容:
+- 项目: 网易互联网2027届校园招聘 (projectId=103)
+- 岗位列表(10个，到底啦~):
+  1. 市场管理培训生-网易有道 | 市场 | 北京
+  2. 全栈开发工程师-网易有道 | 技术 | 北京
+  3. 语音交互算法工程师-网易有道 | 人工智能 | 杭州、北京
+  4. AI Agent 应用开发工程师-网易有道 | 技术 | 北京
+  5. AI全栈工程师（数据方向）-网易有道 | 技术 | 北京
+  6. 算法应用工程师-网易有道 | 技术 | 北京
+  7. AI infra工程师（C++）-网易有道 | 技术 | 杭州、北京
+  8. 大模型算法工程师-网易有道 | 人工智能 | 杭州、北京
+  9. 计算机视觉/多模态大模型算法工程师-网易有道 | 人工智能 | 杭州、北京
+  10. 内容极客专项-市场营销 | 市场 | 杭州
+
+=== 网易雷火校招岗位(补充) ===
+URL: https://leihuo.163.com/campus/#/full?channel=iSfFmJe
+- 27届应届校招，工作地点: 杭州
+- 职位类别: 技术, 游戏策划, 艺术/设计, 人工智能, 综合, UX用户体验
+- 分页: 1-7页
+- 网申截止: 10月15日
+- 岗位: 虚拟世界架构师(游戏战斗/关卡/数值/任务策划), 场景原画设计师, 游戏研发工程师(客户端/服务端), 游戏智能测试工程师等
+
+=== 岗位详情页URL模式 ===
+https://campus.163.com/app/detail/index?id={numeric_id}
+样例:
+- AI Agent 应用开发工程师-网易有道: https://campus.163.com/app/detail/index?id=4858
+
+=== API端点 ===
+- GET https://campus.163.com/api/campuspc/position/getJobList?pageSize=10&currentPage=1&projectId=103&timeStamp={ts} (岗位列表)
+- GET https://campus.163.com/api/campuspc/project/navigation/list?timeStamp={ts} (项目导航)
+- GET https://campus.163.com/api/campuspc/project/banner?projectId=103&timeStamp={ts} (项目Banner)
+
+=== 官方归属 ===
+- 企业官网: https://www.163.com/ / https://netease.im/
+- 招聘域名: campus.163.com (163.com子域名)
+- 页脚: © 1997-2026 网易公司版权所有 | 浙ICP备17006647号-2
+- 雷火域: leihuo.163.com (163.com子域名)
+- 互娱域: campus.game.163.com (163.com子域名)

@@ -1,0 +1,60 @@
+
+tests/test_core.py:128: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <core.store.Store object at 0x109455010>, count = 1
+plan = 'bench-monthly'
+
+    def generate_codes(self, count: int, plan: str = "qiuzhao-2026") -> list[str]:
+        if plan not in PLANS or not 1 <= count <= 10000:
+            raise ValueError("未知套餐或数量超出范围")
+        if now() >= datetime.fromisoformat(PLANS[plan]["sale_ends_at"]):
+            raise ValueError("套餐已结束，不能生成兑换码")
+        prefix = PLANS[plan]["code_prefix"]
+        codes = [prefix + secrets.token_hex(CODE_BODY // 2).upper() for _ in range(count)]
+        with self.connect() as db:
+>           db.executemany("INSERT INTO redemption_codes(code_hash,plan,created_at,code_plain) VALUES(?,?,?,?)",
+                           [(digest(c), plan, now().isoformat(), c) for c in codes])
+E           sqlite3.OperationalError: table redemption_codes has no column named code_plain
+
+/Users/maxzhl/Projects/mcp-suite/research/qiuzhao-doubao-fix-20260911/live-baseline/core/store.py:108: OperationalError
+______________________ test_quota_message_uses_plan_limit ______________________
+
+store = <core.store.Store object at 0x109546d50>
+
+    def test_quota_message_uses_plan_limit(store):
+>       token = store.redeem(store.generate_codes(1, 'bench-monthly')[0])['api_key']
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_core.py:140: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <core.store.Store object at 0x109546d50>, count = 1
+plan = 'bench-monthly'
+
+    def generate_codes(self, count: int, plan: str = "qiuzhao-2026") -> list[str]:
+        if plan not in PLANS or not 1 <= count <= 10000:
+            raise ValueError("未知套餐或数量超出范围")
+        if now() >= datetime.fromisoformat(PLANS[plan]["sale_ends_at"]):
+            raise ValueError("套餐已结束，不能生成兑换码")
+        prefix = PLANS[plan]["code_prefix"]
+        codes = [prefix + secrets.token_hex(CODE_BODY // 2).upper() for _ in range(count)]
+        with self.connect() as db:
+>           db.executemany("INSERT INTO redemption_codes(code_hash,plan,created_at,code_plain) VALUES(?,?,?,?)",
+                           [(digest(c), plan, now().isoformat(), c) for c in codes])
+E           sqlite3.OperationalError: table redemption_codes has no column named code_plain
+
+/Users/maxzhl/Projects/mcp-suite/research/qiuzhao-doubao-fix-20260911/live-baseline/core/store.py:108: OperationalError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_core.py::test_jobs_preserve_facts_and_deadline_order
+PASSED tests/test_core.py::test_role_cohort_overrides_campaign_title
+PASSED tests/test_core.py::test_bench_returns_links_tags_and_no_body
+FAILED tests/test_core.py::test_atomic_redemption - sqlite3.OperationalError:...
+FAILED tests/test_core.py::test_atomic_daily_limit - sqlite3.OperationalError...
+FAILED tests/test_core.py::test_expiry_product_and_invalid - sqlite3.Operatio...
+FAILED tests/test_core.py::test_midnight_resets_and_handshake_free - sqlite3....
+FAILED tests/test_core.py::test_qiuzhao_code_and_key_format_unchanged - sqlit...
+FAILED tests/test_core.py::test_bench_plan_is_thirty_days_from_activation - s...
+FAILED tests/test_core.py::test_quota_message_uses_plan_limit - sqlite3.Opera...
+7 failed, 3 passed in 0.08s

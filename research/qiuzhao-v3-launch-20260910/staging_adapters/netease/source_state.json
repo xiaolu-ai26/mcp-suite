@@ -1,0 +1,32 @@
+{
+  "netease": {
+    "status": "success",
+    "checked_at": "2026-09-10T20:26:03+08:00",
+    "project_id": 103,
+    "campaign": "网易2027校园招聘",
+    "expected_total": 77,
+    "collected_jobs": 50,
+    "unique_source_ids": 50,
+    "total_pages": 2,
+    "pages_scanned": 1,
+    "complete": false,
+    "errors": [],
+    "api_url": "https://campus.163.com/api/campuspc/position/getJobList",
+    "listing_url": "https://campus.163.com/campus/position"
+  },
+  "netease-huyu": {
+    "status": "success",
+    "checked_at": "2026-09-10T20:26:04+08:00",
+    "project_id": 102,
+    "campaign": "网易互娱2027校园招聘",
+    "expected_total": 53,
+    "collected_jobs": 50,
+    "unique_source_ids": 50,
+    "total_pages": 2,
+    "pages_scanned": 1,
+    "complete": false,
+    "errors": [],
+    "api_url": "https://campus.163.com/api/campuspc/position/getJobList",
+    "listing_url": "https://campus.163.com/campus/position"
+  }
+}

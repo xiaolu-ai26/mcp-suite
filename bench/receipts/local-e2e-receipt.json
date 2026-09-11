@@ -1,0 +1,52 @@
+{
+  "redemption": {
+    "status": 200,
+    "product": "bench",
+    "valid_through": "2026-10-10",
+    "daily_limit": 200,
+    "note": "新建隔离测试码兑换成功，30天从兑换时刻起算"
+  },
+  "single_use": "second redemption HTTP 400",
+  "cross_product_code": {
+    "status": 400,
+    "message": "兑换码无效，请检查输入。",
+    "code_not_burned": true
+  },
+  "no_key": "HTTP 401",
+  "tools": {
+    "names": [
+      "bench_detail",
+      "bench_search",
+      "bench_taxonomy"
+    ],
+    "search_total": 37,
+    "search_sample_id": "xhs-6a74090800000000080106c9",
+    "search_sample_url": "https://www.xiaohongshu.com/explore/6a74090800000000080106c9?xsec_token=ABiVsOP0m0GNlBKGaM7L42DOAtvfmZtYFMkBNEwX75R20=&xsec_source=pc_search",
+    "search_sample_title": "ai/agent盛行这两年，到底谁最赚钱啊🤔",
+    "detail_found": true,
+    "taxonomy_total": 485,
+    "taxonomy_topics": 13,
+    "taxonomy_formulas": 17,
+    "empty_result_suggestion": true,
+    "data_as_of": "2026-09-03"
+  },
+  "response_shape": "返回中无 transcript/ocr_text/like_count/author_followers/图片直链",
+  "quota": {
+    "before": 200,
+    "after_initialize_and_list": 200,
+    "after_four_tool_calls": 196
+  },
+  "expired_key": {
+    "status": 403,
+    "message": "API key 已过期，请联系卖家续费并兑换新的 key。"
+  },
+  "wrong_product_key": {
+    "status": 403,
+    "message": "当前 API key 没有该产品权限，请联系卖家开通。"
+  },
+  "health": {
+    "status": "ok",
+    "records": 485,
+    "data_as_of": "2026-09-03"
+  }
+}

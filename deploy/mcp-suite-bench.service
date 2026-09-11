@@ -1,0 +1,26 @@
+[Unit]
+Description=MCP Suite viral breakdown library service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mcp-suite
+Group=mcp-suite
+WorkingDirectory=/opt/mcp-suite
+Environment=MCP_PRODUCT=bench
+Environment=MCP_DB_PATH=/var/lib/mcp-suite/access.sqlite3
+Environment=MCP_BENCH_PATH=/var/lib/mcp-suite/bench.json
+Environment=MCP_PUBLIC_BASE_URL=https://savegems.top/bench
+ExecStart=/opt/mcp-suite/.venv/bin/uvicorn core.server:app --host 127.0.0.1 --port 8769 --no-access-log --proxy-headers --forwarded-allow-ips=127.0.0.1
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/mcp-suite
+
+[Install]
+WantedBy=multi-user.target

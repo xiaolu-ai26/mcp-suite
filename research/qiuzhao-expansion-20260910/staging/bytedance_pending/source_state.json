@@ -1,0 +1,19 @@
+{
+  "bytedance": {
+    "status": "success",
+    "checked_at": "2026-09-10T12:00:25+08:00",
+    "expected_total": 10000,
+    "api_cap_note": "API returns max 10000 results; actual total may exceed cap",
+    "collected_jobs": 10000,
+    "unique_source_ids": 10000,
+    "campus_jobs_in_sample": 0,
+    "total_jobs_scanned": 10000,
+    "pages_scanned": 100,
+    "last_offset": 9900,
+    "complete": true,
+    "campus_only_filter": false,
+    "errors": [],
+    "api_url": "https://jobs.bytedance.com/api/v1/search/job/posts",
+    "listing_url": "https://jobs.bytedance.com/campus/position"
+  }
+}

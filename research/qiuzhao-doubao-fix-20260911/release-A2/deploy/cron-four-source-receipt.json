@@ -1,0 +1,48 @@
+{
+  "completed_runs": [
+    {
+      "updated_at": "2026-09-10T01:31:34+08:00",
+      "run_finished_at": "2026-09-10T01:31:34+08:00",
+      "job_count": 3094,
+      "status_counts": {
+        "open": 3084,
+        "expired": 0,
+        "unverified": 10,
+        "removed": 0
+      },
+      "group_count": 4,
+      "named_recruiting_entity_count": 282,
+      "distinct_source_urls": 3081,
+      "refreshed_jobs": 3094,
+      "added_jobs": 0,
+      "alerts_count": 0,
+      "counting_note": "One original role ID per record; no city multiplication; named recruiting entities are publisher labels, not independent legal verification."
+    },
+    {
+      "updated_at": "2026-09-10T06:46:41+08:00",
+      "run_finished_at": "2026-09-10T06:46:42+08:00",
+      "job_count": 3094,
+      "status_counts": {
+        "open": 3084,
+        "expired": 0,
+        "unverified": 10,
+        "removed": 0
+      },
+      "group_count": 4,
+      "named_recruiting_entity_count": 282,
+      "distinct_source_urls": 3081,
+      "refreshed_jobs": 3094,
+      "added_jobs": 0,
+      "alerts_count": 0,
+      "counting_note": "One original role ID per record; no city multiplication; named recruiting entities are publisher labels, not independent legal verification."
+    }
+  ],
+  "current_cron_status": {
+    "success": true,
+    "completed_at": "2026-09-09T22:46:42.214685+00:00"
+  },
+  "current_alerts": {
+    "run_finished_at": "2026-09-10T06:46:42+08:00",
+    "alerts": []
+  }
+}

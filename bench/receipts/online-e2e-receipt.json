@@ -1,0 +1,68 @@
+{
+  "base": "https://savegems.top/bench",
+  "health": {
+    "status": "ok",
+    "records": 485,
+    "data_as_of": "2026-09-03"
+  },
+  "redemption": {
+    "status": 200,
+    "product": "bench",
+    "valid_through": "2026-10-10",
+    "daily_limit": 200,
+    "mcp_url": "https://savegems.top/bench/mcp",
+    "guide_url": "https://savegems.top/bench/guide"
+  },
+  "single_use": "second redemption HTTP 400",
+  "no_key_and_bad_key": {
+    "no_key": 401,
+    "invalid_key": 401,
+    "message": "API key 无效或已停用，请检查接入配置。"
+  },
+  "tools": {
+    "names": [
+      "bench_detail",
+      "bench_search",
+      "bench_taxonomy"
+    ],
+    "search_total": 32,
+    "sample": {
+      "id": "xhs-6a74090800000000080106c9",
+      "title": "ai/agent盛行这两年，到底谁最赚钱啊🤔",
+      "url": "https://www.xiaohongshu.com/explore/6a74090800000000080106c9?xsec_token=ABiVsOP0m0GNlBKGaM7L42DOAtvfmZtYFMkBNEwX75R20=&xsec_source=pc_search",
+      "topic_category": "AI变现",
+      "title_formula": "反焦虑真诚搞钱",
+      "follower_band": "0-1k",
+      "breakout_level": "强",
+      "observed_at": "2026-08-10"
+    },
+    "taxonomy_total": 485,
+    "taxonomy_dimensions": [
+      "breakout_level",
+      "content_angle",
+      "cover_hook",
+      "follower_band",
+      "note_type",
+      "platform",
+      "source_batch",
+      "title_formula",
+      "topic_category"
+    ],
+    "detail_found": true,
+    "data_as_of": "2026-09-03"
+  },
+  "quota": {
+    "before": 200,
+    "after_initialize_and_list": 200,
+    "after_three_tools": 197
+  },
+  "expired_key": {
+    "status": 403,
+    "message": "API key 已过期，请联系卖家续费并兑换新的 key。"
+  },
+  "claude_test_key": {
+    "file": "private/bench-claude-test-key.txt (0600)",
+    "valid_through": "2026-10-10",
+    "note": "独立测试 key，不占用 50 个备货码"
+  }
+}

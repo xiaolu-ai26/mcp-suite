@@ -1,0 +1,40 @@
+{
+  "base": "https://savegems.top/qiuzhao",
+  "purpose": "core 泛化后秋招回归：已发出格式的 QZ- 码仍被接受，线上工具调用仍正常",
+  "health": {
+    "status": "ok",
+    "jobs": 9191,
+    "data_as_of": "2026-09-10T10:32:38+08:00"
+  },
+  "redemption": {
+    "status": 200,
+    "product": "qiuzhao",
+    "valid_through": "2026-12-31",
+    "expires_at": "2027-01-01T00:00:00+08:00",
+    "daily_limit": 200,
+    "note": "QZ- 前缀 35 位格式仍被接受，key 仍为 qz_ 前缀，有效期仍为固定秋招季"
+  },
+  "cross_product_rejected": {
+    "status": 400,
+    "message": "兑换码无效，请检查输入。"
+  },
+  "tools": {
+    "names": [
+      "jobs_deadlines",
+      "jobs_detail",
+      "jobs_search"
+    ],
+    "jobs_search_total": 9191,
+    "sample_id": "guopin-217492741108532502",
+    "sample_source_url": "https://www.iguopin.com/job/detail?id=217492741108532502",
+    "data_as_of": "2026-09-10T10:32:38+08:00"
+  },
+  "quota": {
+    "before": 200,
+    "after_one_tool": 199
+  },
+  "regression_key_revoked": {
+    "status": 401,
+    "message": "API key 无效或已停用，请检查接入配置。"
+  }
+}

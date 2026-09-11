@@ -1,0 +1,75 @@
+{
+  "checked_at": "2026-09-10T14:55:00+08:00",
+  "method": "在 Max 本机已登录的 Chrome 中逐条实际打开库内 url，读取页面标题/正文对照库内标题与标签；未调用任何平台 API，未把页面内容写回产品库",
+  "samples": [
+    {
+      "n": 1,
+      "id": "xhs-680b3558000000000703782f",
+      "source_batch": "low_follower_viral_2026-06",
+      "title_in_db": "有没有碰到的小伙伴出来吱个声？",
+      "url_form": "xiaohongshu.com/explore/<id>?xsec_token=…&xsec_source=pc_search",
+      "result": "打不开",
+      "evidence": "跳转 /404，error_code=300031「Sorry, This Page Isn't Available Right Now. 请打开小红书App扫码查看」",
+      "title_match": "无法核对",
+      "note": "300031 无法区分「笔记已删除」与「链接时效参数已失效」"
+    },
+    {
+      "n": 2,
+      "id": "xhs-6a62f75d000000000f013e00",
+      "source_batch": "viral_radar",
+      "title_in_db": "可以没有男人，不能没有ClaudeClaude",
+      "url_form": "xiaohongshu.com/explore/<id>?xsec_token=…&xsec_source=pc_search",
+      "result": "打不开",
+      "evidence": "跳转 /404?source=note&errorCode=-510001",
+      "title_match": "无法核对"
+    },
+    {
+      "n": 3,
+      "id": "xhs-6a79d03400000000330097f3",
+      "source_batch": "benchmark_library",
+      "title_in_db": "AI 时代的 Agent 使用指南（邪修版）",
+      "url_form": "xhslink.cn 短链",
+      "result": "打开成功",
+      "evidence": "短链换发新 xsec_token 后正常渲染，页面标题「AI 时代的 Agent 使用指南（邪修版） - 小红书」",
+      "title_match": "完全一致",
+      "tag_check": "库内标 AI教程/教程型/保姆级教程承诺；正文确为 Agent 五层框架使用指南，与标签相符"
+    },
+    {
+      "n": 4,
+      "id": "ref-2fd3f1c812d5",
+      "source_batch": "benchmark_library",
+      "title_in_db": "Claude just killed ad agencies — add Meta Ads as a custom MCP connector (maverickgpt)",
+      "url_form": "tiktok.com/@user/video/<id>",
+      "result": "打开成功",
+      "evidence": "视频正常播放，画面字幕「Claude just killed ad agencies」，页面标题含 “Comment \"Meta\" and I'll send you the full guide”",
+      "title_match": "一致",
+      "tag_check": "库内标 AI自动化/案例型/反差结果展示；内容为把 Meta Ads 接成 MCP 连接器的自动化演示，相符"
+    },
+    {
+      "n": 5,
+      "id": "ref-d85e434535ad",
+      "source_batch": "benchmark_library",
+      "title_in_db": "",
+      "url_form": "v.douyin.com 短链",
+      "result": "打开成功",
+      "evidence": "跳转 douyin.com/video/7667501595546180473，作者 nana娜娜呀（与来源表记录的作者一致），视频标题「6个skill立刻实现Codex做视频全流程」，页面显示发布时间 2026-07-28",
+      "title_match": "库内该条为 url_only（原表无标题，按红线不编造），无标题可对；发布日期 2026-07-28 与库内 published_at 完全一致",
+      "tag_check": "该条按 url_only 未打标签，无标签可核"
+    }
+  ],
+  "control_experiments": [
+    "对照 1：已确认存活的笔记 6a79d034…（短链可正常打开）改用无 token 的 explore 链接访问 → 同样 300031。说明 300031 不等于笔记已删除，而是缺少有效时效参数。",
+    "对照 2：同一条存活笔记 + 另一条记录的 xsec_token → 300031。说明 token 与笔记绑定且会失效。",
+    "对照 3：http://xhslink.com/o/2xN6ydkze67（较早的 .com 短链，内嵌 apptime=1780057829 的旧 token）→ 300031。说明短链也分两种：换发新 token 的可用，内嵌旧 token 的不可用。"
+  ],
+  "library_link_forms": {
+    "xiaohongshu_长链_带xsec_token": 439,
+    "xhslink_短链": 27,
+    "抖音": 8,
+    "TikTok": 3,
+    "视频号": 6,
+    "公众号": 1,
+    "其他(X)": 1
+  },
+  "conclusion": "抖音/TikTok 及换发 token 的 xhslink 短链实测可直接打开；占库内 90% 的小红书长链因时效参数失效，2026-09-10 在已登录浏览器中均无法直接渲染，需在小红书 App 内按原标题搜索。该结论已写入产品返回的 link_note 字段、兑换页常见问题与接入指南，未隐瞒。"
+}

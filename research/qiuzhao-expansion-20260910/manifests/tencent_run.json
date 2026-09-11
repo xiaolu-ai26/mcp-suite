@@ -1,0 +1,58 @@
+{
+  "adapter": "tencent",
+  "run_started_at": "2026-09-10T11:55:24+08:00",
+  "run_finished_at": "2026-09-10T11:55:24+08:00",
+  "api_endpoint": "https://join.qq.com/api/v1/position/searchPosition",
+  "pagination": {
+    "type": "pageIndex/pageSize",
+    "page_size": 100
+  },
+  "expected_total": 814,
+  "collected_jobs": 814,
+  "unique_source_ids": 814,
+  "total_pages": 9,
+  "pages_scanned": 9,
+  "complete": true,
+  "errors": [],
+  "sample_verification": {
+    "first_page": {
+      "id": "tencent-1282707398326592512",
+      "title": "AI全栈工程师",
+      "cities": [
+        "深圳",
+        "北京",
+        "上海",
+        "广州",
+        "成都",
+        "杭州"
+      ],
+      "url": "https://join.qq.com/post_detail.html?postid=1282707398326592512"
+    },
+    "middle_page": {
+      "id": "tencent-1282064456142398464",
+      "title": "微信小微主动推荐 - 主动智能与持续学习 Agent 研究",
+      "cities": [
+        "广州"
+      ],
+      "url": "https://join.qq.com/post_detail.html?postid=1282064456142398464"
+    },
+    "last_page": {
+      "id": "tencent--6",
+      "title": "项目实习生-职能",
+      "cities": [
+        "深圳",
+        "北京",
+        "上海",
+        "广州",
+        "成都"
+      ],
+      "url": "https://join.qq.com/post_detail.html?postid=-6"
+    }
+  },
+  "field_mapping_note": "postId -> source_record_id; positionTitle -> job_title; workCities -> cities; positionFamily -> job_category; bgs -> recruiting_unit_raw",
+  "known_limitations": [
+    "API returns both campus and intern positions; no explicit campus filter parameter found",
+    "Job description not available in list API; would require detail page scraping for full description",
+    "Deadline not disclosed in list API"
+  ]
+}

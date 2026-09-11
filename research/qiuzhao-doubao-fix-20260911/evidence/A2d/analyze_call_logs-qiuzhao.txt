@@ -1,0 +1,112 @@
+调用日志分析：evidence/A2d/call_logs-release-A2d-qiuzhao（文件 1 个，有效行 29，坏行 0）
+时间范围：2026-09-11T22:35:19.922+08:00 — 2026-09-11T22:35:34.968+08:00；不同 user_ref 2 个；结果 {'ok': 24, 'error': 5}
+
+== 按天调用量 ==
+日期              调用    成功    失败
+2026-09-11      29    24     5
+
+== 按工具 ==
+产品/工具                         调用    成功    失败   p50ms   p95ms  错误类型
+qiuzhao/jobs_search           24    19     5     467     550  invalid_arguments×5
+qiuzhao/jobs_deadlines         4     4     0     366     394  -
+qiuzhao/jobs_detail            1     1     0     409     409  -
+
+== 按客户端（UA）==
+    22  doubao-fix-harness/1.0
+     1  DoubaoWork/9.9 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+     1  TruncUA/1.0 uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
+     1  LongArgUA/1.0
+     1  BoundsUA/1.0
+     1  RefUA/a1
+     1  RefUA/a2
+     1  RefUA/b1
+
+== 参数名出现频率（占该工具调用次数的比例）==
+qiuzhao/jobs_search（24 次调用）
+  limit                   20    83.3%
+  graduation_year          9    37.5%
+  keyword                  6    25.0%
+  city                     5    20.8%
+  job_category             4    16.7%
+  cohort                   2     8.3%
+  company                  2     8.3%
+  industry                 2     8.3%
+  major_category           2     8.3%
+  region                   2     8.3%
+  major                    1     4.2%
+  recruitment_type         1     4.2%
+  api_key                  1     4.2%
+qiuzhao/jobs_detail（1 次调用）
+  id                       1   100.0%
+qiuzhao/jobs_deadlines（4 次调用）
+  offset                   2    50.0%
+  limit                    1    25.0%
+
+== 热门参数值（每个参数取前 N 个，N 见 --top）==
+qiuzhao/jobs_search · limit
+      16  1
+       1  5
+       1  100
+       1  101
+       1  3
+qiuzhao/jobs_search · graduation_year
+       4  2027
+       1  (null)
+       1  2027届
+       1   2027 届 
+       1  2027年
+       1  2030届
+qiuzhao/jobs_search · keyword
+       1  (null)
+       1     
+       1  ARGMARK产品值9f3c
+       1  产品
+       1  ARGMARK长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长…
+       1  ["k0-vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv…
+qiuzhao/jobs_search · city
+       3  (null)
+       1   北京 
+       1  {"c0": 0, "c1": 1, "c2": 2, "c3": 3, "c4": 4, "c5": 5, "c6":…
+qiuzhao/jobs_search · job_category
+       2  产品
+       1  (null)
+       1  产品经理
+qiuzhao/jobs_search · cohort
+       1  (null)
+       1  2027
+qiuzhao/jobs_search · company
+       1  (null)
+       1  见 [redacted] 或 [redacted] 或 [redacted]
+qiuzhao/jobs_search · industry
+       1  (null)
+       1  互联网/科技
+qiuzhao/jobs_search · major_category
+       1  (null)
+       1  计算机类
+qiuzhao/jobs_search · region
+       1  (null)
+       1  北京
+qiuzhao/jobs_search · major
+       1  (null)
+qiuzhao/jobs_search · recruitment_type
+       1  (null)
+qiuzhao/jobs_search · api_key
+       1  [redacted]
+qiuzhao/jobs_detail · id
+       1  guopin-216471935930860193
+qiuzhao/jobs_deadlines · offset
+       1  0
+       1  10
+qiuzhao/jobs_deadlines · limit
+       1  20
+
+== 零结果比例（成功且能取到条数的调用）==
+全部                             1/24        4.2%
+qiuzhao/jobs_deadlines         0/4         0.0%
+qiuzhao/jobs_detail            0/1         0.0%
+qiuzhao/jobs_search            1/19        5.3%
+
+== 同一 user_ref 在 60 秒内用相同参数重复调用 ==
+重复次数合计：3（涉及 1 组；无 user_ref 的调用 0 次，未计入）
+user_ref      产品/工具                      调用   重复     最长连发  UA | 参数
+13567fba67dc  qiuzhao/jobs_search         4    3        4  doubao-fix-harness/1.0 | {"limit": 1}

@@ -1,0 +1,54 @@
+{
+  "expansion_target": "阿里巴巴业务集团独立校招站采集",
+  "probed_at": "2026-09-10T18:20:00+08:00",
+  "conclusion": "阿里巴巴2027届校招为统一批次（campus-talent.alibaba.com, batchId=100000760001「阿里巴巴2027届应届生」），全部477个岗位已在 batch_alibaba.json 中采集，并通过 circleNames 字段按业务集团打标。用户假设的各业务集团独立招聘站均不存在为可独立采岗的API：候选子域要么DNS/连接失败，要么返回模板占位页，要么是品牌落地页且回链统一门户。未发现任何可新增2027届校招JD的独立源，故 jobs_added=0，不编造数据。",
+  "unified_portal_already_collected": {
+    "url": "https://campus-talent.alibaba.com/campus/position?batchId=100000760001",
+    "batchId": "100000760001",
+    "batchName": "阿里巴巴2027届应届生",
+    "jobs_total": 477,
+    "jobs_already_in": "batch_alibaba.json",
+    "bu_coverage_via_circleNames": {
+      "阿里云": 129,
+      "阿里巴巴控股集团": 90,
+      "Token Foundry": 76,
+      "淘天集团": 70,
+      "阿里国际数字商业集团": 66,
+      "虎鲸文娱集团": 52,
+      "灵犀互娱": 42,
+      "千问办公(钉钉)": 34,
+      "平头哥": 32,
+      "千问事业部": 28,
+      "淘宝闪购(本地生活)": 17,
+      "盒马": 17,
+      "高德地图": 12,
+      "飞猪": 10,
+      "阿里健康": 9
+    }
+  },
+  "candidate_sites": [
+    {"bu": "阿里云", "url": "https://campus.aliyun.com", "http": "000", "verdict": "blocked", "note": "DNS/连接失败，无此独立校招站；阿里云岗位已在统一批次中(129个, circleNames=阿里云)"},
+    {"bu": "阿里云", "url": "https://talent.aliyun.com", "http": "000", "verdict": "blocked", "note": "DNS/连接失败"},
+    {"bu": "淘宝/天猫", "url": "https://talent.taobao.com", "http": "302", "verdict": "blocked", "note": "302跳转到 err.taobao.com/error1.html，无独立校招站；淘天集团岗位已在统一批次(70个)"},
+    {"bu": "钉钉", "url": "https://talent.dingtalk.com", "http": "200", "verdict": "landing_template", "note": "返回占位模板页 'Index of Template Application'(8KB)，无职位列表API；钉钉岗位以'千问办公'纳入统一批次(34个)"},
+    {"bu": "钉钉", "url": "https://campus.dingtalk.com", "http": "000", "verdict": "blocked", "note": "DNS/连接失败"},
+    {"bu": "菜鸟", "url": "https://campus.cainiao.com", "http": "000", "verdict": "blocked", "note": "DNS/连接失败"},
+    {"bu": "菜鸟", "url": "https://talent.cainiao.com", "http": "200", "verdict": "brand_landing", "note": "品牌营销落地页(菜鸟招聘官网)，页脚明示'阿里巴巴集团招聘官网'，无独立职位列表API/无/api调用，校园招聘按钮回链统一门户；统一批次内无菜鸟专属岗位tag(关键词0命中)"},
+    {"bu": "本地生活(饿了么)", "url": "https://campus.ele.me", "http": "404", "verdict": "blocked", "note": "404 无此站"},
+    {"bu": "本地生活(饿了么)", "url": "https://talent.ele.me", "http": "200", "verdict": "landing_template", "note": "返回占位模板页 'Index of Template Application'(8KB)，无职位列表API；本地生活岗位以'淘宝闪购/饿了么'纳入统一批次"},
+    {"bu": "大文娱(优酷)", "url": "https://campus.youku.com", "http": "000", "verdict": "blocked", "note": "DNS/连接失败；大文娱岗位以'虎鲸文娱集团'纳入统一批次(52个)"},
+    {"bu": "阿里游戏", "url": "https://campus.alibabagames.com", "http": "000", "verdict": "blocked", "note": "DNS/连接失败；游戏岗位以'灵犀互娱'纳入统一批次(42个)"}
+  ],
+  "jobs_added": 0,
+  "qualified_added": 0,
+  "blocked_sites": [
+    "campus.aliyun.com", "talent.aliyun.com", "talent.taobao.com",
+    "campus.dingtalk.com", "campus.cainiao.com", "campus.ele.me",
+    "campus.youku.com", "campus.alibabagames.com"
+  ],
+  "notes": [
+    "未绕过登录/验证码，未伪造JD正文，未用社招凑校招",
+    "菜鸟在统一批次中无独立BU tag；如后续菜鸟开启独立校招批次(batchId)需重新探测",
+    "BU字段(recruiting_unit_raw)在既有477条中为空，如需按BU拆分展示，可基于 circleNames 回填，属数据加工而非新增采集"
+  ]
+}

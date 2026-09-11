@@ -1,0 +1,12 @@
+=== node tests/test_templates.cjs (run at 2026-09-10 13:53:11 +0800) ===
+PASS eight client profiles, unique ids
+PASS Qwen uses streamable-http JSON and actual header
+PASS WorkBuddy and Claude Code use HTTP JSON
+PASS Codex is TOML, not generic JSON
+PASS Hermes uses mcp_servers YAML
+PASS OpenClaw is outgoing client registry
+PASS Doubao uses actual fields without unverified JSON format
+PASS all prompts include token, endpoint, tests, and no assumed success
+PASS JSON serialization escapes untrusted characters
+{"template_tests_passed":9}
+EXIT=0

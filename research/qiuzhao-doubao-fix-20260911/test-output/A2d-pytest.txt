@@ -1,0 +1,253 @@
+FFFF..FFF...............................                                 [100%]
+=================================== FAILURES ===================================
+____________________________ test_atomic_redemption ____________________________
+
+store = <core.store.Store object at 0x10b695400>
+
+    def test_atomic_redemption(store):
+>       code = store.generate_codes(1)[0]
+               ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_core.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <core.store.Store object at 0x10b695400>, count = 1
+plan = 'qiuzhao-2026'
+
+    def generate_codes(self, count: int, plan: str = "qiuzhao-2026") -> list[str]:
+        if plan not in PLANS or not 1 <= count <= 10000:
+            raise ValueError("未知套餐或数量超出范围")
+        if now() >= datetime.fromisoformat(PLANS[plan]["sale_ends_at"]):
+            raise ValueError("套餐已结束，不能生成兑换码")
+        prefix = PLANS[plan]["code_prefix"]
+        codes = [prefix + secrets.token_hex(CODE_BODY // 2).upper() for _ in range(count)]
+        with self.connect() as db:
+>           db.executemany("INSERT INTO redemption_codes(code_hash,plan,created_at,code_plain) VALUES(?,?,?,?)",
+                           [(digest(c), plan, now().isoformat(), c) for c in codes])
+E           sqlite3.OperationalError: table redemption_codes has no column named code_plain
+
+core/store.py:108: OperationalError
+___________________________ test_atomic_daily_limit ____________________________
+
+store = <core.store.Store object at 0x10b694c20>
+
+    def test_atomic_daily_limit(store):
+>       token = store.redeem(store.generate_codes(1)[0])['api_key']
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_core.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <core.store.Store object at 0x10b694c20>, count = 1
+plan = 'qiuzhao-2026'
+
+    def generate_codes(self, count: int, plan: str = "qiuzhao-2026") -> list[str]:
+        if plan not in PLANS or not 1 <= count <= 10000:
+            raise ValueError("未知套餐或数量超出范围")
+        if now() >= datetime.fromisoformat(PLANS[plan]["sale_ends_at"]):
+            raise ValueError("套餐已结束，不能生成兑换码")
+        prefix = PLANS[plan]["code_prefix"]
+        codes = [prefix + secrets.token_hex(CODE_BODY // 2).upper() for _ in range(count)]
+        with self.connect() as db:
+>           db.executemany("INSERT INTO redemption_codes(code_hash,plan,created_at,code_plain) VALUES(?,?,?,?)",
+                           [(digest(c), plan, now().isoformat(), c) for c in codes])
+E           sqlite3.OperationalError: table redemption_codes has no column named code_plain
+
+core/store.py:108: OperationalError
+_______________________ test_expiry_product_and_invalid ________________________
+
+store = <core.store.Store object at 0x10b68b5c0>
+
+    def test_expiry_product_and_invalid(store):
+>       token = store.redeem(store.generate_codes(1)[0])['api_key']
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_core.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <core.store.Store object at 0x10b68b5c0>, count = 1
+plan = 'qiuzhao-2026'
+
+    def generate_codes(self, count: int, plan: str = "qiuzhao-2026") -> list[str]:
+        if plan not in PLANS or not 1 <= count <= 10000:
+            raise ValueError("未知套餐或数量超出范围")
+        if now() >= datetime.fromisoformat(PLANS[plan]["sale_ends_at"]):
+            raise ValueError("套餐已结束，不能生成兑换码")
+        prefix = PLANS[plan]["code_prefix"]
+        codes = [prefix + secrets.token_hex(CODE_BODY // 2).upper() for _ in range(count)]
+        with self.connect() as db:
+>           db.executemany("INSERT INTO redemption_codes(code_hash,plan,created_at,code_plain) VALUES(?,?,?,?)",
+                           [(digest(c), plan, now().isoformat(), c) for c in codes])
+E           sqlite3.OperationalError: table redemption_codes has no column named code_plain
+
+core/store.py:108: OperationalError
+___________________ test_midnight_resets_and_handshake_free ____________________
+
+store = <core.store.Store object at 0x10b78dc40>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10b78f560>
+
+    def test_midnight_resets_and_handshake_free(store, monkeypatch):
+        import core.store as module
+        time = datetime(2026, 9, 10, 23, 59, 59, tzinfo=TZ)
+        monkeypatch.setattr(module, 'now', lambda: time)
+>       token = store.redeem(store.generate_codes(1)[0])['api_key']
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_core.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <core.store.Store object at 0x10b78dc40>, count = 1
+plan = 'qiuzhao-2026'
+
+    def generate_codes(self, count: int, plan: str = "qiuzhao-2026") -> list[str]:
+        if plan not in PLANS or not 1 <= count <= 10000:
+            raise ValueError("未知套餐或数量超出范围")
+        if now() >= datetime.fromisoformat(PLANS[plan]["sale_ends_at"]):
+            raise ValueError("套餐已结束，不能生成兑换码")
+        prefix = PLANS[plan]["code_prefix"]
+        codes = [prefix + secrets.token_hex(CODE_BODY // 2).upper() for _ in range(count)]
+        with self.connect() as db:
+>           db.executemany("INSERT INTO redemption_codes(code_hash,plan,created_at,code_plain) VALUES(?,?,?,?)",
+                           [(digest(c), plan, now().isoformat(), c) for c in codes])
+E           sqlite3.OperationalError: table redemption_codes has no column named code_plain
+
+core/store.py:108: OperationalError
+__________________ test_qiuzhao_code_and_key_format_unchanged __________________
+
+store = <core.store.Store object at 0x10b695760>
+
+    def test_qiuzhao_code_and_key_format_unchanged(store):
+>       code = store.generate_codes(1, 'qiuzhao-2026')[0]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_core.py:112: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <core.store.Store object at 0x10b695760>, count = 1
+plan = 'qiuzhao-2026'
+
+    def generate_codes(self, count: int, plan: str = "qiuzhao-2026") -> list[str]:
+        if plan not in PLANS or not 1 <= count <= 10000:
+            raise ValueError("未知套餐或数量超出范围")
+        if now() >= datetime.fromisoformat(PLANS[plan]["sale_ends_at"]):
+            raise ValueError("套餐已结束，不能生成兑换码")
+        prefix = PLANS[plan]["code_prefix"]
+        codes = [prefix + secrets.token_hex(CODE_BODY // 2).upper() for _ in range(count)]
+        with self.connect() as db:
+>           db.executemany("INSERT INTO redemption_codes(code_hash,plan,created_at,code_plain) VALUES(?,?,?,?)",
+                           [(digest(c), plan, now().isoformat(), c) for c in codes])
+E           sqlite3.OperationalError: table redemption_codes has no column named code_plain
+
+core/store.py:108: OperationalError
+________________ test_bench_plan_is_thirty_days_from_activation ________________
+
+store = <core.store.Store object at 0x10b6948f0>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10b78e720>
+
+    def test_bench_plan_is_thirty_days_from_activation(store, monkeypatch):
+        import core.store as module
+        activated = datetime(2026, 9, 10, 15, 0, 0, tzinfo=TZ)
+        monkeypatch.setattr(module, 'now', lambda: activated)
+>       code = store.generate_codes(1, 'bench-monthly')[0]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_core.py:128: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <core.store.Store object at 0x10b6948f0>, count = 1
+plan = 'bench-monthly'
+
+    def generate_codes(self, count: int, plan: str = "qiuzhao-2026") -> list[str]:
+        if plan not in PLANS or not 1 <= count <= 10000:
+            raise ValueError("未知套餐或数量超出范围")
+        if now() >= datetime.fromisoformat(PLANS[plan]["sale_ends_at"]):
+            raise ValueError("套餐已结束，不能生成兑换码")
+        prefix = PLANS[plan]["code_prefix"]
+        codes = [prefix + secrets.token_hex(CODE_BODY // 2).upper() for _ in range(count)]
+        with self.connect() as db:
+>           db.executemany("INSERT INTO redemption_codes(code_hash,plan,created_at,code_plain) VALUES(?,?,?,?)",
+                           [(digest(c), plan, now().isoformat(), c) for c in codes])
+E           sqlite3.OperationalError: table redemption_codes has no column named code_plain
+
+core/store.py:108: OperationalError
+______________________ test_quota_message_uses_plan_limit ______________________
+
+store = <core.store.Store object at 0x10b78e9c0>
+
+    def test_quota_message_uses_plan_limit(store):
+>       token = store.redeem(store.generate_codes(1, 'bench-monthly')[0])['api_key']
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_core.py:140: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <core.store.Store object at 0x10b78e9c0>, count = 1
+plan = 'bench-monthly'
+
+    def generate_codes(self, count: int, plan: str = "qiuzhao-2026") -> list[str]:
+        if plan not in PLANS or not 1 <= count <= 10000:
+            raise ValueError("未知套餐或数量超出范围")
+        if now() >= datetime.fromisoformat(PLANS[plan]["sale_ends_at"]):
+            raise ValueError("套餐已结束，不能生成兑换码")
+        prefix = PLANS[plan]["code_prefix"]
+        codes = [prefix + secrets.token_hex(CODE_BODY // 2).upper() for _ in range(count)]
+        with self.connect() as db:
+>           db.executemany("INSERT INTO redemption_codes(code_hash,plan,created_at,code_plain) VALUES(?,?,?,?)",
+                           [(digest(c), plan, now().isoformat(), c) for c in codes])
+E           sqlite3.OperationalError: table redemption_codes has no column named code_plain
+
+core/store.py:108: OperationalError
+=============================== warnings summary ===============================
+tests/test_release_a2.py::test_threaded_writes_keep_long_lines_whole
+  /Users/maxzhl/Projects/mcp-suite/.venv/lib/python3.12/site-packages/fastmcp/server/auth/providers/jwt.py:10: AuthlibDeprecationWarning: authlib.jose module is deprecated, please use joserfc instead.
+  It will be compatible before version 2.0.0.
+    from authlib.jose import JsonWebKey, JsonWebToken
+
+tests/test_release_a2.py::test_threaded_writes_keep_long_lines_whole
+  /Users/maxzhl/Projects/mcp-suite/.venv/lib/python3.12/site-packages/authlib/integrations/httpx_client/assertion_client.py:5: AuthlibDeprecationWarning: The httpx module is deprecated; please use httpx2 instead.
+    from ._compat import httpx2
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_core.py::test_jobs_preserve_facts_and_deadline_order
+PASSED tests/test_core.py::test_role_cohort_overrides_campaign_title
+PASSED tests/test_core.py::test_bench_returns_links_tags_and_no_body
+PASSED tests/test_doubao_fix.py::test_qiuzhao_schemas_are_flat
+PASSED tests/test_doubao_fix.py::test_bench_schemas_are_flat
+PASSED tests/test_doubao_fix.py::test_enums_and_limit
+PASSED tests/test_doubao_fix.py::test_jobs_search_omitted
+PASSED tests/test_doubao_fix.py::test_jobs_search_all_text_params_null
+PASSED tests/test_doubao_fix.py::test_jobs_search_values_and_applied_filters
+PASSED tests/test_doubao_fix.py::test_graduation_year_spellings_normalize
+PASSED tests/test_doubao_fix.py::test_out_of_enum_value_is_rejected
+PASSED tests/test_doubao_fix.py::test_limit_bounds
+PASSED tests/test_doubao_fix.py::test_search_returns_full_records
+PASSED tests/test_doubao_fix.py::test_industry_description_current_and_filter_works
+PASSED tests/test_doubao_fix.py::test_instructions_mention_applied_filters
+PASSED tests/test_doubao_fix.py::test_call_log_records_values_not_credentials
+PASSED tests/test_doubao_fix.py::test_bench_search_null_omitted_and_value
+PASSED tests/test_release_a.py::test_jobs_search_keeps_all_13_parameters
+PASSED tests/test_release_a.py::test_job_category_still_substring_match
+PASSED tests/test_release_a.py::test_legacy_parameters_still_filter
+PASSED tests/test_release_a2.py::test_call_log_line_fields_and_values
+PASSED tests/test_release_a2.py::test_overlong_string_is_logged_cut_to_200_even_when_rejected
+PASSED tests/test_release_a2.py::test_call_log_bounds_lists_dicts_and_redacts_pasted_credentials
+PASSED tests/test_release_a2.py::test_call_log_has_no_credentials_and_private_modes
+PASSED tests/test_release_a2.py::test_user_ref_stable_distinct_and_not_a_credential
+PASSED tests/test_release_a2.py::test_unwritable_log_dir_keeps_calls_working
+PASSED tests/test_release_a2.py::test_concurrent_http_calls_write_whole_lines
+PASSED tests/test_release_a2.py::test_threaded_writes_keep_long_lines_whole
+PASSED tests/test_release_a2.py::test_value_bounds_and_line_cap
+PASSED tests/test_release_a2.py::test_analyze_script_reports_repeats_and_zero_results
+PASSED tests/test_release_a2d.py::test_deadlines_schema_default_limit_and_description
+PASSED tests/test_release_a2d.py::test_deadlines_default_returns_ten_nearest_first
+PASSED tests/test_release_a2d.py::test_deadlines_pages_are_contiguous
+FAILED tests/test_core.py::test_atomic_redemption - sqlite3.OperationalError:...
+FAILED tests/test_core.py::test_atomic_daily_limit - sqlite3.OperationalError...
+FAILED tests/test_core.py::test_expiry_product_and_invalid - sqlite3.Operatio...
+FAILED tests/test_core.py::test_midnight_resets_and_handshake_free - sqlite3....
+FAILED tests/test_core.py::test_qiuzhao_code_and_key_format_unchanged - sqlit...
+FAILED tests/test_core.py::test_bench_plan_is_thirty_days_from_activation - s...
+FAILED tests/test_core.py::test_quota_message_uses_plan_limit - sqlite3.Opera...
+7 failed, 33 passed, 2 warnings in 18.12s

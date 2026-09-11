@@ -1,0 +1,7779 @@
+[
+ {
+  "slug": "didi",
+  "cn_name": "滴滴",
+  "en_name": "Didi",
+  "country": "中国",
+  "industry": "互联网",
+  "priority": 1,
+  "platform_hint": {
+   "platform": "self_built_api",
+   "entry_url": "https://talent.didiglobal.com/campus"
+  }
+ },
+ {
+  "slug": "bilibili",
+  "cn_name": "哔哩哔哩",
+  "en_name": "Bilibili",
+  "country": "中国",
+  "industry": "互联网",
+  "priority": 1,
+  "platform_hint": {
+   "platform": "self_built_spa",
+   "entry_url": "https://jobs.bilibili.com/campus/positions?type=3"
+  }
+ },
+ {
+  "slug": "sensetime",
+  "cn_name": "商汤科技",
+  "en_name": "Sensetime",
+  "country": "中国",
+  "industry": "互联网",
+  "priority": 1,
+  "platform_hint": {
+   "platform": "feishu_jobs",
+   "entry_url": "https://sensetime.jobs.feishu.cn/campus"
+  }
+ },
+ {
+  "slug": "kuaishou",
+  "cn_name": "快手",
+  "en_name": "Kuaishou",
+  "country": "中国",
+  "industry": "互联网",
+  "priority": 1,
+  "platform_hint": {
+   "platform": "self_built_spa",
+   "entry_url": "https://campus.kuaishou.cn/recruit/campus/e/#/campus/jobs"
+  }
+ },
+ {
+  "slug": "xiaohongshu",
+  "cn_name": "小红书",
+  "en_name": "Xiaohongshu",
+  "country": "中国",
+  "industry": "互联网",
+  "priority": 1,
+  "platform_hint": {
+   "platform": "self_built",
+   "entry_url": "https://job.xiaohongshu.com/campus/position"
+  }
+ },
+ {
+  "slug": "mihoyo",
+  "cn_name": "米哈游",
+  "en_name": "Mihoyo",
+  "country": "中国",
+  "industry": "互联网",
+  "priority": 1,
+  "platform_hint": {
+   "platform": "self_built",
+   "entry_url": "https://jobs.mihoyo.com/#/campus"
+  }
+ },
+ {
+  "slug": "pdd",
+  "cn_name": "拼多多",
+  "en_name": "Pdd",
+  "country": "中国",
+  "industry": "互联网",
+  "priority": 1,
+  "platform_hint": {
+   "platform": "self_built_nextjs",
+   "entry_url": "https://careers.pddglobalhr.com/campus/grad"
+  }
+ },
+ {
+  "slug": "zhihu",
+  "cn_name": "知乎",
+  "en_name": "Zhihu",
+  "country": "中国",
+  "industry": "互联网",
+  "priority": 1,
+  "platform_hint": {
+   "platform": "mokahr",
+   "entry_url": "https://app.mokahr.com/campus_apply/zhihu/68321"
+  }
+ },
+ {
+  "slug": "kingdee",
+  "cn_name": "金蝶",
+  "en_name": "Kingdee",
+  "country": "中国",
+  "industry": "互联网",
+  "priority": 1,
+  "platform_hint": {
+   "platform": "mokahr",
+   "entry_url": "https://campus.kingdee.com/campus-recruitment/kingdeehr/166565"
+  }
+ },
+ {
+  "slug": "oppo",
+  "cn_name": "OPPO",
+  "en_name": "Oppo",
+  "country": "中国",
+  "industry": "电子",
+  "priority": 1,
+  "platform_hint": {
+   "platform": "self_built",
+   "entry_url": "https://careers.oppo.com/university/oppo/campus/post?recruitType=Graduate"
+  }
+ },
+ {
+  "slug": "vivo",
+  "cn_name": "vivo",
+  "en_name": "Vivo",
+  "country": "中国",
+  "industry": "电子",
+  "priority": 1,
+  "platform_hint": {
+   "platform": "self_built",
+   "entry_url": "https://hr-campus.vivo.com/"
+  }
+ },
+ {
+  "slug": "vipshop",
+  "cn_name": "唯品会",
+  "en_name": "Vipshop",
+  "country": "中国",
+  "industry": "互联网",
+  "priority": 1,
+  "platform_hint": {
+   "platform": "mokahr",
+   "entry_url": "https://app-tc.mokahr.com/campus-recruitment/vipshophr/10039"
+  }
+ },
+ {
+  "slug": "g-bits",
+  "cn_name": "吉比特",
+  "en_name": "G-Bits",
+  "country": "中国",
+  "industry": "互联网",
+  "priority": 1,
+  "platform_hint": {
+   "platform": "self_built",
+   "entry_url": "https://hr.g-bits.com/web/index.html#/post-web/post-list/"
+  }
+ },
+ {
+  "slug": "cn-001",
+  "cn_name": "携程",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-002",
+  "cn_name": "虎牙",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-003",
+  "cn_name": "斗鱼",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-004",
+  "cn_name": "新浪",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-005",
+  "cn_name": "搜狐",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-006",
+  "cn_name": "同花顺",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-007",
+  "cn_name": "4399",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-008",
+  "cn_name": "三七互娱",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-009",
+  "cn_name": "完美世界",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-010",
+  "cn_name": "巨人网络",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-011",
+  "cn_name": "游族网络",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-012",
+  "cn_name": "盛趣游戏",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-013",
+  "cn_name": "中手游",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-014",
+  "cn_name": "祖龙娱乐",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-015",
+  "cn_name": "优酷",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-016",
+  "cn_name": "腾讯音乐",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-017",
+  "cn_name": "中兴通讯",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-018",
+  "cn_name": "联想",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-019",
+  "cn_name": "比亚迪",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-020",
+  "cn_name": "蔚来",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-021",
+  "cn_name": "小鹏汽车",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-022",
+  "cn_name": "理想汽车",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-023",
+  "cn_name": "奇瑞汽车",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-024",
+  "cn_name": "吉利汽车",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-025",
+  "cn_name": "长城汽车",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-026",
+  "cn_name": "东风汽车",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-027",
+  "cn_name": "汽车之家",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-028",
+  "cn_name": "零跑汽车",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-029",
+  "cn_name": "哪吒汽车",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-030",
+  "cn_name": "极氪",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-031",
+  "cn_name": "威马汽车",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-032",
+  "cn_name": "比亚迪汽车",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-033",
+  "cn_name": "华晨宝马",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-034",
+  "cn_name": "广汽传祺",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-035",
+  "cn_name": "北汽新能源",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-036",
+  "cn_name": "京东方科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-037",
+  "cn_name": "大华股份",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-038",
+  "cn_name": "海康威视",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-039",
+  "cn_name": "科大讯飞",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-040",
+  "cn_name": "旷视科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-041",
+  "cn_name": "依图科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-042",
+  "cn_name": "云从科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-043",
+  "cn_name": "图普科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-044",
+  "cn_name": "寒武纪",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-045",
+  "cn_name": "地平线",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-046",
+  "cn_name": "MiniMax",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-047",
+  "cn_name": "Kimi",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-048",
+  "cn_name": "钛动科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-049",
+  "cn_name": "月之暗面",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-050",
+  "cn_name": "深度求索",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-051",
+  "cn_name": "同盾科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-052",
+  "cn_name": "科大国创",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-053",
+  "cn_name": "元戎启行",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-054",
+  "cn_name": "灵犀AI",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-055",
+  "cn_name": "智联招聘",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-056",
+  "cn_name": "前程无忧",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-057",
+  "cn_name": "猎聘",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-058",
+  "cn_name": "拉勾网",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-059",
+  "cn_name": "Boss直聘",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-060",
+  "cn_name": "格力电器",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-061",
+  "cn_name": "海尔智家",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-062",
+  "cn_name": "海信",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-063",
+  "cn_name": "TCL",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-064",
+  "cn_name": "创维",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-065",
+  "cn_name": "长虹",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-066",
+  "cn_name": "康佳",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-067",
+  "cn_name": "华硕电脑",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-068",
+  "cn_name": "小霸王",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-069",
+  "cn_name": "荣耀",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-070",
+  "cn_name": "用友网络",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-071",
+  "cn_name": "金蝶软件",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-072",
+  "cn_name": "大北农",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-073",
+  "cn_name": "浪潮科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-074",
+  "cn_name": "中科曙光",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-075",
+  "cn_name": "海螺水泥",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-076",
+  "cn_name": "金山软件",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-077",
+  "cn_name": "金山办公",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-078",
+  "cn_name": "金山云",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-079",
+  "cn_name": "紫光股份",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-080",
+  "cn_name": "紫光展锐",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-081",
+  "cn_name": "兆易创新",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-082",
+  "cn_name": "汇顶科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-083",
+  "cn_name": "中芯国际",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-084",
+  "cn_name": "中微公司",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-085",
+  "cn_name": "长电科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-086",
+  "cn_name": "士兰微",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-087",
+  "cn_name": "韦尔股份",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-088",
+  "cn_name": "澜起科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-089",
+  "cn_name": "合肥长鑫",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-090",
+  "cn_name": "晶合集成",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-091",
+  "cn_name": "上海华虹半导体",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-092",
+  "cn_name": "沪硅产业",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-093",
+  "cn_name": "上海先进",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-094",
+  "cn_name": "中科院微电子",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-095",
+  "cn_name": "闻泰科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-096",
+  "cn_name": "汇川技术",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-097",
+  "cn_name": "大族激光",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-098",
+  "cn_name": "北方华创",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-099",
+  "cn_name": "三一重工",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-100",
+  "cn_name": "中联重科",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-101",
+  "cn_name": "恒瑞医药",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-102",
+  "cn_name": "智飞生物",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-103",
+  "cn_name": "东阿阿胶",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-104",
+  "cn_name": "复星医药",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-105",
+  "cn_name": "恒瑞医药股份",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-106",
+  "cn_name": "药明康德",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-107",
+  "cn_name": "贝达药业",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-108",
+  "cn_name": "信达生物",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-109",
+  "cn_name": "君实生物",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-110",
+  "cn_name": "君乐宝",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-111",
+  "cn_name": "通策控股",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-112",
+  "cn_name": "安科生物",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-113",
+  "cn_name": "泰格医药",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-114",
+  "cn_name": "安诺优达",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-115",
+  "cn_name": "康缘药业",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-116",
+  "cn_name": "益丰大药房",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-117",
+  "cn_name": "国药控股",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-118",
+  "cn_name": "石药集团",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-119",
+  "cn_name": "鱼跃医疗",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-120",
+  "cn_name": "乐普医疗",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-121",
+  "cn_name": "三诺生物",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-122",
+  "cn_name": "新东方",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-123",
+  "cn_name": "好未来",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-124",
+  "cn_name": "学而思",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-125",
+  "cn_name": "猿辅导",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-126",
+  "cn_name": "作业帮",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-127",
+  "cn_name": "VIPKID",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-128",
+  "cn_name": "沪江",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-129",
+  "cn_name": "高途",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-130",
+  "cn_name": "新东方在线",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-131",
+  "cn_name": "华图教育",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-132",
+  "cn_name": "卓越教育",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-133",
+  "cn_name": "新航道",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-134",
+  "cn_name": "新科教育",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-135",
+  "cn_name": "51JOB",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-136",
+  "cn_name": "百川智能",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-137",
+  "cn_name": "阿里云",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-138",
+  "cn_name": "腾讯云",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-139",
+  "cn_name": "华为云",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-140",
+  "cn_name": "百度智能云",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-141",
+  "cn_name": "京东云",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-142",
+  "cn_name": "美亚柏科",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-143",
+  "cn_name": "深信服",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-144",
+  "cn_name": "奇安信",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-145",
+  "cn_name": "启明星辰",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-146",
+  "cn_name": "360网络安全",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-147",
+  "cn_name": "长亭科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-148",
+  "cn_name": "绿盟科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-149",
+  "cn_name": "卫士通",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-150",
+  "cn_name": "科大智慧",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-151",
+  "cn_name": "软通动力",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-152",
+  "cn_name": "万达信息",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-153",
+  "cn_name": "神州数码",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-154",
+  "cn_name": "蚂蚁集团",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-155",
+  "cn_name": "陆金所",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-156",
+  "cn_name": "平安保险",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-157",
+  "cn_name": "平安科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-158",
+  "cn_name": "平安好医生",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-159",
+  "cn_name": "泰康保险",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-160",
+  "cn_name": "众安保险",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-161",
+  "cn_name": "太保财险",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-162",
+  "cn_name": "人保健康",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-163",
+  "cn_name": "新华保险",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-164",
+  "cn_name": "华泰证券",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-165",
+  "cn_name": "中信证券",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-166",
+  "cn_name": "海通证券",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-167",
+  "cn_name": "国泰君安",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-168",
+  "cn_name": "申万宏源",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-169",
+  "cn_name": "光大证券",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-170",
+  "cn_name": "方正证券",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-171",
+  "cn_name": "东方财富",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-172",
+  "cn_name": "同花顺财经",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-173",
+  "cn_name": "大智慧",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-174",
+  "cn_name": "雪球",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-175",
+  "cn_name": "东方财富网",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-176",
+  "cn_name": "大智慧科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-177",
+  "cn_name": "富途",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-178",
+  "cn_name": "老虎证券",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-179",
+  "cn_name": "华为终端",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-180",
+  "cn_name": "荣耀终端",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-181",
+  "cn_name": "金山毒霸",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-182",
+  "cn_name": "金山文档",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-183",
+  "cn_name": "中软国际",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-184",
+  "cn_name": "万得",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-185",
+  "cn_name": "同盾",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-186",
+  "cn_name": "高德地图",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-187",
+  "cn_name": "滴滴出行",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-188",
+  "cn_name": "哈啰出行",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-189",
+  "cn_name": "青桔科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-190",
+  "cn_name": "摩拜科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-191",
+  "cn_name": "大众点评",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-192",
+  "cn_name": "点评网",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-193",
+  "cn_name": "饿了么",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-194",
+  "cn_name": "百度外卖",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-195",
+  "cn_name": "美团点评",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-196",
+  "cn_name": "链家",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-197",
+  "cn_name": "我爱我家",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-198",
+  "cn_name": "中原地产",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-199",
+  "cn_name": "房多多",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-200",
+  "cn_name": "安居客",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-201",
+  "cn_name": "房天下",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-202",
+  "cn_name": "自如",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-203",
+  "cn_name": "我有房",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-204",
+  "cn_name": "蛋壳公寓",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-205",
+  "cn_name": "红星美凯龙",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-206",
+  "cn_name": "居然之家",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-207",
+  "cn_name": "苏宁易购",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-208",
+  "cn_name": "苏宁金融",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-209",
+  "cn_name": "苏宁物流",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-210",
+  "cn_name": "苏泊尔",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-211",
+  "cn_name": "永辉超市",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-212",
+  "cn_name": "盒马",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-213",
+  "cn_name": "山姆会员店",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-214",
+  "cn_name": "国美",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-215",
+  "cn_name": "国美电器",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-216",
+  "cn_name": "京东到家",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-217",
+  "cn_name": "美团外卖",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-218",
+  "cn_name": "饿了么外卖",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-219",
+  "cn_name": "顺丰",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-220",
+  "cn_name": "顺丰速运",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-221",
+  "cn_name": "韵达快递",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-222",
+  "cn_name": "申通快递",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-223",
+  "cn_name": "圆通快递",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-224",
+  "cn_name": "京东物流",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-225",
+  "cn_name": "圆通速递",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-226",
+  "cn_name": "韵达",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-227",
+  "cn_name": "邮政快递",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-228",
+  "cn_name": "极兔速递",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-229",
+  "cn_name": "德邦快递",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-230",
+  "cn_name": "跨越速运",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-231",
+  "cn_name": "百世快递",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-232",
+  "cn_name": "菜鸟网络",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-233",
+  "cn_name": "菜鸟",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-234",
+  "cn_name": "菜鸟物流",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-235",
+  "cn_name": "京东快递",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-236",
+  "cn_name": "顺丰控股",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-237",
+  "cn_name": "百世",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-238",
+  "cn_name": "东方明珠",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-239",
+  "cn_name": "芒果超媒",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-240",
+  "cn_name": "华策影视",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-241",
+  "cn_name": "B站",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-242",
+  "cn_name": "腾讯视频",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-243",
+  "cn_name": "芒果",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-244",
+  "cn_name": "华录百纳",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-245",
+  "cn_name": "中关村在线",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-246",
+  "cn_name": "IT桔",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-247",
+  "cn_name": "趣头条",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-248",
+  "cn_name": "快手科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-249",
+  "cn_name": "迅雷",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-250",
+  "cn_name": "携程旅行网",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-251",
+  "cn_name": "同程艺龙",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-252",
+  "cn_name": "马蜂窝",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-253",
+  "cn_name": "飞猪",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-254",
+  "cn_name": "飞猪旅游",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-255",
+  "cn_name": "同程旅行",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-256",
+  "cn_name": "去哪儿网",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-257",
+  "cn_name": "航旅纵横",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-258",
+  "cn_name": "飞牛网",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-259",
+  "cn_name": "天猫",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-260",
+  "cn_name": "淘宝",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-261",
+  "cn_name": "闲鱼",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-262",
+  "cn_name": "淘宝网",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-263",
+  "cn_name": "支付宝",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-264",
+  "cn_name": "微信",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-265",
+  "cn_name": "微信支付",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-266",
+  "cn_name": "抖音",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-267",
+  "cn_name": "今日头条",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-268",
+  "cn_name": "西瓜视频",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-269",
+  "cn_name": "番茄小说",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-270",
+  "cn_name": "豆瓣",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-271",
+  "cn_name": "皮皮虾",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-272",
+  "cn_name": "美丽联合",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-273",
+  "cn_name": "京东健康",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-274",
+  "cn_name": "京东数科",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-275",
+  "cn_name": "苏宁控股",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-276",
+  "cn_name": "苏宁置业",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-277",
+  "cn_name": "苏宁国际",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-278",
+  "cn_name": "顺丰快运",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-279",
+  "cn_name": "京东企业",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-280",
+  "cn_name": "京东能源",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-281",
+  "cn_name": "京东商学院",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-282",
+  "cn_name": "凡客诚品",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-283",
+  "cn_name": "蘑菇街",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-284",
+  "cn_name": "聚划算",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-285",
+  "cn_name": "快看世界",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-286",
+  "cn_name": "腾讯微保",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-287",
+  "cn_name": "网易严选",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-288",
+  "cn_name": "小米有品",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-289",
+  "cn_name": "小米金融",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-290",
+  "cn_name": "阿里健康",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-291",
+  "cn_name": "同德医药",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-292",
+  "cn_name": "美图",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-293",
+  "cn_name": "美图公司",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-294",
+  "cn_name": "美图秀",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-295",
+  "cn_name": "天府",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-296",
+  "cn_name": "本来生活",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-297",
+  "cn_name": "盒马鲜生",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-298",
+  "cn_name": "叮咚买菜",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-299",
+  "cn_name": "美团买菜",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-300",
+  "cn_name": "十点一刻",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-301",
+  "cn_name": "盒马生鲜",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-302",
+  "cn_name": "叮咚",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-303",
+  "cn_name": "兴盛优选",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-304",
+  "cn_name": "本来生活网",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-305",
+  "cn_name": "盒子科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-306",
+  "cn_name": "人人车",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-307",
+  "cn_name": "大搜车",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-308",
+  "cn_name": "车享家",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-309",
+  "cn_name": "神州租车",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-310",
+  "cn_name": "企鹅电竞",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-311",
+  "cn_name": "微盟",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-312",
+  "cn_name": "商汤",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-313",
+  "cn_name": "海康",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-314",
+  "cn_name": "大疆",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-315",
+  "cn_name": "小步智能",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-316",
+  "cn_name": "新松",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-317",
+  "cn_name": "优必选",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-318",
+  "cn_name": "优必选科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-319",
+  "cn_name": "拓普集团",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-320",
+  "cn_name": "图森",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-321",
+  "cn_name": "图森未来",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-322",
+  "cn_name": "图森科技",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-323",
+  "cn_name": "图灵机器人",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-324",
+  "cn_name": "云天励飞",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-325",
+  "cn_name": "科比特",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-326",
+  "cn_name": "汉得信息",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-327",
+  "cn_name": "爱数",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-328",
+  "cn_name": "奇虎360",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-329",
+  "cn_name": "360安全中心",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-330",
+  "cn_name": "360天眼",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-331",
+  "cn_name": "360企业安全",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-332",
+  "cn_name": "360汽车",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-333",
+  "cn_name": "360金融",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-334",
+  "cn_name": "360汽车服务",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "cn-335",
+  "cn_name": "360好租",
+  "en_name": "",
+  "country": "中国",
+  "industry": "综合",
+  "priority": 1
+ },
+ {
+  "slug": "f500-167",
+  "cn_name": "ADM公司",
+  "en_name": "Archer Daniels Midland",
+  "country": "美国",
+  "industry": "食品农业",
+  "priority": 2,
+  "fortune_rank": 167
+ },
+ {
+  "slug": "f500-185",
+  "cn_name": "Alimentation Couche-Tard公司",
+  "en_name": "Alimentation Couche-Tard",
+  "country": "加拿大",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 185
+ },
+ {
+  "slug": "f500-8",
+  "cn_name": "Alphabet公司",
+  "en_name": "Alphabet",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 8
+ },
+ {
+  "slug": "f500-441",
+  "cn_name": "BAE系统公司",
+  "en_name": "Bae Systems",
+  "country": "英国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 441
+ },
+ {
+  "slug": "f500-425",
+  "cn_name": "CDP集团",
+  "en_name": "Cdp Group",
+  "country": "意大利",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 425
+ },
+ {
+  "slug": "f500-470",
+  "cn_name": "CFE公司",
+  "en_name": "Cfe",
+  "country": "墨西哥",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 470
+ },
+ {
+  "slug": "f500-468",
+  "cn_name": "CHS公司",
+  "en_name": "Chs",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 468
+ },
+ {
+  "slug": "f500-435",
+  "cn_name": "CRH公司",
+  "en_name": "Crh",
+  "country": "爱尔兰",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 435
+ },
+ {
+  "slug": "f500-9",
+  "cn_name": "CVS Health公司",
+  "en_name": "Cvs Health",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 9
+ },
+ {
+  "slug": "f500-16",
+  "cn_name": "Cencora公司",
+  "en_name": "Cencora",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 16
+ },
+ {
+  "slug": "f500-465",
+  "cn_name": "Cenovus Energy公司",
+  "en_name": "Cenovus Energy",
+  "country": "加拿大",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 465
+ },
+ {
+  "slug": "f500-32",
+  "cn_name": "Centene公司",
+  "en_name": "Centene",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 32
+ },
+ {
+  "slug": "f500-375",
+  "cn_name": "Coop集团",
+  "en_name": "Coop Group",
+  "country": "瑞士",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 375
+ },
+ {
+  "slug": "f500-479",
+  "cn_name": "Coupang公司",
+  "en_name": "Coupang",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 479
+ },
+ {
+  "slug": "f500-482",
+  "cn_name": "D.R. Horton公司",
+  "en_name": "D.R. Horton",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 482
+ },
+ {
+  "slug": "f500-437",
+  "cn_name": "DSV公司",
+  "en_name": "Dsv",
+  "country": "丹麦",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 437
+ },
+ {
+  "slug": "f500-374",
+  "cn_name": "Dollar General公司",
+  "en_name": "Dollar General",
+  "country": "美国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 374
+ },
+ {
+  "slug": "f500-179",
+  "cn_name": "EP集团",
+  "en_name": "Ep Group",
+  "country": "捷克",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 179
+ },
+ {
+  "slug": "f500-31",
+  "cn_name": "Elevance Health公司",
+  "en_name": "Elevance Health",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 31
+ },
+ {
+  "slug": "f500-335",
+  "cn_name": "Enbridge公司",
+  "en_name": "Enbridge",
+  "country": "加拿大",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 335
+ },
+ {
+  "slug": "f500-147",
+  "cn_name": "Energy Transfer公司",
+  "en_name": "Energy Transfer",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 147
+ },
+ {
+  "slug": "f500-160",
+  "cn_name": "Engie集团",
+  "en_name": "Engie",
+  "country": "法国",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 160
+ },
+ {
+  "slug": "f500-292",
+  "cn_name": "Enterprise Products Partners公司",
+  "en_name": "Enterprise Products Partners",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 292
+ },
+ {
+  "slug": "f500-95",
+  "cn_name": "Equinor公司",
+  "en_name": "Equinor",
+  "country": "挪威",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 95
+ },
+ {
+  "slug": "f500-363",
+  "cn_name": "Fomento Económico Mexicano公司",
+  "en_name": "Fomento Económico Mexicano",
+  "country": "墨西哥",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 363
+ },
+ {
+  "slug": "f500-427",
+  "cn_name": "GE Vernova公司",
+  "en_name": "Ge Vernova",
+  "country": "美国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 427
+ },
+ {
+  "slug": "f500-341",
+  "cn_name": "GE航空航天公司",
+  "en_name": "Ge Aerospace",
+  "country": "美国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 341
+ },
+ {
+  "slug": "f500-244",
+  "cn_name": "Galaxy Digital公司",
+  "en_name": "Galaxy Digital",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 244
+ },
+ {
+  "slug": "f500-178",
+  "cn_name": "HCA 医疗保健公司",
+  "en_name": "Hca Healthcare",
+  "country": "美国",
+  "industry": "传媒娱乐",
+  "priority": 2,
+  "fortune_rank": 178
+ },
+ {
+  "slug": "f500-272",
+  "cn_name": "HDFC银行",
+  "en_name": "Hdfc Bank",
+  "country": "印度",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 272
+ },
+ {
+  "slug": "f500-314",
+  "cn_name": "HD现代公司",
+  "en_name": "Hd Hyundai",
+  "country": "韩国",
+  "industry": "汽车及零部件",
+  "priority": 2,
+  "fortune_rank": 314
+ },
+ {
+  "slug": "f500-305",
+  "cn_name": "Iberdrola公司",
+  "en_name": "Iberdrola",
+  "country": "西班牙",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 305
+ },
+ {
+  "slug": "f500-346",
+  "cn_name": "Inditex公司",
+  "en_name": "Inditex",
+  "country": "西班牙",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 346
+ },
+ {
+  "slug": "f500-398",
+  "cn_name": "Jerónimo Martins公司",
+  "en_name": "Jerónimo Martins",
+  "country": "葡萄牙",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 398
+ },
+ {
+  "slug": "f500-388",
+  "cn_name": "KB金融集团",
+  "en_name": "Kb Financial Group",
+  "country": "韩国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 388
+ },
+ {
+  "slug": "f500-203",
+  "cn_name": "KOC集团",
+  "en_name": "Koç Holding",
+  "country": "土耳其",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 203
+ },
+ {
+  "slug": "f500-499",
+  "cn_name": "LG化学公司",
+  "en_name": "Lg Chem",
+  "country": "韩国",
+  "industry": "汽车及零部件",
+  "priority": 2,
+  "fortune_rank": 499
+ },
+ {
+  "slug": "f500-238",
+  "cn_name": "LG电子",
+  "en_name": "Lg Electronics",
+  "country": "韩国",
+  "industry": "汽车及零部件",
+  "priority": 2,
+  "fortune_rank": 238
+ },
+ {
+  "slug": "f500-426",
+  "cn_name": "Lithia Motors公司",
+  "en_name": "Lithia Motors",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 426
+ },
+ {
+  "slug": "f500-310",
+  "cn_name": "MS&amp;AD保险集团控股有限公司",
+  "en_name": "Ms&Amp;Ad Insurance Group Holdings",
+  "country": "日本",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 310
+ },
+ {
+  "slug": "f500-382",
+  "cn_name": "Magnit公司",
+  "en_name": "Magnit",
+  "country": "俄罗斯",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 382
+ },
+ {
+  "slug": "f500-369",
+  "cn_name": "Mercadona公司",
+  "en_name": "Mercadona",
+  "country": "西班牙",
+  "industry": "零售",
+  "priority": 2,
+  "fortune_rank": 369
+ },
+ {
+  "slug": "f500-30",
+  "cn_name": "Meta Platforms公司",
+  "en_name": "Meta Platforms",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 30
+ },
+ {
+  "slug": "f500-448",
+  "cn_name": "Migros集团",
+  "en_name": "Migros Group",
+  "country": "瑞士",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 448
+ },
+ {
+  "slug": "f500-347",
+  "cn_name": "Molina Healthcare公司",
+  "en_name": "Molina Healthcare",
+  "country": "美国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 347
+ },
+ {
+  "slug": "f500-351",
+  "cn_name": "Netflix公司",
+  "en_name": "Netflix",
+  "country": "美国",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 351
+ },
+ {
+  "slug": "f500-495",
+  "cn_name": "Oneok公司",
+  "en_name": "Oneok",
+  "country": "美国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 495
+ },
+ {
+  "slug": "f500-344",
+  "cn_name": "Orange公司",
+  "en_name": "Orange",
+  "country": "法国",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 344
+ },
+ {
+  "slug": "f500-256",
+  "cn_name": "Performance Food Group公司",
+  "en_name": "Performance Food Group",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 256
+ },
+ {
+  "slug": "f500-469",
+  "cn_name": "Perusahaan Listrik Negara公司",
+  "en_name": "Perusahaan Listrik Negara",
+  "country": "印度尼西亚",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 469
+ },
+ {
+  "slug": "f500-61",
+  "cn_name": "Phillips 66公司",
+  "en_name": "Phillips 66",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 61
+ },
+ {
+  "slug": "f500-343",
+  "cn_name": "Plains GP Holdings公司",
+  "en_name": "Plains Gp Holdings",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 343
+ },
+ {
+  "slug": "f500-101",
+  "cn_name": "REWE集团",
+  "en_name": "Rewe Group",
+  "country": "德国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 101
+ },
+ {
+  "slug": "f500-136",
+  "cn_name": "Rajesh Exports公司",
+  "en_name": "Rajesh Exports",
+  "country": "印度",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 136
+ },
+ {
+  "slug": "f500-387",
+  "cn_name": "SAP公司",
+  "en_name": "Sap",
+  "country": "德国",
+  "industry": "综合",
+  "priority": 2,
+  "fortune_rank": 387
+ },
+ {
+  "slug": "f500-210",
+  "cn_name": "SK海力士公司",
+  "en_name": "Sk Hynix",
+  "country": "韩国",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 210
+ },
+ {
+  "slug": "f500-142",
+  "cn_name": "SK集团",
+  "en_name": "Sk",
+  "country": "韩国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 142
+ },
+ {
+  "slug": "f500-205",
+  "cn_name": "Seven &amp; I 控股公司",
+  "en_name": "Seven &Amp; I Holdings",
+  "country": "日本",
+  "industry": "食品农业",
+  "priority": 2,
+  "fortune_rank": 205
+ },
+ {
+  "slug": "f500-407",
+  "cn_name": "St. James's Place公司",
+  "en_name": "St. James'S Place",
+  "country": "英国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 407
+ },
+ {
+  "slug": "f500-43",
+  "cn_name": "Stellantis集团",
+  "en_name": "Stellantis",
+  "country": "荷兰",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 43
+ },
+ {
+  "slug": "f500-69",
+  "cn_name": "StoneX集团",
+  "en_name": "Stonex Group",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 69
+ },
+ {
+  "slug": "f500-241",
+  "cn_name": "TD Synnex公司",
+  "en_name": "Td Synnex",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 241
+ },
+ {
+  "slug": "f500-251",
+  "cn_name": "TJX公司",
+  "en_name": "Tjx",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 251
+ },
+ {
+  "slug": "f500-269",
+  "cn_name": "Talanx公司",
+  "en_name": "Talanx",
+  "country": "德国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 269
+ },
+ {
+  "slug": "f500-321",
+  "cn_name": "Travelers公司",
+  "en_name": "Travelers",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 321
+ },
+ {
+  "slug": "f500-412",
+  "cn_name": "US Foods Holding公司",
+  "en_name": "Us Foods Holding",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 412
+ },
+ {
+  "slug": "f500-296",
+  "cn_name": "Uber Technologies公司",
+  "en_name": "Uber Technologies",
+  "country": "美国",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 296
+ },
+ {
+  "slug": "f500-209",
+  "cn_name": "Uniper公司",
+  "en_name": "Uniper",
+  "country": "德国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 209
+ },
+ {
+  "slug": "f500-492",
+  "cn_name": "Vibra Energia公司",
+  "en_name": "Vibra Energia",
+  "country": "巴西",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 492
+ },
+ {
+  "slug": "f500-403",
+  "cn_name": "Visa公司",
+  "en_name": "Visa",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 403
+ },
+ {
+  "slug": "f500-452",
+  "cn_name": "World Kinect公司",
+  "en_name": "World Kinect",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 452
+ },
+ {
+  "slug": "f500-275",
+  "cn_name": "X5集团",
+  "en_name": "X5 Group",
+  "country": "俄罗斯",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 275
+ },
+ {
+  "slug": "f500-149",
+  "cn_name": "万喜集团",
+  "en_name": "Vinci",
+  "country": "法国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 149
+ },
+ {
+  "slug": "f500-339",
+  "cn_name": "万通互惠理财公司",
+  "en_name": "Massachusetts Mutual Life Insurance",
+  "country": "美国",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 339
+ },
+ {
+  "slug": "f500-124",
+  "cn_name": "三井物产株式会社",
+  "en_name": "Mitsui",
+  "country": "日本",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 124
+ },
+ {
+  "slug": "f500-26",
+  "cn_name": "三星电子",
+  "en_name": "Samsung Electronics",
+  "country": "韩国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 26
+ },
+ {
+  "slug": "f500-76",
+  "cn_name": "三菱商事株式会社",
+  "en_name": "Mitsubishi",
+  "country": "日本",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 76
+ },
+ {
+  "slug": "f500-113",
+  "cn_name": "三菱日联金融集团",
+  "en_name": "Mitsubishi Ufj Financial Group",
+  "country": "日本",
+  "industry": "汽车及零部件",
+  "priority": 2,
+  "fortune_rank": 113
+ },
+ {
+  "slug": "f500-416",
+  "cn_name": "三菱电机股份有限公司",
+  "en_name": "Mitsubishi Electric",
+  "country": "日本",
+  "industry": "汽车及零部件",
+  "priority": 2,
+  "fortune_rank": 416
+ },
+ {
+  "slug": "f500-400",
+  "cn_name": "世邦魏理仕集团",
+  "en_name": "Cbre Group",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 400
+ },
+ {
+  "slug": "f500-261",
+  "cn_name": "东京海上日动火灾保险公司",
+  "en_name": "Tokio Marine Holdings",
+  "country": "日本",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 261
+ },
+ {
+  "slug": "f500-380",
+  "cn_name": "东京电力公司",
+  "en_name": "Tokyo Electric Power",
+  "country": "日本",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 380
+ },
+ {
+  "slug": "f500-14",
+  "cn_name": "丰田汽车公司",
+  "en_name": "Toyota Motor",
+  "country": "日本",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 14
+ },
+ {
+  "slug": "f500-175",
+  "cn_name": "丰田通商公司",
+  "en_name": "Toyota Tsusho",
+  "country": "日本",
+  "industry": "汽车及零部件",
+  "priority": 2,
+  "fortune_rank": 175
+ },
+ {
+  "slug": "f500-195",
+  "cn_name": "丰益国际",
+  "en_name": "Wilmar International",
+  "country": "新加坡",
+  "industry": "食品农业",
+  "priority": 2,
+  "fortune_rank": 195
+ },
+ {
+  "slug": "f500-277",
+  "cn_name": "丸红株式会社",
+  "en_name": "Marubeni",
+  "country": "日本",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 277
+ },
+ {
+  "slug": "f500-105",
+  "cn_name": "乐购",
+  "en_name": "Tesco",
+  "country": "英国",
+  "industry": "零售",
+  "priority": 2,
+  "fortune_rank": 105
+ },
+ {
+  "slug": "f500-332",
+  "cn_name": "乔治威斯顿公司",
+  "en_name": "George Weston",
+  "country": "加拿大",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 332
+ },
+ {
+  "slug": "f500-1",
+  "cn_name": "亚马逊",
+  "en_name": "Amazon.Com",
+  "country": "美国",
+  "industry": "互联网",
+  "priority": 2,
+  "fortune_rank": 1
+ },
+ {
+  "slug": "f500-422",
+  "cn_name": "亿滋国际",
+  "en_name": "Mondelez International",
+  "country": "美国",
+  "industry": "食品农业",
+  "priority": 2,
+  "fortune_rank": 422
+ },
+ {
+  "slug": "f500-174",
+  "cn_name": "伊塔乌联合银行控股公司",
+  "en_name": "Itaú Unibanco Holding",
+  "country": "巴西",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 174
+ },
+ {
+  "slug": "f500-354",
+  "cn_name": "伍尔沃斯集团",
+  "en_name": "Woolworths Group",
+  "country": "澳大利亚",
+  "industry": "零售",
+  "priority": 2,
+  "fortune_rank": 354
+ },
+ {
+  "slug": "f500-11",
+  "cn_name": "伯克希尔－哈撒韦公司",
+  "en_name": "Berkshire Hathaway",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 11
+ },
+ {
+  "slug": "f500-324",
+  "cn_name": "住友商事",
+  "en_name": "Sumitomo",
+  "country": "日本",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 324
+ },
+ {
+  "slug": "f500-408",
+  "cn_name": "住友生命保险公司",
+  "en_name": "Sumitomo Life Insurance",
+  "country": "日本",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 408
+ },
+ {
+  "slug": "f500-490",
+  "cn_name": "住友电工",
+  "en_name": "Sumitomo Electric Industries",
+  "country": "日本",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 490
+ },
+ {
+  "slug": "f500-199",
+  "cn_name": "俄罗斯外贸银行",
+  "en_name": "Vtb Bank",
+  "country": "俄罗斯",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 199
+ },
+ {
+  "slug": "f500-89",
+  "cn_name": "俄罗斯天然气工业股份公司",
+  "en_name": "Gazprom",
+  "country": "俄罗斯",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 89
+ },
+ {
+  "slug": "f500-486",
+  "cn_name": "俄罗斯天然气工业银行‌",
+  "en_name": "Gazprombank",
+  "country": "俄罗斯",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 486
+ },
+ {
+  "slug": "f500-109",
+  "cn_name": "俄罗斯石油公司",
+  "en_name": "Rosneft Oil",
+  "country": "俄罗斯",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 109
+ },
+ {
+  "slug": "f500-64",
+  "cn_name": "俄罗斯联邦储蓄银行",
+  "en_name": "Sberbank",
+  "country": "俄罗斯",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 64
+ },
+ {
+  "slug": "f500-367",
+  "cn_name": "俄罗斯铁路公司",
+  "en_name": "Russian Railways",
+  "country": "俄罗斯",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 367
+ },
+ {
+  "slug": "f500-247",
+  "cn_name": "保德信金融集团",
+  "en_name": "Prudential Financial",
+  "country": "美国",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 247
+ },
+ {
+  "slug": "f500-85",
+  "cn_name": "信实工业公司",
+  "en_name": "Reliance Industries",
+  "country": "印度",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 85
+ },
+ {
+  "slug": "f500-21",
+  "cn_name": "信诺集团",
+  "en_name": "Cigna Group",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 21
+ },
+ {
+  "slug": "f500-52",
+  "cn_name": "克罗格",
+  "en_name": "Kroger",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 52
+ },
+ {
+  "slug": "f500-139",
+  "cn_name": "前进保险公司",
+  "en_name": "Progressive",
+  "country": "美国",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 139
+ },
+ {
+  "slug": "f500-263",
+  "cn_name": "力拓集团",
+  "en_name": "Rio Tinto Group",
+  "country": "英国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 263
+ },
+ {
+  "slug": "f500-290",
+  "cn_name": "加拿大丰业银行",
+  "en_name": "Bank Of Nova Scotia",
+  "country": "加拿大",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 290
+ },
+ {
+  "slug": "f500-357",
+  "cn_name": "加拿大帝国商业银行",
+  "en_name": "Canadian Imperial Bank Of Commerce",
+  "country": "加拿大",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 357
+ },
+ {
+  "slug": "f500-334",
+  "cn_name": "加拿大枫信金融控股公司",
+  "en_name": "Fairfax Financial Holdings",
+  "country": "加拿大",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 334
+ },
+ {
+  "slug": "f500-110",
+  "cn_name": "加拿大皇家银行",
+  "en_name": "Royal Bank Of Canada",
+  "country": "加拿大",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 110
+ },
+ {
+  "slug": "f500-476",
+  "cn_name": "加拿大鲍尔集团",
+  "en_name": "Power Corp. Of Canada",
+  "country": "加拿大",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 476
+ },
+ {
+  "slug": "f500-117",
+  "cn_name": "华特迪士尼公司",
+  "en_name": "Walt Disney",
+  "country": "美国",
+  "industry": "传媒娱乐",
+  "priority": 2,
+  "fortune_rank": 117
+ },
+ {
+  "slug": "f500-442",
+  "cn_name": "华纳兄弟探索公司",
+  "en_name": "Warner Bros. Discovery",
+  "country": "美国",
+  "industry": "传媒娱乐",
+  "priority": 2,
+  "fortune_rank": 442
+ },
+ {
+  "slug": "f500-102",
+  "cn_name": "博世集团",
+  "en_name": "Bosch Group",
+  "country": "德国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 102
+ },
+ {
+  "slug": "f500-180",
+  "cn_name": "博枫公司",
+  "en_name": "Brookfield",
+  "country": "加拿大",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 180
+ },
+ {
+  "slug": "f500-230",
+  "cn_name": "博通公司",
+  "en_name": "Broadcom",
+  "country": "美国",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 230
+ },
+ {
+  "slug": "f500-429",
+  "cn_name": "卡塔尔国民银行",
+  "en_name": "Qnb Group",
+  "country": "卡塔尔",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 429
+ },
+ {
+  "slug": "f500-216",
+  "cn_name": "卡特彼勒",
+  "en_name": "Caterpillar",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 216
+ },
+ {
+  "slug": "f500-239",
+  "cn_name": "卢克石油公司",
+  "en_name": "Lukoil",
+  "country": "俄罗斯",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 239
+ },
+ {
+  "slug": "f500-194",
+  "cn_name": "印尼国家石油公司",
+  "en_name": "Pertamina",
+  "country": "印度尼西亚",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 194
+ },
+ {
+  "slug": "f500-92",
+  "cn_name": "印度人寿保险公司",
+  "en_name": "Life Insurance Corp. Of India",
+  "country": "印度",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 92
+ },
+ {
+  "slug": "f500-162",
+  "cn_name": "印度国家银行",
+  "en_name": "State Bank Of India",
+  "country": "印度",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 162
+ },
+ {
+  "slug": "f500-471",
+  "cn_name": "印度工业信贷投资银行",
+  "en_name": "Icici Bank",
+  "country": "印度",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 471
+ },
+ {
+  "slug": "f500-130",
+  "cn_name": "印度石油公司",
+  "en_name": "Indian Oil",
+  "country": "印度",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 130
+ },
+ {
+  "slug": "f500-208",
+  "cn_name": "印度石油天然气公司",
+  "en_name": "Oil &Amp; Natural Gas",
+  "country": "印度",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 208
+ },
+ {
+  "slug": "f500-329",
+  "cn_name": "可口可乐公司",
+  "en_name": "Coca-Cola",
+  "country": "美国",
+  "industry": "食品农业",
+  "priority": 2,
+  "fortune_rank": 329
+ },
+ {
+  "slug": "f500-73",
+  "cn_name": "哈门那公司",
+  "en_name": "Humana",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 73
+ },
+ {
+  "slug": "f500-27",
+  "cn_name": "嘉德诺健康集团",
+  "en_name": "Cardinal Health",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 27
+ },
+ {
+  "slug": "f500-24",
+  "cn_name": "嘉能可",
+  "en_name": "Glencore",
+  "country": "瑞士",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 24
+ },
+ {
+  "slug": "f500-405",
+  "cn_name": "国民威斯敏斯特银行集团",
+  "en_name": "Natwest Group",
+  "country": "英国",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 405
+ },
+ {
+  "slug": "f500-217",
+  "cn_name": "国际商业机器公司",
+  "en_name": "International Business Machines",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 217
+ },
+ {
+  "slug": "f500-434",
+  "cn_name": "国际航空集团",
+  "en_name": "International Airlines Group",
+  "country": "英国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 434
+ },
+ {
+  "slug": "f500-295",
+  "cn_name": "圣戈班集团",
+  "en_name": "Saint-Gobain",
+  "country": "法国",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 295
+ },
+ {
+  "slug": "f500-15",
+  "cn_name": "埃克森美孚",
+  "en_name": "Exxon Mobil",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 15
+ },
+ {
+  "slug": "f500-118",
+  "cn_name": "埃尼石油公司",
+  "en_name": "Eni",
+  "country": "意大利",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 118
+ },
+ {
+  "slug": "f500-204",
+  "cn_name": "埃森哲",
+  "en_name": "Accenture",
+  "country": "爱尔兰",
+  "industry": "咨询",
+  "priority": 2,
+  "fortune_rank": 204
+ },
+ {
+  "slug": "f500-96",
+  "cn_name": "塔吉特公司",
+  "en_name": "Target",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 96
+ },
+ {
+  "slug": "f500-399",
+  "cn_name": "塔塔汽车乘用车公司",
+  "en_name": "Tata Motors Passenger Vehicles",
+  "country": "印度",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 399
+ },
+ {
+  "slug": "f500-169",
+  "cn_name": "墨西哥石油公司",
+  "en_name": "Pemex",
+  "country": "墨西哥",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 169
+ },
+ {
+  "slug": "f500-22",
+  "cn_name": "壳牌公司",
+  "en_name": "Shell",
+  "country": "英国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 22
+ },
+ {
+  "slug": "f500-140",
+  "cn_name": "多伦多道明银行",
+  "en_name": "Toronto-Dominion Bank",
+  "country": "加拿大",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 140
+ },
+ {
+  "slug": "f500-13",
+  "cn_name": "大众公司",
+  "en_name": "Volkswagen",
+  "country": "德国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 13
+ },
+ {
+  "slug": "f500-236",
+  "cn_name": "大众超级市场公司",
+  "en_name": "Publix Super Markets",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 236
+ },
+ {
+  "slug": "f500-449",
+  "cn_name": "大和房建",
+  "en_name": "Daiwa House Industry",
+  "country": "日本",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 449
+ },
+ {
+  "slug": "f500-498",
+  "cn_name": "大金集团",
+  "en_name": "Daikin Industries",
+  "country": "日本",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 498
+ },
+ {
+  "slug": "f500-458",
+  "cn_name": "奥地利石油天然气集团",
+  "en_name": "Omv Group",
+  "country": "奥地利",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 458
+ },
+ {
+  "slug": "f500-215",
+  "cn_name": "好事达",
+  "en_name": "Allstate",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 215
+ },
+ {
+  "slug": "f500-60",
+  "cn_name": "威瑞森电信",
+  "en_name": "Verizon Communications",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 60
+ },
+ {
+  "slug": "f500-94",
+  "cn_name": "安盛",
+  "en_name": "Axa",
+  "country": "法国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 94
+ },
+ {
+  "slug": "f500-67",
+  "cn_name": "安联保险集团",
+  "en_name": "Allianz",
+  "country": "德国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 67
+ },
+ {
+  "slug": "f500-245",
+  "cn_name": "安赛乐米塔尔",
+  "en_name": "Arcelormittal",
+  "country": "卢森堡",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 245
+ },
+ {
+  "slug": "f500-257",
+  "cn_name": "安达保险公司",
+  "en_name": "Chubb",
+  "country": "瑞士",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 257
+ },
+ {
+  "slug": "f500-454",
+  "cn_name": "安进",
+  "en_name": "Amgen",
+  "country": "美国",
+  "industry": "医疗健康",
+  "priority": 2,
+  "fortune_rank": 454
+ },
+ {
+  "slug": "f500-151",
+  "cn_name": "宝洁公司",
+  "en_name": "Procter &Amp; Gamble",
+  "country": "美国",
+  "industry": "消费",
+  "priority": 2,
+  "fortune_rank": 151
+ },
+ {
+  "slug": "f500-50",
+  "cn_name": "宝马集团",
+  "en_name": "Bmw Group",
+  "country": "德国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 50
+ },
+ {
+  "slug": "f500-106",
+  "cn_name": "家乐福",
+  "en_name": "Carrefour",
+  "country": "法国",
+  "industry": "零售",
+  "priority": 2,
+  "fortune_rank": 106
+ },
+ {
+  "slug": "f500-46",
+  "cn_name": "家得宝",
+  "en_name": "Home Depot",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 46
+ },
+ {
+  "slug": "f500-70",
+  "cn_name": "州立农业保险公司",
+  "en_name": "State Farm Insurance",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 70
+ },
+ {
+  "slug": "f500-186",
+  "cn_name": "巴克莱",
+  "en_name": "Barclays",
+  "country": "英国",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 186
+ },
+ {
+  "slug": "f500-298",
+  "cn_name": "巴拉特石油公司",
+  "en_name": "Bharat Petroleum",
+  "country": "印度",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 298
+ },
+ {
+  "slug": "f500-191",
+  "cn_name": "巴斯夫公司",
+  "en_name": "Basf",
+  "country": "德国",
+  "industry": "食品农业",
+  "priority": 2,
+  "fortune_rank": 191
+ },
+ {
+  "slug": "f500-417",
+  "cn_name": "巴登-符腾堡州能源公司",
+  "en_name": "Energie Baden-Württemberg",
+  "country": "德国",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 417
+ },
+ {
+  "slug": "f500-146",
+  "cn_name": "巴西JBS公司",
+  "en_name": "Jbs",
+  "country": "荷兰",
+  "industry": "食品农业",
+  "priority": 2,
+  "fortune_rank": 146
+ },
+ {
+  "slug": "f500-131",
+  "cn_name": "巴西国家石油公司",
+  "en_name": "Petrobras",
+  "country": "巴西",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 131
+ },
+ {
+  "slug": "f500-250",
+  "cn_name": "巴西布拉德斯科银行",
+  "en_name": "Banco Bradesco",
+  "country": "巴西",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 250
+ },
+ {
+  "slug": "f500-424",
+  "cn_name": "巴西淡水河谷公司",
+  "en_name": "Vale",
+  "country": "巴西",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 424
+ },
+ {
+  "slug": "f500-308",
+  "cn_name": "巴西联邦储蓄银行",
+  "en_name": "Caixa Econômica Federal",
+  "country": "巴西",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 308
+ },
+ {
+  "slug": "f500-220",
+  "cn_name": "巴西银行",
+  "en_name": "Banco Do Brasil",
+  "country": "巴西",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 220
+ },
+ {
+  "slug": "f500-338",
+  "cn_name": "康帕斯集团",
+  "en_name": "Compass Group",
+  "country": "英国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 338
+ },
+ {
+  "slug": "f500-494",
+  "cn_name": "康明斯公司",
+  "en_name": "Cummins",
+  "country": "美国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 494
+ },
+ {
+  "slug": "f500-243",
+  "cn_name": "康菲石油公司",
+  "en_name": "Conocophillips",
+  "country": "美国",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 243
+ },
+ {
+  "slug": "f500-20",
+  "cn_name": "开市客",
+  "en_name": "Costco Wholesale",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 20
+ },
+ {
+  "slug": "f500-228",
+  "cn_name": "引能仕控股株式会社",
+  "en_name": "Eneos Holdings",
+  "country": "日本",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 228
+ },
+ {
+  "slug": "f500-120",
+  "cn_name": "强生",
+  "en_name": "Johnson &Amp; Johnson",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 120
+ },
+ {
+  "slug": "f500-18",
+  "cn_name": "微软",
+  "en_name": "Microsoft",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 18
+ },
+ {
+  "slug": "f500-402",
+  "cn_name": "德国中央合作银行",
+  "en_name": "Dz Bank",
+  "country": "德国",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 402
+ },
+ {
+  "slug": "f500-473",
+  "cn_name": "德国巴登-符腾堡州银行",
+  "en_name": "Landesbank Baden-Württemberg",
+  "country": "德国",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 473
+ },
+ {
+  "slug": "f500-65",
+  "cn_name": "德国电信",
+  "en_name": "Deutsche Telekom",
+  "country": "德国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 65
+ },
+ {
+  "slug": "f500-439",
+  "cn_name": "德国联邦铁路公司",
+  "en_name": "Deutsche Bahn",
+  "country": "德国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 439
+ },
+ {
+  "slug": "f500-233",
+  "cn_name": "德国艾德卡公司",
+  "en_name": "Edeka Zentrale",
+  "country": "德国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 233
+ },
+ {
+  "slug": "f500-189",
+  "cn_name": "德意志银行",
+  "en_name": "Deutsche Bank",
+  "country": "德国",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 189
+ },
+ {
+  "slug": "f500-307",
+  "cn_name": "必和必拓集团",
+  "en_name": "Bhp Group",
+  "country": "澳大利亚",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 307
+ },
+ {
+  "slug": "f500-268",
+  "cn_name": "思科公司",
+  "en_name": "Cisco Systems",
+  "country": "美国",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 268
+ },
+ {
+  "slug": "f500-276",
+  "cn_name": "惠普公司",
+  "en_name": "Hp",
+  "country": "美国",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 276
+ },
+ {
+  "slug": "f500-127",
+  "cn_name": "意大利国家电力公司",
+  "en_name": "Enel",
+  "country": "意大利",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 127
+ },
+ {
+  "slug": "f500-218",
+  "cn_name": "意大利忠利保险公司",
+  "en_name": "Assicurazioni Generali",
+  "country": "意大利",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 218
+ },
+ {
+  "slug": "f500-303",
+  "cn_name": "意大利联合圣保罗银行",
+  "en_name": "Intesa Sanpaolo",
+  "country": "意大利",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 303
+ },
+ {
+  "slug": "f500-132",
+  "cn_name": "意昂集团",
+  "en_name": "E.On",
+  "country": "德国",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 132
+ },
+ {
+  "slug": "f500-200",
+  "cn_name": "慕尼黑再保险集团",
+  "en_name": "Munich Re Group",
+  "country": "德国",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 200
+ },
+ {
+  "slug": "f500-481",
+  "cn_name": "慧与公司",
+  "en_name": "Hewlett Packard Enterprise",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 481
+ },
+ {
+  "slug": "f500-274",
+  "cn_name": "戴姆勒卡车控股股份公司",
+  "en_name": "Daimler Truck Holding",
+  "country": "德国",
+  "industry": "汽车及零部件",
+  "priority": 2,
+  "fortune_rank": 274
+ },
+ {
+  "slug": "f500-90",
+  "cn_name": "戴尔科技公司",
+  "en_name": "Dell Technologies",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 90
+ },
+ {
+  "slug": "f500-47",
+  "cn_name": "房利美",
+  "en_name": "Fannie Mae",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 47
+ },
+ {
+  "slug": "f500-71",
+  "cn_name": "房地美",
+  "en_name": "Freddie Mac",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 71
+ },
+ {
+  "slug": "f500-25",
+  "cn_name": "托克集团",
+  "en_name": "Trafigura Group",
+  "country": "新加坡",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 25
+ },
+ {
+  "slug": "f500-304",
+  "cn_name": "拜耳集团",
+  "en_name": "Bayer",
+  "country": "德国",
+  "industry": "医疗健康",
+  "priority": 2,
+  "fortune_rank": 304
+ },
+ {
+  "slug": "f500-462",
+  "cn_name": "损保控股有限公司",
+  "en_name": "Sompo Holdings",
+  "country": "日本",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 462
+ },
+ {
+  "slug": "f500-84",
+  "cn_name": "摩根士丹利",
+  "en_name": "Morgan Stanley",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 84
+ },
+ {
+  "slug": "f500-19",
+  "cn_name": "摩根大通公司",
+  "en_name": "Jpmorgan Chase",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 19
+ },
+ {
+  "slug": "f500-122",
+  "cn_name": "敦豪集团",
+  "en_name": "Dhl Group",
+  "country": "德国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 122
+ },
+ {
+  "slug": "f500-460",
+  "cn_name": "斯伦贝谢公司",
+  "en_name": "Slb",
+  "country": "美国",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 460
+ },
+ {
+  "slug": "f500-302",
+  "cn_name": "新加坡奥兰集团",
+  "en_name": "Olam Group",
+  "country": "新加坡",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 302
+ },
+ {
+  "slug": "f500-348",
+  "cn_name": "施耐德电气",
+  "en_name": "Schneider Electric",
+  "country": "法国",
+  "industry": "制造",
+  "priority": 2,
+  "fortune_rank": 348
+ },
+ {
+  "slug": "f500-168",
+  "cn_name": "日产汽车",
+  "en_name": "Nissan Motor",
+  "country": "日本",
+  "industry": "汽车及零部件",
+  "priority": 2,
+  "fortune_rank": 168
+ },
+ {
+  "slug": "f500-401",
+  "cn_name": "日本KDDI电信公司",
+  "en_name": "Kddi",
+  "country": "日本",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 401
+ },
+ {
+  "slug": "f500-190",
+  "cn_name": "日本三井住友金融集团",
+  "en_name": "Sumitomo Mitsui Financial Group",
+  "country": "日本",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 190
+ },
+ {
+  "slug": "f500-443",
+  "cn_name": "日本三菱重工业股份有限公司",
+  "en_name": "Mitsubishi Heavy Industries",
+  "country": "日本",
+  "industry": "汽车及零部件",
+  "priority": 2,
+  "fortune_rank": 443
+ },
+ {
+  "slug": "f500-107",
+  "cn_name": "日本伊藤忠商事株式会社",
+  "en_name": "Itochu",
+  "country": "日本",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 107
+ },
+ {
+  "slug": "f500-330",
+  "cn_name": "日本出光兴产株式会社",
+  "en_name": "Idemitsu Kosan",
+  "country": "日本",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 330
+ },
+ {
+  "slug": "f500-219",
+  "cn_name": "日本制铁公司",
+  "en_name": "Nippon Steel",
+  "country": "日本",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 219
+ },
+ {
+  "slug": "f500-318",
+  "cn_name": "日本明治安田生命保险公司",
+  "en_name": "Meiji Yasuda Life Insurance",
+  "country": "日本",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 318
+ },
+ {
+  "slug": "f500-192",
+  "cn_name": "日本永旺集团",
+  "en_name": "Aeon",
+  "country": "日本",
+  "industry": "零售",
+  "priority": 2,
+  "fortune_rank": 192
+ },
+ {
+  "slug": "f500-253",
+  "cn_name": "日本瑞穗金融集团",
+  "en_name": "Mizuho Financial Group",
+  "country": "日本",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 253
+ },
+ {
+  "slug": "f500-111",
+  "cn_name": "日本生命保险公司",
+  "en_name": "Nippon Life Insurance",
+  "country": "日本",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 111
+ },
+ {
+  "slug": "f500-114",
+  "cn_name": "日本电报电话公司",
+  "en_name": "Ntt",
+  "country": "日本",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 114
+ },
+ {
+  "slug": "f500-177",
+  "cn_name": "日本邮政控股公司",
+  "en_name": "Japan Post Holdings",
+  "country": "日本",
+  "industry": "食品农业",
+  "priority": 2,
+  "fortune_rank": 177
+ },
+ {
+  "slug": "f500-197",
+  "cn_name": "日立",
+  "en_name": "Hitachi",
+  "country": "日本",
+  "industry": "汽车及零部件",
+  "priority": 2,
+  "fortune_rank": 197
+ },
+ {
+  "slug": "f500-446",
+  "cn_name": "星巴克公司",
+  "en_name": "Starbucks",
+  "country": "美国",
+  "industry": "食品农业",
+  "priority": 2,
+  "fortune_rank": 446
+ },
+ {
+  "slug": "f500-423",
+  "cn_name": "曼福集团",
+  "en_name": "Mapfre Group",
+  "country": "西班牙",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 423
+ },
+ {
+  "slug": "f500-55",
+  "cn_name": "本田汽车",
+  "en_name": "Honda Motor",
+  "country": "日本",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 55
+ },
+ {
+  "slug": "f500-286",
+  "cn_name": "松下控股公司",
+  "en_name": "Panasonic Holdings",
+  "country": "日本",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 286
+ },
+ {
+  "slug": "f500-488",
+  "cn_name": "林德集团",
+  "en_name": "Linde",
+  "country": "英国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 488
+ },
+ {
+  "slug": "f500-51",
+  "cn_name": "梅赛德斯-奔驰集团",
+  "en_name": "Mercedes-Benz Group",
+  "country": "德国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 51
+ },
+ {
+  "slug": "f500-350",
+  "cn_name": "森宝利公司",
+  "en_name": "J. Sainsbury",
+  "country": "英国",
+  "industry": "零售",
+  "priority": 2,
+  "fortune_rank": 350
+ },
+ {
+  "slug": "f500-472",
+  "cn_name": "森科能源公司",
+  "en_name": "Suncor Energy",
+  "country": "加拿大",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 472
+ },
+ {
+  "slug": "f500-317",
+  "cn_name": "欧莱雅",
+  "en_name": "L'Oréal",
+  "country": "法国",
+  "industry": "消费",
+  "priority": 2,
+  "fortune_rank": 317
+ },
+ {
+  "slug": "f500-62",
+  "cn_name": "汇丰银行控股公司",
+  "en_name": "Hsbc Holdings",
+  "country": "英国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 62
+ },
+ {
+  "slug": "f500-355",
+  "cn_name": "汉莎集团",
+  "en_name": "Lufthansa Group",
+  "country": "德国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 355
+ },
+ {
+  "slug": "f500-322",
+  "cn_name": "沃尔沃集团",
+  "en_name": "Volvo Group",
+  "country": "瑞典",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 322
+ },
+ {
+  "slug": "f500-2",
+  "cn_name": "沃尔玛",
+  "en_name": "Walmart",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 2
+ },
+ {
+  "slug": "f500-331",
+  "cn_name": "沃达丰集团",
+  "en_name": "Vodafone Group",
+  "country": "英国",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 331
+ },
+ {
+  "slug": "f500-5",
+  "cn_name": "沙特阿美公司",
+  "en_name": "Saudi Aramco",
+  "country": "沙特阿拉伯",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 5
+ },
+ {
+  "slug": "f500-171",
+  "cn_name": "法国BPCE银行集团",
+  "en_name": "Groupe Bpce",
+  "country": "法国",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 171
+ },
+ {
+  "slug": "f500-103",
+  "cn_name": "法国兴业银行",
+  "en_name": "Société Générale",
+  "country": "法国",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 103
+ },
+ {
+  "slug": "f500-150",
+  "cn_name": "法国农业信贷银行",
+  "en_name": "Crédit Agricole",
+  "country": "法国",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 150
+ },
+ {
+  "slug": "f500-264",
+  "cn_name": "法国国民互助信贷银行集团",
+  "en_name": "Crédit Mutuel Group",
+  "country": "法国",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 264
+ },
+ {
+  "slug": "f500-327",
+  "cn_name": "法国国营铁路集团",
+  "en_name": "Sncf Group",
+  "country": "法国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 327
+ },
+ {
+  "slug": "f500-315",
+  "cn_name": "法国威立雅环境集团",
+  "en_name": "Veolia Environnement",
+  "country": "法国",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 315
+ },
+ {
+  "slug": "f500-58",
+  "cn_name": "法国巴黎银行",
+  "en_name": "Bnp Paribas",
+  "country": "法国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 58
+ },
+ {
+  "slug": "f500-229",
+  "cn_name": "法国布伊格集团",
+  "en_name": "Bouygues",
+  "country": "法国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 229
+ },
+ {
+  "slug": "f500-74",
+  "cn_name": "法国电力公司",
+  "en_name": "Electricité De France",
+  "country": "法国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 74
+ },
+ {
+  "slug": "f500-444",
+  "cn_name": "法国航空－荷兰皇家航空集团",
+  "en_name": "Air France-Klm Group",
+  "country": "法国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 444
+ },
+ {
+  "slug": "f500-418",
+  "cn_name": "法国邮政",
+  "en_name": "La Poste",
+  "country": "法国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 418
+ },
+ {
+  "slug": "f500-193",
+  "cn_name": "波兰国营石油公司",
+  "en_name": "Orlen",
+  "country": "波兰",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 193
+ },
+ {
+  "slug": "f500-128",
+  "cn_name": "波音",
+  "en_name": "Boeing",
+  "country": "美国",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 128
+ },
+ {
+  "slug": "f500-161",
+  "cn_name": "泰国国家石油有限公司",
+  "en_name": "Ptt",
+  "country": "泰国",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 161
+ },
+ {
+  "slug": "f500-283",
+  "cn_name": "泰森食品",
+  "en_name": "Tyson Foods",
+  "country": "美国",
+  "industry": "食品农业",
+  "priority": 2,
+  "fortune_rank": 283
+ },
+ {
+  "slug": "f500-181",
+  "cn_name": "洛克希德－马丁",
+  "en_name": "Lockheed Martin",
+  "country": "美国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 181
+ },
+ {
+  "slug": "f500-326",
+  "cn_name": "浦项制铁控股公司",
+  "en_name": "Posco Holdings",
+  "country": "韩国",
+  "industry": "汽车及零部件",
+  "priority": 2,
+  "fortune_rank": 326
+ },
+ {
+  "slug": "f500-397",
+  "cn_name": "渣打银行",
+  "en_name": "Standard Chartered",
+  "country": "英国",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 397
+ },
+ {
+  "slug": "f500-420",
+  "cn_name": "澳大利亚国民银行",
+  "en_name": "National Australia Bank",
+  "country": "澳大利亚",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 420
+ },
+ {
+  "slug": "f500-362",
+  "cn_name": "澳新银行集团",
+  "en_name": "Anz Group Holdings",
+  "country": "澳大利亚",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 362
+ },
+ {
+  "slug": "f500-352",
+  "cn_name": "澳洲联邦银行",
+  "en_name": "Commonwealth Bank Of Australia",
+  "country": "澳大利亚",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 352
+ },
+ {
+  "slug": "f500-489",
+  "cn_name": "爱信",
+  "en_name": "Aisin",
+  "country": "日本",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 489
+ },
+ {
+  "slug": "f500-116",
+  "cn_name": "特斯拉",
+  "en_name": "Tesla",
+  "country": "美国",
+  "industry": "汽车及零部件",
+  "priority": 2,
+  "fortune_rank": 116
+ },
+ {
+  "slug": "f500-278",
+  "cn_name": "特许通讯公司",
+  "en_name": "Charter Communications",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 278
+ },
+ {
+  "slug": "f500-371",
+  "cn_name": "现代摩比斯公司",
+  "en_name": "Hyundai Mobis",
+  "country": "韩国",
+  "industry": "汽车及零部件",
+  "priority": 2,
+  "fortune_rank": 371
+ },
+ {
+  "slug": "f500-72",
+  "cn_name": "现代汽车",
+  "en_name": "Hyundai Motor",
+  "country": "韩国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 72
+ },
+ {
+  "slug": "f500-466",
+  "cn_name": "瑞士ABB集团",
+  "en_name": "Abb",
+  "country": "瑞士",
+  "industry": "综合",
+  "priority": 2,
+  "fortune_rank": 466
+ },
+ {
+  "slug": "f500-360",
+  "cn_name": "瑞士再保险股份有限公司",
+  "en_name": "Swiss Re",
+  "country": "瑞士",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 360
+ },
+ {
+  "slug": "f500-176",
+  "cn_name": "瑞士罗氏公司",
+  "en_name": "Roche Group",
+  "country": "瑞士",
+  "industry": "医疗健康",
+  "priority": 2,
+  "fortune_rank": 176
+ },
+ {
+  "slug": "f500-172",
+  "cn_name": "瑞银集团",
+  "en_name": "Ubs Group",
+  "country": "瑞士",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 172
+ },
+ {
+  "slug": "f500-88",
+  "cn_name": "瓦莱罗能源公司",
+  "en_name": "Valero Energy",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 88
+ },
+ {
+  "slug": "f500-265",
+  "cn_name": "甲骨文公司",
+  "en_name": "Oracle",
+  "country": "美国",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 265
+ },
+ {
+  "slug": "f500-316",
+  "cn_name": "电装公司",
+  "en_name": "Denso",
+  "country": "日本",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 316
+ },
+ {
+  "slug": "f500-121",
+  "cn_name": "百事公司",
+  "en_name": "Pepsico",
+  "country": "美国",
+  "industry": "食品农业",
+  "priority": 2,
+  "fortune_rank": 121
+ },
+ {
+  "slug": "f500-258",
+  "cn_name": "百威英博",
+  "en_name": "Anheuser-Busch Inbev",
+  "country": "比利时",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 258
+ },
+ {
+  "slug": "f500-385",
+  "cn_name": "百思买",
+  "en_name": "Best Buy",
+  "country": "美国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 385
+ },
+ {
+  "slug": "f500-328",
+  "cn_name": "百时美施贵宝公司",
+  "en_name": "Bristol-Myers Squibb",
+  "country": "美国",
+  "industry": "零售",
+  "priority": 2,
+  "fortune_rank": 328
+ },
+ {
+  "slug": "f500-98",
+  "cn_name": "皇家阿霍德德尔海兹集团",
+  "en_name": "Royal Ahold Delhaize",
+  "country": "荷兰",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 98
+ },
+ {
+  "slug": "f500-38",
+  "cn_name": "福特汽车公司",
+  "en_name": "Ford Motor",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 38
+ },
+ {
+  "slug": "f500-155",
+  "cn_name": "空中客车公司",
+  "en_name": "Airbus",
+  "country": "荷兰",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 155
+ },
+ {
+  "slug": "f500-182",
+  "cn_name": "第一生命保险集团",
+  "en_name": "Daiichi Life Group",
+  "country": "日本",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 182
+ },
+ {
+  "slug": "f500-206",
+  "cn_name": "第一资本金融公司",
+  "en_name": "Capital One Financial",
+  "country": "美国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 206
+ },
+ {
+  "slug": "f500-141",
+  "cn_name": "索尼",
+  "en_name": "Sony",
+  "country": "日本",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 141
+ },
+ {
+  "slug": "f500-394",
+  "cn_name": "纽约梅隆银行",
+  "en_name": "Bank Of New York (Bny)",
+  "country": "美国",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 394
+ },
+ {
+  "slug": "f500-438",
+  "cn_name": "美光科技公司",
+  "en_name": "Micron Technology",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 438
+ },
+ {
+  "slug": "f500-487",
+  "cn_name": "美国PNC金融服务集团",
+  "en_name": "Pnc Financial Services Group",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 487
+ },
+ {
+  "slug": "f500-226",
+  "cn_name": "美国全国保险公司",
+  "en_name": "Nationwide",
+  "country": "美国",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 226
+ },
+ {
+  "slug": "f500-313",
+  "cn_name": "美国利宝互助保险集团",
+  "en_name": "Liberty Mutual Insurance Group",
+  "country": "美国",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 313
+ },
+ {
+  "slug": "f500-145",
+  "cn_name": "美国劳氏公司",
+  "en_name": "Lowe'S",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 145
+ },
+ {
+  "slug": "f500-373",
+  "cn_name": "美国合众银行",
+  "en_name": "U.S. Bancorp",
+  "country": "美国",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 373
+ },
+ {
+  "slug": "f500-173",
+  "cn_name": "美国大都会集团",
+  "en_name": "Metlife",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 173
+ },
+ {
+  "slug": "f500-80",
+  "cn_name": "美国富国银行",
+  "en_name": "Wells Fargo",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 80
+ },
+ {
+  "slug": "f500-79",
+  "cn_name": "美国康卡斯特电信公司",
+  "en_name": "Comcast",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 79
+ },
+ {
+  "slug": "f500-312",
+  "cn_name": "美国教师退休基金会",
+  "en_name": "Tiaa",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 312
+ },
+ {
+  "slug": "f500-75",
+  "cn_name": "美国电话电报公司",
+  "en_name": "At&Amp;T",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 75
+ },
+ {
+  "slug": "f500-224",
+  "cn_name": "美国礼来公司",
+  "en_name": "Eli Lilly",
+  "country": "美国",
+  "industry": "医疗健康",
+  "priority": 2,
+  "fortune_rank": 224
+ },
+ {
+  "slug": "f500-184",
+  "cn_name": "美国纽约人寿保险公司",
+  "en_name": "New York Life Insurance",
+  "country": "美国",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 184
+ },
+ {
+  "slug": "f500-280",
+  "cn_name": "美国航空集团",
+  "en_name": "American Airlines Group",
+  "country": "美国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 280
+ },
+ {
+  "slug": "f500-381",
+  "cn_name": "美国诺斯洛普格拉曼公司",
+  "en_name": "Northrop Grumman",
+  "country": "美国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 381
+ },
+ {
+  "slug": "f500-165",
+  "cn_name": "美国运通公司",
+  "en_name": "American Express",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 165
+ },
+ {
+  "slug": "f500-163",
+  "cn_name": "美国邮政",
+  "en_name": "U.S. Postal Service",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 163
+ },
+ {
+  "slug": "f500-34",
+  "cn_name": "美国银行",
+  "en_name": "Bank Of America",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 34
+ },
+ {
+  "slug": "f500-496",
+  "cn_name": "美敦力公司",
+  "en_name": "Medtronic",
+  "country": "爱尔兰",
+  "industry": "医疗健康",
+  "priority": 2,
+  "fortune_rank": 496
+ },
+ {
+  "slug": "f500-320",
+  "cn_name": "美洲电信",
+  "en_name": "América Móvil",
+  "country": "墨西哥",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 320
+ },
+ {
+  "slug": "f500-336",
+  "cn_name": "耐克公司",
+  "en_name": "Nike",
+  "country": "美国",
+  "industry": "零售",
+  "priority": 2,
+  "fortune_rank": 336
+ },
+ {
+  "slug": "f500-353",
+  "cn_name": "联合信贷集团",
+  "en_name": "Unicredit Group",
+  "country": "意大利",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 353
+ },
+ {
+  "slug": "f500-4",
+  "cn_name": "联合健康集团",
+  "en_name": "Unitedhealth Group",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 4
+ },
+ {
+  "slug": "f500-222",
+  "cn_name": "联合利华",
+  "en_name": "Unilever",
+  "country": "英国",
+  "industry": "消费",
+  "priority": 2,
+  "fortune_rank": 222
+ },
+ {
+  "slug": "f500-133",
+  "cn_name": "联合包裹速递服务公司",
+  "en_name": "United Parcel Service",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 133
+ },
+ {
+  "slug": "f500-301",
+  "cn_name": "联合服务汽车协会",
+  "en_name": "United Services Automobile Assn.",
+  "country": "美国",
+  "industry": "汽车及零部件",
+  "priority": 2,
+  "fortune_rank": 301
+ },
+ {
+  "slug": "f500-259",
+  "cn_name": "联合航空控股公司",
+  "en_name": "United Airlines Holdings",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 259
+ },
+ {
+  "slug": "f500-137",
+  "cn_name": "联邦快递",
+  "en_name": "Fedex",
+  "country": "美国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 137
+ },
+ {
+  "slug": "f500-152",
+  "cn_name": "艾伯森公司",
+  "en_name": "Albertsons",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 152
+ },
+ {
+  "slug": "f500-246",
+  "cn_name": "艾伯维",
+  "en_name": "Abbvie",
+  "country": "美国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 246
+ },
+ {
+  "slug": "f500-45",
+  "cn_name": "花旗集团",
+  "en_name": "Citigroup",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 45
+ },
+ {
+  "slug": "f500-202",
+  "cn_name": "苏黎世保险集团",
+  "en_name": "Zurich Insurance Group",
+  "country": "瑞士",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 202
+ },
+ {
+  "slug": "f500-28",
+  "cn_name": "英伟达公司",
+  "en_name": "Nvidia",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 28
+ },
+ {
+  "slug": "f500-148",
+  "cn_name": "英国劳埃德银行集团",
+  "en_name": "Lloyds Banking Group",
+  "country": "英国",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 148
+ },
+ {
+  "slug": "f500-432",
+  "cn_name": "英国标准人寿保险公司",
+  "en_name": "Standard Life",
+  "country": "英国",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 432
+ },
+ {
+  "slug": "f500-33",
+  "cn_name": "英国石油公司",
+  "en_name": "Bp",
+  "country": "英国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 33
+ },
+ {
+  "slug": "f500-345",
+  "cn_name": "英格卡集团",
+  "en_name": "Ingka Group",
+  "country": "荷兰",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 345
+ },
+ {
+  "slug": "f500-289",
+  "cn_name": "英特尔公司",
+  "en_name": "Intel",
+  "country": "美国",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 289
+ },
+ {
+  "slug": "f500-493",
+  "cn_name": "英美烟草集团",
+  "en_name": "British American Tobacco",
+  "country": "英国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 493
+ },
+ {
+  "slug": "f500-293",
+  "cn_name": "英迈公司",
+  "en_name": "Ingram Micro Holding",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 293
+ },
+ {
+  "slug": "f500-6",
+  "cn_name": "苹果公司",
+  "en_name": "Apple",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 6
+ },
+ {
+  "slug": "f500-477",
+  "cn_name": "荷兰合作银行集团",
+  "en_name": "Rabobank Group",
+  "country": "荷兰",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 477
+ },
+ {
+  "slug": "f500-187",
+  "cn_name": "荷兰国际集团",
+  "en_name": "Ing Group",
+  "country": "荷兰",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 187
+ },
+ {
+  "slug": "f500-485",
+  "cn_name": "莱纳公司",
+  "en_name": "Lennar",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 485
+ },
+ {
+  "slug": "f500-396",
+  "cn_name": "菲利普－莫里斯国际公司",
+  "en_name": "Philip Morris International",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 396
+ },
+ {
+  "slug": "f500-370",
+  "cn_name": "葛兰素史克集团",
+  "en_name": "Gsk",
+  "country": "英国",
+  "industry": "医疗健康",
+  "priority": 2,
+  "fortune_rank": 370
+ },
+ {
+  "slug": "f500-455",
+  "cn_name": "蒂森克虏伯",
+  "en_name": "Thyssenkrupp",
+  "country": "德国",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 455
+ },
+ {
+  "slug": "f500-273",
+  "cn_name": "蒙特利尔银行",
+  "en_name": "Bank Of Montreal",
+  "country": "加拿大",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 273
+ },
+ {
+  "slug": "f500-365",
+  "cn_name": "西北互助人寿保险公司",
+  "en_name": "Northwestern Mutual",
+  "country": "美国",
+  "industry": "保险",
+  "priority": 2,
+  "fortune_rank": 365
+ },
+ {
+  "slug": "f500-440",
+  "cn_name": "西太平洋银行",
+  "en_name": "Westpac Banking",
+  "country": "澳大利亚",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 440
+ },
+ {
+  "slug": "f500-159",
+  "cn_name": "西斯科公司",
+  "en_name": "Sysco",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 159
+ },
+ {
+  "slug": "f500-270",
+  "cn_name": "西班牙ACS集团",
+  "en_name": "Acs",
+  "country": "西班牙",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 270
+ },
+ {
+  "slug": "f500-54",
+  "cn_name": "西班牙国家银行",
+  "en_name": "Banco Santander",
+  "country": "西班牙",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 54
+ },
+ {
+  "slug": "f500-144",
+  "cn_name": "西班牙对外银行",
+  "en_name": "Banco Bilbao Vizcaya Argentaria",
+  "country": "西班牙",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 144
+ },
+ {
+  "slug": "f500-376",
+  "cn_name": "西班牙电话公司",
+  "en_name": "Telefónica",
+  "country": "西班牙",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 376
+ },
+ {
+  "slug": "f500-143",
+  "cn_name": "西门子",
+  "en_name": "Siemens",
+  "country": "德国",
+  "industry": "制造",
+  "priority": 2,
+  "fortune_rank": 143
+ },
+ {
+  "slug": "f500-368",
+  "cn_name": "西门子能源",
+  "en_name": "Siemens Energy",
+  "country": "德国",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 368
+ },
+ {
+  "slug": "f500-267",
+  "cn_name": "诺华公司",
+  "en_name": "Novartis",
+  "country": "瑞士",
+  "industry": "医疗健康",
+  "priority": 2,
+  "fortune_rank": 267
+ },
+ {
+  "slug": "f500-333",
+  "cn_name": "诺和诺德公司",
+  "en_name": "Novo Nordisk",
+  "country": "丹麦",
+  "industry": "医疗健康",
+  "priority": 2,
+  "fortune_rank": 333
+ },
+ {
+  "slug": "f500-500",
+  "cn_name": "贝宝公司",
+  "en_name": "Paypal Holdings",
+  "country": "美国",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 500
+ },
+ {
+  "slug": "f500-323",
+  "cn_name": "贺利氏控股集团",
+  "en_name": "Heraeus Holding",
+  "country": "德国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 323
+ },
+ {
+  "slug": "f500-386",
+  "cn_name": "赛富时",
+  "en_name": "Salesforce",
+  "country": "美国",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 386
+ },
+ {
+  "slug": "f500-461",
+  "cn_name": "赛峰集团",
+  "en_name": "Safran",
+  "country": "法国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 461
+ },
+ {
+  "slug": "f500-279",
+  "cn_name": "赛诺菲",
+  "en_name": "Sanofi",
+  "country": "法国",
+  "industry": "医疗健康",
+  "priority": 2,
+  "fortune_rank": 279
+ },
+ {
+  "slug": "f500-356",
+  "cn_name": "赛默飞世尔科技公司",
+  "en_name": "Thermo Fisher Scientific",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 356
+ },
+ {
+  "slug": "f500-166",
+  "cn_name": "起亚公司",
+  "en_name": "Kia",
+  "country": "韩国",
+  "industry": "汽车及零部件",
+  "priority": 2,
+  "fortune_rank": 166
+ },
+ {
+  "slug": "f500-478",
+  "cn_name": "超威半导体公司",
+  "en_name": "Advanced Micro Devices",
+  "country": "美国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 478
+ },
+ {
+  "slug": "f500-287",
+  "cn_name": "路易达孚集团",
+  "en_name": "Louis Dreyfus",
+  "country": "荷兰",
+  "industry": "食品农业",
+  "priority": 2,
+  "fortune_rank": 287
+ },
+ {
+  "slug": "f500-300",
+  "cn_name": "软银集团",
+  "en_name": "Softbank Group",
+  "country": "日本",
+  "industry": "银行",
+  "priority": 2,
+  "fortune_rank": 300
+ },
+ {
+  "slug": "f500-240",
+  "cn_name": "辉瑞制药有限公司",
+  "en_name": "Pfizer",
+  "country": "美国",
+  "industry": "医疗健康",
+  "priority": 2,
+  "fortune_rank": 240
+ },
+ {
+  "slug": "f500-235",
+  "cn_name": "达美航空",
+  "en_name": "Delta Air Lines",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 235
+ },
+ {
+  "slug": "f500-126",
+  "cn_name": "迪奥公司",
+  "en_name": "Christian Dior",
+  "country": "法国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 126
+ },
+ {
+  "slug": "f500-342",
+  "cn_name": "迪尔公司",
+  "en_name": "Deere",
+  "country": "美国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 342
+ },
+ {
+  "slug": "f500-294",
+  "cn_name": "通用动力",
+  "en_name": "General Dynamics",
+  "country": "美国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 294
+ },
+ {
+  "slug": "f500-39",
+  "cn_name": "通用汽车公司",
+  "en_name": "General Motors",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 39
+ },
+ {
+  "slug": "f500-40",
+  "cn_name": "道达尔能源公司",
+  "en_name": "Totalenergies",
+  "country": "法国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 40
+ },
+ {
+  "slug": "f500-196",
+  "cn_name": "邦吉公司",
+  "en_name": "Bunge Global",
+  "country": "瑞士",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 196
+ },
+ {
+  "slug": "f500-364",
+  "cn_name": "采埃孚",
+  "en_name": "Zf Friedrichshafen",
+  "country": "德国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 364
+ },
+ {
+  "slug": "f500-384",
+  "cn_name": "铃木汽车",
+  "en_name": "Suzuki Motor",
+  "country": "日本",
+  "industry": "汽车及零部件",
+  "priority": 2,
+  "fortune_rank": 384
+ },
+ {
+  "slug": "f500-262",
+  "cn_name": "阿斯利康",
+  "en_name": "Astrazeneca",
+  "country": "英国",
+  "industry": "药企",
+  "priority": 2,
+  "fortune_rank": 262
+ },
+ {
+  "slug": "f500-453",
+  "cn_name": "阿斯麦公司",
+  "en_name": "Asml Holding",
+  "country": "荷兰",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 453
+ },
+ {
+  "slug": "f500-474",
+  "cn_name": "阿联酋航空集团",
+  "en_name": "Emirates Group",
+  "country": "阿拉伯联合酋长国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 474
+ },
+ {
+  "slug": "f500-404",
+  "cn_name": "陶氏公司",
+  "en_name": "Dow",
+  "country": "美国",
+  "industry": "食品农业",
+  "priority": 2,
+  "fortune_rank": 404
+ },
+ {
+  "slug": "f500-93",
+  "cn_name": "雀巢公司",
+  "en_name": "Nestlé",
+  "country": "瑞士",
+  "industry": "消费",
+  "priority": 2,
+  "fortune_rank": 93
+ },
+ {
+  "slug": "f500-358",
+  "cn_name": "雅培公司",
+  "en_name": "Abbott Laboratories",
+  "country": "美国",
+  "industry": "医疗健康",
+  "priority": 2,
+  "fortune_rank": 358
+ },
+ {
+  "slug": "f500-36",
+  "cn_name": "雪佛龙",
+  "en_name": "Chevron",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 36
+ },
+ {
+  "slug": "f500-282",
+  "cn_name": "雷普索尔公司",
+  "en_name": "Repsol",
+  "country": "西班牙",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 282
+ },
+ {
+  "slug": "f500-135",
+  "cn_name": "雷神技术公司",
+  "en_name": "Rtx",
+  "country": "美国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 135
+ },
+ {
+  "slug": "f500-223",
+  "cn_name": "雷诺",
+  "en_name": "Renault",
+  "country": "法国",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 223
+ },
+ {
+  "slug": "f500-395",
+  "cn_name": "霍尼韦尔国际公司",
+  "en_name": "Honeywell International",
+  "country": "美国",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 395
+ },
+ {
+  "slug": "f500-291",
+  "cn_name": "韩华集团",
+  "en_name": "Hanwha",
+  "country": "韩国",
+  "industry": "汽车及零部件",
+  "priority": 2,
+  "fortune_rank": 291
+ },
+ {
+  "slug": "f500-214",
+  "cn_name": "韩国电力公司",
+  "en_name": "Korea Electric Power",
+  "country": "韩国",
+  "industry": "传媒娱乐",
+  "priority": 2,
+  "fortune_rank": 214
+ },
+ {
+  "slug": "f500-284",
+  "cn_name": "马士基集团",
+  "en_name": "Maersk Group",
+  "country": "丹麦",
+  "industry": "交通物流/工业",
+  "priority": 2,
+  "fortune_rank": 284
+ },
+ {
+  "slug": "f500-63",
+  "cn_name": "马拉松原油公司",
+  "en_name": "Marathon Petroleum",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 63
+ },
+ {
+  "slug": "f500-242",
+  "cn_name": "马来西亚国家石油公司",
+  "en_name": "Petronas",
+  "country": "马来西亚",
+  "industry": "能源",
+  "priority": 2,
+  "fortune_rank": 242
+ },
+ {
+  "slug": "f500-77",
+  "cn_name": "高盛集团",
+  "en_name": "Goldman Sachs Group",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 77
+ },
+ {
+  "slug": "f500-359",
+  "cn_name": "高通",
+  "en_name": "Qualcomm",
+  "country": "美国",
+  "industry": "科技/电信",
+  "priority": 2,
+  "fortune_rank": 359
+ },
+ {
+  "slug": "f500-7",
+  "cn_name": "麦克森公司",
+  "en_name": "Mckesson",
+  "country": "美国",
+  "industry": "unknown",
+  "priority": 2,
+  "fortune_rank": 7
+ },
+ {
+  "slug": "f500-379",
+  "cn_name": "麦格纳国际",
+  "en_name": "Magna International",
+  "country": "加拿大",
+  "industry": "其他",
+  "priority": 2,
+  "fortune_rank": 379
+ },
+ {
+  "slug": "f500-225",
+  "cn_name": "默沙东",
+  "en_name": "Merck",
+  "country": "美国",
+  "industry": "医疗健康",
+  "priority": 2,
+  "fortune_rank": 225
+ },
+ {
+  "slug": "f500-411",
+  "cn_name": "上海医药集团股份有限公司",
+  "en_name": "Shanghai Pharmaceuticals Holding",
+  "country": "中国",
+  "industry": "医疗健康",
+  "priority": 3,
+  "fortune_rank": 411
+ },
+ {
+  "slug": "f500-125",
+  "cn_name": "上海汽车集团股份有限公司",
+  "en_name": "Saic Motor",
+  "country": "中国",
+  "industry": "汽车及零部件",
+  "priority": 3,
+  "fortune_rank": 125
+ },
+ {
+  "slug": "f500-349",
+  "cn_name": "上海浦东发展银行股份有限公司",
+  "en_name": "Shanghai Pudong Development Bank",
+  "country": "中国",
+  "industry": "银行",
+  "priority": 3,
+  "fortune_rank": 349
+ },
+ {
+  "slug": "f500-319",
+  "cn_name": "东风汽车集团有限公司",
+  "en_name": "Dongfeng Motor",
+  "country": "中国",
+  "industry": "汽车及零部件",
+  "priority": 3,
+  "fortune_rank": 319
+ },
+ {
+  "slug": "f500-59",
+  "cn_name": "中国中信集团有限公司",
+  "en_name": "Citic Group",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 59
+ },
+ {
+  "slug": "f500-410",
+  "cn_name": "中国中车集团有限公司",
+  "en_name": "Crrc Group",
+  "country": "中国",
+  "industry": "交通物流/工业",
+  "priority": 3,
+  "fortune_rank": 410
+ },
+ {
+  "slug": "f500-99",
+  "cn_name": "中国五矿集团有限公司",
+  "en_name": "China Minmetals",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 99
+ },
+ {
+  "slug": "f500-66",
+  "cn_name": "中国交通建设集团有限公司",
+  "en_name": "China Communications Construction",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 66
+ },
+ {
+  "slug": "f500-42",
+  "cn_name": "中国人寿保险",
+  "en_name": "集团）公司（China Life Insurance",
+  "country": "中国",
+  "industry": "保险",
+  "priority": 3,
+  "fortune_rank": 42
+ },
+ {
+  "slug": "f500-123",
+  "cn_name": "中国人民保险集团股份有限公司",
+  "en_name": "People'S Insurance Co. Of China",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 123
+ },
+ {
+  "slug": "f500-212",
+  "cn_name": "中国保利集团有限公司",
+  "en_name": "China Poly Group",
+  "country": "中国",
+  "industry": "零售",
+  "priority": 3,
+  "fortune_rank": 212
+ },
+ {
+  "slug": "f500-35",
+  "cn_name": "中国农业银行股份有限公司",
+  "en_name": "Agricultural Bank Of China",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 35
+ },
+ {
+  "slug": "f500-68",
+  "cn_name": "中国华润有限公司",
+  "en_name": "China Resources",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 68
+ },
+ {
+  "slug": "f500-366",
+  "cn_name": "中国华电集团有限公司",
+  "en_name": "China Huadian",
+  "country": "中国",
+  "industry": "交通物流/工业",
+  "priority": 3,
+  "fortune_rank": 366
+ },
+ {
+  "slug": "f500-86",
+  "cn_name": "中国南方电网有限责任公司",
+  "en_name": "China Southern Power Grid",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 86
+ },
+ {
+  "slug": "f500-456",
+  "cn_name": "中国大唐集团有限公司",
+  "en_name": "China Datang",
+  "country": "中国",
+  "industry": "交通物流/工业",
+  "priority": 3,
+  "fortune_rank": 456
+ },
+ {
+  "slug": "f500-248",
+  "cn_name": "中国太平洋保险",
+  "en_name": "集团)股份有限公司（China Pacific Insurance (Group)",
+  "country": "中国",
+  "industry": "保险",
+  "priority": 3,
+  "fortune_rank": 248
+ },
+ {
+  "slug": "f500-100",
+  "cn_name": "中国宝武钢铁集团有限公司",
+  "en_name": "China Baowu Steel Group",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 100
+ },
+ {
+  "slug": "f500-29",
+  "cn_name": "中国工商银行股份有限公司",
+  "en_name": "Industrial &Amp; Commercial Bank Of China",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 29
+ },
+ {
+  "slug": "f500-48",
+  "cn_name": "中国平安保险",
+  "en_name": "集团）股份有限公司（Ping An Insurance",
+  "country": "中国",
+  "industry": "保险",
+  "priority": 3,
+  "fortune_rank": 48
+ },
+ {
+  "slug": "f500-392",
+  "cn_name": "中国建材集团有限公司",
+  "en_name": "China National Building Material Group",
+  "country": "中国",
+  "industry": "能源",
+  "priority": 3,
+  "fortune_rank": 392
+ },
+ {
+  "slug": "f500-17",
+  "cn_name": "中国建筑集团有限公司",
+  "en_name": "China State Construction Engineering",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 17
+ },
+ {
+  "slug": "f500-377",
+  "cn_name": "中国机械工业集团有限公司",
+  "en_name": "Sinomach",
+  "country": "中国",
+  "industry": "交通物流/工业",
+  "priority": 3,
+  "fortune_rank": 377
+ },
+ {
+  "slug": "f500-447",
+  "cn_name": "中国民生银行股份有限公司",
+  "en_name": "China Minsheng Banking",
+  "country": "中国",
+  "industry": "银行",
+  "priority": 3,
+  "fortune_rank": 447
+ },
+ {
+  "slug": "f500-83",
+  "cn_name": "中国海洋石油集团有限公司",
+  "en_name": "China National Offshore Oil",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 83
+ },
+ {
+  "slug": "f500-134",
+  "cn_name": "中国电信集团有限公司",
+  "en_name": "China Telecommunications",
+  "country": "中国",
+  "industry": "科技/电信",
+  "priority": 3,
+  "fortune_rank": 134
+ },
+ {
+  "slug": "f500-104",
+  "cn_name": "中国电力建设集团有限公司",
+  "en_name": "Powerchina",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 104
+ },
+ {
+  "slug": "f500-451",
+  "cn_name": "中国电子信息产业集团有限公司",
+  "en_name": "China Electronics",
+  "country": "中国",
+  "industry": "科技/电信",
+  "priority": 3,
+  "fortune_rank": 451
+ },
+ {
+  "slug": "f500-12",
+  "cn_name": "中国石油化工集团有限公司",
+  "en_name": "Sinopec Group",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 12
+ },
+ {
+  "slug": "f500-10",
+  "cn_name": "中国石油天然气集团有限公司",
+  "en_name": "China National Petroleum",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 10
+ },
+ {
+  "slug": "f500-183",
+  "cn_name": "中国第一汽车集团有限公司",
+  "en_name": "China Faw Group",
+  "country": "中国",
+  "industry": "汽车及零部件",
+  "priority": 3,
+  "fortune_rank": 183
+ },
+ {
+  "slug": "f500-281",
+  "cn_name": "中国联合网络通信股份有限公司",
+  "en_name": "China United Network Communications",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 281
+ },
+ {
+  "slug": "f500-234",
+  "cn_name": "中国能源建设集团有限公司",
+  "en_name": "China Energy Engineering Group",
+  "country": "中国",
+  "industry": "银行",
+  "priority": 3,
+  "fortune_rank": 234
+ },
+ {
+  "slug": "f500-361",
+  "cn_name": "中国通用技术",
+  "en_name": "集团)控股有限责任公司（China General Technology",
+  "country": "中国",
+  "industry": "交通物流/工业",
+  "priority": 3,
+  "fortune_rank": 361
+ },
+ {
+  "slug": "f500-49",
+  "cn_name": "中国铁路工程集团有限公司",
+  "en_name": "China Railway Engineering Group",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 49
+ },
+ {
+  "slug": "f500-57",
+  "cn_name": "中国铁道建筑集团有限公司",
+  "en_name": "China Railway Construction",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 57
+ },
+ {
+  "slug": "f500-207",
+  "cn_name": "中国铝业集团有限公司",
+  "en_name": "Aluminum Corp. Of China",
+  "country": "中国",
+  "industry": "交通物流/工业",
+  "priority": 3,
+  "fortune_rank": 207
+ },
+ {
+  "slug": "f500-157",
+  "cn_name": "中粮集团有限公司",
+  "en_name": "Cofco",
+  "country": "中国",
+  "industry": "交通物流/工业",
+  "priority": 3,
+  "fortune_rank": 157
+ },
+ {
+  "slug": "f500-188",
+  "cn_name": "交通银行股份有限公司",
+  "en_name": "Bank Of Communications",
+  "country": "中国",
+  "industry": "银行",
+  "priority": 3,
+  "fortune_rank": 188
+ },
+ {
+  "slug": "f500-288",
+  "cn_name": "兴业银行股份有限公司",
+  "en_name": "Industrial Bank",
+  "country": "中国",
+  "industry": "银行",
+  "priority": 3,
+  "fortune_rank": 288
+ },
+ {
+  "slug": "f500-484",
+  "cn_name": "北京建龙重工集团有限公司",
+  "en_name": "Beijing Jianlong Heavy Industry Group",
+  "country": "中国",
+  "industry": "传媒娱乐",
+  "priority": 3,
+  "fortune_rank": 484
+ },
+ {
+  "slug": "f500-413",
+  "cn_name": "北京汽车集团有限公司",
+  "en_name": "Beijing Automotive Group",
+  "country": "中国",
+  "industry": "汽车及零部件",
+  "priority": 3,
+  "fortune_rank": 413
+ },
+ {
+  "slug": "f500-81",
+  "cn_name": "华为投资控股有限公司",
+  "en_name": "Huawei Investment &Amp; Holding",
+  "country": "中国",
+  "industry": "电子",
+  "priority": 3,
+  "fortune_rank": 81
+ },
+ {
+  "slug": "f500-252",
+  "cn_name": "厦门国贸控股集团有限公司",
+  "en_name": "Xiamen Itg Holding Group",
+  "country": "中国",
+  "industry": "银行",
+  "priority": 3,
+  "fortune_rank": 252
+ },
+ {
+  "slug": "f500-112",
+  "cn_name": "厦门建发集团有限公司",
+  "en_name": "Xiamen C&Amp;D",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 112
+ },
+ {
+  "slug": "f500-227",
+  "cn_name": "厦门象屿集团有限公司",
+  "en_name": "Xmxyg",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 227
+ },
+ {
+  "slug": "f500-409",
+  "cn_name": "友邦保险控股有限公司",
+  "en_name": "Aia Group",
+  "country": "中国",
+  "industry": "保险",
+  "priority": 3,
+  "fortune_rank": 409
+ },
+ {
+  "slug": "f500-82",
+  "cn_name": "台积公司",
+  "en_name": "Taiwan Semiconductor Manufacturing",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 82
+ },
+ {
+  "slug": "f500-459",
+  "cn_name": "和硕",
+  "en_name": "Pegatron",
+  "country": "中国",
+  "industry": "能源",
+  "priority": 3,
+  "fortune_rank": 459
+ },
+ {
+  "slug": "f500-271",
+  "cn_name": "国家电力投资集团有限公司",
+  "en_name": "State Power Investment",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 271
+ },
+ {
+  "slug": "f500-3",
+  "cn_name": "国家电网有限公司",
+  "en_name": "State Grid",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 3
+ },
+ {
+  "slug": "f500-170",
+  "cn_name": "太平洋建设集团有限公司",
+  "en_name": "Pacific Construction Group",
+  "country": "中国",
+  "industry": "零售",
+  "priority": 3,
+  "fortune_rank": 170
+ },
+ {
+  "slug": "f500-383",
+  "cn_name": "奇瑞汽车股份有限公司",
+  "en_name": "Chery Automobile",
+  "country": "中国",
+  "industry": "汽车及零部件",
+  "priority": 3,
+  "fortune_rank": 383
+ },
+ {
+  "slug": "f500-260",
+  "cn_name": "宁德时代新能源科技股份有限公司",
+  "en_name": "Contemporary Amperex Technology",
+  "country": "中国",
+  "industry": "汽车",
+  "priority": 3,
+  "fortune_rank": 260
+ },
+ {
+  "slug": "f500-87",
+  "cn_name": "山东能源集团有限公司",
+  "en_name": "Shandong Energy Group",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 87
+ },
+ {
+  "slug": "f500-391",
+  "cn_name": "山东高速集团有限公司",
+  "en_name": "Shandong Hi-Speed Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 391
+ },
+ {
+  "slug": "f500-156",
+  "cn_name": "山东魏桥创业集团有限公司",
+  "en_name": "Shandong Weiqiao Pioneering Group",
+  "country": "中国",
+  "industry": "银行",
+  "priority": 3,
+  "fortune_rank": 156
+ },
+ {
+  "slug": "f500-428",
+  "cn_name": "山东黄金集团有限公司",
+  "en_name": "Shandong Gold Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 428
+ },
+ {
+  "slug": "f500-406",
+  "cn_name": "广东省广新控股集团有限公司",
+  "en_name": "Guangdong Guangxin Holdings Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 406
+ },
+ {
+  "slug": "f500-467",
+  "cn_name": "广州医药集团有限公司",
+  "en_name": "Guangzhou Pharmaceutical Holdings",
+  "country": "中国",
+  "industry": "医疗健康",
+  "priority": 3,
+  "fortune_rank": 467
+ },
+ {
+  "slug": "f500-389",
+  "cn_name": "广州工业投资控股集团有限公司",
+  "en_name": "Guangzhou Industrial Investment Holdings",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 389
+ },
+ {
+  "slug": "f500-430",
+  "cn_name": "广州市建筑集团有限公司",
+  "en_name": "Guangzhou Municipal Construction Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 430
+ },
+ {
+  "slug": "f500-299",
+  "cn_name": "广州汽车工业集团有限公司",
+  "en_name": "Guangzhou Automobile Industry Group",
+  "country": "中国",
+  "industry": "汽车及零部件",
+  "priority": 3,
+  "fortune_rank": 299
+ },
+ {
+  "slug": "f500-497",
+  "cn_name": "广西投资集团有限公司",
+  "en_name": "Guangxi Investment Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 497
+ },
+ {
+  "slug": "f500-211",
+  "cn_name": "广达电脑公司",
+  "en_name": "Quanta Computer",
+  "country": "中国",
+  "industry": "能源",
+  "priority": 3,
+  "fortune_rank": 211
+ },
+ {
+  "slug": "f500-475",
+  "cn_name": "德龙钢铁产业集团有限公司",
+  "en_name": "Delong Steel Industry Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 475
+ },
+ {
+  "slug": "f500-483",
+  "cn_name": "怡和集团",
+  "en_name": "Jardine Matheson",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 483
+ },
+ {
+  "slug": "f500-78",
+  "cn_name": "恒力集团有限公司",
+  "en_name": "Hengli Group",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 78
+ },
+ {
+  "slug": "f500-221",
+  "cn_name": "招商银行股份有限公司",
+  "en_name": "China Merchants Bank",
+  "country": "中国",
+  "industry": "银行",
+  "priority": 3,
+  "fortune_rank": 221
+ },
+ {
+  "slug": "f500-255",
+  "cn_name": "拼多多控股公司",
+  "en_name": "Pdd Holdings",
+  "country": "中国",
+  "industry": "科技/电信",
+  "priority": 3,
+  "fortune_rank": 255
+ },
+ {
+  "slug": "f500-306",
+  "cn_name": "敬业集团有限公司",
+  "en_name": "Jingye Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 306
+ },
+ {
+  "slug": "f500-431",
+  "cn_name": "文晔科技公司",
+  "en_name": "Wt Microelectronics",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 431
+ },
+ {
+  "slug": "f500-414",
+  "cn_name": "新华人寿保险股份有限公司",
+  "en_name": "New China Life Insurance",
+  "country": "中国",
+  "industry": "保险",
+  "priority": 3,
+  "fortune_rank": 414
+ },
+ {
+  "slug": "f500-480",
+  "cn_name": "新希望控股集团有限公司",
+  "en_name": "New Hope Holding Group",
+  "country": "中国",
+  "industry": "银行",
+  "priority": 3,
+  "fortune_rank": 480
+ },
+ {
+  "slug": "f500-390",
+  "cn_name": "晋能控股集团有限公司",
+  "en_name": "Jinneng Holding Group",
+  "country": "中国",
+  "industry": "银行",
+  "priority": 3,
+  "fortune_rank": 390
+ },
+ {
+  "slug": "f500-419",
+  "cn_name": "杭州市实业投资集团有限公司",
+  "en_name": "Hangzhou Industrial Investment Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 419
+ },
+ {
+  "slug": "f500-415",
+  "cn_name": "杭州钢铁集团有限公司",
+  "en_name": "Hangzhou Iron And Steel Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 415
+ },
+ {
+  "slug": "f500-91",
+  "cn_name": "比亚迪股份有限公司",
+  "en_name": "Byd",
+  "country": "中国",
+  "industry": "汽车",
+  "priority": 3,
+  "fortune_rank": 91
+ },
+ {
+  "slug": "f500-450",
+  "cn_name": "江苏沙钢集团有限公司",
+  "en_name": "Jiangsu Shagang Group",
+  "country": "中国",
+  "industry": "能源",
+  "priority": 3,
+  "fortune_rank": 450
+ },
+ {
+  "slug": "f500-164",
+  "cn_name": "江西铜业集团有限公司",
+  "en_name": "Jiangxi Copper",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 164
+ },
+ {
+  "slug": "f500-266",
+  "cn_name": "河钢集团有限公司",
+  "en_name": "Hbis Group",
+  "country": "中国",
+  "industry": "能源",
+  "priority": 3,
+  "fortune_rank": 266
+ },
+ {
+  "slug": "f500-297",
+  "cn_name": "泰康保险集团股份有限公司",
+  "en_name": "Taikang Insurance Group",
+  "country": "中国",
+  "industry": "保险",
+  "priority": 3,
+  "fortune_rank": 297
+ },
+ {
+  "slug": "f500-138",
+  "cn_name": "浙江吉利控股集团有限公司",
+  "en_name": "Zhejiang Geely Holding Group",
+  "country": "中国",
+  "industry": "汽车",
+  "priority": 3,
+  "fortune_rank": 138
+ },
+ {
+  "slug": "f500-201",
+  "cn_name": "浙江恒逸集团有限公司",
+  "en_name": "Zhejiang Hengyi Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 201
+ },
+ {
+  "slug": "f500-309",
+  "cn_name": "浙江省交通投资集团有限公司",
+  "en_name": "Zhejiang Communications Investment Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 309
+ },
+ {
+  "slug": "f500-115",
+  "cn_name": "浙江荣盛控股集团有限公司",
+  "en_name": "Zhejiang Rongsheng Holding Group",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 115
+ },
+ {
+  "slug": "f500-433",
+  "cn_name": "海亮集团有限公司",
+  "en_name": "Hailiang Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 433
+ },
+ {
+  "slug": "f500-378",
+  "cn_name": "海尔智家股份有限公司",
+  "en_name": "Haier Smart Home",
+  "country": "中国",
+  "industry": "制造",
+  "priority": 3,
+  "fortune_rank": 378
+ },
+ {
+  "slug": "f500-421",
+  "cn_name": "深圳市投资控股有限公司",
+  "en_name": "Shenzhen Investment Holdings",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 421
+ },
+ {
+  "slug": "f500-463",
+  "cn_name": "湖南钢铁集团有限公司",
+  "en_name": "Hunan Iron &Amp; Steel Group",
+  "country": "中国",
+  "industry": "食品农业",
+  "priority": 3,
+  "fortune_rank": 463
+ },
+ {
+  "slug": "f500-154",
+  "cn_name": "物产中大集团股份有限公司",
+  "en_name": "Wuchan Zhongda Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 154
+ },
+ {
+  "slug": "f500-158",
+  "cn_name": "盛虹控股集团有限公司",
+  "en_name": "Shenghong Holding Group",
+  "country": "中国",
+  "industry": "银行",
+  "priority": 3,
+  "fortune_rank": 158
+ },
+ {
+  "slug": "f500-337",
+  "cn_name": "立讯精密工业股份有限公司",
+  "en_name": "Luxshare Precision Industry",
+  "country": "中国",
+  "industry": "科技/电信",
+  "priority": 3,
+  "fortune_rank": 337
+ },
+ {
+  "slug": "f500-325",
+  "cn_name": "紫金矿业集团股份有限公司",
+  "en_name": "Zijin Mining Group",
+  "country": "中国",
+  "industry": "银行",
+  "priority": 3,
+  "fortune_rank": 325
+ },
+ {
+  "slug": "f500-198",
+  "cn_name": "纬创集团",
+  "en_name": "Wistron",
+  "country": "中国",
+  "industry": "能源",
+  "priority": 3,
+  "fortune_rank": 198
+ },
+ {
+  "slug": "f500-153",
+  "cn_name": "联想集团有限公司",
+  "en_name": "Lenovo Group",
+  "country": "中国",
+  "industry": "电子",
+  "priority": 3,
+  "fortune_rank": 153
+ },
+ {
+  "slug": "f500-97",
+  "cn_name": "腾讯控股有限公司",
+  "en_name": "Tencent Holdings",
+  "country": "中国",
+  "industry": "互联网",
+  "priority": 3,
+  "fortune_rank": 97
+ },
+ {
+  "slug": "f500-340",
+  "cn_name": "苏商建设集团有限公司",
+  "en_name": "Susun Construction Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 340
+ },
+ {
+  "slug": "f500-445",
+  "cn_name": "蜀道投资集团有限责任公司",
+  "en_name": "Shudao Investment Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 445
+ },
+ {
+  "slug": "f500-464",
+  "cn_name": "通威集团有限公司",
+  "en_name": "Tongwei Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 464
+ },
+ {
+  "slug": "f500-213",
+  "cn_name": "金川集团股份有限公司",
+  "en_name": "Jinchuan Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 213
+ },
+ {
+  "slug": "f500-436",
+  "cn_name": "铜陵有色金属集团控股有限公司",
+  "en_name": "Tongling Nonferrous Metals Group",
+  "country": "中国",
+  "industry": "其他",
+  "priority": 3,
+  "fortune_rank": 436
+ },
+ {
+  "slug": "f500-457",
+  "cn_name": "长江和记实业有限公司",
+  "en_name": "Ck Hutchison Holdings",
+  "country": "中国",
+  "industry": "交通物流/工业",
+  "priority": 3,
+  "fortune_rank": 457
+ },
+ {
+  "slug": "f500-393",
+  "cn_name": "陕西延长石油",
+  "en_name": "集团）有限责任公司（Shaanxi Yanchang Petroleum (Group)",
+  "country": "中国",
+  "industry": "能源",
+  "priority": 3,
+  "fortune_rank": 393
+ },
+ {
+  "slug": "f500-249",
+  "cn_name": "陕西煤业化工集团有限责任公司",
+  "en_name": "Shaanxi Coal &Amp; Chemical Industry",
+  "country": "中国",
+  "industry": "交通物流/工业",
+  "priority": 3,
+  "fortune_rank": 249
+ },
+ {
+  "slug": "f500-254",
+  "cn_name": "青山控股集团有限公司",
+  "en_name": "Tsingshan Holding Group",
+  "country": "中国",
+  "industry": "银行",
+  "priority": 3,
+  "fortune_rank": 254
+ },
+ {
+  "slug": "f500-491",
+  "cn_name": "鞍钢集团有限公司",
+  "en_name": "Ansteel Group",
+  "country": "中国",
+  "industry": "能源",
+  "priority": 3,
+  "fortune_rank": 491
+ },
+ {
+  "slug": "f500-372",
+  "cn_name": "顺丰控股股份有限公司",
+  "en_name": "S.F. Holding",
+  "country": "中国",
+  "industry": "消费",
+  "priority": 3,
+  "fortune_rank": 372
+ },
+ {
+  "slug": "f500-23",
+  "cn_name": "鸿海精密工业股份有限公司",
+  "en_name": "Hon Hai Precision Industry",
+  "country": "中国",
+  "industry": "unknown",
+  "priority": 3,
+  "fortune_rank": 23
+ },
+ {
+  "slug": "fc-mmm",
+  "cn_name": "3M",
+  "en_name": "Mmm",
+  "country": "美国",
+  "industry": "工业/材料",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-aig",
+  "cn_name": "AIG",
+  "en_name": "Aig",
+  "country": "美国",
+  "industry": "金融/保险",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-amd",
+  "cn_name": "AMD",
+  "en_name": "Amd",
+  "country": "美国",
+  "industry": "科技/芯片",
+  "priority": 4,
+  "platform_hint": "Greenhouse"
+ },
+ {
+  "slug": "fc-adobe",
+  "cn_name": "Adobe",
+  "en_name": "Adobe",
+  "country": "美国",
+  "industry": "科技/软件",
+  "priority": 4,
+  "platform_hint": "Greenhouse"
+ },
+ {
+  "slug": "fc-dhl",
+  "cn_name": "DHL/德国邮政",
+  "en_name": "Dhl",
+  "country": "德国",
+  "industry": "物流",
+  "priority": 4,
+  "platform_hint": "SuccessFactors"
+ },
+ {
+  "slug": "fc-ibm",
+  "cn_name": "IBM",
+  "en_name": "Ibm",
+  "country": "美国",
+  "industry": "科技/IT",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-meta",
+  "cn_name": "Meta",
+  "en_name": "Meta",
+  "country": "美国",
+  "industry": "科技",
+  "priority": 4,
+  "platform_hint": "Greenhouse/自建"
+ },
+ {
+  "slug": "fc-ups",
+  "cn_name": "UPS",
+  "en_name": "Ups",
+  "country": "美国",
+  "industry": "物流",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-toyota",
+  "cn_name": "丰田 Toyota",
+  "en_name": "Toyota",
+  "country": "日本",
+  "industry": "汽车",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-amazon",
+  "cn_name": "亚马逊 Amazon",
+  "en_name": "Amazon",
+  "country": "美国",
+  "industry": "科技/电商",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-mondelez",
+  "cn_name": "亿滋 Mondelez",
+  "en_name": "Mondelez",
+  "country": "美国",
+  "industry": "快消",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-pernod",
+  "cn_name": "保乐力加 PernodRicard",
+  "en_name": "Pernod",
+  "country": "法国",
+  "industry": "酒类",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-boehringer",
+  "cn_name": "勃林格殷格翰 BI",
+  "en_name": "Boehringer",
+  "country": "德国",
+  "industry": "医药",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-bosch",
+  "cn_name": "博世 Bosch",
+  "en_name": "Bosch",
+  "country": "德国",
+  "industry": "汽车/工业",
+  "priority": 4,
+  "platform_hint": "MokaHR"
+ },
+ {
+  "slug": "fc-kraftheinz",
+  "cn_name": "卡夫亨氏 KraftHeinz",
+  "en_name": "Kraftheinz",
+  "country": "美国",
+  "industry": "快消",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-vw",
+  "cn_name": "大众 Volkswagen",
+  "en_name": "Vw",
+  "country": "德国",
+  "industry": "汽车",
+  "priority": 4,
+  "platform_hint": "自建/SuccessFactors"
+ },
+ {
+  "slug": "fc-mercedes",
+  "cn_name": "奔驰 Mercedes-Benz",
+  "en_name": "Mercedes",
+  "country": "德国",
+  "industry": "汽车",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-aldi",
+  "cn_name": "奥乐齐 Aldi",
+  "en_name": "Aldi",
+  "country": "德国",
+  "industry": "零售",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-ey",
+  "cn_name": "安永 EY",
+  "en_name": "Ey",
+  "country": "英国",
+  "industry": "咨询/审计",
+  "priority": 4,
+  "platform_hint": "自建/MokaHR"
+ },
+ {
+  "slug": "fc-ikea",
+  "cn_name": "宜家 IKEA",
+  "en_name": "Ikea",
+  "country": "瑞典",
+  "industry": "零售",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-bmw",
+  "cn_name": "宝马 BMW",
+  "en_name": "Bmw",
+  "country": "德国",
+  "industry": "汽车",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-bnp",
+  "cn_name": "巴黎银行 BNPParibas",
+  "en_name": "Bnp",
+  "country": "法国",
+  "industry": "金融",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-diageo",
+  "cn_name": "帝亚吉欧 Diageo",
+  "en_name": "Diageo",
+  "country": "英国",
+  "industry": "酒类",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-costco",
+  "cn_name": "开市客 Costco",
+  "en_name": "Costco",
+  "country": "美国",
+  "industry": "零售",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-johnson",
+  "cn_name": "强生 Johnson&Johnson",
+  "en_name": "Johnson",
+  "country": "美国",
+  "industry": "医药/快消",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-deloitte",
+  "cn_name": "德勤 Deloitte",
+  "en_name": "Deloitte",
+  "country": "英国",
+  "industry": "咨询/审计",
+  "priority": 4,
+  "platform_hint": "自建/MokaHR"
+ },
+ {
+  "slug": "fc-ti",
+  "cn_name": "德州仪器 TexasInstruments",
+  "en_name": "Ti",
+  "country": "美国",
+  "industry": "科技/半导体",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-db",
+  "cn_name": "德意志银行 DeutscheBank",
+  "en_name": "Db",
+  "country": "德国",
+  "industry": "金融",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-cisco",
+  "cn_name": "思科 Cisco",
+  "en_name": "Cisco",
+  "country": "美国",
+  "industry": "科技/网络",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-jpmorgan",
+  "cn_name": "摩根大通 JPMorgan",
+  "en_name": "Jpmorgan",
+  "country": "美国",
+  "industry": "金融",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-schneider",
+  "cn_name": "施耐德电气 Schneider",
+  "en_name": "Schneider",
+  "country": "法国",
+  "industry": "工业/能源",
+  "priority": 4,
+  "platform_hint": "Workday(疑似)"
+ },
+ {
+  "slug": "fc-nissan",
+  "cn_name": "日产 Nissan",
+  "en_name": "Nissan",
+  "country": "日本",
+  "industry": "汽车",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-honda",
+  "cn_name": "本田 Honda",
+  "en_name": "Honda",
+  "country": "日本",
+  "industry": "汽车",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-loreal",
+  "cn_name": "欧莱雅 L'Oreal",
+  "en_name": "Loreal",
+  "country": "法国",
+  "industry": "快消/美妆",
+  "priority": 4,
+  "platform_hint": "MokaHR"
+ },
+ {
+  "slug": "fc-takeda",
+  "cn_name": "武田 Takeda",
+  "en_name": "Takeda",
+  "country": "日本",
+  "industry": "医药",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-kpmg",
+  "cn_name": "毕马威 KPMG",
+  "en_name": "Kpmg",
+  "country": "荷兰",
+  "industry": "咨询/审计",
+  "priority": 4,
+  "platform_hint": "自建/MokaHR"
+ },
+ {
+  "slug": "fc-hsbc",
+  "cn_name": "汇丰 HSBC",
+  "en_name": "Hsbc",
+  "country": "英国",
+  "industry": "金融",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-bcg",
+  "cn_name": "波士顿咨询 BCG",
+  "en_name": "Bcg",
+  "country": "美国",
+  "industry": "咨询",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-airliquide",
+  "cn_name": "液化空气 AirLiquide",
+  "en_name": "Airliquide",
+  "country": "法国",
+  "industry": "工业/化工",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-sc",
+  "cn_name": "渣打 StandardChartered",
+  "en_name": "Sc",
+  "country": "英国",
+  "industry": "金融",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-mars",
+  "cn_name": "玛氏 Mars",
+  "en_name": "Mars",
+  "country": "美国",
+  "industry": "快消/宠物",
+  "priority": 4,
+  "platform_hint": "自建/Taleo"
+ },
+ {
+  "slug": "fc-hyundai",
+  "cn_name": "现代 Hyundai",
+  "en_name": "Hyundai",
+  "country": "韩国",
+  "industry": "汽车",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-ubs",
+  "cn_name": "瑞银 UBS",
+  "en_name": "Ubs",
+  "country": "瑞士",
+  "industry": "金融",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-abinbev",
+  "cn_name": "百威英博 ABInBev",
+  "en_name": "Abinbev",
+  "country": "比利时",
+  "industry": "饮料",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-lilly",
+  "cn_name": "礼来 EliLilly",
+  "en_name": "Lilly",
+  "country": "美国",
+  "industry": "医药",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-ford",
+  "cn_name": "福特 Ford",
+  "en_name": "Ford",
+  "country": "美国",
+  "industry": "汽车",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-roche",
+  "cn_name": "罗氏 Roche",
+  "en_name": "Roche",
+  "country": "瑞士",
+  "industry": "医药",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-citi",
+  "cn_name": "花旗 Citi",
+  "en_name": "Citi",
+  "country": "美国",
+  "industry": "金融",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-google",
+  "cn_name": "谷歌 Google/Alphabet",
+  "en_name": "Google",
+  "country": "美国",
+  "industry": "科技",
+  "priority": 4,
+  "platform_hint": "Greenhouse/自建"
+ },
+ {
+  "slug": "fc-bain",
+  "cn_name": "贝恩 Bain",
+  "en_name": "Bain",
+  "country": "美国",
+  "industry": "咨询",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-shiseido",
+  "cn_name": "资生堂 Shiseido",
+  "en_name": "Shiseido",
+  "country": "日本",
+  "industry": "美妆",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-disney",
+  "cn_name": "迪士尼 Disney",
+  "en_name": "Disney",
+  "country": "美国",
+  "industry": "文娱",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-gm",
+  "cn_name": "通用汽车 GM",
+  "en_name": "Gm",
+  "country": "美国",
+  "industry": "汽车",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-ge",
+  "cn_name": "通用电气 GE",
+  "en_name": "Ge",
+  "country": "美国",
+  "industry": "工业/能源",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-total",
+  "cn_name": "道达尔 TotalEnergies",
+  "en_name": "Total",
+  "country": "法国",
+  "industry": "能源",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-adidas",
+  "cn_name": "阿迪达斯 Adidas",
+  "en_name": "Adidas",
+  "country": "德国",
+  "industry": "零售/服饰",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-nestle",
+  "cn_name": "雀巢 Nestle",
+  "en_name": "Nestle",
+  "country": "瑞士",
+  "industry": "快消",
+  "priority": 4,
+  "platform_hint": "Workday/Phenom"
+ },
+ {
+  "slug": "fc-esteelauder",
+  "cn_name": "雅诗兰黛 EsteeLauder",
+  "en_name": "Esteelauder",
+  "country": "美国",
+  "industry": "美妆",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-honeywell",
+  "cn_name": "霍尼韦尔 Honeywell",
+  "en_name": "Honeywell",
+  "country": "美国",
+  "industry": "工业",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-goldmansachs",
+  "cn_name": "高盛 GoldmanSachs",
+  "en_name": "Goldmansachs",
+  "country": "美国",
+  "industry": "金融",
+  "priority": 4,
+  "platform_hint": "自建"
+ },
+ {
+  "slug": "fc-colgate",
+  "cn_name": "高露洁 Colgate",
+  "en_name": "Colgate",
+  "country": "美国",
+  "industry": "快消/日化",
+  "priority": 4,
+  "platform_hint": "Workday"
+ },
+ {
+  "slug": "fc-mckinsey",
+  "cn_name": "麦肯锡 McKinsey",
+  "en_name": "Mckinsey",
+  "country": "美国",
+  "industry": "咨询",
+  "priority": 4,
+  "platform_hint": "自建"
+ }
+]

@@ -1,0 +1,50 @@
+{
+  "fortune_global_500_2026": {
+    "list_name": "财富世界500强 2026",
+    "publisher": "Fortune / 财富中文网",
+    "year": 2026,
+    "publish_date": "2026-07-28",
+    "publisher_total_entries": 500,
+    "actually_retrieved_entries": 100,
+    "list_completeness": "partial",
+    "retrieval_method": "web.fetch 直接抓取财富中文网榜单页（第1页，排名1-100）；分页URL(_2.htm)返回link dead，剩余400条未获取",
+    "blocker_reason": "榜单分页为JavaScript/AJAX渲染，简单URL分页不可用；未使用浏览器渲染获取剩余页",
+    "evidence_url": "https://www.fortunechina.com/fortune500/c/2026-07/28/content_475298.htm"
+  },
+  "fortune_china_500_2026": {
+    "list_name": "财富中国500强 2026",
+    "publisher": "Fortune / 财富中文网",
+    "year": 2026,
+    "publish_date": "2026-07-21",
+    "publisher_total_entries": 500,
+    "actually_retrieved_entries": 35,
+    "list_completeness": "partial",
+    "retrieval_method": "web.fetch 直接抓取财富中文网榜单页（默认每页35条，第1页，排名1-35）；分页URL(_2.htm)返回link dead",
+    "blocker_reason": "榜单分页为JavaScript/AJAX渲染，每页可切换至150条或All但需JS交互；简单URL分页不可用",
+    "evidence_url": "https://www.fortunechina.com/fortune500/c/2026-07/21/content_475181.htm"
+  },
+  "forbes_best_employers_2025": {
+    "list_name": "Forbes World's Best Employers 2025",
+    "publisher": "Forbes / Statista",
+    "year": 2025,
+    "publish_date": "2025-10-08",
+    "publisher_total_entries": 900,
+    "actually_retrieved_entries": 100,
+    "list_completeness": "partial",
+    "retrieval_method": "forbes.com原站web.fetch返回'site not supported for access'；通过中文转载文章(10100.com)获取前100名表格；Forbes Europe文章仅含方法论和个别排名引用",
+    "blocker_reason": "forbes.com原站反爬/不支持直接抓取；完整900家名单需浏览器渲染或付费墙；转载来源仅含前100名",
+    "evidence_url": "https://www.forbes.com/lists/worlds-best-employers/"
+  },
+  "gptw_best_workplaces_2025": {
+    "list_name": "Fortune/Great Place To Work World's Best Workplaces 2025",
+    "publisher": "Great Place To Work / Fortune",
+    "year": 2025,
+    "publish_date": "2025",
+    "publisher_total_entries": 25,
+    "actually_retrieved_entries": 25,
+    "list_completeness": "complete",
+    "retrieval_method": "web.fetch 直接抓取greatplacetowork.com榜单页，完整25家表格（含排名、公司名、地点、行业）",
+    "blocker_reason": null,
+    "evidence_url": "https://www.greatplacetowork.com/worlds-best-workplaces"
+  }
+}

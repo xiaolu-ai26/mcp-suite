@@ -1,0 +1,37 @@
+{
+  "checked_at": "2026-09-10T15:47:00+08:00",
+  "what": "只替换线上产品数据文件 /var/lib/mcp-suite/bench.json（清洗自由文本内嵌互动数），并同步 bench/assert_clean.py、bench/build_bench.py",
+  "method": "先在服务器上就地备份现文件 → scp 到 /var/lib/mcp-suite/.bench.XXXX 临时文件 → 校验 sha256 → mv -f 原子替换 → 只重启 mcp-suite-bench.service。没有跑 deploy-bench.sh 全量流程，没有碰 nginx。",
+  "backup_on_server": "/var/lib/mcp-suite/bench.json.bak-20260910-154121 (0600 mcp-suite:mcp-suite)",
+  "bench_json_sha256_before": "a07e9743ccb8baee8d6e983617f07b1260c65e99ad18df7a9637c53d1114ca02",
+  "bench_json_sha256_after": "56104f03e17f9c38e3f60b373dac563f97e582cbedfeb6e59b61ca524b2996bc",
+  "vhost_sha256_before": "235b60cf8f3d53cc63edfacb39dc2aee7fe2b0e0e3dd8fd33f1839b25fcb7bca",
+  "vhost_sha256_after": "235b60cf8f3d53cc63edfacb39dc2aee7fe2b0e0e3dd8fd33f1839b25fcb7bca",
+  "vhost_touched": false,
+  "nginx_reloaded": false,
+  "access_sqlite3_overwritten": false,
+  "access_sqlite3_note": "为跑线上全库断言，把已停用的验收测试 key（id ee6993be6b4c5116fe092f79）临时 disabled=0，扫完立刻改回 disabled=1；只改了这一行标志位，没有覆盖库文件、没有新发码、没有动 50 个 BM- 备货码。扫描过程本身会在 usage_log/daily_usage 记 7 次调用。",
+  "bench_service_restarted": true,
+  "bench_service_active_enter": "Thu 2026-09-10 15:41:37 CST",
+  "qiuzhao_service_restarted": false,
+  "qiuzhao_active_enter_before": "Thu 2026-09-10 10:24:17 CST",
+  "qiuzhao_active_enter_after": "Thu 2026-09-10 10:24:17 CST",
+  "verify": {
+    "bench_health": {
+      "status": "ok",
+      "records": 485,
+      "data_as_of": "2026-09-03"
+    },
+    "qiuzhao_health": {
+      "status": "ok",
+      "jobs": 9191,
+      "data_as_of": "2026-09-10T10:32:38+08:00"
+    },
+    "shuju": 200,
+    "bench_page": 200,
+    "bench_guide": 200,
+    "bench_mcp_without_key": 401,
+    "bench_keys_usable_after": 0
+  },
+  "online_assert": "bench/receipts/assert-clean-online.json：全库 485/485 通过，含新增的互动词+数字规则"
+}

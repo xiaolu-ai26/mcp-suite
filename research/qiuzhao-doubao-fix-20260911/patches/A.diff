@@ -1,0 +1,210 @@
+diff -ruN -x tests -x pytest.ini -x __pycache__ -x SHA256SUMS live-baseline/core/server.py release-A/core/server.py
+--- live-baseline/core/server.py	2026-09-11 18:50:50
++++ release-A/core/server.py	2026-09-11 21:39:43
+@@ -6,17 +6,20 @@
+ """
+ from __future__ import annotations
+ import json
++import logging
+ import os
++import re
+ import secrets
++import sys
+ from pathlib import Path
+-from typing import Annotated
++from typing import Annotated, Literal
+ from urllib.parse import urlsplit
+ 
+ from fastmcp import FastMCP
+ from fastmcp.exceptions import ToolError
+ from fastmcp.server.dependencies import get_http_request
+ from fastmcp.server.middleware import Middleware
+-from pydantic import Field
++from pydantic import BeforeValidator, Field
+ from starlette.requests import Request
+ from starlette.responses import FileResponse, HTMLResponse, JSONResponse
+ 
+@@ -30,7 +33,7 @@
+         "static": ROOT / "core" / "static",
+         "base": "https://savegems.top/qiuzhao",
+         "title": "秋招国央企岗位库",
+-        "instructions": "仅提供公开官方公告中的岗位事实。必须保留原公告链接及数据截至时间。未披露条件为空，不推断录取资格；岗位状态以原公告为准。",
++        "instructions": "仅提供公开官方公告中的岗位事实。必须保留原公告链接及数据截至时间。未披露条件为空，不推断录取资格；岗位状态以原公告为准。返回里的 applied_filters 若与你传入的条件不一致，说明客户端没有传递参数，应告知用户，不要重复同样的调用。",
+         "tools": {"jobs_search", "jobs_deadlines", "jobs_detail"},
+     },
+     "bench": {
+@@ -70,8 +73,33 @@
+     return token
+ 
+ 
++# One stderr line per tool call (journald under systemd): tool name, sorted argument names
++# and a truncated User-Agent. Never the Authorization header, the key, or any argument value.
++call_log = logging.getLogger("mcp_suite.tool_calls")
++if not call_log.handlers:
++    _call_handler = logging.StreamHandler(sys.stderr)
++    _call_handler.setFormatter(logging.Formatter("%(message)s"))
++    call_log.addHandler(_call_handler)
++    call_log.setLevel(logging.INFO)
++    call_log.propagate = False
++
++
++def log_tool_call(name, arguments):
++    try:
++        try:
++            agent = get_http_request().headers.get("user-agent", "")
++        except RuntimeError:
++            agent = ""
++        names = sorted(str(key)[:64] for key in (arguments or {}))[:40]
++        call_log.info("mcp_tool_call %s", json.dumps(
++            {"tool": str(name)[:64], "args": names, "ua": agent[:100]}, ensure_ascii=False))
++    except Exception:
++        pass  # Observability must never break a paid call.
++
++
+ class MeterTools(Middleware):
+     async def on_call_tool(self, context, call_next):
++        log_tool_call(context.message.name, context.message.arguments)
+         if context.message.name not in TOOLS:
+             raise ToolError("未知工具，请刷新工具列表。")
+         try:
+@@ -87,27 +115,58 @@
+ mcp.add_middleware(MeterTools())
+ 
+ 
++# Strict-schema clients (e.g. 豆包) drop any parameter whose schema has no top-level "type",
++# which is what `str | None` renders as (anyOf string/null). Optional text parameters are
++# therefore plain strings defaulting to "", and an explicit null still validates as "".
++NoneToEmpty = BeforeValidator(lambda v: "" if v is None else v)
++
++
++def _choice(value):
++    return "" if value is None else (value.strip() if isinstance(value, str) else value)
++
++
++def _graduation_year(value):
++    """None -> ""; 2027 / "2027" / "2027届" / "2027年" -> "2027届"; anything else is left as is."""
++    value = _choice(value)
++    if isinstance(value, int) and not isinstance(value, bool):
++        value = str(value)
++    if isinstance(value, str):
++        match = re.fullmatch(r"(20\d{2})\s*(?:届|年)?", value)
++        if match:
++            return f"{match.group(1)}届"
++    return value
++
++
++ChoiceInput = BeforeValidator(_choice)
++GraduationYearInput = BeforeValidator(_graduation_year)
++# Exactly the values of job_category_normalized / graduation_year_normalized in the dataset.
++JobCategory = Literal["", "技术/研发", "产品", "运营", "设计", "市场/营销", "销售", "职能/支持", "金融",
++                      "咨询", "医疗/医药", "制造/生产", "科研", "教育/培训", "法律/合规", "其他"]
++GraduationYear = Literal["", "2027届", "2026届", "2025届", "未披露"]
++
++
+ def jobs_search(
+-    city: Annotated[str | None, Field(description="城市，如北京；未披露城市不会猜测", max_length=100)] = None,
+-    major: Annotated[str | None, Field(description="专业关键词", max_length=100)] = None,
+-    cohort: Annotated[str | None, Field(description="公告中明确写出的届别，如2027", max_length=100)] = None,
+-    keyword: Annotated[str | None, Field(description="单位/签约主体/岗位关键词", max_length=200)] = None,
+-    company: Annotated[str | None, Field(description="企业/单位名称关键词，如中国邮政；在recruitment_unit等企业主体字段中做包含匹配", max_length=100)] = None,
+-    recruitment_type: Annotated[str | None, Field(description="招聘类型，如校园招聘；未披露类型不推断", max_length=50)] = None,
+-    industry: Annotated[str | None, Field(description="企业主体行业筛选（基于招聘单位所属行业）；当前数据集无企业行业字段，此筛选暂返回空结果，待数据管线补充后启用", max_length=100)] = None,
+-    region: Annotated[str | None, Field(description="地域/城市关键词，如北京；在岗位城市字段中做包含匹配", max_length=100)] = None,
+-    job_category: Annotated[str | None, Field(description="岗位大类筛选，如技术/研发、产品、运营、设计、市场/营销、销售、职能/支持、金融、咨询、医疗/医药、制造/生产、科研、教育/培训、法律/合规、其他", max_length=50)] = None,
+-    graduation_year: Annotated[str | None, Field(description="毕业届别筛选，如2025届、2026届、2027届、未披露", max_length=20)] = None,
+-    major_category: Annotated[str | None, Field(description="专业大类筛选，如计算机类、电子信息类、金融经济类、机械制造类、医药生物类、管理类、文科类、理科类、设计艺术类、农业类、其他、未披露", max_length=20)] = None,
+-    limit: Annotated[int, Field(ge=1, le=100)] = 50,
++    city: Annotated[str, NoneToEmpty, Field(description="城市，如北京；未披露城市不会猜测", max_length=100)] = "",
++    major: Annotated[str, NoneToEmpty, Field(description="专业关键词", max_length=100)] = "",
++    cohort: Annotated[str, NoneToEmpty, Field(description="公告中明确写出的届别，如2027", max_length=100)] = "",
++    keyword: Annotated[str, NoneToEmpty, Field(description="单位/签约主体/岗位关键词", max_length=200)] = "",
++    company: Annotated[str, NoneToEmpty, Field(description="企业/单位名称关键词，如中国邮政；在recruitment_unit等企业主体字段中做包含匹配", max_length=100)] = "",
++    recruitment_type: Annotated[str, NoneToEmpty, Field(description="招聘类型，如校园招聘；未披露类型不推断", max_length=50)] = "",
++    industry: Annotated[str, NoneToEmpty, Field(description="企业主体行业筛选，在招聘单位所属行业字段（industry、industry_tags）中做包含匹配；常见取值：互联网/科技、国企/央企、制造/工业、能源/电力、金融、医药/医疗", max_length=100)] = "",
++    region: Annotated[str, NoneToEmpty, Field(description="地域/城市关键词，如北京；在岗位城市字段中做包含匹配", max_length=100)] = "",
++    job_category: Annotated[JobCategory, ChoiceInput, Field(description="岗位大类筛选，取值：技术/研发、产品、运营、设计、市场/营销、销售、职能/支持、金融、咨询、医疗/医药、制造/生产、科研、教育/培训、法律/合规、其他；不筛选时不传")] = "",
++    graduation_year: Annotated[GraduationYear, GraduationYearInput, Field(description="毕业届别筛选，取值：2027届、2026届、2025届、未披露；写2027会按2027届处理；不筛选时不传")] = "",
++    major_category: Annotated[str, NoneToEmpty, Field(description="专业大类筛选，如计算机类、电子信息类、金融经济类、机械制造类、医药生物类、管理类、文科类、理科类、设计艺术类、农业类、其他、未披露", max_length=20)] = "",
++    limit: Annotated[int, Field(ge=1, le=100, description="每页条数，默认10，最大100")] = 10,
+     offset: Annotated[int, Field(ge=0)] = 0,
+ ) -> dict:
+-    """按城市、专业、届别、关键词、企业、招聘类型、行业、地域、岗位大类、毕业届别、专业大类筛选官方岗位，含状态、截止日、原公告URL、数据截至时间。可用offset翻页。"""
+-    return jobs.search(city, major, cohort, keyword, limit, offset,
+-                       company=company, recruitment_type=recruitment_type,
+-                       industry=industry, region=region,
+-                       job_category=job_category, graduation_year=graduation_year,
+-                       major_category=major_category)
++    """按城市、专业、届别、关键词、企业、招聘类型、行业、地域、岗位大类、毕业届别、专业大类筛选官方岗位，含状态、截止日、原公告URL、数据截至时间。默认每次返回10条，可用offset翻页。返回的applied_filters是服务端实际使用的筛选条件。"""
++    # Empty string means "not given"; the data layer keeps receiving None exactly as before.
++    return jobs.search(city or None, major or None, cohort or None, keyword or None, limit, offset,
++                       company=company or None, recruitment_type=recruitment_type or None,
++                       industry=industry or None, region=region or None,
++                       job_category=job_category or None, graduation_year=graduation_year or None,
++                       major_category=major_category or None)
+ 
+ 
+ def jobs_deadlines(
+@@ -125,17 +184,19 @@
+ 
+ 
+ def bench_search(
+-    topic: Annotated[str | None, Field(description="选题分类或来源关键词，如 AI工具、AI变现、Codex", max_length=60)] = None,
+-    format: Annotated[str | None, Field(description="内容形式：图文 或 视频", max_length=20)] = None,
+-    tag: Annotated[str | None, Field(description="标签：标题公式 / 内容角度 / 封面版式 / 话题词；取值见 bench_taxonomy", max_length=60)] = None,
+-    platform: Annotated[str | None, Field(description="平台，如 小红书、抖音、视频号、TikTok", max_length=20)] = None,
+-    time_window: Annotated[str | None, Field(description="发布时间窗：90d 表示近90天，或 2026 / 2026-08。约一半记录未公开发布时间，带时间窗会被排除", max_length=20)] = None,
+-    keyword: Annotated[str | None, Field(description="在原标题与拆解结论中搜关键词", max_length=100)] = None,
++    topic: Annotated[str, NoneToEmpty, Field(description="选题分类或来源关键词，如 AI工具、AI变现、Codex", max_length=60)] = "",
++    format: Annotated[str, NoneToEmpty, Field(description="内容形式：图文 或 视频", max_length=20)] = "",
++    tag: Annotated[str, NoneToEmpty, Field(description="标签：标题公式 / 内容角度 / 封面版式 / 话题词；取值见 bench_taxonomy", max_length=60)] = "",
++    platform: Annotated[str, NoneToEmpty, Field(description="平台，如 小红书、抖音、视频号、TikTok", max_length=20)] = "",
++    time_window: Annotated[str, NoneToEmpty, Field(description="发布时间窗：90d 表示近90天，或 2026 / 2026-08。约一半记录未公开发布时间，带时间窗会被排除", max_length=20)] = "",
++    keyword: Annotated[str, NoneToEmpty, Field(description="在原标题与拆解结论中搜关键词", max_length=100)] = "",
+     limit: Annotated[int, Field(ge=1, le=100)] = 20,
+     offset: Annotated[int, Field(ge=0)] = 0,
+ ) -> dict:
+     """按选题、形式、标签、平台、时间窗筛选爆款记录，返回公开链接、原标题、原创标签与原创拆解结论、观察日期与数据截至时间。可用offset翻页。"""
+-    return bench.search(topic, format, tag, platform, time_window, keyword, limit, offset)
++    # Type change only: "" means "not given" and the data layer keeps receiving None as before.
++    return bench.search(topic or None, format or None, tag or None, platform or None,
++                        time_window or None, keyword or None, limit, offset)
+ 
+ 
+ def bench_detail(id: Annotated[str, Field(min_length=1, max_length=200, description="bench_search返回的记录id")]) -> dict:
+diff -ruN -x tests -x pytest.ini -x __pycache__ -x SHA256SUMS live-baseline/qiuzhao/tools.py release-A/qiuzhao/tools.py
+--- live-baseline/qiuzhao/tools.py	2026-09-11 15:14:10
++++ release-A/qiuzhao/tools.py	2026-09-11 21:39:10
+@@ -52,10 +52,17 @@
+         except Exception:
+             pass  # 记录失败不影响查询功能
+ 
+-    def search(self, city=None, major=None, cohort=None, keyword=None, limit=50, offset=0,
++    def search(self, city=None, major=None, cohort=None, keyword=None, limit=10, offset=0,
+                company=None, recruitment_type=None, industry=None, region=None,
+                job_category=None, graduation_year=None, major_category=None):
+         rows, cutoff = self.load()
++        # Echo exactly the conditions the server filters on (blank = no filter), so a caller can
++        # tell when its client silently dropped arguments instead of retrying the same call.
++        requested = {"city": city, "major": major, "cohort": cohort, "keyword": keyword,
++                     "company": company, "recruitment_type": recruitment_type, "industry": industry,
++                     "region": region, "job_category": job_category,
++                     "graduation_year": graduation_year, "major_category": major_category}
++        applied_filters = {k: v.strip() for k, v in requested.items() if isinstance(v, str) and v.strip()}
+ 
+         def has(query, values):
+             return (not query) or (query.strip().casefold() in json.dumps(values, ensure_ascii=False).casefold())
+@@ -95,9 +102,11 @@
+                 job_category=job_category, graduation_year=graduation_year, major_category=major_category
+             )
+ 
+-        return self.envelope(page, cutoff, total=total, offset=offset,
+-                             next_offset=offset+limit if offset+limit < total else None,
+-                             suggestion="可放宽专业或届别条件、换城市，或仅按关键词搜索。未披露条件不会被推断。您的查询需求已记录，我们将尽快补充相关企业和岗位数据。" if not rows else None)
++        # applied_filters goes first so clients that truncate long tool output still see it.
++        return {"applied_filters": applied_filters,
++                **self.envelope(page, cutoff, total=total, offset=offset,
++                                next_offset=offset+limit if offset+limit < total else None,
++                                suggestion="可放宽专业或届别条件、换城市，或仅按关键词搜索。未披露条件不会被推断。您的查询需求已记录，我们将尽快补充相关企业和岗位数据。" if not rows else None)}
+ 
+     def deadlines(self, days=7, limit=100, offset=0):
+         rows, cutoff = self.load()

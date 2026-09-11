@@ -1,0 +1,41 @@
+--- release-A2/core/server.py	2026-09-11 22:26:00
++++ release-A2d/core/server.py	2026-09-11 22:35:05
+@@ -311,10 +311,10 @@
+ 
+ def jobs_deadlines(
+     days: Annotated[int, Field(ge=1, le=366, description="未来N天（含今天）")] = 7,
+-    limit: Annotated[int, Field(ge=1, le=100)] = 100,
++    limit: Annotated[int, Field(ge=1, le=100, description="每页条数，默认10，最大100")] = 10,
+     offset: Annotated[int, Field(ge=0)] = 0,
+ ) -> dict:
+-    """未来N天内明确截止且有效的岗位，按截止日期倒排；不混入招满即止/未披露截止日。"""
++    """未来N天内明确截止且有效的岗位，按截止日期从近到远排序，今天截止的排在最前；不混入招满即止/未披露截止日。默认每次返回10条，可用offset翻页。"""
+     return jobs.deadlines(days, limit, offset)
+ 
+ 
+--- release-A2/qiuzhao/tools.py	2026-09-11 21:39:10
++++ release-A2d/qiuzhao/tools.py	2026-09-11 22:35:01
+@@ -108,7 +108,7 @@
+                                 next_offset=offset+limit if offset+limit < total else None,
+                                 suggestion="可放宽专业或届别条件、换城市，或仅按关键词搜索。未披露条件不会被推断。您的查询需求已记录，我们将尽快补充相关企业和岗位数据。" if not rows else None)}
+ 
+-    def deadlines(self, days=7, limit=100, offset=0):
++    def deadlines(self, days=7, limit=10, offset=0):
+         rows, cutoff = self.load()
+         today = datetime.now(TZ).date()
+         end = today + timedelta(days=days)
+@@ -122,10 +122,12 @@
+                 continue
+             if today <= deadline <= end:
+                 selected.append(row)
+-        selected.sort(key=lambda r: (r["deadline"], r.get("id", "")), reverse=True)
++        # Nearest deadline first, so what closes today leads page 1; date, full value, then id
++        # give a stable order for paging.
++        selected.sort(key=lambda r: (r["deadline"][:10], r["deadline"], r.get("id") or ""))
+         total = len(selected)
+         return self.envelope(selected[offset:offset+limit], cutoff, total=total, days=days,
+-                             order="deadline_desc", next_offset=offset+limit if offset+limit < total else None,
++                             order="deadline_asc", next_offset=offset+limit if offset+limit < total else None,
+                              suggestion="未来窗口内没有已披露且有效的截止日期，可扩大天数或用 jobs_search 查询未披露截止日的岗位。" if not selected else None)
+ 
+     def detail(self, job_id):

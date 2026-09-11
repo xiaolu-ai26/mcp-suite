@@ -1,0 +1,35 @@
+{
+  "backup_date": "2026-09-10T13:52:21.134218+08:00",
+  "scope": "v3 A线#1 页面整合前旧静态文件备份",
+  "note": "回滚时将此目录4个文件拷回 core/static/ 即可",
+  "files": [
+    {
+      "file": "index.html",
+      "bytes": 2748,
+      "sha256_backed_up": "abf584340853d2c013e4491ab8b3e3b36ae3929174acb38dd60ccfd9b33454aa",
+      "sha256_expected": "abf584340853d2c013e4491ab8b3e3b36ae3929174acb38dd60ccfd9b33454aa",
+      "sha256_match": true
+    },
+    {
+      "file": "site.css",
+      "bytes": 3265,
+      "sha256_backed_up": "1c2f0f3922938e6c558790436c04ee912edd1deaa34f474c9bf52823a5b521aa",
+      "sha256_expected": "1c2f0f3922938e6c558790436c04ee912edd1deaa34f474c9bf52823a5b521aa",
+      "sha256_match": true
+    },
+    {
+      "file": "app.js",
+      "bytes": 1962,
+      "sha256_backed_up": "98b18f51b44c322de1a9b19f19bdbc10663b4db0c231cbc4a2c12cfdbddae493",
+      "sha256_expected": "98b18f51b44c322de1a9b19f19bdbc10663b4db0c231cbc4a2c12cfdbddae493",
+      "sha256_match": true
+    },
+    {
+      "file": "guide.html",
+      "bytes": 7672,
+      "sha256_backed_up": "e162f3e4057b60c01ecd8cf7429966bd0e47d70c1e1fb0ba42013afce6e29154",
+      "sha256_expected": "e162f3e4057b60c01ecd8cf7429966bd0e47d70c1e1fb0ba42013afce6e29154",
+      "sha256_match": true
+    }
+  ]
+}

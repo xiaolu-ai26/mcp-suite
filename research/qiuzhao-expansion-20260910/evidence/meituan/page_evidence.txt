@@ -1,0 +1,51 @@
+=== 美团校招岗位列表页证据 ===
+URL: https://zhaopin.meituan.com/web/campus (总入口)
+     https://zhaopin.meituan.com/web/position?hiringType=4_1 (应届校招筛选)
+采集时间: 2026-09-10
+页面标题: 校园招聘 | 美团招聘
+
+关键内容:
+- 全部校招职位: 604个 (含应届+转正实习+日常实习)
+- 应届校招职位: 189个 (hiringType=4_1筛选)
+- 应届校招分页: 1 2 3 ... 19 (19页)
+- 招聘项目:
+  应届校招: 北斗计划, LongCat大模型人才校招, 食杂零售管培生计划
+  转正实习
+  日常实习
+- 职位类别: 技术类, 产品类, 商业分析类, 零售类, 运营类, 设计类, 市场营销类, 职能类, 金融类, 销售/客服与支持类, 综合类
+- 工作地点: 北京, 上海, 深圳, 成都, 香港, 广州, 武汉, 杭州, 西安, 重庆, 南京, 厦门
+- 海外: 沙特, 巴西, 阿联酋, 科威特, 卡塔尔, 巴林, 阿曼
+
+=== 应届校招岗位样例 ===
+1. HR服务与流程优化岗（AI+HR服务方向）| 应届 | 北京 | 2026/09/01
+2. 人力资源数字化与AI产品经理 | 应届 | 北京 | 2026/09/01
+3. 【北斗】世界模型算法工程师 | 应届 | 北京/深圳 | 2026/08/31
+4. 【北斗】具身智能运控算法研究员 | 应届 | 北京/深圳 | 2026/08/31
+5. 大模型数据算法工程师 | 应届 | 北京 | 2026/08/27
+6. 选址开发岗 | 应届 | 北京/广州 | 2026/08/26
+7. 飞行器设计工程师 | 应届 | 深圳 | 2026/08/18
+8. 战略与投资分析师 | 应届 | 北京/上海/深圳 | 2026/08/17
+
+=== 日常实习岗位样例 ===
+1. 招聘HR实习生（AI方向）| 日常实习 | 北京 | 人力资源平台 | 2026/09/10
+2. Agent开发实习生（AI 产品方向）| 日常实习 | 成都 | 核心本地商业-美团平台 | 2026/09/10
+3. Keeta Ads 商业产品实习生 | 日常实习 | 北京 | Keeta | 2026/09/10
+
+=== 岗位详情页URL模式 ===
+https://zhaopin.meituan.com/web/position/detail?jobUnionId={numeric_id}&highlightType=campus
+样例:
+- 招聘HR实习生（AI方向）: jobUnionId=4306214875
+
+=== API端点 ===
+- POST https://zhaopin.meituan.com/api/official/job/getJobList (岗位列表)
+- POST https://zhaopin.meituan.com/api/category/allData (分类数据)
+- GET https://zhaopin.meituan.com/api/official/job/search/enum?enumType=CAMPUS_HIRING (校招类型枚举)
+- GET https://zhaopin.meituan.com/api/official/job/search/enum?enumType=NEW_BEIDOU_HIRING (北斗计划枚举)
+- POST https://zhaopin.meituan.com/api/official/city/search (城市搜索)
+- POST https://zhaopin.meituan.com/api/official/user/current/get (用户信息)
+
+=== 官方归属 ===
+- 企业官网: https://www.meituan.com/ / https://about.meituan.com/
+- 招聘域名: zhaopin.meituan.com (meituan.com子域名)
+- 页脚: @2026 美团版权所有, 京ICP备10211739号, 招聘意见反馈：zhaopin@meituan.com
+- 静态资源: s3plus.meituan.net (美团云存储)

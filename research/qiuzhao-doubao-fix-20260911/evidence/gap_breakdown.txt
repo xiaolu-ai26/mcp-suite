@@ -1,0 +1,34 @@
+== job_category=产品: baseline-only (substring hit, normalized != 产品)
+count 371
+by normalized: [('技术/研发', 371)]
+raw job_category top 20:
+   160  产品
+   149  产品经理
+    16  产品运营
+    12  产品类
+    10  高级产品经理
+     5  软件产品经理
+     4  硬件产品经理
+     3  产品专员
+     3  安全产品经理
+     2  商业产品（广告）
+     2  安全产品经理（数据安全产品经理）
+     1  产品/工程研发
+     1  产品与项目类（2027届）
+     1  产品经理类
+     1  产品总监/VP
+     1  产品市场经理
+raw is 产品/产品类/产品运营/*产品经理* but normalized elsewhere: 362 [('技术/研发', 362)]
+sources of those: [('字节跳动校园招聘官方网站', 305), ('国聘行动官方招聘平台', 26), ('腾讯校园招聘官方网站', 7), ('阿里巴巴校园招聘官方网站', 7), ('美团校招官网', 4), ('中科创达校园招聘官方网站', 3), ('国聘网校园招聘', 2), ('国聘', 2)]
+
+== cohort=2027 vs graduation_year=2027届: baseline-only
+count 4585 [('未披露', 4266), ('2026届', 319)]
+  cohort_raw empty, only campaign title mentions 2027 (baseline cohort_filter_scope=campaign_title_only): 4266
+  normalized 2026届 while cohort_raw mentions 2027: 319
+     108  '1.学历要求：2027应届、2026届普通高等院校大学本科及以上学历，学士及以上学位'
+      74  '2026届未就业及2027届普通高等院校本科及以上学历，并取得相应学位。'
+      38  '1、学历要求：2026届未就业、2027届普通高等院校大学本科生及以上学历。'
+      37  '1.学历要求:2026届未就业、2027届普通高等院校本科及以上学历。'
+      15  '1.学历要求：2026届未就业、2027届普通高等院校本科及以上学历。'
+       9  '1.学历要求：2026届未就业、2027届普通高等院校本科及以上学历；'
+reverse check: normalized 2027届 but baseline cohort miss: 0

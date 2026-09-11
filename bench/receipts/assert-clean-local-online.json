@@ -1,0 +1,33 @@
+{
+  "checked_at": "2026-09-10T14:41:51+08:00",
+  "data_file": "/Users/maxzhl/Projects/mcp-suite/bench/data/bench.json",
+  "online_base": "http://127.0.0.1:8779",
+  "stats": {
+    "file:bench.json": 485,
+    "copy:app.js": 16134,
+    "copy:guide.html": 6756,
+    "copy:index.html": 10022,
+    "copy:site.css": 14670,
+    "copy:tools.py": 7439,
+    "copy:server.py": 10557,
+    "copy:README.md": 0,
+    "online:bench_search": 85,
+    "online:bench_detail": 1,
+    "online_total_reported": 485,
+    "online_records_scanned": 485
+  },
+  "notes": [
+    "file:bench.json[298:xhs-6a25314d0000000035030e23].title 含「小红书数据」，属他人原标题原样引用，不改写",
+    "online:bench_search[98:xhs-6a25314d0000000035030e23].title 含「小红书数据」，属他人原标题原样引用，不改写"
+  ],
+  "failures": [],
+  "passed": true,
+  "rules": [
+    "无正文/逐字稿字段名",
+    "无正文级长字符串(>300)",
+    "无互动数字段名与精确数字",
+    "每条必有 http(s) 链接且 id 唯一",
+    "无图片/视频直链",
+    "文案面无「爬虫/爬取/抓取/采集/小红书数据」"
+  ]
+}

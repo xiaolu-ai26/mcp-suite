@@ -1,0 +1,35 @@
+.venv/
+__pycache__/
+.pytest_cache/
+private/
+*.sqlite3*
+.env
+.mcp.json
+qiuzhao/data/
+bench/data/
+bench/sources/
+*.mcp.json
+.DS_Store
+*.bak
+*.bak.*
+*.pyc
+deploy/*receipt*.json
+deploy/final-online/
+deploy/remote-latest/
+deploy/backup*/
+research/*/data/
+research/*/tmp/
+
+# 大文件
+research/qiuzhao-expansion-20260910/staging/bytedance_pending/jobs.json
+research/qiuzhao-expansion-20260910/staging/bytedance_jobs.json
+research/qiuzhao-v3-launch-20260910/conditional_release/_bytedance_raw/harvest_from_700_full.json
+research/qiuzhao-v3-launch-20260910/conditional_release/batch_bytedance_full.json
+research/qiuzhao-v3-launch-20260910/conditional_release/qualified_jobs.json
+research/qiuzhao-v3-launch-20260910/staging_adapters/bytedance/jobs.json
+research/qiuzhao-v3-launch-20260910/job_mvp/staging_merged/jobs.json
+research/qiuzhao-v3-launch-20260910/staging_run/jobs.json
+research/qiuzhao-500-mvp/state/jobs_merged.json
+
+# 疑似含凭据
+tests/e2e_bench_online.py

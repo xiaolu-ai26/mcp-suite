@@ -1,0 +1,73 @@
+{
+  "label": "baseline",
+  "release": "live-baseline",
+  "instructions": "仅提供公开官方公告中的岗位事实。必须保留原公告链接及数据截至时间。未披露条件为空，不推断录取资格；岗位状态以原公告为准。",
+  "anyOf_count_in_tools_list": 11,
+  "jobs_search_params": [
+    "city",
+    "major",
+    "cohort",
+    "keyword",
+    "company",
+    "recruitment_type",
+    "industry",
+    "region",
+    "job_category",
+    "graduation_year",
+    "major_category",
+    "limit",
+    "offset"
+  ],
+  "default_call": {
+    "arguments": {},
+    "http_body_bytes": 225213,
+    "structured_content_bytes": 108840,
+    "text_content_bytes": 108840,
+    "jobs_returned": 50,
+    "total": 27506,
+    "fields_per_job": [
+      33,
+      34,
+      38,
+      40,
+      43
+    ],
+    "applied_filters": "(absent)"
+  },
+  "limit_10_call": {
+    "arguments": {
+      "limit": 10
+    },
+    "http_body_bytes": 53556,
+    "structured_content_bytes": 25882,
+    "text_content_bytes": 25882,
+    "jobs_returned": 10,
+    "total": 27506,
+    "fields_per_job": [
+      33,
+      38,
+      40,
+      43
+    ],
+    "applied_filters": "(absent)"
+  },
+  "limit_50_call": {
+    "arguments": {
+      "limit": 50
+    },
+    "http_body_bytes": 225213,
+    "structured_content_bytes": 108840,
+    "text_content_bytes": 108840,
+    "jobs_returned": 50,
+    "total": 27506,
+    "fields_per_job": [
+      33,
+      34,
+      38,
+      40,
+      43
+    ],
+    "applied_filters": "(absent)"
+  },
+  "bench_anyOf_count_in_tools_list": 6
+}

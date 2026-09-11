@@ -1,0 +1,21 @@
+秋招 MCP v3 A线#1 浏览器测试日志（本地 127.0.0.1:8768，隔离 /tmp 库）
+执行：2026-09-10（Asia/Shanghai）
+说明：测试码与 key 仅记录 sha256[:16] 摘要，不记明文。
+
+[setup]
+- 生产库只读 backup API 复制 -> /tmp/qiuzhao-test-8768/access.sqlite3
+- 副本生成测试码 #1 fb755fd9d3a81112 / #2 dd31db5ff0be7021 / #3 5eb4cbbbc48b590c
+- uvicorn 启动 8768，env 核对 MCP_DB_PATH=/tmp/...（确非生产库）
+- CSP: default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'
+
+[a] 兑换首页 GET / -> v3 版式正常；/health jobs=9191；/config mcp_url 本地
+[a] 填入测试码#1，提交 -> "兑换成功"，key_display len=46 prefix=qz_（K1 sha[:16]=8ddcb7b9c0fafb28），额度 200/200，valid 2026-12-31，URL 不变
+[e] key in URL=False；localStorage/sessionStorage 序列化均搜不到 key（现存条目为浏览器自身遥测键）
+[f] GET /usage x3 (Bearer K1) 均 remaining_today=200；SQLite usage_log=0 daily_usage=0 -> 不扣额
+[g] location.reload() -> 回到兑换表单，redeem-panel 显示，success-panel 隐藏，key_display len=0（不自动找回）
+[b] 全新表单再提交测试码#1 -> UI "兑换码无效或已使用…"；同源 POST /redeem -> HTTP 400 {"error":"兑换码无效或已使用，每个兑换码只能领取一次。"}
+[c] 新开标签页（全新上下文）初始无 key；兑换测试码#2 -> K2 sha[:16]=1e17f346f60bef38 != K1
+[d] 兑换测试码#3 -> K3 sha[:16]=195e56b4090ee679；可见预览为掩码（不含真实 key）；挂钩 clipboard.writeText 捕获实际复制文本含真实 qz_ key 与 /mcp，UI 显示"已复制"
+[guide] GET /guide 正常渲染（04_guide_page.png）
+
+[final] 生产库 50 码/0兑换/0 key 未变；测试副本 53 码/3兑换/3 key/usage_log=0；本地服务已停止，8768 已释放。

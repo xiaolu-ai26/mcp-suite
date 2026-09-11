@@ -1,0 +1,239 @@
+{
+  "tools": [
+    {
+      "name": "jobs_deadlines",
+      "description": "未来N天内明确截止且有效的岗位，按截止日期倒排；不混入招满即止/未披露截止日。",
+      "inputSchema": {
+        "properties": {
+          "days": {
+            "default": 7,
+            "description": "未来N天（含今天）",
+            "maximum": 366,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "outputSchema": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "_meta": {
+        "_fastmcp": {
+          "tags": []
+        }
+      }
+    },
+    {
+      "name": "jobs_detail",
+      "description": "返回岗位全部业务字段、原公告URL与数据截至时间；内部证据文件路径不暴露。",
+      "inputSchema": {
+        "properties": {
+          "id": {
+            "description": "jobs_search返回的岗位id",
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "object"
+      },
+      "outputSchema": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "_meta": {
+        "_fastmcp": {
+          "tags": []
+        }
+      }
+    },
+    {
+      "name": "jobs_search",
+      "description": "按城市、专业、届别、关键词、企业、招聘类型、行业、地域、岗位大类、毕业届别、专业大类筛选官方岗位，含状态、截止日、原公告URL、数据截至时间。可用offset翻页。",
+      "inputSchema": {
+        "properties": {
+          "city": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "城市，如北京；未披露城市不会猜测"
+          },
+          "major": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "专业关键词"
+          },
+          "cohort": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "公告中明确写出的届别，如2027"
+          },
+          "keyword": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "单位/签约主体/岗位关键词"
+          },
+          "company": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "企业/单位名称关键词，如中国邮政；在recruitment_unit等企业主体字段中做包含匹配"
+          },
+          "recruitment_type": {
+            "anyOf": [
+              {
+                "maxLength": 50,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "招聘类型，如校园招聘；未披露类型不推断"
+          },
+          "industry": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "企业主体行业筛选（基于招聘单位所属行业）；当前数据集无企业行业字段，此筛选暂返回空结果，待数据管线补充后启用"
+          },
+          "region": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "地域/城市关键词，如北京；在岗位城市字段中做包含匹配"
+          },
+          "job_category": {
+            "anyOf": [
+              {
+                "maxLength": 50,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "岗位大类筛选，如技术/研发、产品、运营、设计、市场/营销、销售、职能/支持、金融、咨询、医疗/医药、制造/生产、科研、教育/培训、法律/合规、其他"
+          },
+          "graduation_year": {
+            "anyOf": [
+              {
+                "maxLength": 20,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "毕业届别筛选，如2025届、2026届、2027届、未披露"
+          },
+          "major_category": {
+            "anyOf": [
+              {
+                "maxLength": 20,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "专业大类筛选，如计算机类、电子信息类、金融经济类、机械制造类、医药生物类、管理类、文科类、理科类、设计艺术类、农业类、其他、未披露"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "outputSchema": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "_meta": {
+        "_fastmcp": {
+          "tags": []
+        }
+      }
+    }
+  ]
+}

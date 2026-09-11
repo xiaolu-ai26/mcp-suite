@@ -1,0 +1,137 @@
+{
+  "_meta": {
+    "analysis_method": "static_only",
+    "source": "core/server.py @mcp.tool() decorators + qiuzhao/tools.py Jobs class",
+    "generated_at": "2026-09-10T11:30:00+08:00",
+    "note": "基于源码静态分析推断MCP tools/list响应结构，非实际运行时捕获。FastMCP框架会自动生成JSON Schema，此处为入参/出参的语义级描述。"
+  },
+  "server_name": "秋招国央企岗位库",
+  "server_instructions": "仅提供公开官方公告中的岗位事实。必须保留原公告链接及数据截至时间。未披露条件为空，不推断录取资格；岗位状态以原公告为准。",
+  "tools": [
+    {
+      "name": "jobs_search",
+      "description": "按城市、专业、届别、关键词筛选官方岗位，含状态、截止日、原公告URL、数据截至时间。可用offset翻页。",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "city": {"type": ["string", "null"], "description": "城市，如北京；未披露城市不会猜测", "maxLength": 100},
+          "major": {"type": ["string", "null"], "description": "专业关键词", "maxLength": 100},
+          "cohort": {"type": ["string", "null"], "description": "公告中明确写出的届别，如2027", "maxLength": 100},
+          "keyword": {"type": ["string", "null"], "description": "单位/签约主体/岗位关键词", "maxLength": 200},
+          "limit": {"type": "integer", "minimum": 1, "maximum": 100, "default": 50},
+          "offset": {"type": "integer", "minimum": 0, "default": 0}
+        }
+      },
+      "output_structure": {
+        "data_as_of": "string — 数据截至时间(reviewed_at最大值)",
+        "数据截至时间": "string — 同上，中文键",
+        "source_urls": "array[string] — 本页所有岗位的去重source_url排序列表",
+        "jobs": "array[object] — 岗位列表(经public()过滤，排除*_evidence_path)",
+        "total": "integer — 筛选后总记录数",
+        "offset": "integer — 当前偏移",
+        "next_offset": "integer|null — 下一页偏移，无则null",
+        "suggestion": "string|null — 无结果时的搜索建议"
+      },
+      "filter_logic": {
+        "city": "关键词子串匹配cities数组(JSON序列化后casefold包含)",
+        "major": "关键词子串匹配major_requirements_raw和major_tags",
+        "cohort": "关键词子串匹配cohort_raw OR campaign_cohort_raw(role级优先)",
+        "keyword": "关键词子串匹配recruitment_unit, contracting_entity, recruiting_unit_raw, parent_unit_raw, hiring_department_raw, job_title, job_category, description_raw",
+        "combination": "所有非空条件为AND关系",
+        "sort": "按published_at降序，再按id降序",
+        "unknown_value_handling": "未披露字段为空，不推断；空条件不参与过滤"
+      }
+    },
+    {
+      "name": "jobs_deadlines",
+      "description": "未来N天内明确截止且有效的岗位，按截止日期倒排；不混入招满即止/未披露截止日。",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "days": {"type": "integer", "minimum": 1, "maximum": 366, "default": 7, "description": "未来N天（含今天）"},
+          "limit": {"type": "integer", "minimum": 1, "maximum": 100, "default": 100},
+          "offset": {"type": "integer", "minimum": 0, "default": 0}
+        }
+      },
+      "output_structure": {
+        "data_as_of": "string",
+        "数据截至时间": "string",
+        "source_urls": "array[string]",
+        "jobs": "array[object]",
+        "total": "integer",
+        "days": "integer",
+        "order": "string — 'deadline_desc'",
+        "next_offset": "integer|null",
+        "suggestion": "string|null"
+      },
+      "filter_logic": {
+        "deadline_type": "必须为explicit",
+        "status": "排除removed, expired, unverified",
+        "date_range": "today <= deadline <= today+days",
+        "date_parse": "deadline[:10]必须为ISO格式，解析失败跳过",
+        "sort": "按deadline降序，再按id降序"
+      }
+    },
+    {
+      "name": "jobs_detail",
+      "description": "返回岗位全部业务字段、原公告URL与数据截至时间；内部证据文件路径不暴露。",
+      "input_schema": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 200, "description": "jobs_search返回的岗位id"}
+        }
+      },
+      "output_structure": {
+        "data_as_of": "string",
+        "数据截至时间": "string",
+        "source_urls": "array[string]",
+        "jobs": "array[object] — 0或1条匹配记录",
+        "found": "boolean — 是否找到",
+        "suggestion": "string|null"
+      },
+      "filter_logic": {
+        "match": "id精确匹配(row.get('id') == job_id)",
+        "field_filter": "public()排除所有以evidence_path结尾的键"
+      }
+    }
+  ],
+  "common_job_fields": {
+    "id": "string — 唯一标识，格式: 来源前缀-原始ID",
+    "recruitment_unit": "string — 集团全称(每条都有)",
+    "contracting_entity": "string — 签约主体(始终空字符串，不推断)",
+    "job_title": "string — 岗位名称",
+    "job_category": "string — 岗位类别(部分源为空)",
+    "cities": "array[string] — 工作地点列表",
+    "major_requirements_raw": "string — 专业要求原文",
+    "major_tags": "array — 始终为空数组(预留未用)",
+    "education_raw": "string — 学历要求(部分源为空)",
+    "cohort_raw": "string — 岗位级届别描述(部分源为空)",
+    "campaign_cohort_raw": "string — 活动标题届别(部分源有)",
+    "cohort_scope": "string — 届别来源范围标记",
+    "deadline": "string|null — 截止日期YYYY-MM-DD",
+    "deadline_type": "string — explicit/undisclosed/until_filled",
+    "deadline_scope": "string — 截止日期来源标记",
+    "status": "string — open/expired/unverified/removed(公共招聘事实，非用户投递状态)",
+    "application_url": "string — 直接投递入口URL",
+    "source_url": "string — 原公告/岗位详情URL",
+    "published_at": "string — 来源发布日期",
+    "reviewed_at": "string — 采集复核时间(ISO8601)",
+    "source_name": "string — 来源名称",
+    "description_raw": "string — 岗位描述原文",
+    "recruiting_unit_raw": "string — 招聘单位/分公司标签",
+    "hiring_department_raw": "string — 招聘部门(部分源有)",
+    "parent_unit_raw": "string — 上级单位(部分源有)",
+    "nature_raw": "string — 校招/社招性质(仅国聘源)",
+    "recruitment_type_raw": "string — 招聘类型(仅国聘源)",
+    "source_group_key": "string — 国聘子来源标识(仅国聘源)",
+    "record_kind": "string — 记录类型标记",
+    "cohort_filter_scope": "string — 运行时计算: role_record/campaign_title_only/undisclosed(由public()添加)"
+  },
+  "authentication": {
+    "type": "HTTP Bearer token",
+    "header": "Authorization: Bearer <api_key>",
+    "middleware": "MeterTools — 每次工具调用扣减每日额度(200次/天)",
+    "guard": "Guard — /mcp路径强制鉴权，其他路由公开"
+  }
+}

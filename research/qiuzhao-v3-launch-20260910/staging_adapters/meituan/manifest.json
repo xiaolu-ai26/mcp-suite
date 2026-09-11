@@ -1,0 +1,16 @@
+{
+  "run_id": "20260910T205657",
+  "source_id": "meituan",
+  "display_name": "美团",
+  "generated_at": "2026-09-10T21:02:34+08:00",
+  "transport": "public-http-json",
+  "api_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "listing_url": "https://zhaopin.meituan.com/web/position",
+  "pages_scanned": 11,
+  "expected_unique_ids": 189,
+  "actual_unique_ids": 187,
+  "diff": -2,
+  "complete": false,
+  "status": "success",
+  "anomalies": []
+}

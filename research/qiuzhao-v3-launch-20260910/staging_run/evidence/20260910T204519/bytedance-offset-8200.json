@@ -1,0 +1,1814 @@
+{
+  "source_url": "https://jobs.bytedance.com/api/v1/search/job/posts",
+  "request_body": {
+    "offset": 8200,
+    "limit": 100,
+    "portal_type": 2
+  },
+  "reviewed_at": "2026-09-10T20:49:21+08:00",
+  "count": 10000,
+  "offset": 8200,
+  "returned": 100,
+  "job_post_list": [
+    {
+      "id": "7372456509756508426",
+      "title": "Research Scientist, Applied GAI-Vision",
+      "code": "A202352",
+      "job_category": {
+        "name": "研发",
+        "id": "6704215862603155720"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "圣何塞"
+      },
+      "publish_time": 1716533825802,
+      "city_count": 1
+    },
+    {
+      "id": "7524941797384456466",
+      "title": "巨量千川广告产品经理-抖音电商",
+      "code": "A182813",
+      "job_category": {
+        "name": "产品经理",
+        "id": "6704215864591255820"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1752038183119,
+      "city_count": 1
+    },
+    {
+      "id": "7514647773435693330",
+      "title": "AIGC内容标准运营-抖音",
+      "code": "A142630B",
+      "job_category": {
+        "name": "运营",
+        "id": "6704215882479962371"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1749640280803,
+      "city_count": 1
+    },
+    {
+      "id": "7299293558551873829",
+      "title": "经营分析师（广告业务POC）-中国销售业务平台",
+      "code": "A125366",
+      "job_category": {
+        "name": "数据分析",
+        "id": "6704216224387041544"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1699499252801,
+      "city_count": 1
+    },
+    {
+      "id": "7627031961580390709",
+      "title": "搜索产品运营（垂类运营）-TikTok",
+      "code": "A49235B",
+      "job_category": {
+        "name": "运营",
+        "id": "6704215882479962371"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1775806793020,
+      "city_count": 1
+    },
+    {
+      "id": "7541313744249768210",
+      "title": "AIGC产品经理（电商内容方向）-抖音电商（北京）",
+      "code": "A10533A",
+      "job_category": {
+        "name": "产品经理",
+        "id": "6704215864591255820"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1755849375241,
+      "city_count": 1
+    },
+    {
+      "id": "7475249601437780242",
+      "title": "Senior Software Engineer, AI Infra Compute",
+      "code": "A150577",
+      "job_category": {
+        "name": "基础架构",
+        "id": "6704215958816295181"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "西雅图"
+      },
+      "publish_time": 1740467622222,
+      "city_count": 1
+    },
+    {
+      "id": "7162105470643636517",
+      "title": "高级后端开发工程师（互动业务）-TikTok社交",
+      "code": "V5050",
+      "job_category": {
+        "name": "后端",
+        "id": "6704215862557018372"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1667557660000,
+      "city_count": 1
+    },
+    {
+      "id": "6982056533303740702",
+      "title": "资深测试开发工程师-国际化内容安全平台",
+      "code": "JN4P",
+      "job_category": {
+        "name": "测试",
+        "id": "6704215897130666254"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1625636767000,
+      "city_count": 1
+    },
+    {
+      "id": "7478290675911821575",
+      "title": "AI社交产品（私信）-TikTok",
+      "code": "A43586",
+      "job_category": {
+        "name": "产品经理",
+        "id": "6704215864591255820"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1741175671007,
+      "city_count": 1
+    },
+    {
+      "id": "7439929998846904584",
+      "title": "机器学习系统SRE工程师-Seed",
+      "code": "A185243",
+      "job_category": {
+        "name": "运维",
+        "id": "6704217321877014787"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1732244260415,
+      "city_count": 1
+    },
+    {
+      "id": "7241194064966617405",
+      "title": "产品经理（交易导购方向）-抖音电商",
+      "code": "A41836",
+      "job_category": {
+        "name": "产品",
+        "id": "6704215864629004552"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1685972253941,
+      "city_count": 1
+    },
+    {
+      "id": "7072993027098872072",
+      "title": "AI测试开发工程师（内容体验方向） - 抖音",
+      "code": "T81L",
+      "job_category": {
+        "name": "测试",
+        "id": "6704215897130666254"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1646809680000,
+      "city_count": 1
+    },
+    {
+      "id": "7631490970744654085",
+      "title": "人才渠道策略运营",
+      "code": "A228481",
+      "job_category": {
+        "name": "人力",
+        "id": "6704216386916321540"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1776845010795,
+      "city_count": 1
+    },
+    {
+      "id": "7593284033989855493",
+      "title": "用户增长产品（联合用增方向） - 抖音电商",
+      "code": "A95085",
+      "job_category": {
+        "name": "产品",
+        "id": "6704215864629004552"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1767949219911,
+      "city_count": 1
+    },
+    {
+      "id": "7446718443191912722",
+      "title": "AI产品经理（多模态创作方向）-CapCut",
+      "code": "A33836",
+      "job_category": {
+        "name": "产品经理",
+        "id": "6704215864591255820"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "深圳"
+      },
+      "publish_time": 1733824279420,
+      "city_count": 1
+    },
+    {
+      "id": "7628213462480537909",
+      "title": "Partner Sales Manager, Lark APAC - Hanoi",
+      "code": "A47723",
+      "job_category": {
+        "name": "销售",
+        "id": "6709824272505768200"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "河内"
+      },
+      "publish_time": 1776081871377,
+      "city_count": 1
+    },
+    {
+      "id": "7623403439169521925",
+      "title": "多模态大模型推理框架优化工程师-Data AML（北京/上海/杭州/深圳）",
+      "code": "A242120A",
+      "job_category": {
+        "name": "基础架构",
+        "id": "6704215958816295181"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1774962094580,
+      "city_count": 1
+    },
+    {
+      "id": "7591853776635021621",
+      "title": "技术产品经理（AI基础与应用方向）-中国交易与广告",
+      "code": "A30522",
+      "job_category": {
+        "name": "产品",
+        "id": "6704215864629004552"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1767616209679,
+      "city_count": 1
+    },
+    {
+      "id": "6941359997784607013",
+      "title": "AI全栈工程师-视频与边缘",
+      "code": "J2KXP",
+      "job_category": {
+        "name": "前端",
+        "id": "6704215886108035339"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1616162267000,
+      "city_count": 1
+    },
+    {
+      "id": "7581428708008478981",
+      "title": "生活日用百货行业体验策略运营-抖音电商",
+      "code": "A169472",
+      "job_category": {
+        "name": "运营",
+        "id": "6704215882479962371"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1765188962706,
+      "city_count": 1
+    },
+    {
+      "id": "7548726770431199495",
+      "title": "生产力管理专家（WFM）-抖音电商",
+      "code": "A31434",
+      "job_category": {
+        "name": "运营",
+        "id": "6704215882479962371"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1757575046871,
+      "city_count": 1
+    },
+    {
+      "id": "7409925682179279114",
+      "title": "服务商机构运营-TikTok生活服务",
+      "code": "A84446",
+      "job_category": {
+        "name": "用户运营",
+        "id": "6704215955154667787"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1725257894163,
+      "city_count": 1
+    },
+    {
+      "id": "7077414119393823007",
+      "title": "后端研发工程师-抖音电商",
+      "code": "JJNLL",
+      "job_category": {
+        "name": "后端",
+        "id": "6704215862557018372"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1647839100000,
+      "city_count": 1
+    },
+    {
+      "id": "7493850557715679496",
+      "title": "AI Agent产品经理-中国广告产品（北京/上海）",
+      "code": "A33195",
+      "job_category": {
+        "name": "商业产品（广告）",
+        "id": "6704215924712409352"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1744798143705,
+      "city_count": 1
+    },
+    {
+      "id": "7563957151533238533",
+      "title": "房产策略规划专家",
+      "code": "A60419A",
+      "job_category": {
+        "name": "职能 / 支持",
+        "id": "6704215913488451847"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1761121333172,
+      "city_count": 1
+    },
+    {
+      "id": "7244072124439726373",
+      "title": "国际化商业产品经理-BI方向",
+      "code": "A193796",
+      "job_category": {
+        "name": "产品",
+        "id": "6704215864629004552"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1686642101442,
+      "city_count": 1
+    },
+    {
+      "id": "7628905532490303797",
+      "title": "大模型后训练优化工程师-Seed",
+      "code": "A229204A",
+      "job_category": {
+        "name": "机器学习",
+        "id": "6704219534724696331"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "杭州"
+      },
+      "publish_time": 1776243008308,
+      "city_count": 1
+    },
+    {
+      "id": "7256660675900066107",
+      "title": "AI数据平台研发工程师（开发套件方向）-Data",
+      "code": "A224433",
+      "job_category": {
+        "name": "后端",
+        "id": "6704215862557018372"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1689573203848,
+      "city_count": 1
+    },
+    {
+      "id": "7595795296757958917",
+      "title": "AI数据运营（数据分析方向）-国际化",
+      "code": "A42927A",
+      "job_category": {
+        "name": "运营",
+        "id": "6704215882479962371"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1768533938923,
+      "city_count": 1
+    },
+    {
+      "id": "7613016835703720197",
+      "title": "Machine Learning Engineer (Recommendation), Global E-Commerce Alliance",
+      "code": "A34855",
+      "job_category": {
+        "name": "算法",
+        "id": "6704215956018694411"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "新加坡"
+      },
+      "publish_time": 1772543727336,
+      "city_count": 1
+    },
+    {
+      "id": "7470838914975648008",
+      "title": "抖音生态治理运营-优质方向",
+      "code": "A198351",
+      "job_category": {
+        "name": "运营",
+        "id": "6704215882479962371"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1739440291594,
+      "city_count": 1
+    },
+    {
+      "id": "7598476185996085509",
+      "title": "AI应用平台高级前端工程师-抖音",
+      "code": "A220677A",
+      "job_category": {
+        "name": "前端",
+        "id": "6704215886108035339"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1769158168196,
+      "city_count": 1
+    },
+    {
+      "id": "7623305666800879877",
+      "title": "国际增长策略产品经理（促活方向）-CapCut",
+      "code": "A34919",
+      "job_category": {
+        "name": "产品经理",
+        "id": "6704215864591255820"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1774939227642,
+      "city_count": 1
+    },
+    {
+      "id": "7651954828948015365",
+      "title": "数据分析师-抖音生活服务",
+      "code": "A92187",
+      "job_category": {
+        "name": "数据分析",
+        "id": "6704216224387041544"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1781609713026,
+      "city_count": 1
+    },
+    {
+      "id": "7542435351869032711",
+      "title": "Senior Backend Engineer - AML Engine Orchestration",
+      "code": "A45911",
+      "job_category": {
+        "name": "研发",
+        "id": "6704215862603155720"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "新加坡"
+      },
+      "publish_time": 1756110125686,
+      "city_count": 1
+    },
+    {
+      "id": "7222959275517397303",
+      "title": "国际化商业产品经理-AIGC创意和应用",
+      "code": "A172593",
+      "job_category": {
+        "name": "产品经理",
+        "id": "6704215864591255820"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1681726388000,
+      "city_count": 1
+    },
+    {
+      "id": "7576123373962840325",
+      "title": "数据合规产品后端研发专家-飞书安全",
+      "code": "A37809",
+      "job_category": {
+        "name": "研发",
+        "id": "6704215862603155720"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1763953753934,
+      "city_count": 1
+    },
+    {
+      "id": "7639640884816333109",
+      "title": "Site Reliability Engineer, Traffic Solution - System Service Global",
+      "code": "A232366",
+      "job_category": {
+        "name": "运维",
+        "id": "6704217321877014787"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "新加坡"
+      },
+      "publish_time": 1778742542101,
+      "city_count": 1
+    },
+    {
+      "id": "7289427278944078139",
+      "title": "iOS开发工程师-飞书",
+      "code": "A154452",
+      "job_category": {
+        "name": "客户端",
+        "id": "6704215957146962184"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "杭州"
+      },
+      "publish_time": 1697202359775,
+      "city_count": 1
+    },
+    {
+      "id": "7452259084609276178",
+      "title": "大模型推理调度编排专家-Seed",
+      "code": "A49953A",
+      "job_category": {
+        "name": "机器学习",
+        "id": "6704219534724696331"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1735114315030,
+      "city_count": 1
+    },
+    {
+      "id": "7582498318263142709",
+      "title": "金融风控产品-国际支付",
+      "code": "A45450A",
+      "job_category": {
+        "name": "产品",
+        "id": "6704215864629004552"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1765438035247,
+      "city_count": 1
+    },
+    {
+      "id": "7233331896187537721",
+      "title": "抖音账号治理策略运营（内容安全方向）-抖音",
+      "code": "A41095",
+      "job_category": {
+        "name": "运营",
+        "id": "6704215882479962371"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1684141431666,
+      "city_count": 1
+    },
+    {
+      "id": "7187017491843057975",
+      "title": "AI算法工程师-TikTok内容生态算法",
+      "code": "I5124",
+      "job_category": {
+        "name": "算法",
+        "id": "6704215956018694411"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1673359124000,
+      "city_count": 1
+    },
+    {
+      "id": "7537241632564070674",
+      "title": "推荐算法工程师-生活服务",
+      "code": "A104607",
+      "job_category": {
+        "name": "算法",
+        "id": "6704215956018694411"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1754901025777,
+      "city_count": 1
+    },
+    {
+      "id": "7581384252501199157",
+      "title": "AI & Cloud Sales Manager - BytePlus - Ho Chi Minh",
+      "code": "A122211",
+      "job_category": {
+        "name": "销售",
+        "id": "6704215938645887239"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "胡志明市"
+      },
+      "publish_time": 1765178687671,
+      "city_count": 1
+    },
+    {
+      "id": "7065509110472722725",
+      "title": "服务端研发工程师-直播电商-今日头条",
+      "code": "JF27V",
+      "job_category": {
+        "name": "后端",
+        "id": "6704215862557018372"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "深圳"
+      },
+      "publish_time": 1645067056000,
+      "city_count": 1
+    },
+    {
+      "id": "7390368269960202505",
+      "title": "测试开发工程师-火山方舟大模型方向",
+      "code": "A232459",
+      "job_category": {
+        "name": "测试",
+        "id": "6704215897130666254"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1720704212026,
+      "city_count": 1
+    },
+    {
+      "id": "7600660879428274485",
+      "title": "Site Reliability Engineer, Edge Services - Traffic Infrastructure",
+      "code": "A217755",
+      "job_category": {
+        "name": "研发",
+        "id": "6704215862603155720"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "新加坡"
+      },
+      "publish_time": 1769666826917,
+      "city_count": 1
+    },
+    {
+      "id": "7296770590484351282",
+      "title": "国际化内容安全平台资深研发工程师-Data",
+      "code": "A87576",
+      "job_category": {
+        "name": "后端",
+        "id": "6704215862557018372"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1698912046439,
+      "city_count": 1
+    },
+    {
+      "id": "7582091798657255685",
+      "title": "AI Enterprise Sales Manager - BytePlus - Korea",
+      "code": "A167566",
+      "job_category": {
+        "name": "销售",
+        "id": "6709824272505768200"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "首尔"
+      },
+      "publish_time": 1765343420520,
+      "city_count": 1
+    },
+    {
+      "id": "6997642440045283615",
+      "title": "算法工程师（搜索）-今日头条",
+      "code": "VSS2",
+      "job_category": {
+        "name": "算法",
+        "id": "6704215956018694411"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1629265882000,
+      "city_count": 1
+    },
+    {
+      "id": "7304145839130822949",
+      "title": "平台安全治理专家 - 安全与风控",
+      "code": "A231761",
+      "job_category": {
+        "name": "研发",
+        "id": "6704215862603155720"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1700629277837,
+      "city_count": 2
+    },
+    {
+      "id": "7516399702926674183",
+      "title": "高级服务端开发工程师-TikTok社交",
+      "code": "A130008",
+      "job_category": {
+        "name": "后端",
+        "id": "6704215862557018372"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1750048448704,
+      "city_count": 1
+    },
+    {
+      "id": "7577001243746339077",
+      "title": "C端UX设计师（AI方向）-TikTok Shop",
+      "code": "A219492",
+      "job_category": {
+        "name": "交互设计",
+        "id": "6704216925762750724"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1764158384646,
+      "city_count": 1
+    },
+    {
+      "id": "7166541093206395167",
+      "title": "前端开发工程师-飞书多维表格",
+      "code": "L1334",
+      "job_category": {
+        "name": "前端",
+        "id": "6704215886108035339"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "杭州"
+      },
+      "publish_time": 1668590460000,
+      "city_count": 1
+    },
+    {
+      "id": "7569111482006325509",
+      "title": "人才策略专家-管理研究院（北京）",
+      "code": "A137748A",
+      "job_category": {
+        "name": "人力",
+        "id": "6704216386916321540"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1762321117322,
+      "city_count": 1
+    },
+    {
+      "id": "7094511582437280037",
+      "title": "高级测试开发工程师-火山引擎",
+      "code": "JVU9L",
+      "job_category": {
+        "name": "测试",
+        "id": "6704215897130666254"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1651819944000,
+      "city_count": 1
+    },
+    {
+      "id": "6704579145885550852",
+      "title": "高级前端开发工程师 — 抖音短视频",
+      "code": "8TKR1",
+      "job_category": {
+        "name": "前端",
+        "id": "6704215886108035339"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1552550855000,
+      "city_count": 1
+    },
+    {
+      "id": "7426192920305010953",
+      "title": "前端研发Leader-物流供应链方向",
+      "code": "A236929",
+      "job_category": {
+        "name": "前端",
+        "id": "6704215886108035339"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1729045354273,
+      "city_count": 1
+    },
+    {
+      "id": "7643666448368650501",
+      "title": "前端开发专家/工程师-基础架构（上海）",
+      "code": "A07825",
+      "job_category": {
+        "name": "前端",
+        "id": "6704215886108035339"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1779679858431,
+      "city_count": 1
+    },
+    {
+      "id": "7615505323970152757",
+      "title": "资深平台架构师-Data",
+      "code": "A30761",
+      "job_category": {
+        "name": "后端",
+        "id": "6704215862557018372"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1773123100837,
+      "city_count": 1
+    },
+    {
+      "id": "7491657866886924551",
+      "title": "抖音内容治理产品经理-人审平台",
+      "code": "A23005A",
+      "job_category": {
+        "name": "产品",
+        "id": "6704215864629004552"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1744288389414,
+      "city_count": 1
+    },
+    {
+      "id": "7632366787121088773",
+      "title": "AI Agent R&D Expert- PICO- San Jose",
+      "code": "A162010",
+      "job_category": {
+        "name": "研发",
+        "id": "6704215862603155720"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "圣何塞"
+      },
+      "publish_time": 1777049706900,
+      "city_count": 1
+    },
+    {
+      "id": "7559568524538153223",
+      "title": "支付计费产品经理-国际支付",
+      "code": "A165389",
+      "job_category": {
+        "name": "产品经理",
+        "id": "6704215864591255820"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1760099247276,
+      "city_count": 1
+    },
+    {
+      "id": "6947984686262339870",
+      "title": "内容安全-视频理解算法工程师",
+      "code": "JQWKP",
+      "job_category": {
+        "name": "研发",
+        "id": "6704215862603155720"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "深圳"
+      },
+      "publish_time": 1617703768000,
+      "city_count": 1
+    },
+    {
+      "id": "7356576835629058330",
+      "title": "客户激励策略专家-中国销售业务平台",
+      "code": "A75068",
+      "job_category": {
+        "name": "运营",
+        "id": "6704215882479962371"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1712836547606,
+      "city_count": 1
+    },
+    {
+      "id": "7521997007360297224",
+      "title": "Merchant Financing Solution Manager - Global Payment - Singapore",
+      "code": "A84073",
+      "job_category": {
+        "name": "产品经理",
+        "id": "6704215864591255820"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "新加坡"
+      },
+      "publish_time": 1751351497775,
+      "city_count": 1
+    },
+    {
+      "id": "7644867332909500725",
+      "title": "Transfer Pricing Senior Manager - US (Los Angeles)",
+      "code": "A34277",
+      "job_category": {
+        "name": "财务",
+        "id": "6704216480889702664"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "洛杉矶"
+      },
+      "publish_time": 1779959414472,
+      "city_count": 1
+    },
+    {
+      "id": "7641100374967486725",
+      "title": "服务策略运营（综合方向）-体验与服务",
+      "code": "A01570",
+      "job_category": {
+        "name": "运营",
+        "id": "6704215882479962371"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1779082431637,
+      "city_count": 1
+    },
+    {
+      "id": "7646747234033617205",
+      "title": "业务分析师-国际化",
+      "code": "A158052",
+      "job_category": {
+        "name": "运营",
+        "id": "6704215882479962371"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1780397244266,
+      "city_count": 1
+    },
+    {
+      "id": "7385066560845433139",
+      "title": "经营分析师（广告业务BP）-中国销售业务平台",
+      "code": "A140398",
+      "job_category": {
+        "name": "运营",
+        "id": "6704215882479962371"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1719469933062,
+      "city_count": 1
+    },
+    {
+      "id": "6828049960023755022",
+      "title": "资深后端研发工程师（商品方向）-电商商业经营",
+      "code": "FY51",
+      "job_category": {
+        "name": "后端",
+        "id": "6704215862557018372"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "杭州"
+      },
+      "publish_time": 1589780016000,
+      "city_count": 1
+    },
+    {
+      "id": "7112715845844044068",
+      "title": "广告平台高级研发工程师-国际化",
+      "code": "K6844",
+      "job_category": {
+        "name": "后端",
+        "id": "6704215862557018372"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "深圳"
+      },
+      "publish_time": 1656058240000,
+      "city_count": 1
+    },
+    {
+      "id": "7626577773864913157",
+      "title": "Creators Program Manager (Philippines E-Commerce)",
+      "code": "A132038",
+      "job_category": {
+        "name": "商业运营",
+        "id": "6704215882438019342"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "塔吉格"
+      },
+      "publish_time": 1775701038065,
+      "city_count": 1
+    },
+    {
+      "id": "7581526011385907461",
+      "title": "Strategic Account Executive - Innovative Technical Sales (AI)",
+      "code": "A88722C",
+      "job_category": {
+        "name": "销售",
+        "id": "6704215938645887239"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "马德里"
+      },
+      "publish_time": 1765211666592,
+      "city_count": 1
+    },
+    {
+      "id": "7626267494208112901",
+      "title": "推荐策略产品-红果电商",
+      "code": "A220747A",
+      "job_category": {
+        "name": "产品经理",
+        "id": "6704215864591255820"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1775628772931,
+      "city_count": 1
+    },
+    {
+      "id": "7503537562515736839",
+      "title": "数据运营（用户定位）-地理位置中台",
+      "code": "A190712A",
+      "job_category": {
+        "name": "运营",
+        "id": "6704215882479962371"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1747053511157,
+      "city_count": 1
+    },
+    {
+      "id": "7628881250456062213",
+      "title": "本地推平台产品经理-抖音生活服务",
+      "code": "A23442",
+      "job_category": {
+        "name": "产品",
+        "id": "6704215864629004552"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1776237338985,
+      "city_count": 1
+    },
+    {
+      "id": "7088910765356370190",
+      "title": "反作弊策略产品经理-增长风控",
+      "code": "XGGL",
+      "job_category": {
+        "name": "产品",
+        "id": "6704215864629004552"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1650515706000,
+      "city_count": 1
+    },
+    {
+      "id": "7353272718572636426",
+      "title": "招商运营专家（奢品） - 抖音电商",
+      "code": "A214149",
+      "job_category": {
+        "name": "运营",
+        "id": "6704215882479962371"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1712067237554,
+      "city_count": 1
+    },
+    {
+      "id": "7473704061024372999",
+      "title": "客户端Leader-抖音",
+      "code": "A167274",
+      "job_category": {
+        "name": "研发",
+        "id": "6704215862603155720"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1740107555585,
+      "city_count": 1
+    },
+    {
+      "id": "7404678957758941477",
+      "title": "数据库管控资深架构师",
+      "code": "A56802B",
+      "job_category": {
+        "name": "基础架构",
+        "id": "6704215958816295181"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1724036304058,
+      "city_count": 1
+    },
+    {
+      "id": "7158375335439304973",
+      "title": "数据库云原生管控研发工程师-RDS MySQL",
+      "code": "M9997",
+      "job_category": {
+        "name": "基础架构",
+        "id": "6704215958816295181"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1666689236000,
+      "city_count": 1
+    },
+    {
+      "id": "7532747264231016722",
+      "title": "财务分析产品经理-集团信息系统",
+      "code": "A134805",
+      "job_category": {
+        "name": "产品经理",
+        "id": "6704215864591255820"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1753854650614,
+      "city_count": 1
+    },
+    {
+      "id": "7033270092767512846",
+      "title": "开放平台治理运营-抖音",
+      "code": "56U2",
+      "job_category": {
+        "name": "运营",
+        "id": "6704215882479962371"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1637560931000,
+      "city_count": 1
+    },
+    {
+      "id": "7565723910864652597",
+      "title": "印尼半托管招商运营-TikTok Shop",
+      "code": "A100830",
+      "job_category": {
+        "name": "商业运营",
+        "id": "6704215882438019342"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1761532626744,
+      "city_count": 1
+    },
+    {
+      "id": "7529557919064967432",
+      "title": "Analog and Mixed Signal Design Engineer -Singapore",
+      "code": "A54303",
+      "job_category": {
+        "name": "硬件",
+        "id": "6938376045242353957"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "新加坡"
+      },
+      "publish_time": 1753112513562,
+      "city_count": 1
+    },
+    {
+      "id": "7524941872901785863",
+      "title": "巨量千川客增产品经理（AI方向）-抖音电商",
+      "code": "A169291",
+      "job_category": {
+        "name": "产品经理",
+        "id": "6704215864591255820"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1752037988051,
+      "city_count": 1
+    },
+    {
+      "id": "7446994360623008008",
+      "title": "广告大客户销售（家居行业）-商业化",
+      "code": "A03530",
+      "job_category": {
+        "name": "销售",
+        "id": "6704215938645887239"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1733888752493,
+      "city_count": 1
+    },
+    {
+      "id": "7307098715947845925",
+      "title": "Android系统开发工程师-豆包手机助手",
+      "code": "A207905",
+      "job_category": {
+        "name": "客户端",
+        "id": "6704215957146962184"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1701316765449,
+      "city_count": 1
+    },
+    {
+      "id": "7449579385759861010",
+      "title": "AI产品经理-CapCut",
+      "code": "A35587",
+      "job_category": {
+        "name": "产品经理",
+        "id": "6704215864591255820"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1734491026216,
+      "city_count": 1
+    },
+    {
+      "id": "7242192554237823287",
+      "title": "数据分析师-TikTok用户增长",
+      "code": "A51868",
+      "job_category": {
+        "name": "数据挖掘",
+        "id": "6704216635923761412"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1686204634038,
+      "city_count": 1
+    },
+    {
+      "id": "7628135718149474565",
+      "title": "策略产品经理（搜索增长方向）-TikTok Shop",
+      "code": "A91735A",
+      "job_category": {
+        "name": "产品经理",
+        "id": "6704215864591255820"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1776063807243,
+      "city_count": 1
+    },
+    {
+      "id": "7312386845760407818",
+      "title": "前端研发工程师-豆包",
+      "code": "A83012",
+      "job_category": {
+        "name": "研发",
+        "id": "6704215862603155720"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1702547869683,
+      "city_count": 1
+    },
+    {
+      "id": "6959767278213875999",
+      "title": "效果广告产品运营（AI工作台）-广告业务",
+      "code": "8A8K1",
+      "job_category": {
+        "name": "运营",
+        "id": "6704215882479962371"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1620447537000,
+      "city_count": 1
+    },
+    {
+      "id": "7307185124781050163",
+      "title": "推荐算法工程师（商城）-抖音电商",
+      "code": "A225997",
+      "job_category": {
+        "name": "算法",
+        "id": "6704215956018694411"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1701336626797,
+      "city_count": 1
+    },
+    {
+      "id": "7633367757062064389",
+      "title": "泰国商家数据分析专家-TikTok Shop",
+      "code": "A221538",
+      "job_category": {
+        "name": "商业运营",
+        "id": "6704215882438019342"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "上海"
+      },
+      "publish_time": 1777282030813,
+      "city_count": 1
+    },
+    {
+      "id": "7493813434799720711",
+      "title": "高级测试开发工程师-飞书低代码平台",
+      "code": "A237334A",
+      "job_category": {
+        "name": "测试",
+        "id": "6704215897130666254"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "深圳"
+      },
+      "publish_time": 1744789444719,
+      "city_count": 1
+    },
+    {
+      "id": "7088153316019308808",
+      "title": "营销算法工程师-生活服务",
+      "code": "J576L",
+      "job_category": {
+        "name": "算法",
+        "id": "6704215956018694411"
+      },
+      "recruit_type": {
+        "name": "正式",
+        "parent_name": "社招"
+      },
+      "city_info": {
+        "name": "北京"
+      },
+      "publish_time": 1650339419000,
+      "city_count": 1
+    }
+  ]
+}

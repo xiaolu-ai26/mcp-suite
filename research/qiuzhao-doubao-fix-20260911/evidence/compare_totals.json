@@ -1,0 +1,153 @@
+[
+  {
+    "label": "job_category=产品",
+    "baseline_args": {
+      "job_category": "产品"
+    },
+    "b_args": {
+      "job_category": "产品"
+    },
+    "baseline_total": 1310,
+    "b_total": 939,
+    "diff": -371,
+    "diff_pct": -28.3,
+    "only_in_baseline": 371,
+    "only_in_b": 0,
+    "only_in_baseline_by_raw_category": [
+      [
+        "技术/研发 | 原文:产品",
+        160
+      ],
+      [
+        "技术/研发 | 原文:产品经理",
+        149
+      ],
+      [
+        "技术/研发 | 原文:产品运营",
+        16
+      ],
+      [
+        "技术/研发 | 原文:产品类",
+        12
+      ],
+      [
+        "技术/研发 | 原文:高级产品经理",
+        10
+      ],
+      [
+        "技术/研发 | 原文:软件产品经理",
+        5
+      ]
+    ]
+  },
+  {
+    "label": "job_category=技术/研发",
+    "baseline_args": {
+      "job_category": "技术/研发"
+    },
+    "b_args": {
+      "job_category": "技术/研发"
+    },
+    "baseline_total": 13512,
+    "b_total": 13512,
+    "diff": 0,
+    "diff_pct": 0.0,
+    "only_in_baseline": 0,
+    "only_in_b": 0,
+    "only_in_baseline_by_raw_category": []
+  },
+  {
+    "label": "cohort=2027 → graduation_year=2027届",
+    "baseline_args": {
+      "cohort": "2027"
+    },
+    "b_args": {
+      "graduation_year": "2027届"
+    },
+    "baseline_total": 18480,
+    "b_total": 13895,
+    "diff": -4585,
+    "diff_pct": -24.8,
+    "only_in_baseline": 4585,
+    "only_in_b": 0,
+    "only_in_baseline_by_normalized_year": [
+      [
+        "未披露",
+        4266
+      ],
+      [
+        "2026届",
+        319
+      ]
+    ],
+    "only_in_baseline_examples": [
+      [
+        "cohort_raw: | campaign:中国航天科工集团有限公司2027届校园招聘",
+        1082
+      ],
+      [
+        "cohort_raw: | campaign:中国联通2027校园招聘",
+        1072
+      ],
+      [
+        "cohort_raw: | campaign:中国移动2027校园招聘",
+        982
+      ],
+      [
+        "cohort_raw: | campaign:中国能建2027届全球校园招聘",
+        457
+      ],
+      [
+        "cohort_raw: | campaign:中国兵器工业集团有限公司2027校园招聘",
+        399
+      ]
+    ],
+    "only_in_b_examples": []
+  },
+  {
+    "label": "major_category=计算机类 → major=计算机类",
+    "baseline_args": {
+      "major_category": "计算机类"
+    },
+    "b_args": {
+      "major": "计算机类"
+    },
+    "baseline_total": 4831,
+    "b_total": 4831,
+    "diff": 0,
+    "diff_pct": 0.0,
+    "only_in_baseline": 0,
+    "only_in_b": 0
+  },
+  {
+    "label": "region=北京 → city=北京",
+    "baseline_args": {
+      "region": "北京"
+    },
+    "b_args": {
+      "city": "北京"
+    },
+    "baseline_total": 6325,
+    "b_total": 6325,
+    "diff": 0,
+    "diff_pct": 0.0,
+    "only_in_baseline": 0,
+    "only_in_b": 0,
+    "only_in_b_examples": []
+  },
+  {
+    "label": "keyword=产品",
+    "baseline_args": {
+      "keyword": "产品"
+    },
+    "b_args": {
+      "keyword": "产品"
+    },
+    "baseline_total": 9733,
+    "b_total": 9733,
+    "diff": 0,
+    "diff_pct": 0.0,
+    "only_in_baseline": 0,
+    "only_in_b": 0
+  }
+]

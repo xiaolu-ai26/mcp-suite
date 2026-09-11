@@ -1,0 +1,168 @@
+{
+  "tools": [
+    {
+      "name": "jobs_deadlines",
+      "description": "未来N天内明确截止且有效的岗位，按截止日期倒排；不混入招满即止/未披露截止日。",
+      "inputSchema": {
+        "properties": {
+          "days": {
+            "default": 7,
+            "description": "未来N天（含今天）",
+            "maximum": 366,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "outputSchema": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "_meta": {
+        "_fastmcp": {
+          "tags": []
+        }
+      }
+    },
+    {
+      "name": "jobs_detail",
+      "description": "返回岗位全部业务字段、原公告URL与数据截至时间；内部证据文件路径不暴露。",
+      "inputSchema": {
+        "properties": {
+          "id": {
+            "description": "jobs_search返回的岗位id",
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "object"
+      },
+      "outputSchema": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "_meta": {
+        "_fastmcp": {
+          "tags": []
+        }
+      }
+    },
+    {
+      "name": "jobs_search",
+      "description": "按城市、专业、关键词、企业、招聘类型、行业、岗位大类、毕业届别筛选官方岗位，含状态、截止日、原公告URL、数据截至时间。找某类岗位用 job_category，找具体岗位名或单位用 keyword，找公司用 company。默认每次返回10条，可用offset翻页。返回的applied_filters是服务端实际使用的筛选条件。",
+      "inputSchema": {
+        "properties": {
+          "city": {
+            "default": "",
+            "description": "城市，如北京；未披露城市不会猜测",
+            "maxLength": 100,
+            "type": "string"
+          },
+          "major": {
+            "default": "",
+            "description": "专业关键词或专业大类，如计算机、会计，或计算机类、电子信息类、金融经济类、机械制造类、管理类、文科类、医药生物类、理科类、农业类、设计艺术类；同时匹配专业要求原文、专业标签和归一化专业大类",
+            "maxLength": 100,
+            "type": "string"
+          },
+          "keyword": {
+            "default": "",
+            "description": "单位/签约主体/岗位关键词",
+            "maxLength": 200,
+            "type": "string"
+          },
+          "company": {
+            "default": "",
+            "description": "企业/单位名称关键词，如中国邮政；在recruitment_unit等企业主体字段中做包含匹配",
+            "maxLength": 100,
+            "type": "string"
+          },
+          "recruitment_type": {
+            "default": "",
+            "description": "招聘类型，如校园招聘；未披露类型不推断",
+            "maxLength": 50,
+            "type": "string"
+          },
+          "industry": {
+            "default": "",
+            "description": "企业主体行业筛选，在招聘单位所属行业字段（industry、industry_tags）中做包含匹配；常见取值：互联网/科技、国企/央企、制造/工业、能源/电力、金融、医药/医疗",
+            "maxLength": 100,
+            "type": "string"
+          },
+          "job_category": {
+            "default": "",
+            "description": "岗位大类，按归一化岗位大类精确匹配，取值：技术/研发、产品、运营、设计、市场/营销、销售、职能/支持、金融、咨询、医疗/医药、制造/生产、科研、教育/培训、法律/合规、其他；不筛选时不传",
+            "enum": [
+              "",
+              "技术/研发",
+              "产品",
+              "运营",
+              "设计",
+              "市场/营销",
+              "销售",
+              "职能/支持",
+              "金融",
+              "咨询",
+              "医疗/医药",
+              "制造/生产",
+              "科研",
+              "教育/培训",
+              "法律/合规",
+              "其他"
+            ],
+            "type": "string"
+          },
+          "graduation_year": {
+            "default": "",
+            "description": "毕业届别，按归一化届别精确匹配，取值：2027届、2026届、2025届、未披露；写2027会按2027届处理；不筛选时不传",
+            "enum": [
+              "",
+              "2027届",
+              "2026届",
+              "2025届",
+              "未披露"
+            ],
+            "type": "string"
+          },
+          "limit": {
+            "default": 10,
+            "description": "每页条数，默认10，最大100",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "outputSchema": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "_meta": {
+        "_fastmcp": {
+          "tags": []
+        }
+      }
+    }
+  ]
+}

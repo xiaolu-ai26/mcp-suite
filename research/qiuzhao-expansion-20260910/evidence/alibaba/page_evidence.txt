@@ -1,0 +1,33 @@
+=== 阿里巴巴校招岗位列表页证据 ===
+URL: https://campus-talent.alibaba.com/campus/position?batchId=100000760001
+采集时间: 2026-09-10
+页面标题: 阿里巴巴校园招聘
+
+关键内容:
+- 全部在招职位（477）
+- 分页: 1 2 3 4 ... 48 (页码式，每页10条)
+- 项目类型:
+  应届生: 阿里巴巴2027届应届生
+  实习生: 阿里巴巴日常实习生, 阿里巴巴研究型实习生
+  顶尖人才计划: 阿里星-27届应届生
+- 职位类别: 技术类, 运营类, 产品类, etc.
+- 工作地点: 北京, 广州, 杭州, 上海, 深圳, 成都
+- 业务集团: 阿里巴巴控股集团, 淘天集团, 淘宝闪购, 飞猪, 阿里国际数字商业集团, 阿里云, Token Foundry, 千问办公, 千问事业部, 平头哥, 高德地图, 虎鲸文娱集团, 盒马, 阿里健康, 灵犀互娱
+
+=== 岗位详情页URL模式 ===
+https://campus-talent.alibaba.com/campus/position/{numeric_id}
+样例:
+- AI应用算法工程师: https://campus-talent.alibaba.com/campus/position/199907740040
+- Agent Infra工程师: https://campus-talent.alibaba.com/campus/position/199907640058
+
+=== API端点 ===
+- POST https://campus-talent.alibaba.com/position/search?_csrf={token} (岗位搜索/列表)
+- POST https://campus-talent.alibaba.com/searchCondition/list?_csrf={token} (筛选条件)
+- GET https://campus-talent.alibaba.com/user/getUser?_csrf={token} (用户信息)
+注意: API需要CSRF token
+
+=== 官方归属 ===
+- 集团招聘门户: https://talent.alibaba.com/ (页脚 "Powered by 阿里巴巴集团 © 2026 阿里巴巴集团版权所有")
+- 校招域名: campus-talent.alibaba.com (alibaba.com子域名)
+- 联系电话: 0571-28285927
+- 集团官网: https://www.alibabagroup.com/

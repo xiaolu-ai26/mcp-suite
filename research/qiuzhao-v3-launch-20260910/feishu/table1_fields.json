@@ -1,0 +1,19 @@
+[
+  {"type":"text","name":"岗位名称"},
+  {"type":"text","name":"job_id","description":"岗位唯一ID (生产快照)"},
+  {"type":"text","name":"公司名称"},
+  {"type":"text","name":"招聘单位"},
+  {"type":"select","name":"行业","options":[{"name":"邮政物流"},{"name":"通信运营"},{"name":"航天军工"},{"name":"能源电力"},{"name":"机械制造"},{"name":"银行金融"},{"name":"互联网"},{"name":"其他"}]},
+  {"type":"select","name":"招聘性质","options":[{"name":"校招"},{"name":"社招"},{"name":"实习"},{"name":"未知"}]},
+  {"type":"text","name":"毕业届别"},
+  {"type":"text","name":"工作地点","description":"多城市用、分隔"},
+  {"type":"text","name":"岗位大类"},
+  {"type":"datetime","name":"投递截止","style":{"format":"yyyy-MM-dd"}},
+  {"type":"select","name":"截止类型","options":[{"name":"明确"},{"name":"未披露"}]},
+  {"type":"text","name":"原链接","style":{"type":"url"}},
+  {"type":"text","name":"投递入口","style":{"type":"url"}},
+  {"type":"text","name":"来源"},
+  {"type":"select","name":"状态","options":[{"name":"open"},{"name":"expired"},{"name":"removed"},{"name":"unverified"}]},
+  {"type":"datetime","name":"复核时间","style":{"format":"yyyy-MM-dd HH:mm"}},
+  {"type":"text","name":"备注"}
+]

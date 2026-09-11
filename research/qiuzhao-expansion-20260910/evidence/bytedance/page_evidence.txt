@@ -1,0 +1,30 @@
+=== 字节跳动校招岗位列表页证据 ===
+URL: https://jobs.bytedance.com/campus/position
+采集时间: 2026-09-10
+页面标题: 字节跳动校园招聘
+
+关键内容:
+- 开启新的工作（7581）
+- 招聘项目:
+  正式: 2027届校园招聘, 2027届前沿技术领域人才校招, 2027届Seed大模型人才校招
+  实习: 前沿技术领域人才实习招聘, Seed大模型人才实习招聘, 日常实习, ByteIntern
+- 职位类别: 研发, 运营, 产品, 职能/支持, 设计, 销售, 市场, 游戏策划
+- 工作地点: 北京, 上海, 深圳, 杭州, 广州, 成都, 西安, 更多
+
+=== 岗位详情页URL模式 ===
+https://jobs.bytedance.com/campus/position/{numeric_id}/detail
+样例:
+- 大数据AI工程师-数据BP: https://jobs.bytedance.com/campus/position/7682636037198694709/detail
+- 城市营销实习生: https://jobs.bytedance.com/campus/position/7683130603059005749/detail
+
+=== API端点 ===
+- POST https://jobs.bytedance.com/api/v1/search/job/posts?keyword=&limit=10&offset=0&job_category_id_list=&tag_id_list=&location_code_list=&subject_id_list=&recruitment_id_list=&portal_type=3&job_function_id
+  (offset分页, limit=10, portal_type=3为校招)
+- GET https://jobs.bytedance.com/api/v1/config/job/filters/3 (筛选配置)
+- GET https://jobs.bytedance.com/api/v1/user/mobile/login_status (登录状态)
+
+=== 官方归属 ===
+- 企业官网: https://www.bytedance.com/ (页脚含"加入我们"、"招聘官网"链接)
+- 招聘域名: jobs.bytedance.com (bytedance.com子域名)
+- 静态资源: lf3-static.bytednsdoc.com (字节跳动静态资源域)
+- API标识: people-suite (字节跳动人力系统)

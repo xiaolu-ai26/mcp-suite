@@ -1,0 +1,30 @@
+{
+  "note": "新泛化 core 以 MCP_PRODUCT=qiuzhao 运行的本地验证（线上 mcp-suite.service 未重启，仍跑旧进程）",
+  "redemption": {
+    "code_prefix": "QZ-",
+    "key_prefix": "qz_",
+    "valid_through": "2026-12-31",
+    "expires_at": "2027-01-01T00:00:00+08:00",
+    "daily_limit": 200,
+    "product": "qiuzhao"
+  },
+  "tools": {
+    "names": [
+      "jobs_deadlines",
+      "jobs_detail",
+      "jobs_search"
+    ],
+    "search_total": 9191,
+    "deadlines_total": 1126,
+    "detail_found": true,
+    "data_as_of": "2026-09-10T06:46:41+08:00"
+  },
+  "quota": {
+    "remaining": 197
+  },
+  "bench_code_on_qiuzhao": {
+    "status": 400,
+    "message": "兑换码无效，请检查输入。"
+  },
+  "bench_code_not_burned": true
+}

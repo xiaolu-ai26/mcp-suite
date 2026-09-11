@@ -1,0 +1,26 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>接入教程 · 秋招岗位库</title><link rel="stylesheet" href="./site.css"></head><body><header><a class="brand" href="./">秋招岗位库</a><a href="./">兑换 API key →</a></header><main class="guide"><div class="eyebrow">连接好，再问第一句</div><h1>把岗位库接入你的 AI</h1><p>准备好兑换得到的 API key。下面的 <code>YOUR_API_KEY</code> 都要替换成你自己的 key；<code>Bearer</code> 后保留一个空格。</p><pre>服务地址：https://savegems.top/qiuzhao/mcp
+传输方式：Streamable HTTP / HTTP
+请求头名称：Authorization
+请求头内容：Bearer YOUR_API_KEY</pre><nav><a class="button secondary" href="#workbuddy">WorkBuddy</a><a class="button secondary" href="#doubao">豆包工作</a><a class="button secondary" href="#claude">Claude Code</a><a class="button secondary" href="#cherry">Cherry Studio</a></nav><p class="hint">说明：本页配置依据下方一手资料整理。截图位置明确标为占位；除另有验收记录外，不代表对应客户端已完成实机兼容测试。</p>
+<section id="workbuddy" class="card"><h2>01 / WorkBuddy</h2><ol><li>打开 WorkBuddy，进入左侧的<strong>连接器</strong>管理页；部分版本入口位于“专家 · 技能 · 连接器”。</li><li>点击右上角<strong>自定义连接器</strong>，打开 MCP 配置。若界面直接提供 URL、传输类型和 Headers 字段，就按页首三项填写。</li><li>若打开的是 JSON 配置文件，在现有 <code>mcpServers</code> 内增加下面的 <code>qiuzhao</code> 项。保留已有连接器，注意前后逗号。</li></ol><pre>{
+  "mcpServers": {
+    "qiuzhao": {
+      "type": "http",
+      "url": "https://savegems.top/qiuzhao/mcp",
+      "headers": {"Authorization": "Bearer YOUR_API_KEY"}
+    }
+  }
+}</pre><div class="placeholder">截图占位 WB-1：连接器管理 → 自定义连接器入口<br>操作截图待补。</div><ol start="4"><li>保存配置，启用或重新连接 <strong>qiuzhao</strong>。检查工具列表出现 <code>jobs_search</code>、<code>jobs_deadlines</code>、<code>jobs_detail</code>。</li><li>回到新任务，在输入框的连接器选择中启用秋招岗位库，再发送下方测试问题。若版本只提供 SSE，请升级或先用已支持 HTTP 的客户端。</li></ol><div class="placeholder">截图占位 WB-2：HTTP 地址与 Authorization 配置（key 必须打码）<br>截图占位 WB-3：三个工具的连接成功列表</div><p class="hint">依据：<a href="https://staging.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Connector">腾讯 WorkBuddy 连接器说明</a>、<a href="https://cloud.tencent.com/document/product/1831/137039">腾讯 MCP 配置文档</a>。不同个人版/企业版入口可能略有差异，当前未完成此产品的 WorkBuddy 实机验收。</p></section>
+<section id="doubao" class="card"><h2>02 / 豆包工作</h2><ol><li>打开并登录豆包工作电脑版，选择<strong>本地电脑</strong>工作环境。</li><li>点击左侧<strong>技能 · 连接器 · 伙伴</strong>，右上角选择<strong>新建 → 新建自定义连接器</strong>。</li><li>服务器名称填写“秋招岗位库”，传输类型选择 <strong>HTTP</strong>，服务器 URL 填写 <code>https://savegems.top/qiuzhao/mcp</code>。</li><li>在<strong>自定义 Headers</strong>中新增一行：名称 <code>Authorization</code>，值 <code>Bearer YOUR_API_KEY</code>。替换 key，保留空格。</li><li>保存后，新建工作任务；在输入框下方点击<strong>连接器</strong>，勾选秋招岗位库，再发送测试问题。</li></ol><div class="placeholder">截图占位 DB-1：技能 · 连接器 · 伙伴 → 新建自定义连接器<br>截图占位 DB-2：HTTP + URL + Headers 表单（key 必须打码）<br>截图占位 DB-3：新任务中启用秋招岗位库</div><p class="notice">目前该步骤尚未完成本产品的豆包工作实机验收。若当前版本没有 HTTP 或 Headers 字段，请先停止配置并反馈版本；不要把 API key 拼进网址。</p><p class="hint">入口能力依据：<a href="https://weibo.com/2/detail/5334423399565762">豆包官方更新公告</a>。具体字段依据接入服务方的一手教程：<a href="https://help.flomoapp.com/advance/mcp/token.html">flomo 官方 Token 接入（豆包工作）</a>；未找到豆包自身公开的完整字段说明。</p></section>
+<section id="claude" class="card"><h2>03 / Claude Code</h2><p>推荐使用环境变量引用，避免把 key 写进项目配置。创建独立配置文件 <code>qiuzhao.mcp.json</code>：</p><pre>{
+  "mcpServers": {
+    "qiuzhao": {
+      "type": "http",
+      "url": "https://savegems.top/qiuzhao/mcp",
+      "headers": {"Authorization": "Bearer ${QIUZHAO_API_KEY}"}
+    }
+  }
+}</pre><p>在自己的终端把 <code>QIUZHAO_API_KEY</code> 设置为兑换所得 key，再运行：</p><pre>claude --mcp-config ./qiuzhao.mcp.json
+# 进入后运行 /mcp，检查 qiuzhao 的三个工具。</pre><p>也可通过 <code>claude mcp add --transport http</code> 配置请求头；请按官方说明选择配置作用范围。确认工具启用后，用下面三个问题验证。</p><p class="hint">依据：<a href="https://code.claude.com/docs/en/mcp">Claude Code 官方 MCP 文档</a>。已于 2026-09-10 使用 Claude Code 会员连接线上服务，三个工具均完成真实调用。</p></section>
+<section id="cherry" class="card"><h2>04 / Cherry Studio</h2><ol><li>打开<strong>设置 → MCP 服务器</strong>，添加服务器，名称填写“秋招岗位库”。</li><li>类型选择 <strong>Streamable HTTP</strong>，URL 填写 <code>https://savegems.top/qiuzhao/mcp</code>。</li><li>在请求头设置中添加 <code>Authorization: Bearer YOUR_API_KEY</code>，保存并启用。</li><li>在聊天中选择支持工具调用的模型，打开工具/MCP 选择器并启用秋招岗位库。检查工具列表，再发送测试问题。</li></ol><p class="hint">依据：<a href="https://docs.cherryai.com.cn/advanced-basic/extensions/mcp">Cherry Studio 官方 MCP 文档</a>与<a href="https://github.com/CherryHQ/cherry-studio/blob/main/src/main/ai/mcp/McpRuntimeService.ts">官方 HTTP 实现</a>。本产品尚未完成 Cherry Studio 实机验收。</p></section>
+<section class="card"><h2>连接后的三次测试</h2><ol><li>“调用 <code>jobs_search</code> 查询岗位，先返回 3 条，保留岗位 id、截止日、状态、原公告链接和数据截至时间。”</li><li>“调用 <code>jobs_deadlines</code>，查未来 30 天明确截止的岗位，按截止日倒排；没有结果就如实说明。”</li><li>“取刚才一条真实岗位 id，调用 <code>jobs_detail</code>，展示全部岗位条件。”</li></ol><p>每次工具调用计 1 次，查询无结果也计次；连接握手、查看工具列表不计次。每天北京时间 00:00 恢复 200 次。</p><h3>遇到错误</h3><p><strong>无效 key：</strong>检查兑换码与 API key 是否混用、是否漏了 Bearer 和空格。<br><strong>过期：</strong>首发套餐有效至 2026-12-31 当天结束，联系卖家续费。<br><strong>额度用完：</strong>等待次日重置或联系卖家。<br><strong>没有岗位：</strong>放宽专业/届别，换城市，或仅搜关键词；未披露条件不会被自动补全。</p></section><p class="hint">教程资料核查日期：2026-09-10。岗位条件以原公告为准，不提供代投，不收取简历。</p></main></body></html>

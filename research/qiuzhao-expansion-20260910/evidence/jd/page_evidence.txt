@@ -1,0 +1,32 @@
+=== 京东校招岗位列表页证据 ===
+URL: https://campus.jd.com/#/jobs
+采集时间: 2026-09-10
+页面标题: 京东校招
+
+关键内容:
+- 2027校园招聘火热进行中
+- 职位推荐: 126个
+- 招聘类型:
+  TGT专项: TGT-顶尖青年技术天才计划, TGT-顶尖青年技术实习生
+  应届生: JDS-新星计划, TET-管理培训生, 新锐之星
+  实习生: JD YOUNG-实习生计划, 新锐之星实习生
+- 职位类别: 采销与物流, 技术, 产品, 运营, 市场与商务, 设计, 职能, 工程, 保险及金融, 健康, TET, 基层管理, 一线销售, 一线职能, 一线专业
+- 工作地点: 全国范围(含日本, 英国伦敦, 中国香港)
+- 所属业务: 京东零售, 京东科技, 探索研究院, 京东物流, 京东健康, 京东工业, 京东产发, 国际事业群, CHO体系, CCO体系, CFO体系
+
+=== 岗位详情页URL模式 ===
+https://campus.jd.com/#/details?id={numeric_id}
+样例:
+- 销售拓展: https://campus.jd.com/#/details?id=9329
+
+=== API端点 ===
+- POST https://campus.jd.com/api/wx/position/page?type=present (岗位列表/分页)
+- POST https://campus.jd.com/api/wx/position/dict?type=present (字典数据)
+- GET https://campus.jd.com/api/wx/position/getProjectList (项目列表)
+- GET https://campus.jd.com/api/wx/position/isLogin (登录状态)
+- GET https://campus.jd.com/api/wx/resume/checkResumeAndDelivery (简历投递检查)
+
+=== 官方归属 ===
+- 企业官网: https://www.jd.com/ (京东商城) / https://www.jdcorporate.com/ (京东集团)
+- 招聘域名: campus.jd.com (jd.com子域名)
+- 页脚版权: Copyright © 2004-2025 京东JD.com 版权所有

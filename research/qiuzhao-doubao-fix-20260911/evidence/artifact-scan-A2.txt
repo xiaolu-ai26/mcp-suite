@@ -1,0 +1,23 @@
+# 敏感信息扫描 2026-09-11 22:36:39 +0800
+# 范围：evidence/A2/ evidence/A2d/ test-output/A2-pytest.txt test-output/A2d-pytest.txt；数字为全部文件命中合计，0 = 未出现
+Bearer                                   0
+SENTINEL                                 0
+(?i)\b(qz|bm)_[A-Za-z0-9_-]{16,}         0
+(?i)\b(qz|bm)-[0-9a-f]{16,}              0
+abc\.def                                 0
+# 扫描的文件：
+evidence/A2/analyze_call_logs-bench.txt
+evidence/A2/analyze_call_logs-qiuzhao.txt
+evidence/A2/call_logs-release-A2-bench/tool_calls-20260911.jsonl
+evidence/A2/call_logs-release-A2-qiuzhao/tool_calls-20260911.jsonl
+evidence/A2/uvicorn-release-A2-bench.log
+evidence/A2/uvicorn-release-A2-qiuzhao-unwritable-logdir.log
+evidence/A2/uvicorn-release-A2-qiuzhao.log
+evidence/A2d/analyze_call_logs-qiuzhao.txt
+evidence/A2d/call_logs-release-A2d-bench/tool_calls-20260911.jsonl
+evidence/A2d/call_logs-release-A2d-qiuzhao/tool_calls-20260911.jsonl
+evidence/A2d/uvicorn-release-A2d-bench.log
+evidence/A2d/uvicorn-release-A2d-qiuzhao-unwritable-logdir.log
+evidence/A2d/uvicorn-release-A2d-qiuzhao.log
+test-output/A2-pytest.txt
+test-output/A2d-pytest.txt

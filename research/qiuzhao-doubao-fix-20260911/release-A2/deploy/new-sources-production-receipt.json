@@ -1,0 +1,110 @@
+{
+  "completed_incremental_runs": [
+    {
+      "updated_at": "2026-09-10T10:25:09+08:00",
+      "run_finished_at": "2026-09-10T10:25:10+08:00",
+      "job_count": 9191,
+      "status_counts": {
+        "open": 9089,
+        "expired": 0,
+        "unverified": 102,
+        "removed": 0
+      },
+      "group_count": 11,
+      "named_recruiting_entity_count": 567,
+      "distinct_source_urls": 9140,
+      "refreshed_jobs": 39,
+      "added_jobs": 0,
+      "alerts_count": 0,
+      "counting_note": "One original role ID per record; no city multiplication; named recruiting entities are publisher labels, not independent legal verification."
+    },
+    {
+      "updated_at": "2026-09-10T10:32:38+08:00",
+      "run_finished_at": "2026-09-10T10:32:39+08:00",
+      "job_count": 9191,
+      "status_counts": {
+        "open": 9089,
+        "expired": 0,
+        "unverified": 102,
+        "removed": 0
+      },
+      "group_count": 11,
+      "named_recruiting_entity_count": 567,
+      "distinct_source_urls": 9140,
+      "refreshed_jobs": 6058,
+      "added_jobs": 0,
+      "alerts_count": 0,
+      "counting_note": "One original role ID per record; no city multiplication; named recruiting entities are publisher labels, not independent legal verification."
+    }
+  ],
+  "source_state": {
+    "guopin": {
+      "status": "success",
+      "checked_at": "2026-09-10T10:32:38+08:00",
+      "complete": true,
+      "collected_jobs": 6058,
+      "campaigns": {
+        "zgyd": {
+          "status": "success",
+          "checked_at": "2026-09-10T10:27:43+08:00",
+          "source_record_count": 1610,
+          "collected_jobs": 1610,
+          "complete": true,
+          "campaign_url": "https://zgyd.iguopin.com/job",
+          "group_name": "中国移动通信集团有限公司"
+        },
+        "ceec": {
+          "status": "success",
+          "checked_at": "2026-09-10T10:28:13+08:00",
+          "source_record_count": 650,
+          "collected_jobs": 634,
+          "complete": true,
+          "campaign_url": "https://ceec.iguopin.com/job",
+          "group_name": "中国能源建设股份有限公司"
+        },
+        "cgnpc": {
+          "status": "success",
+          "checked_at": "2026-09-10T10:28:19+08:00",
+          "source_record_count": 8,
+          "collected_jobs": 8,
+          "complete": true,
+          "campaign_url": "https://cgnpc.iguopin.com/jobCampus",
+          "group_name": "中国广核集团有限公司"
+        },
+        "cam2027": {
+          "status": "success",
+          "checked_at": "2026-09-10T10:28:25+08:00",
+          "source_record_count": 72,
+          "collected_jobs": 72,
+          "complete": true,
+          "campaign_url": "https://cam2027.iguopin.com/job",
+          "group_name": "中国机械科学研究总院集团有限公司"
+        },
+        "casicjob": {
+          "status": "success",
+          "checked_at": "2026-09-10T10:29:15+08:00",
+          "source_record_count": 1179,
+          "collected_jobs": 1165,
+          "complete": true,
+          "campaign_url": "https://casicjob.iguopin.com/job",
+          "group_name": "中国航天科工集团有限公司"
+        },
+        "zglt": {
+          "status": "success",
+          "checked_at": "2026-09-10T10:32:38+08:00",
+          "source_record_count": 2569,
+          "collected_jobs": 2569,
+          "complete": true,
+          "campaign_url": "https://zglt.iguopin.com/job",
+          "group_name": "中国联合网络通信集团有限公司"
+        }
+      },
+      "coverage": "allowlisted six official 2027 enterprise campaigns; campus default track only"
+    }
+  },
+  "alerts": {
+    "run_finished_at": "2026-09-10T10:32:39+08:00",
+    "alerts": []
+  },
+  "transport_note": "Original long SSH connection stopped returning output; separate SSH verified completed summaries, success/complete source state, no running collector, and released flock. Local stale SSH terminated after verification."
+}

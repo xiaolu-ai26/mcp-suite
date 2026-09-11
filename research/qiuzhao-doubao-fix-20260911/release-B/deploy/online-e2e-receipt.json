@@ -1,0 +1,31 @@
+{
+  "redemption": "HTTP 200; extra test code only",
+  "tools": {
+    "names": [
+      "jobs_search",
+      "jobs_deadlines",
+      "jobs_detail"
+    ],
+    "jobs_search_total": 2648,
+    "deadlines_total": 2648,
+    "detail_id": "postal-CC360925120J40908096113",
+    "source_urls": [
+      "https://xiaoyuan.zhaopin.com/job/CC360925120J40908096113"
+    ],
+    "data_as_of": "2026-09-10T00:42:25+08:00"
+  },
+  "quota": {
+    "before": 200,
+    "after_list": 200,
+    "after_three_tools": 197
+  },
+  "expired_key": {
+    "status": 403,
+    "message": "API key 已过期，请联系卖家续费并兑换新的 key。"
+  },
+  "test_key_disabled": true,
+  "inventory": {
+    "unused_stock": 50,
+    "active_keys": 0
+  }
+}

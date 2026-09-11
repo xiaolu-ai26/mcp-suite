@@ -1,0 +1,32 @@
+{
+  "checked_at": "2026-09-10T15:46:05+08:00",
+  "data_file": "/Users/maxzhl/Projects/mcp-suite/bench/data/bench.json",
+  "online_base": null,
+  "stats": {
+    "file:bench.json": 485,
+    "copy:app.js": 16134,
+    "copy:guide.html": 6939,
+    "copy:index.html": 10205,
+    "copy:site.css": 14670,
+    "copy:tools.py": 8010,
+    "copy:server.py": 11185,
+    "copy:README.md": 4349
+  },
+  "notes": [
+    "file:bench.json[258:xhs-666c0258000000001c0207a2].title 命中互动数正则但已逐条豁免（涨粉8W）：他人原标题原样引用，Max 已拍板原标题照出；同时记入 notes 作为待决定项",
+    "file:bench.json[298:xhs-6a25314d0000000035030e23].title 含「小红书数据」，属他人原标题原样引用，不改写",
+    "file:bench.json[300:xhs-6a2292dd0000000007027182].promised_result 命中互动数正则但已逐条豁免（收藏10）：「收藏10个」是原笔记承诺读者拿到的东西（收藏=动词），不是这条笔记的收藏数"
+  ],
+  "failures": [],
+  "passed": true,
+  "rules": [
+    "无正文/逐字稿字段名",
+    "无正文级长字符串(>300)",
+    "无互动数字段名与精确数字",
+    "每条必有 http(s) 链接且 id 唯一",
+    "无图片/视频直链",
+    "文案面无「爬虫/爬取/抓取/采集/小红书数据」",
+    "自由文本无「互动词+数字」（含 万/w/括号/个位数），例外逐条白名单",
+    "每个文案面必须扫到 >0 字符，扫到 0 判失败"
+  ]
+}

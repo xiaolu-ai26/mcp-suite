@@ -1,0 +1,64 @@
+{
+  "note": "Internet/software/tech company expansion candidate list. 6 already completed (tencent,bytedance,alibaba,jd,meituan,netease). New targets below.",
+  "already_completed": ["tencent", "bytedance", "alibaba", "jd", "meituan", "netease"],
+  "batch1": [
+    {"slug": "baidu", "name": "百度", "guess_entry": "https://talent.baidu.com/jobs/list", "group_hint": "百度在线网络技术"},
+    {"slug": "pinduoduo", "name": "拼多多", "guess_entry": "https://careers.pinduoduo.com/campus", "group_hint": "上海寻梦信息技术/拼多多"},
+    {"slug": "kuaishou", "name": "快手", "guess_entry": "https://zhaopin.kuaishou.cn/campus", "group_hint": "北京快手科技"},
+    {"slug": "xiaomi", "name": "小米", "guess_entry": "https://hr.xiaomi.com/campus", "group_hint": "小米集团"},
+    {"slug": "huawei", "name": "华为", "guess_entry": "https://career.huawei.com/reccampportal/portal5/index.html", "group_hint": "华为投资控股"},
+    {"slug": "didi", "name": "滴滴出行", "guess_entry": "https://talent.didiglobal.com/campus", "group_hint": "滴滴全球"},
+    {"slug": "ctrip", "name": "携程集团", "guess_entry": "https://careers.trip.com/campus", "group_hint": "携程国际/Trip.com Group"},
+    {"slug": "bilibili", "name": "哔哩哔哩", "guess_entry": "https://jobs.bilibili.com/campus", "group_hint": "上海哔哩哔哩"},
+    {"slug": "weibo", "name": "微博", "guess_entry": "https://hr.weibo.cn/campus", "group_hint": "微博/新浪"},
+    {"slug": "zhihu", "name": "知乎", "guess_entry": "https://zhihu.jobs.feishu.cn/campus", "group_hint": "智者四海/知乎"}
+  ],
+  "batch2": [
+    {"slug": "xiaohongshu", "name": "小红书", "guess_entry": "https://job.xiaohongshu.com/campus", "group_hint": "行吟信息/小红书"},
+    {"slug": "beike", "name": "贝壳找房", "guess_entry": "https://hr.ke.com/campus", "group_hint": "贝壳控股/KE Holdings"},
+    {"slug": "kingsoft", "name": "金山软件", "guess_entry": "https://career.kingsoft.com/campus", "group_hint": "金山软件(WPS/金山云/西山居)"},
+    {"slug": "yonyou", "name": "用友网络", "guess_entry": "https://www.yonyou.com/careers/", "group_hint": "用友网络"},
+    {"slug": "kingdee", "name": "金蝶国际", "guess_entry": "https://campus.kingdee.com/", "group_hint": "金蝶国际"},
+    {"slug": "sangfor", "name": "深信服", "guess_entry": "https://campus.sangfor.com.cn/", "group_hint": "深信服科技"},
+    {"slug": "qianxin", "name": "奇安信", "guess_entry": "https://career.qianxin.com/campus", "group_hint": "奇安信科技"},
+    {"slug": "iflytek", "name": "科大讯飞", "guess_entry": "https://campus.iflytek.com/", "group_hint": "科大讯飞"},
+    {"slug": "sensetime", "name": "商汤科技", "guess_entry": "https://www.sensetime.com/cn/careers", "group_hint": "商汤科技"},
+    {"slug": "megvii", "name": "旷视科技", "guess_entry": "https://www.megvii.com/careers", "group_hint": "旷视科技"}
+  ],
+  "batch3": [
+    {"slug": "horizon", "name": "地平线机器人", "guess_entry": "https://horizon.jobs.feishu.cn/campus", "group_hint": "北京地平线机器人"},
+    {"slug": "thundersoft", "name": "中科创达", "guess_entry": "https://www.thundersoft.com/careers", "group_hint": "中科创达"},
+    {"slug": "isoftstone", "name": "软通动力", "guess_entry": "https://www.isoftstone.com/careers", "group_hint": "软通动力"},
+    {"slug": "chinasoft", "name": "中国软件", "guess_entry": "https://www.cs&s.com/careers", "group_hint": "中国软件与技术服务"},
+    {"slug": "inspur", "name": "浪潮集团", "guess_entry": "https://career.inspur.com/", "group_hint": "浪潮集团"},
+    {"slug": "lenovo", "name": "联想集团", "guess_entry": "https://careers.lenovo.com/campus", "group_hint": "联想集团"},
+    {"slug": "oppo", "name": "OPPO", "guess_entry": "https://careers.oppo.com/campus", "group_hint": "OPPO广东移动通信"},
+    {"slug": "vivo", "name": "vivo", "guess_entry": "https://hr.vivo.com/campus", "group_hint": "vivo移动通信"},
+    {"slug": "amazon", "name": "亚马逊中国", "guess_entry": "https://www.amazon.jobs/en/teams/china", "group_hint": "Amazon.com"},
+    {"slug": "dji", "name": "大疆创新", "guess_entry": "https://we.dji.com/zh-CN/campus", "group_hint": "大疆创新DJI"}
+  ],
+  "batch4_gaming": [
+    {"slug": "mihoyo", "name": "米哈游", "guess_entry": "https://campus.mihoyo.com/", "group_hint": "米哈游/HoYoverse"},
+    {"slug": "lilith", "name": "莉莉丝游戏", "guess_entry": "https://lilithgames.jobs.feishu.cn/campus", "group_hint": "莉莉丝"},
+    {"slug": "papergames", "name": "叠纸游戏", "guess_entry": "https://campus.papegames.com/", "group_hint": "叠纸网络"},
+    {"slug": "hypergryph", "name": "鹰角网络", "guess_entry": "https://hypergryph.zhiye.com/campus", "group_hint": "鹰角网络"},
+    {"slug": "perfectworld", "name": "完美世界", "guess_entry": "https://career.wanmei.com/campus", "group_hint": "完美世界"},
+    {"slug": "giant", "name": "巨人网络", "guess_entry": "https://www.giantgames.com/careers", "group_hint": "巨人网络"},
+    {"slug": "37games", "name": "三七互娱", "guess_entry": "https://campus.37.com/", "group_hint": "三七互娱"},
+    {"slug": "g-bits", "name": "吉比特", "guess_entry": "https://www.g-bits.com/careers", "group_hint": "吉比特"},
+    {"slug": "kaiying", "name": "恺英网络", "guess_entry": "https://www.kingnet.com/careers", "group_hint": "恺英网络"},
+    {"slug": "sea_garena", "name": "Sea/Garena", "guess_entry": "https://careers.sea.com/campus", "group_hint": "Sea Limited/Garena"}
+  ],
+  "batch5_soft_fintech": [
+    {"slug": "tonghuashun", "name": "同花顺", "guess_entry": "https://job.10jqka.com.cn/campus", "group_hint": "浙江核新同花顺"},
+    {"slug": "eastmoney", "name": "东方财富", "guess_entry": "https://campus.eastmoney.com/", "group_hint": "东方财富信息"},
+    {"slug": "lakala", "name": "拉卡拉", "guess_entry": "https://www.lakala.com/careers", "group_hint": "拉卡拉支付"},
+    {"slug": "glodon", "name": "广联达", "guess_entry": "https://campus.glodon.com/", "group_hink": "广联达科技"},
+    {"slug": "stone", "name": "石基信息", "guess_entry": "https://www.shijigroup.com/careers", "group_hint": "石基信息"},
+    {"slug": "winning", "name": "卫宁健康", "guess_entry": "https://www.winning.com.cn/careers", "group_hint": "卫宁健康"},
+    {"slug": "ccgroup", "name": "创业慧康", "guess_entry": "https://www.bsoft.com.cn/careers", "group_hint": "创业慧康"},
+    {"slug": "asus", "name": "华硕", "guess_entry": "https://campus.asus.com.cn/", "group_hint": "华硕电脑"},
+    {"slug": "acer", "name": "宏碁", "guess_entry": "https://campus.acer.com/", "group_hint": "宏碁Acer"},
+    {"slug": "hikvision", "name": "海康威视", "guess_entry": "https://campus.hikvision.com/", "group_hint": "海康威视"}
+  ]
+}

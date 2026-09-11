@@ -1,0 +1,75 @@
+﻿company_slug,公司名称,行业,榜单归属,官方招聘入口,平台类型,处理状态,预计岗位数,已采集岗位数,阻塞原因,最后探源时间,适配器规格
+tencent,腾讯,技术、产品、设计、市场、职能,行业种子,https://join.qq.com/,自建,声明范围完整,899,899,,2026-09-10,POST https://join.qq.com/api/v1/position/searchPosition
+bytedance,字节跳动,研发、产品、运营、设计、数据、销售、职能,行业种子,https://jobs.bytedance.com/campus,自建,声明范围完整,7581,7581,,2026-09-10,POST https://jobs.bytedance.com/api/v1/search/job/posts (limit=10 offset分页)
+alibaba,阿里巴巴,技术、产品、运营、设计、数据、算法、职能,行业种子,https://campus-talent.alibaba.com/campus/index,自建,声明范围完整,477,477,,2026-09-10,POST https://campus-talent.alibaba.com/position/search (需CSRF token)
+jd,京东,技术、产品、运营、供应链、金融、职能、市场,行业种子,https://campus.jd.com/,自建,声明范围完整,126,126,,2026-09-10,POST https://campus.jd.com/api/wx/position/page
+meituan,美团,技术、产品、运营、数据、设计、职能、供应链,行业种子,https://zhaopin.meituan.com/web/index,自建,有可用岗位部分覆盖,604,189,,2026-09-10,POST https://zhaopin.meituan.com/api/official/job/getJobList
+netease,网易,技术、产品、运营、设计、游戏策划、职能,行业种子,https://campus.163.com/,自建,声明范围完整,10,10,网易为去中心化架构，互娱/雷火为独立站点(leihuo.163.com/campus等)，需分别适配；互联网项目仅10个岗位,2026-09-10,GET https://campus.163.com/api/campuspc/position/getJobList
+hengrui,恒瑞医药,,行业种子,https://app.mokahr.com/social-recruitment/hengrui/145996,Moka,声明范围完整,444,444,,2026-09-10,https://app.mokahr.com/campus-recruitment/hengrui#/job/{job_uuid}
+mindray,迈瑞医疗,,行业种子,https://career.mindray.com/campus,北森,声明范围完整,20,20,,2026-09-10,北森SPA路由(待确认具体路径)
+pharmaron,康龙化成,,行业种子,https://app.mokahr.com/campus-recruitment/pharmaron/44352,Moka,声明范围完整,584,584,,2026-09-10,https://app.mokahr.com/campus-recruitment/pharmaron/44352#/job/{job_uuid}
+novoprotein,诺唯赞,,行业种子,未确认(官网无直接招聘链接，Workday租户维护中，北森页面Error),Workday,访问受阻,0,0,官方招聘系统不可直接访问: (1)Workday域名novoprotein.wd5.myworkdayjobs.com存在但UI重定向至维护页，API返回HTTP 422; (2)北森vazyme.zhiye.com所有页面返回Error; (3)vazyme.italent.cn被robots.txt禁止; (4)官网无直接招聘入口。职位ID格式MJxxxxx确认使用Workday但租户不可用。第三方猎聘佐证52个在招职位含2个学生职位。,2026-09-10,未确认(MJ前缀Workday ID，但租户维护中)
+sinobiological,义翘神州,,行业种子,https://sinobiological.zhiye.com/campus,北森,声明范围完整,24,24,,2026-09-10,https://sinobiological.zhiye.com/campus/jobs/{jobId}
+astrazeneca,阿斯利康,,行业种子,https://job-search.astrazeneca.cn/,TalentBrew,有可用岗位部分覆盖,259,259,中国区校招: 中国站搜索trainee=0结果，graduate/intern返回常规职位；中国区无专门校招职位列表。校招通过全球Early Talent系统管理(Operations Graduate Programme含中国)及'试翼计划'实习项目。2027届中国校招专场尚未在官方渠道发现。,2026-09-10,TalentBrew格式(待确认)
+midea,美的集团,研发技术类、制造技术类、信息技术类、国内营销类、供应链物流类、海外营销类、财务金融类、管理类,行业种子,https://careers.midea.com/,自建,入口已证实,146,146,,2026-09-10,https://careers.midea.com/schoolOut/post/details?id={jobId}
+byd,比亚迪集团,技术、综合、运营、营销,财富世界500强、财富中国500强,https://job.byd.com/,自建,入口已证实,386,386,,2026-09-10,https://job.byd.com/portal/pc/#/school/schoolPositionDetail
+catl,宁德时代,研发类、计算机与AI类、市场类、供应链与运营类、质量管理类、职能类,行业种子,https://talent.catl.com/,Moka,入口已证实,601,601,,2026-09-10,https://app.mokahr.com/campus-recruitment/catlhr/148948#/job/{jobId}
+inovance,汇川技术,技术类、营销类、质量类、技能类、供应链管理类、其他职能类,行业种子,https://recruit.inovance.com/,自建,入口已证实,392,392,,2026-09-10,https://recruit.inovance.com/#/job/{jobId}
+bochu,柏楚电子,技术支持、产品管理,行业种子,无独立招聘门户，微信公众号'柏楚招聘'+第三方平台,无门户,访问受阻,0,2,无自建在线招聘门户，校招岗位通过微信公众号'柏楚招聘'和猎聘等第三方平台零散发布，无法获取完整校招岗位清单。已验证2条真实应届生岗位。,2026-09-10,第三方平台URL(猎聘等)
+zhaowei,兆威机电,电控硬件,行业种子,无独立招聘门户，官网无招聘频道,无门户,访问受阻,0,1,无自建在线招聘门户，官网无招聘频道，岗位通过第三方平台零散发布。未发现2027届统一校招公告，仅验证1条应届生岗位(2026年3月发布)。无法获取完整校招岗位清单。,2026-09-10,第三方平台URL(企查查/猎聘/职友集等)
+pg,宝洁 (Procter & Gamble),R&D、BRM(品牌管理)、Finance、供应链、销售、HR、IT,行业种子,https://www.pgcareers.com/,Phenom,待核验,8,8,,2026-09-10,https://www.pgcareers.com/global/en/job/R{jobSeqNo}/{title}
+unilever,联合利华 (Unilever),,行业种子,https://careers.unilever.com/,自建,访问受阻,255,0,中国区招聘页(unilever.com.cn/careers)返回Site Under Construction；全球招聘页URL过滤参数不生效无法筛选中国区；UFLP 2027管培生已确认启动但校招入口可能在微信公众号/专门校招站，不在全球招聘官网,2026-09-10,未确认
+loreal,欧莱雅 (L'Oréal),,Forbes最佳雇主,https://careers.loreal.com/,自建,有可用岗位部分覆盖,999,3,中国区管理培训生(MT)和区域销售培训生项目未在全球招聘页列出(可能通过微信/专门校招站)；URL参数过滤不生效；上海仅3条Jr. Product Manager岗位，非明确2027届校招,2026-09-10,https://careers.loreal.com/en_US/jobs/job/{id}
+bosch,博世 (Robert Bosch GmbH),研发、软件、硬件、制造、供应链、职能、销售,Forbes最佳雇主,https://app.mokahr.com/campus_apply/bosch,Moka,有可用岗位部分覆盖,180,180,MokaHR为SPA，职位详情页ID通过JS动态加载，API端点返回页面不存在；职位列表180条完整获取但详情URL具体ID需浏览器交互获取,2026-09-10,MokaHR SPA动态加载
+schneider,施耐德电气 (Schneider Electric),,行业种子,https://www.se.com/cn/zh/about-us/careers/,Workday,访问受阻,0,0,Workday端点(schneiderelectric.wd5/wd1.myworkdayjobs.com)返回HTTP 500；se.com/careers返回403；overview.jsp职位JS渲染无法获取。未取得任何真实岗位样例,2026-09-10,未确认
+accenture,埃森哲 (Accenture),,GPTW最佳雇主,https://www.accenture.com/cn-zh/careers,自建,有可用岗位部分覆盖,6,6,职位详情页URL模式未找到(两种尝试均link dead)；带参数的jobsearch页被robots.txt禁止；职位列表可见6条含Early Career标签但无法获取详情URL,2026-09-10,未找到(两种尝试均link dead)
+amazon,亚马逊,互联网、电商、云计算、跨国企业,财富世界500强、Forbes最佳雇主,https://www.amazon.com,未知,未开始,0,0,,2026-09-10,
+dhl,DHL,消费、物流、快递、国际供应链,GPTW最佳雇主,https://www.dhl.com,未知,未开始,0,0,,2026-09-10,
+hilton,希尔顿,消费、酒店、旅游休闲、跨国企业,Forbes最佳雇主、GPTW最佳雇主,https://www.hilton.com,未知,未开始,0,0,,2026-09-10,
+huawei,华为投资控股有限公司,电子、通信设备、半导体、手机、云计算,财富世界500强、财富中国500强,https://www.huawei.com,未知,未开始,0,0,,2026-09-10,
+nestle,雀巢公司,消费、食品饮料、咖啡、宠物食品,财富世界500强,https://www.nestle.com,未知,未开始,0,0,,2026-09-10,
+novartis,诺华,药企、创新药、跨国药企,Forbes最佳雇主,https://www.novartis.com,未知,未开始,0,0,,2026-09-10,
+pfizer,辉瑞,药企、创新药、疫苗、跨国药企,Forbes最佳雇主,https://www.pfizer.com,未知,未开始,0,0,,2026-09-10,
+ranking_0014326d,Allianz,Financial Services & Insurance,GPTW最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_01804381,高盛集团,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_06ca1d54,摩根大通,unknown,Forbes最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_074af739,哈门那公司,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_08bc21a2,法国巴黎银行,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_09ccf943,戴尔科技公司,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_0a41f2dd,TP,Professional Services,GPTW最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_0a560634,富达投资,unknown,Forbes最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_0ba0da29,英国石油公司,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_0d3e6ccf,美国运通,unknown,Forbes最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_0e9fb148,任天堂,unknown,Forbes最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_0f2d3e62,Rossmann,unknown,Forbes最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_107802ae,信实工业公司,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_10a782a6,中国石油天然气集团有限公司,unknown,财富世界500强、财富中国500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_10c492cf,开市客,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_12ecb0ab,礼来,unknown,Forbes最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_133009c4,法国电力公司,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_14c7fa54,宝马集团,unknown,财富世界500强、Forbes最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_1ad83a3a,中国建设银行股份有限公司,unknown,财富世界500强、财富中国500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_1d1f68d2,沃尔玛,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_1eddfdd0,雅马哈,unknown,Forbes最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_1ee37d81,Alphabet公司,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_1fbe1b59,大众公司,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_21987618,俄罗斯天然气工业股份公司,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_21abdce5,Centene公司,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_22fbf440,厦门建发集团有限公司,unknown,财富中国500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_28033dd4,佳明,unknown,Forbes最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_29f200d5,美国康卡斯特电信公司,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_2a21e256,Nvidia,Information Technology,GPTW最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_2a565ed9,中国石油化工集团有限公司,unknown,财富世界500强、财富中国500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_2c36d90a,国家能源投资集团有限责任公司,unknown,财富中国500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_2cad1d48,美国银行,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_33f8def8,空中客车,unknown,Forbes最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_35282916,中国邮政集团有限公司,unknown,财富中国500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_35da3d25,英特尔,unknown,Forbes最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_3603383f,壳牌公司,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_36a50d34,戴尔科技,unknown,Forbes最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_37574545,安盛,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_3930cd4f,Elevance Health公司,unknown,财富世界500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_3ac0efc4,中国宝武钢铁集团有限公司,unknown,财富世界500强、财富中国500强,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_3dac84cc,劳力士,unknown,Forbes最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_3f9f6951,ServiceNow,Information Technology,GPTW最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,
+ranking_40a56784,微软,unknown,财富世界500强、Forbes最佳雇主,,未知,未开始,0,0,仅来自榜单条目，未在80家种子中；待进一步调研,2026-09-10,

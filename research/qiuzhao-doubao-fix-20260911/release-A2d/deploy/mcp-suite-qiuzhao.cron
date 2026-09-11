@@ -1,0 +1,4 @@
+# Host timezone verified Asia/Shanghai (CST). Daily at 06:10 China time.
+SHELL=/bin/bash
+PATH=/usr/local/bin:/usr/bin:/bin
+10 6 * * * mcp-suite /opt/mcp-suite/deploy/collector-daily.sh

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="兑换 AI 赛道爆款拆解库访问权限，生成适合你的AI客户端的专属接入指令。只提供公开链接与原创拆解标签。">
+  <title>兑换与接入 · AI 赛道爆款拆解库</title>
+  <link rel="stylesheet" href="./site.css?v=1">
+  <script src="./app.js?v=1" defer></script>
+</head>
+<body data-page="redeem">
+  <a class="skip" href="#main">跳到主要内容</a>
+  <div class="preview-banner" id="preview-banner" hidden>离线交互预览 · 使用虚构凭证，不连接线上，也不能兑换真实码。</div>
+  <header class="site-header wrap">
+    <a class="brand" href="./"><span class="brand-mark" aria-hidden="true">爆</span><span>AI爆款拆解库<small>拆开看，再动手</small></span></a>
+    <nav aria-label="主导航"><a class="nav-current" href="./">兑换开通</a><a href="./guide" target="_blank" rel="noopener noreferrer">接入指南 ↗</a><a href="#faq">常见问题</a></nav>
+  </header>
+  <main id="main" class="wrap">
+    <div class="hero-layout">
+      <section class="hero-copy">
+        <p class="eyebrow"><span class="status-dot"></span> AI 赛道 · 存量拆解资产 · MCP 数据服务</p>
+        <h1>让你的 AI，<br>照着<span class="accent">拆开过的爆款</span><br>给你出选题。</h1>
+        <p class="lead">兑换后，复制一段专属指令。<br>让 AI 接入拆解库，按选题、形式、标题公式翻爆款，<br>每条都带公开链接和原创拆解结论。</p>
+        <div class="value-list">
+          <p><span>01</span> 按选题分类、内容形式、标题公式检索</p>
+          <p><span>02</span> 每条保留公开链接与观察日期，可自己回看核对（小红书链接多需在其 App 内按标题搜原文，见常见问题）</p>
+          <p><span>03</span> 给出爆点与可复刻方向，不是让你照搬别人的稿</p>
+        </div>
+        <div class="plan-summary"><strong>¥29</strong><span>／月<br><small>兑换激活起算 · 30 天有效</small></span></div>
+        <p class="fine-print">每天 200 次工具调用，多客户端共用额度。本服务只返回公开链接、原标题与原创拆解标签和结论，<b>不提供笔记正文、逐字稿、图片、视频，也不提供点赞收藏等精确互动数据</b>；粉丝量级只给区间，破圈程度只给分级词。不承诺爆款结果。AI 客户端本身的账号与模型费用另计。</p>
+        <div class="data-status" aria-live="polite"><span class="tiny-dot"></span><span id="data-status">正在读取服务状态…</span></div>
+      </section>
+      <section class="activation-card" aria-label="兑换并接入">
+        <div class="step-rail" aria-label="开通流程">
+          <span class="step active" id="step-redeem"><b>1</b>兑换</span><i></i>
+          <span class="step" id="step-connect"><b>2</b>接入 AI</span><i></i>
+          <span class="step" id="step-use"><b>3</b>开始查询</span>
+        </div>
+        <div id="redeem-panel">
+          <div class="section-kicker">已经购买？从这里开始</div>
+          <h2>兑换你的月度权限</h2>
+          <p class="muted">粘贴订单中收到的兑换码。系统将生成只属于你的访问凭证，有效期从兑换这一刻起算 30 天。</p>
+          <form id="redeem-form" autocomplete="off">
+            <label for="code">兑换码</label>
+            <input id="code" name="redemption_code" type="text" spellcheck="false" autocapitalize="characters" autocomplete="off" maxlength="80" placeholder="BM-…" required aria-describedby="code-note">
+            <p id="code-note" class="field-note">每个兑换码只能使用一次，兑换即开始计算 30 天。提交前请关闭录屏与屏幕共享。</p>
+            <button class="button primary full" id="redeem-button" type="submit">兑换并生成专属接入指令 <span aria-hidden="true">→</span></button>
+          </form>
+          <p id="redeem-message" class="message" role="status" aria-live="polite"></p>
+          <div class="divider"><span>已经兑换过</span></div>
+          <details class="existing-key">
+            <summary>我保存了 API key，重新生成接入指令</summary>
+            <form id="existing-form" autocomplete="off">
+              <label for="existing-token">已保存的 API key（不是兑换码）</label>
+              <input id="existing-token" type="password" autocomplete="off" maxlength="200" placeholder="bm_…" spellcheck="false" required>
+              <button class="button secondary full" type="submit" id="existing-button">校验权限并继续</button>
+              <p class="field-note">只检查凭证状态，不消耗工具调用额度；无法找回已经丢失的 key。</p>
+              <p class="message" id="existing-message" role="status"></p>
+            </form>
+          </details>
+          <div class="card-footnote"><span class="lock-icon" aria-hidden="true">◇</span> 只在本页内存中处理凭证，不写入本网站的浏览器持久存储。</div>
+        </div>
+        <div id="success-panel" hidden>
+          <div class="success-heading"><span class="success-icon" aria-hidden="true">✓</span><div><h2 id="success-title" tabindex="-1">兑换成功</h2><p class="muted">下一步，选择你使用的 AI。</p></div></div>
+          <div class="entitlement-grid" aria-label="当前权益"><div><small>有效至（北京时间）</small><strong id="valid-through">—</strong></div><div><small>今日剩余 / 每日额度</small><strong id="quota-text">—</strong></div></div>
+          <p class="save-warning">请先妥善保存 key。关闭或刷新页面后，本页不会再显示它；需要原购买渠道处理丢失问题。</p>
+          <fieldset class="client-fieldset"><legend>选择你的 AI 客户端</legend>
+            <div class="client-grid" id="client-options"></div>
+            <details class="more-clients"><summary>Hermes、OpenClaw 及其他方式</summary><div class="client-grid" id="extra-client-options"></div></details>
+          </fieldset>
+          <div class="client-explainer"><strong id="client-name">WorkBuddy</strong><span id="client-badge" class="badge">接入待实测</span><p id="client-note"></p></div>
+          <label class="consent"><input type="checkbox" id="secret-consent"><span>我知道指令含有私人 key，只会发给自己信任的 Agent。其服务商可能保存对话；不要发群聊或公开分享。</span></label>
+          <button class="button primary full" id="copy-prompt" type="button" disabled>复制专属接入指令（含我的 key） <span aria-hidden="true">↗</span></button>
+          <p id="copy-message" class="message" role="status" aria-live="polite"></p>
+          <details id="prompt-details" class="code-details"><summary>查看将复制的指令（默认隐藏 key）</summary><pre id="prompt-preview" class="code-block"></pre></details>
+          <div class="post-copy-note"><b>复制后做什么？</b><p>粘贴到所选 Agent 的私人任务中。有配置权限时让它代配置；需要点击连接器或重开会话时，按指引操作。只有返回真实工具结果，才算接通。</p></div>
+          <details class="code-details" id="manual-details"><summary>手动接入 / 单独保存 key</summary>
+            <label for="key-display">个人 API key</label><div class="key-row"><input id="key-display" type="password" readonly autocomplete="off" aria-label="个人API key" spellcheck="false"><button class="button compact" id="toggle-key" type="button" aria-pressed="false">显示</button><button class="button compact" id="copy-key" type="button">复制</button></div>
+            <p class="field-note">建议存入密码管理器。手动把 key 填到客户端连接器配置，可以避免将它发送到聊天框。</p>
+            <pre class="code-block" id="config-preview"></pre>
+            <button class="button secondary full" type="button" id="copy-config">复制所选客户端配置（含 key）</button>
+            <p class="field-note">预览隐藏 key，复制得到真实值。不要整份覆盖已有连接器；具体配置位置以客户端当前版本为准。</p>
+          </details>
+          <div class="account-actions"><button class="text-button" type="button" id="check-usage">检查账号权限</button><button class="text-button danger" type="button" id="clear-key">清除本页凭证</button></div>
+          <p id="usage-message" class="message" role="status"></p>
+        </div>
+      </section>
+    </div>
+    <section class="after-connect" aria-labelledby="examples-title">
+      <div class="section-heading"><div><p class="eyebrow">接入后，从这三句话开始</p><h2 id="examples-title">不是给你素材，是给你可复用的结构。</h2></div><span class="muted">以下是用法示例，不是内容推荐结果。</span></div>
+      <div class="example-grid">
+        <article class="example-card"><span class="example-num">01 / 找同类</span><h3>先按选题翻一遍</h3><p>“用爆款拆解库查 AI变现 方向的记录，先给我 5 条，保留标题公式标签、公开链接和观察日期。”</p><button class="text-button example-copy" type="button" data-example="search">复制问题 ↗</button></article>
+        <article class="example-card"><span class="example-num">02 / 看体系</span><h3>先搞清楚有哪些牌</h3><p>“调用 bench_taxonomy，把选题分类、标题公式、内容角度的取值和数量列成表，并说明哪些维度本期未标注。”</p><button class="text-button example-copy" type="button" data-example="taxonomy">复制问题 ↗</button></article>
+        <article class="example-card"><span class="example-num">03 / 拆一条</span><h3>拆开再决定抄哪里</h3><p>“对其中一条调用 bench_detail，告诉我它为什么能爆、我要复刻需要改哪三处。”</p><button class="text-button example-copy" type="button" data-example="detail">复制问题 ↗</button></article>
+      </div><p id="example-message" class="message" role="status"></p>
+    </section>
+    <section class="faq-section" id="faq"><div><p class="eyebrow">常见问题</p><h2>开通之前，<br>把这些说清楚。</h2></div><div class="faq-list">
+      <details><summary>它到底返回什么？不返回什么？</summary><p>返回：公开内容链接、原标题、平台、内容形式（图文／视频）、可考证的发布时间、粉丝量级区间、原创标签（选题分类／标题公式／内容角度／钩子）、原创拆解结论、观察日期。不返回：笔记或视频正文、逐字稿、图片、封面图与视频地址、点赞收藏评论分享播放等精确互动数据。想看原内容，点它给你的公开链接自己看。</p></details>
+      <details><summary>粉丝量级和“破圈程度”为什么不是数字？</summary><p>因为精确互动数据不进这个库。粉丝只给区间（例如 0-1k、1k-5k），破圈程度只给分级词（现象级／强／中／观察／未分级）。分级是按原研究的分档换算出来的，不回填任何原始数字或比值。</p></details>
+      <details><summary>封面版式标签为什么大部分是空的？</summary><p>判断封面版式必须看封面图，而这个库既不保存也不返回封面图，所以本期没有标注，标签体系先给出来。`bench_taxonomy` 会明确告诉你哪些维度未标注——未标注不等于零，也不会用标题去猜。</p></details>
+      <details><summary>标签是人打的还是 AI 打的？</summary><p>两种都有，每条记录的 `tagging` 字段会写明。2026-06 那批低粉爆款研究的标签与拆解结论来自人工／原研究；后两批只有链接和标题等公开元数据，标签由 AI 依据标题与公开元数据补打，标为 ai_filled；还有一部分只有链接、没有标题，标为 url_only，不补标签也不编造。</p></details>
+      <details><summary>200 次是每天能问 200 个问题吗？</summary><p>按工具调用计数，不按聊天条数。一次提问可能调用多个工具，空结果也计次；连接握手和列工具不扣次。同一 key 在不同客户端使用，共用每天 200 次，北京时间 00:00 重置。</p></details>
+      <details><summary>30 天从什么时候开始算？</summary><p>从你在本页兑换成功那一刻起算 30 天，不是从下单那一刻。买了先不兑换不会消耗时间。到期后 key 失效，需要新的兑换码。</p></details>
+      <details><summary>链接一定打得开吗？（重要，先看这条）</summary><p>不一定。2026-09-10 实测：<b>小红书的笔记链接带有时效性参数，库里记录的这批多数已经不能在电脑网页端直接打开</b>，会跳到“请打开小红书 App 查看”。抖音、TikTok 这类链接实测可以直接打开。因此实际用法是：拿返回的<b>原标题</b>到小红书 App 里搜原文，链接作为出处留档。此外作者删除、设为私密也会让链接失效，本服务不保存内容副本，也不承诺链接长期可访问。买之前请按这个前提判断值不值。</p></details>
+      <details><summary>刷新页面之后，key 丢了怎么办？</summary><p>兑换时只生成并返回一次明文 key，系统不提供原 key 明文找回。已经保存过的，可以在本页重新校验并生成指令；完全丢失请凭订单联系原卖家处理，不要重复购买或公开自己的 key。</p></details>
+    </div></section>
+  </main>
+  <footer class="wrap site-footer"><span>AI爆款拆解库 · 只给链接和判断，正文回原处看。</span><a href="./guide" target="_blank" rel="noopener noreferrer">接入与隐私说明 ↗</a></footer>
+  <div class="modal-backdrop" id="clipboard-dialog" hidden><section class="clipboard-modal" role="dialog" aria-modal="true" aria-labelledby="clipboard-title"><h2 id="clipboard-title">浏览器未允许自动复制</h2><p>请手动全选并复制下方内容。内容可能包含私人 key，请勿截图。</p><textarea id="clipboard-fallback" readonly spellcheck="false" aria-label="待复制内容"></textarea><button class="button primary full" type="button" id="close-clipboard">已处理，关闭并清空</button></section></div>
+  <noscript><div class="wrap message error">本页需要 JavaScript 才能兑换。请启用后刷新；不要把兑换码放进网址。</div></noscript>
+</body></html>

@@ -1,0 +1,58 @@
+{
+  "adapter": "bytedance",
+  "run_started_at": "2026-09-10T12:00:25+08:00",
+  "run_finished_at": "2026-09-10T12:00:25+08:00",
+  "api_endpoint": "https://jobs.bytedance.com/api/v1/search/job/posts",
+  "pagination": {
+    "type": "offset/limit",
+    "limit": 100,
+    "api_cap": 10000
+  },
+  "expected_total": 10000,
+  "collected_jobs": 10000,
+  "unique_source_ids": 10000,
+  "pages_scanned": 100,
+  "last_offset": 9900,
+  "complete": true,
+  "campus_jobs_found": 0,
+  "total_jobs_scanned": 10000,
+  "recruit_type_distribution": {
+    "社招": 10000
+  },
+  "errors": [],
+  "sample_verification": {
+    "first_page": {
+      "id": "bytedance-7683050653016951045",
+      "title": "游戏创意广告编导（AI短剧方向） - OAK Studio",
+      "cities": [
+        "北京",
+        "广州"
+      ],
+      "url": "https://jobs.bytedance.com/campus/position/7683050653016951045/detail"
+    },
+    "middle_page": {
+      "id": "bytedance-7638474435041970437",
+      "title": "商业产品经理（AI变现方向）-中国广告产品（北京/上海）",
+      "cities": [
+        "北京"
+      ],
+      "url": "https://jobs.bytedance.com/campus/position/7638474435041970437/detail"
+    },
+    "last_page": {
+      "id": "bytedance-7621834588668938501",
+      "title": "APaaS实施业务顾问-信息系统",
+      "cities": [
+        "上海"
+      ],
+      "url": "https://jobs.bytedance.com/campus/position/7621834588668938501/detail"
+    }
+  },
+  "critical_finding": "API with portal_type=2 returns ONLY 社招 (experienced) jobs. 0 campus (校招) jobs found in 10000 sampled. Campus positions likely use a different API endpoint, recruitment_id filter, or are not yet active for 2027 season.",
+  "field_mapping_note": "id -> source_record_id; title -> job_title; job_category.name -> job_category; city_list/city_info -> cities; description+requirement -> description_raw; publish_time -> published_at",
+  "known_limitations": [
+    "API caps at 10000 results; actual total may exceed cap",
+    "No campus jobs found with current parameters; campus filtering requires further investigation",
+    "Job descriptions are long (up to 5000 chars truncated)",
+    "Deadline not disclosed in API"
+  ]
+}

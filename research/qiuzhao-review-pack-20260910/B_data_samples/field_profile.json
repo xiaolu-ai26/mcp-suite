@@ -1,0 +1,7184 @@
+{
+  "snapshot_path": "/Users/maxzhl/Projects/mcp-suite/qiuzhao/data/jobs.json",
+  "snapshot_file_mtime": 1789006870.069936,
+  "data_as_of": "2026-09-10T06:46:41+08:00",
+  "total_records": 9191,
+  "source_group_counts": {
+    "中国邮政": 2648,
+    "中广核": 8,
+    "中行": 14,
+    "国家能源": 422,
+    "建行": 39,
+    "机械总院": 72,
+    "电信": 10,
+    "移动": 1610,
+    "联通": 2569,
+    "能建": 634,
+    "航天科工": 1165
+  },
+  "all_fields": [
+    "announcement_evidence_path",
+    "announcement_url",
+    "application_url",
+    "campaign_cohort_raw",
+    "campaign_url",
+    "cities",
+    "cohort_raw",
+    "cohort_scope",
+    "contracting_entity",
+    "deadline",
+    "deadline_scope",
+    "deadline_type",
+    "description_raw",
+    "directory_evidence_path",
+    "education_raw",
+    "education_scope",
+    "evidence_path",
+    "hiring_department_raw",
+    "id",
+    "job_category",
+    "job_listing_url",
+    "job_title",
+    "job_title_scope",
+    "major_requirements_raw",
+    "major_tags",
+    "nature_raw",
+    "parent_unit_raw",
+    "published_at",
+    "published_at_scope",
+    "record_kind",
+    "recruiting_unit_raw",
+    "recruitment_type_raw",
+    "recruitment_unit",
+    "requirements_scope",
+    "reviewed_at",
+    "source_group_key",
+    "source_is_apply_raw",
+    "source_name",
+    "source_record_id",
+    "source_status_raw",
+    "source_url",
+    "status",
+    "status_note"
+  ],
+  "overall_field_stats": {
+    "announcement_evidence_path": {
+      "total_records": 9191,
+      "key_present": 8745,
+      "key_present_rate": 95.15,
+      "valid_non_empty": 8745,
+      "valid_rate": 95.15,
+      "missing_key": 446,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 8745
+      }
+    },
+    "announcement_url": {
+      "total_records": 9191,
+      "key_present": 2687,
+      "key_present_rate": 29.24,
+      "valid_non_empty": 2687,
+      "valid_rate": 29.24,
+      "missing_key": 6504,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 2687
+      }
+    },
+    "application_url": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 9191,
+      "valid_rate": 100.0,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "campaign_cohort_raw": {
+      "total_records": 9191,
+      "key_present": 6111,
+      "key_present_rate": 66.49,
+      "valid_non_empty": 6111,
+      "valid_rate": 66.49,
+      "missing_key": 3080,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 6111
+      }
+    },
+    "campaign_url": {
+      "total_records": 9191,
+      "key_present": 8755,
+      "key_present_rate": 95.26,
+      "valid_non_empty": 8755,
+      "valid_rate": 95.26,
+      "missing_key": 436,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 8755
+      }
+    },
+    "cities": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 9190,
+      "valid_rate": 99.99,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 1,
+      "value_types": {
+        "list": 9191
+      }
+    },
+    "cohort_raw": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 5086,
+      "valid_rate": 55.34,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 4105,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "cohort_scope": {
+      "total_records": 9191,
+      "key_present": 2687,
+      "key_present_rate": 29.24,
+      "valid_non_empty": 2687,
+      "valid_rate": 29.24,
+      "missing_key": 6504,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 2687
+      }
+    },
+    "contracting_entity": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 0,
+      "valid_rate": 0.0,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 9191,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "deadline": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 9181,
+      "valid_rate": 99.89,
+      "missing_key": 0,
+      "null": 10,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9181,
+        "NoneType": 10
+      }
+    },
+    "deadline_scope": {
+      "total_records": 9191,
+      "key_present": 8759,
+      "key_present_rate": 95.3,
+      "valid_non_empty": 8759,
+      "valid_rate": 95.3,
+      "missing_key": 432,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 8759
+      }
+    },
+    "deadline_type": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 9191,
+      "valid_rate": 100.0,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "description_raw": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 9191,
+      "valid_rate": 100.0,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "directory_evidence_path": {
+      "total_records": 9191,
+      "key_present": 6058,
+      "key_present_rate": 65.91,
+      "valid_non_empty": 6058,
+      "valid_rate": 65.91,
+      "missing_key": 3133,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 6058
+      }
+    },
+    "education_raw": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 6648,
+      "valid_rate": 72.33,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 2543,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "education_scope": {
+      "total_records": 9191,
+      "key_present": 39,
+      "key_present_rate": 0.42,
+      "valid_non_empty": 39,
+      "valid_rate": 0.42,
+      "missing_key": 9152,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 39
+      }
+    },
+    "evidence_path": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 9191,
+      "valid_rate": 100.0,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "hiring_department_raw": {
+      "total_records": 9191,
+      "key_present": 8745,
+      "key_present_rate": 95.15,
+      "valid_non_empty": 8745,
+      "valid_rate": 95.15,
+      "missing_key": 446,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 8745
+      }
+    },
+    "id": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 9191,
+      "valid_rate": 100.0,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "job_category": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 6652,
+      "valid_rate": 72.38,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 2539,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "job_listing_url": {
+      "total_records": 9191,
+      "key_present": 39,
+      "key_present_rate": 0.42,
+      "valid_non_empty": 39,
+      "valid_rate": 0.42,
+      "missing_key": 9152,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 39
+      }
+    },
+    "job_title": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 9191,
+      "valid_rate": 100.0,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "job_title_scope": {
+      "total_records": 9191,
+      "key_present": 39,
+      "key_present_rate": 0.42,
+      "valid_non_empty": 39,
+      "valid_rate": 0.42,
+      "missing_key": 9152,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 39
+      }
+    },
+    "major_requirements_raw": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 8762,
+      "valid_rate": 95.33,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 429,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "major_tags": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 0,
+      "valid_rate": 0.0,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 9191,
+      "value_types": {
+        "list": 9191
+      }
+    },
+    "nature_raw": {
+      "total_records": 9191,
+      "key_present": 6058,
+      "key_present_rate": 65.91,
+      "valid_non_empty": 6058,
+      "valid_rate": 65.91,
+      "missing_key": 3133,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 6058
+      }
+    },
+    "parent_unit_raw": {
+      "total_records": 9191,
+      "key_present": 461,
+      "key_present_rate": 5.02,
+      "valid_non_empty": 461,
+      "valid_rate": 5.02,
+      "missing_key": 8730,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 461
+      }
+    },
+    "published_at": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 9191,
+      "valid_rate": 100.0,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "published_at_scope": {
+      "total_records": 9191,
+      "key_present": 8706,
+      "key_present_rate": 94.72,
+      "valid_non_empty": 8706,
+      "valid_rate": 94.72,
+      "missing_key": 485,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 8706
+      }
+    },
+    "record_kind": {
+      "total_records": 9191,
+      "key_present": 6111,
+      "key_present_rate": 66.49,
+      "valid_non_empty": 6111,
+      "valid_rate": 66.49,
+      "missing_key": 3080,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 6111
+      }
+    },
+    "recruiting_unit_raw": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 9191,
+      "valid_rate": 100.0,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "recruitment_type_raw": {
+      "total_records": 9191,
+      "key_present": 6058,
+      "key_present_rate": 65.91,
+      "valid_non_empty": 5016,
+      "valid_rate": 54.58,
+      "missing_key": 3133,
+      "null": 0,
+      "empty_string": 1042,
+      "empty_array": 0,
+      "value_types": {
+        "str": 6058
+      }
+    },
+    "recruitment_unit": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 9191,
+      "valid_rate": 100.0,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "requirements_scope": {
+      "total_records": 9191,
+      "key_present": 49,
+      "key_present_rate": 0.53,
+      "valid_non_empty": 49,
+      "valid_rate": 0.53,
+      "missing_key": 9142,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 49
+      }
+    },
+    "reviewed_at": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 9191,
+      "valid_rate": 100.0,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "source_group_key": {
+      "total_records": 9191,
+      "key_present": 6058,
+      "key_present_rate": 65.91,
+      "valid_non_empty": 6058,
+      "valid_rate": 65.91,
+      "missing_key": 3133,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 6058
+      }
+    },
+    "source_is_apply_raw": {
+      "total_records": 9191,
+      "key_present": 6058,
+      "key_present_rate": 65.91,
+      "valid_non_empty": 6058,
+      "valid_rate": 65.91,
+      "missing_key": 3133,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "bool": 6058
+      }
+    },
+    "source_name": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 9191,
+      "valid_rate": 100.0,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "source_record_id": {
+      "total_records": 9191,
+      "key_present": 8745,
+      "key_present_rate": 95.15,
+      "valid_non_empty": 8745,
+      "valid_rate": 95.15,
+      "missing_key": 446,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 8745
+      }
+    },
+    "source_status_raw": {
+      "total_records": 9191,
+      "key_present": 6058,
+      "key_present_rate": 65.91,
+      "valid_non_empty": 6058,
+      "valid_rate": 65.91,
+      "missing_key": 3133,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "int": 6058
+      }
+    },
+    "source_url": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 9191,
+      "valid_rate": 100.0,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "status": {
+      "total_records": 9191,
+      "key_present": 9191,
+      "key_present_rate": 100.0,
+      "valid_non_empty": 9191,
+      "valid_rate": 100.0,
+      "missing_key": 0,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 9191
+      }
+    },
+    "status_note": {
+      "total_records": 9191,
+      "key_present": 10,
+      "key_present_rate": 0.11,
+      "valid_non_empty": 10,
+      "valid_rate": 0.11,
+      "missing_key": 9181,
+      "null": 0,
+      "empty_string": 0,
+      "empty_array": 0,
+      "value_types": {
+        "str": 10
+      }
+    }
+  },
+  "by_source_field_stats": {
+    "中国邮政": {
+      "record_count": 2648,
+      "announcement_evidence_path": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "announcement_url": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "application_url": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "campaign_cohort_raw": {
+        "total_records": 2648,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2648,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "campaign_url": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "cities": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "list": 2648
+        }
+      },
+      "cohort_raw": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "cohort_scope": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "contracting_entity": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 2648,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "deadline": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "deadline_scope": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "deadline_type": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "description_raw": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "directory_evidence_path": {
+        "total_records": 2648,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2648,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "education_raw": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "education_scope": {
+        "total_records": 2648,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2648,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "evidence_path": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "hiring_department_raw": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "id": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "job_category": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "job_listing_url": {
+        "total_records": 2648,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2648,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "job_title": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "job_title_scope": {
+        "total_records": 2648,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2648,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "major_requirements_raw": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "major_tags": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 2648,
+        "value_types": {
+          "list": 2648
+        }
+      },
+      "nature_raw": {
+        "total_records": 2648,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2648,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "parent_unit_raw": {
+        "total_records": 2648,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2648,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "published_at": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "published_at_scope": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "record_kind": {
+        "total_records": 2648,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2648,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "recruiting_unit_raw": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "recruitment_type_raw": {
+        "total_records": 2648,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2648,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "recruitment_unit": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "requirements_scope": {
+        "total_records": 2648,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2648,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "reviewed_at": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "source_group_key": {
+        "total_records": 2648,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2648,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_is_apply_raw": {
+        "total_records": 2648,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2648,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_name": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "source_record_id": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "source_status_raw": {
+        "total_records": 2648,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2648,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_url": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "status": {
+        "total_records": 2648,
+        "key_present": 2648,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2648,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2648
+        }
+      },
+      "status_note": {
+        "total_records": 2648,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2648,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      }
+    },
+    "中广核": {
+      "record_count": 8,
+      "announcement_evidence_path": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "announcement_url": {
+        "total_records": 8,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 8,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "application_url": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "campaign_cohort_raw": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "campaign_url": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "cities": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "list": 8
+        }
+      },
+      "cohort_raw": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 8,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "cohort_scope": {
+        "total_records": 8,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 8,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "contracting_entity": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 8,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "deadline": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "deadline_scope": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "deadline_type": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "description_raw": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "directory_evidence_path": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "education_raw": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "education_scope": {
+        "total_records": 8,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 8,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "evidence_path": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "hiring_department_raw": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "id": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "job_category": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "job_listing_url": {
+        "total_records": 8,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 8,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "job_title": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "job_title_scope": {
+        "total_records": 8,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 8,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "major_requirements_raw": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 4,
+        "valid_rate": 50.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 4,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "major_tags": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 8,
+        "value_types": {
+          "list": 8
+        }
+      },
+      "nature_raw": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "parent_unit_raw": {
+        "total_records": 8,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 8,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "published_at": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "published_at_scope": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "record_kind": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "recruiting_unit_raw": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "recruitment_type_raw": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "recruitment_unit": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "requirements_scope": {
+        "total_records": 8,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 8,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "reviewed_at": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "source_group_key": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "source_is_apply_raw": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "bool": 8
+        }
+      },
+      "source_name": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "source_record_id": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "source_status_raw": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "int": 8
+        }
+      },
+      "source_url": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "status": {
+        "total_records": 8,
+        "key_present": 8,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 8,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 8
+        }
+      },
+      "status_note": {
+        "total_records": 8,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 8,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      }
+    },
+    "中行": {
+      "record_count": 14,
+      "announcement_evidence_path": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "announcement_url": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "application_url": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "campaign_cohort_raw": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "campaign_url": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "cities": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "list": 14
+        }
+      },
+      "cohort_raw": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "cohort_scope": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "contracting_entity": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 14,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "deadline": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "deadline_scope": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "deadline_type": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "description_raw": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "directory_evidence_path": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "education_raw": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 14,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "education_scope": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "evidence_path": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "hiring_department_raw": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "id": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "job_category": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "job_listing_url": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "job_title": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "job_title_scope": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "major_requirements_raw": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 14,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "major_tags": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 14,
+        "value_types": {
+          "list": 14
+        }
+      },
+      "nature_raw": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "parent_unit_raw": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "published_at": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "published_at_scope": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "record_kind": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "recruiting_unit_raw": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "recruitment_type_raw": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "recruitment_unit": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "requirements_scope": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "reviewed_at": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "source_group_key": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_is_apply_raw": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_name": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "source_record_id": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_status_raw": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_url": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "status": {
+        "total_records": 14,
+        "key_present": 14,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 14,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 14
+        }
+      },
+      "status_note": {
+        "total_records": 14,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 14,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      }
+    },
+    "国家能源": {
+      "record_count": 422,
+      "announcement_evidence_path": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "announcement_url": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "application_url": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "campaign_cohort_raw": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "campaign_url": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "cities": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "list": 422
+        }
+      },
+      "cohort_raw": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 422,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "cohort_scope": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "contracting_entity": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 422,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "deadline": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "deadline_scope": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "deadline_type": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "description_raw": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "directory_evidence_path": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "education_raw": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "education_scope": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "evidence_path": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "hiring_department_raw": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "id": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "job_category": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "job_listing_url": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "job_title": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "job_title_scope": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "major_requirements_raw": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "major_tags": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 422,
+        "value_types": {
+          "list": 422
+        }
+      },
+      "nature_raw": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "parent_unit_raw": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "published_at": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "published_at_scope": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "record_kind": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "recruiting_unit_raw": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "recruitment_type_raw": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "recruitment_unit": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "requirements_scope": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "reviewed_at": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "source_group_key": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_is_apply_raw": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_name": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "source_record_id": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_status_raw": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_url": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "status": {
+        "total_records": 422,
+        "key_present": 422,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 422,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 422
+        }
+      },
+      "status_note": {
+        "total_records": 422,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 422,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      }
+    },
+    "建行": {
+      "record_count": 39,
+      "announcement_evidence_path": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "announcement_url": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "application_url": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "campaign_cohort_raw": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "campaign_url": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "cities": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "list": 39
+        }
+      },
+      "cohort_raw": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "cohort_scope": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "contracting_entity": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 39,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "deadline": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "deadline_scope": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "deadline_type": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "description_raw": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "directory_evidence_path": {
+        "total_records": 39,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 39,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "education_raw": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "education_scope": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "evidence_path": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "hiring_department_raw": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "id": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "job_category": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "job_listing_url": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "job_title": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "job_title_scope": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "major_requirements_raw": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "major_tags": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 39,
+        "value_types": {
+          "list": 39
+        }
+      },
+      "nature_raw": {
+        "total_records": 39,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 39,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "parent_unit_raw": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "published_at": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "published_at_scope": {
+        "total_records": 39,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 39,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "record_kind": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "recruiting_unit_raw": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "recruitment_type_raw": {
+        "total_records": 39,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 39,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "recruitment_unit": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "requirements_scope": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "reviewed_at": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "source_group_key": {
+        "total_records": 39,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 39,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_is_apply_raw": {
+        "total_records": 39,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 39,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_name": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "source_record_id": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "source_status_raw": {
+        "total_records": 39,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 39,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_url": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "status": {
+        "total_records": 39,
+        "key_present": 39,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 39,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 39
+        }
+      },
+      "status_note": {
+        "total_records": 39,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 39,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      }
+    },
+    "机械总院": {
+      "record_count": 72,
+      "announcement_evidence_path": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "announcement_url": {
+        "total_records": 72,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 72,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "application_url": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "campaign_cohort_raw": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "campaign_url": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "cities": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "list": 72
+        }
+      },
+      "cohort_raw": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 72,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "cohort_scope": {
+        "total_records": 72,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 72,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "contracting_entity": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 72,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "deadline": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "deadline_scope": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "deadline_type": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "description_raw": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "directory_evidence_path": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "education_raw": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "education_scope": {
+        "total_records": 72,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 72,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "evidence_path": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "hiring_department_raw": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "id": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "job_category": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "job_listing_url": {
+        "total_records": 72,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 72,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "job_title": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "job_title_scope": {
+        "total_records": 72,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 72,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "major_requirements_raw": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 64,
+        "valid_rate": 88.89,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 8,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "major_tags": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 72,
+        "value_types": {
+          "list": 72
+        }
+      },
+      "nature_raw": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "parent_unit_raw": {
+        "total_records": 72,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 72,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "published_at": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "published_at_scope": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "record_kind": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "recruiting_unit_raw": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "recruitment_type_raw": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "recruitment_unit": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "requirements_scope": {
+        "total_records": 72,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 72,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "reviewed_at": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "source_group_key": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "source_is_apply_raw": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "bool": 72
+        }
+      },
+      "source_name": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "source_record_id": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "source_status_raw": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "int": 72
+        }
+      },
+      "source_url": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "status": {
+        "total_records": 72,
+        "key_present": 72,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 72,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 72
+        }
+      },
+      "status_note": {
+        "total_records": 72,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 72,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      }
+    },
+    "电信": {
+      "record_count": 10,
+      "announcement_evidence_path": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "announcement_url": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "application_url": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "campaign_cohort_raw": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "campaign_url": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "cities": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "list": 10
+        }
+      },
+      "cohort_raw": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 10,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "cohort_scope": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "contracting_entity": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 10,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "deadline": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 10,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "NoneType": 10
+        }
+      },
+      "deadline_scope": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "deadline_type": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "description_raw": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "directory_evidence_path": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "education_raw": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "education_scope": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "evidence_path": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "hiring_department_raw": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "id": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "job_category": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 10,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "job_listing_url": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "job_title": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "job_title_scope": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "major_requirements_raw": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "major_tags": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 10,
+        "value_types": {
+          "list": 10
+        }
+      },
+      "nature_raw": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "parent_unit_raw": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "published_at": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "published_at_scope": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "record_kind": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "recruiting_unit_raw": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "recruitment_type_raw": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "recruitment_unit": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "requirements_scope": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "reviewed_at": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "source_group_key": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_is_apply_raw": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_name": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "source_record_id": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_status_raw": {
+        "total_records": 10,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 10,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "source_url": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "status": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      },
+      "status_note": {
+        "total_records": 10,
+        "key_present": 10,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 10,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 10
+        }
+      }
+    },
+    "移动": {
+      "record_count": 1610,
+      "announcement_evidence_path": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "announcement_url": {
+        "total_records": 1610,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 1610,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "application_url": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "campaign_cohort_raw": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "campaign_url": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "cities": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "list": 1610
+        }
+      },
+      "cohort_raw": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 628,
+        "valid_rate": 39.01,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 982,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "cohort_scope": {
+        "total_records": 1610,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 1610,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "contracting_entity": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 1610,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "deadline": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "deadline_scope": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "deadline_type": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "description_raw": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "directory_evidence_path": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "education_raw": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "education_scope": {
+        "total_records": 1610,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 1610,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "evidence_path": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "hiring_department_raw": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "id": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "job_category": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "job_listing_url": {
+        "total_records": 1610,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 1610,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "job_title": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "job_title_scope": {
+        "total_records": 1610,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 1610,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "major_requirements_raw": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1586,
+        "valid_rate": 98.51,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 24,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "major_tags": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 1610,
+        "value_types": {
+          "list": 1610
+        }
+      },
+      "nature_raw": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "parent_unit_raw": {
+        "total_records": 1610,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 1610,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "published_at": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "published_at_scope": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "record_kind": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "recruiting_unit_raw": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "recruitment_type_raw": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 568,
+        "valid_rate": 35.28,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 1042,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "recruitment_unit": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "requirements_scope": {
+        "total_records": 1610,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 1610,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "reviewed_at": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "source_group_key": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "source_is_apply_raw": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "bool": 1610
+        }
+      },
+      "source_name": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "source_record_id": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "source_status_raw": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "int": 1610
+        }
+      },
+      "source_url": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "status": {
+        "total_records": 1610,
+        "key_present": 1610,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1610,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1610
+        }
+      },
+      "status_note": {
+        "total_records": 1610,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 1610,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      }
+    },
+    "联通": {
+      "record_count": 2569,
+      "announcement_evidence_path": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "announcement_url": {
+        "total_records": 2569,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2569,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "application_url": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "campaign_cohort_raw": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "campaign_url": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "cities": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "list": 2569
+        }
+      },
+      "cohort_raw": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1497,
+        "valid_rate": 58.27,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 1072,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "cohort_scope": {
+        "total_records": 2569,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2569,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "contracting_entity": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 2569,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "deadline": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "deadline_scope": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "deadline_type": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "description_raw": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "directory_evidence_path": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "education_raw": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 40,
+        "valid_rate": 1.56,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 2529,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "education_scope": {
+        "total_records": 2569,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2569,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "evidence_path": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "hiring_department_raw": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "id": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "job_category": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 40,
+        "valid_rate": 1.56,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 2529,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "job_listing_url": {
+        "total_records": 2569,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2569,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "job_title": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "job_title_scope": {
+        "total_records": 2569,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2569,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "major_requirements_raw": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2560,
+        "valid_rate": 99.65,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 9,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "major_tags": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 2569,
+        "value_types": {
+          "list": 2569
+        }
+      },
+      "nature_raw": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "parent_unit_raw": {
+        "total_records": 2569,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2569,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "published_at": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "published_at_scope": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "record_kind": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "recruiting_unit_raw": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "recruitment_type_raw": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "recruitment_unit": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "requirements_scope": {
+        "total_records": 2569,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2569,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "reviewed_at": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "source_group_key": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "source_is_apply_raw": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "bool": 2569
+        }
+      },
+      "source_name": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "source_record_id": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "source_status_raw": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "int": 2569
+        }
+      },
+      "source_url": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "status": {
+        "total_records": 2569,
+        "key_present": 2569,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 2569,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 2569
+        }
+      },
+      "status_note": {
+        "total_records": 2569,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 2569,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      }
+    },
+    "能建": {
+      "record_count": 634,
+      "announcement_evidence_path": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "announcement_url": {
+        "total_records": 634,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 634,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "application_url": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "campaign_cohort_raw": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "campaign_url": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "cities": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 633,
+        "valid_rate": 99.84,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 1,
+        "value_types": {
+          "list": 634
+        }
+      },
+      "cohort_raw": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 177,
+        "valid_rate": 27.92,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 457,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "cohort_scope": {
+        "total_records": 634,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 634,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "contracting_entity": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 634,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "deadline": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "deadline_scope": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "deadline_type": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "description_raw": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "directory_evidence_path": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "education_raw": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "education_scope": {
+        "total_records": 634,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 634,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "evidence_path": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "hiring_department_raw": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "id": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "job_category": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "job_listing_url": {
+        "total_records": 634,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 634,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "job_title": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "job_title_scope": {
+        "total_records": 634,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 634,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "major_requirements_raw": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 568,
+        "valid_rate": 89.59,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 66,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "major_tags": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 634,
+        "value_types": {
+          "list": 634
+        }
+      },
+      "nature_raw": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "parent_unit_raw": {
+        "total_records": 634,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 634,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "published_at": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "published_at_scope": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "record_kind": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "recruiting_unit_raw": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "recruitment_type_raw": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "recruitment_unit": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "requirements_scope": {
+        "total_records": 634,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 634,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "reviewed_at": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "source_group_key": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "source_is_apply_raw": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "bool": 634
+        }
+      },
+      "source_name": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "source_record_id": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "source_status_raw": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "int": 634
+        }
+      },
+      "source_url": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "status": {
+        "total_records": 634,
+        "key_present": 634,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 634,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 634
+        }
+      },
+      "status_note": {
+        "total_records": 634,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 634,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      }
+    },
+    "航天科工": {
+      "record_count": 1165,
+      "announcement_evidence_path": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "announcement_url": {
+        "total_records": 1165,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 1165,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "application_url": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "campaign_cohort_raw": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "campaign_url": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "cities": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "list": 1165
+        }
+      },
+      "cohort_raw": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 83,
+        "valid_rate": 7.12,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 1082,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "cohort_scope": {
+        "total_records": 1165,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 1165,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "contracting_entity": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 1165,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "deadline": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "deadline_scope": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "deadline_type": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "description_raw": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "directory_evidence_path": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "education_raw": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "education_scope": {
+        "total_records": 1165,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 1165,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "evidence_path": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "hiring_department_raw": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "id": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "job_category": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "job_listing_url": {
+        "total_records": 1165,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 1165,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "job_title": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "job_title_scope": {
+        "total_records": 1165,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 1165,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "major_requirements_raw": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 861,
+        "valid_rate": 73.91,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 304,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "major_tags": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 1165,
+        "value_types": {
+          "list": 1165
+        }
+      },
+      "nature_raw": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "parent_unit_raw": {
+        "total_records": 1165,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 1165,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "published_at": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "published_at_scope": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "record_kind": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "recruiting_unit_raw": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "recruitment_type_raw": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "recruitment_unit": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "requirements_scope": {
+        "total_records": 1165,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 1165,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      },
+      "reviewed_at": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "source_group_key": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "source_is_apply_raw": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "bool": 1165
+        }
+      },
+      "source_name": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "source_record_id": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "source_status_raw": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "int": 1165
+        }
+      },
+      "source_url": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "status": {
+        "total_records": 1165,
+        "key_present": 1165,
+        "key_present_rate": 100.0,
+        "valid_non_empty": 1165,
+        "valid_rate": 100.0,
+        "missing_key": 0,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {
+          "str": 1165
+        }
+      },
+      "status_note": {
+        "total_records": 1165,
+        "key_present": 0,
+        "key_present_rate": 0.0,
+        "valid_non_empty": 0,
+        "valid_rate": 0.0,
+        "missing_key": 1165,
+        "null": 0,
+        "empty_string": 0,
+        "empty_array": 0,
+        "value_types": {}
+      }
+    }
+  },
+  "peer_15_column_mapping": {
+    "公司名称": {
+      "actual_fields": [
+        "recruitment_unit",
+        "recruiting_unit_raw",
+        "contracting_entity",
+        "parent_unit_raw"
+      ],
+      "note": "recruitment_unit=集团全称(每条都有); recruiting_unit_raw=招聘单位/分公司标签; contracting_entity=签约主体(始终空字符串,不推断); parent_unit_raw=上级单位(部分源有)"
+    },
+    "公司类型": {
+      "actual_fields": [],
+      "note": "无此字段。国聘源有 nature_raw(校招/社招性质) 和 recruitment_type_raw(校园招聘), 但这是招聘性质不是公司类型(央企/国企/民企)"
+    },
+    "所属行业": {
+      "actual_fields": [],
+      "note": "无此字段。可从 recruitment_unit 推断但未结构化存储"
+    },
+    "招聘类型": {
+      "actual_fields": [
+        "nature_raw",
+        "recruitment_type_raw",
+        "record_kind"
+      ],
+      "note": "nature_raw=校招/社招(仅国聘源); recruitment_type_raw=校园招聘(仅国聘源); record_kind=记录类型(announcement_explicit_role/official_plan_post/official_job_id); 所有记录均为校招范围但非结构化统一字段"
+    },
+    "招聘对象": {
+      "actual_fields": [
+        "cohort_raw",
+        "campaign_cohort_raw",
+        "cohort_scope",
+        "education_raw"
+      ],
+      "note": "cohort_raw=岗位级届别描述; campaign_cohort_raw=活动标题届别(如2027校园招聘); cohort_scope=届别来源范围; education_raw=学历要求; 注意: 招聘性质(campus) vs 招聘季(2026秋招) vs 毕业届别(2027届) 是不同维度"
+    },
+    "工作地点": {
+      "actual_fields": [
+        "cities"
+      ],
+      "note": "cities=数组, 每个元素为城市/地区字符串(如'北京','北京-东城区','阿拉善左旗')"
+    },
+    "岗位": {
+      "actual_fields": [
+        "job_title",
+        "job_category",
+        "job_title_scope",
+        "hiring_department_raw"
+      ],
+      "note": "job_title=岗位名称; job_category=岗位类别; hiring_department_raw=招聘部门; 不为复刻同行表格把全部岗位合并为一条公司记录"
+    },
+    "投递进度": {
+      "actual_fields": [
+        "status",
+        "status_note"
+      ],
+      "note": "status=公共招聘事实(open/expired/unverified/removed), 不是用户私有投递进度。无用户投递状态字段。status_note=状态说明(仅telecom有)"
+    },
+    "更新时间": {
+      "actual_fields": [
+        "reviewed_at",
+        "published_at",
+        "published_at_scope"
+      ],
+      "note": "reviewed_at=本次采集复核时间(今日复核); published_at=来源发布日期; published_at_scope=发布日期来源。注意: 今日新增(first_seen_at)不存在; 今日复核=reviewed_at; 来源发布日期=published_at, 三者不混用"
+    },
+    "投递截止": {
+      "actual_fields": [
+        "deadline",
+        "deadline_type",
+        "deadline_scope"
+      ],
+      "note": "deadline=截止日期(YYYY-MM-DD或null); deadline_type=explicit/undisclosed/until_filled; deadline_scope=截止日期来源范围"
+    },
+    "相关链接": {
+      "actual_fields": [
+        "source_url",
+        "application_url",
+        "campaign_url",
+        "announcement_url",
+        "job_listing_url"
+      ],
+      "note": "source_url=原公告/岗位详情链接; application_url=直接投递入口; campaign_url=活动主页; announcement_url=公告页; job_listing_url=岗位列表页。注意: 原链接(source_url) vs 直接投递入口(apply_url) 不把一个URL复制成三个字段"
+    },
+    "招聘公告": {
+      "actual_fields": [
+        "announcement_url",
+        "announcement_evidence_path",
+        "description_raw"
+      ],
+      "note": "announcement_url=公告链接; description_raw=岗位描述/公告内容原文; announcement_evidence_path=公告证据文件路径(不返回给客户端)"
+    },
+    "笔试情况": {
+      "actual_fields": [],
+      "note": "无此字段。未采集笔试信息"
+    },
+    "公司规模": {
+      "actual_fields": [],
+      "note": "无此字段。未采集公司规模(人数/营收等)"
+    },
+    "备注": {
+      "actual_fields": [
+        "status_note",
+        "description_raw"
+      ],
+      "note": "无独立备注字段。status_note仅telecom源有状态说明; description_raw包含岗位描述可视为备注信息"
+    }
+  },
+  "status_distribution": {
+    "open": 9089,
+    "unverified": 102
+  },
+  "deadline_type_distribution": {
+    "explicit": 9181,
+    "undisclosed": 10
+  },
+  "statistical_method": "全量快照逐条统计, 非样本推算。缺失分类: 缺键/None/空字符串/空数组分开统计。0与false不算缺失。"
+}

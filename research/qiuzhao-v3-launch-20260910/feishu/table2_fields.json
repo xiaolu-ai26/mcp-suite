@@ -1,0 +1,14 @@
+[
+  {"type":"text","name":"公司名称"},
+  {"type":"text","name":"company_slug","description":"企业唯一slug"},
+  {"type":"text","name":"行业"},
+  {"type":"select","name":"榜单归属","multiple":true,"options":[{"name":"财富世界500强"},{"name":"财富中国500强"},{"name":"Forbes最佳雇主"},{"name":"GPTW最佳雇主"},{"name":"行业种子"}]},
+  {"type":"text","name":"官方招聘入口","style":{"type":"url"}},
+  {"type":"select","name":"平台类型","options":[{"name":"自建"},{"name":"Moka"},{"name":"北森"},{"name":"Workday"},{"name":"Phenom"},{"name":"TalentBrew"},{"name":"无门户"},{"name":"未知"}]},
+  {"type":"select","name":"处理状态","options":[{"name":"未开始"},{"name":"入口已证实"},{"name":"采集中"},{"name":"有可用岗位部分覆盖"},{"name":"声明范围完整"},{"name":"未发现适用岗位"},{"name":"尚未开放"},{"name":"访问受阻"},{"name":"待核验"},{"name":"维护逾期"}]},
+  {"type":"number","name":"预计岗位数","style":{"type":"plain","precision":0}},
+  {"type":"number","name":"已采集岗位数","style":{"type":"plain","precision":0}},
+  {"type":"text","name":"阻塞原因"},
+  {"type":"datetime","name":"最后探源时间","style":{"format":"yyyy-MM-dd"}},
+  {"type":"text","name":"适配器规格"}
+]

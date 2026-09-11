@@ -1,0 +1,36 @@
+=== 腾讯校招岗位列表页证据 ===
+URL: https://join.qq.com/post.html
+采集时间: 2026-09-10
+页面标题: 岗位投递 | 腾讯校招
+
+关键内容:
+- 共899个岗位
+- 应聘项目: 应届毕业生(2027校园招聘), 实习生(应届实习/日常实习), 人才专项(青云计划-应届生/青云计划-实习生/AI产品经理培训生)
+- 分页: 1 2 3 4 5 6 ... 90 (页码式分页)
+- 岗位样例:
+  1. AI全栈工程师 | 技术 | 应届毕业生 | CDG CSIG IEG PCG TEG WXG | 深圳总部 北京 上海 广州 成都 杭州
+  2. Agent开发工程师 | 技术 | 应届毕业生 | CDG CSIG IEG PCG TEG WXG | 深圳总部 北京 上海 广州 成都
+  3. AI应用工程师 | 技术 | 应届毕业生 | CDG CSIG IEG PCG TEG WXG | 深圳总部 北京 上海 广州 成都
+  4. AI算法工程 | 技术 | 应届毕业生 | CSIG IEG PCG TEG WXG | 深圳总部 北京 上海 广州
+  5. 技术研究-高性能计算方向 | 技术 | 应届毕业生 | CDG CSIG PCG TEG WXG | 深圳总部 北京 上海 广州 成都 合肥
+
+=== 岗位详情页URL模式 ===
+https://join.qq.com/post_detail.html?postid=<数字ID>
+样例:
+- AI全栈工程师: https://join.qq.com/post_detail.html?postid=1282707398326592512
+- Agent开发工程师: https://join.qq.com/post_detail.html?postid=1282707395466077184
+- AI应用工程师: https://join.qq.com/post_detail.html?postid=1282707395466077185
+
+=== API端点 ===
+- POST https://join.qq.com/api/v1/position/searchPosition (岗位列表搜索)
+- GET https://join.qq.com/api/v1/position/getPositionWorkCities
+- GET https://join.qq.com/api/v1/position/getPositionFamily
+- GET https://join.qq.com/api/v1/position/getRecruitCity
+- GET https://join.qq.com/api/v1/position/getProjectMapping
+- GET https://join.qq.com/api/v1/dictionary/?types=RecruitType,BusinessGroup,RecruitProjectPostList
+
+=== 官方归属 ===
+- 企业官网: https://www.tencent.com/ (页脚含"加入我们"链接)
+- 招聘域名: join.qq.com (QQ.com为腾讯自有域名)
+- CDN: cdn.multilingualres.hr.tencent.com (hr.tencent.com子域名)
+- 页脚版权: Copyright © 1998 - 2026 Tencent. All Rights Reserved.
