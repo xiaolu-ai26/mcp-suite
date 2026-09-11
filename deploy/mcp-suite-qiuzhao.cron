@@ -1,4 +1,6 @@
 # Host timezone verified Asia/Shanghai (CST). Daily at 06:10 China time.
+# Single entry point: collector-daily.sh runs run.py + auto_collect + normalize under one flock.
+# The root crontab 03:00 auto_collect.py entry is deprecated and must be removed at deploy time.
 SHELL=/bin/bash
 PATH=/usr/local/bin:/usr/bin:/bin
 10 6 * * * mcp-suite /opt/mcp-suite/deploy/collector-daily.sh
