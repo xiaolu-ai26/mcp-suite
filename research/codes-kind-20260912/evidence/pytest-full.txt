@@ -1,0 +1,12 @@
+# 2026-09-12 01:35:42 +0800  HEAD=46d8e88  base feat/v4=2f0f070
+# MCP_JOBS_PATH=<v4 worktree>/qiuzhao/data/jobs.json (read-only)
+........................................................................ [ 46%]
+........................................................................ [ 92%]
+............                                                             [100%]
+=============================== warnings summary ===============================
+tests/test_call_log.py::test_threaded_writes_keep_long_lines_whole
+
+tests/test_call_log.py::test_threaded_writes_keep_long_lines_whole
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+156 passed, 2 warnings in 24.76s
