@@ -12,15 +12,18 @@ def main():
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--count", type=int, default=50)
     parser.add_argument("--plan", default="qiuzhao-2026")
+    # No default: every batch states whether it is for sale (formal) or for testing.
+    parser.add_argument("--kind", choices=["test", "formal"], required=True)
     args = parser.parse_args()
     # Exclusive file creation prevents accidental stock overwrite.
     args.out.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     fd = os.open(args.out, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
     try:
-        codes = Store(args.db).generate_codes(args.count, args.plan)
+        codes = Store(args.db).generate_codes(args.count, args.plan, args.kind)
         with os.fdopen(fd, "w") as handle:
             handle.write("\n".join(codes) + "\n")
-        print(f"已生成 {len(codes)} 个兑换码；文件：{args.out.resolve()}；权限：0600")
+        label = "正式" if args.kind == "formal" else "测试"
+        print(f"已生成 {len(codes)} 个{label}兑换码；文件：{args.out.resolve()}；权限：0600")
     except BaseException:
         try:
             os.close(fd)
