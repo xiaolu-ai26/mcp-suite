@@ -253,3 +253,73 @@ def test_acceptance_http_equals_in_process(qz, jobs_inproc):
             assert http == json.loads(json.dumps(local, ensure_ascii=False)), (qid, tool, args)
             if n == 0:
                 first[qid] = local
+
+
+# ---------------------------------------------------------------- 2026-09-12: order and decision 2
+
+RANK = {"岗位写明": 0, "全国": 1, "专业不限": 1, "学历不限": 1, "活动标题写明": 1,
+        "按招聘季推断": 2, "来源专场注明": 2, "实习未写届别": 2, "社招不限届别": 2, "未注明": 3, "推断为其他届别": 3}
+DIMS = ("city", "major", "education", "graduation_year")
+INFERRED_YEAR = {"按招聘季推断", "来源专场注明"}
+
+
+def reference_order(res, sort):
+    """SPEC 3.0 order written independently of Jobs.order: tier, then each dimension's specificity
+    in the order city, major, education, graduation_year, then the requested sort."""
+    rows = sorted(res, key=lambda x: (x[0]["published_at"] or "", x[0]["id"]), reverse=True)
+    if sort == "deadline_asc":
+        rows.sort(key=lambda x: (x[0]["deadline"] is None, x[0]["deadline"] or "", x[0]["id"]))
+    return sorted(rows, key=lambda x: (x[2], [RANK[x[1][d]] if d in x[1] else 0 for d in DIMS]))
+
+
+def test_order_inside_a_tier_is_by_specificity(qz, jobs_inproc):
+    """Max's example (成都 + 2027届 + 计算机类): 全国 no longer heads the list; within a tier every row
+    that names 成都 comes before every 全国 row, and the whole order matches the reference."""
+    args = {"city": "成都", "graduation_year": "2027届", "major": "计算机类"}
+    res, _ = jobs_inproc.evaluate(jobs_inproc.dataset(), jobs_inproc.check_filters(args, []),
+                                  date.fromisoformat(TODAY))
+    for sort in T.SORTS:
+        assert [x[0]["id"] for x in jobs_inproc.order(res, sort)] == [x[0]["id"] for x in reference_order(res, sort)]
+    ordered = reference_order(res, "published_desc")
+    cities = [b["city"] for _, b, t in ordered if t == 0]
+    split = cities.index("全国")
+    assert split >= 5 and set(cities[:split]) == {"岗位写明"} and set(cities[split:]) == {"全国"}
+    # Over HTTP: page 1 and the 成都 -> 全国 boundary are exactly slices of that order.
+    top = structured(qz.call("jobs_search", {**args, "page_size": 5}))
+    assert [j["id"] for j in top["jobs"]] == [x[0]["id"] for x in ordered[:5]]
+    assert {(j["match"]["level"], j["match"]["city"]) for j in top["jobs"]} == {("明确匹配", "岗位写明")}
+    assert all("成都" in j["cities"] for j in top["jobs"])
+    edge = structured(qz.call("jobs_search", {**args, "offset": split - 1, "page_size": 2}))
+    assert [j["match"]["city"] for j in edge["jobs"]] == ["岗位写明", "全国"]
+    by_deadline = structured(qz.call("jobs_search", {**args, "sort": "deadline_asc", "page_size": 5}))
+    assert [j["id"] for j in by_deadline["jobs"]] == [x[0]["id"] for x in reference_order(res, "deadline_asc")[:5]]
+
+
+def test_inferred_year_is_unspecified_for_other_years(qz, jobs_inproc):
+    """Decision 2 (2026-09-12): a row whose only 届 was inferred (按招聘季推断 / 来源专场注明) states no
+    cohort, so a query for another 届 keeps it in 含未注明 with basis 推断为其他届别. A stated 届 still
+    rules a row out; a 2027届 query never needs the new basis (every inference names 2027届)."""
+    data, today = jobs_inproc.dataset(), date.fromisoformat(TODAY)
+    live = [it for it in data.items if not (it["deadline"] and it["deadline"] < TODAY)]
+    other_year = [it for it in live if it["graduation_years"] and "2026届" not in it["graduation_years"]]
+    inferred_only = {it["id"] for it in other_year if set(it["graduation_year_basis"].values()) <= INFERRED_YEAR}
+    stated_other = {it["id"] for it in other_year} - inferred_only
+    res, _ = jobs_inproc.evaluate(data, jobs_inproc.check_filters({"graduation_year": "2026届"}, []), today)
+    other = {it["id"]: t for it, b, t in res if b["graduation_year"] == V.INFERRED_OTHER}
+    assert set(other) == inferred_only and set(other.values()) == {2} and len(other) > 2000
+    assert not stated_other & {it["id"] for it, _, _ in res}
+    r27, _ = jobs_inproc.evaluate(data, jobs_inproc.check_filters({"graduation_year": "2027届"}, []), today)
+    assert V.INFERRED_OTHER not in {b["graduation_year"] for _, b, _ in r27}
+    # Q07 over HTTP: such a row carries the label; explicit_only and graduation_year=未注明 leave it out.
+    q07 = {"graduation_year": "2026届", "industry": "国企/央企"}
+    rq, _ = jobs_inproc.evaluate(data, jobs_inproc.check_filters(q07, []), today)
+    at = next(i for i, (_, b, _) in enumerate(jobs_inproc.order(rq, "published_desc"))
+              if b["graduation_year"] == V.INFERRED_OTHER)
+    job = structured(qz.call("jobs_search", {**q07, "offset": at, "page_size": 1}))["jobs"][0]
+    assert job["match"] == {"level": "含未注明", "graduation_year": "推断为其他届别"}
+    assert job["graduation_years"] == ["2027届"] and set(job["graduation_year_basis"].values()) <= INFERRED_YEAR
+    only = structured(qz.call("jobs_stats", {**q07, "explicit_only": True}))
+    assert only["total"] == sum(1 for _, _, t in rq if t == 0)
+    none, _ = jobs_inproc.evaluate(data, jobs_inproc.check_filters({"graduation_year": "未注明"}, []), today)
+    assert structured(qz.call("jobs_stats", {"graduation_year": "未注明"}))["total"] == len(none)
+    assert not set(other) & {it["id"] for it, _, _ in none}

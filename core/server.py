@@ -326,7 +326,7 @@ JobCategory = Annotated[str, TextIn, Field(
     description="岗位大类，只能填列出的值；“产品经理”“技术岗”这类说法会自动归一；找具体岗位名请用 keyword",
     json_schema_extra=_enum(V.JOB_CATEGORIES if PRODUCT == "qiuzhao" else []))]
 GraduationYear = Annotated[str, TextIn, Field(
-    description="用户的毕业届别，只能填列出的值；2027、27届、2027年 会自动归一为 2027届。默认返回明确匹配、推断匹配和未注明三档；填 未注明 时只看没写届别的岗位。按届别筛选时社招岗位不返回",
+    description="用户的毕业届别，只能填列出的值；2027、27届、2027年 会自动归一为 2027届。默认返回明确匹配、推断匹配和未注明三档；原文没写届别、按招聘季或来源专场推断为别的届的岗位归入含未注明（依据 推断为其他届别）。填 未注明 时只看没有任何届别线索的岗位。按届别筛选时社招岗位不返回",
     json_schema_extra=_enum((V.GRADUATION_YEARS + [V.UNSPECIFIED]) if PRODUCT == "qiuzhao" else []))]
 Major = Annotated[str, TextIn, Field(
     description="专业：可填专业大类名（计算机类、电子信息类、金融经济类、机械制造类、医药生物类、管理类、文科类、理科类、设计艺术类、农业类、其他）、专业关键词（如 统计），或 不限、未注明。“专业不限”的岗位算明确匹配",
@@ -348,7 +348,7 @@ ExplicitOnly = Annotated[bool, _none_to(False), Field(
 IncludeExpired = Annotated[bool, _none_to(False), Field(
     description="true 时包含已截止岗位；默认不返回已截止岗位")]
 Sort = Annotated[str, TextIn, Field(
-    description="排序：published_desc 按发布时间从新到旧（默认）；deadline_asc 按截止日从近到远，没写截止日的排在同档最后。明确匹配始终排在推断匹配前，推断匹配排在含未注明前",
+    description="排序：published_desc 按发布时间从新到旧（默认）；deadline_asc 按截止日从近到远，没写截止日的排在后面。三档始终依次排列：明确匹配 → 推断匹配 → 含未注明；同一档内先排匹配更具体的（岗位写明的城市、专业、学历、届别排在 全国、专业不限、学历不限、活动标题写明 之前），再按本参数排",
     json_schema_extra={"enum": ["published_desc", "deadline_asc"]})]
 PageSize = Annotated[int, _none_to(10), Field(
     description="每页条数，默认 10、最大 20（超过按 20 返回并在 notices 说明）；用户要“多给点”时填 20",
@@ -387,7 +387,7 @@ def jobs_search(
     """【岗位搜索】按条件找秋招、实习、社招岗位。每条返回全部业务字段（岗位描述、城市、届别、学历、专业、截止日、投递链接、原公告链接）和匹配依据 match。
 【何时用】用户要看具体岗位时用，例如“北京有哪些产品岗”“字节在招算法吗”“我是27届计算机硕士能投什么”“这周截止的校招”“国企的财务岗”。只问数量、分布、排名（“哪个城市最多”“有几家公司”）时，先用 jobs_stats。
 【参数来源】keyword、company、city、major 取自用户原话。job_category、graduation_year、education、recruitment_type、industry、sort 只能填 schema 列出的值，“27届”“校招”“研究生”这类说法服务端会自动归一。也可以把 jobs_stats.groups[i].value 原样填到 jobs_stats.fill_param 指定的参数。offset 只能取上一次返回的 next_offset。
-【参数用法】各条件需同时满足。city、company 可用英文逗号写多个，满足任一即可。届别、城市、专业、学历四个条件分三档返回并按此排序：明确匹配（岗位写明、活动标题写明、全国、专业不限、学历不限）→ 推断匹配（按招聘季推断、来源专场注明、实习未写届别）→ 含未注明；每条的 match 写明档次和依据。用户说“只看写明的”时传 explicit_only=true（只留明确匹配）。按届别筛选时社招岗位不返回（社招不限届别，excluded_social_total 给出条数），要看社招请加 recruitment_type=社会招聘。education 填用户本人的学历，返回最低学历要求不高于它的岗位。recruitment_type 不传时校招、实习、社招都返回。deadline_within_days=N 只返回今天起 N 天内有明确截止日的岗位（招满即止和没写截止日的不返回），一般配 sort=deadline_asc。默认不返回已截止岗位。
+【参数用法】各条件需同时满足。city、company 可用英文逗号写多个，满足任一即可。届别、城市、专业、学历四个条件分三档返回并按此排序：明确匹配（岗位写明、活动标题写明、全国、专业不限、学历不限）→ 推断匹配（按招聘季推断、来源专场注明、实习未写届别）→ 含未注明（含“推断为其他届别”：原文没写届别，按招聘季或来源专场推断的是别的届）；同一档内，岗位写明的城市、专业、学历、届别排在 全国、专业不限、学历不限、活动标题写明 之前；每条的 match 写明档次和依据。用户说“只看写明的”时传 explicit_only=true（只留明确匹配）。按届别筛选时社招岗位不返回（社招不限届别，excluded_social_total 给出条数），要看社招请加 recruitment_type=社会招聘。education 填用户本人的学历，返回最低学历要求不高于它的岗位。recruitment_type 不传时校招、实习、社招都返回。deadline_within_days=N 只返回今天起 N 天内有明确截止日的岗位（招满即止和没写截止日的不返回），一般配 sort=deadline_asc。默认不返回已截止岗位。
 【返回】applied_filters（服务端实际使用、已归一的条件；与你传的不一致又没有 notices 说明时，说明客户端丢了参数，要告诉用户，不要重复同样的调用）、total、explicit_total、inferred_total、unspecified_total、分页信息（returned、has_next、next_offset、truncated）、data_as_of、notices（参数被归一或调整时的说明），以及 jobs[]。
 【下一步】has_next=true 且用户要更多时，用 next_offset 翻页。要对比或复查某几个岗位时，把 jobs[i].id 传给 jobs_detail。要看分布时，用相同条件调 jobs_stats。
 【限制】page_size 默认 10、最大 20。一页超过约 60KB 时，在完整岗位处截断并置 truncated=true，用 next_offset 接着取。城市只认城市名，不认省份。数据只包含公告里写了的信息：回答时把明确匹配、推断匹配和未注明分开说，推断和未注明都不代表一定符合条件，并附 source_url 和 data_as_of。"""

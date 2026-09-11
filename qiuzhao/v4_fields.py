@@ -37,10 +37,21 @@ UNSPECIFIED = "未注明"
 # ---------------------------------------------------------------- match bases and tiers
 
 LEVELS = ["明确匹配", "推断匹配", "含未注明"]
+# A row whose only 届 was inferred (按招聘季推断 / 来源专场注明 name a concrete 届) states no cohort
+# itself, so a query for another 届 keeps it in the unspecified tier under this basis instead of
+# dropping it (Max, 2026-09-12). A 届 the posting states still rules the row out.
+INFERRED_OTHER = "推断为其他届别"
 # basis -> tier (0 explicit, 1 inferred, 2 unspecified)
 BASIS_TIER = {"岗位写明": 0, "活动标题写明": 0, "全国": 0, "专业不限": 0, "学历不限": 0,
               "按招聘季推断": 1, "来源专场注明": 1, "实习未写届别": 1, "社招不限届别": 1,
-              UNSPECIFIED: 2}
+              UNSPECIFIED: 2, INFERRED_OTHER: 2}
+# Order inside a tier (Max, 2026-09-12): per dimension the role's own words first, then the blanket
+# forms (全国 / 专业不限 / 学历不限 / 活动标题写明), then inferred bases, then unspecified; dimensions
+# are compared in RANK_DIMENSIONS order, so within a tier every 成都 row precedes every 全国 row.
+RANK_DIMENSIONS = ("city", "major", "education", "graduation_year")
+BASIS_RANK = {"岗位写明": 0, "全国": 1, "专业不限": 1, "学历不限": 1, "活动标题写明": 1,
+              "按招聘季推断": 2, "来源专场注明": 2, "实习未写届别": 2, "社招不限届别": 2,
+              UNSPECIFIED: 3, INFERRED_OTHER: 3}
 NOTE_SOCIAL, NOTE_INTERN = "社招不限届别", "实习未写届别"
 
 # ---------------------------------------------------------------- test / placeholder records

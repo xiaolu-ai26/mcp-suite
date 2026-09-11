@@ -235,6 +235,71 @@ def test_budget_keeps_at_least_one_whole_job(tmp_path, monkeypatch):
     out = T.Jobs(path, today=date(2026, 9, 11)).search(page_size=5)
     assert (out["returned"], out["truncated"], out["next_offset"], out["has_next"]) == (1, True, 1, True)
 
+
+def test_order_inside_a_tier_follows_specificity(tmp_path):
+    """Max, 2026-09-12: inside a tier the more specific basis comes first — city 岗位写明 > 全国, major
+    岗位写明 > 专业不限, education 岗位写明 > 学历不限, 届别 岗位写明 > 活动标题写明 — compared in that
+    dimension order, then the requested sort. Publish dates run against that order on purpose."""
+    base = dict(recruitment_type="校园招聘", cities_normalized=["成都"], major_requirements_raw="计算机科学与技术",
+                major_normalized="计算机类", education_raw="本科", cohort_raw="2027届")
+    rows = [row(id="specific-old", **base, published_at="2026-09-01", deadline="2026-09-20"),
+            row(id="specific-new", **base, published_at="2026-09-05", deadline="2026-09-30"),
+            row(id="specific-undated", **base, published_at="2026-09-04"),
+            row(id="campaign-title", **{**base, "cohort_raw": "", "campaign_cohort_raw": "2027校园招聘"},
+                published_at="2026-09-07"),
+            row(id="edu-unlimited", **{**base, "education_raw": "不限"}, published_at="2026-09-08"),
+            row(id="major-unlimited", **{**base, "major_requirements_raw": "专业不限"}, published_at="2026-09-09"),
+            row(id="nationwide", **{**base, "cities_normalized": ["全国"]}, published_at="2026-09-10"),
+            row(id="nationwide-campaign", **{**base, "cities_normalized": ["全国"], "cohort_raw": "",
+                                             "campaign_cohort_raw": "2027届校园招聘"}, published_at="2026-09-11"),
+            row(id="inferred-season", **{**base, "cohort_raw": ""}, published_at="2026-09-11"),
+            row(id="city-unspecified", **{**base, "cities_normalized": []}, published_at="2026-09-11")]
+    path = tmp_path / "jobs.json"
+    _write(path, rows)
+    jobs = T.Jobs(path, today=date(2026, 9, 11))
+    q = dict(city="成都", major="计算机类", education="本科", graduation_year="2027届", page_size=20)
+    tail = ["campaign-title", "edu-unlimited", "major-unlimited", "nationwide", "nationwide-campaign",
+            "inferred-season", "city-unspecified"]
+    out = jobs.search(**q)
+    assert [j["id"] for j in out["jobs"]] == ["specific-new", "specific-undated", "specific-old"] + tail
+    assert [j["id"] for j in jobs.search(**q, sort="deadline_asc")["jobs"]] == [
+        "specific-old", "specific-new", "specific-undated"] + tail
+    by_id = {j["id"]: j["match"] for j in out["jobs"]}
+    assert by_id["nationwide"] == {"level": "明确匹配", "graduation_year": "岗位写明", "city": "全国",
+                                   "major": "岗位写明", "education": "岗位写明"}
+    assert by_id["campaign-title"]["graduation_year"] == "活动标题写明"
+    assert (by_id["inferred-season"]["level"], by_id["city-unspecified"]["level"]) == ("推断匹配", "含未注明")
+    # No 届别/城市/专业/学历 condition: plain published-desc order, as before.
+    assert [j["id"] for j in jobs.search(page_size=3)["jobs"]] == ["nationwide-campaign", "inferred-season",
+                                                                  "city-unspecified"]
+
+
+def test_inferred_year_is_unspecified_for_other_years(tmp_path):
+    """Decision 2 (2026-09-12): an inferred-only 届 does not rule a row out for another 届 query; it
+    comes back as 含未注明 with basis 推断为其他届别. A stated 届 still rules it out."""
+    rows = [row(id="season", recruitment_type="校园招聘", published_at="2026-09-01"),
+            row(id="scope-26-27", recruitment_type="校园招聘",
+                source_url="https://careers.midea.com/schoolOut/post/details?id=1"),
+            row(id="stated-2027", recruitment_type="校园招聘", cohort_raw="2027届"),
+            row(id="no-clue", recruitment_type="校园招聘")]
+    path = tmp_path / "jobs.json"
+    _write(path, rows)
+    jobs = T.Jobs(path, today=date(2026, 9, 11))
+
+    def bases(**q):
+        return {j["id"]: (j["match"]["level"], j["match"]["graduation_year"])
+                for j in jobs.search(page_size=20, **q)["jobs"]}
+
+    assert bases(graduation_year="2026届") == {"scope-26-27": ("推断匹配", "来源专场注明"),
+                                              "season": ("含未注明", "推断为其他届别"), "no-clue": ("含未注明", "未注明")}
+    assert bases(graduation_year="2025届") == {"scope-26-27": ("含未注明", "推断为其他届别"),
+                                              "season": ("含未注明", "推断为其他届别"), "no-clue": ("含未注明", "未注明")}
+    assert bases(graduation_year="2027届") == {"season": ("推断匹配", "按招聘季推断"),
+                                              "scope-26-27": ("推断匹配", "来源专场注明"),
+                                              "stated-2027": ("明确匹配", "岗位写明"), "no-clue": ("含未注明", "未注明")}
+    assert jobs.search(graduation_year="2026届", explicit_only=True)["total"] == 0
+    assert set(bases(graduation_year="未注明")) == {"no-clue"}
+
 # ---------------------------------------------------------------- an independent reading of SPEC 3.0
 
 KW = ("job_title", "job_category_raw", "description_raw", "company", "recruiting_unit_raw", "parent_unit_raw",
@@ -298,6 +363,9 @@ def reference(items, today, **q):
                 b = "未注明" if note == "未注明" else None
             elif years:
                 b = it["graduation_year_basis"].get(g)
+                # Decision 2 (2026-09-12): a row whose only 届 was inferred is not ruled out.
+                if b is None and set(it["graduation_year_basis"].values()) <= {"按招聘季推断", "来源专场注明"}:
+                    b = "推断为其他届别"
             elif note == "社招不限届别" and q.get("recruitment_type") != "社会招聘":
                 if None not in bases:
                     excluded += not q.get("explicit_only")
@@ -307,7 +375,7 @@ def reference(items, today, **q):
             bases.append(b)
         if None in bases:
             continue
-        tier = "u" if "未注明" in bases else "i" if INFERRED & set(bases) else "e"
+        tier = "u" if {"未注明", "推断为其他届别"} & set(bases) else "i" if INFERRED & set(bases) else "e"
         if q.get("explicit_only") and tier != "e":
             continue
         counts[tier] += 1
@@ -321,6 +389,9 @@ QUERIES = [args for _, steps in CASES.values() for tool, args in steps if tool !
     {"major": "统计"}, {"graduation_year": "2027届", "recruitment_type": "社会招聘"},
     {"graduation_year": "2026届", "explicit_only": True}, {"company": "腾讯,阿里巴巴"}, {"keyword": "Python"},
     {"include_expired": True}, {"deadline_within_days": 30, "graduation_year": "2027届", "city": "深圳"},
+    {"graduation_year": "2026届"}, {"graduation_year": "2028届"},
+    {"graduation_year": "2025届", "recruitment_type": "校园招聘"},
+    {"graduation_year": "2026届", "city": "北京", "education": "硕士"},
 ]
 
 

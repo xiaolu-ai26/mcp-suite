@@ -3,7 +3,9 @@
 Three operations share one filter set (SPEC 3.0–3.3): search (jobs + match basis), stats (the same
 filters, counted and grouped) and detail (by id). The dataset is parsed and converted to v4 fields
 (qiuzhao/v4_fields.py) once per jobs.json version: the cache key is the file's mtime and size, so
-an unchanged file is never re-read and a replaced file is picked up on the next call.
+an unchanged file is never re-read and a replaced file is picked up on the next call. Search
+results are ordered by match tier, then by how specific the match is, then by the requested sort
+(Jobs.order).
 """
 from __future__ import annotations
 
@@ -268,6 +270,10 @@ class Jobs:
         if q in years:
             return it["graduation_year_basis"][q]
         if years:
+            # Only an inferred 届 (season / source scope): the posting names no cohort, so another 届
+            # is not ruled out and stays unspecified. A stated 届 rules the row out.
+            if all(V.BASIS_TIER[b] == 1 for b in it["graduation_year_basis"].values()):
+                return V.INFERRED_OTHER
             return None
         if note == V.NOTE_INTERN:
             return V.NOTE_INTERN
@@ -366,6 +372,23 @@ class Jobs:
                 notices.append(f"另有 {excluded} 条社会招聘岗位未{verb}：社招不限届别，按届别筛选时不返回；"
                                "要看请加 recruitment_type=社会招聘。")
 
+    @staticmethod
+    def order(res, sort):
+        """Tier, then how specific the match is (V.RANK_DIMENSIONS / V.BASIS_RANK), then ``sort``.
+
+        ``res`` comes from evaluate() in the dataset's default order (published desc, id desc),
+        which the stable sort keeps for published_desc; deadline_asc ends on the id, so both orders
+        are total. Every row carries the query's dimensions, so they are read off the first row.
+        """
+        dims = [d for d in V.RANK_DIMENSIONS if d in res[0][1]] if res else []
+        rank = V.BASIS_RANK
+        if sort == "deadline_asc":
+            return sorted(res, key=lambda x: (x[2], [rank[x[1][d]] for d in dims], x[0]["deadline"] is None,
+                                              x[0]["deadline"] or "", x[0]["id"]))
+        if not dims:
+            return res  # no 届别/城市/专业/学历 condition: a single tier, already in default order
+        return sorted(res, key=lambda x: (x[2], [rank[x[1][d]] for d in dims]))
+
     # ------------------------------------------------------------ the three operations
 
     def search(self, sort="published_desc", page_size=PAGE_SIZE_DEFAULT, offset=0, **filters):
@@ -383,10 +406,7 @@ class Jobs:
             page_size = PAGE_SIZE_MAX
         today = self.today()
         res, excluded_social = self.evaluate(data, f, today)
-        if sort == "deadline_asc":
-            res.sort(key=lambda x: (x[2], x[0]["deadline"] is None, x[0]["deadline"] or "", x[0]["id"]))
-        else:
-            res.sort(key=lambda x: x[2])  # stable: keeps published desc within each tier
+        res = self.order(res, sort)
         jobs, used, truncated = [], 2, False
         for it, basis, tier in res[offset:offset + page_size]:
             obj = self.public(it, today, basis, tier)
