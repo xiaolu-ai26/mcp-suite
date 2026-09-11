@@ -161,7 +161,7 @@ class Collector:
         self.evidence_file('telecom-list.html',html)
         links=[urljoin(host,a['href']) for a in soup.select('a[href*="getOnePosition"]')]
         previous=json.loads((self.out/'jobs.json').read_text()) if (self.out/'jobs.json').exists() else []
-        links.extend(j['source_url'] for j in previous if j['id'].startswith('telecom-'))
+        links.extend(j['source_url'] for j in previous if str(j.get('id') or '').startswith('telecom-'))
         if not links: raise ValueError('Telecom campus listing has no role links')
         rows=[]
         for url in dict.fromkeys(links):
@@ -242,7 +242,8 @@ class Collector:
                     old=merged.get(row['id'])
                     if old:
                         for field in NORMALIZED_FIELDS:
-                            if not row.get(field) and old.get(field):row[field]=old[field]
+                            value=old.get(field)
+                            if not row.get(field) and value is not None and value!='' and value!=[]:row[field]=value
                     merged[row['id']]=row
                 write_json(self.out/'jobs.json',list(merged.values()))
             except Exception as error:
