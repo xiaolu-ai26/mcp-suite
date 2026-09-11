@@ -21,6 +21,12 @@ import subprocess
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
+try:
+    from qiuzhao.normalize import normalize_records
+except ImportError:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+    from qiuzhao.normalize import normalize_records
+
 TZ = timezone(timedelta(hours=8))
 DATA_DIR = Path("/var/lib/mcp-suite")
 JOBS_FILE = DATA_DIR / "jobs.json"
@@ -35,6 +41,19 @@ def log(message):
     print(line)
     with open(LOG_FILE, "a", encoding="utf-8") as f:
         f.write(line + "\n")
+
+def atomic_write_json(path, data, indent=None):
+    tmp = path.with_name(path.name + ".tmp")
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=indent)
+    if path.exists():
+        st = os.stat(path)
+        os.chmod(tmp, st.st_mode)
+        try:
+            os.chown(tmp, st.st_uid, st.st_gid)
+        except PermissionError:
+            pass
+    os.replace(tmp, path)
 
 def backup_jobs():
     """备份当前岗位数据"""
@@ -146,8 +165,9 @@ def merge_tencent_jobs(tencent_jobs):
             added += 1
 
     if added > 0:
-        with open(JOBS_FILE, "w") as f:
-            json.dump(all_jobs, f, ensure_ascii=False)
+        filled = normalize_records(all_jobs)
+        log(f"归一化补齐: {filled}")
+        atomic_write_json(JOBS_FILE, all_jobs)
         log(f"腾讯岗位合并完成，新增 {added} 条")
 
     return added
@@ -186,12 +206,14 @@ def update_changelog(added_jobs, total_jobs, total_companies):
         }
         changelog.insert(0, new_entry)
 
-    with open(CHANGELOG_FILE, "w") as f:
-        json.dump(changelog, f, ensure_ascii=False, indent=2)
+    atomic_write_json(CHANGELOG_FILE, changelog, indent=2)
 
     # 同步到static目录
     import shutil
-    shutil.copy2(CHANGELOG_FILE, "/opt/mcp-suite/core/static/changelog.json")
+    try:
+        shutil.copy2(CHANGELOG_FILE, "/opt/mcp-suite/core/static/changelog.json")
+    except Exception as e:
+        log(f"警告: 同步changelog到static失败: {e}")
     log("更新日志已更新")
 
 def restart_service():
@@ -200,9 +222,11 @@ def restart_service():
         subprocess.run(["systemctl", "restart", "mcp-suite.service"], check=True)
         log("MCP服务已重启")
     except Exception as e:
-        log(f"服务重启失败: {e}")
+        log(f"警告: 服务重启失败（忽略）: {e}")
 
 def main():
+    skip_basic = "--skip-basic-collectors" in sys.argv
+
     log("=" * 60)
     log("秋招岗位库自动化采集开始")
     log("=" * 60)
@@ -211,7 +235,7 @@ def main():
     backup_jobs()
 
     # 2. 运行基础采集器
-    basic_summary = run_basic_collectors()
+    basic_summary = None if skip_basic else run_basic_collectors()
 
     # 3. 运行腾讯适配器
     tencent_jobs = run_tencent_collector()

@@ -8,6 +8,7 @@ from urllib.request import Request, urlopen
 from urllib.error import HTTPError
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
+from qiuzhao.normalize import NORMALIZED_FIELDS, normalize_records
 
 UA = 'QiuzhaoOfficialJobs/1.0 (public recruitment index; daily low-frequency review)'
 TZ = dt.timezone(dt.timedelta(hours=8))
@@ -229,28 +230,34 @@ class Collector:
                 rows=fn(); fetched.extend(rows); seen={j['id'] for j in rows}
                 if name=='guopin':
                     complete_groups={k for k,v in self.states[name].get('campaigns',{}).items() if v.get('status')=='success' and v.get('complete')}
-                    for old in merged.values():
-                        if old['id'].startswith('guopin-') and old.get('source_group_key') in complete_groups and old['id'] not in seen:
+                    for key,old in merged.items():
+                        if key.startswith('guopin-') and old.get('source_group_key') in complete_groups and key not in seen:
                             old.update(status='removed',reviewed_at=now(),removal_reason='Absent from complete current enterprise campaign listing')
                 elif self.states[name]['complete']:
                     prefix={'postal':'postal-','chnenergy':'chn-','telecom':'telecom-','boc':'boc-','ccb':'ccb-'}[name]
-                    for old in merged.values():
-                        if old['id'].startswith(prefix) and old['id'] not in seen:
+                    for key,old in merged.items():
+                        if key.startswith(prefix) and key not in seen:
                             old.update(status='removed',reviewed_at=now(),removal_reason='Absent from complete current public listing')
-                for row in rows:merged[row['id']]=row
+                for row in rows:
+                    old=merged.get(row['id'])
+                    if old:
+                        for field in NORMALIZED_FIELDS:
+                            if not row.get(field) and old.get(field):row[field]=old[field]
+                    merged[row['id']]=row
                 write_json(self.out/'jobs.json',list(merged.values()))
             except Exception as error:
                 self.alert(name,error); self.states[name]={'status':'failed','checked_at':now(),'error':str(error)[:300]}
         jobs=[j for j in merged.values() if not re.search(r'需登录|请登录|投递入口|报名入口|招聘公告',j['job_title'])]; today=now()[:10]
         for j in jobs:
             if j.get('deadline') and j['deadline']<today and j.get('status')!='removed':j['status']='expired'
+        filled=normalize_records(jobs); logging.info('normalize_records filled: %s',filled)
         write_json(self.out/'jobs.json',jobs)
         statuses={s:sum(j.get('status')==s for j in jobs) for s in ['open','expired','unverified','removed']}
-        summary={'updated_at':max((j['reviewed_at'] for j in jobs),default=None),'run_finished_at':now(),
+        summary={'updated_at':max((r for r in (j.get('reviewed_at') for j in jobs) if r),default=None),'run_finished_at':now(),
             'job_count':len(jobs),'status_counts':statuses,'group_count':len({j['recruitment_unit'] for j in jobs}),
             'named_recruiting_entity_count':len({j.get('recruiting_unit_raw') or j.get('contracting_entity') for j in jobs if j.get('recruiting_unit_raw') or j.get('contracting_entity')}),
             'distinct_source_urls':len({j['source_url'] for j in jobs}), 'refreshed_jobs':len(fetched),
-            'added_jobs':len(set(merged)-{j['id'] for j in previous}),'alerts_count':len(self.alerts),
+            'added_jobs':len(set(merged)-{j.get('id') for j in previous}),'alerts_count':len(self.alerts),
             'counting_note':'One original role ID per record; no city multiplication; named recruiting entities are publisher labels, not independent legal verification.'}
         write_json(self.out/'summary.json',summary);write_json(self.out/'source_state.json',self.states)
         write_json(self.out/'alerts.json',{'run_finished_at':now(),'alerts':self.alerts})
