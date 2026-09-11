@@ -1,0 +1,39 @@
+{
+ "fastmcp_version": "2.14.7",
+ "payload_json_bytes": 21561,
+ "tools": {
+  "a_default_dict": {
+   "tools_list_outputSchema": {
+    "additionalProperties": true,
+    "type": "object"
+   },
+   "isError": false,
+   "result_bytes_on_wire": 44439,
+   "content_blocks": 1,
+   "content_text_bytes": 21561,
+   "content_text_is_full_result": true,
+   "has_structuredContent": true,
+   "structuredContent_bytes": 21561
+  },
+  "b_text_only": {
+   "tools_list_outputSchema": null,
+   "isError": false,
+   "result_bytes_on_wire": 22857,
+   "content_blocks": 1,
+   "content_text_bytes": 21561,
+   "content_text_is_full_result": true,
+   "has_structuredContent": false,
+   "structuredContent_bytes": 0
+  },
+  "c_structured_plus_summary": {
+   "tools_list_outputSchema": null,
+   "isError": false,
+   "result_bytes_on_wire": 21721,
+   "content_blocks": 1,
+   "content_text_bytes": 84,
+   "content_text_is_full_result": false,
+   "has_structuredContent": true,
+   "structuredContent_bytes": 21561
+  }
+ }
+}

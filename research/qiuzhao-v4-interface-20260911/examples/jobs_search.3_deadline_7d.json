@@ -1,0 +1,129 @@
+{
+  "_说明": "模拟：用 data/jobs.json（2026-09-11 拉取，去重后）按 SPEC.md 第 6 节修正规则与第 3 节匹配规则在本地生成，线上尚未实现。按规则模拟的字段：match、graduation_years、graduation_year_basis、education、major_category（含 不限/未注明）、cities（修复 area_code）、job_category（修正错分）、deadline/deadline_kind、status（中文）、region、company/campaign_title（改名）。其余字段是原始数据。“今天”固定为 2026-09-11。response 是工具结果 JSON（线上为 content[0].text 的内容）。",
+  "request": {
+    "tool": "jobs_search",
+    "arguments": {
+      "recruitment_type": "校园招聘",
+      "deadline_within_days": 7,
+      "sort": "deadline_asc",
+      "page_size": 3
+    }
+  },
+  "response": {
+    "applied_filters": {
+      "recruitment_type": "校园招聘",
+      "deadline_within_days": 7,
+      "sort": "deadline_asc"
+    },
+    "total": 166,
+    "explicit_total": 166,
+    "unspecified_total": 0,
+    "sort": "deadline_asc",
+    "offset": 0,
+    "page_size": 3,
+    "returned": 3,
+    "has_next": true,
+    "next_offset": 3,
+    "truncated": false,
+    "data_as_of": "2026-09-11T12:00:00+08:00",
+    "jobs": [
+      {
+        "id": "gp-205305934631666584",
+        "job_title": "设备员",
+        "company": "沧州华晨生物科技有限公司",
+        "recruiting_unit_raw": "沧州华晨生物科技有限公司",
+        "hiring_department_raw": "沧州华晨生物科技有限公司",
+        "job_category": "制造/生产",
+        "job_category_raw": "机械维修/保养",
+        "recruitment_type": "校园招聘",
+        "industry": "互联网/科技",
+        "cities": [
+          "沧州"
+        ],
+        "region": "中国大陆",
+        "country": "中国",
+        "graduation_years": [],
+        "graduation_year_basis": {},
+        "education": "本科",
+        "education_raw": "本科",
+        "major_category": "电子信息类",
+        "major_requirements_raw": "装备制造全类; 机电设备类; 自动化类; 机械设计制造类",
+        "deadline": "2026-09-11",
+        "deadline_kind": "明确日期",
+        "status": "招聘中",
+        "published_at": "2026-06-17",
+        "description_raw": "<span style=\"font-size: 14px;color: #666666;\">对公司设备，仪表，进行维护保养和管理，对设备进行全生命周期管理</span>",
+        "application_url": "https://www.iguopin.com/job-detail/205305934631666584",
+        "source_url": "https://www.iguopin.com/job-detail/205305934631666584",
+        "source_name": "国聘",
+        "reviewed_at": null
+      },
+      {
+        "id": "gp-216321999075541354",
+        "job_title": "法务专员",
+        "company": "新兴铸管股份有限公司（销售总公司）",
+        "recruiting_unit_raw": "新兴铸管股份有限公司（销售总公司）",
+        "hiring_department_raw": "新兴铸管股份有限公司（销售总公司）",
+        "job_category": "职能/支持",
+        "job_category_raw": "法务专员/助理",
+        "recruitment_type": "校园招聘",
+        "industry": "其他",
+        "cities": [
+          "邯郸"
+        ],
+        "region": "中国大陆",
+        "country": "中国",
+        "graduation_years": [],
+        "graduation_year_basis": {},
+        "education": "本科",
+        "education_raw": "本科",
+        "major_category": "金融经济类",
+        "major_requirements_raw": "法学类; 经济学类",
+        "deadline": "2026-09-11",
+        "deadline_kind": "明确日期",
+        "status": "招聘中",
+        "published_at": "2026-09-01",
+        "description_raw": "1、统招全日制本科及以上；\n2、法学、经济法等相关法学专业；\n3、已通过法律职业资格考试（A证）优先，熟练使用办公软件。",
+        "application_url": "https://www.iguopin.com/job-detail/216321999075541354",
+        "source_url": "https://www.iguopin.com/job-detail/216321999075541354",
+        "source_name": "国聘",
+        "reviewed_at": null
+      },
+      {
+        "id": "gp_中国资源循环集团新能源科技有限公司-207068868970021790",
+        "job_title": "市场开拓岗实习生",
+        "company": "中国资源循环集团新能源科技有限公司",
+        "recruiting_unit_raw": "中国资源循环集团新能源科技有限公司",
+        "hiring_department_raw": "中国资源循环集团新能源科技有限公司",
+        "job_category": "市场/营销",
+        "job_category_raw": "不限职位",
+        "recruitment_type": "校园招聘",
+        "industry": "互联网/科技",
+        "cities": [
+          "南京"
+        ],
+        "region": "中国大陆",
+        "country": "中国",
+        "graduation_years": [
+          "2027届"
+        ],
+        "graduation_year_basis": {
+          "2027届": "岗位写明"
+        },
+        "cohort_raw": "2027届",
+        "education": "硕士",
+        "education_raw": "硕士",
+        "major_category": "未注明",
+        "deadline": "2026-09-11",
+        "deadline_kind": "明确日期",
+        "status": "招聘中",
+        "published_at": "2026-09-11",
+        "description_raw": "岗位职责：\n1.协助部门校对、整理、归档各类业务资料，参与部门各项目团队各类市场调研、宣传推广材料的制作；\n2.协助部门整理市场数据并进行统计分析，协助编写相关文件；\n3.协助部门日常行政、对内对外沟通衔接、材料报送等交办工作，配合部门完成会务筹备、客户对接辅助等相关任务，保障部门日常工作有序推进；\n4.协助处理部门交办的其他事务。\n\n任职要求：\n1.硕士研究生及以上学历，新能源、计算机、市场营销相关专业优先；\n2.具备良好的新能源或计算机基础知识、学习能力和逻辑思维，能快速理解业务逻辑；\n3.认真细致，责任心强，具备良好的沟通协调能力，能够较好地完成交办任务；\n4.能尽快入职，每周至少能实习4天，持续实习6个月及以上时间优先。",
+        "application_url": "https://www.iguopin.com/job/detail?id=207068868970021790",
+        "source_url": "https://www.iguopin.com/job/detail?id=207068868970021790",
+        "source_name": "国聘行动官方招聘平台",
+        "reviewed_at": "2026-09-11T02:48:37.151254+08:00"
+      }
+    ]
+  }
+}

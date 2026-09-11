@@ -1,7 +1,7 @@
 """秋招 MCP v4 说明书的参考规则实现。
 
 只读 ../qiuzhao-doubao-fix-20260911/data/jobs.json，用来复现 SPEC.md 里的数字和生成 examples/。
-这不是服务端代码，不部署。所有"修正后"的字段（届别依据、学历档、城市修复、类目修正、截止日统一、
+这不是服务端代码，不部署。所有"修正后"的字段（届别依据、学历档、城市修复、地区、类目修正、截止日统一、
 状态统一）都是按 SPEC.md 第 6 节规则在本地模拟的，线上数据和代码还没有这些字段。
 """
 from __future__ import annotations
@@ -163,7 +163,21 @@ def major_category_of(r):
 # ---------------------------------------------------------------- 城市 / 地区
 
 AREA_CN = re.compile(r"'area_cn':\s*'([^']+)'")
-CITY_UNKNOWN = {"", "未披露", "未知"}
+CITY_UNKNOWN = {"", "未披露", "未知", "多地"}
+NON_CITY = {"Hybrid", "智能制造", "销售"}  # 混进城市字段的非城市词
+CITY_ALIASES = {"中国": ["全国"], "中国大陆": ["全国"], "中国香港": ["香港"], "香港特别行政区": ["香港"],
+                "Hongkong": ["香港"], "Shanghai": ["上海"], "SanFrancisco": ["旧金山"], "SanJose": ["圣何塞"],
+                "Seattle": ["西雅图"], "London": ["伦敦"], "Paris": ["巴黎"], "NewYork": ["纽约"],
+                "NewYorkCity": ["纽约"], "Toronto": ["多伦多"], "Montreal": ["蒙特利尔"], "Clearwater": ["克利尔沃特"],
+                "United States": ["美国"], "Remote": ["远程"], "RemoteIreland;Remote": ["远程"],
+                "SanFranciscoBayAreaorNewYork": ["旧金山", "纽约"]}
+# 2026-09-11 数据里出现过的全部海外取值（人工整理，见 SPEC 6.8）
+OVERSEAS_CITIES = {"圣何塞", "新加坡", "西雅图", "迪拜", "利雅得", "东京", "塔吉格", "科威特城", "圣地亚哥", "纽约",
+                   "伦敦", "墨西哥", "墨西哥城", "首尔", "洛杉矶", "曼谷", "开罗", "英国", "圣保罗", "印尼", "埃及",
+                   "胡志明", "吉隆坡", "古来", "古尔冈", "巴黎", "莫斯科", "约翰内斯堡", "阿拉木图", "海外", "旧金山",
+                   "多伦多", "蒙特利尔", "克利尔沃特", "美国", "远程"}
+HMT = ("香港", "澳门", "台湾", "台北")
+REGION_ORDER = ["中国大陆", "港澳台", "海外"]
 
 
 def cities_of(r):
@@ -173,15 +187,23 @@ def cities_of(r):
         if m:
             out.append(m.group(1).split("-")[0])
     for c in r.get("cities_normalized") or []:
-        s = str(c)
+        s = str(c).strip()
         if "area_code" not in s:
             out.append(s)
     result = []
     for c in out:
-        c = "全国" if c in ("中国", "全国") else c
-        if c not in CITY_UNKNOWN and c not in result:
-            result.append(c)
+        for v in CITY_ALIASES.get(c, [c]):
+            if v not in CITY_UNKNOWN and v not in NON_CITY and v not in result:
+                result.append(v)
     return result
+
+
+def city_region(c):
+    if c in OVERSEAS_CITIES:
+        return "海外"
+    if c.startswith(HMT):
+        return "港澳台"
+    return "中国大陆"
 
 
 MAINLAND = {"mainland", "内地", "中国大陆", "中国", "全国"}
@@ -189,16 +211,20 @@ OVERSEAS = {"overseas", "海外"}
 
 
 def region_of(r, cities):
+    """地区由城市推导；没有城市时才看原 overseas_flag/country/region。多地区用"、"连接。"""
+    if cities:
+        regs = {city_region(c) for c in cities}
+        return "、".join(g for g in REGION_ORDER if g in regs)
     if r.get("overseas_flag") or (r.get("region") or "") in OVERSEAS or (r.get("country") or "中国") != "中国":
         return "海外"
-    if any(c.startswith(("香港", "澳门", "台湾")) for c in cities):
-        return "港澳台"
     return "中国大陆"
 
 
 def norm_city(q):
     q = q.strip()
-    return q[:-1] if q.endswith("市") and len(q) > 2 else q
+    q = q[:-1] if q.endswith("市") and len(q) > 2 else q
+    alias = CITY_ALIASES.get(q)
+    return alias[0] if alias else q
 
 # ---------------------------------------------------------------- 岗位大类
 
@@ -396,7 +422,8 @@ def m_city(it, qs):
         return "未注明" if not cities else None
     if any(q in cities for q in qs):
         return "岗位写明"
-    if "全国" in cities:
+    # "全国"指中国大陆全国，只对大陆城市的查询生效；查新加坡、香港不会带出"全国"岗位
+    if "全国" in cities and any(q != "全国" and city_region(q) == "中国大陆" for q in qs):
         return "全国"
     if not cities:
         return "未注明"
@@ -592,7 +619,7 @@ def jobs_stats(items, as_of, group_by="", top=TOP_DEFAULT, **filters):
     return out
 
 
-def jobs_detail(items, as_of, ids):
+def jobs_detail(items, as_of, ids, notices=None):
     wanted = []
     for i in split_multi(ids):
         if i not in wanted:
@@ -605,6 +632,8 @@ def jobs_detail(items, as_of, ids):
     found = [by_id[i] for i in wanted if i in by_id]
     missing = [i for i in wanted if i not in by_id]
     out = {"requested": len(wanted), "found": len(found), "not_found": missing, "data_as_of": as_of}
+    if notices:
+        out["notices"] = list(notices)
     if missing:
         out["suggestion"] = "not_found 里的 id 不存在或已下线，请重新用 jobs_search 查询最新 id。"
     out["jobs"] = found

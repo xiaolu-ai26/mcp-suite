@@ -1,0 +1,90 @@
+{
+  "_说明": "模拟：用 data/jobs.json（2026-09-11 拉取，去重后）按 SPEC.md 第 6 节修正规则与第 3 节匹配规则在本地生成，线上尚未实现。按规则模拟的字段：match、graduation_years、graduation_year_basis、education、major_category（含 不限/未注明）、cities（修复 area_code）、job_category（修正错分）、deadline/deadline_kind、status（中文）、region、company/campaign_title（改名）。其余字段是原始数据。“今天”固定为 2026-09-11。response 是工具结果 JSON（线上为 content[0].text 的内容）。",
+  "request": {
+    "tool": "jobs_detail",
+    "arguments": {
+      "ids": "zhiye-tal-tech-2027,zhiye-starnet-android-2027"
+    }
+  },
+  "response": {
+    "requested": 2,
+    "found": 2,
+    "not_found": [],
+    "data_as_of": "2026-09-11T12:00:00+08:00",
+    "jobs": [
+      {
+        "id": "zhiye-tal-tech-2027",
+        "job_title": "教研/技术类校招岗位(2027届)",
+        "company": "好未来教育科技集团",
+        "contracting_entity": "好未来教育科技集团",
+        "job_category": "技术/研发",
+        "job_category_raw": "教育/研发",
+        "recruitment_type": "校园招聘",
+        "industry": "互联网/科技",
+        "cities": [
+          "北京",
+          "上海",
+          "全国"
+        ],
+        "region": "中国大陆",
+        "country": "中国",
+        "graduation_years": [
+          "2027届"
+        ],
+        "graduation_year_basis": {
+          "2027届": "岗位写明"
+        },
+        "cohort_raw": "2027届应届毕业生",
+        "education": "本科",
+        "education_raw": "本科",
+        "major_category": "文科类",
+        "major_requirements_raw": "教育学、计算机、数学等相关专业",
+        "deadline": null,
+        "deadline_kind": "未注明",
+        "status": "招聘中",
+        "published_at": "2026-09-11",
+        "description_raw": "好未来2027届校园招聘，涵盖教研、产品、运营、技术研发等方向，致力于用科技推动教育进步。",
+        "application_url": "https://tal.zhiye.com",
+        "source_url": "https://tal.zhiye.com",
+        "source_name": "北森招聘",
+        "reviewed_at": "2026-09-11T01:33:17+08:00"
+      },
+      {
+        "id": "zhiye-starnet-android-2027",
+        "job_title": "Android开发工程师(2027届)",
+        "company": "福建星网锐捷通讯股份有限公司",
+        "contracting_entity": "福建星网锐捷通讯股份有限公司",
+        "job_category": "技术/研发",
+        "job_category_raw": "研发-软件",
+        "recruitment_type": "校园招聘",
+        "industry": "互联网/科技",
+        "cities": [
+          "福州",
+          "全国"
+        ],
+        "region": "中国大陆",
+        "country": "中国",
+        "graduation_years": [
+          "2027届"
+        ],
+        "graduation_year_basis": {
+          "2027届": "岗位写明"
+        },
+        "cohort_raw": "2027届应届毕业生",
+        "education": "本科",
+        "education_raw": "本科",
+        "major_category": "其他",
+        "major_requirements_raw": "计算机、软件、信息、通信等相关专业",
+        "deadline": null,
+        "deadline_kind": "未注明",
+        "status": "招聘中",
+        "published_at": "2026-09-11",
+        "description_raw": "1. 负责智能终端产品的Android应用开发；\n2. 参与产品需求分析、技术方案设计与编码实现；\n3. 负责产品性能优化与bug修复。\n\n任职资格：\n1. 2027届本科及以上学历，计算机、软件、信息、通信等相关专业；\n2. 熟练掌握Kotlin或Java，理解Android框架、生命周期、线程管理、MVVM/MVP架构尤佳；\n3. 熟练使用Android Studio及相关开发工具。",
+        "application_url": "https://starnet.zhiye.com/campus/jobs",
+        "source_url": "https://starnet.zhiye.com/campus/jobs",
+        "source_name": "北森招聘",
+        "reviewed_at": "2026-09-11T01:35:13+08:00"
+      }
+    ]
+  }
+}

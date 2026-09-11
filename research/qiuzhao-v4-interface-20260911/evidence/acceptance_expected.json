@@ -1,0 +1,998 @@
+{
+ "data_as_of": "2026-09-11T12:00:00+08:00",
+ "today": "2026-09-11",
+ "questions": {
+  "Q01": [
+   {
+    "tool": "jobs_search",
+    "arguments": {
+     "city": "杭州",
+     "graduation_year": "2027届",
+     "major": "计算机类",
+     "education": "硕士"
+    },
+    "result": {
+     "total": 2910,
+     "explicit_total": 188,
+     "unspecified_total": 2722,
+     "has_next": true,
+     "next_offset": 10,
+     "first_ids": [
+      "zhiye-zjtlcb-campus-2027",
+      "zhiye-tal-tech-2027",
+      "zhiye-starnet-android-2027"
+     ],
+     "first_match": [
+      {
+       "level": "明确匹配",
+       "graduation_year": "岗位写明",
+       "city": "岗位写明",
+       "major": "专业不限",
+       "education": "岗位写明"
+      },
+      {
+       "level": "明确匹配",
+       "graduation_year": "岗位写明",
+       "city": "全国",
+       "major": "岗位写明",
+       "education": "岗位写明"
+      },
+      {
+       "level": "明确匹配",
+       "graduation_year": "岗位写明",
+       "city": "全国",
+       "major": "岗位写明",
+       "education": "岗位写明"
+      }
+     ],
+     "first_deadlines": [
+      null,
+      null,
+      null
+     ]
+    }
+   }
+  ],
+  "Q02": [
+   {
+    "tool": "jobs_search",
+    "arguments": {
+     "company": "字节跳动",
+     "job_category": "产品"
+    },
+    "result": {
+     "total": 637,
+     "explicit_total": 637,
+     "unspecified_total": 0,
+     "has_next": true,
+     "next_offset": 10,
+     "first_ids": [
+      "bytedance-7683465284410116405",
+      "bytedance-7683081045402585397",
+      "bytedance-7682700563160615173"
+     ],
+     "first_match": [
+      null,
+      null,
+      null
+     ],
+     "first_deadlines": [
+      null,
+      null,
+      null
+     ]
+    }
+   },
+   {
+    "tool": "jobs_stats",
+    "arguments": {
+     "company": "字节跳动",
+     "job_category": "产品",
+     "group_by": "city",
+     "top": 5
+    },
+    "result": {
+     "total": 637,
+     "explicit_total": 637,
+     "unspecified_total": 0,
+     "groups_total": 12,
+     "groups": [
+      [
+       "北京",
+       422,
+       422
+      ],
+      [
+       "上海",
+       306,
+       306
+      ],
+      [
+       "深圳",
+       71,
+       71
+      ],
+      [
+       "杭州",
+       54,
+       54
+      ],
+      [
+       "成都",
+       10,
+       10
+      ]
+     ]
+    }
+   }
+  ],
+  "Q03": [
+   {
+    "tool": "jobs_search",
+    "arguments": {
+     "recruitment_type": "校园招聘",
+     "deadline_within_days": 7,
+     "sort": "deadline_asc"
+    },
+    "result": {
+     "total": 166,
+     "explicit_total": 166,
+     "unspecified_total": 0,
+     "has_next": true,
+     "next_offset": 10,
+     "first_ids": [
+      "gp-205305934631666584",
+      "gp-216321999075541354",
+      "gp_中国资源循环集团新能源科技有限公司-207068868970021790"
+     ],
+     "first_match": [
+      null,
+      null,
+      null
+     ],
+     "first_deadlines": [
+      "2026-09-11",
+      "2026-09-11",
+      "2026-09-11"
+     ]
+    }
+   }
+  ],
+  "Q04": [
+   {
+    "tool": "jobs_search",
+    "arguments": {
+     "city": "北京",
+     "industry": "国企/央企",
+     "major": "不限"
+    },
+    "result": {
+     "total": 10,
+     "explicit_total": 10,
+     "unspecified_total": 0,
+     "has_next": false,
+     "next_offset": null,
+     "first_ids": [
+      "guopin-216576117476164366",
+      "guopin-216575424291930894",
+      "guopin-216575040446006030"
+     ],
+     "first_match": [
+      {
+       "level": "明确匹配",
+       "city": "岗位写明",
+       "major": "专业不限"
+      },
+      {
+       "level": "明确匹配",
+       "city": "岗位写明",
+       "major": "专业不限"
+      },
+      {
+       "level": "明确匹配",
+       "city": "岗位写明",
+       "major": "专业不限"
+      }
+     ],
+     "first_deadlines": [
+      "2026-10-17",
+      "2026-10-17",
+      "2026-10-17"
+     ]
+    }
+   }
+  ],
+  "Q05": [
+   {
+    "tool": "jobs_detail",
+    "arguments": {
+     "ids": "zhiye-tal-tech-2027"
+    },
+    "result": {
+     "found": 1,
+     "not_found": []
+    }
+   }
+  ],
+  "Q06": [
+   {
+    "tool": "jobs_search",
+    "arguments": {
+     "recruitment_type": "实习招聘",
+     "city": "上海",
+     "keyword": "转正"
+    },
+    "result": {
+     "total": 204,
+     "explicit_total": 201,
+     "unspecified_total": 3,
+     "has_next": true,
+     "next_offset": 10,
+     "first_ids": [
+      "lilith-7678924175863548211",
+      "bytedance-7676350693393811765",
+      "papergames-7674937642727737650"
+     ],
+     "first_match": [
+      {
+       "level": "明确匹配",
+       "city": "岗位写明"
+      },
+      {
+       "level": "明确匹配",
+       "city": "岗位写明"
+      },
+      {
+       "level": "明确匹配",
+       "city": "岗位写明"
+      }
+     ],
+     "first_deadlines": [
+      null,
+      null,
+      null
+     ]
+    }
+   }
+  ],
+  "Q07": [
+   {
+    "tool": "jobs_search",
+    "arguments": {
+     "graduation_year": "2026届",
+     "industry": "国企/央企"
+    },
+    "result": {
+     "total": 815,
+     "explicit_total": 563,
+     "unspecified_total": 252,
+     "has_next": true,
+     "next_offset": 10,
+     "first_ids": [
+      "guopin-217442836625229077",
+      "guopin-216576819367772944",
+      "guopin-217340592915481771"
+     ],
+     "first_match": [
+      {
+       "level": "明确匹配",
+       "graduation_year": "岗位写明"
+      },
+      {
+       "level": "明确匹配",
+       "graduation_year": "岗位写明"
+      },
+      {
+       "level": "明确匹配",
+       "graduation_year": "岗位写明"
+      }
+     ],
+     "first_deadlines": [
+      "2026-10-11",
+      "2026-10-16",
+      "2026-10-11"
+     ]
+    }
+   }
+  ],
+  "Q08": [
+   {
+    "tool": "jobs_search",
+    "arguments": {
+     "job_category": "产品",
+     "deadline_within_days": 19,
+     "sort": "deadline_asc"
+    },
+    "result": {
+     "total": 19,
+     "explicit_total": 19,
+     "unspecified_total": 0,
+     "has_next": true,
+     "next_offset": 10,
+     "first_ids": [
+      "iguopin-205188566110700450",
+      "gp_辽宁乐股软件股份有限公司-205734925041664930",
+      "gp_山西电机制造有限公司-206041948178350861"
+     ],
+     "first_match": [
+      null,
+      null,
+      null
+     ],
+     "first_deadlines": [
+      "2026-09-13",
+      "2026-09-17",
+      "2026-09-19"
+     ]
+    }
+   }
+  ],
+  "Q09": [
+   {
+    "tool": "jobs_search",
+    "arguments": {
+     "company": "腾讯,阿里巴巴",
+     "city": "深圳",
+     "keyword": "算法"
+    },
+    "result": {
+     "total": 272,
+     "explicit_total": 272,
+     "unspecified_total": 0,
+     "has_next": true,
+     "next_offset": 10,
+     "first_ids": [
+      "alibaba-199907640058",
+      "alibaba-199907640056",
+      "alibaba-199907620013"
+     ],
+     "first_match": [
+      {
+       "level": "明确匹配",
+       "city": "岗位写明"
+      },
+      {
+       "level": "明确匹配",
+       "city": "岗位写明"
+      },
+      {
+       "level": "明确匹配",
+       "city": "岗位写明"
+      }
+     ],
+     "first_deadlines": [
+      null,
+      null,
+      null
+     ]
+    }
+   }
+  ],
+  "Q10": [
+   {
+    "tool": "jobs_stats",
+    "arguments": {
+     "job_category": "产品",
+     "graduation_year": "2027届",
+     "group_by": "city",
+     "top": 10
+    },
+    "result": {
+     "total": 1278,
+     "explicit_total": 1155,
+     "unspecified_total": 123,
+     "groups_total": 156,
+     "groups": [
+      [
+       "北京",
+       530,
+       494
+      ],
+      [
+       "上海",
+       375,
+       343
+      ],
+      [
+       "深圳",
+       126,
+       84
+      ],
+      [
+       "杭州",
+       90,
+       83
+      ],
+      [
+       "广州",
+       37,
+       22
+      ],
+      [
+       "未注明",
+       37,
+       24
+      ],
+      [
+       "成都",
+       27,
+       15
+      ],
+      [
+       "哈尔滨",
+       21,
+       21
+      ],
+      [
+       "全国",
+       20,
+       9
+      ],
+      [
+       "南京",
+       16,
+       16
+      ]
+     ]
+    }
+   }
+  ],
+  "Q11": [
+   {
+    "tool": "jobs_stats",
+    "arguments": {
+     "recruitment_type": "校园招聘",
+     "group_by": "industry",
+     "top": 5
+    },
+    "result": {
+     "total": 19903,
+     "explicit_total": 19903,
+     "unspecified_total": 0,
+     "groups_total": 13,
+     "groups": [
+      [
+       "互联网/科技",
+       8897,
+       8897
+      ],
+      [
+       "国企/央企",
+       5798,
+       5798
+      ],
+      [
+       "制造/工业",
+       1999,
+       1999
+      ],
+      [
+       "能源/电力",
+       1265,
+       1265
+      ],
+      [
+       "其他",
+       744,
+       744
+      ]
+     ]
+    }
+   }
+  ],
+  "Q12": [
+   {
+    "tool": "jobs_stats",
+    "arguments": {
+     "industry": "国企/央企",
+     "major": "计算机类",
+     "group_by": "company",
+     "top": 5
+    },
+    "result": {
+     "total": 3182,
+     "explicit_total": 2606,
+     "unspecified_total": 576,
+     "groups_total": 115,
+     "groups": [
+      [
+       "中国移动通信集团有限公司",
+       1356,
+       1332
+      ],
+      [
+       "中国邮政集团有限公司",
+       1070,
+       1070
+      ],
+      [
+       "中国航天科工集团有限公司",
+       488,
+       184
+      ],
+      [
+       "中国移动通信集团江苏有限公司",
+       7,
+       0
+      ],
+      [
+       "中国企业经营咨询公司",
+       6,
+       0
+      ]
+     ]
+    }
+   }
+  ],
+  "Q13": [
+   {
+    "tool": "jobs_stats",
+    "arguments": {
+     "education": "本科"
+    },
+    "result": {
+     "total": 19355,
+     "explicit_total": 10001,
+     "unspecified_total": 9354
+    }
+   },
+   {
+    "tool": "jobs_stats",
+    "arguments": {
+     "education": "硕士"
+    },
+    "result": {
+     "total": 24390,
+     "explicit_total": 15036,
+     "unspecified_total": 9354
+    }
+   },
+   {
+    "tool": "jobs_stats",
+    "arguments": {
+     "group_by": "education"
+    },
+    "result": {
+     "total": 25463,
+     "explicit_total": 25463,
+     "unspecified_total": 0,
+     "groups_total": 7,
+     "groups": [
+      [
+       "未注明",
+       9354,
+       9354
+      ],
+      [
+       "本科",
+       8915,
+       8915
+      ],
+      [
+       "硕士",
+       5035,
+       5035
+      ],
+      [
+       "博士",
+       1073,
+       1073
+      ],
+      [
+       "大专",
+       831,
+       831
+      ],
+      [
+       "中专及以下",
+       130,
+       130
+      ],
+      [
+       "不限",
+       125,
+       125
+      ]
+     ]
+    }
+   }
+  ],
+  "Q14": [
+   {
+    "tool": "jobs_stats",
+    "arguments": {
+     "major": "计算机类"
+    },
+    "result": {
+     "total": 17789,
+     "explicit_total": 5640,
+     "unspecified_total": 12149
+    }
+   },
+   {
+    "tool": "jobs_stats",
+    "arguments": {
+     "group_by": "major_category",
+     "top": 13
+    },
+    "result": {
+     "total": 25463,
+     "explicit_total": 25463,
+     "unspecified_total": 0,
+     "groups_total": 13,
+     "groups": [
+      [
+       "未注明",
+       12149,
+       12149
+      ],
+      [
+       "计算机类",
+       4671,
+       4671
+      ],
+      [
+       "其他",
+       2306,
+       2306
+      ],
+      [
+       "电子信息类",
+       1919,
+       1919
+      ],
+      [
+       "金融经济类",
+       1336,
+       1336
+      ],
+      [
+       "管理类",
+       1009,
+       1009
+      ],
+      [
+       "机械制造类",
+       993,
+       993
+      ],
+      [
+       "文科类",
+       359,
+       359
+      ],
+      [
+       "医药生物类",
+       248,
+       248
+      ],
+      [
+       "不限",
+       196,
+       196
+      ],
+      [
+       "理科类",
+       172,
+       172
+      ],
+      [
+       "设计艺术类",
+       59,
+       59
+      ],
+      [
+       "农业类",
+       46,
+       46
+      ]
+     ]
+    }
+   }
+  ],
+  "Q15": [
+   {
+    "tool": "jobs_search",
+    "arguments": {
+     "city": "上海",
+     "job_category": "技术/研发",
+     "deadline_within_days": 14,
+     "sort": "deadline_asc",
+     "page_size": 20
+    },
+    "result": {
+     "total": 39,
+     "explicit_total": 26,
+     "unspecified_total": 13,
+     "has_next": true,
+     "next_offset": 20,
+     "first_ids": [
+      "guopin-205001950352114594",
+      "guopin-205002077473080226",
+      "gp_中牧实业股份有限公司武汉华罗分公司-205308187107132173"
+     ],
+     "first_match": [
+      {
+       "level": "明确匹配",
+       "city": "全国"
+      },
+      {
+       "level": "明确匹配",
+       "city": "全国"
+      },
+      {
+       "level": "明确匹配",
+       "city": "全国"
+      }
+     ],
+     "first_deadlines": [
+      "2026-09-12",
+      "2026-09-12",
+      "2026-09-14"
+     ]
+    }
+   }
+  ],
+  "Q16": [
+   {
+    "tool": "jobs_detail",
+    "arguments": {
+     "ids": "zhiye-zjtlcb-campus-2027,zhiye-tal-tech-2027"
+    },
+    "result": {
+     "found": 2,
+     "not_found": []
+    }
+   }
+  ],
+  "Q17": [
+   {
+    "tool": "jobs_stats",
+    "arguments": {
+     "group_by": "company",
+     "top": 1
+    },
+    "result": {
+     "total": 25463,
+     "explicit_total": 25463,
+     "unspecified_total": 0,
+     "groups_total": 3630,
+     "groups": [
+      [
+       "字节跳动",
+       4171,
+       4171
+      ]
+     ]
+    }
+   }
+  ],
+  "Q18": [
+   {
+    "tool": "jobs_stats",
+    "arguments": {
+     "company": "字节跳动",
+     "group_by": "city",
+     "top": 5
+    },
+    "result": {
+     "total": 4171,
+     "explicit_total": 4171,
+     "unspecified_total": 0,
+     "groups_total": 66,
+     "groups": [
+      [
+       "北京",
+       2287,
+       2287
+      ],
+      [
+       "上海",
+       1692,
+       1692
+      ],
+      [
+       "深圳",
+       684,
+       684
+      ],
+      [
+       "杭州",
+       628,
+       628
+      ],
+      [
+       "圣何塞",
+       138,
+       138
+      ]
+     ]
+    }
+   },
+   {
+    "tool": "jobs_stats",
+    "arguments": {
+     "company": "字节跳动",
+     "group_by": "job_category"
+    },
+    "result": {
+     "total": 4171,
+     "explicit_total": 4171,
+     "unspecified_total": 0,
+     "groups_total": 10,
+     "groups": [
+      [
+       "技术/研发",
+       2453,
+       2453
+      ],
+      [
+       "运营",
+       694,
+       694
+      ],
+      [
+       "产品",
+       637,
+       637
+      ],
+      [
+       "职能/支持",
+       118,
+       118
+      ],
+      [
+       "市场/营销",
+       99,
+       99
+      ],
+      [
+       "设计",
+       85,
+       85
+      ],
+      [
+       "销售",
+       63,
+       63
+      ],
+      [
+       "其他",
+       15,
+       15
+      ],
+      [
+       "金融",
+       5,
+       5
+      ],
+      [
+       "咨询",
+       2,
+       2
+      ]
+     ]
+    }
+   }
+  ],
+  "Q19": [
+   {
+    "tool": "jobs_search",
+    "arguments": {
+     "city": "新加坡"
+    },
+    "result": {
+     "total": 1453,
+     "explicit_total": 87,
+     "unspecified_total": 1366,
+     "has_next": true,
+     "next_offset": 10,
+     "first_ids": [
+      "bytedance-7682801992372537605",
+      "bytedance-7681626362172541189",
+      "bytedance-7680495535450491141"
+     ],
+     "first_match": [
+      {
+       "level": "明确匹配",
+       "city": "岗位写明"
+      },
+      {
+       "level": "明确匹配",
+       "city": "岗位写明"
+      },
+      {
+       "level": "明确匹配",
+       "city": "岗位写明"
+      }
+     ],
+     "first_deadlines": [
+      null,
+      null,
+      null
+     ]
+    }
+   },
+   {
+    "tool": "jobs_stats",
+    "arguments": {
+     "group_by": "city",
+     "top": 100
+    },
+    "result": {
+     "total": 25463,
+     "explicit_total": 25463,
+     "unspecified_total": 0,
+     "groups_total": 737,
+     "groups": [
+      [
+       "未注明",
+       1366,
+       1366
+      ],
+      [
+       "全国",
+       926,
+       926
+      ],
+      [
+       "圣何塞",
+       139,
+       139
+      ],
+      [
+       "新加坡",
+       87,
+       87
+      ],
+      [
+       "海外",
+       40,
+       40
+      ]
+     ]
+    }
+   }
+  ],
+  "Q20": [
+   {
+    "tool": "jobs_search",
+    "arguments": {
+     "graduation_year": "2027届",
+     "explicit_only": true
+    },
+    "result": {
+     "total": 18270,
+     "explicit_total": 18270,
+     "unspecified_total": 0,
+     "has_next": true,
+     "next_offset": 10,
+     "first_ids": [
+      "guopin-216471935930860193",
+      "iguopin-217583980105434575",
+      "iguopin-217583871741396436"
+     ],
+     "first_match": [
+      {
+       "level": "明确匹配",
+       "graduation_year": "活动标题写明"
+      },
+      {
+       "level": "明确匹配",
+       "graduation_year": "岗位写明"
+      },
+      {
+       "level": "明确匹配",
+       "graduation_year": "岗位写明"
+      }
+     ],
+     "first_deadlines": [
+      "2026-11-30",
+      "2026-11-30",
+      "2026-11-30"
+     ]
+    }
+   }
+  ]
+ }
+}
