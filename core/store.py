@@ -1,4 +1,9 @@
-"""Shared product entitlements. Never persist bearer secrets or redemption codes."""
+"""Shared product entitlements.
+
+API keys are stored only as SHA-256 digests. Redemption codes are stored as a digest (the lookup
+key) plus the plaintext in redemption_codes.code_plain, which the admin page lists so a code can
+be copied and delivered to a buyer.
+"""
 from __future__ import annotations
 
 import hashlib

@@ -24,10 +24,16 @@ def test_atomic_redemption(store):
     assert sum(x is not None for x in results) == 1
     token = next(x['api_key'] for x in results if x)
     assert store.authorize(token)['remaining_today'] == 999999  # qiuzhao-2026 now allows 999999/day
-    # Database and SQLite WAL must not contain raw credentials.
+    # API keys are stored only as digests (database and WAL). A redemption code is kept as its digest
+    # plus, exactly once, the plaintext in its own row's code_plain: the admin page lists it so it can
+    # be copied and delivered (decision 5, 2026-09-12).
     with store.connect() as db:
         dump = '\n'.join(db.iterdump())
-    assert code not in dump and token not in dump
+        row = db.execute('SELECT code_hash, code_plain, redeemed_at FROM redemption_codes').fetchone()
+        key_hashes = [r[0] for r in db.execute('SELECT key_hash FROM api_keys')]
+    assert token not in dump and key_hashes == [digest(token)]
+    assert (row['code_hash'], row['code_plain']) == (digest(code), code) and row['redeemed_at']
+    assert dump.count(code) == 1
 
 
 def test_atomic_daily_limit(store):
