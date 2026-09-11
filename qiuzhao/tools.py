@@ -7,7 +7,6 @@ an unchanged file is never re-read and a replaced file is picked up on the next 
 """
 from __future__ import annotations
 
-import codecs
 import gc
 import json
 import re
@@ -74,64 +73,7 @@ def nbytes(obj):
     return len(json.dumps(obj, ensure_ascii=False, separators=(",", ":")).encode())
 
 
-_WS = re.compile(r"[\s,]*")
-CHUNK_BYTES = 4 << 20
-
-
-def iter_json_file(path, chunk_bytes=CHUNK_BYTES):
-    """Yield the elements of a file holding one top-level JSON array, one element at a time.
-
-    Same C scanner as json.loads, but the file is decoded in chunks and only one raw record is
-    alive at a time: reading the 81 MB jobs.json whole costs ~570 MB of Python heap at the peak
-    (bytes + a UCS-4 str + the decode buffer), this costs one chunk plus the converted records.
-    """
-    decoder = json.JSONDecoder()
-    utf8 = codecs.getincrementaldecoder("utf-8")()
-    with open(path, "rb") as fh:
-        buf, pos, eof = "", 0, False
-
-        def more():
-            nonlocal buf, pos, eof
-            if eof:
-                return False
-            data = fh.read(chunk_bytes)
-            eof = not data
-            buf = buf[pos:] + utf8.decode(data, final=eof)
-            pos = 0
-            return True
-
-        def skip():
-            nonlocal pos
-            pos = _WS.match(buf, pos).end()
-            while pos >= len(buf) and more():
-                pos = _WS.match(buf, pos).end()
-
-        skip()
-        if buf[pos:pos + 1] != "[":
-            raise ValueError("岗位库格式异常，请稍后重试")
-        pos += 1
-        while True:
-            skip()
-            if pos >= len(buf):
-                raise ValueError("岗位库格式异常：文件不完整")
-            if buf[pos] == "]":
-                pos += 1
-                while True:
-                    if buf[pos:].strip():
-                        raise ValueError("岗位库格式异常：数组后还有内容")
-                    pos = len(buf)
-                    if not more():
-                        return
-            try:
-                obj, end = decoder.raw_decode(buf, pos)
-            except json.JSONDecodeError:
-                if more():  # the element runs past this chunk: read on and parse it again
-                    continue
-                raise
-            if end >= len(buf) - 1 and not eof and more():
-                continue  # a scalar cut at the chunk end (123 of 12345) must be parsed again
-            yield obj
-            pos = end
+iter_json_file = V.iter_json_file  # chunked reader: one raw row alive at a time
 
 
 class Dataset:

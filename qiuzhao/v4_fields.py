@@ -11,6 +11,7 @@ enum and the values present in the data differ (SPEC 9.15).
 """
 from __future__ import annotations
 
+import codecs
 import datetime as dt
 import json
 import re
@@ -715,13 +716,74 @@ def enum_report(items):
     return {"present": {k: sorted(v) for k, v in present.items()}, "problems": problems}
 
 
+_WS = re.compile(r"[\s,]*")
+CHUNK_BYTES = 4 << 20
+
+
+def iter_json_file(path, chunk_bytes=CHUNK_BYTES):
+    """Yield the elements of a file holding one top-level JSON array, one element at a time.
+
+    Same C scanner as json.loads, but the file is decoded in chunks and only one raw record is
+    alive at a time: reading the 81 MB jobs.json whole costs ~570 MB of Python heap at the peak
+    (bytes + a UCS-4 str + the decode buffer), this costs one chunk plus the converted records.
+    """
+    decoder = json.JSONDecoder()
+    utf8 = codecs.getincrementaldecoder("utf-8")()
+    with open(path, "rb") as fh:
+        buf, pos, eof = "", 0, False
+
+        def more():
+            nonlocal buf, pos, eof
+            if eof:
+                return False
+            data = fh.read(chunk_bytes)
+            eof = not data
+            buf = buf[pos:] + utf8.decode(data, final=eof)
+            pos = 0
+            return True
+
+        def skip():
+            nonlocal pos
+            pos = _WS.match(buf, pos).end()
+            while pos >= len(buf) and more():
+                pos = _WS.match(buf, pos).end()
+
+        skip()
+        if buf[pos:pos + 1] != "[":
+            raise ValueError("岗位库格式异常，请稍后重试")
+        pos += 1
+        while True:
+            skip()
+            if pos >= len(buf):
+                raise ValueError("岗位库格式异常：文件不完整")
+            if buf[pos] == "]":
+                pos += 1
+                while True:
+                    if buf[pos:].strip():
+                        raise ValueError("岗位库格式异常：数组后还有内容")
+                    pos = len(buf)
+                    if not more():
+                        return
+            try:
+                obj, end = decoder.raw_decode(buf, pos)
+            except json.JSONDecodeError:
+                if more():  # the element runs past this chunk: read on and parse it again
+                    continue
+                raise
+            if end >= len(buf) - 1 and not eof and more():
+                continue  # a scalar cut at the chunk end (123 of 12345) must be parsed again
+            yield obj
+            pos = end
+
+
 def main(argv=None):
+    """``python qiuzhao/v4_fields.py check <jobs.json>`` also works as a standalone file (no imports
+    from this code tree), which is how the deploy check runs it against the live jobs.json."""
     argv = list(sys.argv[1:] if argv is None else argv)
     if len(argv) != 2 or argv[0] != "check":
         print("usage: python -m qiuzhao.v4_fields check <jobs.json>", file=sys.stderr)
         return 2
-    with open(argv[1], encoding="utf-8") as f:
-        items, as_of, report = build(json.load(f))
+    items, as_of, report = build(iter_json_file(argv[1]))
     result = enum_report(items)
     print(json.dumps({"items": len(items), "data_as_of": as_of, "problems": result["problems"]},
                      ensure_ascii=False, indent=1))
