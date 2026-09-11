@@ -72,40 +72,60 @@ def test_midnight_resets_and_handshake_free(store, monkeypatch):
     assert store.consume(token, 'qiuzhao', 'jobs_search')['remaining_today'] == 199
 
 
+def _job(**kw):
+    row = dict(job_title='测试 fixture', cities=['北京'], major_requirements_raw=None, cohort_raw=None,
+               source_url='https://example.org/official', application_url='https://example.org/apply',
+               reviewed_at='2026-09-10T10:00:00+08:00', published_at='2026-09-10', status='open',
+               recruitment_type='校园招聘')
+    row.update(kw)
+    return row
+
+
 def test_jobs_preserve_facts_and_deadline_order(tmp_path):
+    # v4 (SPEC 3.1): jobs_deadlines is gone; search(deadline_within_days, sort=deadline_asc) lists the
+    # nearest deadline first (v3 listed the farthest first: ['1', '0']) and skips expired/undated rows.
     today = datetime.now(TZ).date()
-    rows = []
-    for i, delta in enumerate((2, 5, -1)):
-        rows.append(dict(id=str(i), job_title='测试 fixture', cities=['北京'], major_requirements_raw=None,
-                         cohort_raw=None, source_url='https://example.org/official', application_url='https://example.org/apply',
-                         reviewed_at=datetime.now(TZ).isoformat(), published_at='2026-09-10',
-                         deadline=(today+timedelta(days=delta)).isoformat(), deadline_type='explicit', status='open'))
-    rows.append(dict(rows[0], id='undisclosed', deadline=None, deadline_type='undisclosed'))
+    rows = [_job(id=str(i), deadline=(today + timedelta(days=delta)).isoformat(), deadline_type='explicit')
+            for i, delta in enumerate((2, 5, -1))]
+    rows.append(_job(id='undisclosed', deadline=None, deadline_type='undisclosed'))
     path = tmp_path / 'jobs.json'
     path.write_text(json.dumps(rows))
     jobs = Jobs(path)
-    result = jobs.deadlines(7)
-    assert [r['id'] for r in result['jobs']] == ['1', '0']
-    assert result['source_urls'] and result['数据截至时间']
-    assert jobs.search(cohort='2027')['jobs'] == []
-    assert jobs.search(major='计算机')['suggestion']
-    assert jobs.detail('2')['jobs'][0]['status'] == 'expired'
-    assert jobs.detail('missing')['source_urls'] == []
+    result = jobs.search(deadline_within_days=7, sort='deadline_asc')
+    assert [r['id'] for r in result['jobs']] == ['0', '1']
+    assert result['data_as_of'] == '2026-09-10T10:00:00+08:00'
+    assert 'source_urls' not in result and '数据截至时间' not in result  # v3 envelope keys removed
+    # No cohort anywhere, campus role published 2026-09: inferred as 2027届 (v3 returned nothing).
+    cohort = jobs.search(graduation_year='2027')
+    assert cohort['total'] == 3 and cohort['inferred_total'] == 3 and cohort['explicit_total'] == 0
+    assert {j['match']['graduation_year'] for j in cohort['jobs']} == {'按招聘季推断'}
+    # Major not written: returned as 未注明 (v3 returned nothing); explicit_only drops them.
+    assert jobs.search(major='计算机')['unspecified_total'] == 3
+    assert jobs.search(major='计算机', explicit_only=True)['suggestion']
+    assert jobs.detail(ids='2')['jobs'][0]['status'] == '已截止'
+    assert jobs.detail(ids='missing')['not_found'] == ['missing']
 
 
-def test_role_cohort_overrides_campaign_title(tmp_path):
+def test_role_cohort_and_campaign_title_bases(tmp_path):
+    # v3 let the role's own cohort override the campaign title. v4 (SPEC 6.3): years from the campaign
+    # title supplement the role text and are marked 活动标题写明; both count as explicit.
     common = dict(source_url='https://example.org/official', application_url='https://example.org/apply',
-                  reviewed_at='2026-09-10T10:00:00+08:00', campaign_cohort_raw='2027届校园招聘')
+                  reviewed_at='2026-09-10T10:00:00+08:00', campaign_cohort_raw='2027届校园招聘',
+                  recruitment_type='校园招聘')
     rows = [dict(common, id='explicit-2026', cohort_raw='2026届应届毕业生'),
             dict(common, id='campaign-only', cohort_raw='')]
     path = tmp_path / 'jobs.json'
     path.write_text(json.dumps(rows))
     jobs = Jobs(path)
-    matches = jobs.search(cohort='2027')['jobs']
-    assert [row['id'] for row in matches] == ['campaign-only']
-    assert matches[0]['cohort_filter_scope'] == 'campaign_title_only'
-    assert jobs.search(cohort='2026')['jobs'][0]['id'] == 'explicit-2026'
-    assert jobs.detail('explicit-2026')['jobs'][0]['cohort_filter_scope'] == 'role_record'
+    r27 = jobs.search(graduation_year='2027届')
+    assert {j['id']: j['match']['graduation_year'] for j in r27['jobs']} == {
+        'explicit-2026': '活动标题写明', 'campaign-only': '活动标题写明'}
+    r26 = jobs.search(graduation_year='2026届')
+    assert [j['id'] for j in r26['jobs']] == ['explicit-2026']
+    assert r26['jobs'][0]['match'] == {'level': '明确匹配', 'graduation_year': '岗位写明'}
+    job = jobs.detail(ids='explicit-2026')['jobs'][0]
+    assert job['graduation_year_basis'] == {'2027届': '活动标题写明', '2026届': '岗位写明'}
+    assert 'cohort_filter_scope' not in job and 'match' not in job
 
 
 def test_qiuzhao_code_and_key_format_unchanged(store):
