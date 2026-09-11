@@ -150,19 +150,18 @@
         <div class="price-grid">
           <div class="card price-card">
             <div>
-              <div class="price-label"><span class="eyebrow-plain">当前价格</span><span class="chip chip-accent">前 10 名早鸟价 · 剩 10 个名额</span></div>
-              <div class="price-figure"><strong>¥29.9</strong><span>/月</span><s class="mono">标准价 ¥59.9</s></div>
+              <!-- 价格、早鸟标签和剩余名额由 app.js 读取 /api/pricing 后填入；读不到时不显示任何数字。 -->
+              <div class="price-label"><span class="eyebrow-plain">当前价格</span><span class="chip chip-accent" id="price-chip" hidden></span></div>
+              <div class="price-figure" id="price-figure" hidden><strong id="price-current"></strong><span>/月</span><s class="mono" id="price-standard" hidden></s></div>
+              <p class="price-desc" id="price-status" role="status">正在读取当前价格和剩余名额…</p>
               <p class="price-desc">订阅生效后 30 天内有效，到期后可续费继续使用。</p>
             </div>
             <p class="fine-print">订阅期内无限次调用，多客户端共用额度。AI 客户端本身的账号、会员或模型费用另计。并非全网全量收录，不承诺录取或代投。</p>
           </div>
           <div class="card tier-card">
             <p class="eyebrow-plain">早鸟阶梯</p>
-            <ol class="tier-list">
-              <li class="tier current"><span class="tier-name"><i class="tier-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></i>前 10 名<span class="chip chip-accent">当前 · 剩 10 个名额</span></span><span class="mono">¥29.9 /月</span></li>
-              <li class="tier"><span class="tier-name"><i class="tier-mark" aria-hidden="true"></i>前 50 名</span><span class="mono">¥39.9 /月</span></li>
-              <li class="tier"><span class="tier-name"><i class="tier-mark" aria-hidden="true"></i>前 100 名</span><span class="mono">¥49.9 /月</span></li>
-              <li class="tier is-muted"><span class="tier-name"><i class="tier-mark" aria-hidden="true"></i>100 名后恢复标准价</span><span class="mono">¥59.9 /月</span></li>
+            <ol class="tier-list" id="tier-list">
+              <li class="tier is-muted">正在读取早鸟阶梯…</li>
             </ol>
           </div>
         </div>
