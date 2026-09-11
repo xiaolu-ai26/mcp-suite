@@ -1,5 +1,5 @@
 {
-  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–3，真实默认值是 10。 腾讯校招岗位原文和活动标题都没写届别、也没有发布时间，按来源登记（sources_registry.jsonl 的 scope_graduation_year=2027届）推断，依据“来源专场注明”；按届别筛选时社招岗位不返回，见 excluded_social_total。",
+  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–5，真实默认值是 10。 腾讯校招岗位原文和活动标题都没写届别、也没有发布时间，按来源登记（sources_registry.jsonl 的 scope_graduation_year=2027届）推断，依据“来源专场注明”；按届别筛选时社招岗位不返回，见 excluded_social_total。",
   "request": {
     "tool": "jobs_search",
     "arguments": {

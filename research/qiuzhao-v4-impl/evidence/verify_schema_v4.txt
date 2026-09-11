@@ -1,11 +1,11 @@
-## MCP_PRODUCT=qiuzhao (4118fe8)
+# research/qiuzhao-doubao-fix-20260911/scripts/verify_schema_snippet.py on feat/v4 @ 2f0f070 (local import, throwaway DB and log dir; 2026-09-12)
+## MCP_PRODUCT=qiuzhao
 qiuzhao jobs_detail: params=1 anyOf/oneOf=False missing_type=[]
 qiuzhao jobs_search: params=15 anyOf/oneOf=False missing_type=[]
 qiuzhao jobs_stats: params=14 anyOf/oneOf=False missing_type=[]
 RESULT OK []
-## MCP_PRODUCT=bench (4118fe8)
+## MCP_PRODUCT=bench
 bench bench_detail: params=1 anyOf/oneOf=False missing_type=[]
 bench bench_search: params=8 anyOf/oneOf=False missing_type=[]
 bench bench_taxonomy: params=0 anyOf/oneOf=False missing_type=[]
 RESULT OK []
-## call log dir created by import only? no

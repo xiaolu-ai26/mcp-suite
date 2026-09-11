@@ -1,5 +1,5 @@
 {
-  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–3，真实默认值是 10。 education 分组是岗位写明的最低学历；把“本科”填回 jobs_search.education 时按“门槛不高于本科”匹配，返回数会大于本组计数（SPEC 3.2）。",
+  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–5，真实默认值是 10。 education 分组是岗位写明的最低学历；把“本科”填回 jobs_search.education 时按“门槛不高于本科”匹配，返回数会大于本组计数（SPEC 3.2）。",
   "request": {
     "tool": "jobs_stats",
     "arguments": {

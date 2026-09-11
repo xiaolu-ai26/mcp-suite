@@ -24,7 +24,8 @@ TODAY = os.environ.get("MCP_TODAY", "2026-09-11")
 jobs = Jobs(os.environ.get("MCP_JOBS_PATH", ROOT / "qiuzhao" / "data" / "jobs.json"), today=date.fromisoformat(TODAY))
 CALL = {"jobs_search": jobs.search, "jobs_stats": jobs.stats, "jobs_detail": jobs.detail}
 SPEC = json.loads((ROOT / "research" / "qiuzhao-v4-interface-20260911" / "evidence" / "acceptance_expected.json").read_text())
-OUT = ROOT / "research" / "qiuzhao-v4-impl" / "evidence" / "acceptance_v4.json"
+# ACCEPTANCE_OUT: write elsewhere (e.g. the same questions on the live jobs.json of another day).
+OUT = Path(os.environ.get("ACCEPTANCE_OUT") or ROOT / "research" / "qiuzhao-v4-impl" / "evidence" / "acceptance_v4.json")
 
 
 def brief(tool, r):

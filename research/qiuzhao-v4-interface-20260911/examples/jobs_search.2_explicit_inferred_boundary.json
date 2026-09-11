@@ -1,5 +1,5 @@
 {
-  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–3，真实默认值是 10。 offset 取 explicit_total-1：同一页里先是最后一条明确匹配，再是最前面的推断匹配。",
+  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–5，真实默认值是 10。 offset 取 explicit_total-1：同一页里先是最后一条明确匹配，再是最前面的推断匹配。",
   "request": {
     "tool": "jobs_search",
     "arguments": {
@@ -34,48 +34,23 @@
     ],
     "jobs": [
       {
-        "id": "meituan-4697288183",
+        "id": "guopin-217177601305740270",
         "match": {
           "level": "明确匹配",
           "graduation_year": "岗位写明",
-          "city": "岗位写明",
+          "city": "全国",
           "major": "专业不限"
         },
-        "job_title": "城市运营管理储备岗",
-        "company": "美团",
-        "recruiting_unit_raw": "美团",
-        "job_category": "运营",
-        "job_category_raw": "销售、客服与支持类",
+        "job_title": "行政人力管培生（27届本科及以上）(J10987)",
+        "company": "浙江三狮南方新材料有限公司",
+        "recruiting_unit_raw": "浙江三狮南方新材料有限公司",
+        "hiring_department_raw": "浙江三狮南方新材料有限公司",
+        "job_category": "职能/支持",
+        "job_category_raw": "人力资源专员/助理",
         "recruitment_type": "校园招聘",
-        "industry": "互联网/科技",
-        "industry_tags": [
-          "互联网",
-          "本地生活"
-        ],
+        "industry": "制造/工业",
         "cities": [
-          "温州",
-          "苏州",
-          "北京",
-          "烟台",
-          "绍兴",
-          "沈阳",
-          "南宁",
-          "上海",
-          "兰州",
-          "成都",
-          "昆明",
-          "贵阳",
-          "珠海",
-          "长沙",
-          "银川",
-          "重庆",
-          "济南",
-          "洛阳",
-          "南昌",
-          "郑州",
-          "佛山",
-          "武汉",
-          "深圳"
+          "全国"
         ],
         "region": "中国大陆",
         "country": "中国",
@@ -85,40 +60,39 @@
         "graduation_year_basis": {
           "2027届": "岗位写明"
         },
-        "cohort_raw": "2027届（应届毕业生）",
         "education": "本科",
-        "education_raw": "本科及以上",
+        "education_raw": "本科",
         "major_category": "不限",
-        "major_requirements_raw": "1. 本科及以上学历，专业不限，拥有校内外创业、实习或兼职等实践经验",
-        "deadline": null,
-        "deadline_kind": "未注明",
+        "major_requirements_raw": "工作职责\n1．负责公司人力资源、行政日常事务管理及相关费用开支的合理管控。 \n2．负责日常各类行政接待工作，建立及维护政府关系、公共关系。 \n3．负责会议/活动的统筹组织，会场布置安排，细节把控，决议督办等相关工作。 \n4.   上级领导安排的其他工作。\n\n任职资格\n1. 2027届本科及以上学历应届毕业生，专业不限，人力资源管理、行政管理、工商管理、心理学、汉语言文学、马克思主义理论等相关专业优",
+        "deadline": "2026-12-05",
+        "deadline_kind": "明确日期",
         "status": "招聘中",
-        "published_at": null,
-        "description_raw": "1. 从一线业务场景切入，全方位了解并学习城市运营运作模式、流程及标准；  \n2. 通过现场管理、指标监控和数据分析等方式，制定负责区域的经营策略，促进区域业务目标的达成；   \n3. 负责城市资产的健康管理及仓库现场管理，保障仓库安全及车辆维修质量和效率； \n4. 负责组建和管理运维团队，包括但不限于招聘、选拔，培训、激励等，并能通过排班与考勤管理等方式合理安排团队工作，通过既有的标准流程传达工作目标并检核团队工作；\n5. 对接区域内相关部门，配合各部门对负责区域内的城市运营问题进行管理。\n\n工作要求：  \n1. 本科及以上学历，专业不限，拥有校内外创业、实习或兼职等实践经验；  \n2. 对共享两轮行业兴趣浓厚，能接受户外工作和工作城市调动；  \n3. 拥有较强的沟通协调能力和逻辑思维，以目标为导向，不断学习与成长； \n4. 具备较好的发展意愿，有韧性。\n岗位亮点： \n1. 完善的培养体系和丰富的学习资源：入职后将配备专属专业导师，协助制定发展目标，系统带教和辅导，并提供丰富的课程学习资源，有机会在不同岗位上历练成长。  \n2. 管理者的发展路径：有明确的成长路径，能够通过美团的管理培训体系和实践，快速走向重要管理岗位。\n3. 统筹管理的开阔视野：工作内容涉及管理、运营等方面，可以培养经营和财务思维，助力个人全面发展。",
-        "application_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=4697288183",
-        "source_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=4697288183",
-        "campaign_url": "https://zhaopin.meituan.com/web/campus",
-        "source_name": "美团校招官网",
-        "reviewed_at": "2026-09-10T17:27:45.390504+08:00"
+        "published_at": "2026-09-07",
+        "description_raw": "工作职责\n1．负责公司人力资源、行政日常事务管理及相关费用开支的合理管控。 \n2．负责日常各类行政接待工作，建立及维护政府关系、公共关系。 \n3．负责会议/活动的统筹组织，会场布置安排，细节把控，决议督办等相关工作。 \n4.   上级领导安排的其他工作。\n\n任职资格\n1. 2027届本科及以上学历应届毕业生，专业不限，人力资源管理、行政管理、工商管理、心理学、汉语言文学、马克思主义理论等相关专业优先；  \n2. 具备良好的沟通表达能力、逻辑思维能力与服务意识，责任心强，细致踏实，具备较强的执行力与团队协作精神；  \n3. 熟练使用Office办公软件（Word、Excel、PowerPoint），具备基础数据分析与文档撰写能力；  \n4. 对人力资源及行政管理工作有清晰认知与职业发展意愿，能适应阶段性轮岗安排与多任务并行的工作节奏。",
+        "application_url": "https://www.iguopin.com/job/detail?id=217177601305740270",
+        "source_url": "https://www.iguopin.com/job/detail?id=217177601305740270",
+        "campaign_url": "https://www.iguopin.com/",
+        "source_name": "国聘官方企业校招专场：浙江三狮南方新材料有限公司",
+        "reviewed_at": "2026-09-11T12:00:00+08:00"
       },
       {
-        "id": "guopin-217595509173388749",
+        "id": "gp-215291399392724506",
         "match": {
           "level": "推断匹配",
           "graduation_year": "按招聘季推断",
-          "city": "全国",
+          "city": "岗位写明",
           "major": "岗位写明"
         },
-        "job_title": "数字技术研发岗",
-        "company": "陵水黎族自治县新质生产力促进中心",
-        "recruiting_unit_raw": "陵水黎族自治县新质生产力促进中心",
-        "hiring_department_raw": "陵水黎族自治县新质生产力促进中心",
-        "job_category": "技术/研发",
-        "job_category_raw": "其他职位",
+        "job_title": "工业互联网(J14011)",
+        "company": "成都光明光电股份有限公司",
+        "recruiting_unit_raw": "成都光明光电股份有限公司",
+        "hiring_department_raw": "成都光明光电股份有限公司",
+        "job_category": "产品",
+        "job_category_raw": "安全产品经理（数据安全产品经理）",
         "recruitment_type": "校园招聘",
-        "industry": "互联网/科技",
+        "industry": "制造/工业",
         "cities": [
-          "全国"
+          "成都"
         ],
         "region": "中国大陆",
         "country": "中国",
@@ -131,36 +105,35 @@
         "education": "本科",
         "education_raw": "本科",
         "major_category": "计算机类",
-        "major_requirements_raw": "【岗位职责】\n1. 负责数字技术相关系统、平台、工具的需求调研、方案设计、代码开发、单元测试与上线迭代，保障系统稳定运行。\n2. 参与技术架构设计，完成模块开发、接口开发、数据库设计，优化程序性能，解决研发与运维过程中的技术问题。\n3. 对接业务团队，梳理业务需求，转化为技术开发任务，输出技术文档、接口文档、部署手册等资料。\n4. 开展新技术调研、技术预研，跟踪数字技术、大数据、低代码、云平台等相",
-        "deadline": "2026-09-23",
+        "major_requirements_raw": "网络空间安全类",
+        "deadline": "2026-11-20",
         "deadline_kind": "明确日期",
         "status": "招聘中",
-        "published_at": "2026-09-16",
-        "description_raw": "【岗位职责】\n1. 负责数字技术相关系统、平台、工具的需求调研、方案设计、代码开发、单元测试与上线迭代，保障系统稳定运行。\n2. 参与技术架构设计，完成模块开发、接口开发、数据库设计，优化程序性能，解决研发与运维过程中的技术问题。\n3. 对接业务团队，梳理业务需求，转化为技术开发任务，输出技术文档、接口文档、部署手册等资料。\n4. 开展新技术调研、技术预研，跟踪数字技术、大数据、低代码、云平台等相关技术发展，支撑项目落地。\n5. 参与项目版本管理、代码评审、BUG 修复，配合测试、运维完成系统联调、上线、巡检工作。\n6. 配合科研 / 孵化项目，完成数字技术成果沉淀、技术报告撰写、演示系统搭建等工作。\n7. 遵守项目管理规范，做好研发资产、代码、数据的安全管理。\n【任职要求】\n1. 计算机科学与技术、软件工程、电子信息、大数据等相关专业，本科及以上学历。\n2. 熟悉至少一门主流开发语言（Java/Python/Go/C# 等），掌握常用开发框架。\n3. 熟悉数据库（MySQL、PostgreSQL 等），了解 RESTful 接口、Git 版本管理。\n4. 具备良好的逻辑思维能力，能独立完成模块开发；具备文档撰写能力。\n5. 工作严谨，有良好沟通协作能力，具备项目意识，学习能力强。",
-        "application_url": "https://www.iguopin.com/job/detail?id=217595509173388749",
-        "source_url": "https://www.iguopin.com/job/detail?id=217595509173388749",
-        "campaign_url": "https://www.iguopin.com/",
-        "source_name": "国聘官方企业校招专场：陵水黎族自治县新质生产力促进中心",
-        "reviewed_at": "2026-09-11T12:00:00+08:00"
+        "published_at": "2026-08-25",
+        "description_raw": "工作职责\n搭建厂区工业互联网基础设施，支撑智能制造平台稳定运行。\n\n任职资格\n1. 学历要求：本科及以上学历。\n2. 专业要求：工业互联网、物联网工程、网络工程等相关专业。\n3. 相关经验及能力：掌握工业互联网底层基础设施搭建方案，可结合智能制造平台建设需求，独立落地配套基建工程项目。",
+        "application_url": "https://www.iguopin.com/job-detail/215291399392724506",
+        "source_url": "https://www.iguopin.com/job-detail/215291399392724506",
+        "source_name": "国聘",
+        "reviewed_at": null
       },
       {
-        "id": "guopin-217638293339112912",
+        "id": "gp_成都光明光电股份有限公司-215292420152100378",
         "match": {
           "level": "推断匹配",
           "graduation_year": "按招聘季推断",
-          "city": "全国",
+          "city": "岗位写明",
           "major": "专业不限"
         },
-        "job_title": "风控岗",
-        "company": "国投证券国际金融控股有限公司",
-        "recruiting_unit_raw": "国投证券国际金融控股有限公司",
-        "hiring_department_raw": "国投证券国际金融控股有限公司",
-        "job_category": "金融",
-        "job_category_raw": "投资风险管理/控制/稽查",
+        "job_title": "管理类(J14013)",
+        "company": "成都光明光电股份有限公司",
+        "recruiting_unit_raw": "成都光明光电股份有限公司",
+        "hiring_department_raw": "成都光明光电股份有限公司",
+        "job_category": "其他",
+        "job_category_raw": "不限职位",
         "recruitment_type": "校园招聘",
-        "industry": "金融",
+        "industry": "制造/工业",
         "cities": [
-          "全国"
+          "成都"
         ],
         "region": "中国大陆",
         "country": "中国",
@@ -170,20 +143,19 @@
         "graduation_year_basis": {
           "2027届": "按招聘季推断"
         },
-        "education": "本科",
-        "education_raw": "本科",
+        "education": "硕士",
+        "education_raw": "硕士",
         "major_category": "不限",
-        "major_requirements_raw": "职责：\n1.负责部门日常事务处理及业务流程支持；\n2.完成数据整理、报表编制、文件归档等基础运营工作；\n3.协助内外部沟通协调，确保工作合规高效开展；\n4.配合完成系统维护、信息管理或综合行政事务；\n5.完成领导交办的其他相关工作。\n\n任职要求：\n1.本科及以上学历，专业不限（相关专业如法律/财会/计算机/人力等优先）；\n2.具备良好的沟通能力与学习能力；\n3.工作认真细致，有责任心及团队合作精神",
-        "deadline": "2026-10-31",
+        "major_requirements_raw": "专业不限",
+        "deadline": "2026-11-20",
         "deadline_kind": "明确日期",
         "status": "招聘中",
-        "published_at": "2026-09-14",
-        "description_raw": "职责：\n1.负责部门日常事务处理及业务流程支持；\n2.完成数据整理、报表编制、文件归档等基础运营工作；\n3.协助内外部沟通协调，确保工作合规高效开展；\n4.配合完成系统维护、信息管理或综合行政事务；\n5.完成领导交办的其他相关工作。\n\n任职要求：\n1.本科及以上学历，专业不限（相关专业如法律/财会/计算机/人力等优先）；\n2.具备良好的沟通能力与学习能力；\n3.工作认真细致，有责任心及团队合作精神；\n4.熟练使用常用办公软件，有相关实习经验优先。\n5.持有香港合法工作签证或身份证。",
-        "application_url": "https://www.iguopin.com/job/detail?id=217638293339112912",
-        "source_url": "https://www.iguopin.com/job/detail?id=217638293339112912",
-        "campaign_url": "https://www.iguopin.com/",
-        "source_name": "国聘官方企业校招专场：国投证券国际金融控股有限公司",
-        "reviewed_at": "2026-09-11T12:00:00+08:00"
+        "published_at": "2026-08-25",
+        "description_raw": "工作职责\n根据岗位方向，分别承担财务管理与会计核算、内部审计与监督执纪、纪检监察与合规管理、行政秘书与公文运转、人力资源全模块管理等工作，为公司经营管理与合规运营提供专业支撑。\n\n任职资格\n1. 学历要求：硕士研究生及以上学历。\n2. 专业要求：会计学、财务管理、审计学、法学、汉语言文学、秘书学、人力资源管理、工商管理等相关专业。\n3. 相关经验及能力：具备扎实的专业理论功底，熟悉国企财务管理、内部审计、纪检监察、公文写作、人力资源管理等相关业务流程与法规制度；熟练使用 Office 办公套件及财务 / 人事信息化系统；具备较强的文字表达能力、逻辑分析能力与跨部门沟通协调能力；政治立场坚定，责任心强，作风严谨，具备良好的职业操守与保密意识；有相关岗位实习或项目经验者优先。",
+        "application_url": "https://www.iguopin.com/job/detail?id=215292420152100378",
+        "source_url": "https://www.iguopin.com/job/detail?id=215292420152100378",
+        "source_name": "国聘行动官方招聘平台",
+        "reviewed_at": null
       }
     ]
   }

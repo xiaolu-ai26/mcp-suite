@@ -1,0 +1,114 @@
+{
+  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–5，真实默认值是 10。 Q07 的调用，offset 取 580：含未注明档里第一条“推断为其他届别”。这类岗位原文和活动标题都没写届别，按招聘季或来源专场推断为 2027届；查 2026届 时不排除，归入含未注明并标注（2026-09-12 Max 决定）。",
+  "request": {
+    "tool": "jobs_search",
+    "arguments": {
+      "graduation_year": "2026届",
+      "industry": "国企/央企",
+      "offset": 580,
+      "page_size": 2
+    }
+  },
+  "response": {
+    "applied_filters": {
+      "graduation_year": "2026届",
+      "industry": "国企/央企"
+    },
+    "total": 702,
+    "explicit_total": 580,
+    "inferred_total": 0,
+    "unspecified_total": 122,
+    "excluded_social_total": 78,
+    "sort": "published_desc",
+    "offset": 580,
+    "page_size": 2,
+    "returned": 2,
+    "has_next": true,
+    "next_offset": 582,
+    "truncated": false,
+    "data_as_of": "2026-09-11T12:00:00+08:00",
+    "notices": [
+      "另有 78 条社会招聘岗位未返回：社招不限届别，按届别筛选时不返回；要看请加 recruitment_type=社会招聘。"
+    ],
+    "jobs": [
+      {
+        "id": "gp_国投财务有限公司-217444982263383321",
+        "match": {
+          "level": "含未注明",
+          "graduation_year": "推断为其他届别"
+        },
+        "job_title": "安全管理岗",
+        "company": "国投财务有限公司",
+        "recruiting_unit_raw": "国投财务有限公司",
+        "hiring_department_raw": "国投财务有限公司",
+        "job_category": "技术/研发",
+        "job_category_raw": "不限职位",
+        "recruitment_type": "校园招聘",
+        "industry": "国企/央企",
+        "cities": [
+          "北京"
+        ],
+        "region": "中国大陆",
+        "country": "中国",
+        "graduation_years": [
+          "2027届"
+        ],
+        "graduation_year_basis": {
+          "2027届": "按招聘季推断"
+        },
+        "education": "本科",
+        "education_raw": "本科",
+        "major_category": "计算机类",
+        "major_requirements_raw": "统计学类；计算机类；管理科学与工程类；数学类",
+        "deadline": "2026-12-07",
+        "deadline_kind": "明确日期",
+        "status": "招聘中",
+        "published_at": "2026-09-14",
+        "description_raw": "工作职责：\n根据公司经营发展目标和部门工作计划，按照公司信息化管理相关制度，负责公司网络与数据安全管理、信息科技风险排查等工作。\n任职要求：\n1.学历要求：一般应具有国民教育系列大学本科及以上学历 \n2.专业要求：理学、工学、管理学类或其他与公司业务相关专业 \n3.专业知识：熟悉国家相关政策和法律法规；了解现代企业管理理论和方法；掌握信息化管理相关专业知识。了解公司战略、文化、基本规章制度和流程，了解行业背景、国内外行业发展趋势。掌握公司信息化业务流程。 \n4.能力素质：具有良好的分析能力，较强的语言表达能力、沟通协调能力及公文写作能力，具备良好的工作执行力及应急反应能力，熟练运用日常办公软件。",
+        "application_url": "https://www.iguopin.com/job/detail?id=217444982263383321",
+        "source_url": "https://www.iguopin.com/job/detail?id=217444982263383321",
+        "source_name": "国聘行动官方招聘平台",
+        "reviewed_at": null
+      },
+      {
+        "id": "gp_国投甘肃小三峡发电有限公司-217491450756072733",
+        "match": {
+          "level": "含未注明",
+          "graduation_year": "推断为其他届别"
+        },
+        "job_title": "水工维护岗",
+        "company": "国投甘肃小三峡发电有限公司",
+        "recruiting_unit_raw": "国投甘肃小三峡发电有限公司",
+        "hiring_department_raw": "水工管理部",
+        "job_category": "其他",
+        "job_category_raw": "不限职位",
+        "recruitment_type": "校园招聘",
+        "industry": "国企/央企",
+        "cities": [
+          "白银"
+        ],
+        "region": "中国大陆",
+        "country": "中国",
+        "graduation_years": [
+          "2027届"
+        ],
+        "graduation_year_basis": {
+          "2027届": "按招聘季推断"
+        },
+        "education": "本科",
+        "education_raw": "本科",
+        "major_category": "其他",
+        "major_requirements_raw": "水利工程类；水文水资源类",
+        "deadline": "2026-11-30",
+        "deadline_kind": "明确日期",
+        "status": "招聘中",
+        "published_at": "2026-09-14",
+        "description_raw": "岗位职责：\n1.负责水工建筑物、办公设施的管理与维护工作 ；\n2.负责完成水工观测设施及数据的管理工作；\n 3.完成领导交办的其他工作。\n任职条件：\n1.一般应当为大学本科学历，水利类相关专业；\n 2.应当能熟练使用相关计算机办公软件；\n 3.熟悉水力发电企业生产流程；有一定的分析解决问题的能力；\n 4.身体健康，有良好的沟通表达能力；\n 5.特别优秀者，条件可适当放宽。",
+        "application_url": "https://www.iguopin.com/job/detail?id=217491450756072733",
+        "source_url": "https://www.iguopin.com/job/detail?id=217491450756072733",
+        "source_name": "国聘行动官方招聘平台",
+        "reviewed_at": null
+      }
+    ]
+  }
+}

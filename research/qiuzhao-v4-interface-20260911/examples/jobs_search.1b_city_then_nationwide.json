@@ -1,0 +1,148 @@
+{
+  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–5，真实默认值是 10。 offset 取 137：明确匹配里写明成都的岗位共 138 条，排完之后才是依据“全国”的岗位。",
+  "request": {
+    "tool": "jobs_search",
+    "arguments": {
+      "city": "成都",
+      "graduation_year": "2027届",
+      "major": "计算机类",
+      "page_size": 2,
+      "offset": 137
+    }
+  },
+  "response": {
+    "applied_filters": {
+      "city": "成都",
+      "graduation_year": "2027届",
+      "major": "计算机类"
+    },
+    "total": 1914,
+    "explicit_total": 225,
+    "inferred_total": 26,
+    "unspecified_total": 1663,
+    "excluded_social_total": 167,
+    "sort": "published_desc",
+    "offset": 137,
+    "page_size": 2,
+    "returned": 2,
+    "has_next": true,
+    "next_offset": 139,
+    "truncated": false,
+    "data_as_of": "2026-09-11T12:00:00+08:00",
+    "notices": [
+      "另有 167 条社会招聘岗位未返回：社招不限届别，按届别筛选时不返回；要看请加 recruitment_type=社会招聘。"
+    ],
+    "jobs": [
+      {
+        "id": "meituan-4697288183",
+        "match": {
+          "level": "明确匹配",
+          "graduation_year": "岗位写明",
+          "city": "岗位写明",
+          "major": "专业不限"
+        },
+        "job_title": "城市运营管理储备岗",
+        "company": "美团",
+        "recruiting_unit_raw": "美团",
+        "job_category": "运营",
+        "job_category_raw": "销售、客服与支持类",
+        "recruitment_type": "校园招聘",
+        "industry": "互联网/科技",
+        "industry_tags": [
+          "互联网",
+          "本地生活"
+        ],
+        "cities": [
+          "温州",
+          "苏州",
+          "北京",
+          "烟台",
+          "绍兴",
+          "沈阳",
+          "南宁",
+          "上海",
+          "兰州",
+          "成都",
+          "昆明",
+          "贵阳",
+          "珠海",
+          "长沙",
+          "银川",
+          "重庆",
+          "济南",
+          "洛阳",
+          "南昌",
+          "郑州",
+          "佛山",
+          "武汉",
+          "深圳"
+        ],
+        "region": "中国大陆",
+        "country": "中国",
+        "graduation_years": [
+          "2027届"
+        ],
+        "graduation_year_basis": {
+          "2027届": "岗位写明"
+        },
+        "cohort_raw": "2027届（应届毕业生）",
+        "education": "本科",
+        "education_raw": "本科及以上",
+        "major_category": "不限",
+        "major_requirements_raw": "1. 本科及以上学历，专业不限，拥有校内外创业、实习或兼职等实践经验",
+        "deadline": null,
+        "deadline_kind": "未注明",
+        "status": "招聘中",
+        "published_at": null,
+        "description_raw": "1. 从一线业务场景切入，全方位了解并学习城市运营运作模式、流程及标准；  \n2. 通过现场管理、指标监控和数据分析等方式，制定负责区域的经营策略，促进区域业务目标的达成；   \n3. 负责城市资产的健康管理及仓库现场管理，保障仓库安全及车辆维修质量和效率； \n4. 负责组建和管理运维团队，包括但不限于招聘、选拔，培训、激励等，并能通过排班与考勤管理等方式合理安排团队工作，通过既有的标准流程传达工作目标并检核团队工作；\n5. 对接区域内相关部门，配合各部门对负责区域内的城市运营问题进行管理。\n\n工作要求：  \n1. 本科及以上学历，专业不限，拥有校内外创业、实习或兼职等实践经验；  \n2. 对共享两轮行业兴趣浓厚，能接受户外工作和工作城市调动；  \n3. 拥有较强的沟通协调能力和逻辑思维，以目标为导向，不断学习与成长； \n4. 具备较好的发展意愿，有韧性。\n岗位亮点： \n1. 完善的培养体系和丰富的学习资源：入职后将配备专属专业导师，协助制定发展目标，系统带教和辅导，并提供丰富的课程学习资源，有机会在不同岗位上历练成长。  \n2. 管理者的发展路径：有明确的成长路径，能够通过美团的管理培训体系和实践，快速走向重要管理岗位。\n3. 统筹管理的开阔视野：工作内容涉及管理、运营等方面，可以培养经营和财务思维，助力个人全面发展。",
+        "application_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=4697288183",
+        "source_url": "https://zhaopin.meituan.com/web/position/detail?jobUnionId=4697288183",
+        "campaign_url": "https://zhaopin.meituan.com/web/campus",
+        "source_name": "美团校招官网",
+        "reviewed_at": "2026-09-10T17:27:45.390504+08:00"
+      },
+      {
+        "id": "guopin-217630802530272720",
+        "match": {
+          "level": "明确匹配",
+          "graduation_year": "岗位写明",
+          "city": "全国",
+          "major": "岗位写明"
+        },
+        "job_title": "集控运行岗",
+        "company": "中电神头发电有限责任公司",
+        "recruiting_unit_raw": "中电神头发电有限责任公司",
+        "hiring_department_raw": "发电部",
+        "job_category": "技术/研发",
+        "job_category_raw": "核力/火力工程师",
+        "recruitment_type": "校园招聘",
+        "industry": "国企/央企",
+        "cities": [
+          "全国"
+        ],
+        "region": "中国大陆",
+        "country": "中国",
+        "graduation_years": [
+          "2027届"
+        ],
+        "graduation_year_basis": {
+          "2027届": "岗位写明"
+        },
+        "education": "本科",
+        "education_raw": "本科",
+        "major_category": "计算机类",
+        "major_requirements_raw": "1.岗位职责\n负责机组的设备巡回检查、监盘和就地操作\n2.招聘条件\n全国普通高等学校2027年应届毕业生，本科及以上学历,具有学士学位\n英语四级以上，有较强的计算机应用能力\n身体健康，具备正常履行岗位职责的身体条件\n能接受倒班\n3.薪酬福利\n实习期6个月，转正定级后按照公司薪酬制度以岗定薪，并提供有竞争力的薪资\n按时足额缴纳六险二金\n提供免费住宿、年度免费健康体检和职业健康体检、取暖补助、高温补贴",
+        "deadline": "2026-12-31",
+        "deadline_kind": "明确日期",
+        "status": "招聘中",
+        "published_at": "2026-09-13",
+        "description_raw": "1.岗位职责\n负责机组的设备巡回检查、监盘和就地操作\n2.招聘条件\n全国普通高等学校2027年应届毕业生，本科及以上学历,具有学士学位\n英语四级以上，有较强的计算机应用能力\n身体健康，具备正常履行岗位职责的身体条件\n能接受倒班\n3.薪酬福利\n实习期6个月，转正定级后按照公司薪酬制度以岗定薪，并提供有竞争力的薪资\n按时足额缴纳六险二金\n提供免费住宿、年度免费健康体检和职业健康体检、取暖补助、高温补贴、节日福利、工作餐费补助、上下班通勤车等。\n享受法定节假日、带薪年休假、婚 (丧)假、（陪）产假、探亲假等国家法定的各类假期。\n提供职业发展多通道（经营管理、专业技术和技能操作通道）",
+        "application_url": "https://www.iguopin.com/job/detail?id=217630802530272720",
+        "source_url": "https://www.iguopin.com/job/detail?id=217630802530272720",
+        "campaign_url": "https://www.iguopin.com/",
+        "source_name": "国聘官方企业校招专场：中电神头发电有限责任公司",
+        "reviewed_at": "2026-09-11T12:00:00+08:00"
+      }
+    ]
+  }
+}

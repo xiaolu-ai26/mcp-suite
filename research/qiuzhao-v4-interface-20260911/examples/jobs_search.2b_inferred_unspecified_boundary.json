@@ -1,5 +1,5 @@
 {
-  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–3，真实默认值是 10。 offset 取 explicit_total+inferred_total-1：推断匹配之后接着含未注明的岗位。",
+  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–5，真实默认值是 10。 offset 取 explicit_total+inferred_total-1：推断匹配之后接着含未注明的岗位。",
   "request": {
     "tool": "jobs_search",
     "arguments": {
@@ -34,19 +34,111 @@
     ],
     "jobs": [
       {
-        "id": "gp_成都方圆聿联专利代理事务所（普通合伙）-208358062107394968",
+        "id": "gp_厦门象屿股份有限公司-215446245580211778",
         "match": {
           "level": "推断匹配",
           "graduation_year": "按招聘季推断",
+          "city": "全国",
+          "major": "专业不限"
+        },
+        "job_title": "大宗商品业务岗(J17382)",
+        "company": "厦门象屿股份有限公司",
+        "recruiting_unit_raw": "厦门象屿股份有限公司",
+        "hiring_department_raw": "厦门象屿股份有限公司",
+        "job_category": "职能/支持",
+        "job_category_raw": "业务拓展专员/助理",
+        "recruitment_type": "校园招聘",
+        "industry": "互联网/科技",
+        "cities": [
+          "全国",
+          "海外",
+          "南美洲",
+          "非洲"
+        ],
+        "region": "中国大陆、海外",
+        "country": "中国",
+        "graduation_years": [
+          "2027届"
+        ],
+        "graduation_year_basis": {
+          "2027届": "按招聘季推断"
+        },
+        "education": "本科",
+        "education_raw": "本科",
+        "major_category": "不限",
+        "major_requirements_raw": "专业不限",
+        "deadline": "2026-11-20",
+        "deadline_kind": "明确日期",
+        "status": "招聘中",
+        "published_at": "2026-08-26",
+        "description_raw": "工作职责\n1.以公司的全球大宗商品业务布局战略为核心，开拓市场；\n2.分析产品所在市场、区域及产业链特点，及时了解产品的市场价格及未来趋势，制定业务方案；\n3.熟知负责产品供应链业务的主要风险点及主要法律关系；\n4.加强与客户的客情沟通，建立良好的客户关系。\n\n任职资格\n1.本科及以上学历，专业不限，小语种、英语、冶金、矿产、地质、材料、物流、经济、金融、财务、会计、应用数学、统计学等相关专业优先；\n2.具备主动沟通意识与服务意识，责任心强；\n3.具备不断学习进取的热情与分析解决问题的能力。",
+        "application_url": "https://www.iguopin.com/job/detail?id=215446245580211778",
+        "source_url": "https://www.iguopin.com/job/detail?id=215446245580211778",
+        "source_name": "国聘行动官方招聘平台",
+        "reviewed_at": null
+      },
+      {
+        "id": "lvmh-001",
+        "match": {
+          "level": "含未注明",
+          "graduation_year": "未注明",
           "city": "岗位写明",
           "major": "专业不限"
         },
-        "job_title": "零经验业务岗",
-        "company": "成都方圆聿联专利代理事务所（普通合伙）",
-        "recruiting_unit_raw": "成都方圆聿联专利代理事务所（普通合伙）",
-        "hiring_department_raw": "成都方圆聿联专利代理事务所（普通合伙）",
-        "job_category": "销售",
-        "job_category_raw": "网络销售/顾问",
+        "job_title": "LVMH China Retail Management Trainee Program",
+        "company": "路威酩轩 LVMH",
+        "recruiting_unit_raw": "LVMH",
+        "hiring_department_raw": "Retail",
+        "contracting_entity": "LVMH",
+        "job_category": "技术/研发",
+        "job_category_raw": "管培生",
+        "recruitment_type": "校园招聘",
+        "industry": "互联网/科技",
+        "cities": [
+          "上海",
+          "北京",
+          "成都",
+          "广州",
+          "深圳"
+        ],
+        "region": "中国大陆",
+        "country": "中国",
+        "graduation_years": [],
+        "graduation_year_basis": {},
+        "graduation_year_note": "未注明",
+        "cohort_raw": "应届毕业生（毕业2年内）",
+        "campaign_title": "应届毕业生",
+        "education": "本科",
+        "education_raw": "本科及以上",
+        "major_category": "不限",
+        "major_requirements_raw": "不限专业",
+        "deadline": null,
+        "deadline_kind": "招满即止或长期",
+        "status": "招聘中",
+        "status_note": "2年制零售管培项目，8个Maisons参与，2022年启动",
+        "published_at": null,
+        "description_raw": "LVMH China Retail Management Trainee Program\nFostering the future generation of retail leaders in China.\n\nLaunched in 2022, the LVMH China Retail Management Trainee Program was created to identify, train and recruit early career talents in China who showcase a high degree of potential for retail leadership. Joining the program means kickstarting your career as a potential future Retail leader within LVMH's ecosystem consisting of 6 business sectors, 75+ Maisons and over 196,000 talents in 81 countries.\n\n【Program Structure】2 years, 3 missions, 8 participating Maisons (Berluti, Fendi, Loro Piana, Rimowa, Chaumet, FRED, Hublot, Tiffany & Co.)\n\nStage 1 (in-store, 9 months): Maison induction, Sales & Clienteling skills training, in-store project.\nStage 2 (in-office, 3 months): Department exposure, short-term strategic project.\nStage 3 (in-store, 12 months): Influencing Skills workshop, Leadership Essentials workshop, in-store role assignment.\n\n【Support】Mentorship with senior Retail leaders, workshops, peer coaching, dialogues with Management Team, networking opportunities.\n\n【Eligibility Criteria】\n- Recent graduates with up to 2 years of post-graduation professional experience and not currently working for LVMH or our Maisons.\n- Passion for the luxury industry with a commitment to career development in the retail industry.\n- Pragmatic, self-motivated, proactive, flexible, curious with an exploratory spirit.\n- Excellent service awareness, attention to detail and a results-oriented mindset.\n- A team player with great communication skills and a high level of empathy.\n- Fluency in spoken and written English.\n- Open to work relocation.",
+        "application_url": "https://www.lvmh.com/en/join-us/lvmh-graduate-programs/lvmh-china-retail-management-trainee-program",
+        "source_url": "https://www.lvmh.com/en/join-us/lvmh-graduate-programs/lvmh-china-retail-management-trainee-program",
+        "campaign_url": "https://www.lvmh.com/en/join-us/lvmh-graduate-programs/lvmh-china-retail-management-trainee-program",
+        "job_listing_url": "https://www.lvmh.com/en/join-us/lvmh-graduate-programs/lvmh-china-retail-management-trainee-program",
+        "source_name": "LVMH全球招聘官网",
+        "reviewed_at": "2026-09-10T18:18:40.746583+08:00"
+      },
+      {
+        "id": "moka_xgimi_3e3c3e9b-bcc2-4ecd-9e9a-66a632c8421f",
+        "match": {
+          "level": "含未注明",
+          "graduation_year": "岗位写明",
+          "city": "岗位写明",
+          "major": "未注明"
+        },
+        "job_title": "【2027届校招】储备岗位",
+        "company": "成都极米科技",
+        "recruiting_unit_raw": "成都极米科技",
+        "hiring_department_raw": "投影仪产品线",
+        "job_category": "技术/研发",
+        "job_category_raw": "研发类",
         "recruitment_type": "校园招聘",
         "industry": "互联网/科技",
         "cities": [
@@ -58,102 +150,21 @@
           "2027届"
         ],
         "graduation_year_basis": {
-          "2027届": "按招聘季推断"
+          "2027届": "岗位写明"
         },
-        "education": "大专",
-        "education_raw": "大专",
-        "major_category": "不限",
-        "major_requirements_raw": "专业不限",
-        "deadline": "2026-10-05",
-        "deadline_kind": "明确日期",
-        "status": "招聘中",
-        "published_at": "2026-07-08",
-        "description_raw": "岗位职责：\n1、学习行业专业知识、掌握沟通技巧；\n2、根据公司前期提供的客户资源，负责联系中小微型企业家及理工院校教授老师，帮助客户如何做好 /商标注册、专利申请等业务，拓展新客户资源；\n3、以正向的方式与客户沟通合作，树立良好的企业形象；\n4、定期回访客户，提高客户满意度；\n5、完成部门经理交代的其它工作；\n6、分公司筹备中， 内部晋升空间大。\n任职资格：\n1、年龄18-35岁，性格积极开朗，正能量；\n2、会基本电脑操作；\n3、工作热情积极、细致耐心、认真负责，具有基本的沟通能力、协调能力；\n4、具有基本的组织能力；\n5、普通话良好；\n6、可接受应届生；\n福利：\n1.生日福利：礼物、红包、蛋糕\n2.节假日福利：节日礼品、红包\n3.一年两次以上拓展活动，根据实际情况无数次周边游\n4.茶话会，各种点心、饮料随便吃喝，高级荣誉晚宴\n5.5A甲级办公环境。公司有零食柜、冰箱、微波炉、满满的家的味道\n6.轻松舒适的办公环境，绝对让你眼前一亮，既工作亦娱乐。",
-        "application_url": "https://www.iguopin.com/job/detail?id=208358062107394968",
-        "source_url": "https://www.iguopin.com/job/detail?id=208358062107394968",
-        "source_name": "国聘行动官方招聘平台",
-        "reviewed_at": null
-      },
-      {
-        "id": "guopin-217477396666778906",
-        "match": {
-          "level": "含未注明",
-          "graduation_year": "按招聘季推断",
-          "city": "全国",
-          "major": "未注明"
-        },
-        "job_title": "机械研发工程师",
-        "company": "河北力准机械制造有限公司",
-        "recruiting_unit_raw": "河北力准机械制造有限公司",
-        "hiring_department_raw": "河北力准机械制造有限公司",
-        "job_category": "技术/研发",
-        "job_category_raw": "机械工程师",
-        "recruitment_type": "校园招聘",
-        "industry": "制造/工业",
-        "cities": [
-          "全国"
-        ],
-        "region": "中国大陆",
-        "country": "中国",
-        "graduation_years": [
-          "2027届"
-        ],
-        "graduation_year_basis": {
-          "2027届": "按招聘季推断"
-        },
-        "education": "硕士",
-        "education_raw": "硕士",
-        "major_category": "未注明",
-        "deadline": "2026-12-07",
-        "deadline_kind": "明确日期",
-        "status": "招聘中",
-        "published_at": "2026-09-16",
-        "description_raw": "岗位职责：\n1、负责数控机床的整体方案规划，包括主轴、转台、刀库、床身等核心功能部件或整机的结构设计；\n2、负责项目设计工作的分配，对设计进度、设计质量的检查和监督，确保设计进度和设计质量；\n3、跟进自动化设备、生产线的生产装配、整机组装、现场调试及试产工作，优化设计方案，解决各类机械技术问题；\n4、跟踪行业前沿技术，如智能控制算法、AI在加工中的应用等，参与新技术的预研和专利布局等。\n任职要求：\n1、硕士研究生及以上学历，机械类相关专业，熟练使用三维设计软件。\n2、掌握机械原理(结构、传动系统等)、有输送线、桁架机械手、AGV配套等设计经验优先。\n3、掌握常用金属/非金属材料特性、热处理工艺及表面处理。\n4、了解机加工(车铣刨磨)、钣金、注塑、铸造、焊接等工艺特点及设计限制。",
-        "application_url": "https://www.iguopin.com/job/detail?id=217477396666778906",
-        "source_url": "https://www.iguopin.com/job/detail?id=217477396666778906",
-        "source_name": "国聘官方企业校招专场：河北力准机械制造有限公司",
-        "reviewed_at": "2026-09-11T02:40:28+08:00"
-      },
-      {
-        "id": "guopin-217444042269525278",
-        "match": {
-          "level": "含未注明",
-          "graduation_year": "按招聘季推断",
-          "city": "全国",
-          "major": "未注明"
-        },
-        "job_title": "项目助理",
-        "company": "国投航空科技（北京）有限公司",
-        "recruiting_unit_raw": "国投航空科技（北京）有限公司",
-        "hiring_department_raw": "国投航空科技（北京）有限公司",
-        "contracting_entity": "国投航空科技（北京）有限公司",
-        "job_category": "职能/支持",
-        "job_category_raw": "项目专员/助理",
-        "recruitment_type": "校园招聘",
-        "industry": "互联网/科技",
-        "cities": [
-          "全国"
-        ],
-        "region": "中国大陆",
-        "country": "中国",
-        "graduation_years": [
-          "2027届"
-        ],
-        "graduation_year_basis": {
-          "2027届": "按招聘季推断"
-        },
+        "cohort_raw": "2027届",
         "education": "本科",
         "education_raw": "本科",
         "major_category": "未注明",
-        "deadline": "2026-12-08",
-        "deadline_kind": "明确日期",
+        "deadline": null,
+        "deadline_kind": "未注明",
         "status": "招聘中",
-        "published_at": "2026-09-14",
-        "description_raw": "岗位职责：\n1、项目管理：负责执行项目部的决策、计划、组织劳务公司按计划实施，进行项目全过程安全、质量、进度控制，保证项目目标成功实现。\n2、资源协调：协调项目部各区域资源，同时负责外部配合单位及总包、监理的协调工作，和合同部协调保证材料按时到货，协调各利益相关方关系。\n3、风险管理：及时识别项目安全、质量风险，并及时汇报项目经理及公司。\n4、沟通汇报：参加项目各会议，按要求向各项目经理和公司定期汇报项目进展情况。\n5、成本控制：进行负责区域的成本管理、预结算管理、注重成本信息管理，使各项计划能够得到有效的控制和实施。\n6、质量管理：严把工程质量关、安全关，定期进行相关检查，发现问题及时安排处理并进行上报。\n7、合同管理：及时办理管辖范围内各种签证、项目经济索赔、协助造价调整等经营管理工作。\n8、行政管理：负责管辖范围内实施过程所有技术性文件和资料的完善、报验和移交等工作。\n任职资格：\n1、一定程度了解弱电工程项目各系统设计、施工管理的工作流程和规范，具备扎实的弱电专业知识；\n2、具有较强的各阶段设计图纸的绘制能力，较强的分析解决问题的能力，并具备一定独立进行工程定额概预算的能力，并熟练掌握CAD制图及OFFICE办公软件；\n3、勤奋敬业、责任心强，具有团队合作精神；\n4、适应项目出差。",
-        "application_url": "https://www.iguopin.com/job-detail/217444042269525278",
-        "source_url": "https://www.iguopin.com/job-detail/217444042269525278",
-        "source_name": "国聘网-航空发动机",
-        "reviewed_at": null
+        "published_at": "2026-09-11",
+        "description_raw": "2027届极米校招筹备中，如有感兴趣的同学可以提前投递本储备岗位。\n \n\n 请尽量在简历内注明意向岗位类：如产品/硬件/结构/嵌入式/海外营销等",
+        "application_url": "https://app.mokahr.com/campus-recruitment/xgimi/164562/jobs/3e3c3e9b-bcc2-4ecd-9e9a-66a632c8421f",
+        "source_url": "https://app.mokahr.com/campus-recruitment/xgimi/164562/jobs/3e3c3e9b-bcc2-4ecd-9e9a-66a632c8421f",
+        "source_name": "成都极米科技校招(MokaHR)",
+        "reviewed_at": "2026-09-11T00:10:47.427110+08:00"
       }
     ]
   }

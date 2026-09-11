@@ -1,9 +1,9 @@
 {
-  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–3，真实默认值是 10。",
+  "_说明": "由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。为便于阅读，page_size 取 2–5，真实默认值是 10。",
   "request": {
     "tool": "jobs_detail",
     "arguments": {
-      "ids": "guopin-217630802530272720,zhiye-tal-tech-2027"
+      "ids": "zhiye-dcits-tech-2027,gp_成都陵川特种工业有限责任公司-217601356368709069"
     }
   },
   "response": {
@@ -13,77 +13,85 @@
     "data_as_of": "2026-09-11T12:00:00+08:00",
     "jobs": [
       {
-        "id": "guopin-217630802530272720",
-        "job_title": "集控运行岗",
-        "company": "中电神头发电有限责任公司",
-        "recruiting_unit_raw": "中电神头发电有限责任公司",
-        "hiring_department_raw": "发电部",
+        "id": "zhiye-dcits-tech-2027",
+        "job_title": "技术类校招岗位(2027届)",
+        "company": "神州数码信息服务集团股份有限公司",
+        "contracting_entity": "神州数码信息服务集团股份有限公司",
         "job_category": "技术/研发",
-        "job_category_raw": "核力/火力工程师",
-        "recruitment_type": "校园招聘",
-        "industry": "国企/央企",
-        "cities": [
-          "全国"
-        ],
-        "region": "中国大陆",
-        "country": "中国",
-        "graduation_years": [
-          "2027届"
-        ],
-        "graduation_year_basis": {
-          "2027届": "岗位写明"
-        },
-        "education": "本科",
-        "education_raw": "本科",
-        "major_category": "计算机类",
-        "major_requirements_raw": "1.岗位职责\n负责机组的设备巡回检查、监盘和就地操作\n2.招聘条件\n全国普通高等学校2027年应届毕业生，本科及以上学历,具有学士学位\n英语四级以上，有较强的计算机应用能力\n身体健康，具备正常履行岗位职责的身体条件\n能接受倒班\n3.薪酬福利\n实习期6个月，转正定级后按照公司薪酬制度以岗定薪，并提供有竞争力的薪资\n按时足额缴纳六险二金\n提供免费住宿、年度免费健康体检和职业健康体检、取暖补助、高温补贴",
-        "deadline": "2026-12-31",
-        "deadline_kind": "明确日期",
-        "status": "招聘中",
-        "published_at": "2026-09-13",
-        "description_raw": "1.岗位职责\n负责机组的设备巡回检查、监盘和就地操作\n2.招聘条件\n全国普通高等学校2027年应届毕业生，本科及以上学历,具有学士学位\n英语四级以上，有较强的计算机应用能力\n身体健康，具备正常履行岗位职责的身体条件\n能接受倒班\n3.薪酬福利\n实习期6个月，转正定级后按照公司薪酬制度以岗定薪，并提供有竞争力的薪资\n按时足额缴纳六险二金\n提供免费住宿、年度免费健康体检和职业健康体检、取暖补助、高温补贴、节日福利、工作餐费补助、上下班通勤车等。\n享受法定节假日、带薪年休假、婚 (丧)假、（陪）产假、探亲假等国家法定的各类假期。\n提供职业发展多通道（经营管理、专业技术和技能操作通道）",
-        "application_url": "https://www.iguopin.com/job/detail?id=217630802530272720",
-        "source_url": "https://www.iguopin.com/job/detail?id=217630802530272720",
-        "campaign_url": "https://www.iguopin.com/",
-        "source_name": "国聘官方企业校招专场：中电神头发电有限责任公司",
-        "reviewed_at": "2026-09-11T12:00:00+08:00"
-      },
-      {
-        "id": "zhiye-tal-tech-2027",
-        "job_title": "教研/技术类校招岗位(2027届)",
-        "company": "好未来教育科技集团",
-        "contracting_entity": "好未来教育科技集团",
-        "job_category": "技术/研发",
-        "job_category_raw": "教育/研发",
+        "job_category_raw": "研发-IT",
         "recruitment_type": "校园招聘",
         "industry": "互联网/科技",
         "cities": [
+          "成都",
+          "天津",
           "北京",
           "上海",
-          "全国"
+          "深圳"
         ],
         "region": "中国大陆",
         "country": "中国",
         "graduation_years": [
-          "2027届"
+          "2027届",
+          "2026届"
         ],
         "graduation_year_basis": {
+          "2026届": "岗位写明",
           "2027届": "岗位写明"
         },
-        "cohort_raw": "2027届应届毕业生",
+        "cohort_raw": "毕业时间2026年10月-2027年7月的海内外院校同学",
         "education": "本科",
         "education_raw": "本科",
-        "major_category": "文科类",
-        "major_requirements_raw": "教育学、计算机、数学等相关专业",
+        "major_category": "其他",
+        "major_requirements_raw": "计算机、软件、通信、信息系统等相关专业",
         "deadline": null,
         "deadline_kind": "未注明",
         "status": "招聘中",
         "published_at": "2026-09-11",
-        "description_raw": "好未来2027届校园招聘，涵盖教研、产品、运营、技术研发等方向，致力于用科技推动教育进步。",
-        "application_url": "https://tal.zhiye.com",
-        "source_url": "https://tal.zhiye.com",
+        "description_raw": "从事金融科技相关的软件开发、系统运维、技术支持等工作；参与银行、保险等金融行业客户的信息化项目建设，负责系统开发、测试、部署与运维。\n\n任职要求：\n1、2027届本科及以上学历，计算机、软件、通信等相关专业；\n2、熟悉Java/Python等至少一门编程语言，有软件开发实践经验优先。",
+        "application_url": "https://dcits.zhiye.com/campus",
+        "source_url": "https://dcits.zhiye.com/campus",
         "source_name": "北森招聘",
         "reviewed_at": "2026-09-11T01:33:17+08:00"
+      },
+      {
+        "id": "gp_成都陵川特种工业有限责任公司-217601356368709069",
+        "job_title": "27届博士(J13367)",
+        "company": "成都陵川特种工业有限责任公司",
+        "recruiting_unit_raw": "成都陵川特种工业有限责任公司",
+        "hiring_department_raw": "成都陵川特种工业有限责任公司",
+        "job_category": "技术/研发",
+        "job_category_raw": "无人机工程师",
+        "recruitment_type": "校园招聘",
+        "industry": "制造/工业",
+        "cities": [
+          "成都"
+        ],
+        "region": "中国大陆",
+        "country": "中国",
+        "graduation_years": [
+          "2027届"
+        ],
+        "graduation_year_basis": {
+          "2027届": "岗位写明"
+        },
+        "cohort_raw": "2027届",
+        "education": "博士",
+        "education_raw": "博士",
+        "major_category": "计算机类",
+        "major_tags": [
+          "电子信息类",
+          "计算机类",
+          "航空航天类"
+        ],
+        "deadline": "2026-12-08",
+        "deadline_kind": "明确日期",
+        "status": "招聘中",
+        "published_at": "2026-09-11",
+        "description_raw": "工作职责\n负责无人机总体/软件/算法/设计。\n\n任职资格\n1.博士研究生学历；\n2.航空航天类、电子信息类、计算机类、自动化类相关专业",
+        "application_url": "https://www.iguopin.com/job/detail?id=217601356368709069",
+        "source_url": "https://www.iguopin.com/job/detail?id=217601356368709069",
+        "source_name": "国聘行动官方招聘平台",
+        "reviewed_at": "2026-09-11T00:17:48.068641+08:00"
       }
     ]
   }

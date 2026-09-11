@@ -23,7 +23,7 @@ jobs = Jobs(H.JOBS_PATH, today=date.fromisoformat(TODAY))
 EX = ROOT / "research" / "qiuzhao-v4-interface-20260911" / "examples"
 NOTE = ("由 feat/v4 的 qiuzhao/tools.py 对 2026-09-11 拉取的 jobs.json 实际运行生成（去重、去测试记录后 25,458 条）；"
         "“今天”固定为 2026-09-11。response 就是线上 content[0].text 的内容：单份返回，没有 structuredContent。"
-        "为便于阅读，page_size 取 2–3，真实默认值是 10。")
+        "为便于阅读，page_size 取 2–5，真实默认值是 10。")
 OPS = {"jobs_search": jobs.search, "jobs_stats": jobs.stats, "jobs_detail": jobs.detail}
 
 
@@ -37,12 +37,16 @@ def dump(name, tool, args, extra=""):
 def main():
     for old in ("jobs_search.2_explicit_unspecified_boundary.json", "compat_and_errors.json"):
         (EX / old).unlink(missing_ok=True)
-    base = {"graduation_year": "2027届", "major": "计算机类", "page_size": 3}
-    city = next(c for c in ("成都", "西安", "合肥", "长沙", "南京")
-                if any(j.get("match", {}).get("city") == "全国" for j in jobs.search(city=c, **base)["jobs"]))
-    a1 = {"city": city, **base}
-    s1 = dump("jobs_search.1_city_year_major.json", "jobs_search", a1,
-              f" 城市取 {city}：候选城市里第一个在第 1 页就出现“全国”依据的。")
+    today = date.fromisoformat(TODAY)
+    a1 = {"city": "成都", "graduation_year": "2027届", "major": "计算机类", "page_size": 3}
+    s1 = dump("jobs_search.1_city_year_major.json", "jobs_search", {**a1, "page_size": 5},
+              " 成都 + 2027届 + 计算机类（Max 给的排序示例，page_size 取 5）：同一档内先按匹配的具体程度排，"
+              "写明成都的岗位排在依据“全国”的岗位之前，其后才按发布时间。")
+    res, _ = jobs.evaluate(jobs.dataset(), jobs.check_filters({k: v for k, v in a1.items() if k != "page_size"}, []),
+                           today)
+    split = next(i for i, (_, b, _) in enumerate(jobs.order(res, "published_desc")) if b["city"] == "全国")
+    dump("jobs_search.1b_city_then_nationwide.json", "jobs_search", {**a1, "offset": split - 1, "page_size": 2},
+         f" offset 取 {split - 1}：明确匹配里写明成都的岗位共 {split} 条，排完之后才是依据“全国”的岗位。")
     dump("jobs_search.2_explicit_inferred_boundary.json", "jobs_search",
          {**a1, "offset": s1["explicit_total"] - 1},
          " offset 取 explicit_total-1：同一页里先是最后一条明确匹配，再是最前面的推断匹配。")
@@ -55,6 +59,13 @@ def main():
          {"company": "腾讯", "graduation_year": "2027届", "page_size": 2, "offset": 2},
          " 腾讯校招岗位原文和活动标题都没写届别、也没有发布时间，按来源登记（sources_registry.jsonl 的"
          " scope_graduation_year=2027届）推断，依据“来源专场注明”；按届别筛选时社招岗位不返回，见 excluded_social_total。")
+    q07 = {"graduation_year": "2026届", "industry": "国企/央企"}
+    r7, _ = jobs.evaluate(jobs.dataset(), jobs.check_filters(q07, []), today)
+    at = next(i for i, (_, b, _) in enumerate(jobs.order(r7, "published_desc"))
+              if b["graduation_year"] == "推断为其他届别")
+    dump("jobs_search.5_2026_inferred_other_year.json", "jobs_search", {**q07, "offset": at, "page_size": 2},
+         f" Q07 的调用，offset 取 {at}：含未注明档里第一条“推断为其他届别”。这类岗位原文和活动标题都没写届别，"
+         "按招聘季或来源专场推断为 2027届；查 2026届 时不排除，归入含未注明并标注（2026-09-12 Max 决定）。")
     dump("jobs_stats.1_product_2027_by_city.json", "jobs_stats",
          {"job_category": "产品", "graduation_year": "2027届", "group_by": "city", "top": 10})
     dump("jobs_stats.2_soe_cs_by_company.json", "jobs_stats",

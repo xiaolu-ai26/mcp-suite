@@ -1,8 +1,8 @@
 # 秋招 MCP v4 接口说明书（已按 Max 的决定修订，与 feat/v4 实现一致）
 
-2026-09-11 起草，2026-09-12 按 Max 的覆盖决定和实际实现修订。实现在 `~/Projects/mcp-suite` 的 `feat/v4` 分支（`qiuzhao/v4_fields.py`、`qiuzhao/tools.py`、`core/server.py`），实现收据见 `../qiuzhao-v4-impl/RECEIPT.md`。数据快照：`../qiuzhao-doubao-fix-20260911/data/jobs.json`（28,616 行；v3 的有效性过滤后 27,506 行；按 id 去重后 25,463 条；再去掉 5 条测试记录后 25,458 条；68 个字段；data_as_of 2026-09-11T12:00+08:00）。文中数量都能用附录 C 的脚本复现，“今天”固定为 2026-09-11。
+2026-09-11 起草，2026-09-12 按 Max 的覆盖决定和实际实现修订；同日收尾时按 Max 的决定再改两处：按招聘季或来源专场推断为某一届的岗位，查其他届别时归入含未注明（依据 `推断为其他届别`），同一档内先按匹配的具体程度排序（3.0）。实现在 `~/Projects/mcp-suite` 的 `feat/v4` 分支（`qiuzhao/v4_fields.py`、`qiuzhao/tools.py`、`core/server.py`），实现收据见 `../qiuzhao-v4-impl/RECEIPT.md`。数据快照：`../qiuzhao-doubao-fix-20260911/data/jobs.json`（28,616 行；v3 的有效性过滤后 27,506 行；按 id 去重后 25,463 条；再去掉 5 条测试记录后 25,458 条；68 个字段；data_as_of 2026-09-11T12:00+08:00）。文中数量都能用附录 C 的脚本复现，“今天”固定为 2026-09-11。
 
-**一页结论。** v4 只有三个工具：`jobs_search` 找岗位，`jobs_stats` 用同样条件计数和分组，`jobs_detail` 按 id 取详情。`jobs_deadlines` 并入 `jobs_search`，**不做任何兼容**：没有别名、没有旧参数映射，旧工具名返回“未知工具”，旧参数由 FastMCP 直接拒绝。届别、城市、专业、学历四个条件按三档返回并排序：明确匹配 → 推断匹配 → 含未注明，每条附 `match` 依据；按届别筛选时社招岗位不返回，只报条数。结果只在 content 里放一份 JSON 文本，默认调用的 HTTP 响应从 A 包的 53,600 B 降到 23,011 B。page_size 默认 10、最大 20，另有 60KB 截断预算。数据侧套用了第 6 节的 10 项修正，其中 801 条岗位大类错分全修，1,087 条国聘记录的截止日按明确日期处理，5 条上游测试记录不再出现。
+**一页结论。** v4 只有三个工具：`jobs_search` 找岗位，`jobs_stats` 用同样条件计数和分组，`jobs_detail` 按 id 取详情。`jobs_deadlines` 并入 `jobs_search`，**不做任何兼容**：没有别名、没有旧参数映射，旧工具名返回“未知工具”，旧参数由 FastMCP 直接拒绝。届别、城市、专业、学历四个条件按三档返回并排序：明确匹配 → 推断匹配 → 含未注明，同一档内写明具体城市、专业、学历、届别的排在“全国”“专业不限”“学历不限”“活动标题写明”之前，每条附 `match` 依据；按届别筛选时社招岗位不返回，只报条数。结果只在 content 里放一份 JSON 文本，默认调用的 HTTP 响应从 A 包的 53,600 B 降到 23,011 B。page_size 默认 10、最大 20，另有 60KB 截断预算。数据侧套用了第 6 节的 10 项修正，其中 801 条岗位大类错分全修，1,087 条国聘记录的截止日按明确日期处理，5 条上游测试记录不再出现。
 
 ---
 
@@ -40,12 +40,14 @@
 
 | 维度 | 明确匹配的依据 | 推断匹配的依据 | 未注明 |
 |---|---|---|---|
-| `graduation_year` | `岗位写明`（岗位原文 cohort_raw、岗位名称或岗位描述写了该届）/ `活动标题写明` | `按招聘季推断` / `来源专场注明` / `实习未写届别` / `社招不限届别`（只在 recruitment_type=社会招聘 时出现） | `未注明` |
+| `graduation_year` | `岗位写明`（岗位原文 cohort_raw、岗位名称或岗位描述写了该届）/ `活动标题写明` | `按招聘季推断` / `来源专场注明` / `实习未写届别` / `社招不限届别`（只在 recruitment_type=社会招聘 时出现） | `未注明` / `推断为其他届别`（原文和活动标题都没写届别，按招聘季或来源专场推断的是别的届） |
 | `city` | `岗位写明` / `全国`（对任何大陆城市都算，查海外、港澳台城市时不算） | — | `未注明`（城市为空） |
 | `major` | `岗位写明` / `专业不限` | — | `未注明` |
 | `education` | `岗位写明`（岗位最低学历不高于用户学历）/ `学历不限` | — | `未注明` |
 
-`match.level`：用到的维度全部明确时为 `明确匹配`；没有未注明、但至少一个是推断时为 `推断匹配`；至少一个维度未注明时为 `含未注明`。排序时三档依次排列，同一档内再按 `sort` 排。`explicit_only=true` 只留明确匹配（“全国”算明确，保留）；它与任一条件取值 `未注明` 同时传时报错。
+`match.level`：用到的维度全部明确时为 `明确匹配`；没有未注明、但至少一个是推断时为 `推断匹配`；至少一个维度未注明时为 `含未注明`。`explicit_only=true` 只留明确匹配（“全国”算明确，保留）；它与任一条件取值 `未注明` 同时传时报错。
+
+**排序（2026-09-12 修订）。** 三档依次排列；同一档内先按匹配的具体程度，再按 `sort`。具体程度逐维比较，维度顺序是城市、专业、学历、届别，前一维分出先后就不再看后面的维度，没用到的维度不参与比较。每一维内的先后：`岗位写明` → `全国` / `专业不限` / `学历不限` / `活动标题写明` → 推断依据（`按招聘季推断`、`来源专场注明`、`实习未写届别`、`社招不限届别`）→ `未注明` / `推断为其他届别`。`sort=published_desc` 时同组内按发布时间从新到旧、同一天按 id 从大到小；`deadline_asc` 时同组内按截止日从近到远，没写截止日的排在同组最后，再按 id。顺序完全确定（`qiuzhao/tools.py` 的 `Jobs.order`；测试 `test_order_inside_a_tier_follows_specificity`、`test_order_inside_a_tier_is_by_specificity`）。例：成都 + 2027届 + 计算机类 的 225 条明确匹配里，写明成都的 138 条排在前面，依据“全国”的 87 条在后；修订前排第 1 的是 cities 只有“全国”的中电神头发电“集控运行岗”。
 
 **届别的判定顺序。** 每条记录只按下面第一个成立的规则定届别和依据（括号里是 25,458 条上的实际条数）：
 
@@ -59,7 +61,7 @@
 8. 校园招聘、没有发布时间 → 按 `research/qiuzhao-expansion-20260910/sources_registry.jsonl` 的 `scope_graduation_year`（以详情页网址前缀对应来源）给届别，依据 `来源专场注明`（381，全部是腾讯）；对不上的算未注明（155）。
 9. 其余 → 未注明（164）。
 
-规则 7、8 给出的是具体届别，所以查别的届别时这些岗位不返回（例如按招聘季推断为 2027届 的岗位，查 2026届 时不出现）。规则 6 没有具体届别，对任何届别都按推断匹配。
+规则 7、8 给出的届别是推断的，岗位原文和活动标题都没写届别，所以查别的届别时不排除这些岗位：归入含未注明，依据 `推断为其他届别`（2026-09-12 Max 的决定；例如按招聘季推断为 2027届 的岗位，查 2026届 时出现在含未注明里，`explicit_only=true` 时不返回）。原文或活动标题写了别的届（规则 1、2、4、5）的岗位仍然不返回。规则 6 没有具体届别，对任何届别都按推断匹配。25,458 条上查 2026届：5,852 条（明确 2,206 / 推断 509 / 未注明 3,137），其中依据 `推断为其他届别` 的 2,818 条（按招聘季推断 2,437、来源专场注明 381）；修订前为 3,034 条。
 
 **社招与届别。** 用了 `graduation_year` 条件时，规则 3 的社招岗位不返回，顶层给出 `excluded_social_total` 并在 `notices` 里说明；传了 `recruitment_type=社会招聘` 时照常返回，依据 `社招不限届别`、档次为推断匹配。`explicit_only=true` 时不给这个计数（这些岗位本来也不会是明确匹配）。
 
@@ -76,7 +78,7 @@
 > 【岗位搜索】按条件找秋招、实习、社招岗位。每条返回全部业务字段（岗位描述、城市、届别、学历、专业、截止日、投递链接、原公告链接）和匹配依据 match。
 > 【何时用】用户要看具体岗位时用，例如“北京有哪些产品岗”“字节在招算法吗”“我是27届计算机硕士能投什么”“这周截止的校招”“国企的财务岗”。只问数量、分布、排名（“哪个城市最多”“有几家公司”）时，先用 jobs_stats。
 > 【参数来源】keyword、company、city、major 取自用户原话。job_category、graduation_year、education、recruitment_type、industry、sort 只能填 schema 列出的值，“27届”“校招”“研究生”这类说法服务端会自动归一。也可以把 jobs_stats.groups[i].value 原样填到 jobs_stats.fill_param 指定的参数。offset 只能取上一次返回的 next_offset。
-> 【参数用法】各条件需同时满足。city、company 可用英文逗号写多个，满足任一即可。届别、城市、专业、学历四个条件分三档返回并按此排序：明确匹配（岗位写明、活动标题写明、全国、专业不限、学历不限）→ 推断匹配（按招聘季推断、来源专场注明、实习未写届别）→ 含未注明；每条的 match 写明档次和依据。用户说“只看写明的”时传 explicit_only=true（只留明确匹配）。按届别筛选时社招岗位不返回（社招不限届别，excluded_social_total 给出条数），要看社招请加 recruitment_type=社会招聘。education 填用户本人的学历，返回最低学历要求不高于它的岗位。recruitment_type 不传时校招、实习、社招都返回。deadline_within_days=N 只返回今天起 N 天内有明确截止日的岗位（招满即止和没写截止日的不返回），一般配 sort=deadline_asc。默认不返回已截止岗位。
+> 【参数用法】各条件需同时满足。city、company 可用英文逗号写多个，满足任一即可。届别、城市、专业、学历四个条件分三档返回并按此排序：明确匹配（岗位写明、活动标题写明、全国、专业不限、学历不限）→ 推断匹配（按招聘季推断、来源专场注明、实习未写届别）→ 含未注明（含“推断为其他届别”：原文没写届别，按招聘季或来源专场推断的是别的届）；同一档内，岗位写明的城市、专业、学历、届别排在 全国、专业不限、学历不限、活动标题写明 之前；每条的 match 写明档次和依据。用户说“只看写明的”时传 explicit_only=true（只留明确匹配）。按届别筛选时社招岗位不返回（社招不限届别，excluded_social_total 给出条数），要看社招请加 recruitment_type=社会招聘。education 填用户本人的学历，返回最低学历要求不高于它的岗位。recruitment_type 不传时校招、实习、社招都返回。deadline_within_days=N 只返回今天起 N 天内有明确截止日的岗位（招满即止和没写截止日的不返回），一般配 sort=deadline_asc。默认不返回已截止岗位。
 > 【返回】applied_filters（服务端实际使用、已归一的条件；与你传的不一致又没有 notices 说明时，说明客户端丢了参数，要告诉用户，不要重复同样的调用）、total、explicit_total、inferred_total、unspecified_total、分页信息（returned、has_next、next_offset、truncated）、data_as_of、notices（参数被归一或调整时的说明），以及 jobs[]。
 > 【下一步】has_next=true 且用户要更多时，用 next_offset 翻页。要对比或复查某几个岗位时，把 jobs[i].id 传给 jobs_detail。要看分布时，用相同条件调 jobs_stats。
 > 【限制】page_size 默认 10、最大 20。一页超过约 60KB 时，在完整岗位处截断并置 truncated=true，用 next_offset 接着取。城市只认城市名，不认省份。数据只包含公告里写了的信息：回答时把明确匹配、推断匹配和未注明分开说，推断和未注明都不代表一定符合条件，并附 source_url 和 data_as_of。
@@ -89,7 +91,7 @@
 | `company` | string | `""` | ≤100 字，逗号分隔多个时取并集 | 公司或单位 | 用户原话；`jobs_stats(group_by=company)` 的组值；`jobs[i].company` | 不区分大小写包含于 company、recruiting_unit_raw、parent_unit_raw、contracting_entity | — | `字节跳动`、`腾讯,阿里巴巴` |
 | `city` | string | `""` | ≤100 字，逗号分隔多个时取并集；也可填 `全国`、`未注明` | 工作城市 | 用户原话；`group_by=city` 的组值；`jobs[i].cities` 的元素 | 与修正后 `cities` 的元素完全相同；输入去掉“市”后缀并做别名归一 | 城市为空的岗位默认返回，标 `未注明`；“全国”岗位对大陆城市算明确匹配，标 `全国` | `北京`、`北京,上海` |
 | `job_category` | enum | `""` | 技术/研发、产品、运营、设计、市场/营销、销售、职能/支持、金融、咨询、医疗/医药、制造/生产、科研、教育/培训、法律/合规、其他 | 岗位大类 | schema；`group_by=job_category`；`jobs[i].job_category` | 与修正后 `job_category` 完全相同 | 每条都有值，不涉及 | `产品` |
-| `graduation_year` | enum | `""` | 2028届、2027届、2026届、2025届、2024届、未注明 | 用户的届别 | 用户原话（会自动归一）；schema；`group_by=graduation_year` 的年份组值 | 按 3.0 的判定顺序与三档规则 | 默认返回并标注；传 `未注明` 时只看规则 8、9 那些没有任何届别线索的岗位 | `2027届` |
+| `graduation_year` | enum | `""` | 2028届、2027届、2026届、2025届、2024届、未注明 | 用户的届别 | 用户原话（会自动归一）；schema；`group_by=graduation_year` 的年份组值 | 按 3.0 的判定顺序与三档规则 | 默认返回并标注；只按招聘季或来源专场推断为别的届的岗位也归入含未注明（依据 `推断为其他届别`）；传 `未注明` 时只看规则 8、9 那些没有任何届别线索的岗位 | `2027届` |
 | `major` | string | `""` | ≤50 字；可填 11 个专业大类名、专业关键词，也可填 `不限`、`未注明` | 专业 | 用户原话；`group_by=major_category` 的组值 | 填大类名时：`major_category` 相同，或专业原文/标签包含去掉“类”后的词；填其他词时：包含于 major_requirements_raw、major_tags | 默认返回并标注；“专业不限”算明确匹配 | `计算机类`、`统计` |
 | `education` | enum | `""` | 不限、中专及以下、大专、本科、硕士、博士、未注明 | 用户本人的学历 | 用户原话（`研究生`→硕士）；schema；`group_by=education` | 岗位最低学历不高于该档时算匹配（门槛语义）；`不限` 只看写明学历不限的岗位 | 默认返回并标注；“学历不限”算明确匹配 | `硕士` |
 | `recruitment_type` | enum | `""`（三种都返回） | 校园招聘、实习招聘、社会招聘 | 招聘类型 | 用户原话（校招、实习、社招会归一）；schema | 完全相同 | — | `实习招聘` |
@@ -97,7 +99,7 @@
 | `deadline_within_days` | integer | `0` | 0–366 | 今天起 N 天内（含今天）截止 | 模型把用户原话换算成天数（“国庆前”→到 9/30 的天数） | `deadline` 落在 [今天, 今天+N] | 没有明确日期的岗位（含招满即止）不返回 | `7` |
 | `explicit_only` | boolean | `false` | — | 只看明确匹配 | 用户说“只看写明的” | 去掉推断匹配和含未注明的岗位 | 与条件值 `未注明` 同时传时报错 | `true` |
 | `include_expired` | boolean | `false` | — | 是否包含已截止岗位 | 用户明确要看已截止的 | 截止日早于今天的默认排除 | — | `false` |
-| `sort` | enum | `published_desc` | published_desc、deadline_asc | 排序 | schema；用户说“按截止时间”“最急的”时用 deadline_asc | 三档始终依次排列；deadline_asc 时没有日期的排在同档最后 | — | `deadline_asc` |
+| `sort` | enum | `published_desc` | published_desc、deadline_asc | 排序 | schema；用户说“按截止时间”“最急的”时用 deadline_asc | 三档始终依次排列；同一档内先按匹配的具体程度（3.0 排序），再按 sort；deadline_asc 时没有日期的排在同组最后 | — | `deadline_asc` |
 | `page_size` | integer | `10` | 1–20（>20 按 20 返回并提示） | 每页条数 | 默认值；用户要“多给点”时填 20 | — | — | `10` |
 | `offset` | integer | `0` | ≥0 | 翻页起点 | 上一页的 `next_offset` | — | — | `10` |
 
@@ -222,12 +224,12 @@ v4 每条的字节里，`description_raw` 占 49.6%。
 | `jobs_search` 默认（10 条） | 23,011 | 21,658 | 21,394 | 10 | 6,519 |
 | `jobs_search(page_size=20)` | 39,701 | 37,145 | 36,881 | 20 | 10,948 |
 | `jobs_search(page_size=20, offset=2380)`（截断页） | 60,547 | 57,950 | 57,682 | 19 | 17,997 |
-| Q01 条件（10 条） | 18,715 | 17,157 | 16,622 | 10 | 5,045 |
+| Q01 条件（10 条） | 30,333 | 28,615 | 28,080 | 10 | 8,732 |
 | `jobs_stats(group_by=company, top=100)` | 13,299 | 11,969 | — | 100 组 | 3,256 |
 | `jobs_detail`（10 个 id） | 22,818 | 21,485 | 21,394 | 10 | 6,476 |
-| tools/list | 14,778 | — | — | 3 个工具 | 4,434 |
+| tools/list | 15,484 | — | — | 3 个工具 | 4,666 |
 
-对照：A 包默认调用（10 条，content + structuredContent 两份）的 HTTP 响应体是 53,600 B；本说明书起草时进程内实测的双份 44,439 B、方案 A 22,857 B。实现采用方案 A，没有 structuredContent。据 Claude Code 文档，MCP 工具输出超过 10,000 token 会提示，默认上限 25,000 token；截断页约 1.8 万粗估 token，在上限内，要在验收时实测确认；豆包、千问的上限未知。
+2026-09-12 排序修订后重测：Q01 条件的第 1 页换成写明杭州的岗位（描述更长），响应体从 18,715 B 变为 30,333 B；tools/list 因描述加长从 14,778 B 变为 15,484 B；其余各行不变。对照：A 包默认调用（10 条，content + structuredContent 两份）的 HTTP 响应体是 53,600 B；本说明书起草时进程内实测的双份 44,439 B、方案 A 22,857 B。实现采用方案 A，没有 structuredContent。据 Claude Code 文档，MCP 工具输出超过 10,000 token 会提示，默认上限 25,000 token；截断页约 1.8 万粗估 token，在上限内，要在验收时实测确认；豆包、千问的上限未知。
 
 **上线前在 Claude Code、豆包、千问上各验证一遍：**
 1. tools/list 显示三个工具，没有 outputSchema；schema 核验输出 `RESULT OK`。
@@ -241,15 +243,17 @@ v4 每条的字节里，`description_raw` 占 49.6%。
 
 ## 5. 返回示例（`examples/`）
 
-示例由 `../qiuzhao-v4-impl/scripts/make_examples_v4.py` 用实现（`qiuzhao/tools.py`）对 data/jobs.json 实际运行生成，“今天”固定为 2026-09-11；报错类示例是真实 HTTP 调用的返回。为便于阅读，page_size 取 2–3。
+示例由 `../qiuzhao-v4-impl/scripts/make_examples_v4.py` 用实现（`qiuzhao/tools.py`）对 data/jobs.json 实际运行生成，“今天”固定为 2026-09-11；报错类示例是真实 HTTP 调用的返回。为便于阅读，page_size 取 2–5。
 
 | 文件 | 请求 | 看点 |
 |---|---|---|
-| `jobs_search.1_city_year_major.json` | 成都 + 2027届 + 计算机类 | total 1,914：明确 225、推断 26、含未注明 1,663；另有 167 条社招未返回；第 1 页就出现 `city=全国` |
+| `jobs_search.1_city_year_major.json` | 成都 + 2027届 + 计算机类，page_size=5 | total 1,914：明确 225、推断 26、含未注明 1,663；另有 167 条社招未返回；前 5 条都是写明成都的明确匹配 |
+| `jobs_search.1b_city_then_nationwide.json` | 同上，offset=137 | 明确匹配里写明成都的 138 条排完，才是依据“全国”的岗位 |
 | `jobs_search.2_explicit_inferred_boundary.json` | 同上，offset=224 | 最后一条明确匹配之后接着推断匹配 |
 | `jobs_search.2b_inferred_unspecified_boundary.json` | 同上，offset=250 | 推断匹配之后接着含未注明 |
 | `jobs_search.3_deadline_7d.json` | 校园招聘，7 天内截止，deadline_asc | 166 条，从今天截止的开始 |
 | `jobs_search.4_tencent_2027_source_scope.json` | 腾讯 + 2027届 | 814 条里 812 条是推断匹配，依据 `来源专场注明` |
+| `jobs_search.5_2026_inferred_other_year.json` | 2026届 + 国企/央企（Q07），offset=580 | total 702：明确 580、含未注明 122；这一页两条都依据 `推断为其他届别`（届别是按招聘季推断的 2027届） |
 | `jobs_stats.1_product_2027_by_city.json` | 产品 + 2027届，按城市分组 | 北京 523（明确 496、推断 27）、上海 370；有 `未注明`、`全国` 组；multi_valued=true |
 | `jobs_stats.2_soe_cs_by_company.json` | 国企/央企 + 计算机类，按公司分组 | 中国移动 1,356、中国邮政 1,070、航天科工 488 |
 | `jobs_stats.3_campus_by_education.json` | 校园招聘，按学历分组 | 未注明为最大的一组；有学历门槛的说明 |
@@ -283,7 +287,7 @@ v4 每条的字节里，`description_raw` 占 49.6%。
 现在没有用户，v4 直接替换 v3：
 1. **工具列表**：新增 `jobs_stats`，`jobs_deadlines` 删除。旧会话缓存着旧工具表，调用旧名会收到“未知工具，请刷新工具列表。”；重连（`/mcp`）或新开会话后才能看到新工具。
 2. **参数**：`cohort`、`region`、`major_category`、`limit` 删除（传了就报 `Unexpected keyword argument`），`jobs_detail` 的 `id` 改为 `ids`；新增 `education`、`explicit_only`、`include_expired`、`deadline_within_days`、`sort`、`page_size`；`city`、`company` 支持逗号分隔多个值；枚举参数接受“校招”“产品经理”“研究生”这类说法。
-3. **结果变多、口径变化**：带届别、城市、专业、学历条件时，会多出推断匹配和未注明的岗位（按档次排在后面并标注）；按届别筛选时社招不返回。例如北京 + 2027届：total 7,463（明确 5,044、推断 1,094、未注明 1,325），另有 728 条社招未计入。产品岗 1,279 条。截止日窗口按统一口径计算，排序由近到远。page_size 上限从 100 降到 20。默认不返回已截止岗位。
+3. **结果变多、口径变化**：带届别、城市、专业、学历条件时，会多出推断匹配和未注明的岗位（按档次排在后面并标注；同一档内写明的排在“全国”“不限”之前）；按届别筛选时社招不返回，只按招聘季或来源专场推断为别的届的岗位归入含未注明。例如北京 + 2027届：total 7,463（明确 5,044、推断 1,094、未注明 1,325），另有 728 条社招未计入。产品岗 1,279 条。截止日窗口按统一口径计算，排序由近到远。page_size 上限从 100 降到 20。默认不返回已截止岗位。
 4. **字段**：改名 7 处（recruitment_unit→company、job_category→job_category_raw、job_category_normalized→job_category、graduation_year_normalized→graduation_years + graduation_year_basis + graduation_year_note、campaign_cohort_raw→campaign_title、major_normalized→major_category、deadline_type→deadline_kind）；删除 city_normalized、cities_normalized（合并进 cities）、overseas_flag（合并进 region）、cohort_filter_scope（由 match 和 graduation_year_basis 取代）、20 个内部字段，以及顶层的 source_urls、数据截至时间。
 5. **返回只有一份**：不再有 structuredContent。
 6. **静态页**：`guide.html` 的“接入成功”一节和 `app.js` 的接入提示词、`deadline` 示例已改为 `jobs_stats`、`page_size=1`、`jobs_search` 配 `deadline_within_days=7`、`sort=deadline_asc`（feat/v4 的单独提交）。`exclude` 那条“排除某些公司”仍只能由模型在结果里自己剔除（决定 12：不做排除）。
@@ -311,7 +315,7 @@ v4 每条的字节里，`description_raw` 占 49.6%。
 | Q04 | 北京有没有不限专业的国企岗位？ | 筛选 | search(city=北京, industry=国企/央企, major=不限) | 只算原文写了“专业不限”的岗位；未注明的不算“不限” | 10 |
 | Q05 | 第 2 个岗位的具体要求是什么？投递链接给我 | 下钻 | detail(ids=<Q01 返回的第 2 个 id>) | id 取自上一轮结果，不自己编；给出 application_url 和 source_url | found 1 |
 | Q06 | 上海有能转正的实习吗？ | 筛选 | search(recruitment_type=实习招聘, city=上海, keyword=转正) | 说明“转正”是在描述里做关键词匹配 | 204（201 / 0 / 3） |
-| Q07 | 我 2026 年毕业还没找到工作，还能投哪些央企？ | 资格 | search(graduation_year=2026届, industry=国企/央企) | 说明这些岗位的原文多为“2026届未就业可报”，依据来自原文；未注明的单独说 | 582（580 / 0 / 2），社招未计入 78 |
+| Q07 | 我 2026 年毕业还没找到工作，还能投哪些央企？ | 资格 | search(graduation_year=2026届, industry=国企/央企) | 说明明确匹配的原文多为“2026届未就业可报”，依据来自原文；含未注明的单独说，其中多数是按招聘季推断为 2027届 的岗位（依据“推断为其他届别”），原文没写届别，不代表招或不招 2026届 | 702（580 / 0 / 122，其中推断为其他届别 120），社招未计入 78 |
 | Q08 | 国庆前截止的产品岗有哪些？ | 截止 | search(job_category=产品, deadline_within_days=19, sort=deadline_asc) | 模型把“国庆前”换算成到 9/30 共 19 天；按日期排列 | 19 |
 | Q09 | 腾讯和阿里在深圳招算法吗？ | 筛选 | search(company=腾讯,阿里巴巴, city=深圳, keyword=算法) | 两家都要覆盖到（写一次调用或两次调用都可以） | 272 |
 | Q10 | 北京和上海，哪边的 27 届产品岗更多？ | **统计对比** | stats(job_category=产品, graduation_year=2027届, group_by=city) | 给出两个数和明确匹配数；说明一条岗位可同时算进多个城市 | 北京 523（496 / 27 / 0）、上海 370（343 / 26 / 1） |
@@ -328,9 +332,9 @@ v4 每条的字节里，`description_raw` 占 49.6%。
 | Q21 | 我是 27 届，腾讯现在有哪些岗位？ | **推断** | search(company=腾讯, graduation_year=2027届) | 说明大部分是按腾讯 2027届校招专场推断的，不是岗位原文写明 | 814（2 / 812 / 0） |
 | Q22 | 有哪些 27 届能投的实习？ | **推断** | search(recruitment_type=实习招聘, graduation_year=2027届) | 区分写明届别的实习和“实习未写届别”的实习 | 2,495（1,986 / 509 / 0） |
 | Q23 | 社招里有 27 届也能投的吗？ | **推断** | search(recruitment_type=社会招聘, graduation_year=2027届) | 说明社招一般不限届别但通常要求经验，依据是“社招不限届别”，不是公告写明 | 3,062（46 / 3,016 / 0） |
-| Q24 | 27 届和 26 届各有多少岗位？没写届别的有多少？ | **统计 + 口径** | stats(group_by=graduation_year)，或 stats(graduation_year=2027届)、stats(graduation_year=2026届) | 分开报明确和推断；实习未写届别、社招不限届别、未注明单独说 | 2027届 21,533（18,715 / 2,818）、2026届 2,206、实习未写届别 509、社招不限届别 3,016、未注明 319 |
+| Q24 | 27 届和 26 届各有多少岗位？没写届别的有多少？ | **统计 + 口径** | stats(group_by=graduation_year)，或 stats(graduation_year=2027届)、stats(graduation_year=2026届) | 分开报明确和推断；实习未写届别、社招不限届别、未注明单独说 | 2027届 21,533（18,715 / 2,818）、2026届 2,206、实习未写届别 509、社招不限届别 3,016、未注明 319；stats(graduation_year=2026届) 5,852（2,206 / 509 / 3,137） |
 
-其中 13 个问题（Q10–Q14、Q16–Q19、Q21–Q24）超出浏览、筛选、下钻、截止这四类。与起草时参考值的差别及原因见收据第 6 节（主要是：社招按届别筛选时不再返回；推断档接住了原来的大部分未注明；岗位名称和描述补抽了届别；去掉了 5 条测试记录）。
+其中 13 个问题（Q10–Q14、Q16–Q19、Q21–Q24）超出浏览、筛选、下钻、截止这四类。与起草时参考值的差别及原因见收据第 6 节（主要是：社招按届别筛选时不再返回；推断档接住了原来的大部分未注明；岗位名称和描述补抽了届别；去掉了 5 条测试记录）。2026-09-12 收尾后：Q07 和 Q24 里查 2026届 的计数随决定 2 变化；Q01、Q15、Q20 的第 1 页随排序修订变化，总数不变（收据第 0 节）。
 
 ## 9. Max 的决定（已全部决定）
 
@@ -356,7 +360,20 @@ v4 每条的字节里，`description_raw` 占 49.6%。
 
 另外按 Max 的覆盖决定：v4 不做任何兼容（原 3.4 节整节删除）；原文和活动标题都没写届别的记录按 3.0 的规则 3–9 定届别和依据；过滤上游测试记录（6.10）。
 
-**实现中遇到、需要 Max 再看的地方**（详见收据第 11 节）：活动标题只写年份不写“届”字时仍算“活动标题写明”；按招聘季推断为 2027届 的岗位查 2026届 时不返回；社招在传了 recruitment_type=社会招聘 时算推断匹配；枚举加入了 2028届、2024届。
+**实现中遇到的 8 个问题，Max 于 2026-09-12 的决定**（原问题见收据第 11 节）：
+
+| # | 问题 | 决定 | 实现 |
+|---|---|---|---|
+| 1 | 活动标题只写年份、不写“届”字（如“中国联通2027校园招聘”） | 也算“活动标题写明” | 保持现状 |
+| 2 | 按招聘季或来源专场推断为某届的岗位，查其他届别时 | 不排除，归入含未注明并标注 | 依据 `推断为其他届别`（3.0）；Q07 为 702 |
+| 3 | 传了 recruitment_type=社会招聘 再按届别查 | 社招算推断匹配 | 保持现状 |
+| 4 | 国聘 1,087 条 undisclosed 却带日期的记录 | 按明确截止日 | 保持现状 |
+| 5 | 兑换码明文落库 | 继续明文（管理后台要复制发货） | 只改 `core/store.py` 文件头和 `test_atomic_redemption` 的断言 |
+| 6 | 梧桐科技“算法工程师” | 保留 | 保持现状 |
+| 7 | 枚举里的 2028届、2024届 | 保留 | 保持现状 |
+| 8 | `missing_queries.jsonl` | 保留 | 保持现状 |
+
+另加一项：同一档内先按匹配的具体程度排序（3.0 排序）。
 
 **做不到或未验证：**
 - Claude Code 的 token 上限，以及豆包、千问的输出上限和 structuredContent 支持情况，只能在验收时实测。
@@ -387,6 +404,7 @@ PYTHONDONTWRITEBYTECODE=1 $PY research/qiuzhao-v4-impl/scripts/acceptance_v4.py 
 PYTHONDONTWRITEBYTECODE=1 $PY research/qiuzhao-v4-impl/scripts/measure_v4.py       # → tools_list_v4*.json、evidence/sizes_v4.json、perf_v4.json
 PYTHONDONTWRITEBYTECODE=1 $PY research/qiuzhao-v4-impl/scripts/make_examples_v4.py # → 本目录 examples/
 $PY qiuzhao/v4_fields.py check qiuzhao/data/jobs.json                             # 枚举与数据一致性检查，RESULT OK / FAIL
+E2E_TMP=/tmp MCP_JOBS_PATH=qiuzhao/data/jobs.json MCP_TODAY=2026-09-11 $PY -B - < research/qiuzhao-v4-impl/scripts/e2e_inprocess_check.py  # 进程内端到端核验：临时库、临时 key、临时日志目录
 ```
 - 本目录 `scripts/v4lib.py` 是起草时的参考实现，没有推断档和测试记录过滤；`tests/test_v4_fields.py` 用它核对实现：届别以外的全部字段在 27,506 行上逐条一致，届别在岗位原文或活动标题写了年份的记录上一致。
 - 本目录 `scripts/` 其余脚本和 `evidence/` 是起草时的产物，数字按起草时的规则算，不再更新。

@@ -4,10 +4,106 @@
 
 服务器 `root@114.215.188.109` 上只做了只读操作：`free -m`、`nproc`、`ps`、`systemctl show/is-active`、`sha256sum`、`stat`、`ls`、`df`、`id`、在 .venv 里 import 一次 fastmcp 看版本；另外把 `qiuzhao/v4_fields.py` 经 stdin 管道交给服务器上的 Python，在内存里读 `/var/lib/mcp-suite/jobs.json` 并打印计数（`nice -n 19`，约 1 秒，不落文件、不写任何路径）。没有碰 Kimi 负责的文件和工作副本（`git diff main..HEAD -- qiuzhao/normalize.py qiuzhao/normalize_tables.json qiuzhao/collector deploy .gitignore` 为空）；没有读 private/、*.sqlite3*、带 receipt 的 json、*.mcp.json、tests/e2e_bench_online.py。
 
+## 0. 收尾（2026-09-12 01:00–01:50）
+
+在 feat/v4 上合并采集修复、落实 Max 对第 11 节 8 个问题的决定、加排序修正，写 Kimi 的部署任务书。仍只在本地做：没有部署、没有重启。服务器上只跑了只读命令：`sha256sum`、`stat`、`ls -l`（只看文件名和大小）、`free -m`、`df`、`ps`/`pgrep`、`systemctl is-active`，以及用 `cat` 读 `cron-status.json`、两个静态页和 `jobs.json` 到本地。没有进入 `~/Projects/mcp-suite-wt-collector`，没有改 main；没有读 private/、*.sqlite3*、带 receipt 的 json、*.mcp.json、tests/e2e_bench_online.py。第 1–12 节是 9/12 00:40 的原收据，已过期的地方在原处标了。
+
+### 0.1 提交
+
+| 提交 | 内容 |
+|---|---|
+| `0098267` | `git merge fix/collector-normalize`（3d5cff6），无冲突，只进来采集修复的 10 个文件 |
+| `8ccf6b8` | `git merge main`（6d580e1，只多一个 `research/collector-fix-20260911/DEPLOY-RECEIPT.md`）。采集部署后 main 多了这个收据提交，不合进来的话部署后 main 无法快进到 feat/v4 |
+| `55bd3ee` | 决定 5：`core/store.py` 文件头、`tests/test_core.py` 的 `test_atomic_redemption` |
+| `2f0f070` | 决定 2 与排序修正：`qiuzhao/v4_fields.py`、`qiuzhao/tools.py`、`core/server.py`（`sort`、`graduation_year` 两个参数描述和 `jobs_search` 描述）、测试。**这是要部署的代码提交** |
+| 本收据所在提交 | SPEC、示例、验收与测量证据、部署用的 3 个脚本、`KIMI-DEPLOY.md` |
+
+两次合并都没有碰 v4 的文件（`git diff b515a13 8ccf6b8 -- core qiuzhao/tools.py qiuzhao/v4_fields.py tests research/qiuzhao-v4-impl research/qiuzhao-v4-interface-20260911` 为空）。
+
+### 0.2 Max 的 8 个决定
+
+| # | 决定 | 处理 |
+|---|---|---|
+| 1 | 活动标题只写年份、不写“届”字，也算“活动标题写明” | 与现状一致，确认未改 |
+| 2 | 推断为 2027届 的岗位，查其他届别时不排除，归入“含未注明”并标注 | **已改**，见 0.4 |
+| 3 | 传了 recruitment_type=社会招聘 再按届别查，社招算推断匹配 | 与现状一致，确认未改 |
+| 4 | 国聘 1,087 条按明确截止日 | 与现状一致，确认未改 |
+| 5 | 兑换码继续明文落库 | **已改**：`core/store.py` 文件头改为“API key 只存 SHA-256 摘要；兑换码存摘要（查找用）和 code_plain 明文，管理后台列出来复制发货”；`test_atomic_redemption` 改为断言 key 只以摘要存在、兑换码只在自己那一行的 code_plain 里出现一次且 code_hash 等于它的摘要。生成、兑换、管理后台的代码都没动 |
+| 6 | 梧桐科技“算法工程师”保留 | 确认未改 |
+| 7 | 保留 2028届、2024届 两个枚举值 | 确认未改 |
+| 8 | 保留 missing_queries.jsonl | 确认未改 |
+
+### 0.3 排序修正
+
+规则（`v4_fields.RANK_DIMENSIONS`、`v4_fields.BASIS_RANK`、`tools.Jobs.order`）：先按档次；同一档内逐维比较城市、专业、学历、届别的具体程度，前一维分出先后就不看后面；每一维内的先后是 岗位写明 → 全国 / 专业不限 / 学历不限 / 活动标题写明 → 推断依据 → 未注明 / 推断为其他届别；最后按 sort（published_desc：发布时间从新到旧，同一天按 id 从大到小；deadline_asc：截止日从近到远，没写截止日的在后，再按 id）。顺序完全确定。维度按 Max 列出的次序比较，城市排第一，所以同一档内写明成都的岗位全部排在“全国”之前。
+
+“成都 + 2027届 + 计算机类”排序修正后的前 5 条（9/11 快照，`examples/jobs_search.1_city_year_major.json`；9/12 00:52 线上副本的前 5 条相同）：
+
+| # | 岗位名 | 城市 | match |
+|---:|---|---|---|
+| 1 | 技术类校招岗位(2027届) | 成都、天津、北京、上海、深圳 | 明确匹配：届别 岗位写明、城市 岗位写明、专业 岗位写明 |
+| 2 | 27届博士(J13367) | 成都 | 明确匹配：同上 |
+| 3 | 成都市武侯区分公司-金融柜员 | 成都 | 明确匹配：同上 |
+| 4 | 成都市金牛区分公司-金融柜员 | 成都 | 明确匹配：同上 |
+| 5 | 成都市青羊区分公司-金融柜员 | 成都 | 明确匹配：同上 |
+
+修正前排第 1 的是 cities 只有“全国”的“集控运行岗”（中电神头发电）。225 条明确匹配里，写明成都的 138 条在前，第 139 条起是依据“全国”的 87 条（`examples/jobs_search.1b_city_then_nationwide.json`）；线上副本上是 140 条和 104 条。
+
+总数和三档计数不变，只有顺序变。验收里 Q01、Q15、Q20 的前 3 条 id 变了；Q05、Q16 取 Q01 的前两条 id，参数跟着变。Q01 条件的第 1 页换成写明杭州的岗位，描述更长，响应从 18,715 B 变为 30,333 B，仍远低于 60KB 预算；tools/list 因描述加长从 14,778 B 变为 15,484 B。多一次排序，本地中位延迟：默认 search 15.0 ms（原 14.6）、北京+2027届 19.5 ms（原 17.5）、Q01 16.4 ms（原 14.5）。
+
+### 0.4 决定 2 的实现与数字
+
+`tools.Jobs._m_grad`：查询的届别不在岗位的届别里、而岗位的届别依据全是推断（按招聘季推断、来源专场注明）时，返回依据 `推断为其他届别`，档次为含未注明；原文或活动标题写了别的届的，仍不返回。查 2027届 不受影响，因为所有推断给出的届别都含 2027届。
+
+9/11 快照（今天固定为 9/11）：
+- 查 2026届：5,852 条（明确 2,206 / 推断 509 / 未注明 3,137），其中 `推断为其他届别` 2,818 条（按招聘季推断 2,437、来源专场注明 381）；原为 3,034 条。
+- **Q07（2026届 + 国企/央企）：702（580 / 0 / 122，其中推断为其他届别 120、未注明 2），社招未计入 78**；原为 582（580 / 0 / 2）。
+- 9/12 00:52 线上副本（今天为 9/12）：Q07 为 826（705 / 0 / 121，其中推断为其他届别 119），社招未计入 77（`evidence/acceptance_v4.live-20260912.json`）。
+
+同步改了：服务端 `graduation_year`、`sort` 参数描述和 `jobs_search` 描述；SPEC 开头、一页结论、3.0（匹配依据表、判定顺序后的说明、新的“排序”段）、3.1（描述原文、参数表）、第 4、5、7、8、9 节和附录 C；示例新增 `jobs_search.1b_city_then_nationwide.json`、`jobs_search.5_2026_inferred_other_year.json`，其余示例重新生成；`evidence/acceptance_v4.json` 重算。
+
+### 0.5 测试与核验
+
+- `pytest`：**134 passed**（`evidence/pytest-final.txt`；2 条 warnings 是 authlib 的弃用提示）。原来失败的 `test_atomic_redemption` 按新断言通过。新增 4 项：`test_v4_fields.py` 的 `test_order_inside_a_tier_follows_specificity`（每一维的先后、维度次序、档次优先、两种 sort、不带条件时顺序不变）和 `test_inferred_year_is_unspecified_for_other_years`（2026届 / 2025届 / 2027届 / 未注明 / explicit_only）；`test_v4_tools.py` 的 `test_order_inside_a_tier_is_by_specificity`（真实数据上与独立写的参考排序逐条相同，HTTP 第 1 页和成都→全国分界是它的切片）和 `test_inferred_year_is_unspecified_for_other_years`（真实数据上依据 `推断为其他届别` 的集合与按定义算的一致，写明别的届的一条也不返回，Q07 的 HTTP 标注）。独立计数的参考实现（`test_counts_match_an_independent_reading_of_the_spec`）按决定 2 更新，多测 4 组条件。没有跑的仍是 `tests/e2e_local.py`、`tests/e2e_bench_local.py`：它们要连已启动的服务，并在 private/ 下建测试库，原因同第 6 节。
+- schema 核验（`evidence/verify_schema_v4.txt`）：qiuzhao `jobs_detail params=1 / jobs_search params=15 / jobs_stats params=14`，bench 三个工具，都是 `RESULT OK []`。
+- 枚举检查（`evidence/enum_check.txt`）：9/11 快照 25,458 条、9/12 00:52 线上版 25,631 条，都是 `RESULT OK`。线上版是从服务器只读拉的 `/var/lib/mcp-suite/jobs.json`（sha256 `6fd433129ab90a35440f36e1295f9432fccf99659179a971e83aaf9d0bc51080`，与服务器上的一致），放在 `qiuzhao/data/jobs.live-20260912.json`。
+- 进程内端到端核验 `scripts/e2e_inprocess_check.py`（给 Kimi 在服务器上跑）：本地在快照和线上副本上各跑一次，都是 `RESULT OK []`；临时库、临时 key、临时日志目录用完即删，输出不含 key。
+- 静态页重新套用脚本 `scripts/reapply_static_edits.py`：对线上两个页面的只读副本套用后，与 feat/v4 的两个文件逐字节相同；再套一次会拒绝写入（退出码 1）。
+- 证据扫描：`evidence/`、`tools_list_v4*.json`、`examples/` 里 `Bearer`、qz_/bm_ key、QZ-/BM- 兑换码形态命中为 0。
+
+### 0.6 线上只读核对（2026-09-12 01:02）
+
+- 5 个要替换的文件的 sha256 都等于 main 1127cf7（`08143798…`、`77ffdb61…`、`0348d335…`、`4afa8338…`、`cb3d5e92…`），`qiuzhao/v4_fields.py` 不存在。**两个页面文件没有被改过**，不需要重新套用 6 处替换，部署包直接用 feat/v4 的 `guide.html`、`app.js`（来源 `4118fe8`，之后未变）。
+- 采集部署的 7 个文件（normalize.py、normalize_tables.json、build_normalize_tables.py、collector/run.py、collector/auto_collect.py、collector-daily.sh、/etc/cron.d/mcp-suite-qiuzhao）与 feat/v4 里的版本逐一相同。
+- `cron-status.json`：`success: true`，`completed_at 2026-09-11T16:52:46+00:00`（北京时间 09-12 00:52:46，晚于 00:00），steps 全为 0；没有采集进程。
+- `free -m`：总 1,872 MB，已用 782，空闲 512，缓存 578，**可用 933**；swap 1,024，已用 496。磁盘余 16G（60%）。两个服务都是 active；`/var/lib/mcp-suite/call_logs` 还不存在；`access.sqlite3` 当时没有 -wal、-shm 文件。
+- 01:43 用 KIMI-DEPLOY 第 1a、2、3 步的命令原样复核（1a 没跑 flock）：结论相同；`free -m` 可用 962 MB；bench 的 ActiveEnterTimestamp 为 2026-09-10 15:41:37；在服务器内存里用 `2f0f070` 的 `v4_fields.py` 对线上 jobs.json 做枚举检查，25,631 条 `RESULT OK`，没有留下文件。本地实测第 1c 步时发现 zsh 不对 `$FILES` 分词，已把本地命令里的文件列表写成明文。
+
+### 0.7 部署
+
+任务书：`research/qiuzhao-v4-impl/KIMI-DEPLOY.md`。部署 feat/v4 @ `2f0f070` 的 6 个文件：
+
+| 文件 | 目标 sha256 |
+|---|---|
+| `core/server.py` | `09e831800ab674f36e0e855b22ec1befd261d71133b6c78d55c4d73e2ab6f7c8` |
+| `qiuzhao/tools.py` | `5fe3d3d60e06b21ea5ea6ae73f327da6a2c8ba976859d8087a7e6bedeecc9d5b` |
+| `qiuzhao/v4_fields.py`（新文件） | `ceb411808794ee6d742c73e4143cb15ea0b7ee52690e5d277e37368e80c25bd7` |
+| `core/store.py` | `a43fe29325064352bbe69028359563d6dbc9dc3e162c7663acc94110e7f43c07` |
+| `core/static/guide.html` | `a1e03aeaaf915bb72523f6a4cc3058fd66bc49804f367e7541d8cebec12813ec` |
+| `core/static/app.js` | `cd30fbfd46544fefd28bcb117b2f540f4e9ed826f41ecbc4ccb3f0e050e9aa15` |
+
+部署用的 3 个脚本都在 `scripts/`：`reapply_static_edits.py`（页面被改过时用）、`e2e_inprocess_check.py`（第 10 步）、`prepare_main_ff.py`（第 12 步，main 快进前清路）。
+
+### 0.8 需要 Max 知道或决定
+
+1. **main 工作副本里有 18 个文件会挡住快进**：`research/qiuzhao-v4-interface-20260911/` 下 17 个未跟踪文件（SPEC 原稿、evidence、examples、scripts）和改过没提交的 `scripts/v4lib.py`。它们和已提交的版本逐字节相同（17 个等于 `62c36fe`，v4lib.py 等于 feat/v4 的版本），但 git 仍会拒绝快进。KIMI-DEPLOY 第 12 步用 `prepare_main_ff.py` 先核对，全部相同才移到 `~/Projects/mcp-suite-preff-backup-<时间>/`（v4lib.py 先复制再还原到 HEAD），然后 `merge --ff-only`；有一个不同就停下。本地 dry run：`blockers=18 safe=18 different=0`。你如果不同意移动，Kimi 会停在快进这一步。
+2. **管理后台的一句文案与决定 5 不一致**：`core/server.py` 的 `/admin` 页面仍写“系统只存哈希；明文兑换码仅在生成时显示一次。”，而后台列表实际显示 code_plain。按要求只改了 store.py 文件头，这句没动。
+3. 部署之后、main 快进之前，如果 main 又有新提交（例如采集收尾的收据），快进会失败，Kimi 会停下；那时要先把 main 再合进 feat/v4。
+
 ## 1. 结论
 
 - 三个工具 `jobs_search`、`jobs_stats`、`jobs_detail` 按修订后的 SPEC 实现；不做兼容；A2 调用日志完整移植；bench 照常能跑，两个产品的 schema 核验都是 `RESULT OK`，没有 anyOf/oneOf/allOf，qiuzhao 工具没有 outputSchema。
-- 测试 130 项：129 通过，1 项失败是有意保留的（`test_atomic_redemption`：库里存了明文兑换码，见第 11 节第 5 条）。
+- 测试 130 项：129 通过，1 项失败是有意保留的（`test_atomic_redemption`：库里存了明文兑换码，见第 11 节第 5 条）。**2026-09-12 收尾后为 134 项全部通过，见第 0 节。**
 - v4 字段在服务端由 `qiuzhao/v4_fields.py` 从原始字段算出，按 jobs.json 的 mtime+大小缓存：冷启动构建 0.8 秒，缓存后单次调用 4–57 毫秒；Python 堆常驻 124 MB、构建峰值 129 MB。
 - 默认 search 的 HTTP 响应 23,011 B（A 包 53,600 B）；20 条满页 39,701 B；截断页 60,547 B。
 - 线上 5 个要替换的文件此刻仍等于 main；线上 jobs.json 已在 00:05 被 Kimi 的采集修复重写（不再有重复行），用 v4 规则转换后仍是 25,458 条、枚举检查通过。
@@ -193,7 +289,9 @@ cd ~/Projects/mcp-suite-wt-v4 && PYTHONDONTWRITEBYTECODE=1 ~/Projects/mcp-suite/
 - qiuzhao：`research/qiuzhao-v4-impl/tools_list_v4.json`（14,778 B，粗估 4,434 token）：`jobs_detail`（1 个参数，ids 必填）、`jobs_search`（15 个）、`jobs_stats`（14 个）；没有 outputSchema。
 - bench：`research/qiuzhao-v4-impl/tools_list_v4.bench.json`：`bench_detail`、`bench_search`、`bench_taxonomy`，与 A2 相同（`str | None` 已改为带默认值的 string，无 anyOf）。
 
-## 10. 部署方案（只写，未执行）
+## 10. 部署方案（只写，未执行；已被 `KIMI-DEPLOY.md` 取代）
+
+> 2026-09-12：本节的目标哈希和步骤已过期（代码在 `55bd3ee`、`2f0f070` 又改过）。部署以 `research/qiuzhao-v4-impl/KIMI-DEPLOY.md` 为准，本节只留作记录。
 
 线上 9/12 00:1x 只读核对：`core/server.py`、`qiuzhao/tools.py`、`core/store.py`、`core/static/guide.html`、`core/static/app.js` 的 sha256 都等于 main（08143798… / 77ffdb61… / 0348d335… / 4afa8338… / cb3d5e92…），`qiuzhao/v4_fields.py` 不存在；现有代码文件属主是 uid 501（显示为 UNKNOWN）:staff、644，是以前从 Mac 用 rsync -a 传上去的；`mcp-suite.service`、`mcp-suite-bench.service` 都在运行；`/var/lib/mcp-suite/call_logs` 还不存在；磁盘余 16G。
 
@@ -297,7 +395,7 @@ ssh $H "cd /opt/mcp-suite && cp -p $BK/core/server.py core/server.py && cp -p $B
 ```
 回滚后 `/var/lib/mcp-suite/call_logs/` 原样保留（旧代码不读它）。`code_plain` 迁移只在列不存在时 ALTER，线上库本来就有这一列，所以数据库无需回滚。部署后到回滚前若 bench 被重启过（包括崩溃自动拉起），它会跑新 server.py，回滚后也要 `systemctl restart mcp-suite-bench.service`。
 
-## 11. 需要 Max 决定
+## 11. 需要 Max 决定（2026-09-12 已全部决定，处理见第 0 节）
 
 1. **活动标题只写年份、不写“届”字，算不算写了届别。** 现按 SPEC 6.3 和决定 2 算“活动标题写明”（明确）。你给的 9,858 / 5,120 看起来是按“必须有‘20xx届’”统计的；按那个口径，2,661 条校招（主要是国聘专场“中国联通/中国移动/兵器集团 2027校园招聘”）会从明确匹配降为“按招聘季推断”（届别仍是 2027届）。
 2. **推断出具体届别的岗位，查别的届别时不返回。** “按招聘季推断”“来源专场注明”给的是 2027届，所以查 2026届 时它们不出现：Q07（2026届 + 国企）从起草时的 815（明确 563）变为 582（明确 580），原来的 252 条未注明只剩 2 条。另一种做法是对其他届别算“含未注明”，改一处匹配规则即可。
@@ -314,4 +412,5 @@ ssh $H "cd /opt/mcp-suite && cp -p $BK/core/server.py core/server.py && cp -p $B
 - 修订版说明书：`research/qiuzhao-v4-interface-20260911/SPEC.md`，示例 `research/qiuzhao-v4-interface-20260911/examples/`（由实现重新生成，`compat_and_errors.json` 换成 `errors.json`）。
 - 本目录：`RECEIPT.md`、`tools_list_v4.json`、`tools_list_v4.bench.json`；`scripts/acceptance_v4.py`、`measure_v4.py`、`make_examples_v4.py`；`evidence/pytest-final.txt`、`verify_schema_v4.txt`、`enum_check.txt`、`acceptance_v4.json`、`sizes_v4.json`、`perf_v4.json`、`evidence/pytest/`（测试与测量时的 uvicorn 日志和调用日志样例）。
 - 原始归一化脚本存档：`research/normalize-origin-20260911/`。
-- 测试数据：`qiuzhao/data/jobs.json`（9/11 快照，已被 .gitignore 忽略，未提交）。`research/qiuzhao-v4-impl/tmp/` 为空。
+- 测试数据：`qiuzhao/data/jobs.json`（9/11 快照）、`qiuzhao/data/jobs.live-20260912.json`（9/12 00:52 线上版的只读副本），都被 .gitignore 忽略，未提交。`research/qiuzhao-v4-impl/tmp/` 为空。
+- 2026-09-12 收尾新增：`KIMI-DEPLOY.md`；`scripts/reapply_static_edits.py`、`scripts/e2e_inprocess_check.py`、`scripts/prepare_main_ff.py`；`evidence/acceptance_v4.live-20260912.json`。

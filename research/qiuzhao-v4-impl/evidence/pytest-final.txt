@@ -1,39 +1,14 @@
-..............F......................................................... [ 55%]
-..........................................................               [100%]
-=================================== FAILURES ===================================
-____________________________ test_atomic_redemption ____________________________
-
-store = <core.store.Store object at 0x10be2f7d0>
-
-    def test_atomic_redemption(store):
-        code = store.generate_codes(1)[0]
-        def redeem(_):
-            try:
-                return store.redeem(code)
-            except AccessError:
-                return None
-        with ThreadPoolExecutor(max_workers=12) as executor:
-            results = list(executor.map(redeem, range(12)))
-        assert sum(x is not None for x in results) == 1
-        token = next(x['api_key'] for x in results if x)
-        assert store.authorize(token)['remaining_today'] == 999999  # qiuzhao-2026 now allows 999999/day
-        # Database and SQLite WAL must not contain raw credentials.
-        with store.connect() as db:
-            dump = '\n'.join(db.iterdump())
->       assert code not in dump and token not in dump
-E       AssertionError: assert ('QZ-D04E5A88...1186210276B3' not in 'BEGIN TRANS...L);\nCOMMIT;'
-E         
-E         'QZ-[redacted-test-code]' is contained here:
-E           6bf2464','QZ-[redacted-test-code]');
-E           CREATE TABLE usage_log (
-E                           key_id TEXT NOT NULL, product TEXT NOT NULL, tool TEXT NOT NULL, at TEXT NOT NULL);
-E           COMMIT;)
-
-tests/test_core.py:30: AssertionError
+........................................................................ [ 53%]
+..............................................................           [100%]
 =============================== warnings summary ===============================
 tests/test_call_log.py::test_threaded_writes_keep_long_lines_whole
+  /Users/maxzhl/Projects/mcp-suite/.venv/lib/python3.12/site-packages/fastmcp/server/auth/providers/jwt.py:10: AuthlibDeprecationWarning: authlib.jose module is deprecated, please use joserfc instead.
+  It will be compatible before version 2.0.0.
+    from authlib.jose import JsonWebKey, JsonWebToken
 
 tests/test_call_log.py::test_threaded_writes_keep_long_lines_whole
+  /Users/maxzhl/Projects/mcp-suite/.venv/lib/python3.12/site-packages/authlib/integrations/httpx_client/assertion_client.py:5: AuthlibDeprecationWarning: The httpx module is deprecated; please use httpx2 instead.
+    from ._compat import httpx2
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
 ==================================== PASSES ====================================
@@ -52,6 +27,7 @@ PASSED tests/test_call_log.py::test_threaded_writes_keep_long_lines_whole
 PASSED tests/test_call_log.py::test_value_bounds_and_line_cap
 PASSED tests/test_call_log.py::test_old_day_files_are_kept
 PASSED tests/test_call_log.py::test_analyze_script_reports_repeats_and_zero_results
+PASSED tests/test_core.py::test_atomic_redemption
 PASSED tests/test_core.py::test_atomic_daily_limit
 PASSED tests/test_core.py::test_expiry_product_and_invalid
 PASSED tests/test_core.py::test_midnight_resets_and_handshake_free
@@ -135,6 +111,8 @@ PASSED tests/test_v4_fields.py::test_iter_json_file_across_chunk_boundaries[1048
 PASSED tests/test_v4_fields.py::test_iter_json_file_equals_json_load
 PASSED tests/test_v4_fields.py::test_cache_rebuilds_only_when_the_file_changes
 PASSED tests/test_v4_fields.py::test_budget_keeps_at_least_one_whole_job
+PASSED tests/test_v4_fields.py::test_order_inside_a_tier_follows_specificity
+PASSED tests/test_v4_fields.py::test_inferred_year_is_unspecified_for_other_years
 PASSED tests/test_v4_fields.py::test_counts_match_an_independent_reading_of_the_spec
 PASSED tests/test_v4_tools.py::test_single_copy_content_only
 PASSED tests/test_v4_tools.py::test_default_search_shape
@@ -167,5 +145,6 @@ PASSED tests/test_v4_tools.py::test_detail
 PASSED tests/test_v4_tools.py::test_test_records_are_gone
 PASSED tests/test_v4_tools.py::test_deadline_window_and_order
 PASSED tests/test_v4_tools.py::test_acceptance_http_equals_in_process
-FAILED tests/test_core.py::test_atomic_redemption - AssertionError: assert ('...
-1 failed, 129 passed, 2 warnings in 20.40s
+PASSED tests/test_v4_tools.py::test_order_inside_a_tier_is_by_specificity
+PASSED tests/test_v4_tools.py::test_inferred_year_is_unspecified_for_other_years
+134 passed, 2 warnings in 23.11s

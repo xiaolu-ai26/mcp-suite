@@ -1,6 +1,15 @@
+$ python qiuzhao/v4_fields.py check qiuzhao/data/jobs.json   # feat/v4 @ 2f0f070
 {
  "items": 25458,
  "data_as_of": "2026-09-11T12:00:00+08:00",
+ "problems": []
+}
+RESULT OK
+exit=0
+$ python qiuzhao/v4_fields.py check qiuzhao/data/jobs.live-20260912.json   # feat/v4 @ 2f0f070
+{
+ "items": 25631,
+ "data_as_of": "2026-09-12T00:52:36+08:00",
  "problems": []
 }
 RESULT OK
