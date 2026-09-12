@@ -1,0 +1,22 @@
+== release-A2 (in-process import, throwaway DB, MCP_CALL_LOG_DIR -> scratch)
+/Users/maxzhl/Projects/mcp-suite/.venv/lib/python3.12/site-packages/fastmcp/server/auth/providers/jwt.py:10: AuthlibDeprecationWarning: authlib.jose module is deprecated, please use joserfc instead.
+It will be compatible before version 2.0.0.
+  from authlib.jose import JsonWebKey, JsonWebToken
+/Users/maxzhl/Projects/mcp-suite/.venv/lib/python3.12/site-packages/authlib/integrations/httpx_client/assertion_client.py:5: AuthlibDeprecationWarning: The httpx module is deprecated; please use httpx2 instead.
+  from ._compat import httpx2
+qiuzhao jobs_deadlines: params=3 anyOf/oneOf=False missing_type=[]
+qiuzhao jobs_detail: params=1 anyOf/oneOf=False missing_type=[]
+qiuzhao jobs_search: params=13 anyOf/oneOf=False missing_type=[]
+RESULT OK []
+call-log dir not created by import
+== release-A2d (in-process import, throwaway DB, MCP_CALL_LOG_DIR -> scratch)
+/Users/maxzhl/Projects/mcp-suite/.venv/lib/python3.12/site-packages/fastmcp/server/auth/providers/jwt.py:10: AuthlibDeprecationWarning: authlib.jose module is deprecated, please use joserfc instead.
+It will be compatible before version 2.0.0.
+  from authlib.jose import JsonWebKey, JsonWebToken
+/Users/maxzhl/Projects/mcp-suite/.venv/lib/python3.12/site-packages/authlib/integrations/httpx_client/assertion_client.py:5: AuthlibDeprecationWarning: The httpx module is deprecated; please use httpx2 instead.
+  from ._compat import httpx2
+qiuzhao jobs_deadlines: params=3 anyOf/oneOf=False missing_type=[]
+qiuzhao jobs_detail: params=1 anyOf/oneOf=False missing_type=[]
+qiuzhao jobs_search: params=13 anyOf/oneOf=False missing_type=[]
+RESULT OK []
+call-log dir not created by import
