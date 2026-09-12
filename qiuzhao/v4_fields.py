@@ -322,10 +322,10 @@ def graduation_of(r):
                 basis.setdefault(f'{year}届', '活动标题写明')
         return _sorted(basis), basis, '', 'cohort_raw'
     rtype = r.get('recruitment_type')
-    if rtype == '社会招聘':
-        return [], {}, NOTE_SOCIAL, 'social'
     description = role_description_years(r.get('description_raw'))
     title = title_years(r.get('job_title'))
+    if rtype == '社会招聘' and not description and not title and not job_bound_campaign(r):
+        return [], {}, NOTE_SOCIAL, 'social'
     if description:
         description_text = str(r.get('description_raw') or '')
         if (re.search(r'20\d{2}\s*届(?:毕业生)?\s*(?:也可|亦可|也欢迎)', description_text)

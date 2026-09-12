@@ -141,3 +141,20 @@ def test_negated_open_range_never_creates_positive_eligibility():
     raw['cohort_raw']='2027届及以后，不接受2028届及以后'
     bounds=V.graduation_constraints_of(raw)
     assert bounds['min_year']==2027 and bounds['max_year']==2027
+
+
+def test_explicit_social_recruitment_preserves_role_cohorts_and_unrestricted_notice(tmp_path):
+    from qiuzhao import v4_fields as V
+    from qiuzhao.tools import Jobs
+    explicit={'id':'specific','recruitment_type':'社会招聘','job_title':'初级EMS产品经理（25-26届）',
+              'description_raw':'任职要求：24-25届优秀毕业生，本科及以上学历',
+              'source_url':'https://example.com/job/specific','application_url':'https://example.com/job/specific'}
+    assert V.graduation_of(explicit)[0]==['2025届','2024届']
+    unrestricted={'id':'general','recruitment_type':'社会招聘','job_title':'软件工程师','description_raw':'负责软件开发',
+                  'source_url':'https://example.com/job/general','application_url':'https://example.com/job/general'}
+    path=tmp_path/'jobs.json';path.write_text(json.dumps([explicit,unrestricted]));jobs=Jobs(path)
+    assert jobs.search(graduation_year='2027届')['total']==0
+    result=jobs.search(graduation_year='2027届',recruitment_type='社会招聘')
+    assert result['total']==1 and result['jobs'][0]['id']=='general'
+    assert result['jobs'][0]['match']['graduation_year']=='社招不限届别'
+    assert jobs.search(graduation_year='2025届',recruitment_type='社会招聘')['total']==2
