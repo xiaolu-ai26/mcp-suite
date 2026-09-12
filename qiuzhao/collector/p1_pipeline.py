@@ -297,6 +297,12 @@ def publish(data_dir, results, run_dir):
                     backup=str(backup), backup_sha256=backup_hash, total_jobs=len(merged), published_at=now())
 
 
+def checkpoint_path(data_dir, companies, scopes):
+    selection = json.dumps([companies, scopes], ensure_ascii=False).encode()
+    key = hashlib.sha256(selection).hexdigest()[:20]
+    return Path(data_dir) / 'p1-checkpoints' / (key + '.json')
+
+
 def run(data_dir, run_dir, companies, scopes, timeout=900, apply=False, resume=False, max_run_seconds=21600):
     data_dir, run_dir = Path(data_dir), Path(run_dir)
     run_dir.mkdir(parents=True, exist_ok=True)
@@ -310,6 +316,7 @@ def run(data_dir, run_dir, companies, scopes, timeout=900, apply=False, resume=F
     def save_status():
         atomic_json(status_path, status)
         atomic_json(data_dir / 'p1-status.json', status)
+        atomic_json(checkpoint_path(data_dir, companies, scopes), status)
 
     status.update(run_finished=False, success=False)
     save_status()
@@ -389,14 +396,17 @@ def main():
     run_dir = args.run_dir or args.data_dir / 'p1-runs' / dt.datetime.now().strftime('%Y%m%dT%H%M%S')
     def select_checkpoint():
         nonlocal run_dir
-        latest = args.data_dir / 'p1-status.json'
+        latest = checkpoint_path(args.data_dir, companies, scopes)
+        if not latest.exists():
+            latest = args.data_dir / 'p1-status.json'
         if args.resume_latest and latest.exists():
             checkpoint = json.loads(latest.read_text())
             if checkpoint.get('run_dir'):
                 saved_path = Path(checkpoint['run_dir']) / 'status.json'
                 if saved_path.exists():
                     checkpoint = json.loads(saved_path.read_text())
-            if not checkpoint.get('run_finished', True) and checkpoint.get('run_dir'):
+            if (checkpoint.get('companies') == companies and checkpoint.get('scopes') == scopes
+                    and not checkpoint.get('run_finished', True) and checkpoint.get('run_dir')):
                 run_dir, args.resume = Path(checkpoint['run_dir']), True
     if args.apply:
         args.data_dir.mkdir(parents=True, exist_ok=True)

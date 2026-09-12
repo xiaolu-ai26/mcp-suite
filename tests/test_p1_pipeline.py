@@ -230,6 +230,31 @@ class P1Tests(unittest.TestCase):
         rows, _ = p.merge_records([legacy, dict(legacy, id='ambiguous')], [('大疆', 'campus', incoming)])
         self.assertEqual(len(rows), 3)
 
+    def test_subset_run_does_not_replace_another_selection_checkpoint(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            first = root / 'first'; second = root / 'second'
+            p.run(root, first, ['大疆'], ['campus'], max_run_seconds=0)
+            p.run(root, second, ['拼多多'], ['social'], max_run_seconds=0)
+            self.assertEqual(json.loads((root / 'p1-status.json').read_text())['run_dir'], str(second))
+            with patch.object(p, 'collect_process', return_value=self.validated()) as collect:
+                with patch('sys.argv', ['p1', '--data-dir', str(root), '--companies', '大疆',
+                                       '--scopes', 'campus', '--resume-latest']):
+                    self.assertEqual(p.main(), 0)
+                self.assertEqual(collect.call_args.args[2], first / '02' / 'campus')
+            self.assertFalse(json.loads((second / 'status.json').read_text())['run_finished'])
+            self.assertTrue(json.loads((first / 'status.json').read_text())['run_finished'])
+
+    def test_legacy_latest_different_selection_is_not_resumed(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            p.run(root, root / 'subset', ['拼多多'], ['social'], max_run_seconds=0)
+            with patch.object(p, 'collect_process', return_value=self.validated()):
+                with patch('sys.argv', ['p1', '--data-dir', str(root), '--companies', '大疆',
+                                       '--scopes', 'campus', '--resume-latest']):
+                    self.assertEqual(p.main(), 0)
+            self.assertFalse(json.loads((root / 'subset' / 'status.json').read_text())['run_finished'])
+
 
 if __name__ == '__main__':
     unittest.main()
