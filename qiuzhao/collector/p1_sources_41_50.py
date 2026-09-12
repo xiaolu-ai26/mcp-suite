@@ -33,8 +33,8 @@ def collect_xiaomi_domestic(scope,out):
     if not shared.text(description) and not shared.text(requirement):c['errors'].append('No disclosed role text for '+ident);continue
     url=row.get('url') or ''
     if not url.startswith('https://xiaomi.jobs.f.mioffice.cn/') or ident not in url:raise ValueError('Xiaomi official URL identity mismatch')
-    j=shared.job('小米',scope,'xiaomi-domestic:'+ident,row['title'],url,description+'\n任职要求\n'+requirement,' / '.join(row.get('cityZhNames') or []),{**row,'qualification':requirement})
-    j['official_source_id']=ident;j['source_namespace']='xiaomi-domestic';j['scope_evidence']=f'Official Xiaomi proxy type={kind}; jobPostId and returned original URL agree';j['publication_date']=row.get('publishTime');j['hiring_department_raw']=row.get('levelOneDeptName') or '';j['detail_source']='Official Xiaomi proxy supplies full description and requirement without truncation';jobs.append(j)
+    j=shared.job('小米',scope,'feishu-xiaomi:'+ident,row['title'],url,description+'\n任职要求\n'+requirement,' / '.join(row.get('cityZhNames') or []),{**row,'qualification':requirement})
+    j['official_source_id']=ident;j['source_namespace']='feishu-xiaomi';j['scope_evidence']=f'Official Xiaomi proxy type={kind}; jobPostId and returned original URL agree';j['publication_date']=row.get('publishTime');j['hiring_department_raw']=row.get('levelOneDeptName') or '';j['detail_source']='Official Xiaomi proxy supplies full description and requirement without truncation';jobs.append(j)
    if not rows or d['pageNum']==d['pageTotal']:
     c['last_page_evidence']=f'page={page};official_pages={d["pageTotal"]};unique={len(seen)};total={total}';break
   if len(seen)!=total:raise ValueError('Xiaomi incomplete proxy pagination')
@@ -110,6 +110,7 @@ def collect(company,scope,output_dir):
  else:
   c=shared.coverage('');c['errors']=['Official adapter implementation in progress'];result=shared.finish([],c)
  c=result['coverage'];c['evidence_files']=c.get('evidence_files') or [p.name for p in out.glob('*list*.json')]
+ if c.get('request_params'):c['scope_request']={'company':requested,'scope':scope,'source_url':c['source_url'],'params':c['request_params']}
  if c.get('scope_request'):c['scope_request']['company']=requested
  if not result['jobs'] and c.get('complete'):
   c['source_complete']=True;c['company_scope_complete']=False;c['complete']=False;c['status']='blocked';c['blocking_kind']='coverage_discovery';c['errors'].append('Inspected source scope is empty; sole current company-wide scope not yet verified')
