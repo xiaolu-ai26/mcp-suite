@@ -255,6 +255,33 @@ class P1Tests(unittest.TestCase):
                     self.assertEqual(p.main(), 0)
             self.assertFalse(json.loads((root / 'subset' / 'status.json').read_text())['run_finished'])
 
+    def test_timeout_publishes_only_validated_partial_checkpoint(self):
+        from unittest.mock import MagicMock
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            process=MagicMock(pid=1234)
+            process.wait.side_effect=[subprocess.TimeoutExpired('adapter',1),0]
+            def start(*args,**kwargs):
+                p.atomic_json(root/'result.json',result())
+                return process
+            with patch.object(p.subprocess,'Popen',side_effect=start), patch.object(p.os,'killpg'):
+                collected=p.collect_process('大疆','campus',root,timeout=1)
+            self.assertEqual(len(collected['jobs']),1)
+            self.assertEqual(collected['coverage']['status'],'partial')
+            self.assertFalse(collected['coverage']['complete'])
+            self.assertTrue(collected['coverage']['errors'])
+
+    def test_timeout_does_not_reuse_preexisting_result(self):
+        from unittest.mock import MagicMock
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);p.atomic_json(root/'result.json',result())
+            process=MagicMock(pid=1234)
+            process.wait.side_effect=[subprocess.TimeoutExpired('adapter',1),0]
+            with patch.object(p.subprocess,'Popen',return_value=process), patch.object(p.os,'killpg'):
+                collected=p.collect_process('大疆','campus',root,timeout=1)
+            self.assertEqual(collected['coverage']['status'],'blocked')
+            self.assertEqual(collected['jobs'],[])
+
 
 if __name__ == '__main__':
     unittest.main()

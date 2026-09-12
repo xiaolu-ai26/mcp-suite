@@ -174,9 +174,21 @@ def collect_process(company, scope, output_dir, timeout=900):
         except subprocess.TimeoutExpired:
             os.killpg(process.pid, signal.SIGKILL)
             process.wait()
-            return blocked(f'scope wall-clock timeout after {timeout}s')
-    if rc or not result_path.exists():
+            rc = 'timeout'
+    if rc:
+        if result_path.exists():
+            try:
+                checkpoint = json.loads(result_path.read_text())
+                if checkpoint.get('jobs'):
+                    coverage = checkpoint['coverage']
+                    coverage.update(status='partial', complete=False, detail_complete=False)
+                    coverage.setdefault('errors', []).append(f'adapter interrupted: {rc}; scope timeout={timeout}s')
+                    return validate_result(checkpoint, company, scope, output_dir)
+            except (ValueError, TypeError, KeyError):
+                pass
         return blocked(f'adapter exit={rc}; inspect {output_dir / "adapter.log"}')
+    if not result_path.exists():
+        return blocked(f'adapter result missing; inspect {output_dir / "adapter.log"}')
     try:
         return validate_result(json.loads(result_path.read_text()), company, scope, output_dir)
     except (ValueError, TypeError, KeyError) as error:
@@ -373,7 +385,7 @@ def main():
     parser.add_argument('--run-dir', type=Path)
     parser.add_argument('--companies', help='comma-separated exact company names; default all 50')
     parser.add_argument('--scopes', default=','.join(SCOPES))
-    parser.add_argument('--timeout', type=int, default=900)
+    parser.add_argument('--timeout', type=int, default=3600)
     parser.add_argument('--apply', action='store_true')
     parser.add_argument('--resume', action='store_true')
     parser.add_argument('--resume-latest', action='store_true')
@@ -408,6 +420,7 @@ def main():
             if (checkpoint.get('companies') == companies and checkpoint.get('scopes') == scopes
                     and not checkpoint.get('run_finished', True) and checkpoint.get('run_dir')):
                 run_dir, args.resume = Path(checkpoint['run_dir']), True
+    os.environ.setdefault('QIUZHAO_P1_DETAIL_CACHE_ROOT', str(args.data_dir / 'p1-detail-cache'))
     if args.apply:
         args.data_dir.mkdir(parents=True, exist_ok=True)
         lock_path = args.data_dir / 'collector.lock'
