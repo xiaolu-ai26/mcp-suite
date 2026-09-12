@@ -23,7 +23,7 @@ def route(company):
         return S.TABLES[2], '制造/工业'
     if company in PHARMA:
         return S.TABLES[3], '医药/医疗'
-    return S.TABLES[0], '互联网/科技'
+    return S.INTERNET_CONTINUATION, '互联网/科技'
 
 
 def qualification_note(raw):
@@ -56,7 +56,7 @@ def qualification_note(raw):
 
 def verified_backup(out):
     backup=json.loads((out/'backup.json').read_text())
-    if backup.get('base')!=S.BASE or set(backup.get('tables',{}))!=set(S.TABLES):
+    if backup.get('base')!=S.BASE or not S.valid_table_selection(backup.get('tables',{})):
         raise ValueError('backup target mismatch')
     for meta in backup['tables'].values():
         for name in ['records','schema']:
@@ -103,7 +103,7 @@ def note_sync(out, jobs_path):
         if identity in notes and notes[identity]!=value:ambiguous.add(identity)
         notes[identity]=value
     ensure_note_fields(out)
-    for table in S.TABLES:
+    for table in backup['tables']:
         records=json.loads(Path(backup['tables'][table]['records']).read_text())
         pairs=[(r['record_id'],r['job_id']) for r in records if r.get('job_id') in notes and r['job_id'] not in ambiguous]
         for start in range(0,len(pairs),200):

@@ -73,7 +73,7 @@ def run(state_dir):
         except BlockingIOError:return {'status':'already_running'}
         status_path=state_dir/'status.json'
         previous=json.loads(status_path.read_text()) if status_path.exists() else {}
-        state={**previous,'last_attempt_at':now(),'status':'checking','error':None}
+        state={**previous,'last_attempt_at':now(),'status':'checking','error':None,'finished_at':None}
         S.save(status_path,state)
         try:
             observed=source_hash();state['observed_source_sha256']=observed

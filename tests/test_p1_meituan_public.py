@@ -166,3 +166,9 @@ def test_requirement_extraction_keeps_constraints_without_inventing_majors():
     assert M._major_values('专业不限')=='专业不限'
     assert M._education_values('本科及以上学历，优秀者可放宽')=='本科及以上学历，优秀者可放宽'
     assert M._is_boilerplate('隐私政策：本网站收集个人信息')
+
+
+def test_professional_skills_are_not_academic_majors():
+    from qiuzhao.collector import p1_meituan_public as M
+    assert M._major_values('具备专业的数据分析能力和专业精神')==''
+    assert M._major_values('计算机相关专业优先')=='计算机相关专业优先'

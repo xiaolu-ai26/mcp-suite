@@ -19,6 +19,13 @@ from qiuzhao import v4_fields as V
 
 BASE = 'REDACTED'
 TABLES = ['tblX7rOpjWaRArng', 'tbl0xkmJUMmLqZ1W', 'tbl0gDcxEaIOYERw', 'tblcrBAi0ld7uej8']
+ORIGINAL_TABLES = tuple(TABLES)
+INTERNET_CONTINUATION = 'tblu0nsYjntEOCGY'
+TABLES = [*ORIGINAL_TABLES, INTERNET_CONTINUATION]
+
+def valid_table_selection(tables):
+    return set(tables) in (set(ORIGINAL_TABLES), set(TABLES))
+
 TARGETS = ['毕业届别', '工作地点', '专业']
 
 
@@ -143,7 +150,7 @@ def values_for(raw):
 
 def make_plan(out, jobs_path):
     backup = json.loads((out / 'backup.json').read_text())
-    if backup['base'] != BASE or set(backup['tables']) != set(TABLES):
+    if backup['base'] != BASE or not valid_table_selection(backup['tables']):
         raise ValueError('backup target mismatch')
     jobs = {}; ambiguous = set()
     for raw in V.iter_json_file(jobs_path):
@@ -238,7 +245,7 @@ def wait_schema_ready(table, expected, timeout=45):
 
 def apply_plan(out):
     plan_path = out / 'plan.json'; plan = json.loads(plan_path.read_text())
-    if plan['base'] != BASE or set(plan['tables']) != set(TABLES):
+    if plan['base'] != BASE or not valid_table_selection(plan['tables']):
         raise ValueError('plan target mismatch')
     state_path = out / 'apply-status.json'
     state = json.loads(state_path.read_text()) if state_path.exists() else {'plan_sha256': digest(plan_path), 'done': []}

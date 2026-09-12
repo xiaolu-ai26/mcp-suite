@@ -41,3 +41,11 @@ def test_only_definitive_capacity_rejection_can_clear_create_intent():
     assert not E.quota_rejection(RuntimeError('request timed out'))
     error['error']['code']=500
     assert not E.quota_rejection(RuntimeError(json.dumps(error)))
+
+
+def test_continuation_is_explicit_allowlisted_and_only_routes_new_software():
+    assert E.route('拼多多')[0]==E.S.INTERNET_CONTINUATION
+    assert E.route('大疆')[0]==E.S.ORIGINAL_TABLES[2]
+    assert E.S.valid_table_selection(E.S.ORIGINAL_TABLES)
+    assert E.S.valid_table_selection(E.S.TABLES)
+    assert not E.S.valid_table_selection([*E.S.TABLES,'tblUnapproved'])

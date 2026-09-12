@@ -77,7 +77,7 @@ def _education_values(text: str) -> str:
 def _major_values(text: str) -> str:
     # A preference for experience is not an academic major requirement.
     return '；'.join(sentence for sentence in _sentence_split(text)
-                    if re.search(r'专业|\bmajor\b|\bdegree in\b', sentence, re.I))
+                    if re.search(r'相关专业|专业(?:不限|背景|要求|方向|优先|毕业)|\bmajor(?:ing)?\s+(?:in|requirements?)\b|\bdegree in\b', sentence, re.I))
 
 
 def _stable_id(company: str, scope: str, source_id: str) -> str:
