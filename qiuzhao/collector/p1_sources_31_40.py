@@ -164,7 +164,7 @@ def collect_lixiang(scope,out):
 
 def collect_ecovacs(scope,out):
     moka=out/'moka';moka.mkdir(parents=True,exist_ok=True)
-    sites=[('https://app.mokahr.com/social-recruitment/ecovacs/102402','Linked by current hr.ecovacs.cn'),('https://app.mokahr.com/apply/ecovacs/36792','Linked by current hr.ecovacs.cn')]
+    sites=[('https://app.mokahr.com/campus_apply/ecovacs/36793','Current official branded campus portal; init-data org ecovacs siteId36793 type camp'),('https://app.mokahr.com/social-recruitment/ecovacs/102402','Linked by current hr.ecovacs.cn'),('https://app.mokahr.com/apply/ecovacs/36792','Linked by current hr.ecovacs.cn')]
     result=shared.collect_moka_sites('科沃斯',scope,sites,moka);c=result['coverage'];c['evidence_files']=['moka/'+str(x) for x in c.get('evidence',[])];jobs=result['jobs']
     def page_data(url):
         rr=shared.http_get(url,timeout=(10,35));rr.raise_for_status();rr.encoding='utf-8';match=re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>',rr.text,re.S)

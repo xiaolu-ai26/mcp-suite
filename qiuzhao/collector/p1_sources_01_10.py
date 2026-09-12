@@ -164,7 +164,7 @@ def collect_moka_sites(company,scope,sites,output_dir):
     jobs=[];c=coverage(sites[0][0] if sites else '');seen=set();session=make_session()
     try:
         for site_url,basis in sites:
-            m=re.search(r'/(?:(?:campus|social)-recruitment|apply)/([^/]+)/(\d+)',site_url)
+            m=re.search(r'/(?:(?:campus|social)-recruitment|campus_apply|apply)/([^/]+)/(\d+)',site_url)
             if not m:raise ValueError('Unrecognized verified Moka URL')
             org,site=m.groups();host=site_url.split('/')[0]+'//'+site_url.split('/')[2]
             r=session.get(site_url,timeout=(10,45));r.raise_for_status();pagehtml=html.unescape(r.text)

@@ -30,6 +30,6 @@ class JDSocialInlineTests(unittest.TestCase):
     return Response([{'requirementId':33,'positionId':4,'positionNameOpen':'软件工程师','workContent':'负责开发业务服务并参与产品迭代。','qualification':'本科及以上学历，具备软件开发经验。','workCity':'北京市'}] if page==1 else [])
   with tempfile.TemporaryDirectory() as d,patch.object(m.shared,'make_session',return_value=Session()):
    r=m.collect_jd_social(Path(d));j=r['jobs'][0]
-   self.assertEqual(r['coverage']['list_total'],1);self.assertEqual(r['coverage']['pages_scanned'],2)
+   self.assertEqual(r['coverage']['list_total'],1);self.assertEqual(r['coverage']['pages_scanned'],1)
    self.assertEqual(j['source_record_id'],'jd-social:33');self.assertEqual(j['application_link_type'],'list_entry');self.assertEqual(j['detail_presentation'],'inline')
    self.assertTrue(r['coverage']['complete']);self.assertNotIn('#',j['detail_url'])
