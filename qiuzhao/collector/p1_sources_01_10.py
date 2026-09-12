@@ -67,6 +67,24 @@ def job(company,scope,ident,title,url,description,location='',raw=None):
     else:record['source_missing_fields']=[];record['field_completeness']={'combined_description':'provided' if record['description_raw'] else 'not_disclosed'}
     return record
 
+def apply_moka_status(record,list_row,detail=None):
+    """Official explicit availability outranks historical open/close timestamps."""
+    detail=detail or {};listed=list_row.get('status');detailed=detail.get('status')
+    record['source_list_status_raw']=listed;record['source_detail_status_raw']=detailed
+    record['source_status_raw']=listed or detailed
+    record['source_status_evidence']={'list_status':listed,'detail_status':detailed,'basis':'Official Moka list.status and detail.status; explicit pause/closed are non-applicable'}
+    record['source_status_dates']={key:list_row.get(key) if list_row.get(key) is not None else detail.get(key) for key in ('openedAt','closedAt','updatedAt')}
+    statuses={x for x in (listed,detailed) if x}
+    if statuses.intersection({'pause','closed'}):
+        record['status']='expired';record['source_is_active']=False
+        record['status_note']='官网明确暂停或关闭招聘（'+','.join(sorted(statuses))+'），当前不作为在招；日期原文保留，不据此推断恢复。'
+    elif statuses=={'open'}:
+        record['status']='open';record['source_is_active']=True
+    else:
+        record['status']='unverified';record['source_is_active']=False;record['status_note']='官网招聘状态未识别，待核验。'
+    if len(statuses)>1:record['source_status_conflict']='List/detail explicit statuses differ; never override inactive source with open timestamp.'
+    return record
+
 def coverage(url):
     return {'status':'blocked','complete':False,'expected_total':None,'collected_jobs':0,'pages_scanned':0,'detail_complete':False,'source_url':url,'errors':[],'evidence':[]}
 
@@ -199,6 +217,7 @@ def collect_moka_sites(company,scope,sites,output_dir):
                 j=job(company,scope,ident,detail['title'],url,detail['jobDescription'],loc,detail)
                 j['scope_evidence']=f'{basis}; hireMode={row.get("hireMode")}; commitment={row.get("commitment","")}; title={row.get("title","")}'
                 j['recruitment_type_raw']={'hireMode':detail.get('hireMode'),'commitment':detail.get('commitment')}
+                apply_moka_status(j,row,detail)
                 j['list_checked_at']=datetime.now(timezone.utc).isoformat();j['detail_checked_at']=detail_checked;j['detail_cache_reused']=cached
                 if '校园大使' in detail['title'] and scope=='social':j['recruitment_type_conflict']='Official hireMode=1 (social), title names campus ambassador; retain source classification for review'
                 project=detail.get('projectFolder') or {};settings=project.get('settings') or {}
@@ -211,6 +230,8 @@ def collect_moka_sites(company,scope,sites,output_dir):
                         jobs.append(future.result())
                         if len(jobs)%100==0:partial_checkpoint(jobs,c,company,scope,output_dir)
                     except Exception as exc:c['errors'].append(f'detail {tasks[future]}: {exc}')
+        c['source_status_counts']={state:sum(1 for j in jobs if j.get('source_list_status_raw')==state) for state in sorted({str(j.get('source_list_status_raw')) for j in jobs})}
+        c['active_jobs']=sum(j.get('source_is_active') is True for j in jobs);c['inactive_jobs']=sum(j.get('source_is_active') is False for j in jobs)
         c['pagination_exhausted']=True;c['detail_complete']=not c['errors'];c['expected_total']=len(seen)
         c['scope_evidence']=f'Official Moka hireMode 1 social/2 campus; internship commitment/title; requested={scope}'
     except Exception as exc:c['errors'].append(str(exc))
