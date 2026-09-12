@@ -15,4 +15,11 @@ class PublicSDKTests(unittest.TestCase):
    with self.assertRaises(ValueError):response_data(response)
  def test_unverified_tenant_configuration_rejected_before_browser(self):
   with self.assertRaises(ValueError):collect_feishu('company','campus',[{'url':'https://example.org'}],Path('/tmp/not-written'))
+class CleanupTests(unittest.TestCase):
+ def test_context_cleanup_error_does_not_skip_browser_and_driver(self):
+  from unittest.mock import MagicMock
+  from qiuzhao.collector.p1_feishu_public import AnonymousBrowser
+  browser=AnonymousBrowser(None);ctx=MagicMock();engine=MagicMock();driver=MagicMock();ctx.close.side_effect=RuntimeError('already closed')
+  browser._context=ctx;browser._browser=engine;browser._pw=driver
+  browser.close();engine.close.assert_called_once();driver.stop.assert_called_once();self.assertIsNone(browser._browser)
 if __name__=='__main__':unittest.main()
