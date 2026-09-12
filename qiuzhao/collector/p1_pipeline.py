@@ -163,7 +163,7 @@ def collect_process(company, scope, output_dir, timeout=900):
     # Do not permit stale result reuse after a killed/interrupted previous attempt.
     if result_path.exists():
         result_path.unlink()
-    command = [sys.executable, '-m', __name__, '--adapter', REGISTRY[company],
+    command = [sys.executable, '-m', 'qiuzhao.collector.p1_pipeline', '--adapter', REGISTRY[company],
                '--company', company, '--scope', scope, '--output-dir', str(output_dir)]
     with open(output_dir / 'adapter.log', 'w', encoding='utf-8') as log:
         process = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT,

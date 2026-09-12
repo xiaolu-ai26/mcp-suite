@@ -201,6 +201,19 @@ class P1Tests(unittest.TestCase):
                 self.assertEqual(collect.call_args.args[1], 'intern')
             self.assertTrue(json.loads((root / 'p1-status.json').read_text())['run_finished'])
 
+    def test_real_module_cli_dispatches_adapter(self):
+        import sys
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            proc = subprocess.run([sys.executable, '-m', 'qiuzhao.collector.p1_pipeline',
+                '--data-dir', str(root), '--run-dir', str(root / 'run'),
+                '--companies', '拼多多', '--scopes', 'social'],
+                cwd=Path(__file__).resolve().parents[1], capture_output=True, text=True, timeout=30)
+            self.assertEqual(proc.returncode, 1)
+            status = json.loads((root / 'p1-status.json').read_text())
+            errors = status['results']['拼多多/social']['coverage']['errors']
+            self.assertTrue(any('Official social recruitment endpoint not verified' in e for e in errors), errors)
+
 
 if __name__ == '__main__':
     unittest.main()
