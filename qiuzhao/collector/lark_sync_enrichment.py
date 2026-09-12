@@ -20,7 +20,7 @@ def route(company):
     # Product categorization approved for NEW records only, not an official
     # industry classification and never a reason to move an existing record.
     if company in HARDWARE:
-        return S.TABLES[2], '制造/工业'
+        return S.MANUFACTURING_CONTINUATION, '制造/工业'
     if company in PHARMA:
         return S.TABLES[3], '医药/医疗'
     return S.INTERNET_CONTINUATION, '互联网/科技'

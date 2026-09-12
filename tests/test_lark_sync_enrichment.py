@@ -16,7 +16,7 @@ def test_new_p1_record_has_arrays_and_no_manual_remark():
          'source_url':'https://careers.dji.com/job/test','cities':['深圳','北京'],
          'major_requirements_raw':'计算机科学、电子信息','status':'unverified'}
     table,fields=E.new_fields(raw)
-    assert table==E.S.TABLES[2]
+    assert table==E.S.MANUFACTURING_CONTINUATION
     assert fields['毕业届别']==['2027届','2026届']
     assert fields['专业']==['计算机类','电子信息类']
     assert '备注' not in fields
@@ -45,7 +45,7 @@ def test_only_definitive_capacity_rejection_can_clear_create_intent():
 
 def test_continuation_is_explicit_allowlisted_and_only_routes_new_software():
     assert E.route('拼多多')[0]==E.S.INTERNET_CONTINUATION
-    assert E.route('大疆')[0]==E.S.ORIGINAL_TABLES[2]
+    assert E.route('大疆')[0]==E.S.MANUFACTURING_CONTINUATION
     assert E.S.valid_table_selection(E.S.ORIGINAL_TABLES)
     assert E.S.valid_table_selection(E.S.TABLES)
     assert not E.S.valid_table_selection([*E.S.TABLES,'tblUnapproved'])
