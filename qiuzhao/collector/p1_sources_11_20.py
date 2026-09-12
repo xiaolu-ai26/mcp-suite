@@ -199,6 +199,8 @@ def _bilibili_education(description):
  requirements=text[start.end():]
  end=re.search(r'工作职责|岗位职责|Responsibilities',requirements,re.I)
  if end:requirements=requirements[:end.start()]
+ # Existing full degree requirements take precedence over a compact overview.
+ if re.search(r'本科|硕士|博士|大专|专科',requirements):return ''
  return '；'.join(line.strip().lstrip(':：') for line in re.split(r'[。；\n]',requirements) if re.search(r'本硕博|本硕|硕博',line) and re.search(r'毕业|学历|学位|在读',line))
 
 def _bilibili(company,scope,f,cov):
