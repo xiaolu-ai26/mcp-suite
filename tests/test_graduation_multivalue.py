@@ -176,3 +176,9 @@ def test_explicit_compact_degree_expressions_keep_minimum_level():
     assert V.education_of('硕博在读学生')=='硕士'
     assert V.education_of('本硕学历')=='本科'
     assert V.education_of('负责本硕课程市场调研')==V.UNSPECIFIED
+
+
+def test_postgraduate_degree_needs_explicit_qualification_context():
+    from qiuzhao import v4_fields as V
+    assert V.education_of('1. 研究生以上学历，运营相关工作或学习经历者优先')=='硕士'
+    assert V.education_of('负责研究生项目运营')==V.UNSPECIFIED

@@ -411,7 +411,7 @@ def education_of(raw):
         return "大专"
     if "本科" in s or "Bachelor" in s or s in {"本硕", "本硕博"} or re.search(r"本硕(?:博)?[^。；\n]{0,12}(?:毕业|学历|学位|在读)", s):
         return "本科"
-    if "硕士" in s or "Master" in s or s == "硕博" or re.search(r"硕博[^。；\n]{0,12}(?:毕业|学历|学位|在读)", s):
+    if "硕士" in s or "Master" in s or s == "研究生" or re.search(r"研究生(?:及?以上)?学历", s) or s == "硕博" or re.search(r"硕博[^。；\n]{0,12}(?:毕业|学历|学位|在读)", s):
         return "硕士"
     if "博士" in s or "PhD" in s:
         return "博士"
