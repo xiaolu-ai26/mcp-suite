@@ -11,8 +11,8 @@ from .base_headless import HeadlessSource,HeadlessUnavailable
 from .p1_sources_11_20 import job,clean,TYPES
 
 INSTALL_SDK = r'''()=>{let req;const keys=Object.keys(window).filter(k=>k.startsWith('webpackChunk')&&Array.isArray(window[k]));const key=keys.find(k=>k.includes('portal'))||keys[0];if(!key)throw Error('No public careers webpack runtime');window[key].push([[Date.now()],{},r=>{req=r}]);if(!req)throw Error('Public careers runtime unavailable');const ids=Object.keys(req.m).filter(k=>String(req.m[k]).includes('website-path')&&String(req.m[k]).includes('x-csrf-token'));if(ids.length!==1)throw Error('Public careers request module ambiguous');const api=req(ids[0]);window.__qiuzhaoPublicApi={post:Object.values(api).find(f=>typeof f==='function'&&/method\s*:\s*["']post["']/.test(String(f))),get:Object.values(api).find(f=>typeof f==='function'&&/method\s*:\s*["']get["']/.test(String(f)))};if(!window.__qiuzhaoPublicApi.post||!window.__qiuzhaoPublicApi.get)throw Error('Public careers SDK methods unavailable');return true}'''
-LIST_CALL="async p=>await window.__qiuzhaoPublicApi.post('/api/v1/search/job/posts',p,{notifyHttpError:false})"
-DETAIL_CALL="""async args=>await Promise.all(args.ids.map(async id=>{try{return {id,data:await window.__qiuzhaoPublicApi.get('/api/v1/job/posts/'+id,{portal_type:args.portal_type},{notifyHttpError:false})}}catch(e){return {id,error:String(e.message||e)}}}))"""
+LIST_CALL="async p=>await Promise.race([window.__qiuzhaoPublicApi.post('/api/v1/search/job/posts',p,{notifyHttpError:false}),new Promise((_,reject)=>setTimeout(()=>reject(new Error('public list timeout')),45000))])"
+DETAIL_CALL="""async args=>await Promise.race([Promise.all(args.ids.map(async id=>{try{return {id,data:await window.__qiuzhaoPublicApi.get('/api/v1/job/posts/'+id,{portal_type:args.portal_type},{notifyHttpError:false})}}catch(e){return {id,error:String(e.message||e)}}})),new Promise((_,reject)=>setTimeout(()=>reject(new Error('public details timeout')),60000))])"""
 KEEP=('id','title','description','requirement','recruit_type','publish_time','channel_online_status','job_subject','job_function','city_list','process_type')
 
 def atomic(path,value):
@@ -51,6 +51,16 @@ class AnonymousBrowser(HeadlessSource):
    self.page=self._context.new_page()
   except Exception:
    self.close();raise
+
+ def close(self):
+  # One failed cleanup must not skip the remaining browser/driver resources.
+  self.page=None
+  for name,method in [('_context','close'),('_browser','close'),('_pw','stop')]:
+   resource=getattr(self,name,None)
+   try:
+    if resource is not None:getattr(resource,method)()
+   except Exception:pass
+   finally:setattr(self,name,None)
 
 def collect_feishu(company:str,scope:str,sites:list,output_dir:Path)->dict:
  if scope not in TYPES:raise ValueError('unknown scope')
@@ -95,7 +105,8 @@ def collect_feishu(company:str,scope:str,sites:list,output_dir:Path)->dict:
       if tenant not in site['tenant_names']:raise ValueError('Official tenant identity drift: '+tenant)
       evidence(f'{site_index}-identity.json',{'entry':site['url'],'tenant_name':tenant,'website_id':website['id'],'website_path':website['path'],'process_type':website.get('process_type')})
       page.evaluate(INSTALL_SDK)
-      portal_type=(captured[0].get('portal_type') if captured else None) or site.get('portal_type',6)
+      portal_type=(captured[0].get('portal_type') if captured else None) or site.get('portal_type')
+      if not portal_type:raise ValueError('No observed or explicitly verified portal_type; refusing guessed request')
       payload={'keyword':'','limit':50,'offset':0,'job_category_id_list':[],'tag_id_list':[],'location_code_list':[],'subject_id_list':[],'recruitment_id_list':[],'portal_type':portal_type,'job_function_id_list':[],'storefront_id_list':[]}
       seen={};total=None;last_path=None
       for offset in range(0,100000,50):
