@@ -212,6 +212,7 @@ class P1Tests(unittest.TestCase):
             (collector / '__init__.py').write_text('')
             (package / 'normalize.py').write_text('def normalize_records(rows): return {}\n')
             shutil.copyfile(p.__file__, collector / 'p1_pipeline.py')
+            shutil.copyfile(Path(p.__file__).parents[1] / 'v4_fields.py', package / 'v4_fields.py')
             fixture = p.blocked('offline fixture adapter dispatched')
             (collector / 'p1_sources_01_10.py').write_text(
                 'def collect(company, scope, output_dir): return ' + repr(fixture) + '\n')
