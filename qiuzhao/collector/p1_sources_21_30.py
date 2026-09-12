@@ -116,13 +116,19 @@ def collect_kingdee_extra(company,scope,out):
     if any(j['source_record_id']==ident for j in jobs):continue
     jobs.append(job(company,'kingdee',ident,name,'https://www.kingdee.com.hk/join-us/',desc,scope,path,cities=['香港'],status='unverified',source_recruitment_type='Kingdee Hong Kong Join Us',scope_grouping_note='香港官网 Join Us 常规招聘职位；正文欢迎应届不等同校园专项。'))
   for base in ['https://www.kingdee.com/global/careers/','https://www.kingdee.com/sg/zh-hans/careers/','https://www.kingdee.com/mo/careers/']:
-   queue=[base];visited=set();source_ids=set()
+   queue=[base];visited=set();source_ids=set();expected_pages=None;page_numbers=set()
    while queue:
     url=queue.pop(0)
     if url in visited:continue
     visited.add(url)
     try:
      text,path=f.get(url,'global-'+hashlib.sha256(url.encode()).hexdigest()[:8]);pages+=1;soup=BeautifulSoup(text,'html.parser');items=soup.select('.accordion-item')
+     plain=soup.get_text(' ',strip=True);match=re.search(r'Page\s+(\d+)\s+of\s+(\d+)',plain,re.I) or re.search(r'第\s*(\d+)\s*[页頁][，,]共\s*(\d+)\s*[页頁]',plain)
+     if not match:raise ValueError('Regional official page-count evidence missing')
+     page_number,page_count=map(int,match.groups())
+     if expected_pages is not None and expected_pages!=page_count:raise ValueError('Regional page count changed')
+     if page_number in page_numbers:raise ValueError('Regional duplicate page content')
+     expected_pages=page_count;page_numbers.add(page_number)
      if not items:raise ValueError('Official regional careers accordion absent')
      for item in items:
       title=item.select_one('.accordion-header h3');body=item.select_one('.accordion-body .document');apply=item.select_one('[data-bs-target^="#ApplicationModal"]')
@@ -140,6 +146,7 @@ def collect_kingdee_extra(company,scope,out):
       href=anchor['href']
       if href.startswith(base) and href not in visited and href not in queue:queue.append(href)
     except Exception as e:errors.append(str(e)+' '+url)
+   if expected_pages is None or page_numbers!=set(range(1,expected_pages+1)):errors.append('Regional pagination not exhausted '+base)
 
  except Exception as e:errors.append(str(e))
  complete=not errors
@@ -191,6 +198,10 @@ def collect(company:str,scope:str,output_dir:Path)->dict:
  if slug=='37' and scope!='campus':
   from qiuzhao.collector.p1_sources_31_40 import collect_beisen
   extra=collect_beisen(company,scope,'https://37wan.zhiye.com',out/'beisen')
+  for key in ['evidence_files','evidence']:
+   extra['coverage'][key]=[str((out/'beisen'/p).resolve()) if not Path(p).is_absolute() else p for p in extra['coverage'].get(key,[])]
+  last=extra['coverage'].get('last_page_evidence')
+  if isinstance(last,str) and not Path(last).is_absolute():extra['coverage']['last_page_evidence']=str((out/'beisen'/last).resolve())
   merged={r['source_record_id']:r for part in [result,extra] for r in part['jobs']};parts=[result['coverage'],extra['coverage']];complete=all(c['complete'] for c in parts)
   result={'jobs':list(merged.values()),'coverage':{'status':'success' if complete else ('partial' if merged else 'blocked'),'complete':complete,'expected_total':len(merged) if complete else None,'collected_jobs':len(merged),'pages_scanned':sum(c['pages_scanned'] for c in parts),'detail_complete':complete,'source_url':'https://zhaopin.37.com','errors':[e for c in parts for e in c['errors']],'evidence_files':[e for c in parts for e in c['evidence_files']],'evidence':[e for c in parts for e in c['evidence_files']],'scope_evidence':'Official zhaopin.37.com campus Moka link and social role Apply link to37wan.zhiye.com; both source enums verified.','scope_request':{'company':company,'scope':scope,'source_url':'https://zhaopin.37.com','params':{'sources':[c['scope_request'] for c in parts]}},'source_coverage':parts}}
  save(out/'candidate.json',result);save(out/'coverage.json',result['coverage']);return result
