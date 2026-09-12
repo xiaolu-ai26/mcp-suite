@@ -148,7 +148,9 @@ def validate_result(payload, company, scope, evidence_dir=None):
         else:row['reviewed_at']=row.get('reviewed_at') or row['last_attempt_at']
         row['pending_note']=('本次详情请求未成功取得，岗位存在已由官方列表确认；详情仍待核验。' if row['pending_reason']=='fetch_failed'
                              else '官方详情已取得，但未披露有效岗位职责和任职要求；保留真实岗位索引。')
-        if row.get('source_is_active') is False and {row.get('source_status_raw'),row.get('source_list_status_raw'),row.get('source_detail_status_raw')} & {'pause','closed'}:
+        if row.get('source_is_active') is False and {row.get('source_status_raw'),row.get('source_list_status_raw'),row.get('source_detail_status_raw')} & {'pause','closed','expired_jd_redirect'}:
+            if row.get('source_status_raw')=='expired_jd_redirect' and not row.get('source_status_evidence'):
+                raise ValueError('expired redirect requires official URL evidence')
             row['status']='expired'
         if evidence_dir is None:raise ValueError('pending index requires saved official evidence directory')
         root=Path(evidence_dir).resolve()
