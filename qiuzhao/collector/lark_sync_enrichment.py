@@ -27,23 +27,41 @@ def route(company):
 
 def qualification_note(raw):
     parts=[]
+    cohort=str(raw.get('cohort_raw') or '').strip()
+    scoped=raw.get('cohort_scope') in {'campaign_announcement','headquarters_campaign_announcement'}
+    if cohort and raw.get('p1_company') and not scoped:
+        parts.append('官方采集岗位资格字段：'+cohort)
     description = str(raw.get('description_raw') or '')
     sentences=[s.strip() for s in re.split(r'[。\n]',description) if s.strip()]
+    extracts=[]
     for sentence in sentences:
         if re.search(r'20\d{2}[^。\n]{0,35}(?:届|毕业)|毕业(?:时间|日期|生范围)',sentence):
-            if sentence not in parts:
-                parts.append(sentence)
-    if parts:
+            if sentence not in extracts:extracts.append(sentence)
+    if extracts:
         prefix='官方采集岗位说明摘录：' if raw.get('p1_company') else '存量岗位说明摘录（请按原链接核验）：'
-        return prefix+'\n'+'\n'.join(parts)
+        parts.append(prefix+'\n'+'\n'.join(extracts))
     campaign=V.campaign_text(raw)
     if campaign and raw.get('p1_company'):
-        return '官方采集活动/专项条件（适用范围见原链接）：\n'+str(campaign)
-    cohort=str(raw.get('cohort_raw') or '').strip()
+        if V.job_bound_campaign(raw):
+            parts.append('绑定此岗位的官方专项条件：'+str(campaign))
+        elif not parts or V.graduation_conflicts_of(raw):
+            parts.append('一般活动条件（不覆盖更具体的岗位资格）：'+str(campaign))
+    if parts:return '\n'.join(parts)
     if cohort:
         return '历史届别标签：'+cohort+'。缺少可核对的岗位资格原句，待回源核实。'
     _,_,note,_=V.graduation_of(raw)
     return (note or '未注明')+'；现有记录未提供明确毕业日期范围，请按原链接核验。'
+
+
+def verified_backup(out):
+    backup=json.loads((out/'backup.json').read_text())
+    if backup.get('base')!=S.BASE or set(backup.get('tables',{}))!=set(S.TABLES):
+        raise ValueError('backup target mismatch')
+    for meta in backup['tables'].values():
+        for name in ['records','schema']:
+            if S.digest(Path(meta[name]))!=meta[name+'_sha256']:
+                raise ValueError('backup integrity mismatch')
+    return backup
 
 
 def read_id_matches(table, ids, path):
@@ -59,7 +77,7 @@ def read_id_matches(table, ids, path):
 
 def note_sync(out, jobs_path):
     ownership=json.loads(NOTE_STATE.read_text()) if NOTE_STATE.exists() else {}
-    backup=json.loads((out/'backup.json').read_text())
+    backup=verified_backup(out)
     notes={};ambiguous=set()
     for raw in V.iter_json_file(jobs_path):
         identity=raw.get('id')
@@ -70,6 +88,7 @@ def note_sync(out, jobs_path):
     for table in S.TABLES:
         fields=S.full_fields(table);existing=next((f for f in fields if f['name']==NOTE_FIELD),None)
         if existing is None:
+            S.save(out/(table+'.note-schema.before.json'),fields)
             definition={'name':NOTE_FIELD,'type':'text','description':'保留毕业日期范围、优秀/未就业等资格限制；历史标签无原句时明确待回源核实。'}
             response=S.cli('+field-create','--base-token',S.BASE,'--table-id',table,'--json',json.dumps(definition,ensure_ascii=False))
             S.save(out/(table+'.note-field-create.json'),response)
@@ -115,7 +134,7 @@ def new_fields(raw):
 
 def append_p1(out,jobs_path):
     from qiuzhao.collector.p1_pipeline import COMPANIES
-    backup=json.loads((out/'backup.json').read_text());known=set()
+    backup=verified_backup(out);known=set()
     for meta in backup['tables'].values():
         known.update(r.get('job_id') for r in json.loads(Path(meta['records']).read_text()) if r.get('job_id'))
     candidates={};ambiguous=set()
@@ -149,7 +168,8 @@ def append_p1(out,jobs_path):
         for name in S.TARGETS:
             definition=S.writable_schema(fields[name]);needed={v for row in rows for v in row[name]}
             available={v['name'] for v in definition['options']}
-            if needed-available:
+            if needed-available or not definition.get('multiple'):
+                S.save(out/f'{table}.append-schema-{fields[name]["id"]}.before.json',fields[name])
                 definition['options'] += [{'name':n,'hue':'Blue','lightness':'Lighter'} for n in sorted(needed-available)]
                 definition['multiple']=True
                 response=S.cli('+field-update','--base-token',S.BASE,'--table-id',table,'--field-id',fields[name]['id'],

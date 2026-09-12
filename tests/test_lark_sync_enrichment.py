@@ -21,3 +21,14 @@ def test_new_p1_record_has_arrays_and_no_manual_remark():
     assert fields['专业']==['计算机类','电子信息类']
     assert '备注' not in fields
     assert fields['job_id']=='p1-test'
+
+
+def test_role_condition_precedes_generic_campaign_and_bound_exceptions_remain():
+    raw={'p1_company':'大疆','cohort_raw':'仅2026届、毕业未就业','campaign_cohort_raw':'2027届秋招',
+         'recruitment_type':'校园招聘'}
+    note=E.qualification_note(raw)
+    assert note.startswith('官方采集岗位资格字段：仅2026届、毕业未就业')
+    assert '不覆盖更具体的岗位资格' in note
+    raw.update(source_record_id='role',campaign_job_ids=['role'],
+               description_raw='2027届本科及以上学历',campaign_cohort_raw='2027届及优秀2026届')
+    assert '绑定此岗位的官方专项条件：2027届及优秀2026届' in E.qualification_note(raw)
