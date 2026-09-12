@@ -43,7 +43,7 @@ class P1PendingIndexTests(unittest.TestCase):
                           detail_request_status='success',
                           source_missing_fields=['responsibilities', 'requirements'],
                           listing_evidence_path='a.json'),
-            pending_entry('B', pending_reason='fetch_failed', status='failed',
+            pending_entry('B', pending_reason='fetch_failed', detail_request_status='failed', source_missing_fields=[],
                           detail_url='https://careers.example.com/jobs/2',
                           listing_evidence_path='b.json'),
         ], '大疆', 'campus', '校园招聘')
@@ -163,9 +163,7 @@ class P1PendingIndexTests(unittest.TestCase):
         }
         merged, stats = p.merge_pending_index(previous, [('大疆', 'campus', payload)])
         self.assertEqual(stats['upgraded'], 1)
-        self.assertEqual(len(merged), 1)
-        self.assertIn('source_record_id', merged[0])
-        self.assertNotIn('pending_reason', merged[0])
+        self.assertEqual(merged, [])
 
     def test_cross_company_isolation_for_complete_cleanup(self):
         company_a = p.normalize_pending_index([
@@ -263,3 +261,43 @@ class P1PendingIndexTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+def test_failed_request_cannot_claim_official_empty_or_use_generic_status():
+ import pytest
+ for overrides in [
+  {'pending_reason':'fetch_failed','status':'failed','detail_request_status':'success'},
+  {'pending_reason':'fetch_failed','detail_request_status':'failed','source_missing_fields':['responsibilities']},
+  {'pending_reason':'source_empty_body','detail_request_status':'blocked'},
+  {'pending_reason':'source_empty_body','status':'failed'},
+  {'pending_reason':''},
+  {'pending_reason':None},
+  {'source_missing_fields':{'responsibilities':True,'requirements':True}},
+ ]:
+  with pytest.raises(ValueError):p.normalize_pending_index([pending_entry(**overrides)],'A','campus','校园招聘')
+ row=p.normalize_pending_index([pending_entry(pending_reason='fetch_failed',detail_request_status='blocked',source_missing_fields=[])],'A','campus','校园招聘')[0]
+ assert row['detail_request_status']=='blocked' and row['status']=='unverified'
+ assert row['source_missing_fields']==[] and row['unretrieved_fields']==['responsibilities','requirements']
+
+def test_empty_source_detail_evidence_allowed_failed_requires_listing():
+ import pytest
+ row=pending_entry(listing_evidence_path=None,detail_evidence_path='detail.json')
+ assert len(p.normalize_pending_index([row],'A','campus','校园招聘'))==1
+ row.update(pending_reason='fetch_failed',detail_request_status='failed',source_missing_fields=[])
+ with pytest.raises(ValueError):p.normalize_pending_index([row],'A','campus','校园招聘')
+
+def test_real_jobs_never_enter_pending_and_empty_job_does_not_upgrade():
+ old=p.normalize_pending_index([pending_entry('old')],'A','campus','校园招聘')
+ result={'coverage':{'complete':False},'jobs':[{'p1_identity':p.source_identity('A','campus','new'),'description_raw':'actual role'},{'p1_identity':old[0]['p1_identity'],'description_raw':'  '}],'pending_index':[]}
+ merged,stats=p.merge_pending_index(old,[('A','campus',result)])
+ assert merged==old and stats=={'added':0,'updated':0,'removed':0,'upgraded':0}
+ result['jobs'][1]['description_raw']='actual responsibility'
+ result['pending_index']=old
+ merged,stats=p.merge_pending_index(old,[('A','campus',result)])
+ assert merged==[] and stats['upgraded']==1
+
+def test_wrong_company_in_update_rejected_without_input_mutation():
+ import pytest
+ old=p.normalize_pending_index([pending_entry()],'A','campus','校园招聘');before=copy.deepcopy(old)
+ wrong=copy.deepcopy(old[0]);wrong['p1_company']='B'
+ with pytest.raises(ValueError):p.merge_pending_index(old,[('A','campus',{'jobs':[wrong]})])
+ assert old==before
