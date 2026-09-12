@@ -338,7 +338,7 @@ def publish(data_dir, results, run_dir):
     with open(data_dir / 'p1-publish.lock', 'a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
         before_hash = sha(jobs_path)
-        previous = list(iter_json_file(jobs_path))
+        previous = list(iter_json_file(jobs_path,strict=True))
         if not isinstance(previous, list):
             raise ValueError('production jobs must be a list')
         merged, changes = merge_records(previous, results)

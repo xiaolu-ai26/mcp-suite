@@ -45,3 +45,14 @@ def test_default_search_excludes_inactive_without_inventing_deadline(tmp_path):
     assert result['total']==2
     paused=next(r for r in result['jobs'] if r['id']=='paused')
     assert paused['deadline'] is None and paused['source_status_raw']=='pause'
+
+
+def test_streamed_write_input_retains_strict_json_grammar(tmp_path):
+    from qiuzhao.v4_fields import iter_json_file
+    import json
+    good=[{'id':'中文😀','nested':[1,2]}, {'id':'b'}]
+    path=tmp_path/'jobs.json';path.write_text(json.dumps(good,ensure_ascii=False))
+    assert list(iter_json_file(path,chunk_bytes=3,strict=True))==good
+    for text in ['[{"id":"a"}{"id":"b"}]','[{"id":"a"},]','[,{}]','[{}]\u00a0']:
+        path.write_text(text)
+        with pytest.raises(ValueError):list(iter_json_file(path,chunk_bytes=3,strict=True))

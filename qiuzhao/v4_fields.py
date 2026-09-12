@@ -863,7 +863,7 @@ _WS = re.compile(r"[\s,]*")
 CHUNK_BYTES = 4 << 20
 
 
-def iter_json_file(path, chunk_bytes=CHUNK_BYTES):
+def iter_json_file(path, chunk_bytes=CHUNK_BYTES, strict=False):
     """Yield the elements of a file holding one top-level JSON array, one element at a time.
 
     Same C scanner as json.loads, but the file is decoded in chunks and only one raw record is
@@ -871,6 +871,8 @@ def iter_json_file(path, chunk_bytes=CHUNK_BYTES):
     (bytes + a UCS-4 str + the decode buffer), this costs one chunk plus the converted records.
     """
     decoder = json.JSONDecoder()
+    whitespace = re.compile(r"[ \t\n\r]*") if strict else _WS
+    expect_separator = False
     utf8 = codecs.getincrementaldecoder("utf-8")()
     with open(path, "rb") as fh:
         buf, pos, eof = "", 0, False
@@ -887,9 +889,9 @@ def iter_json_file(path, chunk_bytes=CHUNK_BYTES):
 
         def skip():
             nonlocal pos
-            pos = _WS.match(buf, pos).end()
+            pos = whitespace.match(buf, pos).end()
             while pos >= len(buf) and more():
-                pos = _WS.match(buf, pos).end()
+                pos = whitespace.match(buf, pos).end()
 
         skip()
         if buf[pos:pos + 1] != "[":
@@ -899,10 +901,16 @@ def iter_json_file(path, chunk_bytes=CHUNK_BYTES):
             skip()
             if pos >= len(buf):
                 raise ValueError("岗位库格式异常：文件不完整")
+            if strict and expect_separator and buf[pos] != "]":
+                if buf[pos] != ",":raise ValueError("岗位库格式异常：元素之间缺少逗号")
+                pos += 1
+                skip()
+                if pos >= len(buf) or buf[pos] == "]":raise ValueError("岗位库格式异常：尾随逗号")
+                expect_separator = False
             if buf[pos] == "]":
                 pos += 1
                 while True:
-                    if buf[pos:].strip():
+                    if (whitespace.match(buf, pos).end() != len(buf)) if strict else bool(buf[pos:].strip()):
                         raise ValueError("岗位库格式异常：数组后还有内容")
                     pos = len(buf)
                     if not more():
@@ -916,6 +924,7 @@ def iter_json_file(path, chunk_bytes=CHUNK_BYTES):
             if end >= len(buf) - 1 and not eof and more():
                 continue  # a scalar cut at the chunk end (123 of 12345) must be parsed again
             yield obj
+            expect_separator = True
             pos = end
 
 
