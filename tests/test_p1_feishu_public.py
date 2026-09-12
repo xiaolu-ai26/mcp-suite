@@ -32,3 +32,53 @@ class RoleDisclosureTests(unittest.TestCase):
   with self.assertRaises(ValueError):role_body('团队介绍：我们是一家全球领先的科技企业。','')
   with self.assertRaises(ValueError):role_body('','')
 if __name__=='__main__':unittest.main()
+
+class NativeFieldTests(unittest.TestCase):
+ def test_only_native_human_labels_are_mapped(self):
+  from qiuzhao.collector.p1_feishu_public import public_label
+  self.assertEqual(public_label({'name':{'zh_cn':'本科'}}),'本科')
+  self.assertEqual(public_label([{'name':'计算机科学'}, {'name':'金融学'}]),'计算机科学；金融学')
+  self.assertEqual(public_label(7),'');self.assertEqual(public_label({'id':7}),'');self.assertEqual(public_label('7'),'')
+ def test_pending_error_does_not_persist_signature(self):
+  from qiuzhao.collector.p1_feishu_public import pending_record
+  row=pending_record({'id':'1','title':'Role'},'https://example.com/role/1','list.json',error='Failed https://example.com/api?_signature=sensitive&token=secret')
+  self.assertNotIn('sensitive',str(row));self.assertNotIn('secret',str(row));self.assertEqual(row['source_missing_fields'],[])
+
+class PendingFlowTests(unittest.TestCase):
+ def run_flow(self,folder,empty=False,failed=False):
+  from unittest.mock import patch
+  from qiuzhao.collector import p1_feishu_public as F
+  row={'id':'123','title':'工程师','recruit_type':{'id':'201','name':'校招'},'description':'' if empty else '开发软件','requirement':'' if empty else '技能熟练','channel_online_status':1,'city_list':[{'name':'上海'}],'job_post_info':{'required_degree':{'name':'本科'},'target_major_list':[{'name':'计算机科学'}]}}
+  class Page:
+   def on(self,*a):pass
+   def remove_listener(self,*a):pass
+   def goto(self,*a,**kw):pass
+   def wait_for_function(self,*a,**kw):pass
+   def wait_for_timeout(self,*a):pass
+   def evaluate(self,expression,args=None):
+    if 'JSON.parse(document' in expression:return {'tenant_info':{'tenant_name':'Fixture'},'website_info':{'id':'1','path':'campus','process_type':2}}
+    if expression==F.INSTALL_SDK:return True
+    if expression==F.LIST_CALL:return {'code':0,'data':{'count':1,'job_post_list':[row]}}
+    if expression==F.DETAIL_CALL:
+     if failed:return [{'id':'123','error':'network failure'}]
+     return [{'id':'123','data':{'code':0,'data':{'job_post_detail':row}}}]
+    raise AssertionError(expression)
+  class Browser:
+   def __init__(self,*a,**kw):self.page=Page()
+   def _ensure(self):pass
+   def __enter__(self):return self
+   def __exit__(self,*a):pass
+  with patch.object(F,'AnonymousBrowser',Browser),patch.dict(F.os.environ,{'QIUZHAO_BROWSER_LOCK':str(folder/'test.lock')}):
+   return F.collect_feishu('Fixture','campus',[{'url':'https://example.com/campus/position/list','tenant_names':['Fixture'],'portal_type':6}],folder)
+ def test_empty_official_detail_is_index_without_invented_body(self):
+  import tempfile
+  with tempfile.TemporaryDirectory() as d:r=self.run_flow(Path(d),empty=True)
+  self.assertEqual(r['jobs'],[]);self.assertTrue(r['coverage']['complete']);self.assertEqual(r['coverage']['expected_total'],1);self.assertEqual(r['pending_index'][0]['pending_reason'],'source_empty_body');self.assertEqual(r['pending_index'][0]['detail_request_status'],'success')
+ def test_failed_detail_stays_partial_and_does_not_claim_source_empty(self):
+  import tempfile
+  with tempfile.TemporaryDirectory() as d:r=self.run_flow(Path(d),failed=True)
+  self.assertFalse(r['coverage']['complete']);self.assertEqual(r['pending_index'][0]['pending_reason'],'fetch_failed');self.assertEqual(r['pending_index'][0]['source_missing_fields'],[])
+ def test_native_education_and_major_reach_job(self):
+  import tempfile
+  with tempfile.TemporaryDirectory() as d:r=self.run_flow(Path(d))
+  self.assertEqual(r['jobs'][0]['education_raw'],'本科');self.assertEqual(r['jobs'][0]['major_requirements_raw'],'计算机科学');self.assertEqual(r['jobs'][0]['source_channel_online_status'],1)
