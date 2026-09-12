@@ -5,6 +5,11 @@ import tempfile, unittest
 SPEC=importlib.util.spec_from_file_location('batch01',Path(__file__).parents[1]/'qiuzhao/collector/p1_sources_01_10.py')
 m=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(m)
 class CollectorTests(unittest.TestCase):
+ def test_official_english_internship_type(self):
+  self.assertTrue(m.is_internship('Internship','Research Assistant'))
+  self.assertTrue(m.is_internship(None,'AI Research Intern'))
+  self.assertFalse(m.is_internship('Full-time','Internal Auditor'))
+  self.assertFalse(m.is_internship('Full-time','Internship Program Manager'))
  def test_requirement_sentences_remain_verbatim(self):
   raw={'serveRequirement':'本科及以上学历；计算机相关专业；沟通能力强。'}
   j=m.job('pdd','campus','a','岗位','https://example.com/a','职责','上海',raw)
