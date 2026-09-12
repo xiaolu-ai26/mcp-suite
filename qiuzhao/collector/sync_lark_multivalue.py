@@ -59,7 +59,16 @@ def cli(*args):
 
 
 def rel(path):
-    return str(path.resolve().relative_to(Path.cwd()))
+    # lark-cli requires a cwd-relative file argument. Keep the approved local
+    # alias spelling while files physically reside on the mounted external disk.
+    root=Path.cwd();lexical=Path(os.path.abspath(path));relative=lexical.relative_to(root)
+    resolved=lexical.resolve()
+    if not resolved.is_relative_to(root.resolve()):
+        alias=root/'research/qiuzhao-p1-sync-runtime/runs'
+        expected=Path('/Volumes/臭垃圾桶/MCP产品/qiuzhao-p1-20260913/runtime-runs')
+        if not alias.is_symlink() or alias.resolve()!=expected.resolve() or not lexical.is_relative_to(alias):
+            raise ValueError('unapproved file path outside workspace')
+    return str(relative)
 
 
 def full_fields(table):

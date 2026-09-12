@@ -58,3 +58,15 @@ def test_capacity_pending_runs_conditions_but_never_commits_source_hash(tmp_path
     assert phases[-1]=='--explain'
     assert result['status']=='partial' and 'last_source_sha256' not in result
     assert Path(result['run_dir'],'source.jobs.json').exists()
+
+
+def test_unmounted_external_disk_refuses_local_fallback(tmp_path,monkeypatch):
+    import pytest
+    mount=tmp_path/'pretend-volume';mount.mkdir()
+    monkeypatch.setattr(D,'EXTERNAL_MOUNT',mount)
+    monkeypatch.setattr(D,'source_hash',lambda: (_ for _ in ()).throw(AssertionError('must fail before capture')))
+    with pytest.raises(RuntimeError,match='not mounted'):
+        D.run(tmp_path,runs_dir=mount/'runs')
+    assert not (mount/'runs').exists()
+    import json
+    assert json.loads((tmp_path/'status.json').read_text())['status']=='failed'

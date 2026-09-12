@@ -18,6 +18,8 @@ from qiuzhao.collector import sync_lark_multivalue as S
 
 HOST='root@114.215.188.109'
 SOURCE='/var/lib/mcp-suite/jobs.json'
+EXTERNAL_MOUNT=Path('/Volumes/臭垃圾桶')
+DEFAULT_RUNS=EXTERNAL_MOUNT/'MCP产品/qiuzhao-p1-20260913/runtime-runs'
 
 
 def now():return dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds')
@@ -66,7 +68,19 @@ with open('/var/lib/mcp-suite/jobs.json','rb') as f:
     return jobs,header['sha256']
 
 
-def run(state_dir):
+def external_runs_ready(state_dir,runs_dir):
+    mount=EXTERNAL_MOUNT
+    if not mount.is_dir() or not mount.is_mount() or mount.stat().st_dev==state_dir.stat().st_dev:
+        raise RuntimeError('external evidence disk is not mounted; local capture refused')
+    if runs_dir.resolve()!=DEFAULT_RUNS.resolve():raise ValueError('unapproved external runs directory')
+    alias=state_dir/'runs'
+    if not alias.is_symlink() or alias.resolve()!=runs_dir.resolve():
+        raise RuntimeError('external runs alias is not configured; no local fallback')
+    if not runs_dir.is_dir():raise RuntimeError('external runs directory is unavailable')
+    return alias
+
+
+def run(state_dir,runs_dir=None):
     state_dir=state_dir.resolve();state_dir.mkdir(parents=True,exist_ok=True)
     with (state_dir/'sync.lock').open('a') as lock:
         try:fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
@@ -76,10 +90,11 @@ def run(state_dir):
         state={**previous,'last_attempt_at':now(),'status':'checking','error':None,'finished_at':None}
         S.save(status_path,state)
         try:
+            runs_root=external_runs_ready(state_dir,Path(runs_dir)) if runs_dir is not None else state_dir/'runs'
             observed=source_hash();state['observed_source_sha256']=observed
             if observed==previous.get('last_source_sha256') and previous.get('last_success_at'):
                 state.update(status='unchanged',finished_at=now());S.save(status_path,state);return state
-            out=state_dir/'runs'/dt.datetime.now().strftime('%Y%m%dT%H%M%S');out.mkdir(parents=True)
+            out=runs_root/dt.datetime.now().strftime('%Y%m%dT%H%M%S');out.mkdir(parents=True)
             state.update(status='running',run_dir=str(out),phase='capture');S.save(status_path,state)
             jobs,source_sha=capture_source(out)
             # Explicit separate steps keep failures and partially completed writes
@@ -125,7 +140,8 @@ def run(state_dir):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--state-dir',type=Path,default=Path('research/qiuzhao-p1-sync-runtime'))
-    args=p.parse_args();print(json.dumps(run(args.state_dir),ensure_ascii=False))
+    p.add_argument('--runs-dir',type=Path,default=DEFAULT_RUNS)
+    args=p.parse_args();print(json.dumps(run(args.state_dir,args.runs_dir),ensure_ascii=False))
 
 
 if __name__=='__main__':main()
