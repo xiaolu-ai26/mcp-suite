@@ -67,3 +67,13 @@ class CollectorTests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as d,patch.object(m.requests,'Session',return_value=session):
    r=m.collect('拼多多','social',Path(d));self.assertEqual(r['coverage']['status'],'blocked');self.assertIsNone(r['coverage']['expected_total'])
 if __name__=='__main__':unittest.main()
+
+class MokaAvailabilityTests(unittest.TestCase):
+ def test_paused_role_cannot_reopen_from_later_opened_timestamp(self):
+  from qiuzhao.collector.p1_sources_01_10 import apply_moka_status
+  r=apply_moka_status({}, {'status':'pause','openedAt':'2026-06-01','closedAt':'2025-01-01'},{'status':'open'})
+  self.assertFalse(r['source_is_active']);self.assertEqual(r['status'],'expired');self.assertEqual(r['source_status_dates']['closedAt'],'2025-01-01');self.assertIn('source_status_conflict',r)
+ def test_explicit_open_keeps_source_dates_without_inventing_deadline(self):
+  from qiuzhao.collector.p1_sources_01_10 import apply_moka_status
+  r=apply_moka_status({}, {'status':'open','closedAt':'2025-01-01'})
+  self.assertTrue(r['source_is_active']);self.assertEqual(r['status'],'open');self.assertNotIn('deadline_raw',r)
