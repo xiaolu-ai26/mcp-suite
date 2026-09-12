@@ -57,3 +57,28 @@ def test_append_cannot_write_continuation_without_its_backup(tmp_path,monkeypatc
     monkeypatch.setattr(E,'ensure_note_fields',lambda *args: (_ for _ in ()).throw(AssertionError('unbacked schema mutation')))
     with pytest.raises(ValueError,match='complete backup'):
         E.append_p1(tmp_path,tmp_path/'jobs.json')
+
+
+def test_source_status_sync_backs_up_and_preserves_human_states(tmp_path,monkeypatch):
+    import json
+    table=E.S.ORIGINAL_TABLES[0];records=tmp_path/'records.json'
+    records.write_text(json.dumps([{'record_id':'r1','job_id':'j1'},{'record_id':'r2','job_id':'j2'}]))
+    jobs=tmp_path/'jobs.json';jobs.write_text(json.dumps([{'id':j,'p1_company':'大疆','status':'expired','source_is_active':False} for j in ['j1','j2']]))
+    monkeypatch.setattr(E,'verified_backup',lambda out:{'tables':{table:{'records':str(records)}}})
+    monkeypatch.setattr(E.S,'full_fields',lambda t:[{'name':'状态','type':'select','options':[{'name':v} for v in ['open','expired','unverified','已投递']]}])
+    updates=[]
+    def cli(*args):
+        if args[0]=='+record-get':
+            path=Path(args[args.index('--output')+1]);path=E.S.ROOT/path if not path.is_absolute() else path
+            ids=json.loads(args[args.index('--json')+1])['record_id_list']
+            path.write_text('\n'.join(json.dumps({'record_id':rid,'状态':['open' if rid=='r1' else '已投递']}) for rid in ids))
+            return {}
+        body=Path(args[args.index('--json')+1][1:]);body=E.S.ROOT/body if not body.is_absolute() else body
+        updates.append(json.loads(body.read_text()));return {'data':{}}
+    from pathlib import Path
+    monkeypatch.setattr(E.S,'rel',lambda p:str(p))
+    monkeypatch.setattr(E.S,'cli',cli)
+    E.status_sync(tmp_path,jobs)
+    assert updates==[{'update_records':{'r1':{'状态':['expired']}}}]
+    result=json.loads((tmp_path/'source-status-sync.json').read_text())
+    assert result['changed']==1 and len(result['human_values_preserved'])==1

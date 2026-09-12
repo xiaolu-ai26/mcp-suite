@@ -85,7 +85,7 @@ def run(state_dir):
             # Explicit separate steps keep failures and partially completed writes
             # inspectable. lark-cli remains local under the logged-in user.
             steps=[('snapshot',['--snapshot']),('update',['--jobs',str(jobs),'--plan','--apply']),
-                   ('append',['--jobs',str(jobs),'--append-p1']),('conditions',['--jobs',str(jobs),'--explain'])]
+                   ('source_status',['--jobs',str(jobs),'--sync-status']),('append',['--jobs',str(jobs),'--append-p1']),('conditions',['--jobs',str(jobs),'--explain'])]
             child_env=dict(os.environ, QIUZHAO_LARK_SYNC_LOCK_PATH=str(state_dir/'sync.lock'),
                            QIUZHAO_LARK_SYNC_LOCK_FD=str(lock.fileno()))
             for phase,flags in steps:

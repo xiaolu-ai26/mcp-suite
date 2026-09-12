@@ -49,6 +49,8 @@ def qualification_note(raw):
             parts.append('绑定此岗位的官方专项条件：'+str(campaign))
         elif not parts or V.graduation_conflicts_of(raw):
             parts.append('一般活动条件（不覆盖更具体的岗位资格）：'+str(campaign))
+    if raw.get('source_is_active') is False and raw.get('status_note'):
+        parts.append('招聘状态说明：'+str(raw['status_note']))
     if parts:return '\n'.join(parts)
     if cohort:
         return '历史届别标签：'+cohort+'。缺少可核对的岗位资格原句，待回源核实。'
@@ -230,3 +232,48 @@ def append_p1(out,jobs_path):
             state['pending']=None;S.save(state_path,state);S.save(out/f'{table}.append-response-{start}.json',response)
             print(json.dumps({'appended_table':table,'new_records':len(batch),'total_created':len(state['created'])}),flush=True)
     state['finished']=not bool(state.get('capacity_blocked'));S.save(state_path,state)
+
+
+def status_sync(out,jobs_path):
+    """Refresh machine lifecycle states only when explicit source evidence exists."""
+    backup=verified_backup(out);desired={};conflicts=set();skipped=[];changed=0
+    for row in V.iter_json_file(jobs_path):
+        if not row.get('p1_company') or row.get('source_is_active') is None:continue
+        identity=row.get('id');status=row.get('status')
+        if not identity or status not in {'open','expired','unverified'}:continue
+        if identity in desired and desired[identity]!=status:conflicts.add(identity)
+        desired[identity]=status
+    for table,meta in backup['tables'].items():
+        records=json.loads(Path(meta['records']).read_text())
+        pairs=[(r['record_id'],r['job_id']) for r in records if r.get('job_id') in desired and r['job_id'] not in conflicts]
+        if not pairs:continue
+        fields=S.full_fields(table);definition=next((f for f in fields if f['name']=='状态'),None)
+        if not definition or definition['type']!='select':raise ValueError('lifecycle status schema drift')
+        S.save(out/(table+'.status-schema.before.json'),definition)
+        options={v['name'] for v in definition.get('options',[])}
+        if not {desired[jid] for _,jid in pairs}<=options:raise ValueError('source lifecycle status option missing')
+        for start in range(0,len(pairs),200):
+            batch=pairs[start:start+200];before=out/f'{table}.status-before-{start}.ndjson'
+            S.cli('+record-get','--base-token',S.BASE,'--table-id',table,'--json',json.dumps({'record_id_list':[rid for rid,_ in batch]}),
+                  '--field-id','状态','--format','ndjson','--output',S.rel(before),'--overwrite')
+            prior={r['record_id']:r.get('状态') or [] for r in (json.loads(line) for line in before.read_text().splitlines())}
+            if set(prior)!={rid for rid,_ in batch}:raise ValueError('status backup records missing')
+            updates={}
+            for rid,jid in batch:
+                old=prior[rid]
+                if any(value not in {'open','expired','unverified'} for value in old):
+                    skipped.append({'table':table,'record_id':rid,'reason':'human lifecycle value retained'});continue
+                if old!=[desired[jid]]:updates[rid]={'状态':[desired[jid]]}
+            if updates:
+                # Re-read immediately before mutation; no stale backup overwrites.
+                check=out/f'{table}.status-cas-{start}.ndjson'
+                S.cli('+record-get','--base-token',S.BASE,'--table-id',table,'--json',json.dumps({'record_id_list':list(updates)}),
+                      '--field-id','状态','--format','ndjson','--output',S.rel(check),'--overwrite')
+                live={r['record_id']:r.get('状态') or [] for r in (json.loads(line) for line in check.read_text().splitlines())}
+                if any(live.get(rid)!=prior[rid] for rid in updates):raise ValueError('status changed after backup')
+                body=out/f'{table}.status-batch-{start}.json';S.save(body,{'update_records':updates})
+                response=S.cli('+record-batch-update','--base-token',S.BASE,'--table-id',table,'--json','@'+S.rel(body))
+                if response.get('data',{}).get('ignored_fields'):raise ValueError('status field ignored')
+                S.save(out/f'{table}.status-response-{start}.json',response);changed+=len(updates)
+    S.save(out/'source-status-sync.json',{'changed':changed,'human_values_preserved':skipped,'conflicting_ids':sorted(conflicts),'finished':True})
+    print(json.dumps({'source_status_updated':changed,'human_values_preserved':len(skipped)}),flush=True)
