@@ -136,6 +136,54 @@ def collect_jd_social(out):
  except Exception as exc:c['errors'].append(str(exc))
  return shared.finish(jobs,c)
 
+def nest_source_evidence(result,source_dir,label):
+ import copy
+ source_dir=Path(source_dir).resolve()
+ def rewrite(value):
+  if isinstance(value,dict):return {k:rewrite(v) for k,v in value.items()}
+  if isinstance(value,list):return [rewrite(v) for v in value]
+  if isinstance(value,str) and len(value)<1024 and not value.startswith(('http://','https://')):
+   try:
+    path=Path(value);resolved=(source_dir/path).resolve() if not path.is_absolute() else path.resolve()
+    if resolved.is_relative_to(source_dir) and resolved.is_file():return label+'/'+str(resolved.relative_to(source_dir))
+   except OSError:pass
+  return value
+ return rewrite(copy.deepcopy(result))
+
+def combine_xiaomi(domestic,overseas,scope,output_dir):
+ from copy import deepcopy
+ dc=domestic['coverage'];oc=overseas['coverage'];jobs={str(j['source_record_id']):deepcopy(j) for j in domestic['jobs']};pending={str(j['source_record_id']):deepcopy(j) for j in domestic.get('pending_index',[])};before=set(jobs)|set(pending);overlap=[];errors=[]
+ for j in overseas['jobs']:
+  ident=str(j['source_record_id'])
+  if not ident.startswith('feishu-xiaomi:') or j.get('recruitment_type')!=shared.TYPES[scope]:raise ValueError('Xiaomi source identity/scope mismatch')
+  if ident in before:overlap.append(ident)
+  if ident in jobs:
+   existing=jobs[ident];observations=[{'source':'domestic','checked_at':existing.get('reviewed_at'),'url':existing.get('source_url')},{'source':'overseas','checked_at':j.get('reviewed_at'),'url':j.get('source_url')}]
+   merged=deepcopy(existing)
+   for key,value in j.items():
+    if value is not None and value!='' and value!=[] and value!={}:merged[key]=deepcopy(value)
+   cities=list(dict.fromkeys([*existing.get('cities',[]),*j.get('cities',[])]));merged.update(cities=cities,cities_normalized=cities,source_observations=observations,title=merged['job_title'])
+   for key in ['graduation_years','graduation_year_evidence','graduation_year_verification']:merged.pop(key,None)
+   jobs[ident]=merged
+  else:jobs[ident]=deepcopy(j)
+  pending.pop(ident,None)
+ for row in overseas.get('pending_index',[]):
+  ident=str(row['source_record_id'])
+  if ident in before:overlap.append(ident)
+  if ident not in jobs:pending[ident]=deepcopy(row)
+ note='Domestic official proxy exhausted; separate career.mi.com overseas source still being integrated'
+ errors=[e for e in dc.get('errors',[]) if e!=note]+list(oc.get('errors',[]))
+ complete=dc.get('source_complete') is True and oc.get('source_complete') is True and not errors and all(p.get('detail_request_status')=='success' for p in pending.values())
+ c=shared.coverage(dc['source_url']);c.update(status='success' if complete else 'partial' if jobs or pending else 'blocked',complete=complete,detail_complete=complete,expected_total=len(jobs)+len(pending),collected_jobs=len(jobs),pending_count=len(pending),unique_source_ids=len(jobs)+len(pending),pagination_exhausted=complete,pages_scanned=dc['pages_scanned']+oc['pages_scanned'],source_complete=complete,company_scope_complete=complete,errors=errors,source_coverage=[{'source':'domestic','coverage':dc},{'source':'overseas','coverage':oc}],source_indexed_counts={'domestic':len(domestic['jobs'])+len(domestic.get('pending_index',[])),'overseas':len(overseas['jobs'])+len(overseas.get('pending_index',[]))},overlap_source_ids=sorted(set(overlap)),scope_evidence='Official Xiaomi domestic type plus all current official overseas portals; deduplicate the same Feishu jobPostId without dropping body in favour of an empty index',scope_request={'company':'小米','scope':scope,'source_url':dc['source_url'],'params':{'domestic':dc.get('scope_request'),'overseas':oc.get('scope_request')}},evidence_files=list(dict.fromkeys(dc.get('evidence_files',[])+oc.get('evidence_files',[]))))
+ c['evidence']=c['evidence_files'];c['last_page_evidence']='Both official source adapters exhausted verified totals; overlap_source_ids contains the exact de-duplication set'
+ return {'jobs':[jobs[k] for k in sorted(jobs)],'pending_index':[pending[k] for k in sorted(pending)],'coverage':c}
+
+def collect_xiaomi_complete(scope,out):
+ from qiuzhao.collector.p1_xiaomi_overseas import collect as overseas_collect
+ a=out/'domestic';b=out/'overseas';a.mkdir(parents=True,exist_ok=True);b.mkdir(parents=True,exist_ok=True)
+ domestic=collect_xiaomi_domestic(scope,a);overseas=overseas_collect('小米',scope,b)
+ return combine_xiaomi(nest_source_evidence(domestic,a,'domestic'),nest_source_evidence(overseas,b,'overseas'),scope,out)
+
 def collect(company,scope,output_dir):
  requested=company;key=next((k for k,v in COMPANIES.items() if v==company),company);out=Path(output_dir);out.mkdir(parents=True,exist_ok=True)
  if key=='meituan':
@@ -143,7 +191,7 @@ def collect(company,scope,output_dir):
   result=collector(COMPANIES[key],scope,out)
  elif key=='gwm':result=shared.collect_honor(scope,out,company='长城汽车',host='https://zhaopin.gwm.cn',suites_override=['SU692d3058ea11b01b6c54d0ea'])
  elif key=='jd':result=collect_jd_social(out) if scope=='social' else collect_jd_campus(scope,out)
- elif key=='xiaomi':result=collect_xiaomi_domestic(scope,out)
+ elif key=='xiaomi':result=collect_xiaomi_complete(scope,out)
  elif key in BEISEN:result=collect_beisen(COMPANIES[key],scope,BEISEN[key],out,category_mapping={'4':'social','8':'intern','9':'intern','10':'intern'} if key=='mindray' else None)
  elif key in MOKA:
   result=shared.collect_moka_sites(COMPANIES[key],scope,MOKA[key],out)

@@ -269,6 +269,49 @@ def collect_nio_workday(scope,out):
     except Exception as exc:c['errors'].append(str(exc))
     return shared.finish(jobs,c)
 
+def collect_nio_linkedin(scope,out):
+    from bs4 import BeautifulSoup
+    from datetime import datetime,timezone
+    out=Path(out);out.mkdir(parents=True,exist_ok=True);entry='https://www.nio.io/careers/jobs';c=shared.coverage(entry);jobs=[];pending=[];session=shared.make_session()
+    try:
+        rr=session.get(entry,timeout=(10,30));rr.raise_for_status();(out/'official-list.html').write_text(rr.text);match=re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>',rr.text,re.S)
+        rows=json.loads(match[1])['props']['pageProps']['jobsLists']['jobs'];c['official_global_index_rows']=len(rows);selected=[];unresolved=[]
+        for row in rows:
+            actual='intern' if shared.is_internship(row.get('commitment'),row.get('title')) else 'social'
+            if actual!=scope:continue
+            url=row.get('url') or ''
+            if 'linkedin.com/jobs/view/' in url:selected.append(row)
+            elif not url:unresolved.append({k:row.get(k) for k in ['title','location','commitment']})
+        c['unresolved_listing_entries']=unresolved;c['pages_scanned']=1;c['evidence_files']=['official-list.html'];seen=set()
+        for row in selected:
+            url=row['url'];ident=re.search(r'/view/(\d+)',url)[1]
+            if ident in seen:continue
+            seen.add(ident);attempt=datetime.now(timezone.utc).isoformat();proof='detail-'+ident+'.response.json';bodyproof='detail-'+ident+'.html'
+            base={'source_record_id':'linkedin:'+ident,'job_title':row['title'],'detail_url':url,'source_url':url,'application_url':url,'listing_evidence_path':'official-list.html','detail_evidence_path':proof,'last_attempt_at':attempt,'source_missing_fields':[],'unretrieved_fields':['responsibilities','requirements','education','major'],'pending_reason':'fetch_failed','detail_request_status':'failed'}
+            try:
+                response=session.get(url,timeout=(10,35));(out/bodyproof).write_text(response.text);(out/proof).write_text(json.dumps({'requested_url':url,'final_url':response.url,'http_status':response.status_code,'attempted_at':attempt},ensure_ascii=False));c['evidence_files'].extend([proof,bodyproof])
+                if 'expired_jd_redirect' in response.url:
+                    base.update(detail_request_status='blocked',source_is_active=False,source_status_raw='expired_jd_redirect',source_status_evidence={'requested_url':url,'final_url':response.url,'http_status':response.status_code,'basis':'LinkedIn explicit expired_jd_redirect'},status='expired',status_note='LinkedIn明确将该岗位跳转为已下线，当前不可投；原岗位正文未取得。');pending.append(base);continue
+                response.raise_for_status();soup=BeautifulSoup(response.text,'html.parser');identity=soup.find('code',id='decoratedJobPostingId');title=soup.select_one('h1');employer=soup.select_one('.topcard__org-name-link');desc=soup.select_one('.show-more-less-html__markup')
+                if not identity or ident not in str(identity) or not title or not employer or not re.search(r'\bNIO\b|蔚来',employer.get_text(),re.I):raise ValueError('LinkedIn job identity/employer not verified')
+                if not desc or not desc.get_text(strip=True):
+                    base.update(pending_reason='source_empty_body',detail_request_status='success',source_missing_fields=['responsibilities','requirements'],unretrieved_fields=[]);pending.append(base);continue
+                criteria={}
+                for item in soup.select('.description__job-criteria-item'):
+                    key=item.select_one('h3');value=item.select_one('span')
+                    if key and value:criteria[key.get_text(' ',strip=True)]=value.get_text(' ',strip=True)
+                actual='intern' if shared.is_internship(criteria.get('Employment type'),title.get_text()) else 'social'
+                if actual!=scope:raise ValueError('NIO global index/detail recruitment classification differs')
+                location=soup.select_one('.topcard__flavor--bullet');j=shared.job('蔚来汽车',scope,'linkedin:'+ident,title.get_text(' ',strip=True),url,str(desc),location.get_text(' ',strip=True) if location else row.get('location',''),{})
+                j.update(recruitment_unit=employer.get_text(' ',strip=True),scope_evidence='Official NIO global careers link plus LinkedIn employer/role ID and employment-type evidence',source_namespace='linkedin',source_job_criteria_raw=criteria,detail_evidence_path=bodyproof,listing_evidence_path='official-list.html',source_is_active=True,status='open');jobs.append(j)
+            except Exception as exc:
+                base['fetch_error']=str(exc).split('\n')[0];pending.append(base);c['errors'].append('LinkedIn '+ident+': '+base['fetch_error'])
+                if not (out/proof).exists():(out/proof).write_text(json.dumps({'requested_url':url,'request_error':base['fetch_error'],'attempted_at':attempt},ensure_ascii=False));c['evidence_files'].append(proof)
+        if unresolved:c['errors'].append(f'{len(unresolved)} official global listing cards lack native job ID/application URL; no invented identities')
+        c['expected_total']=None if unresolved else len(seen);c['pagination_exhausted']=True;c['last_page_evidence']='Official NIO SSR jobs array fully inspected; all LinkedIn links attempted';c['detail_complete']=not c['errors'] and all(x['detail_request_status']=='success' for x in pending);c['scope_evidence']='Official NIO international index; full-time roles social and explicit internships intern; LinkedIn native ID/employer checked';c['scope_request']={'company':'蔚来汽车','scope':scope,'source_url':entry,'params':{'public_linkedin_urls':[x['url'] for x in selected],'local_scope_filter':scope}};c['evidence']=c['evidence_files']
+    except Exception as exc:c['errors'].append(str(exc))
+    c.update(collected_jobs=len(jobs),pending_count=len(pending),unique_source_ids=len(jobs)+len(pending));c['complete']=c['detail_complete'] and not c['errors'];c['status']='success' if c['complete'] else 'partial' if jobs or pending else 'blocked';return {'jobs':jobs,'pending_index':pending,'coverage':c}
+
 def collect(company,scope,output_dir):
     requested=company
     if company in ('TP-LINK','TP-LINK／普联','TP-LINK/普联','普联'):company='tplink'
@@ -281,10 +324,21 @@ def collect(company,scope,output_dir):
         r=collect_feishu(COMPANIES[company],scope,sites,out)
         if company=='nio':
             import copy
-            international=collect_nio_workday(scope,out/'workday');c=r['coverage'];wc=international['coverage'];c['source_coverage']=[copy.deepcopy(c),copy.deepcopy(wc)];r['jobs'].extend(international['jobs'])
-            c['expected_total']=(c['expected_total']+wc['expected_total']) if isinstance(c.get('expected_total'),int) and isinstance(wc.get('expected_total'),int) else None
-            c['pages_scanned']+=wc['pages_scanned'];c['errors'].extend(wc['errors']);c['evidence_files'].extend('workday/'+x for x in wc.get('evidence_files',[]));c['collected_jobs']=len(r['jobs']);c['unique_source_ids']=len({j['source_record_id'] for j in r['jobs']})
-            c['company_scope_complete']=False;c['errors'].append('Official NIO global page additionally links LinkedIn roles and entries lacking application URLs; these sources remain under verification');c['complete']=False;c['status']='partial' if r['jobs'] else 'blocked'
+            c=r['coverage'];parts=[('feishu',copy.deepcopy(c))];r.setdefault('pending_index',[])
+            for label,collector in [('workday',collect_nio_workday),('linkedin',collect_nio_linkedin)]:
+                folder=out/label;part=collector(scope,folder)
+                def prefix(value):
+                    if isinstance(value,dict):return {k:prefix(v) for k,v in value.items()}
+                    if isinstance(value,list):return [prefix(v) for v in value]
+                    if isinstance(value,str) and len(value)<1024 and not value.startswith(('http://','https://')):
+                        try:
+                            if not Path(value).is_absolute() and (folder/value).is_file():return label+'/'+value
+                        except OSError:pass
+                    return value
+                part=prefix(part);pc=part['coverage'];parts.append((label,pc));r['jobs'].extend(part['jobs']);r['pending_index'].extend(part.get('pending_index',[]));c['evidence_files'].extend(pc.get('evidence_files',[]));c['evidence'].extend(pc.get('evidence',[]))
+            c['source_coverage']=[{'source':name,'coverage':value} for name,value in parts];c['errors']=[error for _,value in parts for error in value.get('errors',[])];c['expected_total']=sum(value['expected_total'] for _,value in parts) if all(isinstance(value.get('expected_total'),int) for _,value in parts) else None
+            c['pages_scanned']=sum(value['pages_scanned'] for _,value in parts);c['detail_complete']=all(value['detail_complete'] for _,value in parts);c['complete']=all(value['complete'] for _,value in parts);c['company_scope_complete']=c['complete'];c['collected_jobs']=len(r['jobs']);c['pending_count']=len(r['pending_index']);c['unique_source_ids']=len(r['jobs'])+len(r['pending_index']);c['status']='success' if c['complete'] else 'partial' if r['jobs'] or r['pending_index'] else 'blocked'
+            c['scope_request']['params']={'feishu_sites':sites,'workday_site':'NIO_Careers','workday_tenant':'nio','global_entry':'https://www.nio.io/careers/jobs','local_scope_filter':scope}
     elif company=='ecovacs':r=collect_ecovacs(scope,out)
     elif company=='lixiang':r=collect_lixiang(scope,out)
     elif company=='inovance':r=collect_inovance(scope,out)

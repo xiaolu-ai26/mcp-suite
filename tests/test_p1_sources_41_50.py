@@ -33,3 +33,15 @@ class JDSocialInlineTests(unittest.TestCase):
    self.assertEqual(r['coverage']['list_total'],1);self.assertEqual(r['coverage']['pages_scanned'],1)
    self.assertEqual(j['source_record_id'],'jd-social:33');self.assertEqual(j['application_link_type'],'list_entry');self.assertEqual(j['detail_presentation'],'inline')
    self.assertTrue(r['coverage']['complete']);self.assertNotIn('#',j['detail_url'])
+
+class XiaomiCombinationTests(unittest.TestCase):
+ def payload(self,jobs,pending=()):
+  return {'jobs':jobs,'pending_index':list(pending),'coverage':{'source_url':'https://hr.xiaomi.com','source_complete':True,'errors':[],'pages_scanned':1,'evidence_files':['list.json']}}
+ def test_native_id_overlap_is_not_double_counted_and_body_wins(self):
+  j={'source_record_id':'feishu-xiaomi:123','job_title':'岗位','description_raw':'真实职责','recruitment_type':'社会招聘','cities':['北京']}
+  d=self.payload([j]);o=self.payload([], [{'source_record_id':'feishu-xiaomi:123','detail_request_status':'success'}])
+  r=m.combine_xiaomi(d,o,'social',Path('/tmp/not-written'))
+  self.assertEqual(len(r['jobs']),1);self.assertEqual(r['pending_index'],[]);self.assertEqual(r['coverage']['expected_total'],1);self.assertEqual(r['coverage']['overlap_source_ids'],['feishu-xiaomi:123'])
+ def test_incomplete_overseas_cannot_close_domestic_company_scope(self):
+  d=self.payload([]);o=self.payload([]);o['coverage']['source_complete']=False
+  self.assertFalse(m.combine_xiaomi(d,o,'campus',Path('/tmp/not-written'))['coverage']['complete'])
