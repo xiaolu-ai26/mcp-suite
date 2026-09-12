@@ -35,10 +35,15 @@ def public_error(error):
 
 def pending_record(row,url,listing_path,detail_path=None,error=None):
  failed=error is not None
+ native=public_row(row)
  result={'source_record_id':str(row['id']),'job_title':row['title'],'detail_url':url,'source_url':url,'application_url':url,
          'last_attempt_at':dt.datetime.now(dt.timezone.utc).isoformat(),'listing_evidence_path':listing_path,
          'pending_reason':'fetch_failed' if failed else 'source_empty_body','detail_request_status':'failed' if failed else 'success',
-         'source_missing_fields':[] if failed else ['responsibilities','requirements']}
+         'source_missing_fields':[] if failed else ['responsibilities','requirements'],
+         'cities':[label for city in native.get('city_list') or [] if (label:=public_label(city))],
+         'education_raw':public_label(native.get('required_degree')),'major_requirements_raw':public_label(native.get('target_major_list')),
+         'education_source_raw':native.get('required_degree'),'major_source_raw':native.get('target_major_list'),
+         'source_city_list':native.get('city_list'),'source_channel_online_status':native.get('channel_online_status')}
  if detail_path:result['detail_evidence_path']=detail_path
  if failed:result.update(unretrieved_fields=['responsibilities','requirements'],fetch_error=public_error(error))
  return result
@@ -176,7 +181,7 @@ def collect_feishu(company:str,scope:str,sites:list,output_dir:Path)->dict:
           continue
          url=urlsplit(site['url']).scheme+'://'+urlsplit(site['url']).netloc+'/'+website['path'].strip('/')+'/position/'+ident+'/detail'
          subject=(detail.get('job_subject') or {}).get('name') or {};batch=(subject.get('zh_cn') or subject.get('i18n') or subject.get('en_us') or '') if isinstance(subject,dict) else str(subject)
-         cities=[r.get('name') or r.get('i18n_name') or r.get('en_name') for r in detail.get('city_list') or []]
+         cities=[public_label(r) for r in detail.get('city_list') or []]
          cohort='；'.join(re.findall(r'[^。\n]*(?:20\d{2}\s*届|毕业|graduat)[^。\n]*',desc,re.I))
          j=job(company,'feishu-'+str(website['id']),ident,detail['title'],url,desc,scope,path,education_raw=public_label(detail.get('required_degree')),major_requirements_raw=public_label(detail.get('target_major_list')),education_source_raw=detail.get('required_degree'),major_source_raw=detail.get('target_major_list'),source_channel_online_status=detail.get('channel_online_status'),cities=[x for x in cities if x],cohort_raw='',cohort_scope='official_job_description',batch_name=batch,job_category=public_label((detail.get('job_function') or {}).get('name')))
          j['source_recruitment_type']=(detail.get('recruit_type') or {}).get('name') or '';j['source_missing_fields']=missing;j['field_completeness']={name:('source_not_disclosed' if name in missing else 'source_disclosed') for name in ['description','requirement']}
