@@ -76,16 +76,7 @@ def read_id_matches(table, ids, path):
     return {r['job_id']:r['record_id'] for r in (json.loads(x) for x in path.read_text().splitlines()) if r.get('job_id')}
 
 
-def note_sync(out, jobs_path):
-    ownership=json.loads(NOTE_STATE.read_text()) if NOTE_STATE.exists() else {}
-    backup=verified_backup(out)
-    notes={};ambiguous=set()
-    for raw in V.iter_json_file(jobs_path):
-        identity=raw.get('id')
-        if not identity:continue
-        value=qualification_note(raw)
-        if identity in notes and notes[identity]!=value:ambiguous.add(identity)
-        notes[identity]=value
+def ensure_note_fields(out):
     for table in S.TABLES:
         fields=S.full_fields(table);existing=next((f for f in fields if f['name']==NOTE_FIELD),None)
         if existing is None:
@@ -99,6 +90,20 @@ def note_sync(out, jobs_path):
                 if existing is None:time.sleep(2)
         if existing is None or existing['type']!='text':
             raise ValueError('qualification note field not ready or incompatible')
+
+
+def note_sync(out, jobs_path):
+    ownership=json.loads(NOTE_STATE.read_text()) if NOTE_STATE.exists() else {}
+    backup=verified_backup(out)
+    notes={};ambiguous=set()
+    for raw in V.iter_json_file(jobs_path):
+        identity=raw.get('id')
+        if not identity:continue
+        value=qualification_note(raw)
+        if identity in notes and notes[identity]!=value:ambiguous.add(identity)
+        notes[identity]=value
+    ensure_note_fields(out)
+    for table in S.TABLES:
         records=json.loads(Path(backup['tables'][table]['records']).read_text())
         pairs=[(r['record_id'],r['job_id']) for r in records if r.get('job_id') in notes and r['job_id'] not in ambiguous]
         for start in range(0,len(pairs),200):
@@ -139,6 +144,7 @@ def new_fields(raw):
 def append_p1(out,jobs_path):
     from qiuzhao.collector.p1_pipeline import COMPANIES
     backup=verified_backup(out);known=set()
+    ensure_note_fields(out)
     for meta in backup['tables'].values():
         known.update(r.get('job_id') for r in json.loads(Path(meta['records']).read_text()) if r.get('job_id'))
     candidates={};ambiguous=set()
