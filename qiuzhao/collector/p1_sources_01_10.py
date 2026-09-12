@@ -5,6 +5,19 @@ from datetime import datetime, timezone
 from pathlib import Path
 import requests
 
+def make_session():
+    from requests.adapters import HTTPAdapter
+    from urllib3.util.retry import Retry
+    session=requests.Session()
+    retry=Retry(total=2,connect=2,read=2,status=2,backoff_factor=1,allowed_methods={'GET','POST'},status_forcelist=[429,502,503,504],respect_retry_after_header=True)
+    session.mount('https://',HTTPAdapter(max_retries=retry));return session
+
+def http_get(url,**kwargs):
+    with make_session() as session:return session.get(url,**kwargs)
+
+def http_post(url,**kwargs):
+    with make_session() as session:return session.post(url,**kwargs)
+
 COMPANIES={'pdd':'拼多多','dji':'大疆','huawei':'华为','xiaohongshu':'小红书','kuaishou':'快手','oppo':'OPPO','vivo':'vivo','honor':'荣耀','byd':'比亚迪','catl':'宁德时代'}
 TYPES={'campus':'校园招聘','intern':'实习招聘','social':'社会招聘'}
 
@@ -51,7 +64,7 @@ def finish(jobs,c):
 
 def collect_pdd(scope,output_dir):
     page_type='intern' if scope=='intern' else 'grad';entry=f'https://careers.pddglobalhr.com/campus/{page_type}'
-    c=coverage(entry);jobs=[];s=requests.Session()
+    c=coverage(entry);jobs=[];s=make_session()
     if scope=='social':c['errors']=['Official social recruitment endpoint not verified'];return finish(jobs,c)
     endpoint='train/list' if scope=='intern' else 'list'
     try:
@@ -113,7 +126,7 @@ def moka_detail_cached(company,scope,row,host,org,site,iv,output_dir):
                 checked=datetime.fromtimestamp(existing.stat().st_mtime,timezone.utc).isoformat()
                 return previous,checked,True
         except (ValueError,KeyError,TypeError):pass
-    with requests.Session() as ss:detail=request_json(ss,host+'/api/outer/ats-apply/website/job',{'orgId':org,'siteId':int(site),'jobId':ident,'locale':'zh-CN'},iv)
+    with make_session() as ss:detail=request_json(ss,host+'/api/outer/ats-apply/website/job',{'orgId':org,'siteId':int(site),'jobId':ident,'locale':'zh-CN'},iv)
     if detail.get('id')!=ident or not detail.get('jobDescription'):raise ValueError(f'Incomplete Moka detail {ident}')
     checked=datetime.now(timezone.utc).isoformat()
     if updated:
@@ -124,7 +137,7 @@ def moka_detail_cached(company,scope,row,host,org,site,iv,output_dir):
 def collect_moka_sites(company,scope,sites,output_dir):
     """Full official Moka pagination with three bounded concurrent detail reads."""
     from concurrent.futures import ThreadPoolExecutor, as_completed
-    jobs=[];c=coverage(sites[0][0] if sites else '');seen=set();session=requests.Session()
+    jobs=[];c=coverage(sites[0][0] if sites else '');seen=set();session=make_session()
     try:
         for site_url,basis in sites:
             m=re.search(r'/(?:campus|social)-recruitment/([^/]+)/(\d+)',site_url)
@@ -194,7 +207,7 @@ def collect_standard(company,scope,output_dir,social_site=False):
     else:
         host='https://careers.oppo.com';entry=host+'/campus/post'
         list_url=host+'/openapi/position/pageNew';detail_url=host+'/openapi/position/detail';idkey='idRecruitPosition'
-    c=coverage(entry);jobs=[];rows_all=[];seen=set();s=requests.Session();s.headers['Tenant-Id']='1000';list_total=None
+    c=coverage(entry);jobs=[];rows_all=[];seen=set();s=make_session();s.headers['Tenant-Id']='1000';list_total=None
     if company=='kuaishou' and scope=='social':
         c['errors']=['Separate official social endpoint not yet verified'];return finish([],c)
     try:
@@ -225,7 +238,7 @@ def collect_standard(company,scope,output_dir,social_site=False):
         c['list_total']=list_total;c['expected_total']=len(rows_all)
         def enrich(row):
             ident=row[idkey];params={'positionId':ident,'recruitType':scope} if company=='xiaohongshu' else {'positionId':ident} if company=='oppo' and (scope=='social' or social_site) else {'id':ident}
-            r=requests.get(detail_url,params=params,headers={'Tenant-Id':'1000'},timeout=(10,45));r.raise_for_status();envelope=r.json()
+            r=http_get(detail_url,params=params,headers={'Tenant-Id':'1000'},timeout=(10,45));r.raise_for_status();envelope=r.json()
             if envelope.get('success') is False or envelope.get('code',0) not in (0,'0'):raise ValueError('Detail response rejected')
             d=envelope.get('result',envelope.get('data'));(output_dir/f'detail-{ident}.json').write_text(json.dumps(d,ensure_ascii=False))
             if d[idkey]!=ident:raise ValueError('Detail ID mismatch')
@@ -269,7 +282,7 @@ def collect_oppo_intern(output_dir):
 
 def collect_vivo_byd(company,scope,output_dir):
     from concurrent.futures import ThreadPoolExecutor, as_completed
-    jobs=[];session=requests.Session();session.headers['lang']='zh_CN'
+    jobs=[];session=make_session();session.headers['lang']='zh_CN'
     entry='https://hr-campus.vivo.com' if company=='vivo' else 'https://job.byd.com/portal/pc/#/school/schoolPositionList'
     c=coverage(entry)
     if scope=='social':c['errors']=['Separate social source discovery pending'];return finish(jobs,c)
@@ -319,7 +332,7 @@ def collect_vivo_byd(company,scope,output_dir):
             row,cfg=pair;ident=row['Id'] if company=='vivo' else row['id']
             if company=='vivo':url=entry+'/api/JobAd/GetJobAdInfo';params={'jobAdId':ident,'portalId':cfg['PortalId'],'displayFields':'["LocNames","Degree","Kind","Category","Duty","Require"]'}
             else:url='https://job.byd.com/portal/api/portal-api/schoolPortal/queryPosition';params={'id':ident}
-            rr=requests.get(url,params=params,headers={'lang':'zh_CN'},timeout=(10,40));rr.raise_for_status();env=rr.json();(output_dir/f'detail-{ident}.json').write_text(json.dumps(env,ensure_ascii=False))
+            rr=http_get(url,params=params,headers={'lang':'zh_CN'},timeout=(10,40));rr.raise_for_status();env=rr.json();(output_dir/f'detail-{ident}.json').write_text(json.dumps(env,ensure_ascii=False))
             if company=='vivo':
                 if env.get('Code')!=200:raise ValueError(str(env)[:200])
                 d=env['Data'];title=d['JobAdName'];desc=d.get('Duty','');req=d.get('Require','');loc=' / '.join(d.get('LocNames') or []);link=entry+'/'+scope+'/detail?jobAdId='+ident
@@ -350,7 +363,7 @@ def collect_vivo_byd_social(company,output_dir):
     from concurrent.futures import ThreadPoolExecutor,as_completed
     host='https://career.vivo.com' if company=='vivo' else 'https://job.byd.com'
     entry=host+'/jobs' if company=='vivo' else host+'/portal/pc/#/social/socialMainPageSocial'
-    c=coverage(entry);jobs=[];selected=[];seen_all=set();session=requests.Session();session.headers['lang']='zh_CN'
+    c=coverage(entry);jobs=[];selected=[];seen_all=set();session=make_session();session.headers['lang']='zh_CN'
     try:
         for channel in ([None] if company=='vivo' else ['00251','00254']):
             seen=set();total=None
@@ -378,7 +391,7 @@ def collect_vivo_byd_social(company,output_dir):
             row,channel=pair;ident=row['job_id'] if company=='vivo' else row['id']
             url=host+'/api/social/webSite/portal/job/detail' if company=='vivo' else host+'/portal/api/portal-api/position/queryDetail'
             body={'job_id':ident,'company_id':1,'group_id':1} if company=='vivo' else {'id':ident,'pageSize':1}
-            rr=requests.post(url,json=body,headers={'lang':'zh_CN'},timeout=(10,45));rr.raise_for_status();env=rr.json();(output_dir/f'detail-{ident}.json').write_text(json.dumps(env,ensure_ascii=False))
+            rr=http_post(url,json=body,headers={'lang':'zh_CN'},timeout=(10,45));rr.raise_for_status();env=rr.json();(output_dir/f'detail-{ident}.json').write_text(json.dumps(env,ensure_ascii=False))
             if env.get('code')!=0:raise ValueError('Detail unsuccessful')
             d=env['data']
             if (d.get('job_id') if company=='vivo' else d.get('id'))!=ident:raise ValueError('Detail ID mismatch')
@@ -403,16 +416,17 @@ def collect_honor(scope,output_dir):
     from concurrent.futures import ThreadPoolExecutor,as_completed
     suites={'campus':['SU60eea919bef57c1023f6fe78','SU60eea1aa0dcad47a7e1ce1ed'],'intern':['SU61b9b9992f9d24431f5050a5'],'social':['SU5ff669649b0d78e6f4296c9a']}[scope]
     kind={'campus':1,'intern':12,'social':2}[scope];page_name={'campus':'school','intern':'interns','social':'social'}[scope]
-    host='https://career.honor.com';c=coverage(host+'/'+suites[0]+'/pb/'+page_name+'.html');jobs=[];seen_global=set();session=requests.Session()
+    host='https://career.honor.com';c=coverage(host+'/'+suites[0]+'/pb/'+page_name+'.html');jobs=[];seen_global=set();session=make_session()
     try:
         for suite in suites:
             entry=host+'/'+suite+'/pb/'+page_name+'.html';r=session.get(entry,timeout=(10,25));r.raise_for_status();(output_dir/(suite+'-entry.html')).write_text(r.text)
-            listed=set();selected=[];total=None
+            listed=set();selected=[];total=None;page_size=20
             for page in range(1,10001):
-                body={'isFrompb':'true','recruitType':kind,'pageSize':20,'currentPage':page}
+                body={'isFrompb':'true','recruitType':kind,'pageSize':page_size,'currentPage':page}
                 rr=session.post(host+'/wecruit/positionInfo/listPosition/'+suite,data=body,headers={'Referer':entry},timeout=(10,40));rr.raise_for_status();env=rr.json();(output_dir/f'{suite}-list-{page}.json').write_text(json.dumps(env,ensure_ascii=False));c['pages_scanned']+=1
                 if str(env.get('state'))!='200':raise ValueError(str(env)[:300])
                 form=env['data']['pageForm'];rows=form['pageData'] or [];n=form['dataCount']
+                if page==1 and form.get('pageSize'):page_size=int(form['pageSize'])
                 if total is not None and n!=total:raise ValueError('Honor total changed')
                 total=n
                 for row in rows:
@@ -425,7 +439,7 @@ def collect_honor(scope,output_dir):
                     c['last_page_evidence']=f'suite={suite};page={page};official_pages={form["totalPage"]};unique={len(listed)};total={total}';break
             if len(listed)!=total:raise ValueError('Honor incomplete page count')
             def enrich(row):
-                ident=row['postId'];rr=requests.post(host+'/wecruit/positionInfo/listPositionDetail/'+suite,data={'postId':ident},headers={'Referer':entry},timeout=(10,40));rr.raise_for_status();env=rr.json();(output_dir/f'detail-{ident}.json').write_text(json.dumps(env,ensure_ascii=False))
+                ident=row['postId'];rr=http_post(host+'/wecruit/positionInfo/listPositionDetail/'+suite,data={'postId':ident},headers={'Referer':entry},timeout=(10,40));rr.raise_for_status();env=rr.json();(output_dir/f'detail-{ident}.json').write_text(json.dumps(env,ensure_ascii=False))
                 if str(env.get('state'))!='200':raise ValueError('Honor detail rejected')
                 d=env['data']
                 if d.get('postId')!=ident or d.get('recruitType')!=kind:raise ValueError('Honor detail identity/scope conflict')
@@ -445,7 +459,7 @@ def collect_honor(scope,output_dir):
     return finish(jobs,c)
 
 def collect_access_probe(company,scope,output_dir):
-    session=requests.Session();session.headers['User-Agent']='Mozilla/5.0'
+    session=make_session();session.headers['User-Agent']='Mozilla/5.0'
     if company=='pdd':
         entry='https://careers.pddglobalhr.com/jobs';url='https://careers.pddglobalhr.com/api/recruit/position/list';body={'job':'','page':1,'pageSize':10,'name':'','workLocationList':[]};method='post'
     elif company=='huawei':
@@ -476,12 +490,12 @@ def enrich_dji_campaign(result,output_dir):
     target=next((j for j in result['jobs'] if j['source_record_id']==ident),None)
     if target is None:return
     url='https://careers.dji.com/zh-CN/campus/digital-recruitment'
-    r=requests.get(url,timeout=(10,30));r.raise_for_status();r.encoding='utf-8';page=r.text
+    r=http_get(url,timeout=(10,30));r.raise_for_status();r.encoding='utf-8';page=r.text
     (output_dir/'campaign-digital.html').write_text(page)
     scripts=re.findall(r'<script[^>]+src="([^"]+)',page)
     app=next((u for u in scripts if '/pages/_app-' in u),None)
     if not app:raise ValueError('DJI campaign app binding missing')
-    rr=requests.get(app,timeout=(10,30));rr.raise_for_status();(output_dir/'campaign-app.js').write_text(rr.text)
+    rr=http_get(app,timeout=(10,30));rr.raise_for_status();(output_dir/'campaign-app.js').write_text(rr.text)
     if ident not in rr.text:raise ValueError('DJI campaign no longer binds verified job ID')
     meta=re.search(r'<meta name="description" content="([^"]+)"',page)
     actual=html.unescape(meta.group(1)) if meta else ''
