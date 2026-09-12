@@ -2,6 +2,7 @@
 from __future__ import annotations
 import json
 import hashlib
+import time
 import re
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -92,7 +93,10 @@ def note_sync(out, jobs_path):
             definition={'name':NOTE_FIELD,'type':'text','description':'保留毕业日期范围、优秀/未就业等资格限制；历史标签无原句时明确待回源核实。'}
             response=S.cli('+field-create','--base-token',S.BASE,'--table-id',table,'--json',json.dumps(definition,ensure_ascii=False))
             S.save(out/(table+'.note-field-create.json'),response)
-            fields=S.full_fields(table);existing=next((f for f in fields if f['name']==NOTE_FIELD),None)
+            deadline=time.monotonic()+45
+            while existing is None and time.monotonic()<deadline:
+                fields=S.full_fields(table);existing=next((f for f in fields if f['name']==NOTE_FIELD),None)
+                if existing is None:time.sleep(2)
         if existing is None or existing['type']!='text':
             raise ValueError('qualification note field not ready or incompatible')
         records=json.loads(Path(backup['tables'][table]['records']).read_text())
