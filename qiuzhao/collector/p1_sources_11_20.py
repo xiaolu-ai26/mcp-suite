@@ -34,6 +34,16 @@ def role_body(description,requirement):
   raise ValueError('Only company/team/platform introduction, not role evidence')
  return combined,missing
 
+def graduation_window(raw):
+ if not isinstance(raw,dict) or not raw.get('from') or not raw.get('to'):return ''
+ def date(value):
+  parsed=dt.datetime.fromisoformat(str(value).replace('Z','+00:00'))
+  if parsed.tzinfo is not None:parsed=parsed.astimezone(dt.timezone(dt.timedelta(hours=8)))
+  return parsed.date()
+ start,end=date(raw['from']),date(raw['to'])
+ if start>end:raise ValueError('Official graduation date range reversed')
+ return f'毕业时间 {start.isoformat()} 至 {end.isoformat()}'
+
 def missing_detail(cov,ident,title,path):
  pending=cov.setdefault('pending_details',[]);pending.append({'source_record_id':str(ident),'title':title,'evidence_file':path,'reason':'Official role responsibilities/requirements both absent or boilerplate'})
  cov['detail_missing_count']=len(pending)
@@ -118,7 +128,7 @@ def _ant(company,scope,f,cov):
    if r.get('teamDescription'):desc+='\n\n'+clean(r['teamDescription'])
    url='https://talent.antgroup.com/'+('off-campus-position' if route=='social' else 'campus-position')+'?positionId='+ident
    grad=r.get('graduationTime') or {}
-   jobs.append(job(company,'ant',ident,r['name'],url,desc,scope,path,source_missing_fields=missing,cities=r.get('workLocations') or [],education_raw=r.get('degree') or '',cohort_raw=('毕业时间 '+str(grad['from'])+' 至 '+str(grad['to'])) if grad.get('from') and grad.get('to') else '',cohort_scope='official_job_graduationTime',campaign_name=r.get('batchName') or '',published_at=r.get('publishTime'),job_category=r.get('categoryName') or ''))
+   jobs.append(job(company,'ant',ident,r['name'],url,desc,scope,path,source_missing_fields=missing,cities=r.get('workLocations') or [],education_raw=r.get('degree') or '',cohort_raw=graduation_window(grad),graduation_date_range_raw=grad,graduation_date_timezone='Asia/Shanghai',cohort_scope='official_job_graduationTime',campaign_name=r.get('batchName') or '',published_at=r.get('publishTime'),job_category=r.get('categoryName') or ''))
   if rows_count==total:break
   if not rows or rows_count>total:raise ValueError('pagination count mismatch')
   time.sleep(.15)
@@ -177,7 +187,7 @@ def _anker(company,scope,f,cov):
   for a in r.get('address_list') or []:
    n=(a.get('city') or {}).get('name') or {};value=n.get('zh_cn') or n.get('en_us')
    if value and value not in cities:cities.append(value)
-  jobs.append(job(company,'anker',ident,r['title'],url,desc,scope,path,source_missing_fields=missing,cities=cities,job_category=((r.get('job_function') or {}).get('name') or {}).get('zh_cn',''),cohort_raw='；'.join(re.findall(r'[^。\n]*(?:20\d{2}届|毕业)[^。\n]*',desc)),cohort_scope='official_job_description'))
+  jobs.append(job(company,'anker',ident,r['title'],url,desc,scope,path,source_missing_fields=missing,cities=cities,job_category=((r.get('job_function') or {}).get('name') or {}).get('zh_cn',''),cohort_raw='',cohort_scope='official_job_description'))
  cov['unique_source_ids']=len(jobs)
  return jobs
 
@@ -308,7 +318,7 @@ def _lenovo(company,scope,f,cov):
   if not desc:raise ValueError('Lenovo empty job description '+ident)
   title_el=soup.select_one('.banner__text__title');title=title_el.get_text(' ',strip=True) if title_el else title
   plain=soup.get_text(' ',strip=True);city=re.search(r'City:\s*(.+?)\s*Date:',plain)
-  return job(company,'lenovo',ident,title,url,desc,scope,path,cities=[city.group(1)] if city else [],cohort_raw='；'.join(re.findall(r'[^。\n]*(?:20\d{2}届|毕业|新卒)[^。\n]*',desc)),cohort_scope='official_job_description')
+  return job(company,'lenovo',ident,title,url,desc,scope,path,cities=[city.group(1)] if city else [],cohort_raw='',cohort_scope='official_job_description')
  jobs=[]
  with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
   for result in [pool.submit(detail,x) for x in rows.items()]:
@@ -341,7 +351,7 @@ def _hikvision(company,scope,f,cov):
      missing_detail(cov,ident,r.get('postAdName'),path);cov['errors'].append(str(e)+' '+ident);continue
     detail=f'https://campushr.hikvision.com/JobDetails.html?id={ident}&type={r["mergeType"]}'
     cohort='；'.join(re.findall(r'[^。\n]*(?:20\d{2}届|毕业)[^。\n]*',desc))
-    jobs.append(job(company,'hikvision',ident,r['postAdName'],detail,desc,scope,path,source_missing_fields=missing,cities=r.get('workPlaceList') or [],cohort_raw=cohort,campaign_name=r.get('batchName') or '',cohort_scope='official_job_description',job_category=r.get('postAdSn') or '',education_raw=r.get('requiireEdu') or ''))
+    jobs.append(job(company,'hikvision',ident,r['postAdName'],detail,desc,scope,path,source_missing_fields=missing,cities=r.get('workPlaceList') or [],cohort_raw='',campaign_name=r.get('batchName') or '',cohort_scope='official_job_description',job_category=r.get('postAdSn') or '',education_raw=r.get('requiireEdu') or ''))
    if len(seen)==total:break
    if not rows or len(seen)>total:raise ValueError('Hikvision campus pagination mismatch')
   else:raise ValueError('Hikvision campus pagination limit')
@@ -373,7 +383,7 @@ def _hikvision(company,scope,f,cov):
    try:desc,missing=role_body(r.get('postDesc'),r.get('qualifications'))
    except ValueError:
     missing_detail(cov,ident,r.get('postName'),path);raise
-   j=job(company,'hikvision',ident,r['postName'],host+'/society/position?postId='+ident,desc,scope,path,source_missing_fields=missing,cities=[r['locationDesc']] if r.get('locationDesc') else [],education_raw=r.get('education') or '',published_at=r.get('createdon'),cohort_raw='；'.join(re.findall(r'[^。\n]*(?:20\d{2}届|毕业)[^。\n]*',desc)),cohort_scope='official_job_description')
+   j=job(company,'hikvision',ident,r['postName'],host+'/society/position?postId='+ident,desc,scope,path,source_missing_fields=missing,cities=[r['locationDesc']] if r.get('locationDesc') else [],education_raw=r.get('education') or '',published_at=r.get('createdon'),cohort_raw='',cohort_scope='official_job_description')
    j['recruiting_unit_raw']=r.get('company') or company;return j
   with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
    futures=[pool.submit(detail,x) for x in rows]
@@ -420,24 +430,9 @@ def _ctrip(company,scope,f,cov):
   if route=='global':url=host+'/#/job-detail?'+requests.compat.urlencode({'fromId':r['fromId'],'atsApiType':r.get('atsApiType') or ''})
   else:url=host+'/#/'+('campus' if actual=='campus' else 'experienced')+'/job-detail/'+str(r['fromId'])
   cohort='；'.join(re.findall(r'[^。\n]*(?:20\d{2}届|毕业|20\d{2} Graduates)[^。\n]*',desc,re.I))
-  jobs.append(job(company,'ctrip',ident,r['jobTitle'],url,desc,scope,path,cities=[r['cityName']] if r.get('cityName') else [],job_category=r.get('jobFamilyGroupName') or '',published_at=r.get('publishDate'),cohort_raw=cohort,cohort_scope='official_job_description'))
+  jobs.append(job(company,'ctrip',ident,r['jobTitle'],url,desc,scope,path,cities=[r['cityName']] if r.get('cityName') else [],job_category=r.get('jobFamilyGroupName') or '',published_at=r.get('publishDate'),cohort_raw='',cohort_scope='official_job_description'))
  cov.update(expected_total=selected,list_total=len(rows),scope_evidence='携程官网condition.category2为校招、1为社会；kind3及Intern_Short_Term为实习。海外官网Regular为社会；未写类型不猜。所有列表返回完整requirements正文。',scope_request={'company':company,'scope':scope,'source_url':SOURCES['ctrip'],'params':{'sources':[{'host':h,'endpoint':e,'condition':c} for h,e,c,r in sources],'pager_size':100}})
  return jobs
-
-def _external_blocker(company,scope,f,cov,slug):
- if slug=='ctrip':
-  text,path=f.get('https://careers.trip.com/','official-entry')
-  if 'whaleguard' in text.lower():raise ValueError('Official Trip.com recruitment returns whaleguard block; no public job payload')
-  raise ValueError('Official recruitment response changed; investigate public ATS contract before accepting jobs')
- route='social' if scope=='social' else 'campus'
- entry='https://arashivision.jobs.feishu.cn/'+route
- f.get(entry,'official-feishu-entry')
- params={'keyword':'','limit':10,'offset':0,'job_category_id_list':[],'tag_id_list':[],'location_code_list':[],'subject_id_list':[],'recruitment_id_list':[],'portal_type':2,'job_function_id_list':[],'storefront_id_list':[]}
- cov['scope_request']={'company':company,'scope':scope,'source_url':entry,'params':params}
- response=requests.post('https://arashivision.jobs.feishu.cn/api/v1/search/job/posts',json=params,headers={'website-path':route,'Referer':entry},timeout=30)
- path=save(f.out/'public-api-response.json',{'http_status':response.status_code,'response_text':response.content.decode('utf-8','replace'),'website_path':route});f.evidence.append(path)
- response.raise_for_status()
- raise ValueError('Official Feishu public API now accessible; previously HTTP405. Schema must be verified before accepting jobs')
 
 def collect(company:str,scope:str,output_dir:Path)->dict:
  if company not in COMPANIES:raise ValueError('unknown company')
@@ -455,7 +450,10 @@ def collect(company:str,scope:str,output_dir:Path)->dict:
   elif slug=='lenovo':jobs=_lenovo(company,scope,f,cov)
   elif slug=='hikvision':jobs=_hikvision(company,scope,f,cov)
   elif slug=='ctrip':jobs=_ctrip(company,scope,f,cov)
-  elif slug=='insta360':jobs=_external_blocker(company,scope,f,cov,slug)
+  elif slug=='insta360':
+   from qiuzhao.collector.p1_feishu_public import collect_feishu
+   sites=[{'url':'https://arashivision.jobs.feishu.cn/'+path+'/position/list','tenant_names':['影石创新科技股份有限公司'],'portal_type':6} for path in ['campus','social']]
+   result=collect_feishu(company,scope,sites,out);save(out/'candidate.json',result);return result
   else:
    f.get(SOURCES[slug],'official-entry');raise ValueError('Official entry checked; full scoped list/detail contract not yet verified')
  except Exception as e:

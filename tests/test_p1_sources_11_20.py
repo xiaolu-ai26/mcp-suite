@@ -62,4 +62,12 @@ class FullSourceRegressionTests(unittest.TestCase):
   with self.assertRaisesRegex(ValueError,'official total'):
    _lenovo('联想','campus',F(),{'errors':[],'pages_scanned':0})
 
+class GraduationDateTests(unittest.TestCase):
+ def test_official_midnight_utc_dates_use_china_calendar_window(self):
+  from qiuzhao.collector.p1_sources_11_20 import graduation_window
+  self.assertEqual(graduation_window({'from':'2026-08-31T16:00:00.000+00:00','to':'2030-10-30T16:00:00.000+00:00'}),'毕业时间 2026-09-01 至 2030-10-31')
+ def test_unknown_and_reversed_windows_not_guessed(self):
+  from qiuzhao.collector.p1_sources_11_20 import graduation_window
+  self.assertEqual(graduation_window({'from':None,'to':None}),'')
+  with self.assertRaises(ValueError):graduation_window({'from':'2028-01-01','to':'2027-01-01'})
 if __name__=='__main__':unittest.main()

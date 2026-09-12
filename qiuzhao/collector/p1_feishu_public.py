@@ -146,8 +146,8 @@ def collect_feishu(company:str,scope:str,sites:list,output_dir:Path)->dict:
          subject=(detail.get('job_subject') or {}).get('name') or {};batch=(subject.get('zh_cn') or subject.get('i18n') or subject.get('en_us') or '') if isinstance(subject,dict) else str(subject)
          cities=[r.get('name') or r.get('i18n_name') or r.get('en_name') for r in detail.get('city_list') or []]
          cohort='；'.join(re.findall(r'[^。\n]*(?:20\d{2}\s*届|毕业|graduat)[^。\n]*',desc,re.I))
-         j=job(company,'feishu-'+str(website['id']),ident,detail['title'],url,desc,scope,path,cities=[x for x in cities if x],cohort_raw=cohort,cohort_scope='official_job_description',batch_name=batch,job_category=(detail.get('job_function') or {}).get('name') or '')
-         j['source_missing_fields']=missing;j['field_completeness']={name:('source_not_disclosed' if name in missing else 'source_disclosed') for name in ['description','requirement']}
+         j=job(company,'feishu-'+str(website['id']),ident,detail['title'],url,desc,scope,path,cities=[x for x in cities if x],cohort_raw='',cohort_scope='official_job_description',batch_name=batch,job_category=(detail.get('job_function') or {}).get('name') or '')
+         j['source_recruitment_type']=(detail.get('recruit_type') or {}).get('name') or '';j['source_missing_fields']=missing;j['field_completeness']={name:('source_not_disclosed' if name in missing else 'source_disclosed') for name in ['description','requirement']}
          jobs.setdefault(ident,j)
         except Exception as exc:c['errors'].append('detail '+ident+': '+str(exc).split('\n')[0])
        if jobs and len(jobs)%30==0:checkpoint()
