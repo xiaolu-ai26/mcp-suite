@@ -21,6 +21,14 @@ class CollectorTests(unittest.TestCase):
    self.assertFalse(m.moka_detail_cached('dji','campus',row,'https://example.com','dji',1,None,out)[2])
    self.assertTrue(m.moka_detail_cached('dji','campus',row,'https://example.com','dji',1,None,out)[2]);self.assertEqual(call.call_count,1)
    row['title']='Changed';self.assertFalse(m.moka_detail_cached('dji','campus',row,'https://example.com','dji',1,None,out)[2]);self.assertEqual(call.call_count,2)
+ def test_existing_detail_cannot_bypass_changed_education(self):
+  import json
+  row={'id':'a','updatedAt':'2026-09-12','title':'A','education':'博士'}
+  old={**row,'education':'本科','jobDescription':'正文'};new={**row,'jobDescription':'正文'}
+  with tempfile.TemporaryDirectory() as d,patch.object(m,'request_json',return_value=new) as call,patch.dict(m.os.environ,{},clear=True):
+   out=Path(d)/'campus';out.mkdir();(out/'detail-a.json').write_text(json.dumps(old))
+   answer=m.moka_detail_cached('dji','campus',row,'https://example.com','dji',1,None,out)
+   self.assertFalse(answer[2]);self.assertEqual(call.call_count,1);self.assertEqual(answer[0]['education'],'博士')
  def test_campaign_year_is_bound_to_one_job(self):
   from qiuzhao.v4_fields import graduation_of
   target=m.job('dji','campus','093114fd-38fa-497b-ac5a-8a8f47777708','数字管理','https://example.com/a','职责')

@@ -121,8 +121,8 @@ def moka_detail_cached(company,scope,row,host,org,site,iv,output_dir):
     if updated and existing.exists():
         try:
             previous=json.loads(existing.read_text())
-            keys=('title','jobDescription','hireMode','commitment','locations','updatedAt')
-            if previous.get('id')==ident and previous.get('jobDescription') and previous.get('updatedAt')==updated and all(previous.get(k)==row.get(k) for k in keys if k in row):
+            keys=tuple(row)
+            if previous.get('id')==ident and previous.get('jobDescription') and previous.get('updatedAt')==updated and all(k in previous and previous[k]==row[k] for k in keys):
                 checked=datetime.fromtimestamp(existing.stat().st_mtime,timezone.utc).isoformat()
                 return previous,checked,True
         except (ValueError,KeyError,TypeError):pass
@@ -266,6 +266,74 @@ def collect_standard(company,scope,output_dir,social_site=False):
                 if j is not None:jobs.append(j)
         c['expected_total']=len(jobs);c['detail_complete']=True;c['evidence']=[p.name for p in output_dir.glob('list-*.json')];c['scope_evidence']=f'Official {company} list; requested scope={scope}'
     except Exception as exc:c['errors'].append(str(exc))
+    return finish(jobs,c)
+
+def collect_kuaishou_experienced(scope,output_dir):
+    import hmac
+    from urllib.parse import urlencode,quote_plus,urljoin
+    from concurrent.futures import ThreadPoolExecutor,as_completed
+    output_dir.mkdir(parents=True,exist_ok=True);entry='https://zhaopin.kuaishou.cn/recruit/e/';c=coverage(entry);jobs=[];session=make_session()
+    try:
+        home=session.get(entry,timeout=(10,30));home.raise_for_status();(output_dir/'official-entry.html').write_text(home.text)
+        js_url=next(urljoin(entry,u) for u in re.findall(r'<script[^>]+src=["\']([^"\']+)',home.text) if '/js/main.' in u)
+        js=session.get(js_url,timeout=(10,40));js.raise_for_status();(output_dir/'official-main.js').write_text(js.text)
+        match=re.search(r'generateSign\)\([^,]+,"",[^,]+,"([^"]+)"\)',js.text)
+        if not match:raise ValueError('Official public signature contract changed')
+        public_constant=match.group(1)
+        def read(path,params):
+            canonical=urlencode(sorted(params.items()),quote_via=quote_plus,safe="~!*()'");stamp=str(int(time.time()*1000));sign=hmac.new(public_constant.encode(),(stamp+canonical+public_constant).encode(),hashlib.sha256).hexdigest()
+            rr=http_get(entry+path,params=params,headers={'User-Agent':'Mozilla/5.0','Referer':entry,'sign':sign,'signTimestamp':stamp},timeout=(10,45));rr.raise_for_status();env=rr.json()
+            if env.get('code')!=0:raise ValueError(str(env)[:300])
+            return env.get('result')
+        dictionary=read('api/v1/dictionary/positionNature',{});(output_dir/'scope-dictionary.json').write_text(json.dumps(dictionary,ensure_ascii=False))
+        if not all(code in str(dictionary) for code in ['C001','C002']):raise ValueError('Official position nature dictionary changed')
+        selected=[];seen=set();total=None
+        for page in range(1,10001):
+            d=read('api/v1/open/positions/simple',{'pageNum':page,'pageSize':50});(output_dir/f'list-{page}.json').write_text(json.dumps(d,ensure_ascii=False));c['pages_scanned']+=1
+            rows=d['list'] or [];n=d['total']
+            if total is not None and n!=total:raise ValueError('Kuaishou social total changed')
+            total=n
+            for row in rows:
+                ident=row['id']
+                if ident in seen:raise ValueError('Repeated Kuaishou social page ID')
+                seen.add(ident);nature=row.get('positionNatureCode');project=row.get('recruitProjectCode')
+                if project!='socialr' or nature not in ('C001','C002','C003'):raise ValueError(f'Unknown Kuaishou official type {project}/{nature}')
+                actual='intern' if nature=='C002' else 'social'
+                if actual==scope:selected.append(row)
+            if not rows or d.get('isLastPage') is True or d.get('pages')==page:
+                c['last_page_evidence']=f'page={page};official_pages={d.get("pages")};unique={len(seen)};total={total}';break
+        if len(seen)!=total:raise ValueError('Kuaishou social incomplete list')
+        c['expected_total']=len(selected);c['list_total']=total;c['pagination_exhausted']=True
+        def enrich(row):
+            ident=row['id'];d=read('api/v1/open/positions/find',{'id':ident});(output_dir/f'detail-{ident}.json').write_text(json.dumps(d,ensure_ascii=False))
+            if d.get('id')!=ident or not (d.get('description') or d.get('positionDemand')):raise ValueError('Kuaishou detail invalid')
+            if d.get('positionNatureCode')!=row.get('positionNatureCode'):raise ValueError('Kuaishou type changed between list and detail')
+            url=entry+'#/official/'+('trainee' if scope=='intern' else 'social')+'/job-info/'+str(ident)
+            loc=' / '.join(x.get('name','') for x in d.get('workLocationDicts') or [])
+            j=job('kuaishou',scope,ident,d['name'],url,str(d.get('description') or '')+'\n任职要求\n'+str(d.get('positionDemand') or ''),loc,d)
+            j['scope_evidence']='Official positionNature dictionary: C001 Full time, C002 Internship, C003 Part time; socialr/'+str(d.get('positionNatureCode'))
+            j['recruitment_type_raw']={'recruitProjectCode':d.get('recruitProjectCode'),'positionNatureCode':d.get('positionNatureCode')};return j
+        with ThreadPoolExecutor(max_workers=3) as pool:
+            tasks={pool.submit(enrich,row):row['id'] for row in selected}
+            for f in as_completed(tasks):
+                try:
+                    jobs.append(f.result())
+                    if len(jobs)%100==0:partial_checkpoint(jobs,c,'kuaishou',scope,output_dir)
+                except Exception as exc:c['errors'].append(f'detail {tasks[f]}: {exc}')
+        c['detail_complete']=len(jobs)==len(selected);c['evidence']=['official-entry.html','official-main.js','scope-dictionary.json']+[p.name for p in output_dir.glob('list-*.json')];c['evidence_files']=c['evidence'];c['scope_evidence']='Official position nature dictionary'
+    except Exception as exc:c['errors'].append(str(exc))
+    return finish(jobs,c)
+
+def collect_kuaishou_intern(output_dir):
+    results=[]
+    for name,collector in [('campus-site',lambda d:collect_standard('kuaishou','intern',d)),('social-site',lambda d:collect_kuaishou_experienced('intern',d))]:
+        folder=output_dir/name;folder.mkdir(parents=True,exist_ok=True);results.append((name,collector(folder)))
+    jobs=[];seen=set();c=coverage('https://campus.kuaishou.cn/recruit/campus/e/')
+    for name,r in results:
+        for j in r['jobs']:
+            if j['source_record_id'] not in seen:jobs.append(j);seen.add(j['source_record_id'])
+        c['errors'].extend(r['coverage']['errors']);c['pages_scanned']+=r['coverage']['pages_scanned'];c['evidence'].extend(name+'/'+str(e) for e in r['coverage'].get('evidence',[]))
+    c['expected_total']=len(jobs);c['pagination_exhausted']=all(r['coverage'].get('pagination_exhausted') for _,r in results);c['detail_complete']=all(r['coverage'].get('detail_complete') for _,r in results);c['last_page_evidence']=';'.join(r['coverage'].get('last_page_evidence','') for _,r in results);c['evidence_files']=c['evidence']
     return finish(jobs,c)
 
 def collect_oppo_intern(output_dir):
@@ -509,7 +577,9 @@ def collect(company:str,scope:str,output_dir:Path)->dict:
     output_dir=Path(output_dir);output_dir.mkdir(parents=True,exist_ok=True)
     company=next((k for k,v in COMPANIES.items() if company==v),company)
     if scope not in TYPES:raise ValueError('Unknown recruitment scope')
-    if company=='huawei' or scope=='social' and company in ('pdd','kuaishou'):result=collect_access_probe(company,scope,output_dir)
+    if company=='huawei' or scope=='social' and company=='pdd':result=collect_access_probe(company,scope,output_dir)
+    elif company=='kuaishou' and scope=='social':result=collect_kuaishou_experienced(scope,output_dir)
+    elif company=='kuaishou' and scope=='intern':result=collect_kuaishou_intern(output_dir)
     elif company=='honor':result=collect_honor(scope,output_dir)
     elif company=='pdd':result=collect_pdd(scope,output_dir)
     elif company in ('vivo','byd'):result=collect_vivo_byd_social(company,output_dir) if scope=='social' else collect_vivo_byd(company,scope,output_dir)
