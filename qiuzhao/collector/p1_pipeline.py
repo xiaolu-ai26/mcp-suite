@@ -20,6 +20,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import uuid
 from urllib.parse import urlsplit
 
 from qiuzhao.normalize import normalize_records
@@ -182,6 +183,15 @@ def collect_process(company, scope, output_dir, timeout=900):
         return blocked(f'adapter contract rejected: {error}')
 
 
+def official_uuid(row):
+    """Only UUID source identities can bridge verified legacy URL changes."""
+    value = str(row.get('source_record_id') or '')
+    try:
+        return str(uuid.UUID(value))
+    except ValueError:
+        return None
+
+
 def merge_records(previous, results):
     """Update stable identities, retain failed-source rows, remove only proven absences."""
     merged = copy.deepcopy(previous)
@@ -197,6 +207,12 @@ def merge_records(previous, results):
             url = row.get('detail_url') or row.get('source_url')
             if url:
                 by_url.setdefault((url, row.get('recruitment_type')), []).append(index)
+        by_source_uuid = {}
+        for index, row in enumerate(merged):
+            identity = official_uuid(row)
+            owner = row.get('canonical_company') or row.get('p1_company') or row.get('recruitment_unit')
+            if identity and owner == company and row.get('recruitment_type') == SCOPES[scope]:
+                by_source_uuid.setdefault(identity, []).append(index)
         seen = set()
         adopted_indices = set()
         incoming_url_counts = {}
@@ -207,6 +223,10 @@ def merge_records(previous, results):
             canonical = incoming['p1_identity']
             normalize_records([incoming])
             index = by_id.get(canonical)
+            if index is None and official_uuid(incoming):
+                candidates = by_source_uuid.get(official_uuid(incoming), [])
+                if len(candidates) == 1 and candidates[0] not in adopted_indices:
+                    index = candidates[0]
             if index is None:
                 matches = by_url.get((incoming['detail_url'], incoming['recruitment_type']), [])
                 if (len(matches) == 1 and matches[0] not in adopted_indices

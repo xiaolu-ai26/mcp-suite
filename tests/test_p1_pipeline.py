@@ -214,6 +214,22 @@ class P1Tests(unittest.TestCase):
             errors = status['results']['拼多多/social']['coverage']['errors']
             self.assertTrue(any('Official social recruitment endpoint not verified' in e for e in errors), errors)
 
+    def test_legacy_uuid_adoption_requires_unique_same_company_and_scope(self):
+        ident = '093114fd-38fa-497b-ac5a-8a8f47777708'
+        incoming = self.validated((ident,))
+        legacy = {'id': 'legacy', 'source_record_id': ident, 'recruitment_unit': '大疆',
+                  'recruitment_type': '校园招聘', 'source_url': 'https://app.mokahr.com/jobs/' + ident}
+        rows, _ = p.merge_records([legacy], [('大疆', 'campus', incoming)])
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]['id'], 'legacy')
+        for mutation in ({'recruitment_unit': '另一家公司'}, {'recruitment_type': '社会招聘'}):
+            old = dict(legacy, **mutation)
+            rows, _ = p.merge_records([old], [('大疆', 'campus', incoming)])
+            self.assertEqual(len(rows), 2)
+            self.assertEqual(rows[0], old)
+        rows, _ = p.merge_records([legacy, dict(legacy, id='ambiguous')], [('大疆', 'campus', incoming)])
+        self.assertEqual(len(rows), 3)
+
 
 if __name__ == '__main__':
     unittest.main()
