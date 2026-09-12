@@ -16,6 +16,7 @@ import json
 import os
 from pathlib import Path
 import signal
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -44,8 +45,16 @@ def now():
     return dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds')
 
 
+def stream_sha(stream):
+    digest = hashlib.sha256()
+    for chunk in iter(lambda: stream.read(1 << 20), b''):
+        digest.update(chunk)
+    return digest.hexdigest()
+
+
 def sha(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    with path.open('rb') as stream:
+        return stream_sha(stream)
 
 
 def atomic_json(path, payload):
@@ -214,7 +223,7 @@ def official_uuid(row):
 
 def merge_records(previous, results):
     """Update stable identities, retain failed-source rows, remove only proven absences."""
-    merged = copy.deepcopy(previous)
+    merged = list(previous)
     changes = {'added': 0, 'updated': 0, 'removed': 0}
     for company, scope, result in results:
         rows, coverage = result['jobs'], result['coverage']
@@ -270,10 +279,12 @@ def merge_records(previous, results):
                 changes['updated'] += 1
             seen.add(canonical)
         if coverage.get('complete') is True:
-            for row in merged:
+            for index, row in enumerate(merged):
                 if row.get('p1_company') == company and row.get('p1_scope') == scope and (row.get('p1_identity') or row.get('id')) not in seen:
                     if row.get('status') != 'removed':
                         changes['removed'] += 1
+                    row = dict(row)
+                    merged[index] = row
                     row.update(status='removed', reviewed_at=now(),
                                removal_reason='Absent from complete current company/scope official listing')
     return merged, changes
@@ -285,11 +296,11 @@ def publish(data_dir, results, run_dir):
     jobs_path = data_dir / 'jobs.json'
     with open(data_dir / 'p1-publish.lock', 'a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
-        before = jobs_path.read_bytes()
-        previous = json.loads(before)
+        before_hash = sha(jobs_path)
+        with jobs_path.open(encoding='utf-8') as stream:
+            previous = json.load(stream)
         if not isinstance(previous, list):
             raise ValueError('production jobs must be a list')
-        before_hash = hashlib.sha256(before).hexdigest()
         merged, changes = merge_records(previous, results)
         # One true pre-write snapshot per locked execution batch, not 150
         # complete database copies. Per-scope candidate snapshots and hashes
@@ -298,17 +309,17 @@ def publish(data_dir, results, run_dir):
         backup = run_dir / 'jobs.before.json.gz'
         manifest = run_dir / 'backup.json'
         if not backup.exists():
-            with gzip.open(backup, 'wb', compresslevel=3) as stream:
-                stream.write(before)
+            with jobs_path.open('rb') as source, gzip.open(backup, 'wb', compresslevel=3) as stream:
+                shutil.copyfileobj(source, stream, length=1 << 20)
             with gzip.open(backup, 'rb') as stream:
-                backup_hash = hashlib.sha256(stream.read()).hexdigest()
+                backup_hash = stream_sha(stream)
             if backup_hash != before_hash:
                 raise RuntimeError('pre-write backup hash mismatch')
             atomic_json(manifest, {'uncompressed_sha256': backup_hash, 'created_at': now()})
         else:
             backup_hash = json.loads(manifest.read_text())['uncompressed_sha256']
             with gzip.open(backup, 'rb') as stream:
-                if hashlib.sha256(stream.read()).hexdigest() != backup_hash:
+                if stream_sha(stream) != backup_hash:
                     raise RuntimeError('existing batch backup hash mismatch; refusing publish')
         if sha(jobs_path) != before_hash:
             raise RuntimeError('jobs changed concurrently; refusing overwrite')

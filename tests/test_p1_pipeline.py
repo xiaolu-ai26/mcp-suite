@@ -293,6 +293,13 @@ class P1Tests(unittest.TestCase):
             self.assertEqual(collected['coverage']['status'],'blocked')
             self.assertEqual(collected['jobs'],[])
 
+    def test_merge_retains_input_immutability_when_removing(self):
+        previous,_=p.merge_records([], [('大疆','campus',self.validated())])
+        saved=copy.deepcopy(previous)
+        merged,_=p.merge_records(previous,[('大疆','campus',self.validated(()))])
+        self.assertEqual(previous,saved)
+        self.assertEqual(merged[0]['status'],'removed')
+
 
 if __name__ == '__main__':
     unittest.main()
