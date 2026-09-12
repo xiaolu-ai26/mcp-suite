@@ -495,7 +495,7 @@ def _ctrip(company,scope,f,cov):
   kind=str(r.get('kind') or '')
   actual='intern' if kind in ('3','Intern_Short_Term','Intern_Long_Term') else ('campus' if ident in campus_ids or re.match(r'^Campus Recruitment\s*[-–]',r.get('jobTitle') or '',re.I) else ('social' if kind in ('1','Regular','Contract','Temporary') else None))
   if actual is None:
-   if scope!='campus':cov['errors'].append('Unspecified official recruitment type '+ident)
+   cov['errors'].append('Unspecified official recruitment type '+ident)
    continue
   if actual!=scope:continue
   selected+=1;desc='\n\n'.join(clean(r.get(k)) for k in ('duty','requirements') if r.get(k))
