@@ -505,11 +505,12 @@ def collect_vivo_byd_social(company,output_dir):
     except Exception as exc:c['errors'].append(str(exc))
     return finish(jobs,c)
 
-def collect_honor(scope,output_dir):
+def collect_honor(scope,output_dir,company='荣耀',host='https://career.honor.com',suites_override=None):
     from concurrent.futures import ThreadPoolExecutor,as_completed
     suites={'campus':['SU60eea919bef57c1023f6fe78','SU60eea1aa0dcad47a7e1ce1ed'],'intern':['SU61b9b9992f9d24431f5050a5'],'social':['SU5ff669649b0d78e6f4296c9a']}[scope]
+    if suites_override is not None:suites=suites_override
     kind={'campus':1,'intern':12,'social':2}[scope];page_name={'campus':'school','intern':'interns','social':'social'}[scope]
-    host='https://career.honor.com';c=coverage(host+'/'+suites[0]+'/pb/'+page_name+'.html');jobs=[];seen_global=set();session=make_session()
+    c=coverage(host+'/'+suites[0]+'/pb/'+page_name+'.html');jobs=[];seen_global=set();session=make_session()
     try:
         for suite in suites:
             entry=host+'/'+suite+'/pb/'+page_name+'.html';r=session.get(entry,timeout=(10,25));r.raise_for_status();(output_dir/(suite+'-entry.html')).write_text(r.text)
@@ -538,9 +539,9 @@ def collect_honor(scope,output_dir):
                 if d.get('postId')!=ident or d.get('recruitType')!=kind:raise ValueError('Honor detail identity/scope conflict')
                 desc=d.get('workContent') or '';req=d.get('serviceCondition') or ''
                 if not desc and not req:raise ValueError('Honor full description missing')
-                j=job('honor',scope,ident,d['postName'],host+'/'+suite+'/pb/posDetail.html?postId='+ident,desc+'\n任职要求\n'+req,d.get('workPlaceStr') or '',d)
-                j['campaign_cohort_raw']=d.get('projectName') or '';j['campaign_scope']='project';j['campaign_url']=entry;j['scope_evidence']=f'Official current HONOR portal recruitType={kind}'
-                j['recruitment_unit']='荣耀 / '+str(d.get('orgName') or d.get('company') or '荣耀');return j
+                j=job(company,scope,ident,d['postName'],host+'/'+suite+'/pb/posDetail.html?postId='+ident,desc+'\n任职要求\n'+req,d.get('workPlaceStr') or '',d)
+                j['campaign_cohort_raw']=d.get('projectName') or '';j['campaign_scope']='project';j['campaign_url']=entry;j['scope_evidence']=f'Official current {company} portal recruitType={kind}'
+                j['recruitment_unit']=company+' / '+str(d.get('orgName') or d.get('company') or company);return j
             with ThreadPoolExecutor(max_workers=3) as pool:
                 tasks={pool.submit(enrich,row):row['postId'] for row in selected}
                 for f in as_completed(tasks):

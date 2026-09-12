@@ -5,7 +5,7 @@ from qiuzhao.collector import p1_sources_41_50 as m
 class Batch41Tests(unittest.TestCase):
  def test_not_implemented_is_never_success_zero(self):
   with tempfile.TemporaryDirectory() as d:
-   r=m.collect('长城汽车','campus',Path(d));self.assertEqual(r['coverage']['status'],'blocked');self.assertFalse(r['coverage']['complete'])
+   r=m.collect('网易','campus',Path(d));self.assertEqual(r['coverage']['status'],'blocked');self.assertFalse(r['coverage']['complete'])
  def test_beisen_receives_verified_company_name(self):
   c=m.shared.coverage('https://career.mindray.com');c['errors']=['fixture']
   with tempfile.TemporaryDirectory() as d,patch.object(m,'collect_beisen',return_value={'jobs':[],'coverage':c}) as call:
