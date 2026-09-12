@@ -54,7 +54,7 @@ def _mihoyo(company,scope,f,cov):
   typ,ident,r=item;data,path=f.api(api+'/v1/job/info',f'detail-{typ}-{ident}',{'id':ident,'channelDetailIds':[1],'hireType':typ})
   if str(data.get('id'))!=ident or data.get('hireType')!=typ:raise ValueError('detail identity/type mismatch')
   desc='\n\n'.join(clean(data.get(k)) for k in ('description','jobRequire','addition','deliveryInstructions') if data.get(k))
-  if not desc:raise ValueError('empty official job detail')
+  if not clean(data.get('description')):raise ValueError('empty official job responsibilities')
   url='https://jobs.mihoyo.com/#/'+('campus/' if typ else '')+'position/'+ident
   return job(company,'mihoyo',ident,data['title'],url,desc,scope,path,cities=[x['addressDetail'] for x in data.get('addressDetailList',[])],job_category=data.get('competencyType',''),cohort_raw=data.get('objectName',''),cohort_scope='official_job_object',campaign_name=data.get('projectName',''))
  jobs=[]
@@ -68,7 +68,7 @@ def _mihoyo(company,scope,f,cov):
 def _ant(company,scope,f,cov):
  route='social' if scope=='social' else 'campus'
  channel='group_official_site' if route=='social' else 'campus_group_official_site'
- jobs=[];seen=set();total=None;rows_count=0;selected=0
+ jobs=[];cov['_partial_jobs']=jobs;seen=set();total=None;rows_count=0;selected=0
  for page in range(1,1001):
   text,path=f.get('https://hrcareersweb.antgroup.com/api/'+route+'/position/search',f'list-{page}',{'pageIndex':page,'pageSize':20,'channel':channel,'language':'zh_CN'})
   data=json.loads(text)
@@ -80,14 +80,16 @@ def _ant(company,scope,f,cov):
   for r in rows:
    ident=str(r['id'])
    rows_count+=1
-   if ident in seen:continue
+   if ident in seen:
+    cov['errors'].append('duplicate source ID across pages: '+ident);continue
    seen.add(ident)
    actual='social' if route=='social' else {'graduate':'campus','trainee':'intern','talent_plan':'intern' if '实习' in (r.get('batchName') or '') else 'campus'}.get(r.get('batchType'))
    if actual is None:raise ValueError('unknown official batchType '+str(r.get('batchType')))
    if actual!=scope:continue
    selected+=1
    desc='\n\n'.join(clean(r.get(k)) for k in ('description','requirement','teamDescription') if r.get(k))
-   if not desc:cov['errors'].append('empty detail '+ident);continue
+   if not clean(r.get('description')) or not clean(r.get('requirement')):
+    cov['errors'].append('incomplete responsibilities/requirements '+ident);continue
    url='https://talent.antgroup.com/'+('off-campus-position' if route=='social' else 'campus-position')+'?positionId='+ident
    grad=r.get('graduationTime') or {}
    jobs.append(job(company,'ant',ident,r['name'],url,desc,scope,path,cities=r.get('workLocations') or [],education_raw=r.get('degree') or '',cohort_raw=('毕业时间 '+str(grad['from'])+' 至 '+str(grad['to'])) if grad.get('from') and grad.get('to') else '',cohort_scope='official_job_graduationTime',campaign_name=r.get('batchName') or '',published_at=r.get('publishTime'),job_category=r.get('categoryName') or ''))
@@ -96,6 +98,46 @@ def _ant(company,scope,f,cov):
   time.sleep(.15)
  else:raise ValueError('pagination limit reached')
  cov.update(expected_total=selected,list_total=total,scope_evidence='官方campus频道 batchType graduate=应届生、trainee=实习生；social频道=社会招聘。列表返回完整description及requirement。',pagination_exhausted=True,unique_source_ids=len(jobs),last_page_evidence=path)
+ return jobs
+
+def _anker(company,scope,f,cov):
+ sites={'6962795203808168199':'social','6962795203808217351':'campus','7005456241946331399':'intern','7069578816822282503':'social','7268177039772633400':'campus'}
+ all_rows={};pages=0
+ for site,basis in sites.items():
+  token='';tokens=set();site_seen=set()
+  for page in range(1,1001):
+   url=f'https://rainbow-recall.anker.com.cn/api/lark/hire/v1/websites/{site}/job_posts/search?page_size=10&page_token='+requests.utils.quote(token,safe='')
+   text,path=f.get(url,f'{site}-list-{page}',{'job_function_id_list':[],'city_code_list':[],'keyword':'','job_lang_list':[]})
+   data=json.loads(text)
+   if data.get('code')!=0:raise ValueError('Anker official API '+str(data.get('msg')))
+   data=data['data'];pages+=1
+   # Remove staff identity fields from the evidence; jobs remain untouched.
+   for r in data['items']:r.pop('creator',None)
+   Path(path).write_text(json.dumps({'code':0,'data':data},ensure_ascii=False))
+   for r in data['items']:
+    ident=str(r['id'])
+    if ident in site_seen:raise ValueError('Anker repeated ID within site pagination')
+    site_seen.add(ident)
+    nature=(r.get('job_recruitment_type') or {}).get('name',{})
+    actual='intern' if nature.get('zh_cn')=='实习' or nature.get('en_us')=='Intern' else basis
+    key=(actual,ident)
+    all_rows[key]=(r,site,path)
+   if data.get('has_more') is False:break
+   nxt=data.get('page_token')
+   if not nxt or nxt in tokens:raise ValueError('Anker nonadvancing page token')
+   tokens.add(nxt);token=nxt;time.sleep(.15)
+  else:raise ValueError('Anker page limit reached')
+ jobs=[];selected=[(ident,*v) for (actual,ident),v in all_rows.items() if actual==scope]
+ cov.update(expected_total=len(selected),pages_scanned=pages,list_total=len(all_rows),pagination_exhausted=True,last_page_evidence=path,scope_evidence='安克官网公开JS中的5个中英文招聘websiteId；官方job_recruitment_type实习优先，其余按官网应届生/社会频道。公开列表包含完整description和requirement。')
+ for ident,r,site,path in selected:
+  if not clean(r.get('description')) or not clean(r.get('requirement')):cov['errors'].append('incomplete responsibilities/requirements '+ident);continue
+  desc=clean(r['description'])+'\n\n'+clean(r['requirement']);url=f'https://career.anker.com.cn/larkJobDetail/?websiteId={site}&jobId={ident}'
+  cities=[]
+  for a in r.get('address_list') or []:
+   n=(a.get('city') or {}).get('name') or {};value=n.get('zh_cn') or n.get('en_us')
+   if value and value not in cities:cities.append(value)
+  jobs.append(job(company,'anker',ident,r['title'],url,desc,scope,path,cities=cities,job_category=((r.get('job_function') or {}).get('name') or {}).get('zh_cn',''),cohort_raw='；'.join(re.findall(r'[^。\n]*(?:20\d{2}届|毕业)[^。\n]*',desc)),cohort_scope='official_job_description'))
+ cov['unique_source_ids']=len(jobs)
  return jobs
 
 def collect(company:str,scope:str,output_dir:Path)->dict:
@@ -107,9 +149,12 @@ def collect(company:str,scope:str,output_dir:Path)->dict:
  try:
   if slug=='mihoyo':jobs=_mihoyo(company,scope,f,cov)
   elif slug=='ant':jobs=_ant(company,scope,f,cov)
+  elif slug=='anker':jobs=_anker(company,scope,f,cov)
   else:
    f.get(SOURCES[slug],'official-entry');raise ValueError('Official entry checked; full scoped list/detail contract not yet verified')
- except Exception as e:cov['errors'].append(str(e))
+ except Exception as e:
+  cov['errors'].append(str(e));jobs=cov.get('_partial_jobs',jobs)
+ cov.pop('_partial_jobs',None)
  cov['collected_jobs']=len(jobs);cov['evidence']=f.evidence;cov['evidence_files']=f.evidence
  cov['scope_request']={'company':company,'scope':scope,'source_url':SOURCES[slug],'params':{'hireType':[1,0],'channelDetailIds':[1]} if slug=='mihoyo' else {'route':'social' if scope=='social' else 'campus','pageSize':20}}
  cov['complete']=cov['expected_total'] is not None and len(jobs)==cov['expected_total'] and not cov['errors']
@@ -119,4 +164,4 @@ if __name__=='__main__':
  import argparse
  parser=argparse.ArgumentParser();parser.add_argument('company');parser.add_argument('--scope',choices=TYPES);parser.add_argument('--output-dir',type=Path,required=True);args=parser.parse_args()
  for scope in ([args.scope] if args.scope else TYPES):
-  r=collect(args.company,scope,args.output_dir);print(json.dumps({'company':args.company,'scope':scope,**{k:v for k,v in r['coverage'].items() if k!='evidence'}},ensure_ascii=False),flush=True)
+  r=collect(args.company,scope,args.output_dir);print(json.dumps({'company':args.company,'scope':scope,**{k:v for k,v in r['coverage'].items() if k not in {'evidence','evidence_files'}}},ensure_ascii=False),flush=True)
