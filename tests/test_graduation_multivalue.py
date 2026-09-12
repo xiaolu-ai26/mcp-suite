@@ -50,3 +50,25 @@ def test_explicit_multiple_major_categories_without_description_guessing():
     row['major_requirements_raw'] = '专业不限'
     normalize_records([row])
     assert row['major_categories'] == []
+
+
+def test_role_cohort_precedes_generic_campaign_and_job_bound_exception():
+    from qiuzhao.v4_fields import graduation_of, graduation_conflicts_of
+    row={'cohort_raw':'仅2026届','campaign_cohort_raw':'2027届校园招聘','recruitment_type':'校园招聘'}
+    assert graduation_of(row)[0]==['2026届']
+    assert graduation_conflicts_of(row)[0]['years']==['2027届']
+    row.update(source_record_id='verified-role',campaign_job_ids=['verified-role'],
+               campaign_cohort_raw='面向2027届及优秀2026届高校毕业生')
+    assert graduation_of(row)[0]==['2027届','2026届']
+    assert graduation_conflicts_of(row)==[]
+
+
+def test_campaign_scoped_legacy_label_does_not_hide_role_multiyear():
+    from qiuzhao.v4_fields import graduation_of
+    row={'cohort_raw':'2027届','cohort_scope':'campaign_announcement','recruitment_type':'校园招聘',
+         'description_raw':'任职要求：2026/2027届本科及以上学历，计算机相关专业。'}
+    assert graduation_of(row)[0]==['2027届','2026届']
+    row['description_raw']='其中部分境外岗位面向2025年6月至2027年10月毕业的学生。'
+    assert graduation_of(row)[0]==['2027届']
+    row['description_raw']='仅2026届，不接受2027届毕业生。'
+    assert graduation_of(row)[0]==['2026届']

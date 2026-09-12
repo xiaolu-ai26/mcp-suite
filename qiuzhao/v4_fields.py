@@ -239,7 +239,33 @@ def source_scope_years(url):
 
 
 def campaign_text(r):
-    return r.get("campaign_cohort_raw") or r.get("batch_name") or ""
+    scoped = r.get('cohort_raw') if r.get('cohort_scope') in {
+        'campaign_announcement', 'headquarters_campaign_announcement'} else ''
+    return r.get("campaign_cohort_raw") or r.get("batch_name") or scoped or ""
+
+
+def role_description_years(text):
+    """Ignore explicitly wider campaign clauses when extracting role eligibility."""
+    sentences = []
+    for sentence in re.split(r'[。\n]', str(text or '')):
+        if re.search(r'其中部分|部分.{0,12}岗位|部分境外|其他岗位', sentence):
+            continue
+        sentences.append(re.split(r'不接受|不招收|不面向', sentence, maxsplit=1)[0])
+    return description_years('\n'.join(sentences))
+
+
+def job_bound_campaign(r):
+    ids = r.get('campaign_job_ids')
+    return isinstance(ids, list) and str(r.get('source_record_id') or '') in ids
+
+
+def graduation_conflicts_of(r):
+    years, _, _, rule = graduation_of(r)
+    if rule not in ('cohort_raw', 'description', 'job_title') or job_bound_campaign(r):
+        return []
+    extra = set(years_in(campaign_text(r))) - {int(y[:4]) for y in years}
+    return [{'source': 'campaign', 'years': [f'{y}届' for y in sorted(extra)],
+             'note': '一般活动条件与岗位明确条件冲突；按岗位条件展示'}] if extra else []
 
 
 def graduation_of(r):
@@ -247,25 +273,39 @@ def graduation_of(r):
 
     years/basis: cohorts that apply and why; note: why there is no year (社招不限届别 /
     实习未写届别 / 未注明, empty when years is non-empty); rule: which step decided (for counts).
-    Order (SPEC 6.3 + v4 decision 3): role text, campaign title, then — only when both are
-    silent — social recruitment, job title, description, internship, publish season, source scope.
+    Explicit role conditions precede generic campaigns. Only a campaign bound to
+    this official source record may expand an explicit role cohort.
     """
-    basis = {}
-    for y in years_in(r.get("cohort_raw")):
-        basis[f"{y}届"] = "岗位写明"
-    rule = "cohort_raw" if basis else ""
-    for y in years_in(campaign_text(r)):
-        basis.setdefault(f"{y}届", "活动标题写明")
+    scoped_campaign = r.get('cohort_scope') in {'campaign_announcement', 'headquarters_campaign_announcement'}
+    role_years = [] if scoped_campaign else years_in(r.get('cohort_raw'))
+    campaign_years = years_in(campaign_text(r))
+    basis = {f'{y}届': '岗位写明' for y in role_years}
     if basis:
-        return _sorted(basis), basis, "", rule or "campaign_title"
-    rtype = r.get("recruitment_type")
-    if rtype == "社会招聘":
-        return [], {}, NOTE_SOCIAL, "social"
-    for rule, years in (("job_title", title_years(r.get("job_title"))),
-                        ("description", description_years(r.get("description_raw")))):
-        if years:
-            basis = {f"{y}届": "岗位写明" for y in years}
-            return _sorted(basis), basis, "", rule
+        if job_bound_campaign(r):
+            for year in campaign_years:
+                basis.setdefault(f'{year}届', '活动标题写明')
+        return _sorted(basis), basis, '', 'cohort_raw'
+    rtype = r.get('recruitment_type')
+    if rtype == '社会招聘':
+        return [], {}, NOTE_SOCIAL, 'social'
+    description = role_description_years(r.get('description_raw'))
+    title = title_years(r.get('job_title'))
+    if description:
+        if re.search(r'也可|亦可|也欢迎', str(r.get('description_raw') or '')):
+            description = sorted(set(description) | set(title))
+        basis = {f'{y}届': '岗位写明' for y in description}
+        rule = 'description'
+    elif title:
+        basis = {f'{y}届': '岗位写明' for y in title}
+        rule = 'job_title'
+    else:
+        basis = {f'{y}届': '活动标题写明' for y in campaign_years}
+        rule = 'campaign_title'
+    if basis:
+        if job_bound_campaign(r):
+            for year in campaign_years:
+                basis.setdefault(f'{year}届', '活动标题写明')
+        return _sorted(basis), basis, '', rule
     if rtype == "实习招聘":
         return [], {}, NOTE_INTERN, "intern"
     if rtype == "校园招聘":
@@ -619,6 +659,7 @@ def convert(r):
         "graduation_years": years,
         "graduation_year_basis": basis,
         "graduation_year_note": note,
+        "graduation_year_conflicts": graduation_conflicts_of(r),
         "cohort_raw": _text(r.get("cohort_raw")),
         "campaign_title": _text(campaign_text(r)),
         "education": education_of(edu_raw),

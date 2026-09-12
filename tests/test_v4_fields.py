@@ -66,12 +66,12 @@ def test_years_in_keeps_the_spec_window_rule():
 
 @pytest.mark.parametrize("r,years,basis,note,rule", [
     (row(cohort_raw="2026届应届毕业生", campaign_cohort_raw="2027届校园招聘", recruitment_type="校园招聘"),
-     ["2027届", "2026届"], {"2026届": "岗位写明", "2027届": "活动标题写明"}, "", "cohort_raw"),
+     ["2026届"], {"2026届": "岗位写明"}, "", "cohort_raw"),
     (row(campaign_cohort_raw="国聘行动2027校园招聘", recruitment_type="校园招聘"),
      ["2027届"], {"2027届": "活动标题写明"}, "", "campaign_title"),
     (row(recruitment_type="社会招聘", job_title="2027届管培生"), [], {}, "社招不限届别", "social"),
     (row(recruitment_type="校园招聘", job_title="2027届校招-财务培训生", description_raw="2026届也可"),
-     ["2027届"], {"2027届": "岗位写明"}, "", "job_title"),
+     ["2027届", "2026届"], {"2027届": "岗位写明", "2026届": "岗位写明"}, "", "description"),
     (row(recruitment_type="实习招聘", description_raw="1、2027届或2028届硕士研究生在读"),
      ["2028届", "2027届"], {"2028届": "岗位写明", "2027届": "岗位写明"}, "", "description"),
     (row(recruitment_type="实习招聘", published_at="2026-08-01"), [], {}, "实习未写届别", "intern"),
