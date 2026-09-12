@@ -126,3 +126,18 @@ def test_open_graduation_bound_matches_future_year_without_enumerating(tmp_path)
     raw['description_raw']+='，不接受2029届'
     item,_=V.convert(raw)
     assert Jobs._m_grad(item,'2029届',False) is None
+
+
+def test_negated_open_range_never_creates_positive_eligibility():
+    from qiuzhao import v4_fields as V
+    from qiuzhao.tools import Jobs
+    raw={'cohort_raw':'仅限2027届，不接受2028届及以后','recruitment_type':'校园招聘'}
+    item,_=V.convert(raw)
+    assert item['graduation_years']==['2027届']
+    assert Jobs._m_grad(item,'2029届',False) is None
+    assert Jobs._m_grad(item,'2030届',False) is None
+    raw['cohort_raw']='2028届及以后不适用'
+    assert V.graduation_constraints_of(raw)=={}
+    raw['cohort_raw']='2027届及以后，不接受2028届及以后'
+    bounds=V.graduation_constraints_of(raw)
+    assert bounds['min_year']==2027 and bounds['max_year']==2027

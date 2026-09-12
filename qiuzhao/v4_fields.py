@@ -257,18 +257,24 @@ def campaign_text(r):
     return r.get("campaign_cohort_raw") or r.get("batch_name") or scoped or ""
 
 
-def positive_cohort_years(text):
-    """Discard explicitly excluded cohort clauses rather than treating all dates as eligible."""
+def positive_cohort_text(text):
+    """Keep positive eligibility clauses, never promote a negated range to a lower bound."""
     eligible = []
     for clause in re.split(r'[,，；;。\n]', str(text or '')):
         exclusion = re.search(r'不接受|不招收|不面向|不含|除外|不适用', clause)
         if exclusion:
             prefix = clause[:exclusion.start()]
-            if not re.search(r'仅|只限|面向|接受|招收', prefix):
+            if (exclusion.group() in {'除外','不适用'}
+                    or not re.search(r'20\d{2}|[23]\d\s*届', clause[exclusion.end():])
+                    or not re.search(r'仅|只限|面向|接受|招收', prefix)):
                 continue
             clause = prefix
         eligible.append(clause)
-    return years_in('；'.join(eligible))
+    return '；'.join(eligible)
+
+
+def positive_cohort_years(text):
+    return years_in(positive_cohort_text(text))
 
 
 def role_description_years(text):
@@ -293,7 +299,7 @@ def graduation_conflicts_of(r, resolved=None):
     extra = set(years_in(campaign_text(r))) - {int(y[:4]) for y in years}
     bounds = graduation_constraints_of(r, resolved or graduation_of(r))
     if bounds:
-        extra = {y for y in extra if y < bounds['min_year'] or y in bounds.get('excluded_years', [])}
+        extra = {y for y in extra if y < bounds['min_year'] or (bounds.get('max_year') is not None and y > bounds['max_year']) or y in bounds.get('excluded_years', [])}
     return [{'source': 'campaign', 'years': [f'{y}届' for y in sorted(extra)],
              'note': '一般活动条件与岗位明确条件冲突；按岗位条件展示'}] if extra else []
 
@@ -370,12 +376,13 @@ def graduation_constraints_of(r, resolved=None):
     text = expand_short_cohorts(text)
     selected = [x for x in re.split(r'[。\n]', text) if not re.search(r'其中部分|部分.{0,12}岗位|部分境外|其他岗位',x)]
     text = '\n'.join(selected)
-    lower = re.findall(r'(20\d{2})\s*届\s*(?:及以后|及之后)',text)
+    lower = re.findall(r'(20\d{2})\s*届\s*(?:及以后|及之后)',positive_cohort_text(text))
     if not lower:return {}
-    excluded = set()
+    excluded = set(); excluded_lower=[]
     for clause in re.findall(r'(?:不接受|不招收|不面向|不含)[^，,；;。\n]*',text):
         excluded.update(years_in(clause))
-    return {'min_year':min(map(int,lower)), 'max_year':None, 'excluded_years':sorted(excluded),
+        excluded_lower.extend(map(int,re.findall(r'(20\d{2})\s*届\s*(?:及以后|及之后)',clause)))
+    return {'min_year':min(map(int,lower)), 'max_year':min(excluded_lower)-1 if excluded_lower else None, 'excluded_years':sorted(excluded),
             'basis':'岗位写明' if rule!='campaign_title' else '活动标题写明'}
 
 
