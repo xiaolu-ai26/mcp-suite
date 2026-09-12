@@ -12,6 +12,8 @@ from pathlib import Path
 import subprocess
 import time
 import tempfile
+import fcntl
+from contextlib import contextmanager
 from collections import Counter
 from qiuzhao import v4_fields as V
 
@@ -311,6 +313,24 @@ def apply_plan(out):
     state['finished'] = True; save(state_path, state)
 
 
+@contextmanager
+def sync_lock():
+    default = Path(__file__).resolve().parents[2] / 'research/qiuzhao-p1-sync-runtime/sync.lock'
+    path = Path(os.environ.get('QIUZHAO_LARK_SYNC_LOCK_PATH', str(default)))
+    path.parent.mkdir(parents=True, exist_ok=True)
+    inherited = None
+    try:
+        descriptor = int(os.environ.get('QIUZHAO_LARK_SYNC_LOCK_FD', '-1'))
+        actual, target = os.fstat(descriptor), path.stat()
+        if (actual.st_dev, actual.st_ino) == (target.st_dev, target.st_ino):
+            inherited = os.dup(descriptor)
+    except (OSError, ValueError):
+        pass
+    with os.fdopen(inherited, 'a') if inherited is not None else path.open('a') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        yield lock
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--output-dir', type=Path, required=True)
@@ -340,4 +360,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    with sync_lock():
+        main()

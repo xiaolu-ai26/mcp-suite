@@ -5,6 +5,9 @@ import datetime as dt
 import fcntl
 import gzip
 import hashlib
+import os
+import signal
+import threading
 import json
 from pathlib import Path
 import shlex
@@ -43,13 +46,17 @@ with open('/var/lib/mcp-suite/jobs.json','rb') as f:
     error_log=out/'snapshot-ssh.stderr.log'
     with error_log.open('wb') as errors:
         process=subprocess.Popen(command,stdout=subprocess.PIPE,stderr=errors)
+        watchdog=threading.Timer(300,lambda: process.kill() if process.poll() is None else None)
+        watchdog.start()
         try:
             header=json.loads(process.stdout.readline())
             archive=out/'source.jobs.json.gz'
             with archive.open('wb') as target:shutil.copyfileobj(process.stdout,target,1<<20)
             if process.wait(timeout=300):raise RuntimeError('source snapshot SSH failed')
         except BaseException:
-            process.kill();process.wait();raise
+            if process.poll() is None:process.kill()
+            process.wait();raise
+        finally:watchdog.cancel()
     jobs=out/'source.jobs.json';digest=hashlib.sha256()
     with gzip.open(archive,'rb') as source,jobs.open('wb') as target:
         for chunk in iter(lambda:source.read(1<<20),b''):digest.update(chunk);target.write(chunk)
@@ -70,7 +77,7 @@ def run(state_dir):
         S.save(status_path,state)
         try:
             observed=source_hash();state['observed_source_sha256']=observed
-            if observed==previous.get('last_source_sha256') and previous.get('status') in ('success','unchanged'):
+            if observed==previous.get('last_source_sha256') and previous.get('last_success_at'):
                 state.update(status='unchanged',finished_at=now());S.save(status_path,state);return state
             out=state_dir/'runs'/dt.datetime.now().strftime('%Y%m%dT%H%M%S');out.mkdir(parents=True)
             state.update(status='running',run_dir=str(out),phase='capture');S.save(status_path,state)
@@ -79,18 +86,25 @@ def run(state_dir):
             # inspectable. lark-cli remains local under the logged-in user.
             steps=[('snapshot',['--snapshot']),('update',['--jobs',str(jobs),'--plan','--apply']),
                    ('append',['--jobs',str(jobs),'--append-p1']),('conditions',['--jobs',str(jobs),'--explain'])]
+            child_env=dict(os.environ, QIUZHAO_LARK_SYNC_LOCK_PATH=str(state_dir/'sync.lock'),
+                           QIUZHAO_LARK_SYNC_LOCK_FD=str(lock.fileno()))
             for phase,flags in steps:
                 state['phase']=phase;S.save(status_path,state)
                 with (out/(phase+'.log')).open('wb') as log:
-                    result=subprocess.run([sys.executable,'-m','qiuzhao.collector.sync_lark_multivalue',
-                        '--output-dir',str(out),*flags],stdout=log,stderr=subprocess.STDOUT,timeout=5400)
-                if result.returncode:raise RuntimeError(f'{phase} failed, exit={result.returncode}; see {out/(phase+".log")}')
+                    child=subprocess.Popen([sys.executable,'-m','qiuzhao.collector.sync_lark_multivalue',
+                        '--output-dir',str(out),*flags],stdout=log,stderr=subprocess.STDOUT,env=child_env,
+                        pass_fds=(lock.fileno(),),start_new_session=True)
+                    try:exit_code=child.wait(timeout=5400)
+                    except subprocess.TimeoutExpired:
+                        os.killpg(child.pid,signal.SIGKILL);child.wait();raise
+                if exit_code:raise RuntimeError(f'{phase} failed, exit={exit_code}; see {out/(phase+".log")}')
             state.update(status='success',phase='complete',last_success_at=now(),last_source_sha256=source_sha,
                          finished_at=now(),source_receipt=str(out/'source-receipt.json'))
             S.save(status_path,state)
             # Keep restoration records/schema; only discard this run's redundant
             # decompressed public-source copy after a successful sync.
             jobs.unlink()
+            (out/'source.jobs.json.gz').unlink()
             return state
         except Exception as error:
             state.update(status='failed',error=str(error)[:1000],finished_at=now())
