@@ -148,7 +148,7 @@ class CtripScopeTests(unittest.TestCase):
     self.assertEqual([r['source_record_id'] for r in rows],[expected]);self.assertFalse(c['errors'])
 
 class DidiGlobalTests(unittest.TestCase):
- def run_global(self,out,body='Build services',wrong=False):
+ def run_global(self,out,body='Build services',wrong=False,alias=False,bad_location=False):
   from unittest.mock import patch
   from qiuzhao.collector.p1_sources_11_20 import collect_didi_global
   class R:
@@ -156,8 +156,10 @@ class DidiGlobalTests(unittest.TestCase):
    def raise_for_status(self):pass
    def json(self):return {'success':True,'result':self.result}
   def post(url,json,verify,**kw):
-   self.assertEqual(verify,'source-only-validated-bundle');return R([{'id':'1','jobType':'Intern','jobTitle':'Engineering intern'}])
-  def get(url,verify,**kw):return R({'id':'wrong' if wrong else '1','jobType':'Intern','jobTitle':'Engineering intern','roleDetail':body,'eagerDetail':'-','roleInstructions':'Template: write a detailed role here'})
+   self.assertEqual(verify,'source-only-validated-bundle');rows=[{'id':'1','jobType':'Intern','jobTitle':'Engineering intern','address':'Brazil'}]
+   if alias:rows.append({'id':'1-0','jobType':'Intern','jobTitle':'Engineering intern','address':'Mexico'})
+   return R(rows)
+  def get(url,verify,**kw):return R({'id':'wrong' if wrong else '1','jobType':'Intern','jobTitle':'Engineering intern','roleDetail':body,'eagerDetail':'-','roleInstructions':'Template: write a detailed role here','addLocations':'Wrong' if bad_location else 'Mexico'})
   with patch('qiuzhao.collector.p1_sources_11_20._didi_trust_bundle',return_value='source-only-validated-bundle'),patch('qiuzhao.collector.p1_sources_11_20.requests.post',post),patch('qiuzhao.collector.p1_sources_11_20.requests.get',get):return collect_didi_global('滴滴','intern',out)
  def test_source_tls_bundle_and_original_role_body(self):
   import tempfile
@@ -173,4 +175,12 @@ class DidiGlobalTests(unittest.TestCase):
   import tempfile
   from pathlib import Path
   with tempfile.TemporaryDirectory() as d:r=self.run_global(Path(d),wrong=True)
+  self.assertFalse(r['coverage']['complete']);self.assertEqual(r['jobs'],[])
+
+ def test_location_aliases_merge_only_with_exact_official_index_evidence(self):
+  import tempfile
+  from pathlib import Path
+  with tempfile.TemporaryDirectory() as d:r=self.run_global(Path(d),alias=True)
+  self.assertTrue(r['coverage']['complete']);self.assertEqual(r['coverage']['list_total'],2);self.assertEqual(len(r['jobs']),1);self.assertEqual(r['jobs'][0]['cities'],['Brazil','Mexico'])
+  with tempfile.TemporaryDirectory() as d:r=self.run_global(Path(d),alias=True,bad_location=True)
   self.assertFalse(r['coverage']['complete']);self.assertEqual(r['jobs'],[])
