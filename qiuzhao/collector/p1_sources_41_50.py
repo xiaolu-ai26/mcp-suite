@@ -141,6 +141,9 @@ def collect(company,scope,output_dir):
  if key=='meituan':
   from qiuzhao.collector.p1_meituan_public import collect as collector
   result=collector(COMPANIES[key],scope,out)
+ elif key=='dewu':
+  from qiuzhao.collector.p1_dewu_public import collect as collector
+  result=collector(COMPANIES[key],scope,out)
  elif key=='gwm':result=shared.collect_honor(scope,out,company='长城汽车',host='https://zhaopin.gwm.cn',suites_override=['SU692d3058ea11b01b6c54d0ea'])
  elif key=='jd':result=collect_jd_social(out) if scope=='social' else collect_jd_campus(scope,out)
  elif key=='xiaomi':result=collect_xiaomi_domestic(scope,out)
@@ -153,7 +156,7 @@ def collect(company,scope,output_dir):
  c=result['coverage'];c['evidence_files']=c.get('evidence_files') or [p.name for p in out.glob('*list*.json')]
  if c.get('request_params'):c['scope_request']={'company':requested,'scope':scope,'source_url':c['source_url'],'params':c['request_params']}
  if c.get('scope_request'):c['scope_request']['company']=requested
- if not result['jobs'] and c.get('complete'):
+ if not result['jobs'] and not result.get('pending_index') and c.get('complete'):
   c['source_complete']=True;c['company_scope_complete']=False;c['complete']=False;c['status']='blocked';c['blocking_kind']='coverage_discovery';c['errors'].append('Inspected source scope is empty; sole current company-wide scope not yet verified')
  from qiuzhao.v4_fields import graduation_of
  for j in result['jobs']:
