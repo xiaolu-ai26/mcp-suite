@@ -54,7 +54,7 @@ def apply(bundle,data_dir):
             raise ValueError('patch identity/status absent from official saved response')
     with (data_dir/'collector.lock').open('a') as outer,(data_dir/'p1-publish.lock').open('a') as inner:
         fcntl.flock(outer,fcntl.LOCK_EX|fcntl.LOCK_NB);fcntl.flock(inner,fcntl.LOCK_EX)
-        jobs=data_dir/'jobs.json';before=P.sha(jobs);previous=json.loads(jobs.read_text())
+        jobs=data_dir/'jobs.json';before=P.sha(jobs);previous=list(P.iter_json_file(jobs))
         merged,changed=repair_rows(previous,manifest['patches'])
         backup_dir=bundle/'backups';backup_dir.mkdir(exist_ok=True)
         backup=backup_dir/(before+'.json.gz');backup_meta=backup_dir/(before+'.json')

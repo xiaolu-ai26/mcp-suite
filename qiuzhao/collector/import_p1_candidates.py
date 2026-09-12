@@ -105,7 +105,8 @@ def import_bundle(bundle,data_dir,apply=False):
                 evidence=(path.parent/pending[key]).resolve()
                 if not evidence.is_relative_to(bundle) or str(evidence.relative_to(bundle)) not in manifest['files']:
                     raise ValueError('unhashed pending evidence')
-        validated.append((entry,payload))
+        validated.append((entry,path))
+        del payload
     validated.sort(key=lambda pair:(P.COMPANIES.index(pair[0]['company']),list(P.SCOPES).index(pair[0]['scope'])))
     if not apply:return {'validated_scopes':len(validated),'apply':False}
     data_dir.mkdir(parents=True,exist_ok=True)
@@ -114,9 +115,13 @@ def import_bundle(bundle,data_dir,apply=False):
         receipt_path=bundle/'import-receipt.json'
         receipt=json.loads(receipt_path.read_text()) if receipt_path.exists() else {'manifest_sha256':P.sha(bundle/'manifest.json'),'results':{}}
         if receipt['manifest_sha256']!=P.sha(bundle/'manifest.json'):raise ValueError('bundle changed after partial import')
-        for entry,payload in validated:
+        for entry,path in validated:
             company,scope=entry['company'],entry['scope'];key=company+'/'+scope
             if key in receipt['results']:continue
+            raw=path.read_bytes()
+            if hashlib.sha256(raw).hexdigest()!=manifest['files'][entry['candidate']]:raise ValueError('candidate changed before publish')
+            payload=P.validate_result(json.loads(raw),company,scope,path.parent)
+            del raw
             publication=None
             if payload['jobs'] or payload.get('pending_index') or payload['coverage'].get('complete'):
                 publication=P.publish(data_dir,[(company,scope,payload)],bundle/'publication')

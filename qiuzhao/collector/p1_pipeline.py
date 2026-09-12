@@ -26,7 +26,7 @@ from urllib.parse import urlsplit
 from . import p1_pending_index as N
 
 from qiuzhao.normalize import normalize_records
-from qiuzhao.v4_fields import graduation_of, graduation_constraints_of
+from qiuzhao.v4_fields import graduation_of, graduation_constraints_of, iter_json_file
 
 COMPANIES = [
     '拼多多', '大疆', '华为', '小红书', '快手', 'OPPO', 'vivo', '荣耀', '比亚迪', '宁德时代',
@@ -338,8 +338,7 @@ def publish(data_dir, results, run_dir):
     with open(data_dir / 'p1-publish.lock', 'a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
         before_hash = sha(jobs_path)
-        with jobs_path.open(encoding='utf-8') as stream:
-            previous = json.load(stream)
+        previous = list(iter_json_file(jobs_path))
         if not isinstance(previous, list):
             raise ValueError('production jobs must be a list')
         merged, changes = merge_records(previous, results)
