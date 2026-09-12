@@ -120,7 +120,7 @@ def collect_moka_sites(company,scope,sites,output_dir):
 def collect_standard(company,scope,output_dir):
     from concurrent.futures import ThreadPoolExecutor
     if company=='xiaohongshu':
-        host='https://job.xiaohongshu.com';entry=host+'/'+('intern' if scope=='intern' else scope)+'/position'
+        host='https://job.xiaohongshu.com';entry=host+'/'+('campus/intern' if scope=='intern' else scope)+'/position'
         list_url=host+'/websiterecruit/position/pageQueryPosition';detail_url=host+'/websiterecruit/position/queryPositionDetail';idkey='positionId'
     elif company=='kuaishou':
         host='https://campus.kuaishou.cn';entry=host+'/recruit/campus/e/#/campus/jobs'
@@ -162,6 +162,9 @@ def collect_standard(company,scope,output_dir):
             d=envelope.get('result',envelope.get('data'));(output_dir/f'detail-{ident}.json').write_text(json.dumps(d,ensure_ascii=False))
             if d[idkey]!=ident:raise ValueError('Detail ID mismatch')
             if company=='xiaohongshu':
+                actual={'school_recruit':'campus','intern_recruit':'intern','social_recruit':'social'}.get(d.get('recruitType'))
+                if actual is None:raise ValueError('Unknown XHS detail recruitType')
+                if actual!=scope:return None
                 title=d['positionName'];desc=d['duty'];req=d['qualification'];loc=d.get('workplace','');url=entry+'/'+str(ident)
                 cohort=d.get('projectName','');basis=f'Official API recruitType={scope}; detail.recruitType={d.get("recruitType")}'
             elif company=='oppo':
@@ -176,8 +179,9 @@ def collect_standard(company,scope,output_dir):
             j['cohort_raw']=cohort;j['scope_evidence']=basis;j['education_raw']=d.get('education') or '';j['major_requirements_raw']=''
             return j
         with ThreadPoolExecutor(max_workers=3) as pool:
-            for j in pool.map(enrich,rows_all):jobs.append(j)
-        c['detail_complete']=len(jobs)==len(rows_all);c['evidence']=[p.name for p in output_dir.glob('list-*.json')];c['scope_evidence']=f'Official {company} list; requested scope={scope}'
+            for j in pool.map(enrich,rows_all):
+                if j is not None:jobs.append(j)
+        c['expected_total']=len(jobs);c['detail_complete']=True;c['evidence']=[p.name for p in output_dir.glob('list-*.json')];c['scope_evidence']=f'Official {company} list; requested scope={scope}'
     except Exception as exc:c['errors'].append(str(exc))
     return finish(jobs,c)
 
@@ -188,6 +192,9 @@ def collect(company:str,scope:str,output_dir:Path)->dict:
     if scope not in TYPES:raise ValueError('Unknown recruitment scope')
     if company=='pdd':result=collect_pdd(scope,output_dir)
     elif company in ('xiaohongshu','kuaishou','oppo'):result=collect_standard(company,scope,output_dir)
+    elif company=='catl':
+        sites=[('https://talent.catl.com/'+kind+'-recruitment/catlhr/'+str(site),'Official talent.catl.com portal link') for kind,site in [('campus',148948),('campus',143035),('campus',142992),('social',96144),('social',142774),('social',98098)]]
+        result=collect_moka_sites(company,scope,sites,output_dir)
     elif company=='dji':
         sites=[('https://apply.careers.dji.com/campus-recruitment/dji/143359','Official campus link'),('https://apply.careers.dji.com/social-recruitment/dji/168240','Official internship link'),('https://apply.careers.dji.com/social-recruitment/dji/170070','Official social link')]
         result=collect_moka_sites(company,scope,sites,output_dir)
