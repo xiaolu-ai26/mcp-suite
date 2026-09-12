@@ -36,7 +36,7 @@ def qualification_note(raw):
     sentences=[s.strip() for s in re.split(r'[。\n]',description) if s.strip()]
     extracts=[]
     for sentence in sentences:
-        if re.search(r'20\d{2}[^。\n]{0,35}(?:届|毕业)|毕业(?:时间|日期|生范围)',sentence):
+        if re.search(r'20\d{2}[^。\n]{0,35}(?:届|毕业)|毕业(?:时间|日期|生范围)',V.expand_short_cohorts(sentence)):
             if sentence not in extracts:extracts.append(sentence)
     if extracts:
         prefix='官方采集岗位说明摘录：' if raw.get('p1_company') else '存量岗位说明摘录（请按原链接核验）：'

@@ -267,6 +267,13 @@ class Jobs:
         years, note = it["graduation_years"], it.get("graduation_year_note", "")
         if q == V.UNSPECIFIED:
             return V.UNSPECIFIED if note == V.UNSPECIFIED else None
+        constraints = it.get('graduation_year_constraints') or {}
+        if constraints:
+            year = int(q[:4])
+            if year in constraints.get('excluded_years', []):
+                return None
+            if year >= constraints['min_year'] and (constraints.get('max_year') is None or year <= constraints['max_year']):
+                return constraints['basis']
         if q in years:
             return it["graduation_year_basis"][q]
         if years:

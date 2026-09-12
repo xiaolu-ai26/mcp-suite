@@ -99,3 +99,30 @@ def test_older_explicit_cohort_is_retained_and_not_unspecified_for_2027(tmp_path
     jobs=Jobs(path)
     assert jobs.search(graduation_year='2027届')['total']==0
     assert jobs.search(graduation_year='2021届')['total']==1
+
+
+def test_contextual_short_years_and_full_range_do_not_match_salary_or_age():
+    from qiuzhao import v4_fields as V
+    assert V.title_years('【27校招 - 联合动力】研发岗')==[2027]
+    assert V.title_years('工程师-27届秋招')==[2027]
+    assert V.years_in('26/27届')==[2026,2027]
+    assert V.years_in('2025-2027届本科及以上学历毕业生')==[2025,2026,2027]
+    assert V.title_years('薪资27万，27岁以内，内部编码2027009')==[]
+    assert V.description_years('薪资27万，27岁以内')==[]
+
+
+def test_open_graduation_bound_matches_future_year_without_enumerating(tmp_path):
+    from qiuzhao import v4_fields as V
+    from qiuzhao.tools import Jobs
+    raw={'id':'open','recruitment_type':'实习招聘','description_raw':'28届及以后在读硕士及以上学历',
+         'job_title':'算法实习生','source_url':'https://example.com/job/open','application_url':'https://example.com/job/open'}
+    item,_=V.convert(raw)
+    assert item['graduation_years']==['2028届']
+    assert item['graduation_year_constraints']['min_year']==2028
+    path=tmp_path/'jobs.json';path.write_text(json.dumps([raw]));jobs=Jobs(path)
+    assert jobs.search(graduation_year='2027届')['total']==0
+    assert jobs.search(graduation_year='2029届')['explicit_total']==1
+    assert jobs.search(graduation_year='2030届')['explicit_total']==1
+    raw['description_raw']+='，不接受2029届'
+    item,_=V.convert(raw)
+    assert Jobs._m_grad(item,'2029届',False) is None

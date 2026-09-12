@@ -83,10 +83,20 @@ def test_rule(r):
 
 _SEP = r"\s*(?:至|到|~|～|—|－|-)\s*"
 DATE_WINDOW = re.compile(r"(20\d{2})[-./年](\d{1,2})(?:[-./月](\d{1,2})日?)?" + _SEP + r"(20\d{2})[-./年](\d{1,2})")
-YEAR_RANGE = re.compile(r"(?<!\d)(20\d{2})" + _SEP + r"(20\d{2})\s*年")
+YEAR_RANGE = re.compile(r"(?<!\d)(20\d{2})" + _SEP + r"(20\d{2})\s*(?:年|届)")
 YEAR = re.compile(r"(?<!\d)(20\d{2})(?!\d)")
 VALID_YEARS = range(2000, 2100)
 _Y = r"(?<!\d)(20\d{2})(?!\d)"
+
+
+_SHORT_COHORT_CHAIN = re.compile(r'(?<![\d第])(?:20\d{2}|[23]\d)(?:\s*(?:/|、|,|，|及|或|-|至)\s*(?:20\d{2}|[23]\d)){0,99}\s*(?:届|校招|应届)')
+
+
+def expand_short_cohorts(text):
+    """Expand 20-39 only when tied to cohort words; never salary, age or identifiers."""
+    text = str(text or '')
+    return _SHORT_COHORT_CHAIN.sub(
+        lambda match: re.sub(r'(?<!\d)([23]\d)(?!\d)', lambda year: '20'+year[1], match[0]), text)
 
 
 def _window_years(sy, sm, ey, em):
@@ -100,7 +110,7 @@ def years_in(text):
     Graduation windows count the years whose 6–8 月 season they cover ("2026-11-01 至 2027-10-31"
     is 2027 only); "2026-2027年" counts both; every other standalone 20xx counts.
     """
-    text = str(text or "")
+    text = expand_short_cohorts(text)
     found = set()
 
     def window(m):
@@ -138,13 +148,16 @@ DESC_SINGLE = [re.compile(_Y + _GRAD),
 
 
 def title_years(text):
-    text = str(text or "")
-    return sorted({int(a or b) for a, b in TITLE_COHORT.findall(text)} & set(VALID_YEARS))
+    text = expand_short_cohorts(text)
+    found = {int(a or b) for a, b in TITLE_COHORT.findall(text)}
+    for match in _SHORT_COHORT_CHAIN.finditer(text):
+        found.update(years_in(match[0]))
+    return sorted(found & set(VALID_YEARS))
 
 
 def description_years(text):
     """Graduation years stated in a free-text description; ignores unrelated dates."""
-    text = str(text or "")
+    text = expand_short_cohorts(text)
     found = set()
 
     def window(m):
@@ -273,11 +286,14 @@ def job_bound_campaign(r):
     return isinstance(ids, list) and str(r.get('source_record_id') or '') in ids
 
 
-def graduation_conflicts_of(r):
-    years, _, _, rule = graduation_of(r)
+def graduation_conflicts_of(r, resolved=None):
+    years, _, _, rule = resolved or graduation_of(r)
     if rule not in ('cohort_raw', 'description', 'job_title') or job_bound_campaign(r):
         return []
     extra = set(years_in(campaign_text(r))) - {int(y[:4]) for y in years}
+    bounds = graduation_constraints_of(r, resolved or graduation_of(r))
+    if bounds:
+        extra = {y for y in extra if y < bounds['min_year'] or y in bounds.get('excluded_years', [])}
     return [{'source': 'campaign', 'years': [f'{y}届' for y in sorted(extra)],
              'note': '一般活动条件与岗位明确条件冲突；按岗位条件展示'}] if extra else []
 
@@ -339,6 +355,28 @@ def graduation_of(r):
                 return _sorted(basis), basis, "", "source_scope"
             return [], {}, UNSPECIFIED, "campus_no_date_unmatched"
     return [], {}, UNSPECIFIED, "unspecified"
+
+
+def graduation_constraints_of(r, resolved=None):
+    """Open-ended eligibility is a bound, never an invented list of future cohorts."""
+    resolved = resolved or graduation_of(r)
+    rule = resolved[3]
+    if rule == 'cohort_raw':text = r.get('cohort_raw') or ''
+    elif rule == 'description':text = r.get('description_raw') or ''
+    elif rule == 'job_title':text = r.get('job_title') or ''
+    elif rule == 'campaign_title':text = campaign_text(r)
+    else:return {}
+    if job_bound_campaign(r):text += '\n'+campaign_text(r)
+    text = expand_short_cohorts(text)
+    selected = [x for x in re.split(r'[。\n]', text) if not re.search(r'其中部分|部分.{0,12}岗位|部分境外|其他岗位',x)]
+    text = '\n'.join(selected)
+    lower = re.findall(r'(20\d{2})\s*届\s*(?:及以后|及之后)',text)
+    if not lower:return {}
+    excluded = set()
+    for clause in re.findall(r'(?:不接受|不招收|不面向|不含)[^，,；;。\n]*',text):
+        excluded.update(years_in(clause))
+    return {'min_year':min(map(int,lower)), 'max_year':None, 'excluded_years':sorted(excluded),
+            'basis':'岗位写明' if rule!='campaign_title' else '活动标题写明'}
 
 
 def _sorted(basis):
@@ -675,7 +713,8 @@ def convert(r):
         "graduation_years": years,
         "graduation_year_basis": basis,
         "graduation_year_note": note,
-        "graduation_year_conflicts": graduation_conflicts_of(r),
+        "graduation_year_conflicts": graduation_conflicts_of(r, (years, basis, note, grad_rule)),
+        "graduation_year_constraints": graduation_constraints_of(r, (years, basis, note, grad_rule)),
         "cohort_raw": _text(r.get("cohort_raw")),
         "campaign_title": _text(campaign_text(r)),
         "education": education_of(edu_raw),
