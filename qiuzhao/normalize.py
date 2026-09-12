@@ -26,7 +26,7 @@ import tempfile
 from pathlib import Path
 
 NORMALIZED_FIELDS = [
-    "graduation_years", "graduation_year_basis", "graduation_year_note",
+    "graduation_years", "graduation_year_basis", "graduation_year_note", "major_categories",
     "job_category_normalized", "graduation_year_normalized", "major_normalized",
     "city_normalized", "cities_normalized", "industry", "country",
     "overseas_flag", "region", "recruitment_type",
@@ -387,10 +387,10 @@ def _fill_recruitment_type(record, stats):
 
 def _sync_graduation_fields(record, stats):
     """Persist the same multi-value result served by v4, retaining source evidence."""
-    from qiuzhao.v4_fields import graduation_of
+    from qiuzhao.v4_fields import graduation_of, major_categories_of
     years, basis, note, _ = graduation_of(record)
     for field, value in [('graduation_years', years), ('graduation_year_basis', basis),
-                         ('graduation_year_note', note)]:
+                         ('graduation_year_note', note), ('major_categories', major_categories_of(record))]:
         if record.get(field) != value:
             record[field] = value
             stats[field] += 1

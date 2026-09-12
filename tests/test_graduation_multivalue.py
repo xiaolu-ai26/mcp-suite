@@ -38,3 +38,15 @@ def test_csv_exports_all_cohorts_from_old_snapshot(tmp_path, monkeypatch):
         row = next(csv.DictReader(stream))
     assert row['毕业届别'] == '2027届、2026届'
     assert set(json.loads(row['届别依据'])) == {'2026届', '2027届'}
+
+
+def test_explicit_multiple_major_categories_without_description_guessing():
+    from qiuzhao.v4_fields import major_categories_of
+    row = {'major_requirements_raw': '计算机科学、电子信息、机械工程', 'major_normalized': '计算机类'}
+    assert major_categories_of(row) == ['计算机类', '电子信息类', '机械制造类']
+    assert major_categories_of({'description_raw': '开发软件及电子系统', 'major_normalized': '计算机类'}) == []
+    normalize_records([row])
+    assert row['major_categories'] == ['计算机类', '电子信息类', '机械制造类']
+    row['major_requirements_raw'] = '专业不限'
+    normalize_records([row])
+    assert row['major_categories'] == []

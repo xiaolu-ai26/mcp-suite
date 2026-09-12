@@ -363,6 +363,20 @@ def major_category_of(r):
     mc = r.get("major_normalized")
     return mc if mc in MAJOR_CATEGORIES else "其他"
 
+def major_categories_of(r):
+    """All categories supported by the explicit major field, retaining legacy primary."""
+    state = major_state(r)
+    if state != '写明':
+        return []
+    text = str(r.get('major_requirements_raw') or '') or ' '.join(map(str, r.get('major_tags') or []))
+    text = re.sub(r'办公软件|应用软件|办公应用|软件应用|熟练使用|掌握', '', text)
+    found = [cat for cat, words in _MAJOR_FALLBACK if any(word in text for word in words.split())]
+    primary = major_category_of(r)
+    if not found and primary in MAJOR_CATEGORIES:
+        found = [primary]
+    return found
+
+
 # ---------------------------------------------------------------- 城市 / 地区
 
 AREA_CN = re.compile(r"'area_cn':\s*'([^']+)'")
@@ -610,6 +624,7 @@ def convert(r):
         "education": education_of(edu_raw),
         "education_raw": "" if is_edu_garbage(edu_raw) else edu_raw,
         "major_category": major_category_of(r),
+        "major_categories": major_categories_of(r),
         "major_requirements_raw": _text(r.get("major_requirements_raw")),
         "major_tags": [str(t) for t in tags] if isinstance(tags, list) else [str(tags)],
         "deadline": d.isoformat() if d else None,
