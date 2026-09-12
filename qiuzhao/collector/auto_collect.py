@@ -18,6 +18,7 @@ import json
 import os
 import sys
 import subprocess
+import tempfile
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
@@ -107,33 +108,39 @@ def run_basic_collectors():
 def run_tencent_collector():
     """运行腾讯API适配器"""
     log("开始运行腾讯API适配器...")
+    # A new directory prevents a successful exit from reusing yesterday's files.
     try:
-        result = subprocess.run(
-            [sys.executable, "-m", "qiuzhao.collector.tencent",
-             "--output-dir", str(DATA_DIR / "tencent_staging")],
-            cwd="/opt/mcp-suite",
-            capture_output=True,
-            text=True,
-            timeout=600  # 10分钟超时
-        )
-        if result.returncode == 0:
-            log("腾讯适配器运行成功")
-            # 检查输出
-            tencent_file = DATA_DIR / "tencent_staging" / "jobs.json"
-            if tencent_file.exists():
-                with open(tencent_file) as f:
-                    tencent_jobs = json.load(f)
-                log(f"腾讯采集到 {len(tencent_jobs)} 条岗位")
-                return tencent_jobs
-        else:
-            log(f"腾讯适配器返回非零退出码: {result.returncode}")
-            if result.stderr:
-                log(f"错误输出: {result.stderr[-500:]}")
+        with tempfile.TemporaryDirectory(prefix="tencent-run-", dir=DATA_DIR) as staging:
+            result = subprocess.run(
+                [sys.executable, "-m", "qiuzhao.collector.tencent",
+                 "--output-dir", staging],
+                cwd="/opt/mcp-suite",
+                capture_output=True,
+                text=True,
+                timeout=600,
+            )
+            if result.returncode != 0:
+                raise RuntimeError(f"exit={result.returncode}; {result.stderr[-500:]}")
+            staging_path = Path(staging)
+            with open(staging_path / "source_state.json", encoding="utf-8") as f:
+                state = json.load(f).get("tencent", {})
+            with open(staging_path / "jobs.json", encoding="utf-8") as f:
+                jobs = json.load(f)
+            # The adapter may exit 0 even after catching a source/API error.
+            if (state.get("status") != "success" or state.get("complete") is not True
+                    or state.get("errors") or not isinstance(jobs, list)
+                    or any(not isinstance(job, dict) for job in jobs)
+                    or state.get("collected_jobs") != len(jobs)
+                    or state.get("expected_total") != len(jobs)):
+                raise RuntimeError(f"invalid or incomplete source result: {state}")
+            log(f"腾讯采集成功: {len(jobs)} 条岗位")
+            return jobs
     except subprocess.TimeoutExpired:
-        log("腾讯适配器超时（10分钟）")
+        log("腾讯适配器失败: 超时（10分钟）")
     except Exception as e:
-        log(f"腾讯适配器运行异常: {e}")
-    return []
+        log(f"腾讯适配器失败: {e}")
+    # None means failure; [] is a verified successful empty result.
+    return None
 
 def merge_tencent_jobs(tencent_jobs):
     """将腾讯岗位合并到主岗位库"""
@@ -239,6 +246,9 @@ def main():
 
     # 3. 运行腾讯适配器
     tencent_jobs = run_tencent_collector()
+    if tencent_jobs is None or (not skip_basic and basic_summary is None):
+        log("自动化采集失败；跳过腾讯合并、成功日志和服务重启；基础采集器可能已更新数据")
+        return 1
     tencent_added = merge_tencent_jobs(tencent_jobs)
 
     # 4. 统计
@@ -267,5 +277,7 @@ def main():
     log("自动化采集完成")
     log("=" * 60)
 
+    return 0
+
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
