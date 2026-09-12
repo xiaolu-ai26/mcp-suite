@@ -304,6 +304,62 @@ def _baidu(company,scope,f,cov):
    except Exception as e:cov['errors'].append(str(e))
  cov['unique_source_ids']=len(jobs);return jobs
 
+# Official leaf AIA: http://cacerts.digicert.cn/GeoTrustG2TLSCNRSA4096SHA2562022CA1.crt
+# The server omits this intermediate. This public certificate chains to the
+# existing certifi root store; it is never installed as a system trust root.
+DIDI_INTERMEDIATE_PEM = '-----BEGIN CERTIFICATE-----\nMIIFxjCCBK6gAwIBAgIQDwa7CTBhSCZ/yhtxwduAfTANBgkqhkiG9w0BAQsFADBh\nMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3\nd3cuZGlnaWNlcnQuY29tMSAwHgYDVQQDExdEaWdpQ2VydCBHbG9iYWwgUm9vdCBH\nMjAeFw0yMjEyMTUwMDAwMDBaFw0zMjEyMTQyMzU5NTlaMFsxCzAJBgNVBAYTAlVT\nMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjEzMDEGA1UEAxMqR2VvVHJ1c3QgRzIg\nVExTIENOIFJTQTQwOTYgU0hBMjU2IDIwMjIgQ0ExMIICIjANBgkqhkiG9w0BAQEF\nAAOCAg8AMIICCgKCAgEAn1dxOo4OzYa4O1EJd0nhFI5QB/kXAJTHRI6C1J2Gz86B\nGe9+DD8R4vexG7/QnUvV+5887o+G4enlkDwJV1Pehq4i0n+X6VKIPg5cThCx6/o0\n3bUkLWld7slhi3Hli/MaosZZuytdU1uCzQlGpaLB2TiTZbDImiVaykdfwl8V6AXP\n0Ab4wIcvPggl4qlwyPsBY6NODbP884BmL1ntdXfzecGst30FnAtm4w+PTo0I1T3F\nITYXaNuIJnKonD1xXaN4Ar/rvcpKpntxVyZQ2T1Lb7vlfYISqNF+1ugpTzKnI1z7\nxV7tSqXd2vs6Csy6yFN+QLWwMnGWuQkvrO1m+F7V85S9ECpbqn9qNtKl8gIQ7JeZ\nBmBdLroW+4j1PDzBWmSWKB+gvRubVSTuoDR3VCtlI4G/Uh+ObF4UStbhKjr1SNCW\nJcrB1oF+wWBl8Bvozm4xflyyGDY47KCP/Fn9X5GHDNLQA9R0zqDKRumipp1UXswF\nuzH0I+gOuqSdZSsYID9XSVq6adcJ3rIMAcTuODcrPrJssOFKGFUbmY/VxbxMgYHI\n/07Zfdxoa+q0osWpofbMhLPZz9UuJFBCLsjgSckkSU02/4itmLm9e3lt6E/4q9Mc\nMCaS8+qrLWKG9wQtviC8zGynEXpxjEQE8WyrfeYKyXwZFCPB4rpTw1joJmGFeLUC\nAwEAAaOCAX4wggF6MBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFEFOjmmd\n9G4l7HgUHH7XzR2Zz/lrMB8GA1UdIwQYMBaAFE4iVCAYlebjbuYP+vq5Eu0GF485\nMA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIw\ndAYIKwYBBQUHAQEEaDBmMCMGCCsGAQUFBzABhhdodHRwOi8vb2NzcC5kaWdpY2Vy\ndC5jbjA/BggrBgEFBQcwAoYzaHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY24vRGln\naUNlcnRHbG9iYWxSb290RzIuY3J0MEAGA1UdHwQ5MDcwNaAzoDGGL2h0dHA6Ly9j\ncmwuZGlnaWNlcnQuY24vRGlnaUNlcnRHbG9iYWxSb290RzIuY3JsMD0GA1UdIAQ2\nMDQwCwYJYIZIAYb9bAIBMAcGBWeBDAEBMAgGBmeBDAECATAIBgZngQwBAgIwCAYG\nZ4EMAQIDMA0GCSqGSIb3DQEBCwUAA4IBAQAkpDVI+nCKnAEEpDfldytHXUYOr2ys\naGeboE3d1KAN4Gt+eioRvgNdmDKbVFCYY0C6ErIXIvSGXafsprU2dclka/kmH+9U\n4q3v5Acx6KwcnEuYLN0QOtrlQ9s3Z4IbIzdYUv8IauXC27a3x99x2WMVxNu1KGJy\n0r1Z+Xya1adf9/e1LFj1CGdq9HfQ/HFWP2khzxQZ4u62sOHuZdPgtNidFOhQLC+2\n5cNsPgqsaCrGLbSjzni7VN7NhAbTsLhA1oz41vHHB+q4ZzNlC01elmPBOtupe2HM\n/lqMA/J/nTxc718THdxpszFllAET1/lFEolnqihpUFPaPjRwU7yZIseS\n-----END CERTIFICATE-----\n'
+
+def _didi_trust_bundle(out):
+ import ssl,subprocess,certifi
+ der=ssl.PEM_cert_to_DER_cert(DIDI_INTERMEDIATE_PEM)
+ if hashlib.sha256(der).hexdigest()!='05dc9edc0fddfa975a1432ef806ec780078b5362ad45af76db15c907630db25d':raise ValueError('Didi public intermediate integrity mismatch')
+ certificate=Path(out)/'public-intermediate.pem';certificate.write_text(DIDI_INTERMEDIATE_PEM)
+ verification=subprocess.run(['openssl','verify','-CAfile',certifi.where(),str(certificate)],capture_output=True,text=True,timeout=15)
+ if verification.returncode:raise ValueError('Intermediate does not validate against existing trusted roots: '+verification.stderr[:200])
+ bundle=Path(out)/'ca-bundle.pem';bundle.write_text(Path(certifi.where()).read_text()+'\n'+DIDI_INTERMEDIATE_PEM)
+ return str(bundle)
+
+def collect_didi_global(company,scope,out):
+ """Official global portal with the missing public intermediate verified."""
+ import subprocess
+ out=Path(out);out.mkdir(parents=True,exist_ok=True);files=[];jobs=[];selected=[]
+ c={'status':'blocked','complete':False,'expected_total':None,'collected_jobs':0,'pages_scanned':0,'detail_complete':False,'source_url':'https://careers.didiglobal.com/job','errors':[],'scope_evidence':'Official Global Professionals jobType Intern => internship; Regular/Contractor => social. Complete API result is paginated only in the official frontend.','scope_request':{'company':company,'scope':scope,'source_url':'https://careers.didiglobal.com/job','params':{'country':'','keyValue':'','teamId':'','typeId':''}}}
+ def fetch(endpoint,name,payload=None):
+  url='https://cdncareers.didiglobal.com:34003/icims/'+endpoint
+  response=requests.post(url,json=payload,verify=ca_bundle,timeout=30) if payload is not None else requests.get(url,verify=ca_bundle,timeout=30)
+  response.raise_for_status();raw=response.json()
+  if raw.get('success') is not True:raise ValueError('Official global API rejected '+str(raw.get('message')))
+  result=raw['result']
+  keep=['id','jobTitle','jobType','address','team','roleDetail','eagerDetail','teamRoleDetail','hireType','jobFamily','subJobFamily','jobCategory','addLocations']
+  public=[{k:r.get(k) for k in keep} for r in result] if isinstance(result,list) else {k:result.get(k) for k in keep}
+  path=save(out/(name+'.json'),{'source_url':url,'request':payload,'result':public});files.append(path);return public,path
+ try:
+  ca_bundle=_didi_trust_bundle(out)
+  rows,listing=fetch('searchJobList','list',c['scope_request']['params']);c['pages_scanned']=1;c['list_total']=len(rows)
+  if len({str(r['id']) for r in rows})!=len(rows):raise ValueError('Global list repeated source ID')
+  for r in rows:
+   actual='intern' if r['jobType']=='Intern' else ('social' if r['jobType'] in ['Regular','Contractor'] else None)
+   if actual is None:c['errors'].append('Unknown global jobType '+str(r['jobType']))
+   if actual==scope:selected.append(r)
+  c.update(expected_total=len(selected),pagination_exhausted=True,last_page_evidence=listing)
+  def detail(row):
+   ident=str(row['id']);r,path=fetch('searchJob?'+requests.compat.urlencode({'id':ident}),'detail-'+ident)
+   if str(r.get('id'))!=ident or r.get('jobType')!=row['jobType']:raise ValueError('Global detail ID/type mismatch '+ident)
+   def substantive(value):
+    value=clean(value);return value if any(char.isalnum() for char in value) else ''
+   try:description,missing=role_body(substantive(r.get('roleDetail')),substantive(r.get('eagerDetail')))
+   except ValueError:
+    missing_detail(c,ident,r.get('jobTitle'),path);raise
+   return job(company,'didi','icims:'+ident,r['jobTitle'],'https://careers.didiglobal.com/jobDetail:'+ident,description,scope,path,cities=[r['address']] if r.get('address') else [],source_missing_fields=missing,source_record_id_raw=ident,source_recruitment_type=r.get('jobType'),source_hire_type=r.get('hireType'),vacancy_type='talent_pool' if r.get('hireType')=='Pipeline' else 'position',listing_evidence_path=listing)
+  with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
+   for future in concurrent.futures.as_completed([pool.submit(detail,r) for r in selected]):
+    try:jobs.append(future.result())
+    except Exception as e:c['errors'].append(str(e))
+ except Exception as e:c['errors'].append(str(e))
+ c.update(collected_jobs=len(jobs),unique_source_ids=len(jobs),evidence=files,evidence_files=files)
+ c['complete']=not c['errors'] and c['expected_total']==len(jobs);c['detail_complete']=c['complete'];c['status']='success' if c['complete'] else ('partial' if jobs else 'blocked')
+ result={'jobs':jobs,'coverage':c};save(out/'candidate.json',result);return result
+
 def _didi(company,scope,f,cov):
  if scope!='social':
   from qiuzhao.collector.p1_sources_01_10 import collect_moka_sites
@@ -347,11 +403,7 @@ def _didi(company,scope,f,cov):
   for future in futures:
    try:jobs.append(future.result())
    except Exception as e:cov['errors'].append(str(e))
- # Official home also links the separate Global Professionals backend.
- try:
-  f.get('https://cdncareers.didiglobal.com:34003/icims/searchJobList','global-list',{'country':'','keyValue':'','teamId':'','typeId':''})
-  cov['errors'].append('Global Professionals list accessible; its detail/type schema needs validation before full company coverage')
- except Exception as e:cov['errors'].append('Global Professionals source unavailable: '+str(e))
+
  return jobs
 
 def _lenovo(company,scope,f,cov):
@@ -526,7 +578,11 @@ def collect(company:str,scope:str,output_dir:Path)->dict:
   elif slug=='anker':jobs=_anker(company,scope,f,cov)
   elif slug=='bilibili':jobs=_bilibili(company,scope,f,cov)
   elif slug=='baidu':jobs=_baidu(company,scope,f,cov)
-  elif slug=='didi':jobs=_didi(company,scope,f,cov)
+  elif slug=='didi':
+   jobs=_didi(company,scope,f,cov);extra=collect_didi_global(company,scope,out/'global');global_cov=extra['coverage']
+   jobs+=extra['jobs'];f.evidence.extend(global_cov['evidence_files']);cov['errors'].extend(global_cov['errors']);cov['pages_scanned']+=global_cov['pages_scanned']
+   total=cov.get('expected_total');cov['expected_total']=total+global_cov['expected_total'] if total is not None and global_cov['expected_total'] is not None else None
+   cov['scope_evidence']=cov.get('scope_evidence','')+' ; '+global_cov['scope_evidence'];cov['scope_request']={'company':company,'scope':scope,'source_url':SOURCES['didi'],'params':{'domestic':cov.get('scope_request'),'global':global_cov['scope_request']}};cov['global_coverage']=global_cov
   elif slug=='lenovo':jobs=_lenovo(company,scope,f,cov)
   elif slug=='hikvision':jobs=_hikvision(company,scope,f,cov)
   elif slug=='ctrip':jobs=_ctrip(company,scope,f,cov)
