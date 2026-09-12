@@ -1,0 +1,482 @@
+{
+  "adapter_commit": "d2b0d75",
+  "rows": [
+    {
+      "company": "米哈游",
+      "scope": "campus",
+      "jobs": 118,
+      "status": "success",
+      "complete": true,
+      "expected_total": 118,
+      "pages_scanned": 10,
+      "errors": [],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/mihoyo/campus/candidate.json",
+      "sha256": "fe557ffea4a7f0ea7f9b0b2fede899ef809dea2dcc665de57139eabf8315a9d2"
+    },
+    {
+      "company": "米哈游",
+      "scope": "intern",
+      "jobs": 144,
+      "status": "success",
+      "complete": true,
+      "expected_total": 144,
+      "pages_scanned": 10,
+      "errors": [],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/mihoyo/intern/candidate.json",
+      "sha256": "c2b117f6e146409ca94394ef17b78dabb3430d89a8676794b0a68a7c47bc9c9b"
+    },
+    {
+      "company": "米哈游",
+      "scope": "social",
+      "jobs": 662,
+      "status": "partial",
+      "complete": false,
+      "expected_total": 663,
+      "pages_scanned": 10,
+      "errors": [
+        "empty official job detail"
+      ],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/mihoyo/social/candidate.json",
+      "sha256": "ca3f742f8aa8a112e84674a2672931db27138641abe9ec4cbe37b5e7cf7f9963"
+    },
+    {
+      "company": "哔哩哔哩",
+      "scope": "campus",
+      "jobs": 0,
+      "status": "blocked",
+      "complete": false,
+      "expected_total": null,
+      "pages_scanned": 0,
+      "errors": [
+        "Public endpoint now accessible; pagination/detail adapter requires revalidation; code=-101"
+      ],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/bilibili/campus/candidate.json",
+      "sha256": "12179711b24e287821aace908b71c393df4a5bed7bb186715dc78abb84cc8851"
+    },
+    {
+      "company": "哔哩哔哩",
+      "scope": "intern",
+      "jobs": 0,
+      "status": "blocked",
+      "complete": false,
+      "expected_total": null,
+      "pages_scanned": 0,
+      "errors": [
+        "Public endpoint now accessible; pagination/detail adapter requires revalidation; code=-101"
+      ],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/bilibili/intern/candidate.json",
+      "sha256": "9afa4b5b6b3f43b11ac81d7f6dc4c11e955e5292c18b27b90a60e5367c274f5c"
+    },
+    {
+      "company": "哔哩哔哩",
+      "scope": "social",
+      "jobs": 0,
+      "status": "blocked",
+      "complete": false,
+      "expected_total": null,
+      "pages_scanned": 0,
+      "errors": [
+        "Public endpoint now accessible; pagination/detail adapter requires revalidation; code=-101"
+      ],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/bilibili/social/candidate.json",
+      "sha256": "06784eae72ac83c351479325e7c37f082e45eae2bc972fa34af350cebd733a60"
+    },
+    {
+      "company": "蚂蚁集团",
+      "scope": "campus",
+      "jobs": 148,
+      "status": "success",
+      "complete": true,
+      "expected_total": 148,
+      "pages_scanned": 21,
+      "errors": [],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/ant/campus/candidate.json",
+      "sha256": "2a7f99a3178ff15c54f0ddeaa83f1b5222e585028d4f2636775c411cc9e06a17"
+    },
+    {
+      "company": "蚂蚁集团",
+      "scope": "intern",
+      "jobs": 257,
+      "status": "success",
+      "complete": true,
+      "expected_total": 257,
+      "pages_scanned": 21,
+      "errors": [],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/ant/intern/candidate.json",
+      "sha256": "9f0f4a7809450b1e6c7e332ee70fb60229235bed7ca8c1a63b30b8845fe7a6e6"
+    },
+    {
+      "company": "蚂蚁集团",
+      "scope": "social",
+      "jobs": 1234,
+      "status": "partial",
+      "complete": false,
+      "expected_total": 1234,
+      "pages_scanned": 63,
+      "errors": [
+        "duplicate source ID across pages: 260722011039703",
+        "duplicate source ID across pages: 260724011070564",
+        "duplicate source ID across pages: 26041609619658",
+        "duplicate source ID across pages: 25030403602301",
+        "duplicate source ID across pages: 26031809209202",
+        "duplicate source ID across pages: 25073105987992",
+        "duplicate source ID across pages: 260520010107318",
+        "duplicate source ID across pages: 260608010360687"
+      ],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/ant/social/candidate.json",
+      "sha256": "a110e7dc2c768f0d338ce2c48dd1fe8dbdb736332f2702ab5a5e34c2f260b9eb"
+    },
+    {
+      "company": "百度",
+      "scope": "campus",
+      "jobs": 10,
+      "status": "partial",
+      "complete": false,
+      "expected_total": null,
+      "pages_scanned": 1,
+      "errors": [
+        "official list API no-auth: illegal-visit",
+        "Only official SSR first page is accessible; full pagination not verified"
+      ],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/baidu/campus/candidate.json",
+      "sha256": "41c2851b41df62c23c4994b8f1bf8fe04936e91cc06d4b47aa06251c8466e944"
+    },
+    {
+      "company": "百度",
+      "scope": "intern",
+      "jobs": 10,
+      "status": "partial",
+      "complete": false,
+      "expected_total": null,
+      "pages_scanned": 1,
+      "errors": [
+        "official list API no-auth: illegal-visit",
+        "Only official SSR first page is accessible; full pagination not verified"
+      ],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/baidu/intern/candidate.json",
+      "sha256": "9090c248060ea92e829135f99844b1e1b0424b3f8642c4b75e8f0234ede5545c"
+    },
+    {
+      "company": "百度",
+      "scope": "social",
+      "jobs": 10,
+      "status": "partial",
+      "complete": false,
+      "expected_total": null,
+      "pages_scanned": 1,
+      "errors": [
+        "official list API no-auth: illegal-visit",
+        "Only official SSR first page is accessible; full pagination not verified"
+      ],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/baidu/social/candidate.json",
+      "sha256": "b3aa1369c4fa571e856d0b54b0a247a0625067190ff6610794d514502f2e9370"
+    },
+    {
+      "company": "滴滴",
+      "scope": "campus",
+      "jobs": 151,
+      "status": "success",
+      "complete": true,
+      "expected_total": 151,
+      "pages_scanned": 19,
+      "errors": [],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/didi/campus/candidate.json",
+      "sha256": "f9f436534b2844d165b084da6518c233579910b40f168f19d5d68083dbc0cec5"
+    },
+    {
+      "company": "滴滴",
+      "scope": "intern",
+      "jobs": 611,
+      "status": "partial",
+      "complete": false,
+      "expected_total": 611,
+      "pages_scanned": 19,
+      "errors": [
+        "detail d606fc10-67b5-4ca2-9344-b813d2c60af1: Incomplete Moka detail d606fc10-67b5-4ca2-9344-b813d2c60af1"
+      ],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/didi/intern/candidate.json",
+      "sha256": "1bf43a87f82c021da617cbf0a22f58443b60943396ee444a68ce78a7f7456ec6"
+    },
+    {
+      "company": "滴滴",
+      "scope": "social",
+      "jobs": 1028,
+      "status": "partial",
+      "complete": false,
+      "expected_total": 1028,
+      "pages_scanned": 65,
+      "errors": [
+        "Official Global Professionals backend cdncareers.didiglobal.com:34003/icims/searchJobList failed TLS certificate chain verification; domestic source 1028/1028 complete"
+      ],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/didi/social/candidate.json",
+      "sha256": "454e4b2c3a95ed05de111918d5ec57cde9bc4d052cf2f7c9eab21863a9ac56d8"
+    },
+    {
+      "company": "携程",
+      "scope": "campus",
+      "jobs": 57,
+      "status": "success",
+      "complete": true,
+      "expected_total": 57,
+      "pages_scanned": 10,
+      "errors": [],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/ctrip/campus/candidate.json",
+      "sha256": "873143c41f81cc651125b5ee72bc76f74892566d3ce2f8559dbb12fff004b5f5"
+    },
+    {
+      "company": "携程",
+      "scope": "intern",
+      "jobs": 48,
+      "status": "partial",
+      "complete": false,
+      "expected_total": 48,
+      "pages_scanned": 10,
+      "errors": [
+        "Unspecified official recruitment type 4f3b069e-1fdc-45e0-85c2-0e6c51ddf2f7",
+        "Unspecified official recruitment type d58f9620-5655-4484-b4cb-097937ff8efb",
+        "Unspecified official recruitment type d9dc4ce8-3079-44d6-ad7d-9d5de35f28ea",
+        "Unspecified official recruitment type 0f26cc13-0b2c-461f-a9f8-9907cf01618f",
+        "Unspecified official recruitment type bc8cce8b-ba5c-491c-9984-a8e1120318d5",
+        "Unspecified official recruitment type 989b019a-0721-439b-8933-241aebe642d4",
+        "Unspecified official recruitment type c306ae9c-22bb-4ad4-9fd9-4b0d166a0405",
+        "Unspecified official recruitment type c6fe8295-255e-4cf9-bb6e-4389c435f4b7",
+        "Unspecified official recruitment type d80968ed-ac77-49af-9124-9965b45d71ff",
+        "Unspecified official recruitment type a67edaca-299c-4352-a14d-e87edd3ed966",
+        "Unspecified official recruitment type 1aaa7c11-e5fe-4926-ad82-06e93f89fd0c",
+        "Unspecified official recruitment type 9e458205-3510-4268-bfca-e67a2dde8213",
+        "Unspecified official recruitment type b5fd64cc-7904-4b6e-bfde-cbe850f37caf",
+        "Unspecified official recruitment type 50a3b286-c5b6-4292-88e6-d9ad04e76400",
+        "Unspecified official recruitment type 5ef317d7-0932-48e3-a5e3-6b80f722c49a",
+        "Unspecified official recruitment type 2cb2d6f3-0a61-4718-bdfc-4e71a55f294f",
+        "Unspecified official recruitment type 3fe76a6e-2855-4945-abe9-367130cd6baf",
+        "Unspecified official recruitment type 46d2b2ee-ebb6-4254-b2b8-a379ce3aa6a2"
+      ],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/ctrip/intern/candidate.json",
+      "sha256": "4478976a79e05eccb9cbf07e5d15565200bcd4c929d0d9af568cbd88a379f780"
+    },
+    {
+      "company": "携程",
+      "scope": "social",
+      "jobs": 662,
+      "status": "partial",
+      "complete": false,
+      "expected_total": 662,
+      "pages_scanned": 10,
+      "errors": [
+        "Unspecified official recruitment type 4f3b069e-1fdc-45e0-85c2-0e6c51ddf2f7",
+        "Unspecified official recruitment type d58f9620-5655-4484-b4cb-097937ff8efb",
+        "Unspecified official recruitment type d9dc4ce8-3079-44d6-ad7d-9d5de35f28ea",
+        "Unspecified official recruitment type 0f26cc13-0b2c-461f-a9f8-9907cf01618f",
+        "Unspecified official recruitment type bc8cce8b-ba5c-491c-9984-a8e1120318d5",
+        "Unspecified official recruitment type 989b019a-0721-439b-8933-241aebe642d4",
+        "Unspecified official recruitment type c306ae9c-22bb-4ad4-9fd9-4b0d166a0405",
+        "Unspecified official recruitment type c6fe8295-255e-4cf9-bb6e-4389c435f4b7",
+        "Unspecified official recruitment type d80968ed-ac77-49af-9124-9965b45d71ff",
+        "Unspecified official recruitment type a67edaca-299c-4352-a14d-e87edd3ed966",
+        "Unspecified official recruitment type 1aaa7c11-e5fe-4926-ad82-06e93f89fd0c",
+        "Unspecified official recruitment type 9e458205-3510-4268-bfca-e67a2dde8213",
+        "Unspecified official recruitment type b5fd64cc-7904-4b6e-bfde-cbe850f37caf",
+        "Unspecified official recruitment type 50a3b286-c5b6-4292-88e6-d9ad04e76400",
+        "Unspecified official recruitment type 5ef317d7-0932-48e3-a5e3-6b80f722c49a",
+        "Unspecified official recruitment type 2cb2d6f3-0a61-4718-bdfc-4e71a55f294f",
+        "Unspecified official recruitment type 3fe76a6e-2855-4945-abe9-367130cd6baf",
+        "Unspecified official recruitment type 46d2b2ee-ebb6-4254-b2b8-a379ce3aa6a2"
+      ],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/ctrip/social/candidate.json",
+      "sha256": "7feb7e20ba63b4d53e8e9d3677f39eb4b935323dab7f204d50024b120a0e8e43"
+    },
+    {
+      "company": "联想",
+      "scope": "campus",
+      "jobs": 113,
+      "status": "success",
+      "complete": true,
+      "expected_total": 113,
+      "pages_scanned": 13,
+      "errors": [],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/lenovo/campus/candidate.json",
+      "sha256": "0ab6b2c73b16699e8775c2179d63746c99a47a971a5ef1723e99f3d011fe9556"
+    },
+    {
+      "company": "联想",
+      "scope": "intern",
+      "jobs": 11,
+      "status": "success",
+      "complete": true,
+      "expected_total": 11,
+      "pages_scanned": 13,
+      "errors": [],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/lenovo/intern/candidate.json",
+      "sha256": "1d89b2a257a3f4e0f732a39d43723c48fe01a74e832299c8bec914a670c1215e"
+    },
+    {
+      "company": "联想",
+      "scope": "social",
+      "jobs": 1011,
+      "status": "partial",
+      "complete": false,
+      "expected_total": 1012,
+      "pages_scanned": 127,
+      "errors": [
+        "Lenovo missing detail section in official languages 80136"
+      ],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/lenovo/social/candidate.json",
+      "sha256": "ce9a660cdc7d99e9768e8d9ac47fb8ecd2bda2b4bd0c420bddfb5b8dc02ae756"
+    },
+    {
+      "company": "海康威视",
+      "scope": "campus",
+      "jobs": 170,
+      "status": "success",
+      "complete": true,
+      "expected_total": 170,
+      "pages_scanned": 4,
+      "errors": [],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/hikvision/campus/candidate.json",
+      "sha256": "153f6a8666f5d7a4f7decd332b423e430c01a96829c436857ef102bec34adecc"
+    },
+    {
+      "company": "海康威视",
+      "scope": "intern",
+      "jobs": 483,
+      "status": "success",
+      "complete": true,
+      "expected_total": 483,
+      "pages_scanned": 10,
+      "errors": [],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/hikvision/intern/candidate.json",
+      "sha256": "d41cb7b6161569fec735aad18bfd488dae5d013828737cc25a0a01a53eabef0b"
+    },
+    {
+      "company": "海康威视",
+      "scope": "social",
+      "jobs": 1551,
+      "status": "success",
+      "complete": true,
+      "expected_total": 1551,
+      "pages_scanned": 32,
+      "errors": [],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/hikvision/social/candidate.json",
+      "sha256": "55ac87249c1e90a6f2221327bfdb5274a21033b4a8f5d5132fbe5bf214981cda"
+    },
+    {
+      "company": "安克创新",
+      "scope": "campus",
+      "jobs": 237,
+      "status": "success",
+      "complete": true,
+      "expected_total": 237,
+      "pages_scanned": 139,
+      "errors": [],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/anker/campus/candidate.json",
+      "sha256": "c906ce21abe480e05999966855eba2b901cc0c3bc32f9ff69ace43ffbda9ccd7"
+    },
+    {
+      "company": "安克创新",
+      "scope": "intern",
+      "jobs": 250,
+      "status": "success",
+      "complete": true,
+      "expected_total": 250,
+      "pages_scanned": 139,
+      "errors": [],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/anker/intern/candidate.json",
+      "sha256": "804cd354557678236486e6de8dc69a5cdb293c1f57e28f16ec46492a61a83d05"
+    },
+    {
+      "company": "安克创新",
+      "scope": "social",
+      "jobs": 618,
+      "status": "partial",
+      "complete": false,
+      "expected_total": 657,
+      "pages_scanned": 139,
+      "errors": [
+        "incomplete responsibilities/requirements 7675552782905215270",
+        "incomplete responsibilities/requirements 7667824176211806514",
+        "incomplete responsibilities/requirements 7664490560183208246",
+        "incomplete responsibilities/requirements 7654127349164017971",
+        "incomplete responsibilities/requirements 7646336399679719731",
+        "incomplete responsibilities/requirements 7643431999419812102",
+        "incomplete responsibilities/requirements 7642171549231171894",
+        "incomplete responsibilities/requirements 7637347782144133418",
+        "incomplete responsibilities/requirements 7630741849602476294",
+        "incomplete responsibilities/requirements 7625857884882454811",
+        "incomplete responsibilities/requirements 7621476658655168814",
+        "incomplete responsibilities/requirements 7612949048928389412",
+        "incomplete responsibilities/requirements 7611799348456638770",
+        "incomplete responsibilities/requirements 7597013435667417370",
+        "incomplete responsibilities/requirements 7582150666748954916",
+        "incomplete responsibilities/requirements 7576868305811196196",
+        "incomplete responsibilities/requirements 7575154975429839145",
+        "incomplete responsibilities/requirements 7571388341640726790",
+        "incomplete responsibilities/requirements 7561071465211185454",
+        "incomplete responsibilities/requirements 7553458991872854311",
+        "incomplete responsibilities/requirements 7529323976641399067",
+        "incomplete responsibilities/requirements 7527211410755062057",
+        "incomplete responsibilities/requirements 7527173512928364827",
+        "incomplete responsibilities/requirements 7450424122226067762",
+        "incomplete responsibilities/requirements 7446226551920380196",
+        "incomplete responsibilities/requirements 7436346731598940467",
+        "incomplete responsibilities/requirements 7412976501086456091",
+        "incomplete responsibilities/requirements 7391834726380816694",
+        "incomplete responsibilities/requirements 7382458741113260315",
+        "incomplete responsibilities/requirements 7303816744664058166",
+        "incomplete responsibilities/requirements 7283753810902944019",
+        "incomplete responsibilities/requirements 7239319413139949828",
+        "incomplete responsibilities/requirements 7230679689156610337",
+        "incomplete responsibilities/requirements 7221839804475427130",
+        "incomplete responsibilities/requirements 7182484407139207480",
+        "incomplete responsibilities/requirements 7627050614454815002",
+        "incomplete responsibilities/requirements 7579463630963149092",
+        "incomplete responsibilities/requirements 7564367792729147691",
+        "incomplete responsibilities/requirements 7349134750203005220"
+      ],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/anker/social/candidate.json",
+      "sha256": "77362c272a833649d5d8151938b31211f436f1ee8bbdfe09381b8a7908a67d77"
+    },
+    {
+      "company": "影石Insta360",
+      "scope": "campus",
+      "jobs": 0,
+      "status": "blocked",
+      "complete": false,
+      "expected_total": null,
+      "pages_scanned": 0,
+      "errors": [
+        "405 Client Error: Method Not Allowed for url: https://arashivision.jobs.feishu.cn/api/v1/search/job/posts"
+      ],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/insta360/campus/candidate.json",
+      "sha256": "9790ce9b9e19469bb1d25a8f6510fc0777683f6b6e90b9df1c7b09a90e09f7d1"
+    },
+    {
+      "company": "影石Insta360",
+      "scope": "intern",
+      "jobs": 0,
+      "status": "blocked",
+      "complete": false,
+      "expected_total": null,
+      "pages_scanned": 0,
+      "errors": [
+        "405 Client Error: Method Not Allowed for url: https://arashivision.jobs.feishu.cn/api/v1/search/job/posts"
+      ],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/insta360/intern/candidate.json",
+      "sha256": "02420fbda6c53494091cc53f004a97b8785c788b71197cb3cae98daccf42eb5f"
+    },
+    {
+      "company": "影石Insta360",
+      "scope": "social",
+      "jobs": 0,
+      "status": "blocked",
+      "complete": false,
+      "expected_total": null,
+      "pages_scanned": 0,
+      "errors": [
+        "405 Client Error: Method Not Allowed for url: https://arashivision.jobs.feishu.cn/api/v1/search/job/posts"
+      ],
+      "candidate": "/Users/maxzhl/Projects/mcp-suite-p1-11-20/research/qiuzhao-p1-20260912/batch11/live/insta360/social/candidate.json",
+      "sha256": "9aa958c5a7b6e542d18a91ffa20288d6b527168731f400e793c5eb4cfc23960d"
+    }
+  ],
+  "total_candidates": 9594
+}
