@@ -234,12 +234,24 @@ def append_p1(out,jobs_path):
     state['finished']=not bool(state.get('capacity_blocked'));S.save(state_path,state)
 
 
+def source_lifecycle_state(row):
+    flag=row.get('source_is_active');proof=row.get('source_status_evidence')
+    if type(flag) is not bool or not isinstance(proof,dict) or not proof:return None
+    states={proof.get('list_status'),proof.get('detail_status')} - {None,''}
+    if row.get('source_status_raw') not in states:return None
+    if states & {'pause','closed'}:
+        return 'expired' if flag is False and row.get('status')=='expired' else None
+    if states=={'open'} and flag is True and row.get('status') in {'open','unverified'}:
+        return row['status']
+    return None
+
+
 def status_sync(out,jobs_path):
     """Refresh machine lifecycle states only when explicit source evidence exists."""
     backup=verified_backup(out);desired={};conflicts=set();skipped=[];changed=0
     for row in V.iter_json_file(jobs_path):
-        if not row.get('p1_company') or row.get('source_is_active') is None:continue
-        identity=row.get('id');status=row.get('status')
+        if not row.get('p1_company'):continue
+        identity=row.get('id');status=source_lifecycle_state(row)
         if not identity or status not in {'open','expired','unverified'}:continue
         if identity in desired and desired[identity]!=status:conflicts.add(identity)
         desired[identity]=status
@@ -255,8 +267,11 @@ def status_sync(out,jobs_path):
         for start in range(0,len(pairs),200):
             batch=pairs[start:start+200];before=out/f'{table}.status-before-{start}.ndjson'
             S.cli('+record-get','--base-token',S.BASE,'--table-id',table,'--json',json.dumps({'record_id_list':[rid for rid,_ in batch]}),
-                  '--field-id','状态','--format','ndjson','--output',S.rel(before),'--overwrite')
-            prior={r['record_id']:r.get('状态') or [] for r in (json.loads(line) for line in before.read_text().splitlines())}
+                  '--field-id','状态','--field-id','job_id','--format','ndjson','--output',S.rel(before),'--overwrite')
+            saved=[json.loads(line) for line in before.read_text().splitlines()]
+            prior={r['record_id']:r.get('状态') or [] for r in saved}
+            saved_ids={r['record_id']:r.get('job_id') for r in saved}
+            if any(saved_ids.get(rid)!=jid for rid,jid in batch):raise ValueError('record identity changed after snapshot')
             if set(prior)!={rid for rid,_ in batch}:raise ValueError('status backup records missing')
             updates={}
             for rid,jid in batch:
@@ -268,9 +283,11 @@ def status_sync(out,jobs_path):
                 # Re-read immediately before mutation; no stale backup overwrites.
                 check=out/f'{table}.status-cas-{start}.ndjson'
                 S.cli('+record-get','--base-token',S.BASE,'--table-id',table,'--json',json.dumps({'record_id_list':list(updates)}),
-                      '--field-id','状态','--format','ndjson','--output',S.rel(check),'--overwrite')
-                live={r['record_id']:r.get('状态') or [] for r in (json.loads(line) for line in check.read_text().splitlines())}
-                if any(live.get(rid)!=prior[rid] for rid in updates):raise ValueError('status changed after backup')
+                      '--field-id','状态','--field-id','job_id','--format','ndjson','--output',S.rel(check),'--overwrite')
+                current=[json.loads(line) for line in check.read_text().splitlines()]
+                live={r['record_id']:r.get('状态') or [] for r in current}
+                live_ids={r['record_id']:r.get('job_id') for r in current}
+                if any(live.get(rid)!=prior[rid] or live_ids.get(rid)!=saved_ids[rid] for rid in updates):raise ValueError('status changed after backup')
                 body=out/f'{table}.status-batch-{start}.json';S.save(body,{'update_records':updates})
                 response=S.cli('+record-batch-update','--base-token',S.BASE,'--table-id',table,'--json','@'+S.rel(body))
                 if response.get('data',{}).get('ignored_fields'):raise ValueError('status field ignored')

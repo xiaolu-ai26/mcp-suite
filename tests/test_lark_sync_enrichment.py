@@ -63,7 +63,7 @@ def test_source_status_sync_backs_up_and_preserves_human_states(tmp_path,monkeyp
     import json
     table=E.S.ORIGINAL_TABLES[0];records=tmp_path/'records.json'
     records.write_text(json.dumps([{'record_id':'r1','job_id':'j1'},{'record_id':'r2','job_id':'j2'}]))
-    jobs=tmp_path/'jobs.json';jobs.write_text(json.dumps([{'id':j,'p1_company':'大疆','status':'expired','source_is_active':False} for j in ['j1','j2']]))
+    jobs=tmp_path/'jobs.json';jobs.write_text(json.dumps([{'id':j,'p1_company':'大疆','status':'expired','source_is_active':False,'source_status_raw':'pause','source_status_evidence':{'list_status':'pause'}} for j in ['j1','j2']]))
     monkeypatch.setattr(E,'verified_backup',lambda out:{'tables':{table:{'records':str(records)}}})
     monkeypatch.setattr(E.S,'full_fields',lambda t:[{'name':'状态','type':'select','options':[{'name':v} for v in ['open','expired','unverified','已投递']]}])
     updates=[]
@@ -71,7 +71,7 @@ def test_source_status_sync_backs_up_and_preserves_human_states(tmp_path,monkeyp
         if args[0]=='+record-get':
             path=Path(args[args.index('--output')+1]);path=E.S.ROOT/path if not path.is_absolute() else path
             ids=json.loads(args[args.index('--json')+1])['record_id_list']
-            path.write_text('\n'.join(json.dumps({'record_id':rid,'状态':['open' if rid=='r1' else '已投递']}) for rid in ids))
+            path.write_text('\n'.join(json.dumps({'record_id':rid,'job_id':'j1' if rid=='r1' else 'j2','状态':['open' if rid=='r1' else '已投递']}) for rid in ids))
             return {}
         body=Path(args[args.index('--json')+1][1:]);body=E.S.ROOT/body if not body.is_absolute() else body
         updates.append(json.loads(body.read_text()));return {'data':{}}
@@ -82,3 +82,11 @@ def test_source_status_sync_backs_up_and_preserves_human_states(tmp_path,monkeyp
     assert updates==[{'update_records':{'r1':{'状态':['expired']}}}]
     result=json.loads((tmp_path/'source-status-sync.json').read_text())
     assert result['changed']==1 and len(result['human_values_preserved'])==1
+
+
+def test_bare_or_inconsistent_active_flag_cannot_change_base_status():
+    assert E.source_lifecycle_state({'source_is_active':True,'status':'open'}) is None
+    row={'source_is_active':True,'status':'open','source_status_raw':'pause','source_status_evidence':{'list_status':'pause'}}
+    assert E.source_lifecycle_state(row) is None
+    row.update(source_is_active=False,status='expired')
+    assert E.source_lifecycle_state(row)=='expired'
