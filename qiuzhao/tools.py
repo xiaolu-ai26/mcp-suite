@@ -307,7 +307,8 @@ class Jobs:
                 continue
             deadline = it["deadline"]
             if not include_expired and ((deadline and deadline < today_s)
-                    or it["status"] in {"已截止", "已下线"} or it.get("source_is_active") is False):
+                    or it["status"] in {"已截止", "已下线"}
+                    or (it.get("source_is_active") is False and not it.get("index_only"))):
                 continue
             if end and not (deadline and today_s <= deadline <= end):
                 continue

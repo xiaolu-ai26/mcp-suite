@@ -358,3 +358,15 @@ def test_pending_inactive_keeps_full_proof_and_adopts_legacy_identity(tmp_path):
     assert merged[0]['p1_company']=='大疆' and merged[0]['p1_scope']=='campus' and merged[0]['p1_identity']
     assert merged[0]['description_raw']==old['description_raw']
     assert source_lifecycle_state(merged[0])=='expired'
+
+
+def test_pending_unknown_availability_stays_visible_but_explicit_pause_does_not(tmp_path):
+    from datetime import date
+    from qiuzhao.tools import Jobs
+    pending=pending_result(tmp_path)
+    row=pending['pending_index'][0];row.update(source_is_active=False,source_status_raw='unrecognized')
+    data=tmp_path/'jobs.json';data.write_text(json.dumps([row]))
+    assert Jobs(data,today=date(2026,9,13)).search()['total']==1
+    row.update(status='expired',source_status_raw='pause')
+    data.write_text(json.dumps([row]))
+    assert Jobs(data,today=date(2026,9,13)).search()['total']==0
