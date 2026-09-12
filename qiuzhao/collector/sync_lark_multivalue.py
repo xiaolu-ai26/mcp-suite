@@ -232,6 +232,8 @@ def apply_plan(out):
             raise ValueError('backup integrity mismatch')
         old_records = {r['record_id']: r for r in json.loads(Path(meta['records']).read_text())}
         old_fields = {f['id']: f for f in json.loads(Path(meta['schema']).read_text())}
+        if any(f.get('remaining_options_count') for f in old_fields.values() if f['name'] in TARGETS):
+            raise ValueError('incomplete backup schema cannot be applied')
         current_fields = {f['id']: f for f in full_fields(table)}
         desired_fields = {c['field_id']: c['definition'] for c in data['schema_updates']}
         for field_id, original in old_fields.items():
@@ -261,7 +263,20 @@ def apply_plan(out):
             current = read_target_values(table, list(batch), out / (table + '.prewrite-' + str(start) + '.ndjson'))
             assert_current_values(current, old_records, batch)
             save(body, {'update_records': batch})
-            result = cli('+record-batch-update', '--base-token', BASE, '--table-id', table, '--json', '@'+rel(body))
+            for attempt in range(4):
+                try:
+                    result = cli('+record-batch-update', '--base-token', BASE, '--table-id', table, '--json', '@'+rel(body))
+                    break
+                except RuntimeError as error:
+                    if '800010401' not in str(error) or 'only one option' not in str(error) or attempt == 3:
+                        raise
+                    live_fields = {f['name']: f for f in full_fields(table)}
+                    if any(not live_fields.get(name, {}).get('multiple') for delta in batch.values() for name in delta):
+                        raise ValueError('multiselect schema is not active') from error
+                    print(json.dumps({'schema_pending': table, 'retry': attempt + 1}), flush=True)
+                    time.sleep(5 * (attempt + 1))
+                    current = read_target_values(table, list(batch), out / (table + '.prewrite-' + str(start) + '.ndjson'))
+                    assert_current_values(current, old_records, batch)
             if result.get('data', {}).get('ignored_fields'):
                 raise ValueError('fields ignored during update')
             save(out / ('response-' + key.replace('/', '-') + '.json'), result)
