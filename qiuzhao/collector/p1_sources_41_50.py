@@ -114,15 +114,19 @@ def collect_jd_social(out):
     if not ident or position is None:raise ValueError('JD social missing requirementId/positionId')
     if ident in seen:
      duplicates.append({'requirementId':ident,'page':page})
-     if fingerprints[ident]!=row:c['errors'].append('Conflicting duplicate JD requirementId '+ident)
+     if {k:v for k,v in fingerprints[ident].items() if k!='id'}!={k:v for k,v in row.items() if k!='id'}:c['errors'].append('Conflicting duplicate JD requirementId '+ident)
+     for existing in jobs:
+      if existing.get('official_source_id')==ident:existing['source_publication_ids']=sorted(set(existing.get('source_publication_ids',[])+[row.get('id')]))
      continue
     fingerprints[ident]=row
     seen.add(ident);desc=row.get('workContent') or '';req=row.get('qualification') or ''
     if not shared.text(desc) and not shared.text(req):
      c['errors'].append('Official inline description undisclosed: '+ident);c.setdefault('pending_details',[]).append({'source_record_id':'jd-social:'+ident,'job_title':row.get('positionNameOpen') or row.get('positionName'),'evidence_file':f'list-{page}.json','detail_fetch_status':'success','detail_content_status':'undisclosed'});continue
     j=shared.job('京东','social','jd-social:'+ident,row.get('positionNameOpen') or row['positionName'],entry,desc+'\n任职要求\n'+req,row.get('workCity') or '',row)
-    j.update(official_source_id=ident,source_namespace='jd-social',recRequirementId=int(ident),positionId=position,detail_presentation='inline',application_link_type='list_entry',application_instructions='请在京东官网社会招聘列表按岗位名称查找，展开岗位后登录申请。',scope_evidence='Official JD 社会招聘 list/inline detail API',source_missing_fields=[name for name,value in [('responsibilities',desc),('requirements',req)] if not shared.text(value)],publication_date=row.get('formatPublishTime'),hiring_department_raw=row.get('positionDeptName') or '')
+    j.update(official_source_id=ident,source_publication_ids=[row.get('id')],source_namespace='jd-social',recRequirementId=int(ident),positionId=position,detail_presentation='inline',application_link_type='list_entry',application_instructions='请在京东官网社会招聘列表按岗位名称查找，展开岗位后登录申请。',scope_evidence='Official JD 社会招聘 list/inline detail API',source_missing_fields=[name for name,value in [('responsibilities',desc),('requirements',req)] if not shared.text(value)],publication_date=row.get('formatPublishTime'),hiring_department_raw=row.get('positionDeptName') or '')
     jobs.append(j)
+   if raw_count>=total:
+    c['last_page_evidence']=f'page={page};rows={len(rows)};official_total={total};raw_rows={raw_count};unique={len(seen)}';break
    if page%10==0:
     c['collected_jobs']=len(jobs);checkpoint={'jobs':jobs,'coverage':{**c,'status':'partial','complete':False}};(out/'result.json').write_text(json.dumps(checkpoint,ensure_ascii=False))
   if raw_count!=total:raise ValueError(f'JD social incomplete official total={total};raw_rows={raw_count};unique={len(seen)}')
