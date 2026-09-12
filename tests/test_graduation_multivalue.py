@@ -158,3 +158,13 @@ def test_explicit_social_recruitment_preserves_role_cohorts_and_unrestricted_not
     assert result['total']==1 and result['jobs'][0]['id']=='general'
     assert result['jobs'][0]['match']['graduation_year']=='社招不限届别'
     assert jobs.search(graduation_year='2025届',recruitment_type='社会招聘')['total']==2
+
+
+def test_inline_application_and_disclosure_are_not_lost_in_public_item():
+    from qiuzhao import v4_fields as V
+    raw={'application_url':'https://zhaopin.jd.com/web/job/job_info_list/3','application_link_type':'list_entry',
+         'application_instructions':'在列表展开岗位后登录申请','detail_presentation':'inline',
+         'source_missing_fields':['requirements'],'field_completeness':{'requirements':'not_disclosed'}}
+    item,_=V.convert(raw)
+    for field in ['application_link_type','application_instructions','detail_presentation','source_missing_fields','field_completeness']:
+        assert item[field]==raw[field]

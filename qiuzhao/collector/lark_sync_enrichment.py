@@ -28,6 +28,8 @@ def route(company):
 
 def qualification_note(raw):
     parts=[]
+    if raw.get('application_link_type')=='list_entry' and raw.get('application_instructions'):
+        parts.append('投递方式：'+str(raw['application_instructions']))
     cohort=str(raw.get('cohort_raw') or '').strip()
     scoped=raw.get('cohort_scope') in {'campaign_announcement','headquarters_campaign_announcement'}
     if cohort and raw.get('p1_company') and not scoped:
