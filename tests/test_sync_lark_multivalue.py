@@ -98,3 +98,17 @@ def test_schema_activation_waits_for_actual_multiselect(monkeypatch):
     monkeypatch.setattr(S.time,'sleep',sleeps.append)
     S.wait_schema_ready('t',{'f':{'name':'专业','type':'select','multiple':True,'options':[]}})
     assert sleeps==[2]
+
+
+def test_external_cli_files_use_real_artifact_cwd(tmp_path,monkeypatch):
+    from qiuzhao.collector import sync_lark_multivalue as S
+    workspace=tmp_path/'workspace';workspace.mkdir();external=tmp_path/'external';external.mkdir()
+    monkeypatch.chdir(workspace);monkeypatch.setattr(S,'EXTERNAL_RUNS',external)
+    monkeypatch.setattr(S,'verify_external_storage',lambda path:None)
+    alias=workspace/'linked';alias.symlink_to(external,target_is_directory=True)
+    args,cwd=S.cli_file_context(['+record-list','--output','linked/out.ndjson','--json','@linked/body.json'])
+    assert cwd==external
+    assert args==['+record-list','--output','out.ndjson','--json','@body.json']
+    import pytest
+    with pytest.raises(ValueError,match='unapproved'):
+        S.cli_file_context(['+record-list','--output',str(tmp_path/'unapproved.json')])

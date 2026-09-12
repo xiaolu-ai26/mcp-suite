@@ -18,8 +18,8 @@ from qiuzhao.collector import sync_lark_multivalue as S
 
 HOST='root@114.215.188.109'
 SOURCE='/var/lib/mcp-suite/jobs.json'
-EXTERNAL_MOUNT=Path('/Volumes/臭垃圾桶')
-DEFAULT_RUNS=EXTERNAL_MOUNT/'MCP产品/qiuzhao-p1-20260913/runtime-runs'
+EXTERNAL_MOUNT=S.EXTERNAL_MOUNT
+DEFAULT_RUNS=S.EXTERNAL_RUNS
 
 
 def now():return dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds')

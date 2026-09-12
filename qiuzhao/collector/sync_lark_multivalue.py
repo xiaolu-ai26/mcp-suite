@@ -18,6 +18,8 @@ from collections import Counter
 from qiuzhao import v4_fields as V
 
 BASE = 'REDACTED'
+EXTERNAL_MOUNT=Path('/Volumes/臭垃圾桶')
+EXTERNAL_RUNS=EXTERNAL_MOUNT/'MCP产品/qiuzhao-p1-20260913/runtime-runs'
 TABLES = ['tblX7rOpjWaRArng', 'tbl0xkmJUMmLqZ1W', 'tbl0gDcxEaIOYERw', 'tblcrBAi0ld7uej8']
 ORIGINAL_TABLES = tuple(TABLES)
 INTERNET_CONTINUATION = 'tblu0nsYjntEOCGY'
@@ -46,10 +48,33 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def verify_external_storage(path):
+    if not EXTERNAL_MOUNT.is_mount() or not path.resolve().is_relative_to(EXTERNAL_RUNS.resolve()):
+        raise ValueError('external artifact mount is unavailable or path is unapproved')
+    if path.parent.stat().st_dev!=EXTERNAL_MOUNT.stat().st_dev:
+        raise ValueError('artifact is not physically on external storage')
+
+
+def cli_file_context(args):
+    values=list(args);files=[];root=Path.cwd().resolve()
+    for index,value in enumerate(values):
+        if index and values[index-1]=='--output':files.append((index,Path(value).resolve(),False))
+        elif index and values[index-1]=='--json' and isinstance(value,str) and value.startswith('@'):
+            files.append((index,Path(value[1:]).resolve(),True))
+    if not any(not path.is_relative_to(root) for _,path,_ in files):return values,None
+    for _,path,_ in files:
+        if not path.is_relative_to(EXTERNAL_RUNS.resolve()):raise ValueError('mixed or unapproved external CLI artifact path')
+        verify_external_storage(path)
+    working=Path(os.path.commonpath([str(path.parent) for _,path,_ in files]))
+    for index,path,is_input in files:values[index]=('@' if is_input else '')+str(path.relative_to(working))
+    return values,working
+
+
 def cli(*args):
     env = dict(os.environ, LARKSUITE_CLI_NO_UPDATE_NOTIFIER='1', LARKSUITE_CLI_NO_SKILLS_NOTIFIER='1')
-    proc = subprocess.run(['lark-cli', 'base', *args, '--as', 'user'], capture_output=True,
-                          text=True, env=env, timeout=180)
+    values,working=cli_file_context(args)
+    proc = subprocess.run(['lark-cli', 'base', *values, '--as', 'user'], capture_output=True,
+                          text=True, env=env, timeout=180,cwd=working)
     if proc.returncode:
         raise RuntimeError(proc.stderr[:2000])
     result = json.loads(proc.stdout)
@@ -65,7 +90,7 @@ def rel(path):
     resolved=lexical.resolve()
     if not resolved.is_relative_to(root.resolve()):
         alias=root/'research/qiuzhao-p1-sync-runtime/runs'
-        expected=Path('/Volumes/臭垃圾桶/MCP产品/qiuzhao-p1-20260913/runtime-runs')
+        expected=EXTERNAL_RUNS
         if not alias.is_symlink() or alias.resolve()!=expected.resolve() or not lexical.is_relative_to(alias):
             raise ValueError('unapproved file path outside workspace')
     return str(relative)
