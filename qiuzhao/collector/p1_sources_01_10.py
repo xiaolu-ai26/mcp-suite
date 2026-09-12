@@ -21,7 +21,7 @@ def request_json(session,url,body,iv=None):
     return d.get('result',d.get('data',d))
 
 def job(company,scope,ident,title,url,description,location='',raw=None):
-    return {'id':f'p1:{company}:{ident}','source_record_id':str(ident),'title':title,'job_title':title,'education_raw':'','major_requirements_raw':'','cohort_raw':'','reviewed_at':datetime.now(timezone.utc).isoformat(),'company':COMPANIES.get(company,company),'company_name':COMPANIES.get(company,company),'company_slug':company,'unit':COMPANIES.get(company,company),'recruitment_unit':COMPANIES.get(company,company),'recruitment_type':TYPES[scope],'source_url':url,'detail_url':url,'application_url':url,'description_raw':text(description),'location':location,'city':location,'source':'official_career','verified_at':datetime.now(timezone.utc).isoformat(),'source_fields':raw or {}}
+    return {'id':f'p1:{company}:{ident}','source_record_id':str(ident),'title':title,'job_title':title,'education_raw':'','major_requirements_raw':'','cohort_raw':'','reviewed_at':datetime.now(timezone.utc).isoformat(),'company':COMPANIES.get(company,company),'company_name':COMPANIES.get(company,company),'company_slug':company,'unit':COMPANIES.get(company,company),'recruitment_unit':COMPANIES.get(company,company),'recruitment_type':TYPES[scope],'source_url':url,'detail_url':url,'application_url':url,'description_raw':text(description),'location':location,'city':location,'cities':[x.strip() for x in re.split(r'\s*/\s*|[，,、;；]',location) if x.strip()],'source':'official_career','verified_at':datetime.now(timezone.utc).isoformat(),'source_fields':raw or {}}
 
 def coverage(url):
     return {'status':'blocked','complete':False,'expected_total':None,'collected_jobs':0,'pages_scanned':0,'detail_complete':False,'source_url':url,'errors':[],'evidence':[]}
@@ -105,6 +105,10 @@ def collect_moka_sites(company,scope,sites,output_dir):
                     loc=' / '.join(x.get('cityName') or x.get('provinceName') or x.get('country','') for x in detail.get('locations',[]))
                     j=job(company,scope,ident,detail['title'],url,detail['jobDescription'],loc,detail)
                     j['scope_evidence']=f'{basis}; hireMode={mode}; commitment={commitment}; title={row.get("title","")}'
+                    j['recruitment_type_raw']={'hireMode':mode,'commitment':commitment}
+                    if '校园大使' in detail['title'] and scope=='social':j['recruitment_type_conflict']='Official hireMode=1 (social), but title names campus ambassador; retain official classification for review'
+                    project=detail.get('projectFolder') or {};settings=project.get('settings') or {}
+                    j['cohort_raw']=text(settings.get('graduateDateLimit') or project.get('name') or '')
                     jobs.append(j);seen.add(ident)
                 time.sleep(.08)
             if not terminal or total is not None and len(listed)!=total:raise ValueError(f'Incomplete list site={site}: observed={len(listed)}, total={total}')
@@ -133,7 +137,9 @@ def collect_standard(company,scope,output_dir):
             if company=='xiaohongshu':params['recruitType']=scope
             if company=='oppo':params['current']=page
             d=request_json(s,list_url,params);(output_dir/f'list-{page}.json').write_text(json.dumps(d,ensure_ascii=False));c['pages_scanned']+=1
-            rows=d.get('list',d.get('records'));total=int(d['total'])
+            rows=d.get('list',d.get('records')) or [];total=int(d['total'])
+            if not rows and list_total is not None and len(seen)==list_total:
+                c['pagination_exhausted']=True;c['last_page_evidence']=f'page={page};rows=0;prior_total={list_total};terminal_total={total}';break
             if list_total is not None and total!=list_total:raise ValueError('Total changed during scan')
             list_total=total
             if not rows:c['pagination_exhausted']=True;c['last_page_evidence']=f'page={page};rows=0;total={total}';break
@@ -141,9 +147,10 @@ def collect_standard(company,scope,output_dir):
                 ident=row[idkey]
                 if ident in seen:raise ValueError('Repeated pagination ID')
                 seen.add(ident)
-                if company=='oppo':actual='intern' if row.get('recruitmentType')=='Intern' else 'campus'
-                elif company=='kuaishou':actual='intern' if row.get('positionNatureCode')!='fulltime' or row.get('recruitProjectCode')!='schoolr' else 'campus'
+                if company=='oppo':actual={'Intern':'intern','Graduate':'campus','doctor':'campus'}.get(row.get('recruitmentType'))
+                elif company=='kuaishou':actual={('intern','schoolr'):'intern',('fulltime','schoolr'):'campus'}.get((row.get('positionNatureCode'),row.get('recruitProjectCode')))
                 else:actual=scope
+                if actual is None:raise ValueError('Unknown official recruitment type enum')
                 if actual==scope:rows_all.append(row)
             time.sleep(.08)
         if len(seen)!=list_total:raise ValueError(f'List mismatch: {len(seen)} != {list_total}')
@@ -163,7 +170,8 @@ def collect_standard(company,scope,output_dir):
             else:
                 title=d['name'];desc=d['description'];req=d['positionDemand'];loc=' / '.join(x['name'] for x in d.get('workLocationDicts') or []);url=host+'/recruit/campus/e/#/campus/job-info/'+str(ident)
                 cohort='';basis=f'Official recruitProjectCode={d.get("recruitProjectCode")}; positionNatureCode={d.get("positionNatureCode")}'
-            if not desc or not req:raise ValueError(f'Missing full duties or requirements {ident}')
+            if not desc and not req:raise ValueError(f'Missing official description {ident}')
+            desc=desc or '';req=req or ''
             j=job(company,scope,ident,title,url,desc+'\n任职要求\n'+req,loc)
             j['cohort_raw']=cohort;j['scope_evidence']=basis;j['education_raw']=d.get('education') or '';j['major_requirements_raw']=''
             return j
@@ -186,7 +194,7 @@ def collect(company:str,scope:str,output_dir:Path)->dict:
     else:
         c=coverage('');c['errors']=['Adapter discovery in progress'];result=finish([],c)
     result['coverage']['evidence_files']=[p.name for p in output_dir.glob('*list*.json')]
-    result['coverage']['scope_request']={'company':requested_company,'scope':scope,'source_url':result['coverage']['source_url'],'params':{'recruitType':scope} if company=='xiaohongshu' else {'scope_filter':scope}}
+    result['coverage']['scope_request']={'company':requested_company,'scope':scope,'source_url':result['coverage']['source_url'],'params':{'recruitType':scope,'pageNum':1,'pageSize':50} if company=='xiaohongshu' else {'endpoint':'api/recruit/position/train/list' if scope=='intern' else 'api/recruit/position/list','page':1,'pageSize':20} if company=='pdd' else {'orgId':company,'siteId':[143359,168240,170070],'limit':50,'offset':0,'needStat':True,'local_scope_filter':scope} if company=='dji' else {'pageNum':1,'pageSize':50,'local_scope_filter':scope}}
     (output_dir/'result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2))
     return result
 
