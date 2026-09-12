@@ -8,7 +8,7 @@ import datetime as dt,fcntl,json,os,re,shutil,time
 from pathlib import Path
 from urllib.parse import urlsplit
 from .base_headless import HeadlessSource,HeadlessUnavailable
-from .p1_sources_11_20 import job,clean,TYPES
+from .p1_sources_11_20 import job,clean,TYPES,role_body
 
 INSTALL_SDK = r'''()=>{let req;const keys=Object.keys(window).filter(k=>k.startsWith('webpackChunk')&&Array.isArray(window[k]));const key=keys.find(k=>k.includes('portal'))||keys[0];if(!key)throw Error('No public careers webpack runtime');window[key].push([[Date.now()],{},r=>{req=r}]);if(!req)throw Error('Public careers runtime unavailable');const ids=Object.keys(req.m).filter(k=>String(req.m[k]).includes('website-path')&&String(req.m[k]).includes('x-csrf-token'));if(ids.length!==1)throw Error('Public careers request module ambiguous');const api=req(ids[0]);window.__qiuzhaoPublicApi={post:Object.values(api).find(f=>typeof f==='function'&&/method\s*:\s*["']post["']/.test(String(f))),get:Object.values(api).find(f=>typeof f==='function'&&/method\s*:\s*["']get["']/.test(String(f)))};if(!window.__qiuzhaoPublicApi.post||!window.__qiuzhaoPublicApi.get)throw Error('Public careers SDK methods unavailable');return true}'''
 LIST_CALL="async p=>await Promise.race([window.__qiuzhaoPublicApi.post('/api/v1/search/job/posts',p,{notifyHttpError:false}),new Promise((_,reject)=>setTimeout(()=>reject(new Error('public list timeout')),45000))])"
@@ -68,7 +68,7 @@ def collect_feishu(company:str,scope:str,sites:list,output_dir:Path)->dict:
  out=Path(output_dir).resolve();out.mkdir(parents=True,exist_ok=True)
  c={'status':'blocked','complete':False,'expected_total':None,'collected_jobs':0,'pages_scanned':0,'detail_complete':False,'source_url':sites[0]['url'],'errors':[],'evidence':[],'evidence_files':[],
     'scope_evidence':'Official anonymous Feishu SDK; recruit_type201=campus,202/301=intern,101/102/103=social; unknown enums are not guessed.',
-    'scope_request':{'company':company,'scope':scope,'source_url':sites[0]['url'],'params':{'sites':sites,'anonymous':True}},'source_coverage':[]}
+    'scope_request':{'company':company,'scope':scope,'source_url':sites[0]['url'],'params':{'sites':sites,'anonymous':True}},'source_coverage':[],'detail_missing_count':0,'pending_details':[]}
  jobs={};selected_ids=set();all_sites_done=True
  def evidence(name,obj):
   path=out/name;atomic(path,obj);c['evidence_files'].append(str(path));c['evidence']=list(c['evidence_files']);return str(path)
@@ -139,12 +139,15 @@ def collect_feishu(company:str,scope:str,sites:list,output_dir:Path)->dict:
          raw=response_data(result['data']).get('job_post_detail')
          if not raw or str(raw.get('id'))!=ident or actual_scope(raw)!=scope:raise ValueError('Official role identity/scope mismatch')
          detail=public_row(raw);path=evidence(f'{site_index}-detail-{ident}.json',{'request':{'job_id':ident,'portal_type':portal_type},'job':detail})
-         if not clean(detail.get('description')) or not clean(detail.get('requirement')):raise ValueError('Official responsibilities/requirements are incomplete')
+         try:desc,missing=role_body(detail.get('description'),detail.get('requirement'))
+         except ValueError:
+          c['detail_missing_count']+=1;c['pending_details'].append({'source_record_id':ident,'title':detail.get('title'),'evidence_file':path,'reason':'No usable responsibilities/requirements disclosed'});raise
          url=urlsplit(site['url']).scheme+'://'+urlsplit(site['url']).netloc+'/'+website['path'].strip('/')+'/position/'+ident+'/detail'
-         desc=clean(detail['description'])+'\n\n'+clean(detail['requirement']);subject=(detail.get('job_subject') or {}).get('name') or {};batch=(subject.get('zh_cn') or subject.get('i18n') or subject.get('en_us') or '') if isinstance(subject,dict) else str(subject)
+         subject=(detail.get('job_subject') or {}).get('name') or {};batch=(subject.get('zh_cn') or subject.get('i18n') or subject.get('en_us') or '') if isinstance(subject,dict) else str(subject)
          cities=[r.get('name') or r.get('i18n_name') or r.get('en_name') for r in detail.get('city_list') or []]
          cohort='；'.join(re.findall(r'[^。\n]*(?:20\d{2}\s*届|毕业|graduat)[^。\n]*',desc,re.I))
          j=job(company,'feishu-'+str(website['id']),ident,detail['title'],url,desc,scope,path,cities=[x for x in cities if x],cohort_raw=cohort,cohort_scope='official_job_description',batch_name=batch,job_category=(detail.get('job_function') or {}).get('name') or '')
+         j['source_missing_fields']=missing;j['field_completeness']={name:('source_not_disclosed' if name in missing else 'source_disclosed') for name in ['description','requirement']}
          jobs.setdefault(ident,j)
         except Exception as exc:c['errors'].append('detail '+ident+': '+str(exc).split('\n')[0])
        if jobs and len(jobs)%30==0:checkpoint()
@@ -155,5 +158,6 @@ def collect_feishu(company:str,scope:str,sites:list,output_dir:Path)->dict:
      finally:page.remove_listener('request',observe)
   finally:fcntl.flock(lock,fcntl.LOCK_UN)
  c.update(collected_jobs=len(jobs),unique_source_ids=len(jobs),expected_total=len(selected_ids) if all_sites_done else None,detail_complete=all_sites_done and len(jobs)==len(selected_ids) and not c['errors'])
+ c['source_missing_field_counts']={name:sum(name in j.get('source_missing_fields',[]) for j in jobs.values()) for name in ['description','requirement']}
  c['complete']=c['detail_complete'];c['status']='success' if c['complete'] else ('partial' if jobs else 'blocked')
  result={'jobs':list(jobs.values()),'coverage':c};atomic(out/'result.json',result);atomic(out/'coverage.json',c);return result

@@ -22,4 +22,13 @@ class CleanupTests(unittest.TestCase):
   browser=AnonymousBrowser(None);ctx=MagicMock();engine=MagicMock();driver=MagicMock();ctx.close.side_effect=RuntimeError('already closed')
   browser._context=ctx;browser._browser=engine;browser._pw=driver
   browser.close();engine.close.assert_called_once();driver.stop.assert_called_once();self.assertIsNone(browser._browser)
+class RoleDisclosureTests(unittest.TestCase):
+ def test_one_real_section_is_retained_with_missing_marker(self):
+  from qiuzhao.collector.p1_feishu_public import role_body
+  body,missing=role_body('负责开发用户界面','')
+  self.assertEqual(body,'负责开发用户界面');self.assertEqual(missing,['requirement'])
+ def test_team_introduction_cannot_replace_role(self):
+  from qiuzhao.collector.p1_feishu_public import role_body
+  with self.assertRaises(ValueError):role_body('团队介绍：我们是一家全球领先的科技企业。','')
+  with self.assertRaises(ValueError):role_body('','')
 if __name__=='__main__':unittest.main()
