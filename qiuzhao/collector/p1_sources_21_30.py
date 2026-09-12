@@ -201,7 +201,7 @@ def collect(company:str,scope:str,output_dir:Path)->dict:
   for key in ['evidence_files','evidence']:
    extra['coverage'][key]=[str((out/'beisen'/p).resolve()) if not Path(p).is_absolute() else p for p in extra['coverage'].get(key,[])]
   last=extra['coverage'].get('last_page_evidence')
-  if isinstance(last,str) and not Path(last).is_absolute():extra['coverage']['last_page_evidence']=str((out/'beisen'/last).resolve())
+  if isinstance(last,str) and not Path(last).is_absolute() and (out/'beisen'/last).is_file():extra['coverage']['last_page_evidence']=str((out/'beisen'/last).resolve())
   merged={r['source_record_id']:r for part in [result,extra] for r in part['jobs']};parts=[result['coverage'],extra['coverage']];complete=all(c['complete'] for c in parts)
   result={'jobs':list(merged.values()),'coverage':{'status':'success' if complete else ('partial' if merged else 'blocked'),'complete':complete,'expected_total':len(merged) if complete else None,'collected_jobs':len(merged),'pages_scanned':sum(c['pages_scanned'] for c in parts),'detail_complete':complete,'source_url':'https://zhaopin.37.com','errors':[e for c in parts for e in c['errors']],'evidence_files':[e for c in parts for e in c['evidence_files']],'evidence':[e for c in parts for e in c['evidence_files']],'scope_evidence':'Official zhaopin.37.com campus Moka link and social role Apply link to37wan.zhiye.com; both source enums verified.','scope_request':{'company':company,'scope':scope,'source_url':'https://zhaopin.37.com','params':{'sources':[c['scope_request'] for c in parts]}},'source_coverage':parts}}
  save(out/'candidate.json',result);save(out/'coverage.json',result['coverage']);return result
