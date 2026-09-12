@@ -15,7 +15,9 @@ for company in m.COMPANIES:
    for key in ['cities','education_raw','major_requirements_raw','experience_raw','deadline_raw','source_fields']:
     if update.get(key) or not j.get(key):j[key]=update.get(key)
    if company in ('dji','catl'):
-    j['cohort_raw']=(raw.get('projectFolder') or {}).get('name') or j.get('cohort_raw','')
+    j['cohort_raw']=''
+    if j.get('campaign_scope')!='job_specific':j['campaign_cohort_raw']=(raw.get('projectFolder') or {}).get('name') or '';j['campaign_scope']='project';j['campaign_url']=j['detail_url'].split('#')[0]
+   if company=='oppo' and scope!='social':j['campaign_cohort_raw']=raw.get('projectName') or j.get('cohort_raw','');j['campaign_scope']='project';j['cohort_raw']=''
    if company=='vivo' and scope!='social':
     link='https://hr-campus.vivo.com/'+scope+'/detail?jobAdId='+j['source_record_id']
     for key in ['source_url','application_url','detail_url']:j[key]=link

@@ -17,7 +17,7 @@ def request_json(session,url,body,iv=None):
         from Crypto.Cipher import AES
         from Crypto.Util.Padding import unpad
         d=json.loads(unpad(AES.new(d['necromancer'].encode(),AES.MODE_CBC,iv.encode()).decrypt(base64.b64decode(d['data'])),16))
-    if d.get('success') is False or d.get('code',0) not in (0,None): raise ValueError(str(d)[:400])
+    if d.get('success') is False or d.get('code',0) not in (0,'0',None): raise ValueError(str(d)[:400])
     return d.get('result',d.get('data',d))
 
 def job(company,scope,ident,title,url,description,location='',raw=None):
@@ -27,7 +27,7 @@ def job(company,scope,ident,title,url,description,location='',raw=None):
     record['major_requirements_raw']=text(fields.get('major') or fields.get('majorRequirement') or '')
     record['experience_raw']=text(fields.get('experience') or fields.get('workExperience') or fields.get('YearsOfWorking') or '')
     record['deadline_raw']=text(fields.get('deadline') or fields.get('endDate') or '')
-    explicit_requirements='\n'.join(text(fields.get(k)) for k in ('serveRequirement','positionRequire','qualification','positionDemand','Require','jobRequirements') if fields.get(k))
+    explicit_requirements='\n'.join(text(fields.get(k)) for k in ('serveRequirement','positionRequire','qualification','positionDemand','Require','jobRequirements','workRequire','serviceCondition') if fields.get(k))
     if fields.get('positionInfoList'):explicit_requirements+='\n'+'\n'.join(text(x.get('jobRequirements')) for x in fields['positionInfoList'])
     if not explicit_requirements:
         sections=re.split(r'任职要求|岗位要求|任职资格|招聘要求|Qualifications|Requirements',record['description_raw'],flags=re.I)
@@ -104,6 +104,15 @@ def moka_detail_cached(company,scope,row,host,org,site,iv,output_dir):
             if old.get('source_updated_at')==updated and old.get('list_fingerprint')==fingerprint and old.get('detail_sha256')==digest and detail.get('id')==ident and detail.get('jobDescription'):
                 return detail,old['detail_checked_at'],True
         except (ValueError,KeyError,TypeError):pass
+    existing=output_dir/f'detail-{ident}.json'
+    if updated and existing.exists():
+        try:
+            previous=json.loads(existing.read_text())
+            keys=('title','jobDescription','hireMode','commitment','locations','updatedAt')
+            if previous.get('id')==ident and previous.get('jobDescription') and previous.get('updatedAt')==updated and all(previous.get(k)==row.get(k) for k in keys if k in row):
+                checked=datetime.fromtimestamp(existing.stat().st_mtime,timezone.utc).isoformat()
+                return previous,checked,True
+        except (ValueError,KeyError,TypeError):pass
     with requests.Session() as ss:detail=request_json(ss,host+'/api/outer/ats-apply/website/job',{'orgId':org,'siteId':int(site),'jobId':ident,'locale':'zh-CN'},iv)
     if detail.get('id')!=ident or not detail.get('jobDescription'):raise ValueError(f'Incomplete Moka detail {ident}')
     checked=datetime.now(timezone.utc).isoformat()
@@ -156,7 +165,7 @@ def collect_moka_sites(company,scope,sites,output_dir):
                 j['list_checked_at']=datetime.now(timezone.utc).isoformat();j['detail_checked_at']=detail_checked;j['detail_cache_reused']=cached
                 if '校园大使' in detail['title'] and scope=='social':j['recruitment_type_conflict']='Official hireMode=1 (social), title names campus ambassador; retain source classification for review'
                 project=detail.get('projectFolder') or {};settings=project.get('settings') or {}
-                j['cohort_raw']=text(settings.get('graduateDateLimit') or project.get('name') or '')
+                j['cohort_raw']='';j['campaign_cohort_raw']=text(settings.get('graduateDateLimit') or project.get('name') or '');j['campaign_scope']='project';j['campaign_url']=site_url
                 return j
             with ThreadPoolExecutor(max_workers=3) as pool:
                 tasks={pool.submit(enrich,row):row['id'] for row in selected}
@@ -165,12 +174,13 @@ def collect_moka_sites(company,scope,sites,output_dir):
                         jobs.append(future.result())
                         if len(jobs)%100==0:partial_checkpoint(jobs,c,company,scope,output_dir)
                     except Exception as exc:c['errors'].append(f'detail {tasks[future]}: {exc}')
-        c['pagination_exhausted']=True;c['detail_complete']=True;c['expected_total']=len(jobs)
+        c['pagination_exhausted']=True;c['detail_complete']=not c['errors'];c['expected_total']=len(seen)
         c['scope_evidence']=f'Official Moka hireMode 1 social/2 campus; internship commitment/title; requested={scope}'
     except Exception as exc:c['errors'].append(str(exc))
     return finish(jobs,c)
 
-def collect_standard(company,scope,output_dir):
+def collect_standard(company,scope,output_dir,social_site=False):
+    output_dir.mkdir(parents=True,exist_ok=True)
     from concurrent.futures import ThreadPoolExecutor, as_completed
     if company=='xiaohongshu':
         host='https://job.xiaohongshu.com';entry=host+'/'+('campus/intern' if scope=='intern' else scope)+'/position'
@@ -178,11 +188,14 @@ def collect_standard(company,scope,output_dir):
     elif company=='kuaishou':
         host='https://campus.kuaishou.cn';entry=host+'/recruit/campus/e/#/campus/jobs'
         list_url=host+'/recruit/campus/e/api/v1/open/positions/simple';detail_url=host+'/recruit/campus/e/api/v1/open/positions/find';idkey='id'
+    elif company=='oppo' and (scope=='social' or social_site):
+        host='https://career.oppo.com';entry=host+'/recruitment/post'
+        list_url=host+'/ats-candidate-api/open-api/position/queryPositionList';detail_url=host+'/ats-candidate-api/open-api/position/queryPosition';idkey='positionId'
     else:
         host='https://careers.oppo.com';entry=host+'/campus/post'
         list_url=host+'/openapi/position/pageNew';detail_url=host+'/openapi/position/detail';idkey='idRecruitPosition'
     c=coverage(entry);jobs=[];rows_all=[];seen=set();s=requests.Session();s.headers['Tenant-Id']='1000';list_total=None
-    if company in ('oppo','kuaishou') and scope=='social':
+    if company=='kuaishou' and scope=='social':
         c['errors']=['Separate official social endpoint not yet verified'];return finish([],c)
     try:
         for page in range(1,10001):
@@ -200,18 +213,20 @@ def collect_standard(company,scope,output_dir):
                 ident=row[idkey]
                 if ident in seen:raise ValueError('Repeated pagination ID')
                 seen.add(ident)
-                if company=='oppo':actual={'Intern':'intern','Graduate':'campus','doctor':'campus'}.get(row.get('recruitmentType'))
+                if company=='oppo':actual={'Intern':'intern','Graduate':'campus','doctor':'campus','SOCIAL-RECRUITMENT':'social','OFFEN-RECRUITMENT':'intern'}.get(row.get('recruitmentType') or row.get('recruitType'))
                 elif company=='kuaishou':actual={('intern','schoolr'):'intern',('fulltime','schoolr'):'campus'}.get((row.get('positionNatureCode'),row.get('recruitProjectCode')))
                 else:actual=scope
                 if actual is None:raise ValueError('Unknown official recruitment type enum')
                 if actual==scope:rows_all.append(row)
+            if len(seen)==list_total and int(d.get('pages',0))==page:
+                c['pagination_exhausted']=True;c['last_page_evidence']=f'page={page};official_pages={d.get("pages")};unique={len(seen)};total={list_total}';break
             time.sleep(.08)
         if len(seen)!=list_total:raise ValueError(f'List mismatch: {len(seen)} != {list_total}')
         c['list_total']=list_total;c['expected_total']=len(rows_all)
         def enrich(row):
-            ident=row[idkey];params={'positionId':ident,'recruitType':scope} if company=='xiaohongshu' else {'id':ident}
+            ident=row[idkey];params={'positionId':ident,'recruitType':scope} if company=='xiaohongshu' else {'positionId':ident} if company=='oppo' and (scope=='social' or social_site) else {'id':ident}
             r=requests.get(detail_url,params=params,headers={'Tenant-Id':'1000'},timeout=(10,45));r.raise_for_status();envelope=r.json()
-            if envelope.get('success') is False or envelope.get('code',0)!=0:raise ValueError('Detail response rejected')
+            if envelope.get('success') is False or envelope.get('code',0) not in (0,'0'):raise ValueError('Detail response rejected')
             d=envelope.get('result',envelope.get('data'));(output_dir/f'detail-{ident}.json').write_text(json.dumps(d,ensure_ascii=False))
             if d[idkey]!=ident:raise ValueError('Detail ID mismatch')
             if company=='xiaohongshu':
@@ -220,6 +235,8 @@ def collect_standard(company,scope,output_dir):
                 if actual!=scope:return None
                 title=d['positionName'];desc=d['duty'];req=d['qualification'];loc=d.get('workplace','');url=entry+'/'+str(ident)
                 cohort=d.get('projectName','');basis=f'Official API recruitType={scope}; detail.recruitType={d.get("recruitType")}'
+            elif company=='oppo' and (scope=='social' or social_site):
+                title=d.get('publishName') or d['jobName'];desc=d.get('jobDuty');req=d.get('workRequire');loc=d.get('workCityName','');url=entry+'/'+str(ident)+'?id='+str(ident);cohort='';basis='Official recruitType='+str(d.get('recruitType'))
             elif company=='oppo':
                 title=d['positionName'];desc=d['positionDesc'];req=d['positionRequire'];loc=d.get('workCityName') or ' / '.join(x.get('workCityName','') for x in d.get('workCityVOList') or []);url=entry+'/'+str(ident)+'?id='+str(ident)
                 cohort=d.get('projectName','');basis=f'Official recruitmentType={row.get("recruitmentType")}, project={cohort}'
@@ -229,13 +246,25 @@ def collect_standard(company,scope,output_dir):
             if not desc and not req:raise ValueError(f'Missing official description {ident}')
             desc=desc or '';req=req or ''
             j=job(company,scope,ident,title,url,desc+'\n任职要求\n'+req,loc,d)
-            j['cohort_raw']=cohort;j['scope_evidence']=basis;j['education_raw']=j['education_raw'] or text(d.get('education'))
+            j['cohort_raw']='';j['campaign_cohort_raw']=cohort;j['campaign_scope']='project';j['campaign_url']=entry;j['scope_evidence']=basis;j['education_raw']=j['education_raw'] or text(d.get('education'))
             return j
         with ThreadPoolExecutor(max_workers=3) as pool:
             for j in pool.map(enrich,rows_all):
                 if j is not None:jobs.append(j)
         c['expected_total']=len(jobs);c['detail_complete']=True;c['evidence']=[p.name for p in output_dir.glob('list-*.json')];c['scope_evidence']=f'Official {company} list; requested scope={scope}'
     except Exception as exc:c['errors'].append(str(exc))
+    return finish(jobs,c)
+
+def collect_oppo_intern(output_dir):
+    results=[]
+    for name,social in [('campus-site',False),('social-site',True)]:
+        results.append((name,collect_standard('oppo','intern',output_dir/name,social_site=social)))
+    c=coverage('https://careers.oppo.com/campus/post');jobs=[];seen=set()
+    for name,r in results:
+        for j in r['jobs']:
+            if j['source_record_id'] not in seen:jobs.append(j);seen.add(j['source_record_id'])
+        c['errors'].extend(r['coverage']['errors']);c['pages_scanned']+=r['coverage']['pages_scanned'];c['evidence'].extend(name+'/'+str(e) for e in r['coverage'].get('evidence',[]))
+    c['expected_total']=len(jobs);c['pagination_exhausted']=all(r['coverage'].get('pagination_exhausted') for _,r in results);c['detail_complete']=all(r['coverage'].get('detail_complete') for _,r in results);c['last_page_evidence']=';'.join(r['coverage'].get('last_page_evidence','') for _,r in results);c['evidence_files']=c['evidence']
     return finish(jobs,c)
 
 def collect_vivo_byd(company,scope,output_dir):
@@ -282,6 +311,8 @@ def collect_vivo_byd(company,scope,output_dir):
                     actual={'2':'campus','3':'intern'}.get(str(row.get('CategoryId'))) if company=='vivo' else {'008501':'campus','008502':'intern'}.get(row.get('campusNature'))
                     if actual is None:raise ValueError('Unknown official scope enum')
                     if actual==scope and ident not in global_ids:selected.append((row,cfg));global_ids.add(ident)
+                if company=='byd' and len(seen)==total and env['page'].get('totalPage')==page:
+                    c['last_page_evidence']=f'config={ci};page={page};official_pages={page};unique={len(seen)};total={total}';break
             if total!=len(seen):raise ValueError(f'Incomplete list {len(seen)} != {total}')
         c['expected_total']=len(selected);c['pagination_exhausted']=True
         def enrich(pair):
@@ -296,13 +327,15 @@ def collect_vivo_byd(company,scope,output_dir):
                 cohort='';basis=f'Official CategoryId={row.get("CategoryId")}, Category={row.get("Category")}'
             else:
                 if env.get('code')!=0:raise ValueError(str(env)[:200])
-                d=env['data'];title=d.get('jobName') or row['jobName'];parts=d.get('positionInfoList') or []
+                d=env['data']
+                if str(d.get('id'))!=str(ident):raise ValueError('BYD detail ID mismatch')
+                title=d.get('jobName') or row['jobName'];parts=d.get('positionInfoList') or []
                 desc='\n\n'.join('部门：'+str(x.get('division',''))+'；方向：'+str(x.get('researchDirection',''))+'；地点：'+str(x.get('workPlace',''))+'\n'+str(x.get('jobDuty','')) for x in parts)
                 req='\n\n'.join('部门：'+str(x.get('division',''))+'\n'+str(x.get('jobRequirements','')) for x in parts);loc=d.get('workPlace') or row.get('workPlace','');link='https://job.byd.com/portal/pc/#/school/schoolPositionDetail?id='+ident
                 cohort=str(row.get('batch',''))+'届';basis=f'Official campusNature={row.get("campusNature")}; source entry={cfg.get("postEntryName")}'
             if not desc and not req:raise ValueError('No full official description '+str(list(d)))
-            j=job(company,scope,ident,title,link,(desc or '')+'\n任职要求\n'+(req or ''),loc,d);j['cohort_raw']=cohort;j['scope_evidence']=basis
-            if company=='byd' and cfg.get('content'):j['campaign_cohort_raw']=cfg['content'];j['campaign_url']=entry
+            j=job(company,scope,ident,title,link,(desc or '')+'\n任职要求\n'+(req or ''),loc,d);j['cohort_raw']='';j['scope_evidence']=basis
+            if company=='byd':j['campaign_cohort_raw']=cohort+'；'+str(cfg.get('content') or '');j['campaign_scope']='project';j['campaign_url']=entry;j['batch_raw']=row.get('batch')
             return j
         with ThreadPoolExecutor(max_workers=3) as pool:
             tasks={pool.submit(enrich,row):row[0].get('Id',row[0].get('id')) for row in selected}
@@ -366,12 +399,57 @@ def collect_vivo_byd_social(company,output_dir):
     except Exception as exc:c['errors'].append(str(exc))
     return finish(jobs,c)
 
+def collect_honor(scope,output_dir):
+    from concurrent.futures import ThreadPoolExecutor,as_completed
+    suites={'campus':['SU60eea919bef57c1023f6fe78','SU60eea1aa0dcad47a7e1ce1ed'],'intern':['SU61b9b9992f9d24431f5050a5'],'social':['SU5ff669649b0d78e6f4296c9a']}[scope]
+    kind={'campus':1,'intern':12,'social':2}[scope];page_name={'campus':'school','intern':'interns','social':'social'}[scope]
+    host='https://career.honor.com';c=coverage(host+'/'+suites[0]+'/pb/'+page_name+'.html');jobs=[];seen_global=set();session=requests.Session()
+    try:
+        for suite in suites:
+            entry=host+'/'+suite+'/pb/'+page_name+'.html';r=session.get(entry,timeout=(10,25));r.raise_for_status();(output_dir/(suite+'-entry.html')).write_text(r.text)
+            listed=set();selected=[];total=None
+            for page in range(1,10001):
+                body={'isFrompb':'true','recruitType':kind,'pageSize':20,'currentPage':page}
+                rr=session.post(host+'/wecruit/positionInfo/listPosition/'+suite,data=body,headers={'Referer':entry},timeout=(10,40));rr.raise_for_status();env=rr.json();(output_dir/f'{suite}-list-{page}.json').write_text(json.dumps(env,ensure_ascii=False));c['pages_scanned']+=1
+                if str(env.get('state'))!='200':raise ValueError(str(env)[:300])
+                form=env['data']['pageForm'];rows=form['pageData'] or [];n=form['dataCount']
+                if total is not None and n!=total:raise ValueError('Honor total changed')
+                total=n
+                for row in rows:
+                    ident=row['postId']
+                    if ident in listed:raise ValueError('Honor repeated pagination ID')
+                    if row.get('recruitType')!=kind:raise ValueError('Honor scope conflict')
+                    listed.add(ident)
+                    if ident not in seen_global:selected.append(row);seen_global.add(ident)
+                if not rows or form['currentPage']==form['totalPage']:
+                    c['last_page_evidence']=f'suite={suite};page={page};official_pages={form["totalPage"]};unique={len(listed)};total={total}';break
+            if len(listed)!=total:raise ValueError('Honor incomplete page count')
+            def enrich(row):
+                ident=row['postId'];rr=requests.post(host+'/wecruit/positionInfo/listPositionDetail/'+suite,data={'postId':ident},headers={'Referer':entry},timeout=(10,40));rr.raise_for_status();env=rr.json();(output_dir/f'detail-{ident}.json').write_text(json.dumps(env,ensure_ascii=False))
+                if str(env.get('state'))!='200':raise ValueError('Honor detail rejected')
+                d=env['data']
+                if d.get('postId')!=ident or d.get('recruitType')!=kind:raise ValueError('Honor detail identity/scope conflict')
+                desc=d.get('workContent') or '';req=d.get('serviceCondition') or ''
+                if not desc and not req:raise ValueError('Honor full description missing')
+                j=job('honor',scope,ident,d['postName'],host+'/'+suite+'/pb/posDetail.html?postId='+ident,desc+'\n任职要求\n'+req,d.get('workPlaceStr') or '',d)
+                j['campaign_cohort_raw']=d.get('projectName') or '';j['campaign_scope']='project';j['campaign_url']=entry;j['scope_evidence']=f'Official current HONOR portal recruitType={kind}'
+                j['recruitment_unit']='荣耀 / '+str(d.get('orgName') or d.get('company') or '荣耀');return j
+            with ThreadPoolExecutor(max_workers=3) as pool:
+                tasks={pool.submit(enrich,row):row['postId'] for row in selected}
+                for f in as_completed(tasks):
+                    try:jobs.append(f.result())
+                    except Exception as exc:c['errors'].append(f'detail {tasks[f]}: {exc}')
+        c['expected_total']=len(seen_global);c['pagination_exhausted']=True;c['detail_complete']=len(jobs)==len(seen_global);c['evidence']=[p.name for p in output_dir.glob('*list*.json')];c['scope_evidence']=f'Official HONOR recruitType={kind}'
+    except Exception as exc:c['errors'].append(str(exc))
+    c['request_params']={'recruitType':kind,'currentPage':1,'pageSize':20,'sites':suites}
+    return finish(jobs,c)
+
 def collect_access_probe(company,scope,output_dir):
     session=requests.Session();session.headers['User-Agent']='Mozilla/5.0'
     if company=='pdd':
         entry='https://careers.pddglobalhr.com/jobs';url='https://careers.pddglobalhr.com/api/recruit/position/list';body={'job':'','page':1,'pageSize':10,'name':'','workLocationList':[]};method='post'
     elif company=='huawei':
-        entry='https://career.huawei.com/reccampportal/portal5/campus-recruitment.html';url='https://career.huawei.com/reccampportal/services/portal/portalpub/getJob/newHr/page/20/1';body={'language':'zh_CN','jobType':'0','orderBy':'ISS_STARTDATE_DESC_AND_IS_HOT_JOB'};method='post'
+        entry='https://career.huawei.com/reccampportal/portal5/campus-recruitment.html';url='https://career.huawei.com/reccampportal/services/portal/portalpub/getJob/newHr/page/20/1';body={'language':'zh_CN','jobType':'1' if scope=='social' else '0','jobTypes':'' if scope=='social' else '0' if scope=='intern' else '2','orderBy':'ISS_STARTDATE_DESC_AND_IS_HOT_JOB'};method='get';session.headers['x-jalor-tenantAlias']='hcm'
     elif company=='honor':
         entry='https://wecruit500.hotjob.cn/SU5fb249ec44e800c1fce8567a/pb/'+{'campus':'school','intern':'interns','social':'social'}[scope]+'.html';url='https://wecruit500.hotjob.cn/wecruit/positionInfo/listPosition/SU5fb249ec44e800c1fce8567a?iSaJAx=isAjax&request_locale=zh_CN';body={'isFrompb':'true','recruitType':{'campus':1,'intern':2,'social':0}[scope],'currentPage':1,'pageSize':20};method='form'
     elif company=='kuaishou':
@@ -389,6 +467,7 @@ def collect_access_probe(company,scope,output_dir):
         except ValueError:response={};summary=text(r.text)[:200]
         c['blocking_kind']='upstream_access' if r.status_code>=400 or response.get('success') is False or str(response.get('state',''))=='500' or response.get('code')==1 else 'adapter_discovery'
         c['errors']=[f'Official public endpoint HTTP {r.status_code}: {summary}; no verified complete job list']
+        if company=='huawei' and r.status_code==200:c['blocking_kind']='adapter_discovery';c['errors'].append('Legacy list responds but current campus/intern/social project coverage and detail contract remain unverified; not an upstream access block')
     except Exception as exc:c['errors']=[str(exc)];c['blocking_kind']='upstream_access'
     return finish([],c)
 
@@ -408,7 +487,7 @@ def enrich_dji_campaign(result,output_dir):
     actual=html.unescape(meta.group(1)) if meta else ''
     if not re.search(r'面向\s*2027\s*届及优秀\s*2026\s*届高校毕业生',actual):raise ValueError('DJI campaign cohort condition changed')
     target['campaign_cohort_raw']=actual[actual.index('面向'):]
-    target['campaign_url']=url
+    target['campaign_url']=url;target['campaign_scope']='job_specific';target['campaign_job_ids']=[ident]
     result['coverage'].setdefault('evidence_files',[]).extend(['campaign-digital.html','campaign-app.js'])
 
 def collect(company:str,scope:str,output_dir:Path)->dict:
@@ -416,9 +495,11 @@ def collect(company:str,scope:str,output_dir:Path)->dict:
     output_dir=Path(output_dir);output_dir.mkdir(parents=True,exist_ok=True)
     company=next((k for k,v in COMPANIES.items() if company==v),company)
     if scope not in TYPES:raise ValueError('Unknown recruitment scope')
-    if company in ('huawei','honor') or scope=='social' and company in ('pdd','oppo','kuaishou'):result=collect_access_probe(company,scope,output_dir)
+    if company=='huawei' or scope=='social' and company in ('pdd','kuaishou'):result=collect_access_probe(company,scope,output_dir)
+    elif company=='honor':result=collect_honor(scope,output_dir)
     elif company=='pdd':result=collect_pdd(scope,output_dir)
     elif company in ('vivo','byd'):result=collect_vivo_byd_social(company,output_dir) if scope=='social' else collect_vivo_byd(company,scope,output_dir)
+    elif company=='oppo' and scope=='intern':result=collect_oppo_intern(output_dir)
     elif company in ('xiaohongshu','kuaishou','oppo'):result=collect_standard(company,scope,output_dir)
     elif company=='catl':
         sites=[('https://talent.catl.com/'+kind+'-recruitment/catlhr/'+str(site),'Official talent.catl.com portal link') for kind,site in [('campus',148948),('campus',143035),('campus',142992),('social',96144),('social',142774),('social',98098)]]
