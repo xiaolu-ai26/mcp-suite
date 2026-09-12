@@ -164,8 +164,11 @@ def collect_lixiang(scope,out):
 
 def collect_ecovacs(scope,out):
     moka=out/'moka';moka.mkdir(parents=True,exist_ok=True)
-    sites=[('https://app.mokahr.com/campus_apply/ecovacs/36793','Current official branded campus portal; init-data org ecovacs siteId36793 type camp'),('https://app.mokahr.com/social-recruitment/ecovacs/102402','Linked by current hr.ecovacs.cn'),('https://app.mokahr.com/apply/ecovacs/36792','Linked by current hr.ecovacs.cn')]
-    result=shared.collect_moka_sites('科沃斯',scope,sites,moka);c=result['coverage'];c['evidence_files']=['moka/'+str(x) for x in c.get('evidence',[])];jobs=result['jobs']
+    sites=[('https://app.mokahr.com/campus_apply/tineco/36092','Ecovacs official group links Tineco careers; current branded Tineco campus portal orgId=tineco'),('https://app.mokahr.com/campus_apply/ecovacs/36793','Current official branded campus portal; init-data org ecovacs siteId36793 type camp'),('https://app.mokahr.com/social-recruitment/ecovacs/102402','Linked by current hr.ecovacs.cn'),('https://app.mokahr.com/apply/ecovacs/36792','Linked by current hr.ecovacs.cn')]
+    result=shared.collect_moka_sites('科沃斯',scope,sites,moka)
+    for j in result['jobs']:
+        if '/tineco/' in j['source_url']:j['recruitment_unit']='添可智能';j['recruiting_unit_raw']='添可智能';j['parent_unit_raw']='科沃斯'
+    c=result['coverage'];c['evidence_files']=['moka/'+str(x) for x in c.get('evidence',[])];jobs=result['jobs']
     def page_data(url):
         rr=shared.http_get(url,timeout=(10,35));rr.raise_for_status();rr.encoding='utf-8';match=re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>',rr.text,re.S)
         if not match:raise ValueError('ECOVACS public Next data missing')
@@ -230,6 +233,42 @@ def collect_tplink(scope,out):
     except Exception as exc:c['errors'].append(str(exc))
     return shared.finish(jobs,c)
 
+def collect_nio_workday(scope,out):
+    out=Path(out);out.mkdir(parents=True,exist_ok=True);host='https://nio.wd3.myworkdayjobs.com';api=host+'/wday/cxs/nio/NIO_Careers';c=shared.coverage('https://www.nio.io/careers/jobs');jobs=[];session=shared.make_session();seen=set();rows=[]
+    try:
+        rr=session.get(c['source_url'],timeout=(10,30));rr.raise_for_status();(out/'official-entry.html').write_text(rr.text)
+        if 'nio.wd3.myworkdayjobs.com/NIO_Careers/' not in rr.text:raise ValueError('Current official NIO entry no longer links this Workday tenant')
+        total=None
+        for offset in range(0,100000,20):
+            rr=session.post(api+'/jobs',json={'limit':20,'offset':offset,'appliedFacets':{},'searchText':''},timeout=(10,40));rr.raise_for_status();d=rr.json();(out/f'list-{offset}.json').write_text(json.dumps(d,ensure_ascii=False));c['pages_scanned']+=1
+            if total is not None and total!=d['total']:raise ValueError('NIO Workday total changed')
+            total=d['total'];items=d['jobPostings']
+            for row in items:
+                ident=row['externalPath']
+                if ident in seen:raise ValueError('NIO Workday repeated posting path')
+                seen.add(ident);rows.append(row)
+            if len(seen)==total or not items:c['last_page_evidence']=f'offset={offset};rows={len(items)};total={total};unique={len(seen)}';break
+        if len(seen)!=total:raise ValueError('NIO Workday incomplete full list')
+        c['list_total']=total;c['pagination_exhausted']=True
+        selected_count=0
+        for row in rows:
+            path=row['externalPath'];rr=session.get(api+path,timeout=(10,40));rr.raise_for_status();env=rr.json();d=env['jobPostingInfo'];ident=d['jobReqId'];(out/('detail-'+ident+'.json')).write_text(json.dumps(env,ensure_ascii=False))
+            if ident not in path or d.get('jobPostingSiteId')!='NIO_Careers':raise ValueError('NIO Workday detail ID/site mismatch')
+            actual='intern' if shared.is_internship(d.get('timeType'),d.get('title')) else 'social'
+            if actual!=scope:continue
+            selected_count+=1;body=d.get('jobDescription') or ''
+            if not shared.text(body):c['errors'].append('NIO Workday undisclosed description '+ident);continue
+            url=d.get('externalUrl')
+            if not url or ident not in url:raise ValueError('NIO Workday application URL missing/mismatched')
+            j=shared.job('蔚来汽车',scope,'workday:nio:NIO_Careers:'+ident,d['title'],url,body,d.get('location') or row.get('locationsText') or '',d)
+            j.update(official_source_id=ident,source_namespace='workday:nio:NIO_Careers',scope_evidence='Official international Workday posting; explicit Intern/Internship role title mapped internship, other experienced roles social',publication_date=d.get('startDate'),country_raw=(d.get('country') or {}).get('descriptor'),recruitment_unit='NIO',source_time_type=d.get('timeType'))
+            j['source_can_apply_raw']=d.get('canApply');j['source_posted_raw']=d.get('posted')
+            if d.get('canApply') is False or d.get('posted') is False:j['status']='expired';j['source_is_active']=False;j['status_note']='Official Workday posting is not currently applicable/published.'
+            jobs.append(j)
+        c['expected_total']=selected_count;c['detail_complete']=len(jobs)==selected_count;c['scope_evidence']='NIO official global careers links verified Workday tenant; explicit role titles and full detail';c['evidence']=['official-entry.html']+[p.name for p in out.glob('list-*.json')];c['evidence_files']=c['evidence']+[p.name for p in out.glob('detail-*.json')];c['scope_request']={'company':'蔚来汽车','scope':scope,'source_url':c['source_url'],'params':{'tenant':'nio','site':'NIO_Careers','limit':20,'offset':0,'appliedFacets':{},'searchText':'','local_scope_filter':scope}}
+    except Exception as exc:c['errors'].append(str(exc))
+    return shared.finish(jobs,c)
+
 def collect(company,scope,output_dir):
     requested=company
     if company in ('TP-LINK','TP-LINK／普联','TP-LINK/普联','普联'):company='tplink'
@@ -241,7 +280,11 @@ def collect(company,scope,output_dir):
         else:sites=[{'url':'https://nio.jobs.feishu.cn/'+path,'tenant_names':['NIO'],'portal_type':6} for path in ['campus','intern','index']]
         r=collect_feishu(COMPANIES[company],scope,sites,out)
         if company=='nio':
-            c=r['coverage'];c['company_scope_complete']=False;c['errors'].append('Official NIO international careers source still being integrated');c['complete']=False;c['status']='partial' if r['jobs'] else 'blocked'
+            import copy
+            international=collect_nio_workday(scope,out/'workday');c=r['coverage'];wc=international['coverage'];c['source_coverage']=[copy.deepcopy(c),copy.deepcopy(wc)];r['jobs'].extend(international['jobs'])
+            c['expected_total']=(c['expected_total']+wc['expected_total']) if isinstance(c.get('expected_total'),int) and isinstance(wc.get('expected_total'),int) else None
+            c['pages_scanned']+=wc['pages_scanned'];c['errors'].extend(wc['errors']);c['evidence_files'].extend('workday/'+x for x in wc.get('evidence_files',[]));c['collected_jobs']=len(r['jobs']);c['unique_source_ids']=len({j['source_record_id'] for j in r['jobs']})
+            c['company_scope_complete']=False;c['errors'].append('Official NIO global page additionally links LinkedIn roles and entries lacking application URLs; these sources remain under verification');c['complete']=False;c['status']='partial' if r['jobs'] else 'blocked'
     elif company=='ecovacs':r=collect_ecovacs(scope,out)
     elif company=='lixiang':r=collect_lixiang(scope,out)
     elif company=='inovance':r=collect_inovance(scope,out)
