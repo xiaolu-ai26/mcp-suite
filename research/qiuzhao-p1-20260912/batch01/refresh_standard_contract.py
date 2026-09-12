@@ -10,7 +10,7 @@ for company in names:
   for j in r['jobs']:
    raw=json.loads((p.parent/('detail-'+j['source_record_id']+'.json')).read_text())
    if company=='xiaohongshu':
-    actual={'school_recruit':'campus','intern_recruit':'intern','social_recruit':'social'}.get(raw.get('recruitType'))
+    actual={'school_recruit':'campus','intern_recruit':'intern','club_recruit':'social'}.get(raw.get('recruitType'))
     if actual is None:raise ValueError('Unknown XHS type')
     if actual!=scope:continue
     j['recruitment_type_raw']=raw.get('recruitType')
