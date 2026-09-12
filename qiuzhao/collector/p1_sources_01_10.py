@@ -188,6 +188,7 @@ def collect_moka_sites(company,scope,sites,output_dir):
             r=session.get(site_url,timeout=(10,45));r.raise_for_status();pagehtml=html.unescape(r.text)
             ivmatch=re.search(r'"aesIv"\s*:\s*"([^"]+)"',pagehtml);iv=ivmatch.group(1) if ivmatch else None
             listed=set();total=None;terminal=False;selected=[]
+            site_key=org+'/'+site;c.setdefault('source_list_status_counts',{})[site_key]={}
             for offset in range(0,200000,50):
                 d=request_json(session,host+'/api/outer/ats-apply/website/jobs/v2',{'orgId':org,'siteId':int(site),'limit':50,'offset':offset,'needStat':True,'locale':'zh-CN'},iv)
                 (output_dir/f'{site}-list-{offset}.json').write_text(json.dumps(d,ensure_ascii=False));c['pages_scanned']+=1
@@ -201,11 +202,13 @@ def collect_moka_sites(company,scope,sites,output_dir):
                     ident=row['id']
                     if ident in listed:raise ValueError(f'Repeated Moka ID {ident}')
                     listed.add(ident);commitment=str(row.get('commitment',''));mode=row.get('hireMode')
+                    state=str(row.get('status'));counts=c['source_list_status_counts'][site_key];counts[state]=counts.get(state,0)+1
                     if mode not in (1,2):raise ValueError(f'Unknown official hireMode={mode}; job={ident}')
                     actual='intern' if is_internship(commitment,row.get('title','')) else 'campus' if mode==2 else 'social'
                     if actual==scope and ident not in seen:selected.append(row);seen.add(ident)
                 time.sleep(.08)
             if not terminal or total is not None and len(listed)!=total:raise ValueError(f'Incomplete list site={site}: observed={len(listed)}, total={total}')
+            c.setdefault('source_list_totals',{})[site_key]=total
             c['evidence'].extend(p.name for p in output_dir.glob(f'{site}-list-*.json'))
             def enrich(row):
                 ident=row['id']
@@ -230,7 +233,7 @@ def collect_moka_sites(company,scope,sites,output_dir):
                         jobs.append(future.result())
                         if len(jobs)%100==0:partial_checkpoint(jobs,c,company,scope,output_dir)
                     except Exception as exc:c['errors'].append(f'detail {tasks[future]}: {exc}')
-        c['source_status_counts']={state:sum(1 for j in jobs if j.get('source_list_status_raw')==state) for state in sorted({str(j.get('source_list_status_raw')) for j in jobs})}
+        c['source_status_counts']={state:sum(1 for j in jobs if str(j.get('source_list_status_raw'))==state) for state in sorted({str(j.get('source_list_status_raw')) for j in jobs})}
         c['active_jobs']=sum(j.get('source_is_active') is True for j in jobs);c['inactive_jobs']=sum(j.get('source_is_active') is False for j in jobs)
         c['pagination_exhausted']=True;c['detail_complete']=not c['errors'];c['expected_total']=len(seen)
         c['scope_evidence']=f'Official Moka hireMode 1 social/2 campus; internship commitment/title; requested={scope}'
