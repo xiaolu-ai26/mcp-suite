@@ -72,3 +72,13 @@ def test_campaign_scoped_legacy_label_does_not_hide_role_multiyear():
     assert graduation_of(row)[0]==['2027届']
     row['description_raw']='仅2026届，不接受2027届毕业生。'
     assert graduation_of(row)[0]==['2026届']
+
+
+def test_negative_role_clause_and_unrelated_also_allowed_do_not_expand():
+    from qiuzhao.v4_fields import graduation_of
+    row={'cohort_raw':'仅2026届，不接受2027届','campaign_cohort_raw':'2027届校园招聘',
+         'recruitment_type':'校园招聘'}
+    assert graduation_of(row)[0]==['2026届']
+    row={'job_title':'2027届校招','description_raw':'仅限2026届毕业生；无实习经历也可',
+         'recruitment_type':'校园招聘'}
+    assert graduation_of(row)[0]==['2026届']

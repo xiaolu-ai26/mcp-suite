@@ -244,6 +244,20 @@ def campaign_text(r):
     return r.get("campaign_cohort_raw") or r.get("batch_name") or scoped or ""
 
 
+def positive_cohort_years(text):
+    """Discard explicitly excluded cohort clauses rather than treating all dates as eligible."""
+    eligible = []
+    for clause in re.split(r'[,，；;。\n]', str(text or '')):
+        exclusion = re.search(r'不接受|不招收|不面向|不含|除外|不适用', clause)
+        if exclusion:
+            prefix = clause[:exclusion.start()]
+            if not re.search(r'仅|只限|面向|接受|招收', prefix):
+                continue
+            clause = prefix
+        eligible.append(clause)
+    return years_in('；'.join(eligible))
+
+
 def role_description_years(text):
     """Ignore explicitly wider campaign clauses when extracting role eligibility."""
     sentences = []
@@ -277,8 +291,8 @@ def graduation_of(r):
     this official source record may expand an explicit role cohort.
     """
     scoped_campaign = r.get('cohort_scope') in {'campaign_announcement', 'headquarters_campaign_announcement'}
-    role_years = [] if scoped_campaign else years_in(r.get('cohort_raw'))
-    campaign_years = years_in(campaign_text(r))
+    role_years = [] if scoped_campaign else positive_cohort_years(r.get('cohort_raw'))
+    campaign_years = positive_cohort_years(campaign_text(r))
     basis = {f'{y}届': '岗位写明' for y in role_years}
     if basis:
         if job_bound_campaign(r):
@@ -291,7 +305,9 @@ def graduation_of(r):
     description = role_description_years(r.get('description_raw'))
     title = title_years(r.get('job_title'))
     if description:
-        if re.search(r'也可|亦可|也欢迎', str(r.get('description_raw') or '')):
+        description_text = str(r.get('description_raw') or '')
+        if (re.search(r'20\d{2}\s*届(?:毕业生)?\s*(?:也可|亦可|也欢迎)', description_text)
+                and not re.search(r'仅限|仅面向|只接受|只招', description_text)):
             description = sorted(set(description) | set(title))
         basis = {f'{y}届': '岗位写明' for y in description}
         rule = 'description'
