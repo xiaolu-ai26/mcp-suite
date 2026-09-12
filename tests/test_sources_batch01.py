@@ -5,6 +5,12 @@ import tempfile, unittest
 SPEC=importlib.util.spec_from_file_location('batch01',Path(__file__).parents[1]/'qiuzhao/collector/p1_sources_01_10.py')
 m=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(m)
 class CollectorTests(unittest.TestCase):
+ def test_campaign_year_is_bound_to_one_job(self):
+  from qiuzhao.v4_fields import graduation_of
+  target=m.job('dji','campus','093114fd-38fa-497b-ac5a-8a8f47777708','数字管理','https://example.com/a','职责')
+  other=m.job('dji','campus','other','其他','https://example.com/b','职责')
+  target['campaign_cohort_raw']='面向2027届及优秀2026届高校毕业生'
+  self.assertIn('2026届',graduation_of(target)[0]);self.assertNotIn('2026届',graduation_of(other)[0])
  def test_cities_survive_normalize_v4(self):
   import sys
   sys.path.insert(0,str(Path(__file__).parents[1]))
