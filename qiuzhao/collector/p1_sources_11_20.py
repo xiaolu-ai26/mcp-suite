@@ -14,7 +14,14 @@ def clean(v):return BeautifulSoup(str(v or ''),'html.parser').get_text('\n',stri
 def save(p,obj):
  p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(obj,ensure_ascii=False,indent=2),encoding='utf-8');return str(p)
 def job(company,slug,ident,title,url,description,scope,evidence,**kw):
- j=dict(id=f'{slug}-{ident}',source_record_id=str(ident),recruitment_unit=company,contracting_entity='',job_title=title,job_category='',cities=[],major_requirements_raw='',major_tags=[],education_raw='',cohort_raw='',deadline=None,deadline_type='undisclosed',status='open',application_url=url,detail_url=url,source_url=url,published_at=None,reviewed_at=dt.datetime.now(dt.timezone.utc).isoformat(),source_name=company+'官方招聘',evidence_path=evidence,description_raw=description,recruitment_type=TYPES[scope]);j.update(kw);return j
+ j=dict(id=f'{slug}-{ident}',source_record_id=str(ident),recruitment_unit=company,contracting_entity='',job_title=title,job_category='',cities=[],major_requirements_raw='',major_tags=[],education_raw='',cohort_raw='',deadline=None,deadline_type='undisclosed',status='open',application_url=url,detail_url=url,source_url=url,published_at=None,reviewed_at=dt.datetime.now(dt.timezone.utc).isoformat(),source_name=company+'官方招聘',evidence_path=evidence,description_raw=description,recruitment_type=TYPES[scope]);j.update(kw)
+ if j.get('campaign_name'):j['batch_name']=j['campaign_name']
+ lines=[x.strip() for x in re.split(r'[\n。；]',description) if x.strip()]
+ if not j['major_requirements_raw']:
+  j['major_requirements_raw']='；'.join(x for x in lines if re.search(r'相关专业|专业(?:优先|不限)|专业背景[：:]|(?:degree|major)\s+in\b',x,re.I))
+ if not j['education_raw']:
+  j['education_raw']='；'.join(x for x in lines if re.search(r'博士|硕士|本科|大专|专科|研究生|bachelor|master.?s|ph\.?d',x,re.I) and re.search(r'学历|学位|在读|以上|优先|毕业|degree|bachelor|master.?s|ph\.?d',x,re.I))
+ return j
 class Fetcher:
  def __init__(self,out):self.out=out;self.evidence=[]
  def get(self,url,name,payload=None):
@@ -68,7 +75,7 @@ def _mihoyo(company,scope,f,cov):
 def _ant(company,scope,f,cov):
  route='social' if scope=='social' else 'campus'
  channel='group_official_site' if route=='social' else 'campus_group_official_site'
- jobs=[];cov['_partial_jobs']=jobs;seen=set();total=None;rows_count=0;selected=0
+ jobs=[];cov['_partial_jobs']=jobs;cov['scope_evidence']='官方campus批次graduate/trainee/talent_plan与social频道，实习项目按官方batchName';seen=set();total=None;rows_count=0;selected=0
  for page in range(1,1001):
   text,path=f.get('https://hrcareersweb.antgroup.com/api/'+route+'/position/search',f'list-{page}',{'pageIndex':page,'pageSize':20,'channel':channel,'language':'zh_CN'})
   data=json.loads(text)
@@ -168,10 +175,10 @@ def _baidu(company,scope,f,cov):
  jobs=[]
  for r in data['listDetailData']:
   if not r.get('workContent') or not r.get('serviceCondition'):continue
-  ident=r['postId'];url='https://talent.baidu.com/jobs/detail/'+ident
+  ident=r['postId'];url='https://talent.baidu.com/jobs/detail/'+typ+'/'+ident
   desc=clean(r['workContent'])+'\n\n'+clean(r['serviceCondition'])
   cohort=next((x.get('subtitle','') for x in data.get('listConfig',[]) if x.get('recruitType')==typ),'')
-  jobs.append(job(company,'baidu',ident,r['name'],url,desc,scope,path,cities=[r['workPlace']] if r.get('workPlace') else [],cohort_raw=cohort if scope!='social' else '',cohort_scope='official_campaign',education_raw=r.get('education',''),published_at=r.get('publishDate'),job_category=r.get('postType','')))
+  jobs.append(job(company,'baidu',ident,r['name'],url,desc,scope,path,cities=[r['workPlace']] if r.get('workPlace') else [],cohort_raw=cohort if scope!='social' else '',cohort_scope='campaign_announcement',education_raw=r.get('education',''),published_at=r.get('publishDate'),job_category=r.get('postType','')))
  cov['errors'].append('Only official SSR first page is accessible; full pagination not verified')
  return jobs
 
@@ -258,7 +265,11 @@ def _lenovo(company,scope,f,cov):
  cov.update(expected_total=len(rows),pagination_exhausted=True,scope_evidence='官方University入口链接SearchJobsUniversity全分页；其中职位标题明确Intern/实习/Working student为实习，其余为早期职业校招；社会为官方全岗位列表扣除University名单。',scope_request={'company':company,'scope':scope,'source_url':SOURCES['lenovo'],'params':{'lists':['SearchJobsUniversity']+(['SearchJobs'] if scope=='social' else [])}})
  def detail(item):
   ident,(url,title)=item;text,path=f.get(url,'detail-'+ident);soup=BeautifulSoup(text,'html.parser');heading=next((x for x in soup.select('h3') if 'Description and Requirements' in x.get_text()),None)
-  if heading is None:raise ValueError('Lenovo missing detail section '+ident)
+  if heading is None:
+   alternate=next((a['href'] for a in soup.select('a[href]') if a.get_text(' ',strip=True)=='日本語' and a['href'].startswith('https://jobs.lenovo.com/ja_JP/') and a['href'].rstrip('/').endswith('/'+ident)),None)
+   if alternate:
+    text,path=f.get(alternate,'detail-ja-'+ident);soup=BeautifulSoup(text,'html.parser');url=alternate;heading=next((x for x in soup.select('h3') if 'Description and Requirements' in x.get_text()),None)
+  if heading is None:raise ValueError('Lenovo missing detail section in official languages '+ident)
   article=heading.find_parent('article');desc=article.get_text('\n',strip=True).removeprefix('Description and Requirements').strip()
   if not desc:raise ValueError('Lenovo empty job description '+ident)
   title_el=soup.select_one('.banner__text__title');title=title_el.get_text(' ',strip=True) if title_el else title
@@ -272,7 +283,7 @@ def _lenovo(company,scope,f,cov):
  return jobs
 
 def _hikvision(company,scope,f,cov):
- jobs=[];cov['_partial_jobs']=jobs;expected=0
+ jobs=[];cov['_partial_jobs']=jobs;expected=0;cov['scope_evidence']='海康官网jobNature应届生/实习生，社会官网recruitType1社会3实习'
  if scope!='social':
   nature='应届生' if scope=='campus' else '实习生';total=None;seen=set()
   url='https://campushr.hikvision.com/api/search/crsPositionSearch/getPositionByQuery'
@@ -366,7 +377,7 @@ def _ctrip(company,scope,f,cov):
    if scope!='campus':cov['errors'].append('Unspecified official recruitment type '+ident)
    continue
   if actual!=scope:continue
-  selected+=1;desc=clean(r.get('requirements'))
+  selected+=1;desc='\n\n'.join(clean(r.get(k)) for k in ('duty','requirements') if r.get(k))
   if not desc:cov['errors'].append('Trip.com empty official detail '+ident);continue
   if route=='global':url=host+'/#/job-detail?'+requests.compat.urlencode({'fromId':r['fromId'],'atsApiType':r.get('atsApiType') or ''})
   else:url=host+'/#/'+('campus' if actual=='campus' else 'experienced')+'/job-detail/'+str(r['fromId'])

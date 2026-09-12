@@ -20,7 +20,6 @@ class AdapterTests(unittest.TestCase):
    self.assertFalse(result['coverage']['complete']);self.assertEqual(result['coverage']['status'],'blocked');self.assertIsNone(result['coverage']['expected_total'])
  def test_invalid_scope_rejected(self):
   with self.assertRaises(ValueError):collect('米哈游','all',Path('/tmp/unused'))
-if __name__=='__main__':unittest.main()
 
 class AntCoverageTests(unittest.TestCase):
  def test_duplicate_page_never_complete(self):
@@ -62,3 +61,5 @@ class FullSourceRegressionTests(unittest.TestCase):
     return '<p>1-1 of 2 jobs</p><article><h3><a href="https://jobs.lenovo.com/en_US/careers/JobDetail/Role/1">Graduate</a></h3></article>','list'
   with self.assertRaisesRegex(ValueError,'official total'):
    _lenovo('联想','campus',F(),{'errors':[],'pages_scanned':0})
+
+if __name__=='__main__':unittest.main()
