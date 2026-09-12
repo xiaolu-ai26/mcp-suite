@@ -127,6 +127,7 @@ def collect_feishu(company:str,scope:str,sites:list,output_dir:Path)->dict:
       info=page.evaluate("JSON.parse(document.querySelector('#js-websiteInfo').textContent)")
       tenant=info['tenant_info']['tenant_name'];website=info['website_info']
       if tenant not in site['tenant_names']:raise ValueError('Official tenant identity drift: '+tenant)
+      if site.get('tenant_id_md5') and info['tenant_info'].get('tenant_id_md5')!=site['tenant_id_md5']:raise ValueError('Official tenant identifier drift')
       verified_site=True
       evidence(f'{site_index}-identity.json',{'entry':site['url'],'tenant_name':tenant,'website_id':website['id'],'website_path':website['path'],'process_type':website.get('process_type')})
       page.evaluate(INSTALL_SDK)
