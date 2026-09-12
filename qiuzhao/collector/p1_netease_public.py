@@ -105,7 +105,7 @@ def cities_from(text):
 
 
 _EDU_WORDS = r'博士|硕士|研究生|本科|大专|专科|中专|高中|Bachelor|Master|Ph\.?D'
-_MAJOR_WORDS = r'相关专业|专业(?:优先|不限|背景)?[：:]?|major\s+in\b|degree\s+in\b'
+_MAJOR_WORDS = r'相关专业|专业(?:优先|不限|背景|要求|方向|毕业)|major\s+in\b|degree\s+in\b'
 
 
 def extract_education(text):
@@ -472,7 +472,7 @@ def fetch_leihuo_project(session, project_id, scope, result, output_dir):
                 result.pending_review.append(source_record_id)
                 continue
             cities = cities_from(row.get('work_place_name'))
-            detail_url = detail_extra.get('job_detail_url') or f'https://campus.163.com/app/detail/index?id={ident}&projectId={project_id}'
+            detail_url = detail_extra.get('job_detail_url') or 'https://leihuo.163.com/campus/'
             job = make_job(
                 source_record_id, scope, row.get('job_name'), description_raw,
                 f'https://xiaozhao.leihuo.netease.com/api/apply/job/detail/show?job_id={ident}&project_id={project_id}',
@@ -481,7 +481,9 @@ def fetch_leihuo_project(session, project_id, scope, result, output_dir):
                 campaign_cohort_raw=' / '.join(row.get('department_name') or []) or (row.get('category_name') or ''),
                 campaign_scope='project', source_missing_fields=missing,
                 extra={'job_category': row.get('category_name') or '',
-                       'scope_evidence_hint': f'leihuo ehr_job_type={ehr_type} ({row.get("type_name")}); target={row.get("job_target")}'})
+                       'scope_evidence_hint': f'leihuo ehr_job_type={ehr_type} ({row.get("type_name")}); target={row.get("job_target")}',
+                       'application_link_type': 'direct_job' if detail_extra.get('job_detail_url') else 'list_entry',
+                       'application_instructions': '' if detail_extra.get('job_detail_url') else '独立投递链接尚未核验；请在网易雷火官方校园招聘入口按岗位名称查找。'})
             jobs.append(job)
     result.jobs.extend(jobs)
     return jobs
@@ -642,6 +644,8 @@ def fetch_greenhouse_board(session, board, scope, result, output_dir):
             source_missing_fields=[],
             extra={'job_category': departments[0].get('name') if departments else '',
                    'field_completeness': 'combined_single_field',
+                   'recruitment_unit': 'HighDive' if board=='highdive' else 'NetEase Games',
+                   'parent_unit_raw': COMPANY,
                    'scope_evidence_hint': f'greenhouse board={board} title={row.get("title")}'})
         jobs.append(job)
     result.jobs.extend(jobs)
@@ -727,6 +731,8 @@ def collect(company: str, scope: str, output_dir: Path) -> dict:
         checkpoint()
 
     coverage = build_coverage(scope, result, nav_notes, NAVIGATION_URL)
+    coverage.update(status='partial' if result.jobs else 'blocked',complete=False,detail_complete=False)
+    coverage['errors'].append('Current complete Leihuo project set and unknown/talent navigation routes remain unverified; known jobs retained without company-wide completeness claim')
     coverage['scope_request'] = {
         'company': company, 'scope': scope, 'source_url': NAVIGATION_URL,
         'params': {'campus_api_projects': sorted(campus_projects.items()),

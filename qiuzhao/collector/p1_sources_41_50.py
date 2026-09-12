@@ -189,6 +189,9 @@ def collect(company,scope,output_dir):
  if key=='meituan':
   from qiuzhao.collector.p1_meituan_public import collect as collector
   result=collector(COMPANIES[key],scope,out)
+ elif key=='netease':
+  from qiuzhao.collector.p1_netease_public import collect as collector
+  result=collector(COMPANIES[key],scope,out)
  elif key=='dewu':
   from qiuzhao.collector.p1_dewu_public import collect as collector
   result=collector(COMPANIES[key],scope,out)

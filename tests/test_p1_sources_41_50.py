@@ -4,7 +4,7 @@ from unittest.mock import patch
 from qiuzhao.collector import p1_sources_41_50 as m
 class Batch41Tests(unittest.TestCase):
  def test_not_implemented_is_never_success_zero(self):
-  with tempfile.TemporaryDirectory() as d:
+  with tempfile.TemporaryDirectory() as d,patch('qiuzhao.collector.p1_netease_public.collect',return_value={'jobs':[],'coverage':{'status':'blocked','complete':False}}):
    r=m.collect('网易','campus',Path(d));self.assertEqual(r['coverage']['status'],'blocked');self.assertFalse(r['coverage']['complete'])
  def test_beisen_receives_verified_company_name(self):
   c=m.shared.coverage('https://career.mindray.com');c['errors']=['fixture']

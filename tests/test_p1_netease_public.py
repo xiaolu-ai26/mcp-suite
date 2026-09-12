@@ -277,9 +277,24 @@ class CollectContractTests(unittest.TestCase):
                 payload = m.collect('网易', 'campus', Path(tmp))
             validated = validate_result(payload, '网易', 'campus', Path(tmp))
             self.assertEqual(len(validated['jobs']), 1)
-            self.assertEqual(validated['coverage']['status'], 'success')
-            self.assertTrue(validated['coverage']['complete'])
+            self.assertEqual(validated['coverage']['status'], 'partial')
+            self.assertFalse(validated['coverage']['complete'])
+            self.assertTrue(any('Leihuo project set' in e for e in validated['coverage']['errors']))
 
 
 if __name__ == '__main__':
     unittest.main()
+
+
+def test_no_cross_backend_fabricated_leihuo_fallback():
+    import inspect
+    # Exercise a real list row whose detail response exposes no frontend URL.
+    session=ScriptedSession([
+        {'status':200,'data':{'count_number':1,'last_page':True,'apply_job_list':[{'ehr_job_id':'8','job_name':'开发','job_description':'开发服务','job_requirement':'本科','ehr_job_type':'1'}]}},
+        {'status':200,'data':{'ehr_job_id':'8'}}])
+    result=m.SystemResult()
+    with tempfile.TemporaryDirectory() as tmp:m.fetch_leihuo_project(session,77,'campus',result,Path(tmp))
+    row=result.jobs[0]
+    assert row['detail_url']=='https://leihuo.163.com/campus/'
+    assert row['application_link_type']=='list_entry' and '尚未核验' in row['application_instructions']
+    assert m.extract_major('具备专业的数据分析能力')==''
