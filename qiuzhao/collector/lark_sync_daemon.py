@@ -98,6 +98,13 @@ def run(state_dir):
                     except subprocess.TimeoutExpired:
                         os.killpg(child.pid,signal.SIGKILL);child.wait();raise
                 if exit_code:raise RuntimeError(f'{phase} failed, exit={exit_code}; see {out/(phase+".log")}')
+            append_state=json.loads((out/'append-status.json').read_text())
+            if append_state.get('capacity_blocked'):
+                state.update(status='partial',phase='complete_with_capacity_pending',finished_at=now(),
+                             error='Base table capacity reached; other tables and conditions processed',
+                             capacity_blocked=append_state['capacity_blocked'])
+                S.save(status_path,state)
+                return state
             state.update(status='success',phase='complete',last_success_at=now(),last_source_sha256=source_sha,
                          finished_at=now(),source_receipt=str(out/'source-receipt.json'))
             S.save(status_path,state)

@@ -36,3 +36,25 @@ def test_manual_sync_reuses_runner_lock_without_unlocking_parent(tmp_path,monkey
             except BlockingIOError:pass
             else:raise AssertionError('child released parent lock')
         finally:other.close()
+
+
+def test_capacity_pending_runs_conditions_but_never_commits_source_hash(tmp_path,monkeypatch):
+    import json
+    phases=[]
+    monkeypatch.setattr(D,'source_hash',lambda:'new')
+    def capture(out):
+        path=out/'source.jobs.json';path.write_text('[]')
+        return path,'new'
+    monkeypatch.setattr(D,'capture_source',capture)
+    class Child:
+        def __init__(self,args,**kwargs):
+            phase=args[-1];phases.append(phase)
+            out=Path(args[args.index('--output-dir')+1])
+            if phase=='--append-p1':
+                D.S.save(out/'append-status.json',{'finished':False,'capacity_blocked':{'table':{'job_ids':['missing']}}})
+        def wait(self,timeout):return 0
+    monkeypatch.setattr(D.subprocess,'Popen',Child)
+    result=D.run(tmp_path)
+    assert phases[-1]=='--explain'
+    assert result['status']=='partial' and 'last_source_sha256' not in result
+    assert Path(result['run_dir'],'source.jobs.json').exists()

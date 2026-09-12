@@ -32,3 +32,12 @@ def test_role_condition_precedes_generic_campaign_and_bound_exceptions_remain():
     raw.update(source_record_id='role',campaign_job_ids=['role'],
                description_raw='2027届本科及以上学历',campaign_cohort_raw='2027届及优秀2026届')
     assert '绑定此岗位的官方专项条件：2027届及优秀2026届' in E.qualification_note(raw)
+
+
+def test_only_definitive_capacity_rejection_can_clear_create_intent():
+    import json
+    error={'ok':False,'error':{'code':800040832,'subtype':'quota_exceeded'}}
+    assert E.quota_rejection(RuntimeError(json.dumps(error)))
+    assert not E.quota_rejection(RuntimeError('request timed out'))
+    error['error']['code']=500
+    assert not E.quota_rejection(RuntimeError(json.dumps(error)))

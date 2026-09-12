@@ -141,6 +141,16 @@ def new_fields(raw):
     return table,fields
 
 
+def quota_rejection(error):
+    """Recognize an explicit no-capacity API refusal, never a transport failure."""
+    try:
+        payload=json.loads(str(error))
+    except (ValueError, TypeError):
+        return False
+    detail=payload.get('error',{})
+    return payload.get('ok') is False and detail.get('code')==800040832 and detail.get('subtype')=='quota_exceeded'
+
+
 def append_p1(out,jobs_path):
     from qiuzhao.collector.p1_pipeline import COMPANIES
     backup=verified_backup(out);known=set()
@@ -200,11 +210,19 @@ def append_p1(out,jobs_path):
             try:
                 response=S.cli('+record-batch-create','--base-token',S.BASE,'--table-id',table,'--json','@'+S.rel(body))
             except RuntimeError as error:
-                state['error']=str(error);S.save(state_path,state);raise
+                state['error']=str(error)
+                if quota_rejection(error):
+                    # This definitive rejection created no records. Save the
+                    # remaining IDs per table, then let other tables continue.
+                    state.setdefault('capacity_blocked',{})[table]={
+                        'job_ids':[r['job_id'] for r in rows[start:]],'error':str(error)}
+                    state['pending']=None;S.save(state_path,state)
+                    break
+                S.save(state_path,state);raise
             record_ids=response.get('data',{}).get('record_id_list',[])
             if len(record_ids)!=len(batch) or response.get('data',{}).get('ignored_fields'):
                 raise ValueError('uncertain append result; reconcile before retry')
             for row,rid in zip(batch,record_ids):state['created'][row['job_id']]={'table':table,'record_id':rid}
             state['pending']=None;S.save(state_path,state);S.save(out/f'{table}.append-response-{start}.json',response)
             print(json.dumps({'appended_table':table,'new_records':len(batch),'total_created':len(state['created'])}),flush=True)
-    state['finished']=True;S.save(state_path,state)
+    state['finished']=not bool(state.get('capacity_blocked'));S.save(state_path,state)
