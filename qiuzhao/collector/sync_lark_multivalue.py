@@ -44,6 +44,36 @@ def rel(path):
     return str(path.resolve().relative_to(Path.cwd()))
 
 
+def full_fields(table):
+    fields = cli('+field-list', '--base-token', BASE, '--table-id', table,
+                 '--format', 'json')['data']['fields']
+    for field in fields:
+        if field.get('type') != 'select' or not field.get('remaining_options_count'):
+            continue
+        options = []; offset = 0; total = None
+        for _ in range(100):
+            data = cli('+field-search-options', '--base-token', BASE, '--table-id', table,
+                       '--field-id', field['id'], '--limit', '200', '--offset', str(offset),
+                       '--format', 'json')['data']
+            if total is None:
+                total = data['total']
+            if data['total'] != total or not data['options']:
+                raise ValueError('select options changed or pagination stalled')
+            options.extend(data['options'])
+            if len(options) == total:
+                break
+            if len(options) > total:
+                raise ValueError('select option pagination count mismatch')
+            offset = len(options)
+        else:
+            raise ValueError('select option pagination exceeded bound')
+        if len({o['name'] for o in options}) != total:
+            raise ValueError('duplicate select options across pages')
+        field['options'] = options
+        field.pop('remaining_options_count', None)
+    return fields
+
+
 def snapshot(out):
     if (out / 'backup.json').exists():
         raise ValueError('snapshot already exists; use a new output directory')
@@ -54,8 +84,7 @@ def snapshot(out):
     save(out / 'tables.before.json', tables)
     manifest = {'base': BASE, 'tables': {}}
     for table in TABLES:
-        fields = cli('+field-list', '--base-token', BASE, '--table-id', table,
-                     '--format', 'json')['data']['fields']
+        fields = full_fields(table)
         by_name = {f['name']: f for f in fields}
         if 'job_id' not in by_name or any(by_name.get(n, {}).get('type') != 'select' for n in TARGETS):
             raise ValueError('schema drift in ' + table)
@@ -121,6 +150,8 @@ def make_plan(out, jobs_path):
         if digest(records_path) != meta['records_sha256'] or digest(schema_path) != meta['schema_sha256']:
             raise ValueError('backup integrity mismatch')
         records = json.loads(records_path.read_text()); fields = json.loads(schema_path.read_text())
+        if any(f.get('remaining_options_count') for f in fields if f['name'] in TARGETS):
+            raise ValueError('incomplete select metadata cannot be used for PUT')
         updates = {}; unmatched = []; options = {name: set() for name in TARGETS}
         for record in records:
             identity = record.get('job_id')
@@ -201,8 +232,7 @@ def apply_plan(out):
             raise ValueError('backup integrity mismatch')
         old_records = {r['record_id']: r for r in json.loads(Path(meta['records']).read_text())}
         old_fields = {f['id']: f for f in json.loads(Path(meta['schema']).read_text())}
-        current_fields = {f['id']: f for f in cli('+field-list', '--base-token', BASE,
-            '--table-id', table, '--format', 'json')['data']['fields']}
+        current_fields = {f['id']: f for f in full_fields(table)}
         desired_fields = {c['field_id']: c['definition'] for c in data['schema_updates']}
         for field_id, original in old_fields.items():
             if original['name'] not in TARGETS:

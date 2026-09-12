@@ -68,3 +68,23 @@ def test_changed_target_value_blocks_but_idempotent_replay_is_allowed():
         S.assert_current_values({'r':{'毕业届别':['2028届']}},old,desired)
     with pytest.raises(ValueError,match='record missing'):
         S.assert_current_values({},old,desired)
+
+
+def test_full_select_options_pagination_and_incomplete_metadata_gate(monkeypatch,tmp_path):
+    calls=[]
+    def cli(*args):
+        calls.append(args)
+        if args[0]=='+field-list':
+            return {'data':{'fields':[{'id':'f','type':'select','name':'工作地点','options':[{'name':'0'}],
+                                     'remaining_options_count':200}]}}
+        offset=int(args[args.index('--offset')+1])
+        return {'data':{'total':201,'options':[{'name':str(n)} for n in range(offset,min(offset+200,201))]}}
+    monkeypatch.setattr(S,'cli',cli)
+    field=S.full_fields('t')[0]
+    assert len(field['options'])==201 and 'remaining_options_count' not in field
+    assert [c[c.index('--offset')+1] for c in calls if c[0]=='+field-search-options']==['0','200']
+    out,jobs=fixture_plan(tmp_path,monkeypatch)
+    backup=json.loads((out/'backup.json').read_text());meta=backup['tables'][S.TABLES[0]]
+    schema=Path(meta['schema']);fields=json.loads(schema.read_text());fields[0]['remaining_options_count']=10
+    S.save(schema,fields);meta['schema_sha256']=S.digest(schema);S.save(out/'backup.json',backup)
+    with pytest.raises(ValueError,match='incomplete select metadata'):S.make_plan(out,jobs)
