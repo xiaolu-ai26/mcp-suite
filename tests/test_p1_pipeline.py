@@ -125,6 +125,82 @@ class P1Tests(unittest.TestCase):
                 p.run(root,run,['大疆'],['campus'],resume=True)
                 collect.assert_not_called()
 
+    def test_empty_complete_requires_scope_evidence(self):
+        payload = result(())
+        payload['coverage'].pop('scope_evidence')
+        with self.assertRaisesRegex(ValueError, 'scope evidence'):
+            p.validate_result(payload, '大疆', 'campus')
+
+    def test_complete_requires_real_bound_evidence_files(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d) / '01' / 'campus'
+            root.mkdir(parents=True)
+            payload = result(())
+            payload['coverage'].update(
+                evidence_files=['response.json'],
+                scope_request={'company': '大疆', 'scope': 'campus',
+                               'source_url': 'https://careers.dji.com/jobs', 'params': {'type': 'campus'}})
+            with self.assertRaises(ValueError):
+                p.validate_result(payload, '大疆', 'campus', root)
+            (root / 'response.json').write_text('{"total":0}')
+            p.validate_result(payload, '大疆', 'campus', root)
+            payload['coverage']['scope_request']['scope'] = 'social'
+            with self.assertRaises(ValueError):
+                p.validate_result(payload, '大疆', 'campus', root)
+            payload['coverage']['scope_request']['scope'] = 'campus'
+            outside = Path(d) / 'another-company.json'
+            outside.write_text('{}')
+            payload['coverage']['evidence_files'] = [str(outside)]
+            with self.assertRaises(ValueError):
+                p.validate_result(payload, '大疆', 'campus', root)
+            shared = root.parent / 'shared'
+            shared.mkdir()
+            (shared / 'list.json').write_text('{}')
+            payload['coverage']['evidence_files'] = ['../shared/list.json']
+            p.validate_result(payload, '大疆', 'campus', root)
+
+    def test_shared_url_never_collapses_distinct_source_ids(self):
+        payload = result(('one', 'two'))
+        for row in payload['jobs']:
+            row['detail_url'] = 'https://careers.dji.com/jobs/shared'
+        validated = p.validate_result(payload, '大疆', 'campus')
+        old = {'id': 'legacy', 'detail_url': payload['jobs'][0]['detail_url'],
+               'recruitment_type': '校园招聘'}
+        rows, _ = p.merge_records([old], [('大疆', 'campus', validated)])
+        self.assertEqual({r.get('source_record_id') for r in rows if r.get('p1_company')}, {'one', 'two'})
+        again, _ = p.merge_records(rows, [('大疆', 'campus', validated)])
+        self.assertEqual(len(again), len(rows))
+
+    def test_corrupted_existing_backup_blocks_next_publish(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / 'jobs.json').write_text('[]')
+            receipt = p.publish(root, [('大疆', 'campus', self.validated())], root / 'batch')
+            before = (root / 'jobs.json').read_bytes()
+            with gzip.open(receipt['backup'], 'wb') as stream:
+                stream.write(b'changed')
+            with self.assertRaisesRegex(RuntimeError, 'backup hash mismatch'):
+                p.publish(root, [('大疆', 'campus', self.validated(('2',)))], root / 'batch')
+            self.assertEqual((root / 'jobs.json').read_bytes(), before)
+
+    def test_interrupt_checkpoint_is_discoverable_and_cli_resumes(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            run = root / 'run'
+            with patch.object(p, 'collect_process', side_effect=[self.validated(), KeyboardInterrupt]):
+                with self.assertRaises(KeyboardInterrupt):
+                    p.run(root, run, ['大疆'], ['campus', 'intern'])
+            checkpoint = json.loads((root / 'p1-status.json').read_text())
+            self.assertFalse(checkpoint['run_finished'])
+            self.assertIn('大疆/campus', checkpoint['results'])
+            with patch.object(p, 'collect_process', return_value=self.validated(scope='intern')) as collect:
+                with patch('sys.argv', ['p1', '--data-dir', str(root), '--companies', '大疆',
+                                        '--scopes', 'campus,intern', '--resume-latest']):
+                    self.assertEqual(p.main(), 0)
+                self.assertEqual(collect.call_count, 1)
+                self.assertEqual(collect.call_args.args[1], 'intern')
+            self.assertTrue(json.loads((root / 'p1-status.json').read_text())['run_finished'])
+
 
 if __name__ == '__main__':
     unittest.main()
