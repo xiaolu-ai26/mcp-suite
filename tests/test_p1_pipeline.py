@@ -203,16 +203,26 @@ class P1Tests(unittest.TestCase):
 
     def test_real_module_cli_dispatches_adapter(self):
         import sys
+        import shutil
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
+            package = root / 'qiuzhao'; collector = package / 'collector'
+            collector.mkdir(parents=True)
+            (package / '__init__.py').write_text('')
+            (collector / '__init__.py').write_text('')
+            (package / 'normalize.py').write_text('def normalize_records(rows): return {}\n')
+            shutil.copyfile(p.__file__, collector / 'p1_pipeline.py')
+            fixture = p.blocked('offline fixture adapter dispatched')
+            (collector / 'p1_sources_01_10.py').write_text(
+                'def collect(company, scope, output_dir): return ' + repr(fixture) + '\n')
             proc = subprocess.run([sys.executable, '-m', 'qiuzhao.collector.p1_pipeline',
-                '--data-dir', str(root), '--run-dir', str(root / 'run'),
+                '--data-dir', str(root / 'data'), '--run-dir', str(root / 'run'),
                 '--companies', '拼多多', '--scopes', 'social'],
-                cwd=Path(__file__).resolve().parents[1], capture_output=True, text=True, timeout=30)
+                cwd=root, capture_output=True, text=True, timeout=30)
             self.assertEqual(proc.returncode, 1)
-            status = json.loads((root / 'p1-status.json').read_text())
+            status = json.loads((root / 'data' / 'p1-status.json').read_text())
             errors = status['results']['拼多多/social']['coverage']['errors']
-            self.assertTrue(any('Official social recruitment endpoint not verified' in e for e in errors), errors)
+            self.assertIn('offline fixture adapter dispatched', errors)
 
     def test_legacy_uuid_adoption_requires_unique_same_company_and_scope(self):
         ident = '093114fd-38fa-497b-ac5a-8a8f47777708'
