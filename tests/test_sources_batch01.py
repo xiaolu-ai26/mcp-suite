@@ -55,10 +55,10 @@ class CollectorTests(unittest.TestCase):
   calls=[{'total':'2','list':[{'id':'a'}]}, {'id':'a','normal':True,'name':'岗位','jobDuty':'职责','serveRequirement':'要求'}, {'total':'2','list':[{'id':'a'}]}]
   with tempfile.TemporaryDirectory() as d,patch.object(m,'request_json',side_effect=calls):
    r=m.collect('pdd','campus',Path(d));self.assertFalse(r['coverage']['complete']);self.assertEqual(r['coverage']['status'],'partial')
- def test_detail_missing_requirements_not_publish(self):
+ def test_missing_requirements_keeps_real_duties(self):
   calls=[{'total':'1','list':[{'id':'a'}]}, {'id':'a','normal':True,'name':'岗位','jobDuty':'职责'}]
   with tempfile.TemporaryDirectory() as d,patch.object(m,'request_json',side_effect=calls):
-   r=m.collect('pdd','campus',Path(d));self.assertFalse(r['coverage']['complete']);self.assertEqual(r['jobs'],[])
+   r=m.collect('pdd','campus',Path(d));self.assertEqual(len(r['jobs']),1);self.assertIn('职责',r['jobs'][0]['description_raw'])
  def test_unknown_social_never_success_zero(self):
   from unittest.mock import MagicMock
   response=MagicMock(status_code=400,text='{"success":false,"errorCode":400023}')

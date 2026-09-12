@@ -35,6 +35,15 @@ def request_json(session,url,body,iv=None):
 
 def job(company,scope,ident,title,url,description,location='',raw=None):
     record={'id':f'p1:{company}:{ident}','source_record_id':str(ident),'title':title,'job_title':title,'education_raw':'','major_requirements_raw':'','cohort_raw':'','reviewed_at':datetime.now(timezone.utc).isoformat(),'company':COMPANIES.get(company,company),'company_name':COMPANIES.get(company,company),'company_slug':company,'unit':COMPANIES.get(company,company),'recruitment_unit':COMPANIES.get(company,company),'recruitment_type':TYPES[scope],'source_url':url,'detail_url':url,'application_url':url,'description_raw':text(description),'location':location,'city':location,'cities':[x.strip() for x in re.split(r'\s*/\s*|[，,、;；]',location) if x.strip()],'source':'official_career','verified_at':datetime.now(timezone.utc).isoformat(),'source_fields':{k:v for k,v in (raw or {}).items() if k in {'id','hireMode','commitment','education','degree','major','workExperience','graduationYear','recruitType','recruitmentType','projectName','publishedAt','releaseTime','deadline','endDate'} and len(str(v))<500}}
+    original_cities=list(record['cities']);cleaned=[]
+    for value in original_cities:
+        city=value.rsplit('·',1)[-1].strip()
+        if re.search(r'(?:省|自治区|特别行政区)-',city):city=city.rsplit('-',1)[-1].strip()
+        municipal=re.match(r'^(北京|上海|天津|重庆)(?:市|.{0,12}[区县])?$',city)
+        if municipal:city=municipal.group(1)
+        elif city.endswith('市'):city=city[:-1]
+        if city and city not in cleaned:cleaned.append(city)
+    record['cities_source_raw']=original_cities;record['cities']=cleaned;record['cities_normalized']=cleaned
     fields=raw or {}
     record['education_raw']=text(fields.get('education') or fields.get('degree') or fields.get('Degree') or fields.get('Education') or '')
     record['major_requirements_raw']=text(fields.get('major') or fields.get('majorRequirement') or '')
@@ -50,6 +59,12 @@ def job(company,scope,ident,title,url,description,location='',raw=None):
         if not record['education_raw']:record['education_raw']='；'.join(x for x in sentences if re.search(r'本科|硕士|博士|大专|专科|学历|中专|高中|bachelor|master|ph\.?d',x,re.I))
         if not record['major_requirements_raw']:record['major_requirements_raw']='；'.join(x for x in sentences if re.search(r'专业|major|degree in',x,re.I))
         record['requirements_field_evidence']='Verbatim explicit requirements sentences or official structured field'
+    pairs=[('jobDuty','serveRequirement'),('jobDuty','workRequire'),('positionDesc','positionRequire'),('duty','qualification'),('description','positionDemand'),('Duty','Require'),('jobDescription','jobRequirement'),('workContent','serviceCondition'),('mainBusiness','jobRequire'),('duty','requirement'),('Duty','Requirement')]
+    selected_pair=next((pair for pair in pairs if all(k in fields for k in pair)),None)
+    if selected_pair:
+        record['source_missing_fields']=[k for k in selected_pair if not text(fields.get(k))]
+        record['field_completeness']={selected_pair[0]:'provided' if text(fields.get(selected_pair[0])) else 'not_disclosed',selected_pair[1]:'provided' if text(fields.get(selected_pair[1])) else 'not_disclosed'}
+    else:record['source_missing_fields']=[];record['field_completeness']={'combined_description':'provided' if record['description_raw'] else 'not_disclosed'}
     return record
 
 def coverage(url):
@@ -89,10 +104,10 @@ def collect_pdd(scope,output_dir):
                 if ident in seen:raise ValueError('Repeated job ID across pages')
                 seen.add(ident)
                 detail=request_json(s,'https://careers.pddglobalhr.com/api/careers/api/recruit/position/detail',{'id':ident})
-                if detail.get('id')!=ident or not detail.get('normal') or not detail.get('serveRequirement') or not detail.get('jobDuty'):raise ValueError(f'Incomplete detail: {ident}')
+                if detail.get('id')!=ident or not detail.get('normal') or not (text(detail.get('serveRequirement')) or text(detail.get('jobDuty'))):raise ValueError(f'Incomplete detail: {ident}')
                 (output_dir/f'detail-{ident}.json').write_text(json.dumps(detail,ensure_ascii=False))
                 url=f'{entry}/detail?positionId={ident}'
-                j=job('pdd',scope,ident,detail['name'],url,detail['jobDuty']+'\n任职要求\n'+detail['serveRequirement'],detail.get('workLocationName',''),detail)
+                j=job('pdd',scope,ident,detail['name'],url,str(detail.get('jobDuty') or '')+'\n任职要求\n'+str(detail.get('serveRequirement') or ''),detail.get('workLocationName',''),detail)
                 if row.get('graduationYear'):j['cohort_raw']=str(row['graduationYear'])+'届';j['graduation_year_raw']=str(row['graduationYear']);j['graduation_evidence']='official API graduationYear'
                 j['scope_evidence']=f'Official {entry}, API {endpoint}'
                 jobs.append(j)
@@ -298,20 +313,21 @@ def collect_kuaishou_experienced(scope,output_dir):
         if not all(code in str(dictionary) for code in ['C001','C002']):raise ValueError('Official position nature dictionary changed')
         selected=[];seen=set();total=None
         for page in range(1,10001):
-            d=read('api/v1/open/positions/simple',{'pageNum':page,'pageSize':50});(output_dir/f'list-{page}.json').write_text(json.dumps(d,ensure_ascii=False));c['pages_scanned']+=1
+            d=read('api/v1/open/positions/simple',{'pageNum':page,'pageSize':50,'orderFields_0_name':'id','orderFields_0_orderBy':'ASC'});(output_dir/f'list-{page}.json').write_text(json.dumps(d,ensure_ascii=False));c['pages_scanned']+=1
             rows=d['list'] or [];n=d['total']
             if total is not None and n!=total:raise ValueError('Kuaishou social total changed')
             total=n
             for row in rows:
                 ident=row['id']
-                if ident in seen:raise ValueError('Repeated Kuaishou social page ID')
+                if ident in seen:
+                    c['errors'].append('Repeated Kuaishou source ID during full scan: '+str(ident));continue
                 seen.add(ident);nature=row.get('positionNatureCode');project=row.get('recruitProjectCode')
                 if project!='socialr' or nature not in ('C001','C002','C003'):raise ValueError(f'Unknown Kuaishou official type {project}/{nature}')
                 actual='intern' if nature=='C002' else 'social'
                 if actual==scope:selected.append(row)
             if not rows or d.get('isLastPage') is True or d.get('pages')==page:
                 c['last_page_evidence']=f'page={page};official_pages={d.get("pages")};unique={len(seen)};total={total}';break
-        if len(seen)!=total:raise ValueError('Kuaishou social incomplete list')
+        if len(seen)!=total:c['errors'].append(f'Kuaishou source count mismatch unique={len(seen)}, official={total}')
         c['expected_total']=len(selected);c['list_total']=total;c['pagination_exhausted']=True
         def enrich(row):
             ident=row['id'];d=read('api/v1/open/positions/find',{'id':ident});(output_dir/f'detail-{ident}.json').write_text(json.dumps(d,ensure_ascii=False))
@@ -629,6 +645,14 @@ def collect_access_probe(company,scope,output_dir):
         c['blocking_kind']='upstream_access' if r.status_code>=400 or response.get('success') is False or str(response.get('state',''))=='500' or response.get('code')==1 else 'adapter_discovery'
         c['errors']=[f'Official public endpoint HTTP {r.status_code}: {summary}; no verified complete job list']
         if company=='huawei' and r.status_code==200:c['blocking_kind']='adapter_discovery';c['errors'].append('Legacy list responds but current campus/intern/social project coverage and detail contract remain unverified; not an upstream access block')
+        if company=='pdd':
+            c['blocking_kind']='upstream_public_list_error'
+            latest=session.post('https://careers.pddglobalhr.com/api/recruit/position/latest_list',json={},timeout=(10,25));latest.raise_for_status();data=latest.json();(output_dir/'latest-public-index.json').write_text(json.dumps(data,ensure_ascii=False))
+            if data.get('success'):
+                index={str(x['code']):x for field in ['latestPositionList','hottestPositionList'] for x in (data.get('result') or {}).get(field,[])}
+                c['pending_details']=[{'source_record_id':'pdd-social:'+code,'title':row['name'],'detail_url':'https://careers.pddglobalhr.com/jobs/detail?code='+code,'evidence_file':'latest-public-index.json','reason':'Public hot/latest index visible; complete detail and main-list coverage not verified'} for code,row in index.items()]
+                c['detail_missing_count']=len(index);c['observed_index_count']=len(index);c['evidence'].append('latest-public-index.json');c['evidence_files'].append('latest-public-index.json')
+
     except Exception as exc:c['errors']=[str(exc)];c['blocking_kind']='upstream_access'
     return finish([],c)
 
