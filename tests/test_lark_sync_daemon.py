@@ -2,11 +2,16 @@ from pathlib import Path
 from qiuzhao.collector import lark_sync_daemon as D
 
 
+def local_run(path,monkeypatch):
+    monkeypatch.setattr(D,'external_runs_ready',lambda state,runs:state/'runs')
+    return D.run(path)
+
+
 def test_unchanged_source_does_not_read_or_write_base(tmp_path,monkeypatch):
     D.S.save(tmp_path/'status.json',{'status':'success','last_source_sha256':'a'*64,'last_success_at':'before'})
     monkeypatch.setattr(D,'source_hash',lambda:'a'*64)
     monkeypatch.setattr(D,'capture_source',lambda out: (_ for _ in ()).throw(AssertionError('unexpected snapshot')))
-    result=D.run(tmp_path)
+    result=local_run(tmp_path,monkeypatch)
     assert result['status']=='unchanged' and result['last_success_at']=='before'
 
 
@@ -14,7 +19,7 @@ def test_auth_or_network_failure_is_recorded_without_losing_last_success(tmp_pat
     D.S.save(tmp_path/'status.json',{'status':'success','last_source_sha256':'a'*64,'last_success_at':'before'})
     def fail():raise RuntimeError('SSH unavailable')
     monkeypatch.setattr(D,'source_hash',fail)
-    try:D.run(tmp_path)
+    try:local_run(tmp_path,monkeypatch)
     except RuntimeError:pass
     result=__import__('json').loads((tmp_path/'status.json').read_text())
     assert result['status']=='failed' and result['last_success_at']=='before'
@@ -54,7 +59,7 @@ def test_capacity_pending_runs_conditions_but_never_commits_source_hash(tmp_path
                 D.S.save(out/'append-status.json',{'finished':False,'capacity_blocked':{'table':{'job_ids':['missing']}}})
         def wait(self,timeout):return 0
     monkeypatch.setattr(D.subprocess,'Popen',Child)
-    result=D.run(tmp_path)
+    result=local_run(tmp_path,monkeypatch)
     assert phases[-1]=='--explain'
     assert result['status']=='partial' and 'last_source_sha256' not in result
     assert Path(result['run_dir'],'source.jobs.json').exists()

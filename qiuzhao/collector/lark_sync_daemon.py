@@ -77,6 +77,8 @@ def external_runs_ready(state_dir,runs_dir):
     if not alias.is_symlink() or alias.resolve()!=runs_dir.resolve():
         raise RuntimeError('external runs alias is not configured; no local fallback')
     if not runs_dir.is_dir():raise RuntimeError('external runs directory is unavailable')
+    if not runs_dir.resolve().is_relative_to(mount.resolve()) or runs_dir.stat().st_dev!=mount.stat().st_dev:
+        raise RuntimeError('runs directory is not physically on the approved external mount')
     return alias
 
 
@@ -90,7 +92,7 @@ def run(state_dir,runs_dir=None):
         state={**previous,'last_attempt_at':now(),'status':'checking','error':None,'finished_at':None}
         S.save(status_path,state)
         try:
-            runs_root=external_runs_ready(state_dir,Path(runs_dir)) if runs_dir is not None else state_dir/'runs'
+            runs_root=external_runs_ready(state_dir,Path(runs_dir) if runs_dir is not None else DEFAULT_RUNS)
             observed=source_hash();state['observed_source_sha256']=observed
             if observed==previous.get('last_source_sha256') and previous.get('last_success_at'):
                 state.update(status='unchanged',finished_at=now());S.save(status_path,state);return state
