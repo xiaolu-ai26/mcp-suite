@@ -48,7 +48,7 @@ def collect(company:str,scope:str,output_dir:Path)->dict:
     missing=EXPECTED-set(by_path)
     if missing:errors.append('Previously verified official recruitment portals missing from current navigation: '+','.join(sorted(missing)))
     ordered=[p for p in PRIORITY if p in by_path]+sorted(set(by_path)-set(PRIORITY))
-    sites=[{'url':by_path[p]+'/position/list','tenant_names':[TENANT],'tenant_id_md5':TENANT_MD5} for p in ordered]
+    sites=[{'url':by_path[p]+'/position/list','tenant_names':[TENANT],'tenant_id_md5':TENANT_MD5,'portal_type':6} for p in ordered]
     if sites:
         result=collect_feishu(company,scope,sites,out)
     else:
