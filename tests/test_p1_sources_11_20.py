@@ -109,3 +109,38 @@ class BilibiliAnonymousTests(unittest.TestCase):
   from pathlib import Path
   with tempfile.TemporaryDirectory() as d:
    with self.assertRaisesRegex(ValueError,'duplicate'):self.run_source(Path(d),duplicate=True)
+
+class BaiduPublicTests(unittest.TestCase):
+ def test_anonymous_required_headers_and_detail_identity(self):
+  import tempfile
+  from pathlib import Path
+  from unittest.mock import patch
+  from qiuzhao.collector.p1_sources_11_20 import _baidu,Fetcher
+  class R:
+   def __init__(self,data):self.data=data
+   def raise_for_status(self):pass
+   def json(self):return self.data
+  row={'postId':'p1','jobId':'j1','name':'开发','projectTypeCode':'1','workContent':'真实职责','serviceCondition':''}
+  def post(url,data,headers,**kw):
+   self.assertEqual(data['pageSize'],10);self.assertEqual(headers['Origin'],'https://talent.baidu.com');self.assertIn('GRADUATE',headers['Referer'])
+   return R({'status':'ok','data':{'pageNum':1,'pageSize':10,'total':1,'list':[row]}})
+  def get(url,params,**kw):return R({'status':'ok','data':{**row,'jobId':'WRONG'}})
+  with tempfile.TemporaryDirectory() as out,patch('qiuzhao.collector.p1_sources_11_20.requests.post',post),patch('qiuzhao.collector.p1_sources_11_20.requests.get',get):
+   c={'errors':[],'pages_scanned':0};rows=_baidu('百度','campus',Fetcher(Path(out)),c)
+  self.assertEqual(rows,[]);self.assertTrue(any('identity' in e for e in c['errors']))
+
+class CtripScopeTests(unittest.TestCase):
+ def test_explicit_campus_title_and_long_term_internship_are_not_lost(self):
+  import tempfile,json
+  from pathlib import Path
+  from qiuzhao.collector.p1_sources_11_20 import _ctrip
+  with tempfile.TemporaryDirectory() as directory:
+   class F:
+    def get(self,url,name,payload):
+     rows=[]
+     if 'oversea' in url:
+      rows=[{'id':'a','jobId':'a','fromId':'a','jobTitle':'Campus Recruitment - Global Trainee','kind':None,'requirements':'2027 graduates welcome','atsApiType':'Moka_Overseas'}, {'id':'b','jobId':'b','fromId':'b','jobTitle':'Marketing Intern','kind':'Intern_Long_Term','requirements':'Current student','atsApiType':'Moka_Overseas'}]
+     p=Path(directory)/(name+'.json');p.write_text('{}');return json.dumps({'retCode':201,'retValue':{'total':len(rows),'recruitJobAdList':rows}}),str(p)
+   for scope,expected in [('campus','a'),('intern','b')]:
+    c={'errors':[],'pages_scanned':0};rows=_ctrip('携程',scope,F(),c)
+    self.assertEqual([r['source_record_id'] for r in rows],[expected]);self.assertFalse(c['errors'])
