@@ -16,12 +16,38 @@ def save(p,obj):
 def job(company,slug,ident,title,url,description,scope,evidence,**kw):
  j=dict(id=f'{slug}-{ident}',source_record_id=str(ident),recruitment_unit=company,contracting_entity='',job_title=title,job_category='',cities=[],major_requirements_raw='',major_tags=[],education_raw='',cohort_raw='',deadline=None,deadline_type='undisclosed',status='open',application_url=url,detail_url=url,source_url=url,published_at=None,reviewed_at=dt.datetime.now(dt.timezone.utc).isoformat(),source_name=company+'官方招聘',evidence_path=evidence,description_raw=description,recruitment_type=TYPES[scope]);j.update(kw)
  if j.get('campaign_name'):j['batch_name']=j['campaign_name']
+ if 'source_missing_fields' in j:j['field_completeness']={name:('source_not_disclosed' if name in j['source_missing_fields'] else 'source_disclosed') for name in ['description','requirement']}
  lines=[x.strip() for x in re.split(r'[\n。；]',description) if x.strip()]
  if not j['major_requirements_raw']:
   j['major_requirements_raw']='；'.join(x for x in lines if re.search(r'相关专业|专业(?:优先|不限)|专业背景[：:]|(?:degree|major)\s+in\b',x,re.I))
  if not j['education_raw']:
   j['education_raw']='；'.join(x for x in lines if re.search(r'博士|硕士|本科|大专|专科|研究生|bachelor|master.?s|ph\.?d',x,re.I) and re.search(r'学历|学位|在读|以上|优先|毕业|degree|bachelor|master.?s|ph\.?d',x,re.I))
  return j
+def role_body(description,requirement):
+ d,q=clean(description),clean(requirement)
+ missing=[name for name,value in [('description',d),('requirement',q)] if not value]
+ if not q and re.search(r'岗位要求|工作要求|任职要求|任职资格|qualification|requirements',d,re.I):missing.remove('requirement')
+ if not d and re.search(r'岗位职责|工作职责|responsibilit|job description|duties',q,re.I):missing.remove('description')
+ combined='\n\n'.join(x for x in [d,q] if x)
+ if not combined:raise ValueError('Official responsibilities and requirements both absent')
+ if re.match(r'^(?:公司简介|企业介绍|团队介绍|关于我们|免责声明|隐私政策|about us|about the company|privacy policy)',combined,re.I) and not re.search(r'岗位职责|任职|资格|负责|参与|responsibilit|requirement|qualification|you will|degree|skills',combined,re.I):
+  raise ValueError('Only company/team/platform introduction, not role evidence')
+ return combined,missing
+
+def graduation_window(raw):
+ if not isinstance(raw,dict) or not raw.get('from') or not raw.get('to'):return ''
+ def date(value):
+  parsed=dt.datetime.fromisoformat(str(value).replace('Z','+00:00'))
+  if parsed.tzinfo is not None:parsed=parsed.astimezone(dt.timezone(dt.timedelta(hours=8)))
+  return parsed.date()
+ start,end=date(raw['from']),date(raw['to'])
+ if start>end:raise ValueError('Official graduation date range reversed')
+ return f'毕业时间 {start.isoformat()} 至 {end.isoformat()}'
+
+def missing_detail(cov,ident,title,path):
+ pending=cov.setdefault('pending_details',[]);pending.append({'source_record_id':str(ident),'title':title,'evidence_file':path,'reason':'Official role responsibilities/requirements both absent or boilerplate'})
+ cov['detail_missing_count']=len(pending)
+
 class Fetcher:
  def __init__(self,out):self.out=out;self.evidence=[]
  def get(self,url,name,payload=None):
@@ -60,10 +86,12 @@ def _mihoyo(company,scope,f,cov):
  def detail(item):
   typ,ident,r=item;data,path=f.api(api+'/v1/job/info',f'detail-{typ}-{ident}',{'id':ident,'channelDetailIds':[1],'hireType':typ})
   if str(data.get('id'))!=ident or data.get('hireType')!=typ:raise ValueError('detail identity/type mismatch')
-  desc='\n\n'.join(clean(data.get(k)) for k in ('description','jobRequire','addition','deliveryInstructions') if data.get(k))
-  if not clean(data.get('description')):raise ValueError('empty official job responsibilities')
+  try:desc,missing=role_body(data.get('description'),data.get('jobRequire'))
+  except ValueError:
+   missing_detail(cov,ident,data.get('title'),path);raise
+  desc+=''.join('\n\n'+clean(data[k]) for k in ('addition','deliveryInstructions') if data.get(k))
   url='https://jobs.mihoyo.com/#/'+('campus/' if typ else '')+'position/'+ident
-  return job(company,'mihoyo',ident,data['title'],url,desc,scope,path,cities=[x['addressDetail'] for x in data.get('addressDetailList',[])],job_category=data.get('competencyType',''),cohort_raw=data.get('objectName',''),cohort_scope='official_job_object',campaign_name=data.get('projectName',''))
+  return job(company,'mihoyo',ident,data['title'],url,desc,scope,path,source_missing_fields=missing,cities=[x['addressDetail'] for x in data.get('addressDetailList',[])],job_category=data.get('competencyType',''),cohort_raw=data.get('objectName',''),cohort_scope='official_job_object',campaign_name=data.get('projectName',''))
  jobs=[]
  with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
   futures=[pool.submit(detail,x) for x in selected]
@@ -94,12 +122,13 @@ def _ant(company,scope,f,cov):
    if actual is None:raise ValueError('unknown official batchType '+str(r.get('batchType')))
    if actual!=scope:continue
    selected+=1
-   desc='\n\n'.join(clean(r.get(k)) for k in ('description','requirement','teamDescription') if r.get(k))
-   if not clean(r.get('description')) or not clean(r.get('requirement')):
-    cov['errors'].append('incomplete responsibilities/requirements '+ident);continue
+   try:desc,missing=role_body(r.get('description'),r.get('requirement'))
+   except ValueError as e:
+    missing_detail(cov,ident,r.get('name'),path);cov['errors'].append(str(e)+' '+ident);continue
+   if r.get('teamDescription'):desc+='\n\n'+clean(r['teamDescription'])
    url='https://talent.antgroup.com/'+('off-campus-position' if route=='social' else 'campus-position')+'?positionId='+ident
    grad=r.get('graduationTime') or {}
-   jobs.append(job(company,'ant',ident,r['name'],url,desc,scope,path,cities=r.get('workLocations') or [],education_raw=r.get('degree') or '',cohort_raw=('毕业时间 '+str(grad['from'])+' 至 '+str(grad['to'])) if grad.get('from') and grad.get('to') else '',cohort_scope='official_job_graduationTime',campaign_name=r.get('batchName') or '',published_at=r.get('publishTime'),job_category=r.get('categoryName') or ''))
+   jobs.append(job(company,'ant',ident,r['name'],url,desc,scope,path,source_missing_fields=missing,cities=r.get('workLocations') or [],education_raw=r.get('degree') or '',cohort_raw=graduation_window(grad),graduation_date_range_raw=grad,graduation_date_timezone='Asia/Shanghai',cohort_scope='official_job_graduationTime',campaign_name=r.get('batchName') or '',published_at=r.get('publishTime'),job_category=r.get('categoryName') or ''))
   if rows_count==total:break
   if not rows or rows_count>total:raise ValueError('pagination count mismatch')
   time.sleep(.15)
@@ -138,24 +167,88 @@ def _anker(company,scope,f,cov):
  jobs=[];selected=[(ident,*v) for (actual,ident),v in all_rows.items() if actual==scope]
  cov.update(expected_total=len(selected),pages_scanned=pages,list_total=len(all_rows),pagination_exhausted=True,last_page_evidence=path,scope_evidence='安克官网公开JS中的5个中英文招聘websiteId；官方job_recruitment_type ID 101/102=全职/外包社会、201=正式校招、202/301=实习（不按所在栏目猜测）。公开列表包含完整description和requirement。')
  for ident,r,site,path in selected:
-  if not clean(r.get('description')) or (not clean(r.get('requirement')) and not re.search(r'岗位要求|任职要求|任职资格|Qualifications|Requirements',r['description'],re.I)):
-   cov['errors'].append('incomplete responsibilities/requirements '+ident);continue
-  desc=clean(r['description'])+'\n\n'+clean(r.get('requirement'));url=f'https://career.anker.com.cn/larkJobDetail/?websiteId={site}&jobId={ident}'
+  if not clean(r.get('description')) and not clean(r.get('requirement')):
+   try:
+    text,path=f.get(f'https://rainbow-recall.anker.com.cn/api/lark/hire/v1/websites/{site}/job_posts/{ident}','detail-'+ident)
+    envelope=json.loads(text)
+    if envelope.get('code')!=0:raise ValueError('Anker detail rejected '+ident)
+    detail=envelope['data']['job_post']
+    if str(detail.get('id'))!=ident:raise ValueError('Anker detail identity mismatch '+ident)
+    keep=['id','title','description','requirement','job_recruitment_type','job_function','address_list','subject','create_time','modify_time','job_code']
+    detail={k:detail.get(k) for k in keep};Path(path).write_text(json.dumps({'code':0,'data':{'job_post':detail}},ensure_ascii=False))
+    if str((detail.get('job_recruitment_type') or {}).get('id'))!=str((r.get('job_recruitment_type') or {}).get('id')):raise ValueError('Anker detail type changed '+ident)
+    r=detail
+   except Exception as e:cov['errors'].append(str(e));continue
+  try:desc,missing=role_body(r.get('description'),r.get('requirement'))
+  except ValueError as e:
+   missing_detail(cov,ident,r.get('title'),path);cov['errors'].append(str(e)+' '+ident);continue
+  url=f'https://career.anker.com.cn/larkJobDetail/?websiteId={site}&jobId={ident}'
   cities=[]
   for a in r.get('address_list') or []:
    n=(a.get('city') or {}).get('name') or {};value=n.get('zh_cn') or n.get('en_us')
    if value and value not in cities:cities.append(value)
-  jobs.append(job(company,'anker',ident,r['title'],url,desc,scope,path,cities=cities,job_category=((r.get('job_function') or {}).get('name') or {}).get('zh_cn',''),cohort_raw='；'.join(re.findall(r'[^。\n]*(?:20\d{2}届|毕业)[^。\n]*',desc)),cohort_scope='official_job_description'))
+  jobs.append(job(company,'anker',ident,r['title'],url,desc,scope,path,source_missing_fields=missing,cities=cities,job_category=((r.get('job_function') or {}).get('name') or {}).get('zh_cn',''),cohort_raw='',cohort_scope='official_job_description'))
  cov['unique_source_ids']=len(jobs)
  return jobs
 
 def _bilibili(company,scope,f,cov):
- route='srs' if scope=='social' else 'campus';typ='0' if scope=='intern' else '3'
- payload={'pageSize':10,'pageNum':1,'workTypeList':[typ],'positionTypeList':[typ],'recruitType':0 if scope=='social' else 1,'onlyHotRecruit':0}
- cov['scope_request']={'company':company,'scope':scope,'source_url':SOURCES['bilibili'],'params':payload}
- text,_=f.get('https://jobs.bilibili.com/api/'+route+'/position/positionList','list-1',payload)
- data=json.loads(text)
- raise ValueError('Official Bilibili list rejected code='+str(data.get('code'))+' message='+str(data.get('message')))
+ # These public guest headers and CSRF handshake are the official web client's
+ # anonymous protocol. Token remains in memory and is never evidence.
+ session=requests.Session();session.headers.update({'User-Agent':'Mozilla/5.0','X-AppKey':'ops.ehr-api.auth','X-UserType':'2','X-Channel':'campus'})
+ token=session.get('https://jobs.bilibili.com/api/auth/v1/csrf/token',timeout=30);token.raise_for_status();data=token.json()
+ if data.get('code')!=0 or not isinstance(data.get('data'),str):raise ValueError('Anonymous public CSRF handshake failed')
+ session.headers['X-CSRF']=data['data']
+ def request(route,ident=None,payload=None):
+  headers={'X-Channel':'social' if route=='srs' else 'campus'}
+  url='https://jobs.bilibili.com/api/'+route+'/position/'+('detail/'+str(ident) if ident is not None else 'positionList')
+  response=session.get(url,headers=headers,timeout=30) if ident is not None else session.post(url,json=payload,headers=headers,timeout=30)
+  response.raise_for_status();raw=response.json()
+  if raw.get('code')!=0:raise ValueError('Official public API rejected '+str(raw.get('code')))
+  data=raw['data']
+  if ident is not None:
+   data={k:v for k,v in data.items() if k not in ['leaderList']}
+   raw={'code':0,'data':data}
+  path=save(f.out/(f'detail-{route}-{ident}.json' if ident is not None else f'list-{route}-{payload["pageNum"]}.json'),raw);f.evidence.append(path)
+  return data,path
+ selected=[];seen=set();total_list=0;requests_used=[]
+ for route in ['campus','srs']:
+  count=0;expected=None;page=1
+  while True:
+   payload={'pageSize':50,'pageNum':page,'positionName':'','postCode':[],'postCodeList':[],'workLocationList':[],'workTypeList':[],'positionTypeList':[],'deptCodeList':[],'recruitType':0 if route=='srs' else None,'practiceTypes':[],'onlyHotRecruit':0}
+   data,path=request(route,payload=payload);cov['pages_scanned']+=1
+   if page==1:requests_used.append({'route':route,'payload':payload});expected=int(data['total']);total_list+=expected
+   elif int(data['total'])!=expected:raise ValueError('Bilibili total changed')
+   batch=data['list']
+   for row in batch:
+    key=(route,str(row['id']))
+    if key in seen:raise ValueError('Bilibili duplicate listing identity')
+    seen.add(key);name=row.get('positionTypeName')
+    actual='intern' if name=='实习' else (('campus' if route=='campus' else 'social') if name=='全职' else None)
+    if actual is None:cov['errors'].append('Unknown official positionTypeName '+str(name))
+    elif actual==scope:selected.append((route,row,path))
+   count+=len(batch)
+   if count==expected:cov['last_page_evidence']=path;break
+   if not batch or count>expected:raise ValueError('Bilibili pagination mismatch')
+   page+=1
+ cov['scope_request']={'company':company,'scope':scope,'source_url':SOURCES['bilibili'],'params':{'requests':requests_used}}
+ cov['scope_evidence']='官方校园/社会两个频道无岗位类型过滤全量枚举；positionTypeName=实习归实习，全职按校园或社会频道；详情类型和ID逐项复核。'
+ cov['expected_total']=len(selected);cov['list_total']=total_list;cov['pagination_exhausted']=True
+ jobs=[];cov['_partial_jobs']=jobs
+ def detail(item):
+  route,row,listing_path=item;ident=str(row['id']);data,path=request(route,ident=ident)
+  if str(data.get('id'))!=ident or data.get('positionTypeName')!=row.get('positionTypeName'):raise ValueError('Bilibili detail identity/type mismatch '+ident)
+  try:desc,missing=role_body(data.get('positionDescription'),'')
+  except ValueError:
+   missing_detail(cov,ident,data.get('positionName'),path);raise
+  url='https://jobs.bilibili.com/'+('campus' if route=='campus' else 'social')+'/positions/'+ident
+  # Graduation UI dates can disagree with explicit role prose; keep dates as raw
+  # metadata and let the canonical parser prioritize actual role requirements.
+  return job(company,'bilibili',route+'-'+ident,data['positionName'],url,desc,scope,path,cities=[x.strip() for x in re.split('[,，、;/]',data.get('workLocation') or '') if x.strip()],source_missing_fields=missing,source_recruitment_type=data.get('positionTypeName'),graduation_date_range_raw={'from':data.get('graduationStartTime'),'to':data.get('graduationEndTime')},published_at=data.get('pushTime'),listing_evidence_path=listing_path)
+ with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
+  for future in concurrent.futures.as_completed([pool.submit(detail,x) for x in selected]):
+   try:jobs.append(future.result())
+   except Exception as e:cov['errors'].append(str(e))
+ cov['unique_source_ids']=len(jobs);session.close();return jobs
 
 def _baidu(company,scope,f,cov):
  typ={'campus':'GRADUATE','intern':'INTERN','social':'SOCIAL'}[scope]
@@ -174,11 +267,11 @@ def _baidu(company,scope,f,cov):
  cov.update(pages_scanned=1,list_total=data['total'],scope_evidence='官方recruitType '+typ+'；SSR只返回首页10条，翻页接口no-auth，不声称全量。')
  jobs=[]
  for r in data['listDetailData']:
-  if not r.get('workContent') or not r.get('serviceCondition'):continue
+  try:desc,missing=role_body(r.get('workContent'),r.get('serviceCondition'))
+  except ValueError:continue
   ident=r['postId'];url='https://talent.baidu.com/jobs/detail/'+typ+'/'+ident
-  desc=clean(r['workContent'])+'\n\n'+clean(r['serviceCondition'])
   cohort=next((x.get('subtitle','') for x in data.get('listConfig',[]) if x.get('recruitType')==typ),'')
-  jobs.append(job(company,'baidu',ident,r['name'],url,desc,scope,path,cities=[r['workPlace']] if r.get('workPlace') else [],cohort_raw=cohort if scope!='social' else '',cohort_scope='campaign_announcement',education_raw=r.get('education',''),published_at=r.get('publishDate'),job_category=r.get('postType','')))
+  jobs.append(job(company,'baidu',ident,r['name'],url,desc,scope,path,source_missing_fields=missing,cities=[r['workPlace']] if r.get('workPlace') else [],cohort_raw=cohort if scope!='social' else '',cohort_scope='campaign_announcement',education_raw=r.get('education',''),published_at=r.get('publishDate'),job_category=r.get('postType','')))
  cov['errors'].append('Only official SSR first page is accessible; full pagination not verified')
  return jobs
 
@@ -215,8 +308,10 @@ def _didi(company,scope,f,cov):
   r=d['data']
   if str(r.get('recruitType'))!='1':raise ValueError('Didi detail scope mismatch '+ident)
   if not r.get('jdNo') or r['jdNo']!=rows[ident].get('jdNo'):raise ValueError('Didi detail JD number mismatch '+ident)
-  if not r.get('jobDesc') or not r.get('qualification'):raise ValueError('Didi incomplete detail '+ident)
-  return job(company,'didi',ident,r['jobName'],'https://talent.didiglobal.com/social/p/'+ident,clean(r['jobDesc'])+'\n\n'+clean(r['qualification']),scope,path,cities=[r['workArea']] if r.get('workArea') else [],job_category=r.get('jobType',''),published_at=r.get('publishTime'),cohort_raw='')
+  try:desc,missing=role_body(r.get('jobDesc'),r.get('qualification'))
+  except ValueError:
+   missing_detail(cov,ident,r.get('jobName'),path);raise
+  return job(company,'didi',ident,r['jobName'],'https://talent.didiglobal.com/social/p/'+ident,desc,scope,path,source_missing_fields=missing,cities=[r['workArea']] if r.get('workArea') else [],job_category=r.get('jobType',''),published_at=r.get('publishTime'),cohort_raw='')
  jobs=[]
  with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
   futures=[pool.submit(detail,k) for k in rows]
@@ -274,7 +369,7 @@ def _lenovo(company,scope,f,cov):
   if not desc:raise ValueError('Lenovo empty job description '+ident)
   title_el=soup.select_one('.banner__text__title');title=title_el.get_text(' ',strip=True) if title_el else title
   plain=soup.get_text(' ',strip=True);city=re.search(r'City:\s*(.+?)\s*Date:',plain)
-  return job(company,'lenovo',ident,title,url,desc,scope,path,cities=[city.group(1)] if city else [],cohort_raw='；'.join(re.findall(r'[^。\n]*(?:20\d{2}届|毕业|新卒)[^。\n]*',desc)),cohort_scope='official_job_description')
+  return job(company,'lenovo',ident,title,url,desc,scope,path,cities=[city.group(1)] if city else [],cohort_raw='',cohort_scope='official_job_description')
  jobs=[]
  with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
   for result in [pool.submit(detail,x) for x in rows.items()]:
@@ -302,10 +397,12 @@ def _hikvision(company,scope,f,cov):
     if ident in seen:raise ValueError('Hikvision campus duplicate ID')
     seen.add(ident)
     if r.get('jobNature')!=('校招应届生' if scope=='campus' else '校招实习生'):cov['errors'].append('Hikvision source type mismatch '+ident);continue
-    if not r.get('postContent') or not r.get('postRequire'):cov['errors'].append('Hikvision incomplete job detail '+ident);continue
-    desc=clean(r['postContent'])+'\n\n'+clean(r['postRequire']);detail=f'https://campushr.hikvision.com/JobDetails.html?id={ident}&type={r["mergeType"]}'
+    try:desc,missing=role_body(r.get('postContent'),r.get('postRequire'))
+    except ValueError as e:
+     missing_detail(cov,ident,r.get('postAdName'),path);cov['errors'].append(str(e)+' '+ident);continue
+    detail=f'https://campushr.hikvision.com/JobDetails.html?id={ident}&type={r["mergeType"]}'
     cohort='；'.join(re.findall(r'[^。\n]*(?:20\d{2}届|毕业)[^。\n]*',desc))
-    jobs.append(job(company,'hikvision',ident,r['postAdName'],detail,desc,scope,path,cities=r.get('workPlaceList') or [],cohort_raw=cohort,campaign_name=r.get('batchName') or '',cohort_scope='official_job_description',job_category=r.get('postAdSn') or '',education_raw=r.get('requiireEdu') or ''))
+    jobs.append(job(company,'hikvision',ident,r['postAdName'],detail,desc,scope,path,source_missing_fields=missing,cities=r.get('workPlaceList') or [],cohort_raw='',campaign_name=r.get('batchName') or '',cohort_scope='official_job_description',job_category=r.get('postAdSn') or '',education_raw=r.get('requiireEdu') or ''))
    if len(seen)==total:break
    if not rows or len(seen)>total:raise ValueError('Hikvision campus pagination mismatch')
   else:raise ValueError('Hikvision campus pagination limit')
@@ -334,8 +431,10 @@ def _hikvision(company,scope,f,cov):
    raw=data['data']['ad'];keep=['postName','recruitType','company','department','locationDesc','workingYears','postDesc','qualifications','education','adIdStr','postIdStr','createdon','modifiedon','endTime']
    r={k:raw.get(k) for k in keep};path=save(f.out/('society-detail-'+ident+'.json'),{'request':{'adIdStr':ident,'companyId':company_id},'ad':r});f.evidence.append(path)
    if r['adIdStr']!=ident or str(r['recruitType'])!=typ:raise ValueError('Hikvision detail identity/scope mismatch '+ident)
-   if not r.get('postDesc') or not r.get('qualifications'):raise ValueError('Hikvision incomplete social detail '+ident)
-   desc=clean(r['postDesc'])+'\n\n'+clean(r['qualifications']);j=job(company,'hikvision',ident,r['postName'],host+'/society/position?postId='+ident,desc,scope,path,cities=[r['locationDesc']] if r.get('locationDesc') else [],education_raw=r.get('education') or '',published_at=r.get('createdon'),cohort_raw='；'.join(re.findall(r'[^。\n]*(?:20\d{2}届|毕业)[^。\n]*',desc)),cohort_scope='official_job_description')
+   try:desc,missing=role_body(r.get('postDesc'),r.get('qualifications'))
+   except ValueError:
+    missing_detail(cov,ident,r.get('postName'),path);raise
+   j=job(company,'hikvision',ident,r['postName'],host+'/society/position?postId='+ident,desc,scope,path,source_missing_fields=missing,cities=[r['locationDesc']] if r.get('locationDesc') else [],education_raw=r.get('education') or '',published_at=r.get('createdon'),cohort_raw='',cohort_scope='official_job_description')
    j['recruiting_unit_raw']=r.get('company') or company;return j
   with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
    futures=[pool.submit(detail,x) for x in rows]
@@ -382,24 +481,9 @@ def _ctrip(company,scope,f,cov):
   if route=='global':url=host+'/#/job-detail?'+requests.compat.urlencode({'fromId':r['fromId'],'atsApiType':r.get('atsApiType') or ''})
   else:url=host+'/#/'+('campus' if actual=='campus' else 'experienced')+'/job-detail/'+str(r['fromId'])
   cohort='；'.join(re.findall(r'[^。\n]*(?:20\d{2}届|毕业|20\d{2} Graduates)[^。\n]*',desc,re.I))
-  jobs.append(job(company,'ctrip',ident,r['jobTitle'],url,desc,scope,path,cities=[r['cityName']] if r.get('cityName') else [],job_category=r.get('jobFamilyGroupName') or '',published_at=r.get('publishDate'),cohort_raw=cohort,cohort_scope='official_job_description'))
+  jobs.append(job(company,'ctrip',ident,r['jobTitle'],url,desc,scope,path,cities=[r['cityName']] if r.get('cityName') else [],job_category=r.get('jobFamilyGroupName') or '',published_at=r.get('publishDate'),cohort_raw='',cohort_scope='official_job_description'))
  cov.update(expected_total=selected,list_total=len(rows),scope_evidence='携程官网condition.category2为校招、1为社会；kind3及Intern_Short_Term为实习。海外官网Regular为社会；未写类型不猜。所有列表返回完整requirements正文。',scope_request={'company':company,'scope':scope,'source_url':SOURCES['ctrip'],'params':{'sources':[{'host':h,'endpoint':e,'condition':c} for h,e,c,r in sources],'pager_size':100}})
  return jobs
-
-def _external_blocker(company,scope,f,cov,slug):
- if slug=='ctrip':
-  text,path=f.get('https://careers.trip.com/','official-entry')
-  if 'whaleguard' in text.lower():raise ValueError('Official Trip.com recruitment returns whaleguard block; no public job payload')
-  raise ValueError('Official recruitment response changed; investigate public ATS contract before accepting jobs')
- route='social' if scope=='social' else 'campus'
- entry='https://arashivision.jobs.feishu.cn/'+route
- f.get(entry,'official-feishu-entry')
- params={'keyword':'','limit':10,'offset':0,'job_category_id_list':[],'tag_id_list':[],'location_code_list':[],'subject_id_list':[],'recruitment_id_list':[],'portal_type':2,'job_function_id_list':[],'storefront_id_list':[]}
- cov['scope_request']={'company':company,'scope':scope,'source_url':entry,'params':params}
- response=requests.post('https://arashivision.jobs.feishu.cn/api/v1/search/job/posts',json=params,headers={'website-path':route,'Referer':entry},timeout=30)
- path=save(f.out/'public-api-response.json',{'http_status':response.status_code,'response_text':response.content.decode('utf-8','replace'),'website_path':route});f.evidence.append(path)
- response.raise_for_status()
- raise ValueError('Official Feishu public API now accessible; previously HTTP405. Schema must be verified before accepting jobs')
 
 def collect(company:str,scope:str,output_dir:Path)->dict:
  if company not in COMPANIES:raise ValueError('unknown company')
@@ -417,7 +501,10 @@ def collect(company:str,scope:str,output_dir:Path)->dict:
   elif slug=='lenovo':jobs=_lenovo(company,scope,f,cov)
   elif slug=='hikvision':jobs=_hikvision(company,scope,f,cov)
   elif slug=='ctrip':jobs=_ctrip(company,scope,f,cov)
-  elif slug=='insta360':jobs=_external_blocker(company,scope,f,cov,slug)
+  elif slug=='insta360':
+   from qiuzhao.collector.p1_feishu_public import collect_feishu
+   sites=[{'url':'https://arashivision.jobs.feishu.cn/'+path+'/position/list','tenant_names':['影石创新科技股份有限公司'],'portal_type':6} for path in ['campus','social']]
+   result=collect_feishu(company,scope,sites,out);save(out/'candidate.json',result);return result
   else:
    f.get(SOURCES[slug],'official-entry');raise ValueError('Official entry checked; full scoped list/detail contract not yet verified')
  except Exception as e:
@@ -425,6 +512,7 @@ def collect(company:str,scope:str,output_dir:Path)->dict:
  cov.pop('_partial_jobs',None)
  cov['collected_jobs']=len(jobs);cov['evidence']=f.evidence;cov['evidence_files']=f.evidence
  cov.setdefault('scope_request',{'company':company,'scope':scope,'source_url':SOURCES[slug],'params':{'hireType':[1,0],'channelDetailIds':[1]} if slug=='mihoyo' else ({'websiteIds':['6962795203808168199','6962795203808217351','7005456241946331399','7069578816822282503','7268177039772633400'],'page_size':10,'job_function_id_list':[],'city_code_list':[],'keyword':'','job_lang_list':[]} if slug=='anker' else {'route':'social' if scope=='social' else 'campus','pageIndex':1,'pageSize':20,'channel':'group_official_site' if scope=='social' else 'campus_group_official_site','language':'zh_CN'} )})
+ cov['source_missing_field_counts']={name:sum(name in j.get('source_missing_fields',[]) for j in jobs) for name in ['description','requirement']}
  cov['complete']=not cov['errors'] and ((cov['expected_total'] is not None and len(jobs)==cov['expected_total']) or (cov['expected_total'] is None and cov.get('pagination_exhausted') is True and cov.get('unique_source_ids')==len(jobs) and bool(cov.get('last_page_evidence'))))
  cov['detail_complete']=cov['complete'];cov['status']='success' if cov['complete'] else ('partial' if jobs else 'blocked')
  result={'jobs':jobs,'coverage':cov};save(out/'candidate.json',result);save(out/'coverage.json',cov);return result
