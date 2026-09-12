@@ -24,6 +24,7 @@ import uuid
 from urllib.parse import urlsplit
 
 from qiuzhao.normalize import normalize_records
+from qiuzhao.v4_fields import graduation_of
 
 COMPANIES = [
     '拼多多', '大疆', '华为', '小红书', '快手', 'OPPO', 'vivo', '荣耀', '比亚迪', '宁德时代',
@@ -117,6 +118,13 @@ def validate_result(payload, company, scope, evidence_dir=None):
         row['id'] = 'p1-' + hashlib.sha256(f'{company}|{scope}|{source_id}'.encode()).hexdigest()[:24]
         row['p1_identity'] = row['id']
         row['status'] = row.get('status') if row.get('status') in {'open', 'unverified', 'expired'} else 'unverified'
+        years = graduation_of(row)[0]
+        if scope != 'social' and years and max(int(y[:4]) for y in years) < dt.datetime.now(dt.timezone.utc).year - 1:
+            if row['status'] != 'expired':
+                row['status'] = 'unverified'
+            note = '官方列表仍公开，但明确届别较旧；请核验当前是否接受申请。'
+            if note not in str(row.get('status_note') or ''):
+                row['status_note'] = str(row.get('status_note') or '') + note
     complete = coverage.get('complete') is True
     if complete:
         if (coverage.get('status') != 'success' or coverage.get('detail_complete') is not True

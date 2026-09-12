@@ -85,7 +85,7 @@ _SEP = r"\s*(?:至|到|~|～|—|－|-)\s*"
 DATE_WINDOW = re.compile(r"(20\d{2})[-./年](\d{1,2})(?:[-./月](\d{1,2})日?)?" + _SEP + r"(20\d{2})[-./年](\d{1,2})")
 YEAR_RANGE = re.compile(r"(?<!\d)(20\d{2})" + _SEP + r"(20\d{2})\s*年")
 YEAR = re.compile(r"(?<!\d)(20\d{2})(?!\d)")
-VALID_YEARS = range(2024, 2030)
+VALID_YEARS = range(2000, 2100)
 _Y = r"(?<!\d)(20\d{2})(?!\d)"
 
 
@@ -789,14 +789,14 @@ def enum_report(items):
     enums = {"job_category": set(JOB_CATEGORIES), "recruitment_type": set(RECRUITMENT_TYPES),
              "industry": set(INDUSTRIES), "education": set(EDUCATIONS),
              "major_category": set(MAJOR_CATEGORIES) | {"不限", UNSPECIFIED},
-             "graduation_year": set(GRADUATION_YEARS)}
+             "graduation_year": {f"{year}届" for year in VALID_YEARS}}
     problems = []
     for name, allowed in enums.items():
         extra = sorted(present[name] - allowed)
         unused = sorted(allowed - present[name])
         if extra:
             problems.append(f"{name}: 数据里有、枚举里没有 {extra}（这些岗位用该条件查不到）")
-        if unused:
+        if unused and name != "graduation_year":
             problems.append(f"{name}: 枚举里有、数据里没有 {unused}（选了必然 0 条）")
     return {"present": {k: sorted(v) for k, v in present.items()}, "problems": problems}
 

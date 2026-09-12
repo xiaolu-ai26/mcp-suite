@@ -101,7 +101,7 @@ def test_synonyms_normalize_with_notice(qz):
 
 @pytest.mark.parametrize("tool,args,parts", [
     ("jobs_search", {"job_category": "游戏策划"}, ["不在可选范围", "可选：技术/研发", "keyword"]),
-    ("jobs_search", {"graduation_year": "2030届"}, ["graduation_year", "不在可选范围"]),
+    ("jobs_search", {"graduation_year": "2100届"}, ["graduation_year", "不在可选范围"]),
     ("jobs_search", {"graduation_year": "实习未写届别"}, ["recruitment_type"]),
     ("jobs_search", {"education": "高职高专以上"}, ["education", "可选"]),
     ("jobs_search", {"page_size": 0}, ["page_size"]),

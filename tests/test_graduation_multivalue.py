@@ -82,3 +82,20 @@ def test_negative_role_clause_and_unrelated_also_allowed_do_not_expand():
     row={'job_title':'2027届校招','description_raw':'仅限2026届毕业生；无实习经历也可',
          'recruitment_type':'校园招聘'}
     assert graduation_of(row)[0]==['2026届']
+
+
+def test_older_explicit_cohort_is_retained_and_not_unspecified_for_2027(tmp_path):
+    from qiuzhao.v4_fields import graduation_of
+    from qiuzhao.tools import Jobs
+    from qiuzhao.collector.p1_pipeline import validate_result
+    raw={'id':'old','cohort_raw':'2021届提前批','recruitment_type':'校园招聘','source_record_id':'old',
+         'job_title':'研发工程师','description_raw':'2021届本科毕业生','recruitment_unit':'普联',
+         'detail_url':'https://careers.tp-link.com/job/old','status':'open'}
+    assert graduation_of(raw)[0]==['2021届']
+    payload={'jobs':[raw],'coverage':{'status':'partial','complete':False,'collected_jobs':1,'scope_evidence':'official campus channel'}}
+    checked=validate_result(payload,'TP-LINK普联','campus')['jobs'][0]
+    assert checked['status']=='unverified' and '届别较旧' in checked['status_note']
+    path=tmp_path/'jobs.json';path.write_text(json.dumps([checked]))
+    jobs=Jobs(path)
+    assert jobs.search(graduation_year='2027届')['total']==0
+    assert jobs.search(graduation_year='2021届')['total']==1

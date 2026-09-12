@@ -67,10 +67,12 @@ def test_search_and_stats_share_the_same_filters(qz):
 
 def test_enum_values_and_defaults(qz):
     props = qz.list_tools()["jobs_search"]["inputSchema"]["properties"]
-    expected = {"job_category": V.JOB_CATEGORIES, "graduation_year": V.GRADUATION_YEARS + ["未注明"],
+    expected = {"job_category": V.JOB_CATEGORIES,
                 "education": V.EDUCATIONS, "recruitment_type": V.RECRUITMENT_TYPES, "industry": V.INDUSTRIES}
     for name, values in expected.items():
         assert props[name]["type"] == "string" and props[name]["enum"] == [""] + values and props[name]["default"] == ""
+    assert props["graduation_year"]["pattern"] == r"^(?:|20[0-9]{2}届|未注明)$"
+    assert props["graduation_year"]["type"] == "string"
     assert props["sort"]["enum"] == ["published_desc", "deadline_asc"] and props["sort"]["default"] == "published_desc"
     assert props["page_size"] == {**props["page_size"], "type": "integer", "default": 10, "minimum": 1, "maximum": 20}
     assert props["deadline_within_days"]["maximum"] == 366 and props["explicit_only"]["type"] == "boolean"

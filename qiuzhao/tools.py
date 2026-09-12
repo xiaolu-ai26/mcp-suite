@@ -169,7 +169,7 @@ class Jobs:
             if m:
                 v = f"20{m.group(2)}届"
         v = SYNONYMS.get(name, {}).get(v, v)
-        if v not in allowed:
+        if v not in allowed and not (name == "graduation_year" and re.fullmatch(r"20\d{2}届", v)):
             if name == "graduation_year" and raw in (V.NOTE_INTERN, V.NOTE_SOCIAL):
                 hint = "“实习未写届别”“社招不限届别”不是届别：要看这些岗位请改用 recruitment_type。"
             raise ParamError(f"参数 {name} 的值「{raw}」不在可选范围。可选：{'、'.join(allowed)}。{hint}".rstrip())
