@@ -206,9 +206,10 @@ def enrich_dji_campaign(result,output_dir):
     if not app:raise ValueError('DJI campaign app binding missing')
     rr=requests.get(app,timeout=(10,30));rr.raise_for_status();(output_dir/'campaign-app.js').write_text(rr.text)
     if ident not in rr.text:raise ValueError('DJI campaign no longer binds verified job ID')
-    clean=text(page)
-    if not re.search(r'2027\s*届.{0,15}2026\s*届',clean):raise ValueError('DJI campaign cohort evidence changed')
-    target['campaign_cohort_raw']='面向2027届及优秀2026届高校毕业生（理工科背景优先）'
+    meta=re.search(r'<meta name="description" content="([^"]+)"',page)
+    actual=html.unescape(meta.group(1)) if meta else ''
+    if not re.search(r'面向\s*2027\s*届及优秀\s*2026\s*届高校毕业生',actual):raise ValueError('DJI campaign cohort condition changed')
+    target['campaign_cohort_raw']=actual[actual.index('面向'):]
     target['campaign_url']=url
     result['coverage'].setdefault('evidence_files',[]).extend(['campaign-digital.html','campaign-app.js'])
 
