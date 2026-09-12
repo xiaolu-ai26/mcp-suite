@@ -1,5 +1,5 @@
 /* No third-party scripts, no persistent token storage, no credential-bearing URLs.
- * API contract: existing /config, /health, /redeem and /usage; no new server route.
+ * API contract: /config, /health, /redeem, /usage and the public read-only /api/pricing.
  * Quota wording: unlimited calls within the subscription period (no per-call or daily counters shown).
  */
 (function (root) {
@@ -199,8 +199,49 @@
       $('data-status').textContent=text;
     }catch{$('data-status').textContent='暂时无法读取数据状态；不展示估算数量。';}
   }
+  // Early-bird price: tiers, prices and remaining places all come from /api/pricing (the tier table
+  // lives on the server). When it cannot be read, show no price and no remaining count at all.
+  const yuan=n=>'¥'+Number(n).toLocaleString('zh-CN',{maximumFractionDigits:2});
+  function pricingShape(d){
+    const n=v=>Number.isSafeInteger(v)&&v>=0;
+    return !!d&&Number.isFinite(d.standard_price_cny)&&Number.isFinite(d.current_price_cny)&&n(d.sold)&&n(d.remaining)&&
+      Array.isArray(d.tiers)&&d.tiers.length>0&&d.tiers.every(t=>n(t.tier)&&n(t.rank_to)&&Number.isFinite(t.price_cny))&&
+      (!d.early_bird_active||(n(d.current_tier)&&n(d.current_tier_rank_to)));
+  }
+  function tierRow(name,price,state,note){
+    const li=document.createElement('li');li.className='tier'+(state==='current'?' current':state==='done'?' is-muted':'');
+    const label=document.createElement('span');label.className='tier-name';
+    const mark=document.createElement('i');mark.className='tier-mark';mark.setAttribute('aria-hidden','true');
+    if(state==='current'){const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg'),path=document.createElementNS(ns,'path');
+      svg.setAttribute('viewBox','0 0 24 24');path.setAttribute('d','M5 12l5 5L20 7');svg.append(path);mark.append(svg);}
+    label.append(mark,name);
+    if(note){const chip=document.createElement('span');chip.className='chip chip-accent';chip.textContent=note;label.append(chip);}
+    const value=document.createElement('span');value.className='mono';value.textContent=yuan(price)+' /月';
+    li.append(label,value);return li;
+  }
+  function renderPricing(d){
+    const active=d.early_bird_active;
+    $('price-current').textContent=yuan(d.current_price_cny);
+    $('price-standard').textContent='标准价 '+yuan(d.standard_price_cny);$('price-standard').hidden=!active;
+    $('price-chip').textContent=active?'前 '+d.current_tier_rank_to+' 名早鸟价 · 剩 '+d.remaining+' 个名额':'';$('price-chip').hidden=!active;
+    $('price-figure').hidden=false;$('price-status').hidden=true;
+    const rows=d.tiers.map(t=>t.tier===d.current_tier?tierRow('前 '+t.rank_to+' 名',t.price_cny,'current','当前 · 剩 '+d.remaining+' 个名额')
+      :t.rank_to<=d.sold?tierRow('前 '+t.rank_to+' 名 · 已满',t.price_cny,'done'):tierRow('前 '+t.rank_to+' 名',t.price_cny,''));
+    rows.push(tierRow(d.tiers[d.tiers.length-1].rank_to+' 名后恢复标准价',d.standard_price_cny,active?'done':'current',active?'':'当前'));
+    $('tier-list').replaceChildren(...rows);
+  }
+  function pricingUnavailable(text){
+    $('price-chip').hidden=true;$('price-figure').hidden=true;$('price-status').textContent=text;$('price-status').hidden=false;
+    const li=document.createElement('li');li.className='tier is-muted';li.textContent='暂时无法读取早鸟阶梯。';$('tier-list').replaceChildren(li);
+  }
+  async function loadPricing(){
+    if(!$('tier-list'))return;
+    if(isDemo){pricingUnavailable('离线预览不显示实时价格和剩余名额。');return;}
+    try{const d=await request('api/pricing');if(!pricingShape(d))throw new Error('shape');renderPricing(d);}
+    catch{pricingUnavailable('暂时无法读取当前价格和剩余名额，请以购买渠道的报价为准。');}
+  }
   if(document.body.dataset.page!=='redeem')return;
-  renderClients();paintProfile();initializeStatus();
+  renderClients();paintProfile();initializeStatus();loadPricing();
   $('redeem-form').addEventListener('submit',async event=>{
     event.preventDefault();if(busy||key||requestUncertain)return;
     if(isDemo){activate('DEMO_ONLY_NOT_A_VALID_API_KEY',{valid_through:'2026-10-11'});return;}

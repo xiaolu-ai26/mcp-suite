@@ -1,0 +1,333 @@
+{
+  "note": "Throwaway local DB; codes masked. Token never recorded.",
+  "steps": [
+    {
+      "step": "redeem page, 3 sold",
+      "pricing": {
+        "plan": "qiuzhao-2026",
+        "currency": "CNY",
+        "standard_price_cny": 59.9,
+        "tiers": [
+          {
+            "tier": 1,
+            "rank_from": 1,
+            "rank_to": 10,
+            "price_cny": 29.9
+          },
+          {
+            "tier": 2,
+            "rank_from": 11,
+            "rank_to": 50,
+            "price_cny": 39.9
+          },
+          {
+            "tier": 3,
+            "rank_from": 51,
+            "rank_to": 100,
+            "price_cny": 49.9
+          }
+        ],
+        "sold": 3,
+        "early_bird_active": true,
+        "current_tier": 1,
+        "current_tier_rank_to": 10,
+        "current_price_cny": 29.9,
+        "remaining": 7
+      },
+      "visible": {
+        "chip": "前 10 名早鸟价 · 剩 7 个名额",
+        "price": "¥29.9",
+        "standard": "标准价 ¥59.9",
+        "status": null,
+        "tiers": [
+          {
+            "text": "前 10 名当前 · 剩 7 个名额¥29.9 /月",
+            "class": "tier current"
+          },
+          {
+            "text": "前 50 名¥39.9 /月",
+            "class": "tier"
+          },
+          {
+            "text": "前 100 名¥49.9 /月",
+            "class": "tier"
+          },
+          {
+            "text": "100 名后恢复标准价¥59.9 /月",
+            "class": "tier is-muted"
+          }
+        ]
+      }
+    },
+    {
+      "step": "admin overview",
+      "visible": {
+        "stat-total": "9",
+        "stat-redeemed": "5",
+        "stat-pending": "4",
+        "stat-formal-total": "5",
+        "stat-formal-sub": "已兑换 3 · 未兑换 2",
+        "stat-test-total": "4",
+        "stat-test-sub": "已兑换 2 · 未兑换 2",
+        "stat-early-sold": "已售 3",
+        "stat-early-sub": "当前第 1 档，剩 7 个名额 · ¥29.9/月"
+      }
+    },
+    {
+      "step": "filter formal",
+      "rows": [
+        {
+          "kind": "正式",
+          "status": "未兑换",
+          "delete_button": false,
+          "action": "不可删除"
+        },
+        {
+          "kind": "正式",
+          "status": "未兑换",
+          "delete_button": false,
+          "action": "不可删除"
+        },
+        {
+          "kind": "正式",
+          "status": "已兑换",
+          "delete_button": false,
+          "action": "不可删除"
+        },
+        {
+          "kind": "正式",
+          "status": "已兑换",
+          "delete_button": false,
+          "action": "不可删除"
+        },
+        {
+          "kind": "正式",
+          "status": "已兑换",
+          "delete_button": false,
+          "action": "不可删除"
+        }
+      ]
+    },
+    {
+      "step": "filter test",
+      "rows": [
+        {
+          "kind": "测试",
+          "status": "未兑换",
+          "delete_button": true,
+          "action": "删除"
+        },
+        {
+          "kind": "测试",
+          "status": "未兑换",
+          "delete_button": true,
+          "action": "删除"
+        },
+        {
+          "kind": "测试",
+          "status": "已兑换",
+          "delete_button": true,
+          "action": "删除"
+        },
+        {
+          "kind": "测试",
+          "status": "已兑换",
+          "delete_button": true,
+          "action": "删除"
+        }
+      ]
+    },
+    {
+      "step": "filter test + redeemed",
+      "rows": [
+        {
+          "kind": "测试",
+          "status": "已兑换",
+          "delete_button": true,
+          "action": "删除"
+        },
+        {
+          "kind": "测试",
+          "status": "已兑换",
+          "delete_button": true,
+          "action": "删除"
+        }
+      ]
+    },
+    {
+      "step": "delete redeemed test code",
+      "dialog": "确定删除测试码 QZ-… 吗？删除后无法恢复。\n\n该码已兑换，对应的 key 会同时作废，之后用这把 key 的调用都会被拒绝。",
+      "usage_before": 200,
+      "usage_after": 401,
+      "other_test_key_usage": 200
+    },
+    {
+      "step": "delete unredeemed test code",
+      "dialog": "确定删除测试码 QZ-… 吗？删除后无法恢复。"
+    },
+    {
+      "step": "generate formal",
+      "formal_total_before": 5,
+      "cancel": {
+        "dialog": "正式码生成后不能删除，将计入早鸟名额（兑换成功时计入）。\n\n确定生成 2 个正式码吗？",
+        "message": "已取消，没有生成正式码。",
+        "formal_total_after_cancel": 5
+      },
+      "confirm_dialog": "正式码生成后不能删除，将计入早鸟名额（兑换成功时计入）。\n\n确定生成 2 个正式码吗？",
+      "message": "成功生成 2 个正式兑换码。新码已出现在下方列表中。",
+      "formal_total_after": 7,
+      "kind_select_after": "test"
+    },
+    {
+      "step": "generate test",
+      "dialog_shown": false,
+      "message": "成功生成 1 个测试兑换码。新码已出现在下方列表中。"
+    },
+    {
+      "step": "redeem page, 10 sold",
+      "pricing": {
+        "plan": "qiuzhao-2026",
+        "currency": "CNY",
+        "standard_price_cny": 59.9,
+        "tiers": [
+          {
+            "tier": 1,
+            "rank_from": 1,
+            "rank_to": 10,
+            "price_cny": 29.9
+          },
+          {
+            "tier": 2,
+            "rank_from": 11,
+            "rank_to": 50,
+            "price_cny": 39.9
+          },
+          {
+            "tier": 3,
+            "rank_from": 51,
+            "rank_to": 100,
+            "price_cny": 49.9
+          }
+        ],
+        "sold": 10,
+        "early_bird_active": true,
+        "current_tier": 2,
+        "current_tier_rank_to": 50,
+        "current_price_cny": 39.9,
+        "remaining": 40
+      },
+      "visible": {
+        "chip": "前 50 名早鸟价 · 剩 40 个名额",
+        "price": "¥39.9",
+        "standard": "标准价 ¥59.9",
+        "status": null,
+        "tiers": [
+          {
+            "text": "前 10 名 · 已满¥29.9 /月",
+            "class": "tier is-muted"
+          },
+          {
+            "text": "前 50 名当前 · 剩 40 个名额¥39.9 /月",
+            "class": "tier current"
+          },
+          {
+            "text": "前 100 名¥49.9 /月",
+            "class": "tier"
+          },
+          {
+            "text": "100 名后恢复标准价¥59.9 /月",
+            "class": "tier is-muted"
+          }
+        ]
+      }
+    },
+    {
+      "step": "redeem page, 100 sold",
+      "pricing": {
+        "plan": "qiuzhao-2026",
+        "currency": "CNY",
+        "standard_price_cny": 59.9,
+        "tiers": [
+          {
+            "tier": 1,
+            "rank_from": 1,
+            "rank_to": 10,
+            "price_cny": 29.9
+          },
+          {
+            "tier": 2,
+            "rank_from": 11,
+            "rank_to": 50,
+            "price_cny": 39.9
+          },
+          {
+            "tier": 3,
+            "rank_from": 51,
+            "rank_to": 100,
+            "price_cny": 49.9
+          }
+        ],
+        "sold": 100,
+        "early_bird_active": false,
+        "current_tier": null,
+        "current_tier_rank_to": null,
+        "current_price_cny": 59.9,
+        "remaining": 0
+      },
+      "visible": {
+        "chip": null,
+        "price": "¥59.9",
+        "standard": null,
+        "status": null,
+        "tiers": [
+          {
+            "text": "前 10 名 · 已满¥29.9 /月",
+            "class": "tier is-muted"
+          },
+          {
+            "text": "前 50 名 · 已满¥39.9 /月",
+            "class": "tier is-muted"
+          },
+          {
+            "text": "前 100 名 · 已满¥49.9 /月",
+            "class": "tier is-muted"
+          },
+          {
+            "text": "100 名后恢复标准价当前¥59.9 /月",
+            "class": "tier current"
+          }
+        ]
+      }
+    },
+    {
+      "step": "admin overview, 100 sold",
+      "early_bird": "已售 100 / 早鸟名额已满，恢复标准价 ¥59.9/月"
+    },
+    {
+      "step": "redeem page, pricing request fails",
+      "visible": {
+        "chip": null,
+        "price": null,
+        "standard": null,
+        "status": "暂时无法读取当前价格和剩余名额，请以购买渠道的报价为准。",
+        "tiers": [
+          {
+            "text": "暂时无法读取早鸟阶梯。",
+            "class": "tier is-muted"
+          }
+        ]
+      }
+    }
+  ],
+  "console_errors": [
+    "Applying inline style violates the following Content Security Policy directive 'style-src 'self''. Either the 'unsafe-inline' keyword, a hash ('sha256-sDTVVTdkjXu0odG9/7dxvafXBRosBObPFbvPG+uh2PU='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Applying inline style violates the following Content Security Policy directive 'style-src 'self''. Either the 'unsafe-inline' keyword, a hash ('sha256-sDTVVTdkjXu0odG9/7dxvafXBRosBObPFbvPG+uh2PU='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Applying inline style violates the following Content Security Policy directive 'style-src 'self''. Either the 'unsafe-inline' keyword, a hash ('sha256-sDTVVTdkjXu0odG9/7dxvafXBRosBObPFbvPG+uh2PU='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Applying inline style violates the following Content Security Policy directive 'style-src 'self''. Either the 'unsafe-inline' keyword, a hash ('sha256-sDTVVTdkjXu0odG9/7dxvafXBRosBObPFbvPG+uh2PU='), or a nonce ('nonce-...') is required to enable inline execution. Note that hashes do not apply to event handlers, style attributes and javascript: navigations unless the 'unsafe-hashes' keyword is present. The action has been blocked.",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Failed to load resource: net::ERR_FAILED"
+  ]
+}
