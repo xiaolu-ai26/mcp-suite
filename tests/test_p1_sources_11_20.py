@@ -41,3 +41,24 @@ class AntCoverageTests(unittest.TestCase):
     return json.dumps({'success':True,'totalCount':1,'content':[{'id':'1','name':'engineer','teamDescription':'team introduction'}]}),'evidence'
   c={'errors':[],'pages_scanned':0};rows=_ant('蚂蚁集团','social',F(),c)
   self.assertFalse(rows);self.assertTrue(c['errors'])
+
+class FullSourceRegressionTests(unittest.TestCase):
+ def test_didi_different_jd_number_rejects_wrong_detail(self):
+  import json
+  from qiuzhao.collector.p1_sources_11_20 import _didi
+  class F:
+   def get(self,url,name,payload=None):
+    if name.startswith('list'):
+     return json.dumps({'meta':{'code':0},'data':{'total':1,'items':[{'jdId':1,'jdNo':'A'}]}}),'list'
+    if name.startswith('detail'):
+     return json.dumps({'meta':{'code':0},'data':{'recruitType':'1','jdNo':'B','jobDesc':'duties','qualification':'requirements'}}),'detail'
+    raise TimeoutError('global unavailable')
+  c={'errors':[],'pages_scanned':0};rows=_didi('滴滴','social',F(),c)
+  self.assertFalse(rows);self.assertTrue(any('JD number mismatch' in e for e in c['errors']))
+ def test_lenovo_numeric_total_detects_missing_next_page(self):
+  from qiuzhao.collector.p1_sources_11_20 import _lenovo
+  class F:
+   def get(self,*args):
+    return '<p>1-1 of 2 jobs</p><article><h3><a href="https://jobs.lenovo.com/en_US/careers/JobDetail/Role/1">Graduate</a></h3></article>','list'
+  with self.assertRaisesRegex(ValueError,'official total'):
+   _lenovo('联想','campus',F(),{'errors':[],'pages_scanned':0})
