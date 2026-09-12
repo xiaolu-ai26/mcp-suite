@@ -146,3 +146,31 @@ class CtripScopeTests(unittest.TestCase):
    for scope,expected in [('campus','a'),('intern','b')]:
     c={'errors':[],'pages_scanned':0};rows=_ctrip('携程',scope,F(),c)
     self.assertEqual([r['source_record_id'] for r in rows],[expected]);self.assertFalse(c['errors'])
+
+class DidiGlobalTests(unittest.TestCase):
+ def run_global(self,out,body='Build services',wrong=False):
+  from unittest.mock import patch
+  from qiuzhao.collector.p1_sources_11_20 import collect_didi_global
+  class R:
+   def __init__(self,result):self.result=result
+   def raise_for_status(self):pass
+   def json(self):return {'success':True,'result':self.result}
+  def post(url,json,verify,**kw):
+   self.assertEqual(verify,'source-only-validated-bundle');return R([{'id':'1','jobType':'Intern','jobTitle':'Engineering intern'}])
+  def get(url,verify,**kw):return R({'id':'wrong' if wrong else '1','jobType':'Intern','jobTitle':'Engineering intern','roleDetail':body,'eagerDetail':'-','roleInstructions':'Template: write a detailed role here'})
+  with patch('qiuzhao.collector.p1_sources_11_20._didi_trust_bundle',return_value='source-only-validated-bundle'),patch('qiuzhao.collector.p1_sources_11_20.requests.post',post),patch('qiuzhao.collector.p1_sources_11_20.requests.get',get):return collect_didi_global('滴滴','intern',out)
+ def test_source_tls_bundle_and_original_role_body(self):
+  import tempfile
+  from pathlib import Path
+  with tempfile.TemporaryDirectory() as d:r=self.run_global(Path(d))
+  self.assertTrue(r['coverage']['complete']);self.assertEqual(r['jobs'][0]['source_record_id'],'icims:1');self.assertEqual(r['jobs'][0]['source_missing_fields'],['requirement']);self.assertNotIn('Template',r['jobs'][0]['description_raw'])
+ def test_template_instructions_do_not_substitute_role_body(self):
+  import tempfile
+  from pathlib import Path
+  with tempfile.TemporaryDirectory() as d:r=self.run_global(Path(d),body='-')
+  self.assertFalse(r['coverage']['complete']);self.assertEqual(r['jobs'],[]);self.assertEqual(r['coverage']['detail_missing_count'],1)
+ def test_detail_id_mismatch_is_partial(self):
+  import tempfile
+  from pathlib import Path
+  with tempfile.TemporaryDirectory() as d:r=self.run_global(Path(d),wrong=True)
+  self.assertFalse(r['coverage']['complete']);self.assertEqual(r['jobs'],[])
