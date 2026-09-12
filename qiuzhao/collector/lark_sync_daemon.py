@@ -105,6 +105,9 @@ def run(state_dir):
                              capacity_blocked=append_state['capacity_blocked'])
                 S.save(status_path,state)
                 return state
+            if append_state.get('finished') is not True or append_state.get('pending'):
+                raise RuntimeError('append has not reconciled all eligible source IDs')
+            state.pop('capacity_blocked',None)
             state.update(status='success',phase='complete',last_success_at=now(),last_source_sha256=source_sha,
                          finished_at=now(),source_receipt=str(out/'source-receipt.json'))
             S.save(status_path,state)
