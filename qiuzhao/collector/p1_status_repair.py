@@ -31,6 +31,14 @@ def repair_rows(previous,patches):
     return result,changed
 
 
+def evidence_has_status(value,source_id,status):
+    if isinstance(value,dict):
+        if str(value.get('id') or '')==source_id and value.get('status')==status:return True
+        return any(evidence_has_status(v,source_id,status) for v in value.values())
+    if isinstance(value,list):return any(evidence_has_status(v,source_id,status) for v in value)
+    return False
+
+
 def apply(bundle,data_dir):
     bundle=Path(bundle).resolve();data_dir=Path(data_dir);manifest=json.loads((bundle/'patch.json').read_text())
     for rel,digest in manifest['files'].items():
@@ -39,6 +47,9 @@ def apply(bundle,data_dir):
     for patch in manifest['patches']:
         ref=patch['updates']['source_status_evidence']['evidence_file']
         if ref not in manifest['files']:raise ValueError('unhashed status evidence')
+        official=json.loads((bundle/ref).read_text())
+        if not evidence_has_status(official,patch['source_record_id'],patch['updates'].get('source_list_status_raw')):
+            raise ValueError('patch identity/status absent from official saved response')
     with (data_dir/'collector.lock').open('a') as outer,(data_dir/'p1-publish.lock').open('a') as inner:
         fcntl.flock(outer,fcntl.LOCK_EX|fcntl.LOCK_NB);fcntl.flock(inner,fcntl.LOCK_EX)
         jobs=data_dir/'jobs.json';before=P.sha(jobs);previous=json.loads(jobs.read_text())

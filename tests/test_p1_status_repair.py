@@ -14,3 +14,11 @@ def test_only_exact_owned_identity_changes_and_dates_content_are_preserved():
     assert repair_rows([{**row,'p1_company':'其他'}],[patch])[1]==[]
     patch['updates']['description_raw']='forged'
     with pytest.raises(ValueError):repair_rows([row],[patch])
+
+
+def test_response_must_show_same_id_and_official_status():
+    from qiuzhao.collector.p1_status_repair import evidence_has_status
+    response={'data':{'jobs':[{'id':UUID,'status':'pause'}]}}
+    assert evidence_has_status(response,UUID,'pause')
+    assert not evidence_has_status(response,UUID,'closed')
+    assert not evidence_has_status(response,'other','pause')
