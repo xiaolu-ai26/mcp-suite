@@ -1,0 +1,218 @@
+"""Local user-authenticated, backed-up field-only sync for the existing Qiuzhao Base.
+
+No credentials leave lark-cli. Snapshot and plan are read-only remotely; --apply
+changes only the three authorized select fields and their existing records.
+"""
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import time
+from collections import Counter
+from qiuzhao import v4_fields as V
+
+BASE = 'REDACTED'
+TABLES = ['tblX7rOpjWaRArng', 'tbl0xkmJUMmLqZ1W', 'tbl0gDcxEaIOYERw', 'tblcrBAi0ld7uej8']
+TARGETS = ['毕业届别', '工作地点', '专业']
+
+
+def save(path, value):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2))
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def cli(*args):
+    env = dict(os.environ, LARKSUITE_CLI_NO_UPDATE_NOTIFIER='1', LARKSUITE_CLI_NO_SKILLS_NOTIFIER='1')
+    proc = subprocess.run(['lark-cli', 'base', *args, '--as', 'user'], capture_output=True,
+                          text=True, env=env, timeout=180)
+    if proc.returncode:
+        raise RuntimeError(proc.stderr[:2000])
+    result = json.loads(proc.stdout)
+    if result.get('ok') is False:
+        raise RuntimeError('lark-cli rejected request')
+    return result
+
+
+def rel(path):
+    return str(path.resolve().relative_to(Path.cwd()))
+
+
+def snapshot(out):
+    if (out / 'backup.json').exists():
+        raise ValueError('snapshot already exists; use a new output directory')
+    tables = cli('+table-list', '--base-token', BASE, '--format', 'json')['data']['tables']
+    actual = {t['id']: t for t in tables}
+    if not set(TABLES) <= actual.keys():
+        raise ValueError('target table identity drift')
+    save(out / 'tables.before.json', tables)
+    manifest = {'base': BASE, 'tables': {}}
+    for table in TABLES:
+        fields = cli('+field-list', '--base-token', BASE, '--table-id', table,
+                     '--format', 'json')['data']['fields']
+        by_name = {f['name']: f for f in fields}
+        if 'job_id' not in by_name or any(by_name.get(n, {}).get('type') != 'select' for n in TARGETS):
+            raise ValueError('schema drift in ' + table)
+        schema = out / (table + '.fields.before.json'); save(schema, fields)
+        all_rows = []; offset = 0; revision = None
+        # This full pagination is a pre-write backup and exact record locator,
+        # not a limited sample used to infer a whole-table analytical result.
+        for page in range(100):
+            path = out / f'{table}.before.{page:03d}.ndjson'
+            args = ['+record-list', '--base-token', BASE, '--table-id', table,
+                    '--format', 'ndjson', '--output', rel(path), '--limit', '2000', '--offset', str(offset)]
+            for name in ['job_id', *TARGETS]:
+                args += ['--field-id', name]
+            m = cli(*args)
+            if revision is None:
+                revision = m['rev']
+            if revision != m['rev']:
+                raise ValueError('table changed during backup: ' + table)
+            all_rows.extend(json.loads(line) for line in path.read_text().splitlines() if line)
+            if not m['has_more']:
+                break
+            next_offset = m.get('next_offset')
+            if next_offset is None or next_offset <= offset:
+                raise ValueError('nonadvancing backup pagination')
+            offset = next_offset
+        else:
+            raise ValueError('backup pagination limit')
+        if len(all_rows) != actual[table]['records_count'] or len({r['record_id'] for r in all_rows}) != len(all_rows):
+            raise ValueError('backup count/record identity mismatch: ' + table)
+        records = out / (table + '.records.before.json'); save(records, all_rows)
+        manifest['tables'][table] = {'records': rel(records), 'schema': rel(schema),
+            'records_sha256': digest(records), 'schema_sha256': digest(schema),
+            'records_count': len(all_rows), 'rev': revision}
+        print(json.dumps({'backed_up': table, 'records': len(all_rows)}), flush=True)
+    save(out / 'backup.json', manifest)
+    return manifest
+
+
+def values_for(raw):
+    years, _, note, _ = V.graduation_of(raw)
+    majors = V.major_categories_of(raw)
+    return {'毕业届别': years or [note or '未注明'],
+            '工作地点': V.cities_of(raw) or ['未注明'],
+            '专业': majors or [V.major_state(raw)]}
+
+
+def make_plan(out, jobs_path):
+    backup = json.loads((out / 'backup.json').read_text())
+    if backup['base'] != BASE or set(backup['tables']) != set(TABLES):
+        raise ValueError('backup target mismatch')
+    jobs = {}; ambiguous = set()
+    for raw in V.iter_json_file(jobs_path):
+        identity = str(raw.get('id') or '')
+        if not identity:
+            continue
+        values = values_for(raw)
+        if identity in jobs and jobs[identity] != values:
+            ambiguous.add(identity)
+        jobs[identity] = values
+    plan = {'base': BASE, 'source_jobs_sha256': digest(jobs_path), 'tables': {}}
+    for table, meta in backup['tables'].items():
+        records_path = Path(meta['records']); schema_path = Path(meta['schema'])
+        if digest(records_path) != meta['records_sha256'] or digest(schema_path) != meta['schema_sha256']:
+            raise ValueError('backup integrity mismatch')
+        records = json.loads(records_path.read_text()); fields = json.loads(schema_path.read_text())
+        updates = {}; unmatched = []; options = {name: set() for name in TARGETS}
+        for record in records:
+            identity = record.get('job_id')
+            if identity not in jobs or identity in ambiguous:
+                unmatched.append({'record_id': record['record_id'], 'job_id': identity})
+                continue
+            delta = {}
+            for name, desired in jobs[identity].items():
+                options[name].update(desired)
+                if set(record.get(name) or []) != set(desired):
+                    delta[name] = desired
+            if delta:
+                updates[record['record_id']] = delta
+        schema_updates = []
+        for field in fields:
+            if field['name'] not in TARGETS:
+                continue
+            definition = {k: v for k, v in field.items() if k in ['name', 'type', 'description', 'multiple', 'options', 'default_value']}
+            if field.get('dynamic_options_source'):
+                raise ValueError('dynamic options are outside sync scope')
+            definition['multiple'] = True
+            existing = {o['name'] for o in definition['options']}
+            definition['options'] = list(definition['options']) + [{'name': n, 'hue': 'Blue', 'lightness': 'Lighter'} for n in sorted(options[field['name']] - existing)]
+            if not field.get('multiple') or options[field['name']] - existing:
+                schema_updates.append({'field_id': field['id'], 'definition': definition})
+        plan['tables'][table] = {'schema_updates': schema_updates, 'updates': updates,
+                                'unmatched': unmatched, 'backup': meta}
+    save(out / 'plan.json', plan)
+    print(json.dumps({t: {'schema_updates': len(p['schema_updates']), 'record_updates': len(p['updates']),
+                         'unmatched': len(p['unmatched'])} for t,p in plan['tables'].items()}), flush=True)
+    return plan
+
+
+def apply_plan(out):
+    plan_path = out / 'plan.json'; plan = json.loads(plan_path.read_text())
+    if plan['base'] != BASE or set(plan['tables']) != set(TABLES):
+        raise ValueError('plan target mismatch')
+    state_path = out / 'apply-status.json'
+    state = json.loads(state_path.read_text()) if state_path.exists() else {'plan_sha256': digest(plan_path), 'done': []}
+    if state['plan_sha256'] != digest(plan_path):
+        raise ValueError('plan changed after partial apply')
+    if not state['done']:
+        live = {t['id']: t for t in cli('+table-list', '--base-token', BASE, '--format', 'json')['data']['tables']}
+        for table, data in plan['tables'].items():
+            if live.get(table, {}).get('rev') != data['backup']['rev']:
+                raise ValueError('table changed after backup; refresh before applying: ' + table)
+    for table, data in plan['tables'].items():
+        # Backups must still be readable and unmodified before any writes.
+        meta = data['backup']
+        if digest(Path(meta['records'])) != meta['records_sha256'] or digest(Path(meta['schema'])) != meta['schema_sha256']:
+            raise ValueError('backup integrity mismatch')
+        for change in data['schema_updates']:
+            key = table + '/' + change['field_id']
+            if key in state['done']:
+                continue
+            result = cli('+field-update', '--base-token', BASE, '--table-id', table,
+                         '--field-id', change['field_id'], '--json', json.dumps(change['definition'], ensure_ascii=False), '--yes')
+            save(out / ('response-' + key.replace('/', '-') + '.json'), result)
+            state['done'].append(key); save(state_path, state)
+        rows = list(data['updates'].items())
+        for start in range(0, len(rows), 200):
+            key = table + '/records-' + str(start)
+            if key in state['done']:
+                continue
+            body = out / (table + '.batch-' + str(start) + '.json')
+            save(body, {'update_records': dict(rows[start:start+200])})
+            result = cli('+record-batch-update', '--base-token', BASE, '--table-id', table, '--json', '@'+rel(body))
+            if result.get('data', {}).get('ignored_fields'):
+                raise ValueError('fields ignored during update')
+            save(out / ('response-' + key.replace('/', '-') + '.json'), result)
+            state['done'].append(key); save(state_path, state)
+            print(json.dumps({'updated_table': table, 'processed': min(start+200, len(rows)), 'total': len(rows)}), flush=True)
+    state['finished'] = True; save(state_path, state)
+
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--output-dir', type=Path, required=True)
+    p.add_argument('--jobs', type=Path)
+    p.add_argument('--snapshot', action='store_true')
+    p.add_argument('--plan', action='store_true')
+    p.add_argument('--apply', action='store_true')
+    args = p.parse_args(); out = args.output_dir; out.mkdir(parents=True, exist_ok=True)
+    if args.snapshot:
+        snapshot(out)
+    if args.plan:
+        if not args.jobs:
+            p.error('--plan requires --jobs')
+        make_plan(out, args.jobs)
+    if args.apply:
+        apply_plan(out)
+
+
+if __name__ == '__main__':
+    main()
