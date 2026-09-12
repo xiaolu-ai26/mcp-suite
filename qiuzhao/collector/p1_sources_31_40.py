@@ -234,7 +234,15 @@ def collect(company,scope,output_dir):
     requested=company
     if company in ('TP-LINK','TP-LINK／普联','TP-LINK/普联','普联'):company='tplink'
     company=next((key for key,name in COMPANIES.items() if name==company),company);out=Path(output_dir);out.mkdir(parents=True,exist_ok=True)
-    if company=='ecovacs':r=collect_ecovacs(scope,out)
+    if company in ('sensetime','xpeng','nio'):
+        from .p1_feishu_public import collect_feishu
+        if company=='sensetime':sites=[{'url':'https://hr-jobs.sensetime.com/exp/position/list','tenant_names':['商汤科技'],'portal_type':6},{'url':'https://hr-jobs.sensetime.com/edu/','tenant_names':['商汤科技'],'portal_type':6}]
+        elif company=='xpeng':sites=[{'url':'https://xiaopeng.jobs.feishu.cn/index','tenant_names':['小鹏集团'],'portal_type':6},{'url':'https://xiaopeng.jobs.feishu.cn/campus','tenant_names':['小鹏集团'],'portal_type':6}]
+        else:sites=[{'url':'https://nio.jobs.feishu.cn/'+path,'tenant_names':['NIO'],'portal_type':6} for path in ['campus','intern','index']]
+        r=collect_feishu(COMPANIES[company],scope,sites,out)
+        if company=='nio':
+            c=r['coverage'];c['company_scope_complete']=False;c['errors'].append('Official NIO international careers source still being integrated');c['complete']=False;c['status']='partial' if r['jobs'] else 'blocked'
+    elif company=='ecovacs':r=collect_ecovacs(scope,out)
     elif company=='lixiang':r=collect_lixiang(scope,out)
     elif company=='inovance':r=collect_inovance(scope,out)
     elif company=='tplink':r=collect_tplink(scope,out)
