@@ -162,7 +162,7 @@ def collect_standard(company,scope,output_dir):
             d=envelope.get('result',envelope.get('data'));(output_dir/f'detail-{ident}.json').write_text(json.dumps(d,ensure_ascii=False))
             if d[idkey]!=ident:raise ValueError('Detail ID mismatch')
             if company=='xiaohongshu':
-                actual={'school_recruit':'campus','intern_recruit':'intern','social_recruit':'social'}.get(d.get('recruitType'))
+                actual={'school_recruit':'campus','intern_recruit':'intern','club_recruit':'social'}.get(d.get('recruitType'))
                 if actual is None:raise ValueError('Unknown XHS detail recruitType')
                 if actual!=scope:return None
                 title=d['positionName'];desc=d['duty'];req=d['qualification'];loc=d.get('workplace','');url=entry+'/'+str(ident)
