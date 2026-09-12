@@ -343,3 +343,18 @@ def test_failed_details_retain_prior_prose_and_verification_time(tmp_path):
     import pytest
     with pytest.raises(ValueError,match='failed detail'):
         pending_result(tmp_path,'fetch_failed',True)
+
+
+def test_pending_inactive_keeps_full_proof_and_adopts_legacy_identity(tmp_path):
+    from qiuzhao.collector.lark_sync_enrichment import source_lifecycle_state
+    full=p.validate_result(result(),'大疆','campus');old=full['jobs'][0]
+    for key in ('p1_identity','p1_company','p1_scope'):old.pop(key)
+    old.update(id='legacy-real-id',source_is_active=True,source_status_raw='open',source_list_status_raw='open',source_status_evidence={'list_status':'open'})
+    pending=pending_result(tmp_path)
+    pending['pending_index'][0].update(status='expired',source_is_active=False,source_status_raw='pause',
+        source_list_status_raw='pause',source_detail_status_raw=None,source_status_evidence={'list_status':'pause','detail_status':None})
+    merged,_=p.merge_records([old],[('大疆','campus',pending)])
+    assert len(merged)==1 and merged[0]['id']=='legacy-real-id'
+    assert merged[0]['p1_company']=='大疆' and merged[0]['p1_scope']=='campus' and merged[0]['p1_identity']
+    assert merged[0]['description_raw']==old['description_raw']
+    assert source_lifecycle_state(merged[0])=='expired'

@@ -304,10 +304,12 @@ def merge_records(previous, results):
                 if incoming.get('index_only') and old.get('description_raw'):
                     # A failed/empty current detail never destroys earlier verified prose.
                     retained=copy.deepcopy(old)
-                    for field in ('pending_reason','pending_note','detail_request_status','last_attempt_at'):
+                    for field in ('p1_identity','p1_company','p1_scope','canonical_company','parent_unit_raw',
+                                  'pending_reason','pending_note','detail_request_status','last_attempt_at'):
                         retained[field]=incoming.get(field)
                     if incoming.get('status')=='expired':
-                        for field in ('status','status_note','source_is_active','source_status_raw'):
+                        for field in ('status','status_note','source_is_active','source_status_raw','source_list_status_raw',
+                                      'source_detail_status_raw','source_status_evidence','source_status_dates','source_status_conflict'):
                             if field in incoming:retained[field]=incoming[field]
                     incoming=retained
                 merged[index] = incoming
