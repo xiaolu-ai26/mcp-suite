@@ -33,35 +33,25 @@ PYEOF
 
 RUN_RC=0
 AC_RC=0
+P1_RC=0
 NORM_RC=0
 
-# run.py exits 1 when any source alerts, but by then it has finished
-# normalizing and atomically written a complete jobs.json; record the exit
-# code and continue the chain. auto_collect / normalize failures abort.
+# Source failures remain visible but do not prevent independent sources running.
 "$PY" -m qiuzhao.collector.run --output-dir /var/lib/mcp-suite >> "$LOG" 2>&1
 RUN_RC=$?
+"$PY" -m qiuzhao.collector.auto_collect --skip-basic-collectors >> "$LOG" 2>&1
+AC_RC=$?
+"$PY" -m qiuzhao.collector.p1_pipeline --data-dir /var/lib/mcp-suite --apply --resume-latest >> "$LOG" 2>&1
+P1_RC=$?
+"$PY" -m qiuzhao.normalize --path /var/lib/mcp-suite/jobs.json >> "$LOG" 2>&1
+NORM_RC=$?
 
-if "$PY" -m qiuzhao.collector.auto_collect --skip-basic-collectors >> "$LOG" 2>&1; then
-  AC_RC=0
-else
-  AC_RC=$?
-  write_status false "$AC_RC" "Step auto_collect failed (exit ${AC_RC}); see collector-cron.log and alerts.json" "{\"collector.run\": ${RUN_RC}, \"auto_collect\": ${AC_RC}}"
-  exit "$AC_RC"
-fi
-
-if "$PY" -m qiuzhao.normalize --path /var/lib/mcp-suite/jobs.json >> "$LOG" 2>&1; then
-  NORM_RC=0
-else
-  NORM_RC=$?
-  write_status false "$NORM_RC" "Step normalize failed (exit ${NORM_RC}); see collector-cron.log" "{\"collector.run\": ${RUN_RC}, \"auto_collect\": ${AC_RC}, \"normalize\": ${NORM_RC}}"
-  exit "$NORM_RC"
-fi
-
-STEPS="{\"collector.run\": ${RUN_RC}, \"auto_collect\": ${AC_RC}, \"normalize\": ${NORM_RC}}"
-if [ "$RUN_RC" -ne 0 ]; then
-  write_status false "$RUN_RC" "Partial failure: step collector.run exited ${RUN_RC} (source alerts); auto_collect and normalize completed successfully" "$STEPS"
-  exit "$RUN_RC"
-fi
-
+STEPS="{\"collector.run\": ${RUN_RC}, \"auto_collect\": ${AC_RC}, \"p1_pipeline\": ${P1_RC}, \"normalize\": ${NORM_RC}}"
+for RC in "$RUN_RC" "$AC_RC" "$P1_RC" "$NORM_RC"; do
+  if [ "$RC" -ne 0 ]; then
+    write_status false "$RC" "Partial failure; see step exit codes, collector-cron.log and p1-status.json" "$STEPS"
+    exit "$RC"
+  fi
+done
 write_status true 0 "" "$STEPS"
 exit 0

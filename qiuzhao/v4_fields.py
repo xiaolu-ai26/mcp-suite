@@ -269,6 +269,8 @@ def graduation_of(r):
     if rtype == "实习招聘":
         return [], {}, NOTE_INTERN, "intern"
     if rtype == "校园招聘":
+        if r.get("p1_company"):
+            return [], {}, "未注明", "p1_no_explicit_cohort"
         published = parse_date(r.get("published_at"))
         if published:
             for start, end, cohort in SEASON_RULES:
@@ -587,7 +589,7 @@ def convert(r):
     it = {
         "id": _text(r.get("id")),
         "job_title": _text(r.get("job_title") or r.get("title")),
-        "company": _text(r.get("recruitment_unit") or r.get("company")),
+        "company": _text(r.get("canonical_company") or r.get("recruitment_unit") or r.get("company")),
         "recruiting_unit_raw": _text(r.get("recruiting_unit_raw")),
         "hiring_department_raw": _text(r.get("hiring_department_raw")),
         "parent_unit_raw": _text(r.get("parent_unit_raw")),

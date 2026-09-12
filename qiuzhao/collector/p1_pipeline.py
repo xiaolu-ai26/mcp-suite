@@ -1,0 +1,363 @@
+"""Bounded per-company/per-scope public recruitment refresh in the existing daily chain.
+
+Adapter contract: collect(company, scope, output_dir) -> {jobs: [...], coverage: {...}}.
+Each invocation runs in an isolated process. Only validated complete snapshots may
+remove previously P1-owned records; partial sources retain old records.
+"""
+from __future__ import annotations
+import argparse
+import copy
+import datetime as dt
+import fcntl
+import hashlib
+import gzip
+import importlib
+import json
+import os
+from pathlib import Path
+import signal
+import subprocess
+import sys
+import tempfile
+import time
+from urllib.parse import urlsplit
+
+from qiuzhao.normalize import normalize_records
+
+COMPANIES = [
+    '拼多多', '大疆', '华为', '小红书', '快手', 'OPPO', 'vivo', '荣耀', '比亚迪', '宁德时代',
+    '米哈游', '哔哩哔哩', '蚂蚁集团', '百度', '滴滴', '携程', '联想', '海康威视', '安克创新', '影石Insta360',
+    '鹰角网络', '叠纸游戏', '莉莉丝游戏', '完美世界', '三七互娱', '巨人网络', '金山办公', '用友网络', '金蝶', '科大讯飞',
+    '商汤科技', '中兴通讯', '大华股份', '汇川技术', 'TP-LINK普联', '石头科技', '科沃斯', '理想汽车', '小鹏汽车', '蔚来汽车',
+    '吉利汽车', '长城汽车', '迈瑞医疗', '恒瑞医药', '药明康德', '小米', '京东', '美团', '网易', '得物',
+]
+SCOPES = {'campus': '校园招聘', 'intern': '实习招聘', 'social': '社会招聘'}
+# Stable order is the user-approved priority list. Missing modules are blocked,
+# never interpreted as an empty successful source.
+REGISTRY = {name: f'qiuzhao.collector.p1_sources_{(i // 10) * 10 + 1:02d}_{(i // 10 + 1) * 10:02d}'
+            for i, name in enumerate(COMPANIES)}
+
+
+def now():
+    return dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds')
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def atomic_json(path, payload):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, temporary = tempfile.mkstemp(prefix=f'.{path.name}.', dir=path.parent)
+    try:
+        with os.fdopen(fd, 'w', encoding='utf-8') as stream:
+            json.dump(payload, stream, ensure_ascii=False, indent=2)
+            stream.flush()
+            os.fsync(stream.fileno())
+        if path.exists():
+            st = path.stat()
+            os.chmod(temporary, st.st_mode & 0o777)
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+
+
+def blocked(reason, status='blocked'):
+    return {'jobs': [], 'coverage': {'status': status, 'complete': False,
+            'detail_complete': False, 'expected_total': None, 'collected_jobs': 0,
+            'pages_scanned': 0, 'errors': [reason], 'checked_at': now()}}
+
+
+def validate_result(payload, company, scope):
+    """Reject malformed evidence instead of letting a source corrupt the shared store."""
+    if not isinstance(payload, dict) or not isinstance(payload.get('jobs'), list):
+        raise ValueError('adapter result must contain jobs list')
+    coverage = payload.get('coverage')
+    if not isinstance(coverage, dict) or coverage.get('status') not in {'success', 'partial', 'blocked'}:
+        raise ValueError('invalid coverage status')
+    result = copy.deepcopy(payload)
+    coverage = result['coverage']
+    rows = result['jobs']
+    if coverage.get('collected_jobs') != len(rows):
+        raise ValueError('coverage count differs from returned jobs')
+    if coverage.get('status') == 'blocked' and rows:
+        raise ValueError('blocked result cannot publish rows')
+    if rows and not coverage.get('scope_evidence'):
+        raise ValueError('missing official scope evidence')
+    identities = set()
+    for row in rows:
+        if not isinstance(row, dict):
+            raise ValueError('job must be an object')
+        for key in ('source_record_id', 'job_title', 'description_raw', 'recruitment_unit'):
+            if not str(row.get(key) or '').strip():
+                raise ValueError(f'job missing {key}')
+        url = row.get('detail_url') or row.get('source_url')
+        if not isinstance(url, str) or urlsplit(url).scheme not in {'http', 'https'} or not urlsplit(url).netloc:
+            raise ValueError('missing official detail URL')
+        source_id = str(row['source_record_id'])
+        if source_id in identities:
+            raise ValueError('duplicate source_record_id within scope')
+        identities.add(source_id)
+        row['source_record_id'] = source_id
+        row['detail_url'] = url
+        row['source_url'] = row.get('source_url') or url
+        row['application_url'] = row.get('application_url') or url
+        row['p1_company'] = company
+        row['p1_scope'] = scope
+        if row.get('recruitment_type') != SCOPES[scope]:
+            raise ValueError('job recruitment_type conflicts with requested scope')
+        row['canonical_company'] = company
+        # Search company aliases without replacing the true hiring/legal unit.
+        row['parent_unit_raw'] = ' / '.join(dict.fromkeys([company, str(row.get('parent_unit_raw') or company)]))
+        row['recruiting_unit_raw'] = row.get('recruiting_unit_raw') or row['recruitment_unit']
+        row['reviewed_at'] = row.get('reviewed_at') or now()
+        row['id'] = 'p1-' + hashlib.sha256(f'{company}|{scope}|{source_id}'.encode()).hexdigest()[:24]
+        row['p1_identity'] = row['id']
+        row['status'] = row.get('status') if row.get('status') in {'open', 'unverified', 'expired'} else 'unverified'
+    complete = coverage.get('complete') is True
+    if complete:
+        if (coverage.get('status') != 'success' or coverage.get('detail_complete') is not True
+                or coverage.get('errors')
+                or not coverage.get('source_url') or not coverage.get('evidence')):
+            raise ValueError('complete requires successful full listing/details and evidence')
+        expected = coverage.get('expected_total')
+        if expected is not None:
+            if type(expected) is not int or expected != len(rows):
+                raise ValueError('expected total differs from unique returned jobs')
+        elif not (coverage.get('pagination_exhausted') is True
+                  and coverage.get('unique_source_ids') == len(rows)
+                  and coverage.get('last_page_evidence')):
+            raise ValueError('no total requires unique count and proven pagination exhaustion')
+    elif coverage.get('status') == 'success':
+        # An adapter may finish its available subset, but that is not full coverage.
+        coverage['status'] = 'partial'
+    coverage['checked_at'] = now()
+    return result
+
+
+def collect_process(company, scope, output_dir, timeout=900):
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    result_path = output_dir / 'result.json'
+    # Do not permit stale result reuse after a killed/interrupted previous attempt.
+    if result_path.exists():
+        result_path.unlink()
+    command = [sys.executable, '-m', __name__, '--adapter', REGISTRY[company],
+               '--company', company, '--scope', scope, '--output-dir', str(output_dir)]
+    with open(output_dir / 'adapter.log', 'w', encoding='utf-8') as log:
+        process = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT,
+                                   start_new_session=True, cwd=Path(__file__).resolve().parents[2])
+        try:
+            rc = process.wait(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            os.killpg(process.pid, signal.SIGKILL)
+            process.wait()
+            return blocked(f'scope wall-clock timeout after {timeout}s')
+    if rc or not result_path.exists():
+        return blocked(f'adapter exit={rc}; inspect {output_dir / "adapter.log"}')
+    try:
+        return validate_result(json.loads(result_path.read_text()), company, scope)
+    except (ValueError, TypeError, KeyError) as error:
+        return blocked(f'adapter contract rejected: {error}')
+
+
+def merge_records(previous, results):
+    """Update stable identities, retain failed-source rows, remove only proven absences."""
+    merged = copy.deepcopy(previous)
+    changes = {'added': 0, 'updated': 0, 'removed': 0}
+    for company, scope, result in results:
+        rows, coverage = result['jobs'], result['coverage']
+        if coverage['status'] == 'blocked':
+            continue
+        by_id = {str(row.get('p1_identity') or row.get('id')): index for index, row in enumerate(merged)}
+        # Exact detail URL + recruitment type can safely adopt a legacy record.
+        by_url = {}
+        for index, row in enumerate(merged):
+            url = row.get('detail_url') or row.get('source_url')
+            if url:
+                by_url.setdefault((url, row.get('recruitment_type')), []).append(index)
+        seen = set()
+        for incoming in rows:
+            incoming = copy.deepcopy(incoming)
+            canonical = incoming['p1_identity']
+            normalize_records([incoming])
+            index = by_id.get(canonical)
+            if index is None:
+                matches = by_url.get((incoming['detail_url'], incoming['recruitment_type']), [])
+                if len(matches) == 1:
+                    candidate = merged[matches[0]]
+                    if (not candidate.get('p1_company') or candidate.get('p1_company') == company) and (
+                            not candidate.get('p1_scope') or candidate.get('p1_scope') == scope):
+                        index = matches[0]
+            if index is None:
+                merged.append(incoming)
+                by_id[canonical] = len(merged) - 1
+                changes['added'] += 1
+            else:
+                old = merged[index]
+                # Incoming evidence is authoritative; retaining old raw fields
+                # could silently carry a stale cohort/campaign into new rows.
+                incoming['id'] = old['id']
+                merged[index] = incoming
+                changes['updated'] += 1
+            seen.add(canonical)
+        if coverage.get('complete') is True:
+            for row in merged:
+                if row.get('p1_company') == company and row.get('p1_scope') == scope and (row.get('p1_identity') or row.get('id')) not in seen:
+                    if row.get('status') != 'removed':
+                        changes['removed'] += 1
+                    row.update(status='removed', reviewed_at=now(),
+                               removal_reason='Absent from complete current company/scope official listing')
+    return merged, changes
+
+
+def publish(data_dir, results, run_dir):
+    """Use current bytes, true pre-write backup, CAS recheck and atomic replacement."""
+    data_dir, run_dir = Path(data_dir), Path(run_dir)
+    jobs_path = data_dir / 'jobs.json'
+    with open(data_dir / 'p1-publish.lock', 'a') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        before = jobs_path.read_bytes()
+        previous = json.loads(before)
+        if not isinstance(previous, list):
+            raise ValueError('production jobs must be a list')
+        before_hash = hashlib.sha256(before).hexdigest()
+        merged, changes = merge_records(previous, results)
+        # One true pre-write snapshot per locked execution batch, not 150
+        # complete database copies. Per-scope candidate snapshots and hashes
+        # remain in the checkpoint for inspection/replay.
+        run_dir.mkdir(parents=True, exist_ok=True)
+        backup = run_dir / 'jobs.before.json.gz'
+        manifest = run_dir / 'backup.json'
+        if not backup.exists():
+            with gzip.open(backup, 'wb', compresslevel=3) as stream:
+                stream.write(before)
+            with gzip.open(backup, 'rb') as stream:
+                backup_hash = hashlib.sha256(stream.read()).hexdigest()
+            if backup_hash != before_hash:
+                raise RuntimeError('pre-write backup hash mismatch')
+            atomic_json(manifest, {'uncompressed_sha256': backup_hash, 'created_at': now()})
+        else:
+            backup_hash = json.loads(manifest.read_text())['uncompressed_sha256']
+        if sha(jobs_path) != before_hash:
+            raise RuntimeError('jobs changed concurrently; refusing overwrite')
+        atomic_json(jobs_path, merged)
+        return dict(changes, before_sha256=before_hash, after_sha256=sha(jobs_path),
+                    backup=str(backup), backup_sha256=backup_hash, total_jobs=len(merged), published_at=now())
+
+
+def run(data_dir, run_dir, companies, scopes, timeout=900, apply=False, resume=False, max_run_seconds=21600):
+    data_dir, run_dir = Path(data_dir), Path(run_dir)
+    run_dir.mkdir(parents=True, exist_ok=True)
+    status_path = run_dir / 'status.json'
+    if status_path.exists() and not resume:
+        raise ValueError('run directory already exists; use --resume or a new directory')
+    status = json.loads(status_path.read_text()) if resume and status_path.exists() else {
+        'started_at': now(), 'run_dir': str(run_dir), 'companies': companies, 'scopes': scopes, 'results': {}, 'publications': []}
+    if status['companies'] != companies or status['scopes'] != scopes:
+        raise ValueError('resume company/scope selection differs from checkpoint')
+    publication_dir = run_dir / 'batches' / str(time.time_ns())
+    deadline = time.monotonic() + max_run_seconds
+    for company in companies:
+        ordinal = COMPANIES.index(company) + 1
+        for scope in scopes:
+            key = f'{company}/{scope}'
+            saved = status['results'].get(key)
+            if saved and saved.get('attempted', True) and (not apply or saved.get('published')):
+                continue
+            if time.monotonic() >= deadline:
+                status['run_finished'] = False
+                status['success'] = False
+                status['paused_at'] = now()
+                status['pending'] = [f'{c}/{s}' for c in companies for s in scopes
+                                     if f'{c}/{s}' not in status['results']]
+                atomic_json(status_path, status)
+                atomic_json(data_dir / 'p1-status.json', status)
+                return 1
+            output = run_dir / f'{ordinal:02d}' / scope
+            if saved and Path(saved['result_path']).exists():
+                result = validate_result(json.loads(Path(saved['result_path']).read_text()), company, scope)
+            else:
+                result = collect_process(company, scope, output, min(timeout, max(1, deadline - time.monotonic())))
+                atomic_json(output / 'validated.json', result)
+            entry = {'coverage': result['coverage'], 'result_path': str(output / 'validated.json'),
+                     'published': False, 'attempted': True}
+            status['results'][key] = entry
+            atomic_json(status_path, status)
+            print(json.dumps({'company': company, 'scope': scope, **result['coverage']}, ensure_ascii=False), flush=True)
+            if apply:
+                if result['jobs'] or result['coverage'].get('complete'):
+                    publication = publish(data_dir, [(company, scope, result)], publication_dir)
+                    status['publications'].append(dict(company=company, scope=scope, **publication))
+                entry['published'] = True  # processed; may intentionally retain existing data
+                atomic_json(status_path, status)
+    status['run_finished'] = True
+    status['pending'] = []
+    status['completed_at'] = now()
+    status['success'] = all(e['coverage']['status'] == 'success' and e['coverage'].get('complete') is True
+                            for e in status['results'].values())
+    atomic_json(status_path, status)
+    atomic_json(data_dir / 'p1-status.json', status)
+    return 0 if status['success'] else 1
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--adapter')
+    parser.add_argument('--company')
+    parser.add_argument('--scope', choices=list(SCOPES))
+    parser.add_argument('--output-dir', type=Path)
+    parser.add_argument('--data-dir', type=Path, default=Path('/var/lib/mcp-suite'))
+    parser.add_argument('--run-dir', type=Path)
+    parser.add_argument('--companies', help='comma-separated exact company names; default all 50')
+    parser.add_argument('--scopes', default=','.join(SCOPES))
+    parser.add_argument('--timeout', type=int, default=900)
+    parser.add_argument('--apply', action='store_true')
+    parser.add_argument('--resume', action='store_true')
+    parser.add_argument('--resume-latest', action='store_true')
+    parser.add_argument('--max-run-seconds', type=int, default=21600)
+    args = parser.parse_args()
+    if args.adapter:
+        try:
+            module = importlib.import_module(args.adapter)
+            result = module.collect(args.company, args.scope, args.output_dir)
+        except Exception as error:
+            result = blocked(f'{type(error).__name__}: {error}')
+        atomic_json(args.output_dir / 'result.json', result)
+        return 0
+    companies = args.companies.split(',') if args.companies else COMPANIES
+    scopes = args.scopes.split(',')
+    if any(c not in REGISTRY for c in companies) or any(s not in SCOPES for s in scopes):
+        parser.error('unknown company or scope')
+    if len(set(companies)) != len(companies) or len(set(scopes)) != len(scopes):
+        parser.error('duplicate company or scope')
+    run_dir = args.run_dir or args.data_dir / 'p1-runs' / dt.datetime.now().strftime('%Y%m%dT%H%M%S')
+    if args.resume_latest:
+        latest = args.data_dir / 'p1-status.json'
+        if latest.exists():
+            checkpoint = json.loads(latest.read_text())
+            if not checkpoint.get('run_finished', True) and checkpoint.get('run_dir'):
+                run_dir, args.resume = Path(checkpoint['run_dir']), True
+    if args.apply:
+        args.data_dir.mkdir(parents=True, exist_ok=True)
+        lock_path = args.data_dir / 'collector.lock'
+        # Reuse the shell wrapper's inherited lock description when present.
+        try:
+            st = os.fstat(9)
+            target = lock_path.stat()
+            inherited = st.st_dev == target.st_dev and st.st_ino == target.st_ino
+        except OSError:
+            inherited = False
+        lock = os.fdopen(os.dup(9), 'a') if inherited else open(lock_path, 'a')
+        with lock:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            return run(args.data_dir, run_dir, companies, scopes, args.timeout,
+                       args.apply, args.resume, args.max_run_seconds)
+    return run(args.data_dir, run_dir, companies, scopes, args.timeout,
+               args.apply, args.resume, args.max_run_seconds)
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
