@@ -28,6 +28,7 @@ def route(company):
 
 def qualification_note(raw):
     parts=[]
+    if raw.get('pending_note'):parts.append(str(raw['pending_note']))
     if raw.get('application_link_type')=='list_entry' and raw.get('application_instructions'):
         parts.append('投递方式：'+str(raw['application_instructions']))
     cohort=str(raw.get('cohort_raw') or '').strip()
@@ -168,7 +169,7 @@ def append_p1(out,jobs_path):
         if raw.get('p1_company') not in COMPANIES or raw.get('status')=='removed' or raw.get('id') in known:continue
         url=raw.get('detail_url') or raw.get('source_url') or ''
         parsed=urlsplit(url)
-        if parsed.scheme not in ('http','https') or not parsed.netloc or not raw.get('description_raw'):continue
+        if parsed.scheme not in ('http','https') or not parsed.netloc or (not raw.get('description_raw') and not raw.get('index_only')):continue
         table,fields=new_fields(raw);identity=raw['id']
         if identity in candidates and candidates[identity]!=(table,fields):ambiguous.add(identity)
         candidates[identity]=(table,fields)

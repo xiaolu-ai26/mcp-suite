@@ -212,6 +212,7 @@ class P1Tests(unittest.TestCase):
             (collector / '__init__.py').write_text('')
             (package / 'normalize.py').write_text('def normalize_records(rows): return {}\n')
             shutil.copyfile(p.__file__, collector / 'p1_pipeline.py')
+            shutil.copyfile(Path(p.__file__).parent / 'p1_pending_index.py', collector / 'p1_pending_index.py')
             shutil.copyfile(Path(p.__file__).parents[1] / 'v4_fields.py', package / 'v4_fields.py')
             fixture = p.blocked('offline fixture adapter dispatched')
             (collector / 'p1_sources_01_10.py').write_text(
@@ -303,3 +304,42 @@ class P1Tests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+def pending_result(root,reason='source_empty_body',complete=True):
+    (root/'listing.json').write_text('{"id":"1","title":"软件工程师"}')
+    payload=result((),complete=complete)
+    payload['pending_index']=[{'source_record_id':'1','job_title':'软件工程师','detail_url':'https://careers.dji.com/jobs/1',
+        'listing_evidence_path':'listing.json','pending_reason':reason,'detail_request_status':'success' if reason=='source_empty_body' else 'failed',
+        'source_missing_fields':['responsibilities','requirements'] if reason=='source_empty_body' else [],'last_attempt_at':'2026-09-13T01:00:00+08:00'}]
+    payload['coverage'].update(expected_total=1,evidence_files=['listing.json'],
+        scope_request={'company':'大疆','scope':'campus','source_url':'https://careers.dji.com/jobs','params':{}})
+    return p.validate_result(payload,'大疆','campus',root)
+
+
+def test_pending_visible_with_empty_body_then_same_id_upgrades(tmp_path):
+    from datetime import date
+    from qiuzhao.tools import Jobs
+    pending=pending_result(tmp_path)
+    data=tmp_path/'data';data.mkdir();(data/'jobs.json').write_text('[]')
+    p.publish(data,[('大疆','campus',pending)],tmp_path/'publication')
+    found=Jobs(data/'jobs.json',today=date(2026,9,13)).search(company='大疆')['jobs']
+    assert len(found)==1 and found[0]['index_only'] and found[0]['description_raw']==''
+    assert found[0]['pending_reason']=='source_empty_body'
+    previous=json.loads((data/'jobs.json').read_text());full=p.validate_result(result(),'大疆','campus')
+    merged,changes=p.merge_records(previous,[('大疆','campus',full)])
+    assert len(merged)==1 and merged[0]['id']==previous[0]['id'] and merged[0]['description_raw']
+    assert not merged[0].get('index_only')
+
+
+def test_failed_details_retain_prior_prose_and_verification_time(tmp_path):
+    full=p.validate_result(result(),'大疆','campus');old=full['jobs'][0];old['reviewed_at']='2026-09-12T01:00:00+08:00'
+    pending=pending_result(tmp_path,'fetch_failed',False)
+    merged,_=p.merge_records([old],[('大疆','campus',pending)])
+    assert merged[0]['description_raw']==old['description_raw']
+    assert merged[0]['reviewed_at']==old['reviewed_at']
+    assert merged[0]['last_attempt_at']=='2026-09-13T01:00:00+08:00'
+    assert merged[0]['pending_reason']=='fetch_failed' and not merged[0].get('index_only')
+    import pytest
+    with pytest.raises(ValueError,match='failed detail'):
+        pending_result(tmp_path,'fetch_failed',True)

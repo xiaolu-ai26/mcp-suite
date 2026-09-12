@@ -60,13 +60,17 @@ def build(manifests, output):
                 # Descriptive evidence strings/URLs stay untouched; absolute
                 # file references outside this company are rejected.
                 raise ValueError('external evidence file reference: '+value)
-            coverage=payload['coverage']
-            coverage['evidence_files']=[reference(x) for x in coverage.get('evidence_files',[])]
-            coverage['evidence']=[reference(x) if isinstance(x,str) and x.startswith('/') else x for x in coverage.get('evidence',[])]
-            if str(coverage.get('last_page_evidence','')).startswith('/'):
-                coverage['last_page_evidence']=reference(coverage['last_page_evidence'])
-            for job in payload['jobs']:
-                if job.get('evidence_path'):job['evidence_path']=reference(job['evidence_path'])
+            def rebase_metadata(value):
+                if isinstance(value,list):
+                    for item in value:rebase_metadata(item)
+                elif isinstance(value,dict):
+                    for key,item in list(value.items()):
+                        if key in {'evidence_files','evidence'} and isinstance(item,list):
+                            value[key]=[reference(x) if isinstance(x,str) and x.startswith('/') else x for x in item]
+                        elif key in {'evidence_path','listing_evidence_path','detail_evidence_path','campaign_evidence_path','evidence_file','last_page_evidence'} and isinstance(item,str) and item.startswith('/'):
+                            value[key]=reference(item)
+                        else:rebase_metadata(item)
+            rebase_metadata(payload)
             validated=P.validate_result(payload,company,scope,target)
             path=target/'candidate.json';P.atomic_json(path,validated)
             entries.append({'company':company,'scope':scope,'candidate':str(path.relative_to(output)),
@@ -95,6 +99,12 @@ def import_bundle(bundle,data_dir,apply=False):
             evidence=(path.parent/reference).resolve()
             if not evidence.is_relative_to(bundle) or str(evidence.relative_to(bundle)) not in manifest['files']:
                 raise ValueError('unhashed evidence')
+        for pending in payload.get('pending_index',[]):
+            for key in ('listing_evidence_path','detail_evidence_path'):
+                if not pending.get(key):continue
+                evidence=(path.parent/pending[key]).resolve()
+                if not evidence.is_relative_to(bundle) or str(evidence.relative_to(bundle)) not in manifest['files']:
+                    raise ValueError('unhashed pending evidence')
         validated.append((entry,payload))
     validated.sort(key=lambda pair:(P.COMPANIES.index(pair[0]['company']),list(P.SCOPES).index(pair[0]['scope'])))
     if not apply:return {'validated_scopes':len(validated),'apply':False}
@@ -108,7 +118,7 @@ def import_bundle(bundle,data_dir,apply=False):
             company,scope=entry['company'],entry['scope'];key=company+'/'+scope
             if key in receipt['results']:continue
             publication=None
-            if payload['jobs'] or payload['coverage'].get('complete'):
+            if payload['jobs'] or payload.get('pending_index') or payload['coverage'].get('complete'):
                 publication=P.publish(data_dir,[(company,scope,payload)],bundle/'publication')
             receipt['results'][key]={'coverage':payload['coverage'],'publication':publication,
                 'source_reviewed_at_min':entry.get('source_reviewed_at_min'),

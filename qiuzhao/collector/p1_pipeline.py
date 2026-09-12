@@ -23,6 +23,7 @@ import tempfile
 import time
 import uuid
 from urllib.parse import urlsplit
+from . import p1_pending_index as N
 
 from qiuzhao.normalize import normalize_records
 from qiuzhao.v4_fields import graduation_of, graduation_constraints_of
@@ -95,7 +96,9 @@ def validate_result(payload, company, scope, evidence_dir=None):
         raise ValueError('coverage count differs from returned jobs')
     if coverage.get('status') == 'blocked' and rows:
         raise ValueError('blocked result cannot publish rows')
-    if (rows or coverage.get('complete') is True) and not coverage.get('scope_evidence'):
+    pending=N.normalize_pending_index(result.get('pending_index',[]),company,scope,SCOPES[scope])
+    result['pending_index']=pending
+    if (rows or pending or coverage.get('complete') is True) and not coverage.get('scope_evidence'):
         raise ValueError('missing official scope evidence')
     identities = set()
     for row in rows:
@@ -134,7 +137,30 @@ def validate_result(payload, company, scope, evidence_dir=None):
             note = '官方列表仍公开，但明确届别较旧；请核验当前是否接受申请。'
             if note not in str(row.get('status_note') or ''):
                 row['status_note'] = str(row.get('status_note') or '') + note
+    for row in pending:
+        if row['source_record_id'] in identities:raise ValueError('same source ID appears in jobs and pending_index')
+        identities.add(row['source_record_id'])
+        row.update(recruitment_unit=row.get('recruitment_unit') or company,canonical_company=company,
+                   parent_unit_raw=company,source_url=row.get('source_url') or row['detail_url'],
+                   application_url=row.get('application_url') or row['detail_url'])
+        row['last_attempt_at']=row.get('last_attempt_at') or coverage.get('checked_at')
+        if row['pending_reason']=='fetch_failed':row['reviewed_at']=None
+        else:row['reviewed_at']=row.get('reviewed_at') or row['last_attempt_at']
+        row['pending_note']=('本次详情请求未成功取得，岗位存在已由官方列表确认；详情仍待核验。' if row['pending_reason']=='fetch_failed'
+                             else '官方详情已取得，但未披露有效岗位职责和任职要求；保留真实岗位索引。')
+        if row.get('source_is_active') is False and {row.get('source_status_raw'),row.get('source_list_status_raw'),row.get('source_detail_status_raw')} & {'pause','closed'}:
+            row['status']='expired'
+        if evidence_dir is None:raise ValueError('pending index requires saved official evidence directory')
+        root=Path(evidence_dir).resolve()
+        references=[row[k] for k in ('listing_evidence_path','detail_evidence_path') if row.get(k)]
+        for ref in references:
+            path=Path(ref);path=(root/path).resolve() if not path.is_absolute() else path.resolve()
+            if not (path.is_relative_to(root) or path.is_relative_to(root.parent/'shared')) or not path.is_file() or not path.stat().st_size:
+                raise ValueError('pending index evidence must be a real current scope file')
+    coverage['available_job_count']=len(rows);coverage['pending_count']=len(pending)
     complete = coverage.get('complete') is True
+    if complete and any(row['detail_request_status']!='success' for row in pending):
+        raise ValueError('failed detail request cannot have complete coverage')
     if complete:
         if (coverage.get('status') != 'success' or coverage.get('detail_complete') is not True
                 or coverage.get('errors')
@@ -161,10 +187,10 @@ def validate_result(payload, company, scope, evidence_dir=None):
                     raise ValueError('evidence must be a nonempty current scope or company shared file')
         expected = coverage.get('expected_total')
         if expected is not None:
-            if type(expected) is not int or expected != len(rows):
+            if type(expected) is not int or expected != len(rows)+len(pending):
                 raise ValueError('expected total differs from unique returned jobs')
         elif not (coverage.get('pagination_exhausted') is True
-                  and coverage.get('unique_source_ids') == len(rows)
+                  and coverage.get('unique_source_ids') == len(rows)+len(pending)
                   and coverage.get('last_page_evidence')):
             raise ValueError('no total requires unique count and proven pagination exhaustion')
     elif coverage.get('status') == 'success':
@@ -174,7 +200,7 @@ def validate_result(payload, company, scope, evidence_dir=None):
     return result
 
 
-def collect_process(company, scope, output_dir, timeout=900):
+def collect_process(company, scope, output_dir, timeout=3600):
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     result_path = output_dir / 'result.json'
@@ -196,7 +222,7 @@ def collect_process(company, scope, output_dir, timeout=900):
         if result_path.exists():
             try:
                 checkpoint = json.loads(result_path.read_text())
-                if checkpoint.get('jobs'):
+                if checkpoint.get('jobs') or checkpoint.get('pending_index'):
                     coverage = checkpoint['coverage']
                     coverage.update(status='partial', complete=False, detail_complete=False)
                     coverage.setdefault('errors', []).append(f'adapter interrupted: {rc}; scope timeout={timeout}s')
@@ -227,8 +253,10 @@ def merge_records(previous, results):
     changes = {'added': 0, 'updated': 0, 'removed': 0}
     for company, scope, result in results:
         rows, coverage = result['jobs'], result['coverage']
-        if coverage['status'] == 'blocked':
+        pending=result.get('pending_index',[])
+        if coverage['status'] == 'blocked' and not pending:
             continue
+        rows=[*rows,*pending]
         by_id = {str(row.get('p1_identity') or row.get('id')): index for index, row in enumerate(merged)}
         # Exact detail URL + recruitment type can safely adopt a legacy record.
         by_url = {}
@@ -242,7 +270,7 @@ def merge_records(previous, results):
             owner = row.get('canonical_company') or row.get('p1_company') or row.get('recruitment_unit')
             if identity and owner == company and row.get('recruitment_type') == SCOPES[scope]:
                 by_source_uuid.setdefault(identity, []).append(index)
-        seen = set()
+        seen = N.presence_keys(result)
         adopted_indices = set()
         incoming_url_counts = {}
         for row in rows:
@@ -273,6 +301,15 @@ def merge_records(previous, results):
                 # Incoming evidence is authoritative; retaining old raw fields
                 # could silently carry a stale cohort/campaign into new rows.
                 incoming['id'] = old['id']
+                if incoming.get('index_only') and old.get('description_raw'):
+                    # A failed/empty current detail never destroys earlier verified prose.
+                    retained=copy.deepcopy(old)
+                    for field in ('pending_reason','pending_note','detail_request_status','last_attempt_at'):
+                        retained[field]=incoming.get(field)
+                    if incoming.get('status')=='expired':
+                        for field in ('status','status_note','source_is_active','source_status_raw'):
+                            if field in incoming:retained[field]=incoming[field]
+                    incoming=retained
                 merged[index] = incoming
                 adopted_indices.add(index)
                 by_id[canonical] = index
@@ -334,7 +371,7 @@ def checkpoint_path(data_dir, companies, scopes):
     return Path(data_dir) / 'p1-checkpoints' / (key + '.json')
 
 
-def run(data_dir, run_dir, companies, scopes, timeout=900, apply=False, resume=False, max_run_seconds=21600):
+def run(data_dir, run_dir, companies, scopes, timeout=3600, apply=False, resume=False, max_run_seconds=21600):
     data_dir, run_dir = Path(data_dir), Path(run_dir)
     run_dir.mkdir(parents=True, exist_ok=True)
     status_path = run_dir / 'status.json'
@@ -380,7 +417,7 @@ def run(data_dir, run_dir, companies, scopes, timeout=900, apply=False, resume=F
             save_status()
             print(json.dumps({'company': company, 'scope': scope, **result['coverage']}, ensure_ascii=False), flush=True)
             if apply:
-                if result['jobs'] or result['coverage'].get('complete'):
+                if result['jobs'] or result.get('pending_index') or result['coverage'].get('complete'):
                     publication = publish(data_dir, [(company, scope, result)], publication_dir)
                     status['publications'].append(dict(company=company, scope=scope, **publication))
                 entry['published'] = True  # processed; may intentionally retain existing data
