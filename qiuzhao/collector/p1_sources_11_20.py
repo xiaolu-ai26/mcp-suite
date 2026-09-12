@@ -8,7 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 
 COMPANIES={'米哈游':'mihoyo','哔哩哔哩':'bilibili','蚂蚁集团':'ant','百度':'baidu','滴滴':'didi','携程':'ctrip','联想':'lenovo','海康威视':'hikvision','安克创新':'anker','影石Insta360':'insta360'}
-SOURCES={'mihoyo':'https://jobs.mihoyo.com/','bilibili':'https://jobs.bilibili.com/','ant':'https://talent.antgroup.com/','baidu':'https://talent.baidu.com/jobs/list','didi':'https://talent.didiglobal.com/','ctrip':'https://careers.trip.com/','lenovo':'https://jobs.lenovo.com/en_US/careers','hikvision':'https://hr.hikvision.com/','anker':'https://career.anker.com.cn/','insta360':'https://hr.insta360.com/'}
+SOURCES={'mihoyo':'https://jobs.mihoyo.com/','bilibili':'https://jobs.bilibili.com/','ant':'https://talent.antgroup.com/','baidu':'https://talent.baidu.com/jobs/list','didi':'https://talent.didiglobal.com/','ctrip':'https://careers.trip.com/','lenovo':'https://jobs.lenovo.com/en_US/careers','hikvision':'https://talent.hikvision.com/','anker':'https://career.anker.com.cn/','insta360':'https://www.insta360.com/cn/jobs'}
 TYPES={'campus':'校园招聘','intern':'实习招聘','social':'社会招聘'}
 def clean(v):return BeautifulSoup(str(v or ''),'html.parser').get_text('\n',strip=True)
 def save(p,obj):
@@ -207,6 +207,7 @@ def _didi(company,scope,f,cov):
   if (d.get('meta') or {}).get('code')!=0:raise ValueError('Didi detail failed '+ident)
   r=d['data']
   if str(r.get('recruitType'))!='1':raise ValueError('Didi detail scope mismatch '+ident)
+  if not r.get('jdNo') or r['jdNo']!=rows[ident].get('jdNo'):raise ValueError('Didi detail JD number mismatch '+ident)
   if not r.get('jobDesc') or not r.get('qualification'):raise ValueError('Didi incomplete detail '+ident)
   return job(company,'didi',ident,r['jobName'],'https://talent.didiglobal.com/social/p/'+ident,clean(r['jobDesc'])+'\n\n'+clean(r['qualification']),scope,path,cities=[r['workArea']] if r.get('workArea') else [],job_category=r.get('jobType',''),published_at=r.get('publishTime'),cohort_raw='')
  jobs=[]
@@ -215,15 +216,25 @@ def _didi(company,scope,f,cov):
   for future in futures:
    try:jobs.append(future.result())
    except Exception as e:cov['errors'].append(str(e))
+ # Official home also links the separate Global Professionals backend.
+ try:
+  f.get('https://cdncareers.didiglobal.com:34003/icims/searchJobList','global-list',{'country':'','keyValue':'','teamId':'','typeId':''})
+  cov['errors'].append('Global Professionals list accessible; its detail/type schema needs validation before full company coverage')
+ except Exception as e:cov['errors'].append('Global Professionals source unavailable: '+str(e))
  return jobs
 
 def _lenovo(company,scope,f,cov):
  def listing(kind):
-  url='https://jobs.lenovo.com/en_US/careers/'+kind;seen={};visited=set()
+  url='https://jobs.lenovo.com/en_US/careers/'+kind;seen={};visited=set();official_total=None
   while url:
    if url in visited:raise ValueError('Lenovo repeated pagination URL')
    visited.add(url);text,path=f.get(url,kind+'-'+str(len(visited)));cov['pages_scanned']+=1
    soup=BeautifulSoup(text,'html.parser')
+   tally=re.search(r'\d+\s*-\s*\d+\s+of\s+([\d,+]+)\s+jobs',soup.get_text(' ',strip=True))
+   if tally and '+' not in tally.group(1):
+    observed=int(tally.group(1).replace(',',''))
+    if official_total is not None and observed!=official_total:raise ValueError('Lenovo total changed')
+    official_total=observed
    links={a['href']:a.get_text(' ',strip=True) for a in soup.select('article h3 a[href], article h2 a[href]') if '/careers/JobDetail/' in a['href']}
    if not links:
     links={a['href']:a.get_text(' ',strip=True) for a in soup.select('a[href]') if re.match(r'https://jobs.lenovo.com/[^?]+/careers/JobDetail/[^?]+/\d+$',a['href']) and a.get_text(' ',strip=True)!='Apply'}
@@ -237,6 +248,8 @@ def _lenovo(company,scope,f,cov):
    url=nxt
    if len(visited)>1000:raise ValueError('Lenovo pagination limit')
    time.sleep(.1)
+  if official_total is None:cov['errors'].append('Lenovo displays capped 999+ total; complete company coverage not proven')
+  elif len(seen)!=official_total:raise ValueError('Lenovo unique count differs from official total')
   cov['last_page_evidence']=path;return seen
  university=listing('SearchJobsUniversity')
  if scope=='social':allrows=listing('SearchJobs');rows={k:v for k,v in allrows.items() if k not in university}
@@ -258,6 +271,125 @@ def _lenovo(company,scope,f,cov):
    except Exception as e:cov['errors'].append(str(e))
  return jobs
 
+def _hikvision(company,scope,f,cov):
+ jobs=[];cov['_partial_jobs']=jobs;expected=0
+ if scope!='social':
+  nature='应届生' if scope=='campus' else '实习生';total=None;seen=set()
+  url='https://campushr.hikvision.com/api/search/crsPositionSearch/getPositionByQuery'
+  for page in range(1,1001):
+   params={'jobNature':nature,'pageNum':page,'pageSize':50,'batchId':'','postAdSnList':'','workPlaces':'','interviewMethodList':'','keyWord':''}
+   r=requests.post(url,data=params,timeout=30);r.raise_for_status();data=r.json()
+   if not data.get('success'):raise ValueError('Hikvision campus API '+str(data.get('message')))
+   d=data['data'];cov['pages_scanned']+=1
+   if total is None:total=int(d['total']);expected+=total
+   elif total!=int(d['total']):raise ValueError('Hikvision campus total changed')
+   keep=['id','batchId','batchName','postAdName','postAdSn','postContent','postRequire','jobNature','workPlaceList','workPlace','mergeType','updateTime','createTime','requiireEdu']
+   rows=[{k:r.get(k) for k in keep} for r in d['list']]
+   path=save(f.out/f'campus-{page}.json',{'request':params,'total':total,'rows':rows});f.evidence.append(path)
+   for r in rows:
+    ident=r['id']
+    if ident in seen:raise ValueError('Hikvision campus duplicate ID')
+    seen.add(ident)
+    if r.get('jobNature')!=('校招应届生' if scope=='campus' else '校招实习生'):cov['errors'].append('Hikvision source type mismatch '+ident);continue
+    if not r.get('postContent') or not r.get('postRequire'):cov['errors'].append('Hikvision incomplete job detail '+ident);continue
+    desc=clean(r['postContent'])+'\n\n'+clean(r['postRequire']);detail=f'https://campushr.hikvision.com/JobDetails.html?id={ident}&type={r["mergeType"]}'
+    cohort='；'.join(re.findall(r'[^。\n]*(?:20\d{2}届|毕业)[^。\n]*',desc))
+    jobs.append(job(company,'hikvision',ident,r['postAdName'],detail,desc,scope,path,cities=r.get('workPlaceList') or [],cohort_raw=cohort,campaign_name=r.get('batchName') or '',cohort_scope='official_job_description',job_category=r.get('postAdSn') or '',education_raw=r.get('requiireEdu') or ''))
+   if len(seen)==total:break
+   if not rows or len(seen)>total:raise ValueError('Hikvision campus pagination mismatch')
+  else:raise ValueError('Hikvision campus pagination limit')
+ if scope in ('social','intern'):
+  host='https://talent.hikvision.com';typ='1' if scope=='social' else '3'
+  text,configpath=f.get(host+'/api/ats/official/officialConfig/rest/getConfigInfo?domainStr=talent.hikvision.com','society-config');config=json.loads(text)
+  company_id=config['data']['officialSubjInfoVo']['companyId'];rows={};total=None
+  for page in range(1,1001):
+   text,path=f.get(host+'/api/ats/official/officialPostPosition/getPostInfoForSys','society-list-'+str(page),{'pageNum':page,'pageSize':50,'companyId':'','recruitType':typ})
+   data=json.loads(text)
+   if not data.get('success'):raise ValueError('Hikvision social API '+str(data.get('message')))
+   d=data['data'];cov['pages_scanned']+=1
+   if total is None:total=int(d['total']);expected+=total
+   elif total!=int(d['total']):raise ValueError('Hikvision social total changed')
+   for r in d['list']:
+    ident=r['postSecureId']
+    if ident in rows:raise ValueError('Hikvision repeated social ID')
+    rows[ident]=r
+   if len(rows)==total:break
+   if not d['list'] or len(rows)>total:raise ValueError('Hikvision social pagination mismatch')
+  else:raise ValueError('Hikvision social page limit')
+  def detail(ident):
+   url=host+'/api/ats/official/officialPostPosition/findAdDetailInfo?'+requests.compat.urlencode({'adIdStr':ident,'companyId':company_id})
+   response=requests.get(url,timeout=30);response.raise_for_status();data=response.json()
+   if not data.get('success'):raise ValueError('Hikvision detail rejected '+ident)
+   raw=data['data']['ad'];keep=['postName','recruitType','company','department','locationDesc','workingYears','postDesc','qualifications','education','adIdStr','postIdStr','createdon','modifiedon','endTime']
+   r={k:raw.get(k) for k in keep};path=save(f.out/('society-detail-'+ident+'.json'),{'request':{'adIdStr':ident,'companyId':company_id},'ad':r});f.evidence.append(path)
+   if r['adIdStr']!=ident or str(r['recruitType'])!=typ:raise ValueError('Hikvision detail identity/scope mismatch '+ident)
+   if not r.get('postDesc') or not r.get('qualifications'):raise ValueError('Hikvision incomplete social detail '+ident)
+   desc=clean(r['postDesc'])+'\n\n'+clean(r['qualifications']);j=job(company,'hikvision',ident,r['postName'],host+'/society/position?postId='+ident,desc,scope,path,cities=[r['locationDesc']] if r.get('locationDesc') else [],education_raw=r.get('education') or '',published_at=r.get('createdon'),cohort_raw='；'.join(re.findall(r'[^。\n]*(?:20\d{2}届|毕业)[^。\n]*',desc)),cohort_scope='official_job_description')
+   j['recruiting_unit_raw']=r.get('company') or company;return j
+  with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+   futures=[pool.submit(detail,x) for x in rows]
+   for result in futures:
+    try:jobs.append(result.result())
+    except Exception as e:cov['errors'].append(str(e))
+ cov.update(expected_total=expected,scope_evidence='官方jobNature校招应届生/校招实习生；不加批次限制；另社会官网recruitType1=社会3=实习，详情逐条验证类型及adIdStr。',scope_request={'company':company,'scope':scope,'source_url':SOURCES['hikvision'],'params':{'jobNature':('应届生' if scope=='campus' else '实习生') if scope!='social' else None,'pageSize':50,'batchId':'','society_recruitType':'1' if scope=='social' else ('3' if scope=='intern' else None)}})
+ return jobs
+
+def _ctrip(company,scope,f,cov):
+ sources=[('https://careers.ctrip.com','/api/hrrecruit/getJobAd',{'category':2},'campus'),('https://careers.ctrip.com','/api/hrrecruit/getJobAd',{'category':1},'social'),('https://careers.trip.com','/api/oversea/getOverseaJobAd',{},'global')]
+ rows={};campus_ids=set()
+ for host,endpoint,condition,route in sources:
+  seen=set();total=None
+  for page in range(1,1001):
+   text,path=f.get(host+endpoint,route+'-list-'+str(page),{'condition':condition,'pager':{'index':page,'size':100}});data=json.loads(text)
+   if str(data.get('retCode'))!='201':raise ValueError('Trip.com API '+str(data.get('retMessage')))
+   d=data['retValue'];cov['pages_scanned']+=1
+   if total is None:total=int(d['total'])
+   elif total!=int(d['total']):raise ValueError('Trip.com list total changed')
+   keep=['id','fromId','jobId','jobTitle','publishDate','city','cityName','requirements','duty','jobFamilyGroupCode','jobFamilyGroupName','buCode','buName','kind','kindName','atsApiType','category']
+   batch=[{k:r.get(k) for k in keep} for r in d['recruitJobAdList']]
+   Path(path).write_text(json.dumps({'request':{'condition':condition,'pager':{'index':page,'size':100}},'retCode':'201','retValue':{'total':total,'recruitJobAdList':batch}},ensure_ascii=False))
+   for r in batch:
+    ident=str(r.get('jobId') or r['id'])
+    if ident in seen:raise ValueError('Trip.com repeated ID in pagination')
+    seen.add(ident)
+    if route=='campus':campus_ids.add(ident)
+    # Same stable ATS job can be published on domestic and global websites.
+    if ident not in rows:rows[ident]=(r,host,route,path)
+   if len(seen)==total:break
+   if not batch or len(seen)>total:raise ValueError('Trip.com pagination count mismatch')
+  else:raise ValueError('Trip.com page limit')
+ jobs=[];selected=0
+ for ident,(r,host,route,path) in rows.items():
+  kind=str(r.get('kind') or '')
+  actual='intern' if kind in ('3','Intern_Short_Term') else ('campus' if ident in campus_ids else ('social' if kind in ('1','Regular','Contract','Temporary') else None))
+  if actual is None:
+   if scope!='campus':cov['errors'].append('Unspecified official recruitment type '+ident)
+   continue
+  if actual!=scope:continue
+  selected+=1;desc=clean(r.get('requirements'))
+  if not desc:cov['errors'].append('Trip.com empty official detail '+ident);continue
+  if route=='global':url=host+'/#/job-detail?'+requests.compat.urlencode({'fromId':r['fromId'],'atsApiType':r.get('atsApiType') or ''})
+  else:url=host+'/#/'+('campus' if actual=='campus' else 'experienced')+'/job-detail/'+str(r['fromId'])
+  cohort='；'.join(re.findall(r'[^。\n]*(?:20\d{2}届|毕业|20\d{2} Graduates)[^。\n]*',desc,re.I))
+  jobs.append(job(company,'ctrip',ident,r['jobTitle'],url,desc,scope,path,cities=[r['cityName']] if r.get('cityName') else [],job_category=r.get('jobFamilyGroupName') or '',published_at=r.get('publishDate'),cohort_raw=cohort,cohort_scope='official_job_description'))
+ cov.update(expected_total=selected,list_total=len(rows),scope_evidence='携程官网condition.category2为校招、1为社会；kind3及Intern_Short_Term为实习。海外官网Regular为社会；未写类型不猜。所有列表返回完整requirements正文。',scope_request={'company':company,'scope':scope,'source_url':SOURCES['ctrip'],'params':{'sources':[{'host':h,'endpoint':e,'condition':c} for h,e,c,r in sources],'pager_size':100}})
+ return jobs
+
+def _external_blocker(company,scope,f,cov,slug):
+ if slug=='ctrip':
+  text,path=f.get('https://careers.trip.com/','official-entry')
+  if 'whaleguard' in text.lower():raise ValueError('Official Trip.com recruitment returns whaleguard block; no public job payload')
+  raise ValueError('Official recruitment response changed; investigate public ATS contract before accepting jobs')
+ route='social' if scope=='social' else 'campus'
+ entry='https://arashivision.jobs.feishu.cn/'+route
+ f.get(entry,'official-feishu-entry')
+ params={'keyword':'','limit':10,'offset':0,'job_category_id_list':[],'tag_id_list':[],'location_code_list':[],'subject_id_list':[],'recruitment_id_list':[],'portal_type':2,'job_function_id_list':[],'storefront_id_list':[]}
+ cov['scope_request']={'company':company,'scope':scope,'source_url':entry,'params':params}
+ response=requests.post('https://arashivision.jobs.feishu.cn/api/v1/search/job/posts',json=params,headers={'website-path':route,'Referer':entry},timeout=30)
+ path=save(f.out/'public-api-response.json',{'http_status':response.status_code,'response_text':response.content.decode('utf-8','replace'),'website_path':route});f.evidence.append(path)
+ response.raise_for_status()
+ raise ValueError('Official Feishu public API now accessible; previously HTTP405. Schema must be verified before accepting jobs')
+
 def collect(company:str,scope:str,output_dir:Path)->dict:
  if company not in COMPANIES:raise ValueError('unknown company')
  if scope not in TYPES:raise ValueError('unknown scope')
@@ -272,6 +404,9 @@ def collect(company:str,scope:str,output_dir:Path)->dict:
   elif slug=='baidu':jobs=_baidu(company,scope,f,cov)
   elif slug=='didi':jobs=_didi(company,scope,f,cov)
   elif slug=='lenovo':jobs=_lenovo(company,scope,f,cov)
+  elif slug=='hikvision':jobs=_hikvision(company,scope,f,cov)
+  elif slug=='ctrip':jobs=_ctrip(company,scope,f,cov)
+  elif slug=='insta360':jobs=_external_blocker(company,scope,f,cov,slug)
   else:
    f.get(SOURCES[slug],'official-entry');raise ValueError('Official entry checked; full scoped list/detail contract not yet verified')
  except Exception as e:
@@ -279,7 +414,7 @@ def collect(company:str,scope:str,output_dir:Path)->dict:
  cov.pop('_partial_jobs',None)
  cov['collected_jobs']=len(jobs);cov['evidence']=f.evidence;cov['evidence_files']=f.evidence
  cov.setdefault('scope_request',{'company':company,'scope':scope,'source_url':SOURCES[slug],'params':{'hireType':[1,0],'channelDetailIds':[1]} if slug=='mihoyo' else ({'websiteIds':['6962795203808168199','6962795203808217351','7005456241946331399','7069578816822282503','7268177039772633400'],'page_size':10,'job_function_id_list':[],'city_code_list':[],'keyword':'','job_lang_list':[]} if slug=='anker' else {'route':'social' if scope=='social' else 'campus','pageIndex':1,'pageSize':20,'channel':'group_official_site' if scope=='social' else 'campus_group_official_site','language':'zh_CN'} )})
- cov['complete']=cov['expected_total'] is not None and len(jobs)==cov['expected_total'] and not cov['errors']
+ cov['complete']=not cov['errors'] and ((cov['expected_total'] is not None and len(jobs)==cov['expected_total']) or (cov['expected_total'] is None and cov.get('pagination_exhausted') is True and cov.get('unique_source_ids')==len(jobs) and bool(cov.get('last_page_evidence'))))
  cov['detail_complete']=cov['complete'];cov['status']='success' if cov['complete'] else ('partial' if jobs else 'blocked')
  result={'jobs':jobs,'coverage':cov};save(out/'candidate.json',result);save(out/'coverage.json',cov);return result
 if __name__=='__main__':
