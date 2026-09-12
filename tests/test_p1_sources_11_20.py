@@ -71,3 +71,41 @@ class GraduationDateTests(unittest.TestCase):
   self.assertEqual(graduation_window({'from':None,'to':None}),'')
   with self.assertRaises(ValueError):graduation_window({'from':'2028-01-01','to':'2027-01-01'})
 if __name__=='__main__':unittest.main()
+
+class BilibiliAnonymousTests(unittest.TestCase):
+ def run_source(self,tmp,wrong=False,duplicate=False):
+  from unittest.mock import patch
+  from qiuzhao.collector.p1_sources_11_20 import _bilibili,Fetcher
+  class Response:
+   def __init__(self,data):self.data=data
+   def raise_for_status(self):pass
+   def json(self):return self.data
+  class Session:
+   def __init__(self):self.headers={}
+   def get(self,url,**kw):
+    if url.endswith('token'):return Response({'code':0,'data':'ephemeral-do-not-persist'})
+    return Response({'code':0,'data':{'id':99 if wrong else 1,'positionName':'工程师','positionTypeName':'全职','positionDescription':'工作职责:研发\n工作要求:本科','workLocation':'上海','leaderList':['not-needed']}})
+   def post(self,url,json,**kw):
+    self_test.assertEqual(json['positionTypeList'],[])
+    rows=[] if '/srs/' in url else [{'id':1,'positionTypeName':'全职'}]
+    return Response({'code':0,'data':{'total':2 if duplicate and rows else len(rows),'list':rows}})
+   def close(self):pass
+  self_test=self;c={'errors':[],'pages_scanned':0};f=Fetcher(tmp)
+  with patch('qiuzhao.collector.p1_sources_11_20.requests.Session',Session):rows=_bilibili('哔哩哔哩','campus',f,c)
+  return rows,c
+ def test_guest_protocol_and_no_token_or_staff_evidence(self):
+  import tempfile
+  from pathlib import Path
+  with tempfile.TemporaryDirectory() as d:
+   rows,c=self.run_source(Path(d));self.assertEqual(len(rows),1);self.assertEqual(rows[0]['detail_url'],'https://jobs.bilibili.com/campus/positions/1')
+   evidence=''.join(p.read_text() for p in Path(d).glob('*.json'));self.assertNotIn('ephemeral-do-not-persist',evidence);self.assertNotIn('leaderList',evidence)
+ def test_wrong_detail_identity_preserves_partial(self):
+  import tempfile
+  from pathlib import Path
+  with tempfile.TemporaryDirectory() as d:
+   rows,c=self.run_source(Path(d),wrong=True);self.assertEqual(rows,[]);self.assertTrue(c['errors'])
+ def test_duplicate_pagination_fails_closed(self):
+  import tempfile
+  from pathlib import Path
+  with tempfile.TemporaryDirectory() as d:
+   with self.assertRaisesRegex(ValueError,'duplicate'):self.run_source(Path(d),duplicate=True)

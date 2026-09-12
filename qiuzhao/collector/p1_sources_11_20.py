@@ -26,7 +26,7 @@ def job(company,slug,ident,title,url,description,scope,evidence,**kw):
 def role_body(description,requirement):
  d,q=clean(description),clean(requirement)
  missing=[name for name,value in [('description',d),('requirement',q)] if not value]
- if not q and re.search(r'岗位要求|任职要求|任职资格|qualification|requirements',d,re.I):missing.remove('requirement')
+ if not q and re.search(r'岗位要求|工作要求|任职要求|任职资格|qualification|requirements',d,re.I):missing.remove('requirement')
  if not d and re.search(r'岗位职责|工作职责|responsibilit|job description|duties',q,re.I):missing.remove('description')
  combined='\n\n'.join(x for x in [d,q] if x)
  if not combined:raise ValueError('Official responsibilities and requirements both absent')
@@ -192,12 +192,63 @@ def _anker(company,scope,f,cov):
  return jobs
 
 def _bilibili(company,scope,f,cov):
- route='srs' if scope=='social' else 'campus';typ='0' if scope=='intern' else '3'
- payload={'pageSize':10,'pageNum':1,'workTypeList':[typ],'positionTypeList':[typ],'recruitType':0 if scope=='social' else 1,'onlyHotRecruit':0}
- cov['scope_request']={'company':company,'scope':scope,'source_url':SOURCES['bilibili'],'params':payload}
- text,_=f.get('https://jobs.bilibili.com/api/'+route+'/position/positionList','list-1',payload)
- data=json.loads(text)
- raise ValueError('Official Bilibili list rejected code='+str(data.get('code'))+' message='+str(data.get('message')))
+ # These public guest headers and CSRF handshake are the official web client's
+ # anonymous protocol. Token remains in memory and is never evidence.
+ session=requests.Session();session.headers.update({'User-Agent':'Mozilla/5.0','X-AppKey':'ops.ehr-api.auth','X-UserType':'2','X-Channel':'campus'})
+ token=session.get('https://jobs.bilibili.com/api/auth/v1/csrf/token',timeout=30);token.raise_for_status();data=token.json()
+ if data.get('code')!=0 or not isinstance(data.get('data'),str):raise ValueError('Anonymous public CSRF handshake failed')
+ session.headers['X-CSRF']=data['data']
+ def request(route,ident=None,payload=None):
+  headers={'X-Channel':'social' if route=='srs' else 'campus'}
+  url='https://jobs.bilibili.com/api/'+route+'/position/'+('detail/'+str(ident) if ident is not None else 'positionList')
+  response=session.get(url,headers=headers,timeout=30) if ident is not None else session.post(url,json=payload,headers=headers,timeout=30)
+  response.raise_for_status();raw=response.json()
+  if raw.get('code')!=0:raise ValueError('Official public API rejected '+str(raw.get('code')))
+  data=raw['data']
+  if ident is not None:
+   data={k:v for k,v in data.items() if k not in ['leaderList']}
+   raw={'code':0,'data':data}
+  path=save(f.out/(f'detail-{route}-{ident}.json' if ident is not None else f'list-{route}-{payload["pageNum"]}.json'),raw);f.evidence.append(path)
+  return data,path
+ selected=[];seen=set();total_list=0;requests_used=[]
+ for route in ['campus','srs']:
+  count=0;expected=None;page=1
+  while True:
+   payload={'pageSize':50,'pageNum':page,'positionName':'','postCode':[],'postCodeList':[],'workLocationList':[],'workTypeList':[],'positionTypeList':[],'deptCodeList':[],'recruitType':0 if route=='srs' else None,'practiceTypes':[],'onlyHotRecruit':0}
+   data,path=request(route,payload=payload);cov['pages_scanned']+=1
+   if page==1:requests_used.append({'route':route,'payload':payload});expected=int(data['total']);total_list+=expected
+   elif int(data['total'])!=expected:raise ValueError('Bilibili total changed')
+   batch=data['list']
+   for row in batch:
+    key=(route,str(row['id']))
+    if key in seen:raise ValueError('Bilibili duplicate listing identity')
+    seen.add(key);name=row.get('positionTypeName')
+    actual='intern' if name=='实习' else (('campus' if route=='campus' else 'social') if name=='全职' else None)
+    if actual is None:cov['errors'].append('Unknown official positionTypeName '+str(name))
+    elif actual==scope:selected.append((route,row,path))
+   count+=len(batch)
+   if count==expected:cov['last_page_evidence']=path;break
+   if not batch or count>expected:raise ValueError('Bilibili pagination mismatch')
+   page+=1
+ cov['scope_request']={'company':company,'scope':scope,'source_url':SOURCES['bilibili'],'params':{'requests':requests_used}}
+ cov['scope_evidence']='官方校园/社会两个频道无岗位类型过滤全量枚举；positionTypeName=实习归实习，全职按校园或社会频道；详情类型和ID逐项复核。'
+ cov['expected_total']=len(selected);cov['list_total']=total_list;cov['pagination_exhausted']=True
+ jobs=[];cov['_partial_jobs']=jobs
+ def detail(item):
+  route,row,listing_path=item;ident=str(row['id']);data,path=request(route,ident=ident)
+  if str(data.get('id'))!=ident or data.get('positionTypeName')!=row.get('positionTypeName'):raise ValueError('Bilibili detail identity/type mismatch '+ident)
+  try:desc,missing=role_body(data.get('positionDescription'),'')
+  except ValueError:
+   missing_detail(cov,ident,data.get('positionName'),path);raise
+  url='https://jobs.bilibili.com/'+('campus' if route=='campus' else 'social')+'/positions/'+ident
+  # Graduation UI dates can disagree with explicit role prose; keep dates as raw
+  # metadata and let the canonical parser prioritize actual role requirements.
+  return job(company,'bilibili',route+'-'+ident,data['positionName'],url,desc,scope,path,cities=[x.strip() for x in re.split('[,，、;/]',data.get('workLocation') or '') if x.strip()],source_missing_fields=missing,source_recruitment_type=data.get('positionTypeName'),graduation_date_range_raw={'from':data.get('graduationStartTime'),'to':data.get('graduationEndTime')},published_at=data.get('pushTime'),listing_evidence_path=listing_path)
+ with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
+  for future in concurrent.futures.as_completed([pool.submit(detail,x) for x in selected]):
+   try:jobs.append(future.result())
+   except Exception as e:cov['errors'].append(str(e))
+ cov['unique_source_ids']=len(jobs);session.close();return jobs
 
 def _baidu(company,scope,f,cov):
  typ={'campus':'GRADUATE','intern':'INTERN','social':'SOCIAL'}[scope]
