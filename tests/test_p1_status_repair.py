@@ -22,3 +22,9 @@ def test_response_must_show_same_id_and_official_status():
     assert evidence_has_status(response,UUID,'pause')
     assert not evidence_has_status(response,UUID,'closed')
     assert not evidence_has_status(response,'other','pause')
+
+
+def test_missing_status_never_counts_as_inactive_evidence():
+    from qiuzhao.collector.p1_status_repair import evidence_has_status
+    assert not evidence_has_status({'id':UUID},UUID,None)
+    assert not evidence_has_status({'id':UUID,'status':'open'},UUID,'open')

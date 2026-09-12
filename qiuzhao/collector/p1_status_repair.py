@@ -32,6 +32,7 @@ def repair_rows(previous,patches):
 
 
 def evidence_has_status(value,source_id,status):
+    if status not in {'pause','closed'}:return False
     if isinstance(value,dict):
         if str(value.get('id') or '')==source_id and value.get('status')==status:return True
         return any(evidence_has_status(v,source_id,status) for v in value.values())
@@ -48,13 +49,15 @@ def apply(bundle,data_dir):
         ref=patch['updates']['source_status_evidence']['evidence_file']
         if ref not in manifest['files']:raise ValueError('unhashed status evidence')
         official=json.loads((bundle/ref).read_text())
-        if not evidence_has_status(official,patch['source_record_id'],patch['updates'].get('source_list_status_raw')):
+        support=[patch['updates'].get(key) for key in ('source_list_status_raw','source_detail_status_raw')]
+        if not any(evidence_has_status(official,patch['source_record_id'],status) for status in support if status in {'pause','closed'}):
             raise ValueError('patch identity/status absent from official saved response')
     with (data_dir/'collector.lock').open('a') as outer,(data_dir/'p1-publish.lock').open('a') as inner:
         fcntl.flock(outer,fcntl.LOCK_EX|fcntl.LOCK_NB);fcntl.flock(inner,fcntl.LOCK_EX)
         jobs=data_dir/'jobs.json';before=P.sha(jobs);previous=json.loads(jobs.read_text())
         merged,changed=repair_rows(previous,manifest['patches'])
-        backup=bundle/'jobs.before.json.gz';backup_meta=bundle/'backup.json'
+        backup_dir=bundle/'backups';backup_dir.mkdir(exist_ok=True)
+        backup=backup_dir/(before+'.json.gz');backup_meta=backup_dir/(before+'.json')
         if not backup.exists():
             with jobs.open('rb') as source,gzip.open(backup,'wb',compresslevel=3) as dest:shutil.copyfileobj(source,dest)
             with gzip.open(backup,'rb') as source:backup_hash=P.stream_sha(source)
@@ -62,6 +65,7 @@ def apply(bundle,data_dir):
             P.atomic_json(backup_meta,{'sha256':backup_hash})
         else:
             backup_hash=json.loads(backup_meta.read_text())['sha256']
+            if backup_hash!=before:raise ValueError('backup is not this pre-write production version')
             with gzip.open(backup,'rb') as source:
                 if P.stream_sha(source)!=backup_hash:raise ValueError('existing backup corrupt')
         if P.sha(jobs)!=before:raise ValueError('production changed during repair')
