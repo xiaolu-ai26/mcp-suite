@@ -255,6 +255,13 @@ def _bilibili(company,scope,f,cov):
 def _baidu(company,scope,f,cov):
  typ={'campus':'GRADUATE','intern':'INTERN','social':'SOCIAL'}[scope]
  headers={'User-Agent':'Mozilla/5.0','Referer':'https://talent.baidu.com/jobs/list?recruitType='+typ,'Origin':'https://talent.baidu.com','Content-Type':'application/x-www-form-urlencoded;charset=utf-8','Accept':'application/json, text/plain, */*'}
+ campaign={};campaign_path=None
+ if scope in ('campus','intern'):
+  response=requests.get('https://talent.baidu.com/httservice/config/item/list',params={'clientType':'pc','configKey':'GRADUATE_JOB_LIST'},headers=headers,timeout=30);response.raise_for_status();config=response.json()
+  if config.get('status')!='ok':raise ValueError('Baidu campaign config unavailable')
+  matches=[r for r in config.get('data') or [] if r.get('recruitType')==typ]
+  if len(matches)!=1:raise ValueError('Baidu campaign scope config mismatch')
+  campaign={k:matches[0].get(k) for k in ['title','subtitle','content','recruitType']};campaign_path=save(f.out/'campaign-config.json',campaign);f.evidence.append(campaign_path)
  keep=['education','name','orgName','postId','jobId','postType','publishDate','updateDate','recruitNum','serviceCondition','workContent','workPlace','workYears','projectType','projectTypeCode','interviewDate','writeExaminationDate']
  def request(params,detail=False):
   url='https://talent.baidu.com/httservice/'+('getPostDetail' if detail else 'getPostListNew')
@@ -290,7 +297,7 @@ def _baidu(company,scope,f,cov):
   except ValueError:
    missing_detail(cov,ident,r.get('name'),path);raise
   url='https://talent.baidu.com/jobs/detail/'+typ+'/'+ident
-  return job(company,'baidu',ident,r['name'],url,desc,scope,path,cities=[x.strip() for x in re.split('[,，、;/]',r.get('workPlace') or '') if x.strip()],education_raw=r.get('education') or '',published_at=r.get('publishDate'),source_missing_fields=missing,source_recruitment_type=typ,campaign_name=r.get('projectType') or '',listing_evidence_path=listing_path)
+  return job(company,'baidu',ident,r['name'],url,desc,scope,path,cities=[x.strip() for x in re.split('[,，、;/]',r.get('workPlace') or '') if x.strip()],education_raw=r.get('education') or '',published_at=r.get('publishDate'),source_missing_fields=missing,source_recruitment_type=typ,campaign_name=r.get('projectType') or '',listing_evidence_path=listing_path,campaign_announcement_raw=campaign,campaign_evidence_path=campaign_path,campaign_cohort_raw=campaign.get('subtitle','') if scope=='campus' else '',campaign_scope='campaign_announcement',campaign_url='https://talent.baidu.com/jobs/list?recruitType='+typ)
  with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
   for future in concurrent.futures.as_completed([pool.submit(detail,x) for x in rows.items()]):
    try:jobs.append(future.result())
