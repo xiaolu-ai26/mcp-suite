@@ -184,3 +184,10 @@ class DidiGlobalTests(unittest.TestCase):
   self.assertTrue(r['coverage']['complete']);self.assertEqual(r['coverage']['list_total'],2);self.assertEqual(len(r['jobs']),1);self.assertEqual(r['jobs'][0]['cities'],['Brazil','Mexico'])
   with tempfile.TemporaryDirectory() as d:r=self.run_global(Path(d),alias=True,bad_location=True)
   self.assertFalse(r['coverage']['complete']);self.assertEqual(r['jobs'],[])
+
+class BilibiliEducationTests(unittest.TestCase):
+ def test_compact_degree_comes_from_requirements_not_responsibilities(self):
+  from qiuzhao.collector.p1_sources_11_20 import _bilibili_education
+  text='工作职责：研究本硕博人才课程。工作要求：面向2027届海内外本硕博毕业生（2026年9月-2027年8月期间毕业）'
+  self.assertEqual(_bilibili_education(text),'面向2027届海内外本硕博毕业生（2026年9月-2027年8月期间毕业）')
+  self.assertEqual(_bilibili_education('工作职责：调研本硕博在读学生的学习行为'),'')

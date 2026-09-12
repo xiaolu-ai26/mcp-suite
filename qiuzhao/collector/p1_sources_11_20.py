@@ -191,6 +191,16 @@ def _anker(company,scope,f,cov):
  cov['unique_source_ids']=len(jobs)
  return jobs
 
+def _bilibili_education(description):
+ """Keep compact degree wording only from the official requirements section."""
+ text=clean(description)
+ start=re.search(r'工作要求|岗位要求|任职要求|任职资格|Qualifications|Requirements',text,re.I)
+ if not start:return ''
+ requirements=text[start.end():]
+ end=re.search(r'工作职责|岗位职责|Responsibilities',requirements,re.I)
+ if end:requirements=requirements[:end.start()]
+ return '；'.join(line.strip().lstrip(':：') for line in re.split(r'[。；\n]',requirements) if re.search(r'本硕博|本硕|硕博',line) and re.search(r'毕业|学历|学位|在读',line))
+
 def _bilibili(company,scope,f,cov):
  # These public guest headers and CSRF handshake are the official web client's
  # anonymous protocol. Token remains in memory and is never evidence.
@@ -244,7 +254,7 @@ def _bilibili(company,scope,f,cov):
    url='https://jobs.bilibili.com/'+('campus' if route=='campus' else 'social')+'/positions/'+ident
    # Graduation UI dates can disagree with explicit role prose; keep dates as raw
    # metadata and let the canonical parser prioritize actual role requirements.
-   return job(company,'bilibili',route+'-'+ident,data['positionName'],url,desc,scope,path,cities=[x.strip() for x in re.split('[,，、;/]',data.get('workLocation') or '') if x.strip()],source_missing_fields=missing,source_recruitment_type=data.get('positionTypeName'),graduation_date_range_raw={'from':data.get('graduationStartTime'),'to':data.get('graduationEndTime')},published_at=data.get('pushTime'),listing_evidence_path=listing_path)
+   return job(company,'bilibili',route+'-'+ident,data['positionName'],url,desc,scope,path,education_raw=_bilibili_education(desc),cities=[x.strip() for x in re.split('[,，、;/]',data.get('workLocation') or '') if x.strip()],source_missing_fields=missing,source_recruitment_type=data.get('positionTypeName'),graduation_date_range_raw={'from':data.get('graduationStartTime'),'to':data.get('graduationEndTime')},published_at=data.get('pushTime'),listing_evidence_path=listing_path)
   with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
    for future in concurrent.futures.as_completed([pool.submit(detail,x) for x in selected]):
     try:jobs.append(future.result())
