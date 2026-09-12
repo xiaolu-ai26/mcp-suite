@@ -323,7 +323,7 @@ def collect_didi_global(company,scope,out):
  """Official global portal with the missing public intermediate verified."""
  import subprocess
  out=Path(out);out.mkdir(parents=True,exist_ok=True);files=[];jobs=[];selected=[]
- c={'status':'blocked','complete':False,'expected_total':None,'collected_jobs':0,'pages_scanned':0,'detail_complete':False,'source_url':'https://careers.didiglobal.com/job','errors':[],'scope_evidence':'Official Global Professionals jobType Intern => internship; Regular/Contractor => social. Complete API result is paginated only in the official frontend.','scope_request':{'company':company,'scope':scope,'source_url':'https://careers.didiglobal.com/job','params':{'country':'','keyValue':'','teamId':'','typeId':''}}}
+ c={'status':'blocked','complete':False,'expected_total':None,'collected_jobs':0,'pages_scanned':0,'detail_complete':False,'source_url':'https://careers.didiglobal.com/job','errors':[],'scope_evidence':'Official Global Professionals jobType Intern => internship; Regular/Contractor => social. Complete API result is paginated only in the official frontend; numeric location suffixes are verified against addLocations[index] and merged into the same primary job with all cities.','scope_request':{'company':company,'scope':scope,'source_url':'https://careers.didiglobal.com/job','params':{'country':'','keyValue':'','teamId':'','typeId':''}}}
  def fetch(endpoint,name,payload=None):
   url='https://cdncareers.didiglobal.com:34003/icims/'+endpoint
   response=requests.post(url,json=payload,verify=ca_bundle,timeout=30) if payload is not None else requests.get(url,verify=ca_bundle,timeout=30)
@@ -337,20 +337,35 @@ def collect_didi_global(company,scope,out):
   ca_bundle=_didi_trust_bundle(out)
   rows,listing=fetch('searchJobList','list',c['scope_request']['params']);c['pages_scanned']=1;c['list_total']=len(rows)
   if len({str(r['id']) for r in rows})!=len(rows):raise ValueError('Global list repeated source ID')
-  for r in rows:
-   actual='intern' if r['jobType']=='Intern' else ('social' if r['jobType'] in ['Regular','Contractor'] else None)
-   if actual is None:c['errors'].append('Unknown global jobType '+str(r['jobType']))
-   if actual==scope:selected.append(r)
-  c.update(expected_total=len(selected),pagination_exhausted=True,last_page_evidence=listing)
-  def detail(row):
-   ident=str(row['id']);r,path=fetch('searchJob?'+requests.compat.urlencode({'id':ident}),'detail-'+ident)
-   if str(r.get('id'))!=ident or r.get('jobType')!=row['jobType']:raise ValueError('Global detail ID/type mismatch '+ident)
+  grouped={}
+  for row in rows:
+   match=re.fullmatch(r'(\d+)(?:-(\d+))?',str(row['id']))
+   if not match:raise ValueError('Unknown global source ID format')
+   grouped.setdefault(match.group(1),[]).append(row)
+  for ident,aliases in grouped.items():
+   primary=next((r for r in aliases if str(r['id'])==ident),None)
+   if primary is None:raise ValueError('Global location aliases lack the primary role')
+   actual='intern' if primary['jobType']=='Intern' else ('social' if primary['jobType'] in ['Regular','Contractor'] else None)
+   if actual is None:c['errors'].append('Unknown global jobType '+str(primary['jobType']))
+   if actual==scope:selected.append((ident,aliases))
+  c.update(expected_total=len(selected),pagination_exhausted=True,last_page_evidence=listing,location_alias_count=len(rows)-len(grouped))
+  def detail(item):
+   ident,aliases=item;r,path=fetch('searchJob?'+requests.compat.urlencode({'id':ident}),'detail-'+ident)
+   if str(r.get('id'))!=ident:raise ValueError('Global detail ID/type mismatch '+ident)
+   additional=(r.get('addLocations') or '').split('|');cities=[]
+   for alias in aliases:
+    if r.get('jobType')!=alias['jobType'] or r.get('jobTitle')!=alias['jobTitle']:raise ValueError('Global detail ID/type mismatch '+str(alias['id']))
+    suffix=re.fullmatch(r'\d+-(\d+)',str(alias['id']))
+    if suffix:
+     index=int(suffix.group(1))
+     if index>=len(additional) or additional[index]!=alias.get('address'):raise ValueError('Global location alias index mismatch '+str(alias['id']))
+    if alias.get('address') and alias['address'] not in cities:cities.append(alias['address'])
    def substantive(value):
     value=clean(value);return value if any(char.isalnum() for char in value) else ''
    try:description,missing=role_body(substantive(r.get('roleDetail')),substantive(r.get('eagerDetail')))
    except ValueError:
     missing_detail(c,ident,r.get('jobTitle'),path);raise
-   return job(company,'didi','icims:'+ident,r['jobTitle'],'https://careers.didiglobal.com/jobDetail:'+ident,description,scope,path,cities=[r['address']] if r.get('address') else [],source_missing_fields=missing,source_record_id_raw=ident,source_recruitment_type=r.get('jobType'),source_hire_type=r.get('hireType'),vacancy_type='talent_pool' if r.get('hireType')=='Pipeline' else 'position',listing_evidence_path=listing)
+   return job(company,'didi','icims:'+ident,r['jobTitle'],'https://careers.didiglobal.com/jobDetail:'+ident,description,scope,path,cities=cities,source_location_aliases=[{'source_record_id':a['id'],'address':a.get('address')} for a in aliases],source_missing_fields=missing,source_record_id_raw=ident,source_recruitment_type=r.get('jobType'),source_hire_type=r.get('hireType'),vacancy_type='talent_pool' if r.get('hireType')=='Pipeline' else 'position',listing_evidence_path=listing)
   with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
    for future in concurrent.futures.as_completed([pool.submit(detail,r) for r in selected]):
     try:jobs.append(future.result())
