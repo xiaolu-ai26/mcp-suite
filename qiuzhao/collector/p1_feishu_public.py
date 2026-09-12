@@ -168,7 +168,10 @@ def collect_feishu(company:str,scope:str,sites:list,output_dir:Path)->dict:
          detail=public_row(raw);path=evidence(f'{site_index}-detail-{ident}.json',{'request':{'job_id':ident,'portal_type':portal_type},'job':detail})
          try:desc,missing=role_body(detail.get('description'),detail.get('requirement'))
          except ValueError:
-          pending[ident]=pending_record(detail,url,listing_paths[ident],path)
+          if ident in jobs:
+           c['errors'].append('Cross-site empty detail after verified body for '+ident)
+           jobs[ident].setdefault('source_conflicts',[]).append({'reason':'cross_site_empty_detail','evidence_file':path})
+          else:pending[ident]=pending_record(detail,url,listing_paths[ident],path)
           continue
          url=urlsplit(site['url']).scheme+'://'+urlsplit(site['url']).netloc+'/'+website['path'].strip('/')+'/position/'+ident+'/detail'
          subject=(detail.get('job_subject') or {}).get('name') or {};batch=(subject.get('zh_cn') or subject.get('i18n') or subject.get('en_us') or '') if isinstance(subject,dict) else str(subject)

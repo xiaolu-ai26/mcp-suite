@@ -45,23 +45,24 @@ class NativeFieldTests(unittest.TestCase):
   self.assertNotIn('sensitive',str(row));self.assertNotIn('secret',str(row));self.assertEqual(row['source_missing_fields'],[])
 
 class PendingFlowTests(unittest.TestCase):
- def run_flow(self,folder,empty=False,failed=False):
+ def run_flow(self,folder,empty=False,failed=False,cross_empty=False):
   from unittest.mock import patch
   from qiuzhao.collector import p1_feishu_public as F
   row={'id':'123','title':'工程师','recruit_type':{'id':'201','name':'校招'},'description':'' if empty else '开发软件','requirement':'' if empty else '技能熟练','channel_online_status':1,'city_list':[{'name':'上海'}],'job_post_info':{'required_degree':{'name':'本科'},'target_major_list':[{'name':'计算机科学'}]}}
   class Page:
+   def __init__(self):self.visits=0
    def on(self,*a):pass
    def remove_listener(self,*a):pass
-   def goto(self,*a,**kw):pass
+   def goto(self,*a,**kw):self.visits+=1
    def wait_for_function(self,*a,**kw):pass
    def wait_for_timeout(self,*a):pass
    def evaluate(self,expression,args=None):
     if 'JSON.parse(document' in expression:return {'tenant_info':{'tenant_name':'Fixture'},'website_info':{'id':'1','path':'campus','process_type':2}}
     if expression==F.INSTALL_SDK:return True
-    if expression==F.LIST_CALL:return {'code':0,'data':{'count':1,'job_post_list':[row]}}
+    if expression==F.LIST_CALL:return {'code':0,'data':{'count':1,'job_post_list':[{**row,'description':'','requirement':''} if cross_empty and self.visits==2 else row]}}
     if expression==F.DETAIL_CALL:
      if failed:return [{'id':'123','error':'network failure'}]
-     return [{'id':'123','data':{'code':0,'data':{'job_post_detail':row}}}]
+     return [{'id':'123','data':{'code':0,'data':{'job_post_detail':{**row,'description':'','requirement':''} if cross_empty and self.visits==2 else row}}}]
     raise AssertionError(expression)
   class Browser:
    def __init__(self,*a,**kw):self.page=Page()
@@ -69,7 +70,9 @@ class PendingFlowTests(unittest.TestCase):
    def __enter__(self):return self
    def __exit__(self,*a):pass
   with patch.object(F,'AnonymousBrowser',Browser),patch.dict(F.os.environ,{'QIUZHAO_BROWSER_LOCK':str(folder/'test.lock')}):
-   return F.collect_feishu('Fixture','campus',[{'url':'https://example.com/campus/position/list','tenant_names':['Fixture'],'portal_type':6}],folder)
+   sites=[{'url':'https://example.com/campus/position/list','tenant_names':['Fixture'],'portal_type':6}]
+   if cross_empty:sites.append({'url':'https://example.com/second/position/list','tenant_names':['Fixture'],'portal_type':6})
+   return F.collect_feishu('Fixture','campus',sites,folder)
  def test_empty_official_detail_is_index_without_invented_body(self):
   import tempfile
   with tempfile.TemporaryDirectory() as d:r=self.run_flow(Path(d),empty=True)
@@ -82,3 +85,8 @@ class PendingFlowTests(unittest.TestCase):
   import tempfile
   with tempfile.TemporaryDirectory() as d:r=self.run_flow(Path(d))
   self.assertEqual(r['jobs'][0]['education_raw'],'本科');self.assertEqual(r['jobs'][0]['major_requirements_raw'],'计算机科学');self.assertEqual(r['jobs'][0]['source_channel_online_status'],1)
+
+ def test_cross_site_empty_preserves_verified_body_without_duplicate_index(self):
+  import tempfile
+  with tempfile.TemporaryDirectory() as d:r=self.run_flow(Path(d),cross_empty=True)
+  self.assertEqual(len(r['jobs']),1);self.assertEqual(r['pending_index'],[]);self.assertFalse(r['coverage']['complete']);self.assertTrue(any('Cross-site empty' in e for e in r['coverage']['errors']))
