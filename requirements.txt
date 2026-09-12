@@ -6,3 +6,6 @@ beautifulsoup4>=4.12,<5
 # Public P1 recruitment HTTP clients and official Moka response decoding
 requests==2.32.4
 pycryptodome==3.23.0
+
+# Anonymous official careers SDK; uses existing system Chrome
+playwright==1.55.0

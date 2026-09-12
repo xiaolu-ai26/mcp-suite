@@ -100,7 +100,10 @@ def collect_jd_campus(scope,out):
 
 def collect(company,scope,output_dir):
  requested=company;key=next((k for k,v in COMPANIES.items() if v==company),company);out=Path(output_dir);out.mkdir(parents=True,exist_ok=True)
- if key=='gwm':result=shared.collect_honor(scope,out,company='长城汽车',host='https://zhaopin.gwm.cn',suites_override=['SU692d3058ea11b01b6c54d0ea'])
+ if key=='meituan':
+  from .p1_meituan_public import collect as meituan_collect
+  result=meituan_collect('美团',scope,out)
+ elif key=='gwm':result=shared.collect_honor(scope,out,company='长城汽车',host='https://zhaopin.gwm.cn',suites_override=['SU692d3058ea11b01b6c54d0ea'])
  elif key=='jd':result=collect_jd_campus(scope,out)
  elif key=='xiaomi':result=collect_xiaomi_domestic(scope,out)
  elif key in BEISEN:result=collect_beisen(COMPANIES[key],scope,BEISEN[key],out,category_mapping={'4':'social','8':'intern','9':'intern','10':'intern'} if key=='mindray' else None)
