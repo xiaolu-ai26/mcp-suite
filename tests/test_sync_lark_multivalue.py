@@ -57,3 +57,14 @@ def test_backup_tamper_and_live_revision_drift_fail_before_write(tmp_path,monkey
     assert [c[0] for c in calls]==['+table-list']
     Path(plan['tables'][S.TABLES[0]]['backup']['records']).write_text('[]')
     with pytest.raises(ValueError,match='backup integrity'):S.make_plan(out,jobs)
+
+
+def test_changed_target_value_blocks_but_idempotent_replay_is_allowed():
+    old={'r':{'毕业届别':['2027届']}}
+    desired={'r':{'毕业届别':['2027届','2026届']}}
+    S.assert_current_values(old,old,desired)
+    S.assert_current_values(desired,old,desired)
+    with pytest.raises(ValueError,match='changed after backup'):
+        S.assert_current_values({'r':{'毕业届别':['2028届']}},old,desired)
+    with pytest.raises(ValueError,match='record missing'):
+        S.assert_current_values({},old,desired)

@@ -154,6 +154,33 @@ def make_plan(out, jobs_path):
     return plan
 
 
+def assert_current_values(current, old, updates):
+    for record_id, delta in updates.items():
+        if record_id not in current:
+            raise ValueError('target record missing before update: ' + record_id)
+        for field, desired in delta.items():
+            actual = set(current[record_id].get(field) or [])
+            if actual not in (set(old[record_id].get(field) or []), set(desired)):
+                raise ValueError('target value changed after backup: ' + record_id + '/' + field)
+
+
+def read_target_values(table, ids, path):
+    args = ['+record-get', '--base-token', BASE, '--table-id', table,
+            '--json', json.dumps({'record_id_list': ids}), '--format', 'ndjson',
+            '--output', rel(path), '--overwrite']
+    for name in TARGETS:
+        args += ['--field-id', name]
+    result = cli(*args)
+    if result.get('record_not_found') or result.get('ignored_fields'):
+        raise ValueError('record read omitted requested targets')
+    return {r['record_id']: r for r in (json.loads(line) for line in path.read_text().splitlines() if line)}
+
+
+def writable_schema(field):
+    return {k: v for k, v in field.items() if k in
+            ['name', 'type', 'description', 'multiple', 'options', 'default_value'] and v is not None}
+
+
 def apply_plan(out):
     plan_path = out / 'plan.json'; plan = json.loads(plan_path.read_text())
     if plan['base'] != BASE or set(plan['tables']) != set(TABLES):
@@ -172,6 +199,20 @@ def apply_plan(out):
         meta = data['backup']
         if digest(Path(meta['records'])) != meta['records_sha256'] or digest(Path(meta['schema'])) != meta['schema_sha256']:
             raise ValueError('backup integrity mismatch')
+        old_records = {r['record_id']: r for r in json.loads(Path(meta['records']).read_text())}
+        old_fields = {f['id']: f for f in json.loads(Path(meta['schema']).read_text())}
+        current_fields = {f['id']: f for f in cli('+field-list', '--base-token', BASE,
+            '--table-id', table, '--format', 'json')['data']['fields']}
+        desired_fields = {c['field_id']: c['definition'] for c in data['schema_updates']}
+        for field_id, original in old_fields.items():
+            if original['name'] not in TARGETS:
+                continue
+            current = writable_schema(current_fields.get(field_id, {}))
+            expected = writable_schema(desired_fields.get(field_id, original))
+            if current not in (writable_schema(original), expected):
+                raise ValueError('target schema changed after backup: ' + table + '/' + field_id)
+            if table + '/' + field_id in state['done'] and current != expected:
+                raise ValueError('previous schema update was changed externally')
         for change in data['schema_updates']:
             key = table + '/' + change['field_id']
             if key in state['done']:
@@ -186,7 +227,10 @@ def apply_plan(out):
             if key in state['done']:
                 continue
             body = out / (table + '.batch-' + str(start) + '.json')
-            save(body, {'update_records': dict(rows[start:start+200])})
+            batch = dict(rows[start:start+200])
+            current = read_target_values(table, list(batch), out / (table + '.prewrite-' + str(start) + '.ndjson'))
+            assert_current_values(current, old_records, batch)
+            save(body, {'update_records': batch})
             result = cli('+record-batch-update', '--base-token', BASE, '--table-id', table, '--json', '@'+rel(body))
             if result.get('data', {}).get('ignored_fields'):
                 raise ValueError('fields ignored during update')
