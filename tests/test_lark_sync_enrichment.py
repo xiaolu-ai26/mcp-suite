@@ -49,3 +49,11 @@ def test_continuation_is_explicit_allowlisted_and_only_routes_new_software():
     assert E.S.valid_table_selection(E.S.ORIGINAL_TABLES)
     assert E.S.valid_table_selection(E.S.TABLES)
     assert not E.S.valid_table_selection([*E.S.TABLES,'tblUnapproved'])
+
+
+def test_append_cannot_write_continuation_without_its_backup(tmp_path,monkeypatch):
+    import pytest
+    monkeypatch.setattr(E,'verified_backup',lambda out:{'tables':dict.fromkeys(E.S.ORIGINAL_TABLES)})
+    monkeypatch.setattr(E,'ensure_note_fields',lambda *args: (_ for _ in ()).throw(AssertionError('unbacked schema mutation')))
+    with pytest.raises(ValueError,match='complete backup'):
+        E.append_p1(tmp_path,tmp_path/'jobs.json')

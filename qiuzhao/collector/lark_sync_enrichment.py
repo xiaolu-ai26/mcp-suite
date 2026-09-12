@@ -76,8 +76,8 @@ def read_id_matches(table, ids, path):
     return {r['job_id']:r['record_id'] for r in (json.loads(x) for x in path.read_text().splitlines()) if r.get('job_id')}
 
 
-def ensure_note_fields(out):
-    for table in S.TABLES:
+def ensure_note_fields(out,tables=None):
+    for table in (tables if tables is not None else S.TABLES):
         fields=S.full_fields(table);existing=next((f for f in fields if f['name']==NOTE_FIELD),None)
         if existing is None:
             S.save(out/(table+'.note-schema.before.json'),fields)
@@ -102,7 +102,7 @@ def note_sync(out, jobs_path):
         value=qualification_note(raw)
         if identity in notes and notes[identity]!=value:ambiguous.add(identity)
         notes[identity]=value
-    ensure_note_fields(out)
+    ensure_note_fields(out,backup['tables'])
     for table in backup['tables']:
         records=json.loads(Path(backup['tables'][table]['records']).read_text())
         pairs=[(r['record_id'],r['job_id']) for r in records if r.get('job_id') in notes and r['job_id'] not in ambiguous]
@@ -154,6 +154,8 @@ def quota_rejection(error):
 def append_p1(out,jobs_path):
     from qiuzhao.collector.p1_pipeline import COMPANIES
     backup=verified_backup(out);known=set()
+    if set(backup['tables'])!=set(S.TABLES):
+        raise ValueError('append requires complete backup including approved continuation table')
     ensure_note_fields(out)
     for meta in backup['tables'].values():
         known.update(r.get('job_id') for r in json.loads(Path(meta['records']).read_text()) if r.get('job_id'))
