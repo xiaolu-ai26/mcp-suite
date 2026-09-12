@@ -21,7 +21,13 @@ def request_json(session,url,body,iv=None):
     return d.get('result',d.get('data',d))
 
 def job(company,scope,ident,title,url,description,location='',raw=None):
-    return {'id':f'p1:{company}:{ident}','source_record_id':str(ident),'title':title,'job_title':title,'education_raw':'','major_requirements_raw':'','cohort_raw':'','reviewed_at':datetime.now(timezone.utc).isoformat(),'company':COMPANIES.get(company,company),'company_name':COMPANIES.get(company,company),'company_slug':company,'unit':COMPANIES.get(company,company),'recruitment_unit':COMPANIES.get(company,company),'recruitment_type':TYPES[scope],'source_url':url,'detail_url':url,'application_url':url,'description_raw':text(description),'location':location,'city':location,'cities':[x.strip() for x in re.split(r'\s*/\s*|[，,、;；]',location) if x.strip()],'source':'official_career','verified_at':datetime.now(timezone.utc).isoformat(),'source_fields':raw or {}}
+    record={'id':f'p1:{company}:{ident}','source_record_id':str(ident),'title':title,'job_title':title,'education_raw':'','major_requirements_raw':'','cohort_raw':'','reviewed_at':datetime.now(timezone.utc).isoformat(),'company':COMPANIES.get(company,company),'company_name':COMPANIES.get(company,company),'company_slug':company,'unit':COMPANIES.get(company,company),'recruitment_unit':COMPANIES.get(company,company),'recruitment_type':TYPES[scope],'source_url':url,'detail_url':url,'application_url':url,'description_raw':text(description),'location':location,'city':location,'cities':[x.strip() for x in re.split(r'\s*/\s*|[，,、;；]',location) if x.strip()],'source':'official_career','verified_at':datetime.now(timezone.utc).isoformat(),'source_fields':{k:v for k,v in (raw or {}).items() if k in {'id','hireMode','commitment','education','degree','major','workExperience','graduationYear','recruitType','recruitmentType','projectName','publishedAt','releaseTime','deadline','endDate'} and len(str(v))<500}}
+    fields=raw or {}
+    record['education_raw']=text(fields.get('education') or fields.get('degree') or fields.get('Degree') or '')
+    record['major_requirements_raw']=text(fields.get('major') or fields.get('majorRequirement') or '')
+    record['experience_raw']=text(fields.get('experience') or fields.get('workExperience') or fields.get('YearsOfWorking') or '')
+    record['deadline_raw']=text(fields.get('deadline') or fields.get('endDate') or '')
+    return record
 
 def coverage(url):
     return {'status':'blocked','complete':False,'expected_total':None,'collected_jobs':0,'pages_scanned':0,'detail_complete':False,'source_url':url,'errors':[],'evidence':[]}
@@ -69,51 +75,54 @@ def collect_pdd(scope,output_dir):
     return finish(jobs,c)
 
 def collect_moka_sites(company,scope,sites,output_dir):
-    """Collect verified official Moka site URLs, full pagination and full details.
-
-    sites is a sequence of (url, scope_basis); public response AES is decoded
-    exactly as the official browser does, with key returned in that response.
-    """
-    jobs=[];c=coverage(sites[0][0] if sites else '');seen=set();s=requests.Session();all_done=True
+    """Full official Moka pagination with three bounded concurrent detail reads."""
+    from concurrent.futures import ThreadPoolExecutor
+    jobs=[];c=coverage(sites[0][0] if sites else '');seen=set();session=requests.Session()
     try:
         for site_url,basis in sites:
             m=re.search(r'/(?:campus|social)-recruitment/([^/]+)/(\d+)',site_url)
             if not m:raise ValueError('Unrecognized verified Moka URL')
             org,site=m.groups();host=site_url.split('/')[0]+'//'+site_url.split('/')[2]
-            r=s.get(site_url,timeout=(10,45));r.raise_for_status();pagehtml=html.unescape(r.text)
+            r=session.get(site_url,timeout=(10,45));r.raise_for_status();pagehtml=html.unescape(r.text)
             ivmatch=re.search(r'"aesIv"\s*:\s*"([^"]+)"',pagehtml);iv=ivmatch.group(1) if ivmatch else None
-            listed=set();total=None;terminal=False
+            listed=set();total=None;terminal=False;selected=[]
             for offset in range(0,200000,50):
-                d=request_json(s,host+'/api/outer/ats-apply/website/jobs/v2',{'orgId':org,'siteId':int(site),'limit':50,'offset':offset,'needStat':True,'locale':'zh-CN'},iv)
-                (output_dir/f'{site}-list-{offset}.json').write_text(json.dumps(d,ensure_ascii=False))
-                c['pages_scanned']+=1;rows=d['jobs'];n=d.get('jobStats',{}).get('total')
+                d=request_json(session,host+'/api/outer/ats-apply/website/jobs/v2',{'orgId':org,'siteId':int(site),'limit':50,'offset':offset,'needStat':True,'locale':'zh-CN'},iv)
+                (output_dir/f'{site}-list-{offset}.json').write_text(json.dumps(d,ensure_ascii=False));c['pages_scanned']+=1
+                rows=d['jobs'];n=d.get('jobStats',{}).get('total')
+                if not rows and total is not None and len(listed)==total:
+                    terminal=True;c['last_page_evidence']=f'site={site};offset={offset};rows=0;prior_total={total};terminal_total={n}';break
                 if total is not None and n!=total:raise ValueError('Moka total changed during scan')
                 total=n
                 if not rows:terminal=True;c['last_page_evidence']=f'site={site};offset={offset};rows=0;total={total}';break
                 for row in rows:
                     ident=row['id']
                     if ident in listed:raise ValueError(f'Repeated Moka ID {ident}')
-                    listed.add(ident)
-                    commitment=str(row.get('commitment',''));mode=row.get('hireMode')
-                    actual='intern' if '实习' in commitment or '实习' in row.get('title','') else 'campus' if mode==2 else 'social' if mode==1 else None
-                    if actual!=scope:continue
-                    if ident in seen:continue
-                    detail=request_json(s,host+'/api/outer/ats-apply/website/job',{'orgId':org,'siteId':int(site),'jobId':ident,'locale':'zh-CN'},iv)
-                    if detail.get('id')!=ident or not detail.get('jobDescription'):raise ValueError(f'Incomplete Moka detail {ident}')
-                    (output_dir/f'detail-{ident}.json').write_text(json.dumps(detail,ensure_ascii=False))
-                    url=site_url.split('#')[0].rstrip('/')+'#/job/'+ident
-                    loc=' / '.join(x.get('cityName') or x.get('provinceName') or x.get('country','') for x in detail.get('locations',[]))
-                    j=job(company,scope,ident,detail['title'],url,detail['jobDescription'],loc,detail)
-                    j['scope_evidence']=f'{basis}; hireMode={mode}; commitment={commitment}; title={row.get("title","")}'
-                    j['recruitment_type_raw']={'hireMode':mode,'commitment':commitment}
-                    if '校园大使' in detail['title'] and scope=='social':j['recruitment_type_conflict']='Official hireMode=1 (social), but title names campus ambassador; retain official classification for review'
-                    project=detail.get('projectFolder') or {};settings=project.get('settings') or {}
-                    j['cohort_raw']=text(settings.get('graduateDateLimit') or project.get('name') or '')
-                    jobs.append(j);seen.add(ident)
+                    listed.add(ident);commitment=str(row.get('commitment',''));mode=row.get('hireMode')
+                    if mode not in (1,2):raise ValueError(f'Unknown official hireMode={mode}; job={ident}')
+                    actual='intern' if '实习' in commitment or '实习' in row.get('title','') else 'campus' if mode==2 else 'social'
+                    if actual==scope and ident not in seen:selected.append(row);seen.add(ident)
                 time.sleep(.08)
             if not terminal or total is not None and len(listed)!=total:raise ValueError(f'Incomplete list site={site}: observed={len(listed)}, total={total}')
-            c['evidence'].extend(p.name for p in output_dir.glob(f'{site}-list-*.json'));c['scope_evidence']=f'Moka official hireMode=1 social, 2 campus; internship commitment/title; requested={scope}'
-        c['pagination_exhausted']=all_done;c['detail_complete']=True;c['expected_total']=len(jobs)
+            c['evidence'].extend(p.name for p in output_dir.glob(f'{site}-list-*.json'))
+            def enrich(row):
+                ident=row['id']
+                with requests.Session() as ss:detail=request_json(ss,host+'/api/outer/ats-apply/website/job',{'orgId':org,'siteId':int(site),'jobId':ident,'locale':'zh-CN'},iv)
+                if detail.get('id')!=ident or not detail.get('jobDescription'):raise ValueError(f'Incomplete Moka detail {ident}')
+                (output_dir/f'detail-{ident}.json').write_text(json.dumps(detail,ensure_ascii=False))
+                url=site_url.split('#')[0].rstrip('/')+'#/job/'+ident
+                loc=' / '.join(x.get('cityName') or x.get('provinceName') or x.get('country','') for x in detail.get('locations',[]))
+                j=job(company,scope,ident,detail['title'],url,detail['jobDescription'],loc,detail)
+                j['scope_evidence']=f'{basis}; hireMode={row.get("hireMode")}; commitment={row.get("commitment","")}; title={row.get("title","")}'
+                j['recruitment_type_raw']={'hireMode':detail.get('hireMode'),'commitment':detail.get('commitment')}
+                if '校园大使' in detail['title'] and scope=='social':j['recruitment_type_conflict']='Official hireMode=1 (social), title names campus ambassador; retain source classification for review'
+                project=detail.get('projectFolder') or {};settings=project.get('settings') or {}
+                j['cohort_raw']=text(settings.get('graduateDateLimit') or project.get('name') or '')
+                return j
+            with ThreadPoolExecutor(max_workers=3) as pool:
+                for j in pool.map(enrich,selected):jobs.append(j)
+        c['pagination_exhausted']=True;c['detail_complete']=True;c['expected_total']=len(jobs)
+        c['scope_evidence']=f'Official Moka hireMode 1 social/2 campus; internship commitment/title; requested={scope}'
     except Exception as exc:c['errors'].append(str(exc))
     return finish(jobs,c)
 
@@ -175,7 +184,7 @@ def collect_standard(company,scope,output_dir):
                 cohort='';basis=f'Official recruitProjectCode={d.get("recruitProjectCode")}; positionNatureCode={d.get("positionNatureCode")}'
             if not desc and not req:raise ValueError(f'Missing official description {ident}')
             desc=desc or '';req=req or ''
-            j=job(company,scope,ident,title,url,desc+'\n任职要求\n'+req,loc)
+            j=job(company,scope,ident,title,url,desc+'\n任职要求\n'+req,loc,d)
             j['cohort_raw']=cohort;j['scope_evidence']=basis;j['education_raw']=d.get('education') or '';j['major_requirements_raw']=''
             return j
         with ThreadPoolExecutor(max_workers=3) as pool:
@@ -184,6 +193,24 @@ def collect_standard(company,scope,output_dir):
         c['expected_total']=len(jobs);c['detail_complete']=True;c['evidence']=[p.name for p in output_dir.glob('list-*.json')];c['scope_evidence']=f'Official {company} list; requested scope={scope}'
     except Exception as exc:c['errors'].append(str(exc))
     return finish(jobs,c)
+
+def enrich_dji_campaign(result,output_dir):
+    ident='093114fd-38fa-497b-ac5a-8a8f47777708'
+    target=next((j for j in result['jobs'] if j['source_record_id']==ident),None)
+    if target is None:return
+    url='https://careers.dji.com/zh-CN/campus/digital-recruitment'
+    r=requests.get(url,timeout=(10,30));r.raise_for_status();r.encoding='utf-8';page=r.text
+    (output_dir/'campaign-digital.html').write_text(page)
+    scripts=re.findall(r'<script[^>]+src="([^"]+)',page)
+    app=next((u for u in scripts if '/pages/_app-' in u),None)
+    if not app:raise ValueError('DJI campaign app binding missing')
+    rr=requests.get(app,timeout=(10,30));rr.raise_for_status();(output_dir/'campaign-app.js').write_text(rr.text)
+    if ident not in rr.text:raise ValueError('DJI campaign no longer binds verified job ID')
+    clean=text(page)
+    if not re.search(r'2027\s*届.{0,15}2026\s*届',clean):raise ValueError('DJI campaign cohort evidence changed')
+    target['campaign_cohort_raw']='面向2027届及优秀2026届高校毕业生（理工科背景优先）'
+    target['campaign_url']=url
+    result['coverage'].setdefault('evidence_files',[]).extend(['campaign-digital.html','campaign-app.js'])
 
 def collect(company:str,scope:str,output_dir:Path)->dict:
     requested_company=company
@@ -201,7 +228,10 @@ def collect(company:str,scope:str,output_dir:Path)->dict:
     else:
         c=coverage('');c['errors']=['Adapter discovery in progress'];result=finish([],c)
     result['coverage']['evidence_files']=[p.name for p in output_dir.glob('*list*.json')]
-    result['coverage']['scope_request']={'company':requested_company,'scope':scope,'source_url':result['coverage']['source_url'],'params':{'recruitType':scope,'pageNum':1,'pageSize':50} if company=='xiaohongshu' else {'endpoint':'api/recruit/position/train/list' if scope=='intern' else 'api/recruit/position/list','page':1,'pageSize':20} if company=='pdd' else {'orgId':company,'siteId':[143359,168240,170070],'limit':50,'offset':0,'needStat':True,'local_scope_filter':scope} if company=='dji' else {'pageNum':1,'pageSize':50,'local_scope_filter':scope}}
+    result['coverage']['scope_request']={'company':requested_company,'scope':scope,'source_url':result['coverage']['source_url'],'params':{'recruitType':scope,'pageNum':1,'pageSize':50} if company=='xiaohongshu' else {'endpoint':'api/recruit/position/train/list' if scope=='intern' else 'api/recruit/position/list','page':1,'pageSize':20} if company=='pdd' else {'orgId':company,'siteId':[143359,168240,170070],'limit':50,'offset':0,'needStat':True,'local_scope_filter':scope} if company=='dji' else {'orgId':'catlhr','siteId':[148948,143035,142992,96144,142774,98098],'limit':50,'offset':0,'needStat':True,'local_scope_filter':scope} if company=='catl' else {'pageNum':1,'pageSize':50,'local_scope_filter':scope}}
+    if company=='dji' and scope=='campus':
+        try:enrich_dji_campaign(result,output_dir)
+        except Exception as exc:result['coverage'].setdefault('warnings',[]).append(str(exc))
     (output_dir/'result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2))
     return result
 
