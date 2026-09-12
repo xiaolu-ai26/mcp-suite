@@ -212,6 +212,20 @@ def writable_schema(field):
             ['name', 'type', 'description', 'multiple', 'options', 'default_value'] and v is not None}
 
 
+def wait_schema_ready(table, expected, timeout=45):
+    if not expected:
+        return
+    deadline = time.monotonic() + timeout
+    while True:
+        actual = {f['id']: f for f in full_fields(table)}
+        if all(writable_schema(actual.get(fid, {})) == writable_schema(definition)
+               for fid, definition in expected.items()):
+            return
+        if time.monotonic() >= deadline:
+            raise ValueError('schema activation pending or changed; no record write: ' + table)
+        time.sleep(2)
+
+
 def apply_plan(out):
     plan_path = out / 'plan.json'; plan = json.loads(plan_path.read_text())
     if plan['base'] != BASE or set(plan['tables']) != set(TABLES):
@@ -234,6 +248,9 @@ def apply_plan(out):
         old_fields = {f['id']: f for f in json.loads(Path(meta['schema']).read_text())}
         if any(f.get('remaining_options_count') for f in old_fields.values() if f['name'] in TARGETS):
             raise ValueError('incomplete backup schema cannot be applied')
+        desired_for_resume = {c['field_id']: c['definition'] for c in data['schema_updates']
+                              if table + '/' + c['field_id'] in state['done']}
+        wait_schema_ready(table, desired_for_resume)
         current_fields = {f['id']: f for f in full_fields(table)}
         desired_fields = {c['field_id']: c['definition'] for c in data['schema_updates']}
         for field_id, original in old_fields.items():
@@ -253,6 +270,7 @@ def apply_plan(out):
                          '--field-id', change['field_id'], '--json', json.dumps(change['definition'], ensure_ascii=False), '--yes')
             save(out / ('response-' + key.replace('/', '-') + '.json'), result)
             state['done'].append(key); save(state_path, state)
+        wait_schema_ready(table, desired_fields)
         rows = list(data['updates'].items())
         for start in range(0, len(rows), 200):
             key = table + '/records-' + str(start)

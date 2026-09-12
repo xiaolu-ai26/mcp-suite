@@ -88,3 +88,13 @@ def test_full_select_options_pagination_and_incomplete_metadata_gate(monkeypatch
     schema=Path(meta['schema']);fields=json.loads(schema.read_text());fields[0]['remaining_options_count']=10
     S.save(schema,fields);meta['schema_sha256']=S.digest(schema);S.save(out/'backup.json',backup)
     with pytest.raises(ValueError,match='incomplete select metadata'):S.make_plan(out,jobs)
+
+
+def test_schema_activation_waits_for_actual_multiselect(monkeypatch):
+    fields=iter([[{'id':'f','name':'专业','type':'select','multiple':False,'options':[]}],
+                 [{'id':'f','name':'专业','type':'select','multiple':True,'options':[]}]])
+    sleeps=[]
+    monkeypatch.setattr(S,'full_fields',lambda table:next(fields))
+    monkeypatch.setattr(S.time,'sleep',sleeps.append)
+    S.wait_schema_ready('t',{'f':{'name':'专业','type':'select','multiple':True,'options':[]}})
+    assert sleeps==[2]
