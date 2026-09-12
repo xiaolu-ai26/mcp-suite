@@ -21,3 +21,23 @@ class AdapterTests(unittest.TestCase):
  def test_invalid_scope_rejected(self):
   with self.assertRaises(ValueError):collect('米哈游','all',Path('/tmp/unused'))
 if __name__=='__main__':unittest.main()
+
+class AntCoverageTests(unittest.TestCase):
+ def test_duplicate_page_never_complete(self):
+  import json
+  from qiuzhao.collector.p1_sources_11_20 import _ant
+  class F:
+   def get(self,url,name,payload):
+    return json.dumps({'success':True,'totalCount':2,'content':[{'id':'1','name':'engineer','description':'duties','requirement':'requirements'}]}),'evidence'
+  c={'errors':[],'pages_scanned':0}
+  with patch('qiuzhao.collector.p1_sources_11_20.time.sleep'):
+   rows=_ant('蚂蚁集团','social',F(),c)
+  self.assertEqual(len(rows),1);self.assertTrue(c['errors'])
+ def test_team_intro_cannot_replace_job_detail(self):
+  import json
+  from qiuzhao.collector.p1_sources_11_20 import _ant
+  class F:
+   def get(self,url,name,payload):
+    return json.dumps({'success':True,'totalCount':1,'content':[{'id':'1','name':'engineer','teamDescription':'team introduction'}]}),'evidence'
+  c={'errors':[],'pages_scanned':0};rows=_ant('蚂蚁集团','social',F(),c)
+  self.assertFalse(rows);self.assertTrue(c['errors'])
