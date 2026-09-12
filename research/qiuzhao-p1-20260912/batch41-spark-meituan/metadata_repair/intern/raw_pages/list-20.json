@@ -1,0 +1,1061 @@
+{
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "request_body": {
+    "page": {
+      "pageNo": 20,
+      "pageSize": 20
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jfJgList": [],
+    "jobType": [
+      {
+        "code": "2",
+        "subCode": []
+      }
+    ],
+    "typeCode": [],
+    "specialCode": []
+  },
+  "reviewed_at": "2026-09-12T15:37:22Z",
+  "page": {
+    "pageNo": 20,
+    "pageSize": 20,
+    "totalPage": 21,
+    "totalCount": 416
+  },
+  "rows": [
+    {
+      "jobUnionId": "3155393936",
+      "name": "【大模型北斗实习】大模型预训练数据构建理论与算法研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "本课题研究方向包括但不限于：\n1）构建端到端的网页文本内容提取系统，针对网络数据的复杂性，从系统效率和模型效果角度持续优化内容提取算法，迭代生产标准。\n2）设计预训练数据的全局质量优化和治理方案，优化全局采样策略、隐私保护和安全合规，提升基座模型训练效率和最终效果。\n3）建设多模态交错数据处理链路，通过数据分析和配比实验等手段优化多模态数据质量和多样性，支撑多模态大模型数据需求。\n4）推动数据驱动的模型性能突破。\n5）负责千亿级网页的大规模处理和万亿级token数据生产，通过分布式计算、模型量化及显存优化的方式提升数据处理和生产效率。",
+      "jobRequirement": "1）计算机科学、数据科学、自然语言处理等相关专业，具备大模型相关背景，在相关领域有深入研究经历并有实际论文产出或项目经验。\n2）扎实的编程功底，熟练掌握TensorFlow/PyTorch/Megatron等深度学习框架，熟悉Java/C++等编程语言；熟练掌握大数据处理工具，如Spark、Flink、Ray等。\n3）熟悉大模型训练流程，熟悉Transformer模型结构，对GPT/LLAMA/MoE等模型架构有深入了解。\n加分项：\n1）有大模型预训练相关数据构建和处理项目经验者优先。\n2）发表过高水平论文优先（如NeurIPS,ICLR,ICML,ACL,EMNLP等）。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963942000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3155414459",
+      "name": "【大模型北斗实习】Operator 智能体方向算法研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "随着大模型与生成式 AI 技术的快速发展，在多模态和复杂场景下让 Agent 具备更强大的决策和执行能力成为未来的重要趋势。OpenAI Operator 通过结合强化学习的多步决策机制与大模型的理解、推理优势，可在多种任务场景（如 Computer Use、网页浏览等）中实现高效且灵活的自动化决策和任务执行。本课题将聚焦多样化业务场景和复杂环境下的自适应策略设计、规划与推理，进一步提升 Agent 在真实应用中的表现。\n主要研究内容包括但不限于：\n1) 多模态与多步决策：设计并构建包含多模态信息、计算机交互、网络搜索、函数调用等多维度的复杂环境，研究如何利用端到端强化学习来进行多步决策，从而完成更具挑战的任务。\n2) 策略学习与优化：在多种强化学习算法（如 PPO、GRPO 等）的框架下，探索高效的策略优化方法，为 Operator Agent 提供强大的决策和执行能力。\n3) 规划与推理：借助大模型的知识与推理能力，设计可解释的多步规划算法；研究如何与外部工具或知识库交互，以扩展 Agent 的能力边界并提升其在真实环境中的自动化决策表现。",
+      "jobRequirement": "1）熟悉强化学习领域常用算法及理论基础（如 DQN、Policy Gradient、PPO、GRPO 等。\n2）熟练掌握至少一门编程语言（如 Python、Java），熟悉 Linux 环境。\n3）具备深度学习框架（如 PyTorch、TensorFlow）实际项目经验；了解大模型或分布式训练框架（Megatron、DeepSpeed 等）者优先。\n4）对大模型在 Agent 规划、推理中的作用有浓厚兴趣，对 LLM + RL 的前沿研究有基本认识。\n5）具备良好的问题分析和解决能力，对新技术保持学习和探索的热情。\n加分项：\n1）在 NeurIPS、ICLR、ICML、ACL、EMNLP 等相关领域高水平期刊/会议发表论文或在有影响力的开源项目中做出核心贡献。\n2）在多 Agent、层级强化学习或多模态融合等领域有深入研究或项目经验者优先。\n3）具备 General Agent 使用经验（如 OpenAI Operator、Manus AI 等）者优先。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963942000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3154001160",
+      "name": "【大模型北斗实习】多模态融合及多模态实时交互算法研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "大语言模型（LLM）最近取得的突破极大地加速了多模态大语言模型（MLLM）的发展。全模态多模态大语言模型（Omni-MLLM）通过融入如视频、音频等额外的非语言模态，拓展了多模态大语言模型的能力，从而有助于更全面、多维度地理解各种模态，提供更强的智能以及更智能的交互模式。研究方向包括不限于：\n1) 多模态表征高效对齐研究：研究如何在统一模型架构下提取并共享视觉、语音、语言等模态的特征；探索基于对比学习、自监督学习的方法，优化多模态对齐过程；针对视频、音频等数据，研究时间序列信息的对齐技巧。\n2) 多模态知识迁移与涌现能力研究：研究知识在不同模态间的迁移规律，激发模型在跨模态任务中的涌现能力，实现对未见任务的泛化。\n3) 多模态融合：探索统一的全模态大模型框架，研究高效全模态预训练技术，探索跨模态数据上的scaling law和智能涌现能力。使之能够高效处理文本、音频、图像和视频输入的任意组合，并生成涵盖文本、音频和图像等多种模态的输出。\n4） 实时多模态交互：探索高效的多模态智能交互技术，增强系统在多模场景下的智能，提升人机实时音视频交互体验。",
+      "jobRequirement": "1）对CV、NLP、语音等多模态相关领域有深入的理解，在其中一个或多个方向有深入的研究经历，且有相关实际项目经验。\n2）熟练使用深度学习框架（比如PyTorch），熟悉 Megatron、DeepSpeed 等开源训练框架。\n加分项：\n1）在知名开源项目中有核心贡献者优先。\n2）对多模态大模型有深入研究且有实际训练经验者优先。\n3）发表过高水平论文，如 ICLR、NeurIPS、ICML、CVPR 等。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963942000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3155417212",
+      "name": "【大模型北斗实习】Post-training 前沿算法研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "Post-training是联结大模型通用知识和人类偏好的桥梁，在规范知识输出、提升推理能力、对齐人类偏好等方面起到了关键作用。本课题专注于大模型Post-training相关前沿算法研究，包括但不限于：\n1）训练机制设计和优化：包括数据建设、指令微调，人类偏好和安全对齐，奖励模型、强化学习及效果评估等方向，优化模型文本创作、逻辑推理、指令遵循、代码生成、工具调用等能力，提升模型可控性和安全性。\n2）Post-training前沿研究：面向下一代推理基座的架构设计，test-time compute训练范式，思维链学习，多智能体和自博弈强化学习，提升模型的复杂任务处理能力和智能水平。",
+      "jobRequirement": "1）熟悉NLP、LLM、RL等领域，在一个或多个相关领域有深入研究经历并有实际论文产出或项目经验。\n2）熟悉大模型算法研究所需的相关编程语言、工具、算法等，如Python、C++等编程语言、Megatron等训练框架、DPO、PPO等相关算法。\n3）具备独立开展科学研究和实验的能力，对大模型相关技术有浓厚兴趣，具备强烈的进取心、求知欲，热衷于追求行业顶尖的技术创新。\n加分项：\n1）有大模型一线研究和实践经验，在大模型领域发表过高影响力论文或主导/参与过知名开源项目者优先。\n2）发表过高影响力论文优先（如ICLR,ICML,ACL,EMNLP等）。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963942000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3155423439",
+      "name": "【大模型北斗实习】高拟人对话智能体技术研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "课题目标是在提升工具调用、规划、记忆等基本能力之外，探索高度拟人，具备环境感知，知识遵循，思考决策能力，同时能够以稳定的人设和对话风格进行人机交互，最终完成对话任务的复杂智能体或多智能体。研究内容：\n1）研究智能体推理框架与各项基本能力的优化建模方法。通过多智能体架构与思维链设计，合成数据构造方法，大模型微调、强化等后训练方法的创新，实现智能体交互效果的提升。\n2）研究智能体快速适应具体应用领域要求的建模方法。通过挖掘领域关键知识与决策相关信号，设计依靠领域专家的主动学习范式，构建与人工偏好和流程规则对齐的建模方案，打造低成本迁移的拟人智能体。\n3）研究智能体情商和智商优化的自学习方法。结合应用需求设计奖励模型，通过强化学习等方法迭代智能体在意图理解和推测、情绪感知、主动服务、共情表达、语言风格等方面的表现，提升用户交互的满意度。",
+      "jobRequirement": "1）对大模型、智能体、人机对话等相关领域一个或多个方向有深入的研究经历，且有相关实际项目经验。\n2）熟练使用深度学习框架（比如PyTorch），熟悉 Megatron、DeepSpeed 等开源训练框架。\n加分项：\n1）在知名开源项目中有核心贡献者优先。\n2）有过任务型对话系统、强化学习、知识图谱、情感计算等方面的经验。\n3）在国际会议发表过高水平论文。\n4）关注行业应用动态。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963942000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3155412531",
+      "name": "【大模型北斗实习】语音基座大模型前沿探索",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "语音基座大模型是下一代语音算法的基础，也是多模态大模型研究的重要组成部分。本课题研究方向包括不限于：\n1）预训练方法研究：设计预训练任务，使训练可大规模扩展，且能够学习到丰富的知识，使得模型同时具备强大的理解和生成能力，进一步实现能力的涌现。\n2）tokenizer 优化：探索同时适用于理解和生成任务、兼顾学习效率和效果的tokenizer。\n3）泛音频理解：对语音理解之外，探索更广泛的音频（如音乐、环境声）理解能力，以及基于 reasoning 的理解能力。\n4) token2wav：与基座大模型配合，实现高效、高质量的语音/音频生成。\n5) post-training：探索基于 SFT 和 RL 的后训练策略，激活基座模型的理解和生成能力，实现通用的音频能力，并具备强表现力、多风格、多语种、多音色的能力。",
+      "jobRequirement": "1）对语音、NLP、CV等相关领域一个或多个方向有深入的研究经历，且有相关实际项目经验。\n2）熟练使用深度学习框架（比如PyTorch），熟悉 Megatron、DeepSpeed 等开源训练框架。\n加分项：\n1）在知名开源项目中有核心贡献者优先。\n2）对大模型有深入研究且有实际训练经验者优先。\n3）发表过高水平论文。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963942000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3153872809",
+      "name": "【大模型北斗实习】大语言模型预训练结构和策略",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "香港特别行政区",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "探索下一代大模型预训练范式，从模型结构、训练策略、数据策略、算力利用率等角度切入，打造具有更强能力和更高潜力的基座模型。\n1）设计更高效的模型结构，提高给定数据量、计算量、硬件型号、输出序列长度等约束下的模型能力，如长序列能力、记忆能力等。\n2）探索更科学的训练策略，对影响training dynamic的关键变量（如学习率、batchsize、初始化等）形成更科学的认知，探索更适合大模型的optimizer等。\n3）研究模型结构和数据的耦合关系，优化分阶段训练范式。\n4）结合MLsys解决大规模训练中遇到的卡点问题，实现算法和工程联合设计。",
+      "jobRequirement": "1）熟悉NLP、LLM、MLsys、Optimization、OR、Control、RL等相关领域，对其中一个或多个方向有深入的研究经历，且有相关实际项目经验。\n2）熟悉Python、C++等至少一门编程语言，熟悉LINUX环境。\n3）熟悉Pytorch、 Megatron、DeepSpeed 等开源训练框架。\n加分项：\n1）有影响力的开源项目中做出过核心贡献。\n2）发表过高水平论文优先（如NeurIPS,ICLR,ICML,ACL,EMNLP等）。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963941000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3153873006",
+      "name": "【大模型北斗实习】统一化的检索生成框架探索与评测",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "引入外部知识检索是处理 agent 在有限记忆存储下知识局限性的主流路径（如检索增强生成），可以有效降低幻觉比例，使生成内容具备时效性和事实性。但现有问题是检索和生成模块通常作为异质系统交替使用，无法深度协同和统一优化。近期生成式检索方向的研究为二者统一创造了条件。\n本课题希望彻底统一检索生成，研究内容包括但不限于：\n1）统一检索生成的推理和优化算法构建。\n2）优化实验在数据和计算维度的规模化。\n3）agent 视角对 RAG 和 long-context 的解读和相应评测评估方案。\n4）从统一检索生成到模型记忆的外推。",
+      "jobRequirement": "1）熟悉大模型相关的推理、训练框架，有较强的工程实践能力和经验。\n2）有一定的学术研究背景，对前沿技术保持好奇心，学习能力和自驱力强。\n加分项：\n1）在有影响力的开源项目中做出核心贡献。\n2）发表过高质量学术论文。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963941000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3153889354",
+      "name": "【大模型北斗实习】生活服务领域基座增强技术研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "本课题探索大模型垂直领域知识高效增强方法，包括数据策略、训练策略以及scaling law友好的训练方法，打造适配实际应用所需的基座能力。研究内容包括但不限于：\n1） 大模型基座知识能力增强，通过大规模continue pretrain打造生活服务领域基座，赋能美团各类大模型应用场景。\n2）探索预训练增强阶段的大规模高质量数据自动合成、Scaling Law、长链条复杂推理反思能力增强。\n3）建设生活服务chat模型与智能体，通过强化学习等方式增强模型推理反思、复杂指令遵循、高情商交互等能力，支撑大模型在生活服务领域的应用。",
+      "jobRequirement": "1）对NLP、大模型等相关领域一个或多个方向有深入的研究经历，且有相关实际项目经验。\n2）熟练使用深度学习框架（比如PyTorch），熟悉 Megatron、DeepSpeed 等开源训练框架。\n加分项：\n1）在知名开源项目中有核心贡献者优先。\n2）有过预训练经验、深度推理、强化学习等方向的经验。\n3）发表过高水平论文。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963941000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3153937173",
+      "name": "【大模型北斗实习】大规模 Post-training 算法架构前沿研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "Post-training 是提升大模型专项能力的核心技术方向之一，包括不限于复杂推理（Reasoning）、价值观对齐（Alignment）、业务Agent应用等研究方向。\n本课题研究方向包括但不限于：\n1）实现高效灵活的多模型强化学习训练架构。\n2）通过合理灵活动态配置资源，提升PPO及各变种算法运行效率。\n3）研究低精度在 Post-training 中的应用方式。\n4）研究不同的算法+数据对效果的影响。\n5）在复杂框架下，研究如何高效的追踪记录训练过程，提升算法探索效率。",
+      "jobRequirement": "1）熟悉大规模分布式训练、推理、量化等技术之一。\n2）熟悉常用的训练推理框架，vLLM、SGLang、Megatron、Deepspeed等。\n3）熟悉强化学习算法。\n加分项：相关领域开源项目或发表高水平论文。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963941000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3153953328",
+      "name": "【大模型北斗实习】面向真实物理世界的大规模智能体研究（Agent In Real Life）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "随着 LLM 与 RL 技术的飞速发展，具备自主决策与执行能力的 Agent 系统成为 AI 领域的前沿研究方向。本课题聚焦于构建能够在真实物理世界（餐饮、购物、旅行规划等）复杂场景下自主运行的 Agent 系统，解决传统 AI 系统难以应对的多步骤规划、长期目标追踪、环境适应性等核心挑战。主要研究内容包括但不限于：\n1）自主规划与决策：研究基于 LLM 的 CoT 等的复杂推理机制，使 Agent 能够自主分解并解决如\"为一家四口安排一个周末出游计划，包括交通、住宿、餐饮和活动\"等多步骤任务；开发能够在规划失败时进行自我修正和重新规划的自适应决策框架，突破传统 Agent 在复杂场景下的规划瓶颈。\n2）强化学习驱动的自主优化：应用前沿强化学习算法（如PPO、GRPO、RL）优化 Agent 的决策系统，通过用户反馈和任务完成度构建复杂奖励函数；研究如何在高维状态空间和长期依赖问题中有效进行奖励分配，解决真实复杂物理场景中典型的延迟反馈和稀疏奖励挑战。\n3）多 Agent 协作与分布式决策：设计基于角色分工的多 Agent 协作框架，使不同专长的 Agent 能够协同解决复杂任务，如\"美食专家 Agent 负责菜品推荐，规划 Agent 负责整体行程安排\"等；研究 Agent 间的通信协议和共识机制，解决分布式决策中的冲突协调和资源分配问题。",
+      "jobRequirement": "1）硕士及以上学历，计算机科学、人工智能或相关专业背景。\n2）熟练掌握 Python，熟悉 PyTorch 或 TensorFlow 等深度学习框架。\n3）扎实的 LLM 和 Agent 系统理论基础。\n4）熟悉 RL 算法框架，具备将 RL 应用于 Agent 决策优化的实践经验。\n5）具备设计复杂 Agent 系统架构的能力，包括记忆机制、规划模块、执行模块等核心组件。\n加分项：\n1）在NeurIPS、ICLR、ICML、ACL、EMNLP等顶级会议发表过 Agent 系统或相关技术的论文。\n2）参与过开源 Agent 项目（如LangChain、AutoGPT 等）的开发或有重要贡献。\n3）具备多 Agent 系统设计和协作机制研究经验，了解 Agent 间通信和任务分配技术。\n4）有构建端到端 Agent 系统的实际项目经验，能够解决生产环境中的鲁棒性和可靠性问题。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963941000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3153841114",
+      "name": "【大模型北斗实习】大模型推理系统前沿研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "大模型推理是大模型应用的核心能力，是影响大模型应用成本和效率的关键因素。本课题专注于大模型推理加速与分布式系统优化的前沿技术探索，通过软硬件协同设计和算法工程联合优化，降低大模型推理的应用成本，提高推理性能。\n研究内容包括但不限于：\n1）投机推理（Speculative Decoding），研究基于预测性执行的动态推理优化方法，参与设计低延迟推理框架，通过概率模型预生成候选序列以降低解码计算开销。\n2）分布式系统优化，探索多节点协同推理中的通信-计算负载均衡策略，提出基于异构硬件的混合并行调度方案，实现吞吐量提升。\n3）稀疏Transformer优化与模型压缩，通过稀疏Transformer优化以及模型压缩技术提升模型的计算效率。\n4）算子优化，熟悉硬件架构的算子优化方法，通过更高效的算子优化模型的吞吐和延时。",
+      "jobRequirement": "岗位要求：\n1）熟悉TensorFlow、PyTorch等深度学习框架。\n2）熟悉Python、C++等至少一门编程语言，熟悉LINUX环境。\n加分项：\n1）有影响力的开源项目中做出过核心贡献。\n2）发表过高水平论文优先（如ICLR,ICML,ACL,EMNLP等）。\n3）有CUDA/Triton编程经验。\n4）熟悉vllm/sglang/trt-llm/lmdeploy等开源推理框架。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963941000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3153873069",
+      "name": "【大模型北斗实习】多模态智能体算法研究与自主规划",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "自主任务执行的计算智能体是AI应用的重要场景之一，具备充分的技术深度(如浅层环境感知能力和深层规划决策能力)和广泛的应用价值(如智能助手、具身智能等)。本课题旨在构建业界前沿的多模态智能体，包括2D数字世界的Computer Use和Browser Use，以及3D物理世界的具身智能等能力。探索优化智能体在视觉理解、决策反思、强化学习等方向的技术挑战。\n研究内容包括：\n1）智能体算法优化：提升智能体视觉定位和决策反思水平，探索强化学习在智能体决策的应用价值，构建2D数字和3D物理环境的环境感知能力。\n2）Compute & Brower Use：探索多模态大模型自主规划完成计算机、手机、互联网网页的操作能力。\n3）具身智能：探索多模态大模型的空间理解和自主规划能力，能够完成物理世界操作能力。",
+      "jobRequirement": "1）在CV、NLP、多模态等相关领域有其中一个或多个方向有深入的研究经历。\n2）熟悉TensorFlow、PyTorch等深度学习框架。\n3）熟练使用Python、C++等至少一门编程语言，熟悉LINUX环境。\n加分项：\n1）有影响力的开源项目中做出过核心贡献。\n2）发表过高水平论文优先（如NeurIPS,ICLR,ICML,CVPR,ICCV,ECCV等）。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963941000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3153985413",
+      "name": "【大模型北斗实习】具身智能技术研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "深度参与具身智能“感知-决策-行动”技术全链路的技术攻关，在以下一个或多个方向上进行深入研究：\n1.感知与决策规划：提升多模态大模型在具身场景下的能力表现，包括在复杂动态环境中对物体位姿、状态、物理属性的精准理解，以及对复杂任务的任务推理与拆解能力。\n2.行动与控制：基于真机示教数据以及海量互联网视频数据，训练机器人掌握高精度的操作技能。在机器人上研究并实践强化学习算法，优化机器人的动作策略，提升其在物理世界中的动作鲁棒性和技能泛化。\n3.仿真与虚实迁移：参与构建高逼真度的物理仿真环境（如 Isaac Sim, SAPIEN 等），用于大规模、低成本地训练和验证具身智能算法。",
+      "jobRequirement": "1.计算机科学、机器人学、人工智能、自动化或相关领域的在读硕士或博士研究生。\n2.具备扎实的编程能力，精通 Python，熟悉 C++者优先，且熟练掌握 PyTorch 框架。\n3.对机器学习、深度学习、计算机视觉等领域有深入的理论理解。\n4.在具身智能领域有深入研究，熟悉 VLA的前沿模型。\n5.对具身智能和机器人技术抱有浓厚兴趣和热情，具备出色的自驱力、快速学习能力和解决问题的能力。\n6.在ICRA, CVPR, ICLR, IROS等人工智能或机器人学会议上有论文发表者。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963941000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3153793057",
+      "name": "【大模型北斗实习】基于多模序列建模提升原生多模态大模型智能水平",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "香港特别行政区",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "原生多模旨在统一理解与生成，从而用同一套范式处理文本、视觉、语音等各个模态的数据，从而更加自然地进行模态融合，以及通过scaling友好的训练范式，解锁模型智能的新维度。本课题研究内容包括：\n1）Pre-train：借助更好的tokenizer架构 / 数据表达 / loss设计，发挥原生多模态能够不依赖文本标注，直接学习无监督多模数据的优势，进一步提升模型能力。例如基于大规模的视频/语音数据自监督训练，对物理世界建模。\n2）Post-train：通过SFT / RL等手段，借助多模token推理解锁模型新的智能维度，提升模型解决Robot/Gaming等物理世界问题的能力。",
+      "jobRequirement": "1）熟悉NLP、LLM、MLLM、RL等相关领域，对其中一个或多个方向有深入的研究经历，且有相关实际项目经验。\n2）熟悉Python、C++等至少一门编程语言，熟悉LINUX环境。\n3）熟悉 Megatron、DeepSpeed 等开源训练框架。\n加分项：\n1）有影响力的开源项目中做出过核心贡献。\n2）发表过高水平论文优先（如NeurIPS,ICLR,ICML,ACL,EMNLP等）。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963941000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3153713631",
+      "name": "【大模型北斗实习】视频生成大模型技术研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "研究方向包括但不限于：\n1).高效率、低精度损失、高压缩比的视频VAE和tokenizer。\n2)围绕DiT结构的高效训练和推理探索，包括稀疏架构、MoE、AR生成等。\n3) 视频生成下游功能拓展，包括多概念注入生成、交互式生成、长视频生成等。",
+      "jobRequirement": "1）熟悉扩散模型等相关研究进展。\n2）熟悉PyTorch，有充分的动手实践经验。\n加分项：\n1）有图像/视频生成相关研究和实习经历，有影响力的开源项目中做出过核心贡献。\n2）发表过高水平论文（如ICLR、CVPR、ICCV等），有相关竞赛经历并取得名次。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963940000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3153650004",
+      "name": "【大模型北斗实习】多模态大模型复杂推理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "多模态推理是大模型迈向通用人工智能的关键能力，涉及跨视觉、语言等多种模态的信息整合与深度理解。本课题聚焦于探究多模态生成式大模型的复杂推理发生机制，研究模型如何协同处理、融合和推理来自不同感知通道的信息，从而提升在复杂任务中的认知表现。\n研究内容:\n1）多模态复杂任务推理机制探究：探索强化学习机制，激发推理思维链策略，分析不同模态间信息融合在复杂跨模态推理中的作用，研究视觉-语言长距离依赖关系建模方法。\n2）多模态复杂推理与通用任务有效统一范式研究:  分析通用多模态通用任务与复杂推理任务的区别与联系，探索使用单一模型有效统一两者的范式，实现模型自适应地根据不同问题来进行不同长度的思考回答。",
+      "jobRequirement": "1）在CV、NLP、多模态等相关领域有其中一个或多个方向有深入的研究经历。\n2）熟悉TensorFlow、PyTorch等深度学习框架。\n3）熟练使用Python、C++等至少一门编程语言，熟悉LINUX环境。\n加分项：\n1）有影响力的开源项目中做出过核心贡献。\n2）发表过高水平论文优先（如NeurIPS,ICLR,ICML,CVPR,ICCV,ECCV等）。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963940000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3153633714",
+      "name": "【大模型北斗实习】语音多模态及深度推理大模型应用技术研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "该课题聚焦于利用语音多模态大模型以及深度推理大模型构建对话Agent，通过实时全双工交互，精准理解和感知用户情绪，凭借高情商为用户提供极具价值的回复，旨在为用户打造温暖、贴心且高度智能的对话Agent。研究内容：​\n1）参与语音多模态大模型在客服、销售、C端助理等场景应用技术研究，通过文本-语音的对齐机制等措施，提升模型对语音中包含的语义以及声学信息的实时理解与处理能力，通过加入业务知识，增强对业务场景知识遵循能力。\n2）结合客服、销售、C端助理等业务问题，研究大模型反思、规划、决策等深度推理能力，提升模型回复的拟人度及回复准确性。",
+      "jobRequirement": "1）熟悉LLM、Speech Codec、NLP Dialog、语音（ASR / TTS）、情感分析等相关领域，对至少一个方向有深入研究，并有实际项目经验，能够将理论知识应用于实践。​\n2）有扎实的大模型实践和研究能力，尤其是在推理和决策优化领域具有深刻的理解。\n3）熟练掌握 Python 等编程语言，具备良好的编程习惯与代码能力，熟悉 Linux 开发环境。​\n4）熟悉 Megatron、DeepSpeed 等开源训练框架。​",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963940000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3153792897",
+      "name": "【大模型北斗实习】大模型模型压缩技术探索",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "本课题专注于大模型前沿压缩技术探索，通过压缩技术降低大模型的推理部署成本。课题研究内容包括但不限于:\n1) 探索多种模态（文本、语音、视觉）的模型压缩技术，不限剪枝、蒸馏、稀疏、量化、低秩化。\n2) 探索新轻量化结构，不限 MoE、Mamba、Sparse-Attention、MTP，实现训练和推理的协同优化。\n3) 探索低精度量化算法，以及新型量化格式，不限预训练和后训练过程，实现大模型的极致压缩。\n4) 高性能算子设计和开发，实现极致的压缩推理性能。",
+      "jobRequirement": "1）熟悉常用的模型压缩技术：剪枝、量化、蒸馏、稀疏化。\n2）熟悉 vLLM、SGLang 等开源推理框架。\n3）熟悉 Megatron、DeepSpeed 等开源训练框架。\n加分项：\n1）有影响力的开源项目中做出过核心贡献。\n2）发表过高水平论文优先（如ICLR,ICML,ACL,EMNLP等）。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963940000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3153761434",
+      "name": "【大模型北斗实习】代码大模型",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "随着AI技术的突破，代码大模型正成为软件开发领域的核心驱动力。基于LLM的代码生成工具已实现从自然语言描述到高质量代码的自动化生成，带来开发效率的大幅提升。本课题旨在打造行业的代码大模型，并推动Coding Agent在实际应用场景落地。 研究内容：\n1）通过代码pretrain、continue train、SFT、RL等手段，提升大模型的代码能力。\n2）构建高质量代码语料库，涵盖多语言、多场景的工业级代码数据。\n3）研发Coding Agent，支持代码生成、编辑、单测生成等领域的落地应用。",
+      "jobRequirement": "1）熟悉NLP、LLM、MLsys、Optimization、OR、Control、RL等相关领域，对其中一个或多个方向有深入的研究经历，且有相关实际项目经验。\n2）熟悉Python等至少一门编程语言，熟悉LINUX环境。\n3）熟悉Pytorch、 Megatron、DeepSpeed 等开源训练框架。\n加分项：\n1）有影响力的开源项目中做出过核心贡献。\n2）发表过高水平论文优先（如NeurIPS,ICLR,ICML,ACL,EMNLP等）。\n3）KDDCup等业界知名机器学习比赛中获奖经历。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963940000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    }
+  ]
+}

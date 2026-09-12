@@ -1,0 +1,1371 @@
+{
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "request_body": {
+    "page": {
+      "pageNo": 105,
+      "pageSize": 20
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jfJgList": [],
+    "jobType": [
+      {
+        "code": "3",
+        "subCode": []
+      }
+    ],
+    "typeCode": [],
+    "specialCode": []
+  },
+  "reviewed_at": "2026-09-12T15:38:57Z",
+  "page": {
+    "pageNo": 105,
+    "pageSize": 20,
+    "totalPage": 124,
+    "totalCount": 2475
+  },
+  "rows": [
+    {
+      "jobUnionId": "4491091941",
+      "name": "LongCat - 大模型自进化与自动化研究智能体研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "研发下一代自动化研究智能体系统，面向模型研发与高价值复杂研究任务，构建从问题发现、假设生成、实验执行到结果验证、经验沉淀、策略迭代的自进化闭环。提升模型在长周期任务中的自主规划和执行能力，减少对人工逐步指导的依赖，并将能力改进应用于模型训练与评测体系，形成持续迭代。\n\n1. 自动化研究智能体能力建设\n提升模型在复杂任务分解、长程推理、研究规划、工具使用、代码生成与执行、证据链整合、结果归因和研究报告生成中的闭环能力，面向真实模型研发任务验证效果。\n\n2. 长程上下文、记忆与状态管理\n设计 context scaling/compression、memory selection、任务状态追踪等机制，解决长周期任务中的一致性衰减、状态丢失和中断恢复问题。\n\n3. 可验证研究环境与自动实验闭环\n构建覆盖 search、browser、retrieval、code execution、training/eval job、sandbox 的交互式研究环境，将任务建模为可交互、可验证、可评分的闭环，支持自动实验编排、结果比对与版本回滚。\n\n4. 训练策略与反馈信号设计\n设计数据配方、环境反馈和 reward 信号体系，引导模型在事实正确性、工具调用可靠性和任务完成率上持续提升。\n\n5. 评测体系与错误分析闭环\n建设面向真实 research workflow 的 benchmark 与自动评测体系。系统性分析 Agent 的典型失败模式，针对性反哺到训练策略和 harness 优化。\n\n6. 研究经验沉淀与策略自进化\n将成功/失败任务轨迹沉淀为 research episode、skill 和 eval case 等可检索、可复用的自动研究策略库，支持 Agent 在后续任务中检索、复用和迭代。",
+      "jobRequirement": "1. 扎实的算法功底，熟悉自然语言处理和机器学习技术，对大模型和AGI有信仰；\n2. 熟悉Python/Java等编程语言，动手能力强，ACM/ICPC、NOI/IOI等比赛获奖者优先；\n3. 熟悉PyTorch/Megtron/Huggingface/Triton/vLLM/SGLang等框架并有实际项目经验；\n4. 在领域内顶级会议或期刊发表过高水平论文，主导或参与过有影响力的开源项目，在权威评测或比赛中取得优秀名次者优先。",
+      "precedence": null,
+      "highLight": "1. 团队扁平，人才密度高，在ICLR、NeurIPS、ICML、ACL等顶会累计发表论文50余篇，团队成员先后荣获EMNLP outstanding paper、吴文俊人工智能奖科技进步奖、CCF科技成果奖、北京市科技进步奖等荣誉激励；\n2. 参与前沿强化学习技术探索，接触多智能体协同进化、模型自进化等创新方向；\n3. 充足算力和数据资源保障，长期有耐心，专注核心技术突破。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779964021000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4517224406",
+      "name": "LongCat - 数据策略与数据科学算法研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "随着模型架构逐渐收敛、算力成本持续上升，高质量数据策略正在成为提升基座模型 scaling efficiency 和能力上限的核心杠杆。聚焦大规模预训练数据的理解、筛选、配比、合成与系统化迭代，致力于建立数据分布、训练动态与模型能力之间的可解释映射，并将其转化为可预测、可干预、可扩展的数据策略和数据系统，持续提升模型的 token efficiency、scaling efficiency 与智能上限。\n\n工作内容包括但不限于：\n1、研究数据来源、质量、多样性、难度、覆盖度与模型能力之间的关系，建立“数据分布—训练动态—模型效果”的分析与归因框架。\n2、探索面向预训练的数据价值建模方法，包括自动化质量评估、样本筛选、语义去重、污染检测、覆盖度建模、长序列数据组织与高价值 token 挖掘。\n3、研究 Data Mixture、动态配比、课程学习和多阶段训练策略，分析不同类型数据在不同模型规模、训练阶段和能力维度上的边际收益，提升 token efficiency 与 scaling efficiency。\n4、探索合成数据、蒸馏数据、模型自生成数据和反馈数据在预训练中的有效使用方式，研究合成数据的有效性、多样性保持、退化机制和训练配比策略。\n5、构建可复现、可扩展的大规模数据处理与实验闭环，将数据构建、训练验证、能力评测、数据诊断和策略更新结合起来，形成面向基础模型持续迭代的数据飞轮。\n6、研究并缓解预训练数据中的污染、偏差、重复、低质、隐私、安全和合规风险，提升数据策略的可靠性、可控性和可持续性。",
+      "jobRequirement": "1、熟悉 Python 和 PyTorch 等深度学习框架，具备扎实的机器学习、深度学习、概率统计和算法基础。\n2、熟悉大语言模型或多模态基础模型训练流程，理解预训练数据、训练动态、模型能力和评估体系之间的关系；有大规模预训练、Data Mixture、合成数据或模型评估经验者优先。\n3、对预训练数据有系统性理解，熟悉数据清洗、去重、污染检测、质量评估、覆盖度建模、长序列组织、合成 / 蒸馏数据和数据配比等关键问题。\n3、具备优秀的实验设计和分析能力，能够围绕数据与模型能力提出 hypothesis，设计可复现实验，并基于训练动态、评测结果和模型行为分析实验结论。",
+      "precedence": null,
+      "highLight": "团队资源丰富，技术审美优秀，参与前沿AI项目，共同探索数据策略与数据科学。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779963988000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4518445342",
+      "name": "LongCat - 多模态算法研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "探索下一代原生多模态基础模型：让模型不止于接入视觉能力，而是能够统一建模文本、图像、视频与交互过程，像理解文字一样理解视觉世界，并在真实物理场景中进行推理、生成和行动。我们将重点探索统一的多模态表征体系，包括离散视觉 token、连续视觉表征及其混合形式，使图像与视频能够被基础模型高效学习、组合和生成。\n你将参与以下方向中的一个或多个：\n\n1、研究多模态与文本模态的深度融合策略，包括 early fusion 架构设计、多模态 / 文本数据配比优化、多模态上下文建模等，实现视觉能力与语言能力的协同提升。\n2、从互联网及业务场景中大规模挖掘、清洗和构建高质量多模态训练数据，覆盖图文交错、视频、网页、文档、GUI、代码和交互轨迹等数据形态，支撑模型在 browser use、复杂文档理解、vision-to-code 等生产力场景的能力突破。\n3、设计兼顾理解、重建与生成的视觉表征体系，包括离散视觉 tokenizer、多尺度视觉 token、视频 tokenization 以及连续 / 离散混合表征；基于理解与生成统一的表征，规模化构建图文交错、视频序列等多模态自监督预训练数据，解锁新的多模态智能维度。\n4、基于理解与生成统一的模型能力，探索长程、多轮的多模态生成与交互任务，通过端到端强化学习激发模型的自我评估和迭代修正能力；进一步探索未来帧预测、状态建模和交互轨迹学习在物理视觉世界中的推理、规划与行动能力。",
+      "jobRequirement": "1、熟悉 Python，熟练使用 PyTorch/Megatron/DeepSpeed 等训练框架，有大规模预训练或数据 pipeline 开发经验；\n2、满足以下至少一项：\n· 有大规模多模态数据挖掘/清洗/质量控制的工程经验；\n· 对视觉表征设计、多模融合策略、生成范式等有深入理解，有从0到1探索新方向的经验。",
+      "precedence": null,
+      "highLight": "1、团队在原生多模态方向有明确的非共识技术判断和持续投入，不是跟随式的能力补齐。\n2、覆盖\"数据→tokenizer→预训练→后训练\"全链路，参与端到端的系统设计。\n3、资源充沛，有大规模 GPU 集群支撑实验。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779963949000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4518447096",
+      "name": "LongCat - 预训练算法研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "简介：探索下一代大模型训练范式，从模型结构、训练策略、数据策略、算力利用率等角度切入，打造具有更强能力和更高潜力的基座模型。\n1、设计更高效的模型结构，提高给定数据量、计算量、硬件资源、序列长度等约束下的模型能力和潜力，如长序列能力、记忆能力、推理能力等。\n2、探索更科学的训练策略，对影响training dynamic的关键变量（如学习率、batchsize、初始化等）形成更科学的认知。探索更前沿的训练范式（如diffusion LLM，test-time scaling等具有潜力的技术），发现更高效和稳定的scaling路径。\n3、研究模型结构和数据的耦合关系，优化分阶段训练范式。研究模型早期表现和能力上限之间的关系。\n4、结合MLsys解决大规模训练和推理中遇到的卡点问题，实现算法和工程联合设计。",
+      "jobRequirement": "1、熟悉NLP、LLM、MLsys、Optimization、OR、Control、RL等相关领域，对其中一个或多个方向有深入的研究经历，且有相关实际项目经验。\n2、熟悉主流大模型技术\n3、熟悉PyTorch、 Megatron、DeepSpeed 、vLLM、SGLang等主流开源训练和推理框架。",
+      "precedence": null,
+      "highLight": "团队资源丰富，技术审美优秀，在MoE、原生多模、scaling law、self-play等技术方向都有较为前沿的探索经验。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779963915000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4496663999",
+      "name": "美团骑行-电力策略运营",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-骑行事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、深入理解共享出行行业特点和业务运营策略，参与运营体系的搭建、运营、评估及优化；\n2、负责电单车的换电策略、电池配比、运力管理、分布式管理等策略制定、落地和复盘，为策略结果负责，不断提升骑行服务体验；\n3、通过数据发现业务中存在的问题及提升点，持续优化各模块逻辑，提升运营效率； \n4、不断挖掘产品需求，能够跨部门协调并推动规则/标准的线上化； \n5、多维分析业务发展的趋势，及时发现存在的问题和机会，进行分析并给出预期诊断，提示可能性风险及策略方法，能够跨部门协调并推动优化项目。",
+      "jobRequirement": "1、本科及以上学历，3年以上互联网工作经验，数学/统计/金融/经济/计算机专业背景优先; \n2、具备数据分析能力，能够运用统计学知识、数据分析工具等，深挖运营数据；\n3、拥有强烈的责任心和团队合作精神，出色的沟通协调能力； \n4、有推荐策略、 搜索策略、补贴策略、供需策略、交易策略、策略投放平台等相关经验优先 ；\n5、具备AI工具实际应用能力，能将AI融入日常工作流，主动探索AI在本岗位场景中的提效路径，在AI可承接的环节减少人力消耗，将精力聚焦于判断、协同与创造性工作。",
+      "precedence": null,
+      "highLight": "1、能够深入参与业务关键环节，直接为业务结果负责。 \n2、面临复杂问题各类特殊场景",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779963810000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "1466951634",
+      "name": "LongCat - Pretrain Infra AI 工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 参与超大规模的 AI 大模型训练平台建设\n2. 负责 LLM Alignment 工程方案支持优化，协同业务/算法效果迭代和评估\n3. 跟进业界前沿算法及架构，包括不限于 RAG/MemGPT/MetaGPT/WebGPT 等等",
+      "jobRequirement": "1. 熟悉分布式训练原理及常用范式，熟悉 Megatron/Zero/FSDP 等\n2. 熟悉常用 LLM 推理优化方案，了解量化等原理\n3. 熟悉强化学习基础知识及在 LLM 的应用方案\n4. 熟悉 Python/C++/CUDA 编程，有 cutlass 使用及优化经验更好\n5. 熟悉 GPT/VIT 等常用模型结构，有实际优化经验更佳",
+      "precedence": null,
+      "highLight": "1. 协同算法同学深度参与公司 LLM 研发工作，探索/实践前沿技术在公司的落地方案\n2. 业界前列规模的计算集群，海量数据和丰富的应用场景，挑战与机遇并存",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779963454000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "2431837310",
+      "name": "LongCat - Agentic RL AI 工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.  参与美团超大规模的多模态大模型训练Infra建设\n2. 负责美团大规模多模态基座模型训练框架架构迭代，稳定性、易用性、可运维能力和可观测能力建设 \n3. 负责高达数万卡规模和数万亿参数的大规模训练性能优化",
+      "jobRequirement": "1. 有扎实的计算机理论基础，熟练掌握C++或Python语言 \n2. 熟悉CUDA或NPU编程经验优先，有RDMA实践经验优先 \n3. 深入了解PyTorch 或 TensorFlow等引擎的架构和运行原理，有深度定制经验优先 \n4. 有Megatron-LM、DeepSpeed 等大模型训练框架的优化经验优先\n5. 深入理解大模型训练多维并行并行架构，如Tensor 并行、流水线并行、序列并行等 \n6. 深入理解多模态 模型结构，如ViT、DiT等\n7. 学习能力和好奇心强，具备良好的沟通协调能力与团队协作精神",
+      "precedence": null,
+      "highLight": "业界前列的算力规模、海量数据和丰富的应用场景，深入协同算法团队深度参与大模型项目，共同探索Scaling Law 边界。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779963432000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4254863736",
+      "name": "LongCat - Codesign AI 架构师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "大模型架构优化探索， 涉及训练和推理的各类算法和工程策略探索落地，算法和工程协同设计。\n\n参与美团基座大模型项目，包含但不限于大模型高效架构设计探索（高效Attention，MoE架构等），预/后训练调优策略，投机推理策略，模型轻量化（剪枝，量化，稀疏，蒸馏，结构搜索等） ，Agentic优化策略和应用等等方向。\n\n需要在上述方向做出创新性算法工程产出，并在公司业务场景中落地应用，创造业务价值。",
+      "jobRequirement": "计算机及其他相关专业，硕博优先。\n\n熟悉一些常用的深度学习框架和大规模训推框架（比如megatron，verl，vllm，sglang等等），在大模型上有训练和推理算法工程优化的经验的优先。\n\n熟悉机器学习和深度学习理论，具备扎实的编程能力，熟悉常见的主流大模型架构的优先。\n\n有顶会论文发表，特别是模型架构优化相关的算法或工程论文优先。\n\n具备良好的团队合作精神和沟通能力。",
+      "precedence": null,
+      "highLight": "1.公司具备丰富的研发经验和技术积累，提供广阔的发展空间。\n\n2.参与大模型架构优化先进方案的研发，解决行业内具有挑战性的技术问题。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779963407000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4285596871",
+      "name": "LongCat - 异构算力 AI 工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 围绕大模型异构算力集群，尤其是国产算力集群，面向大模型训练和推理场景支持算力评估、适配和落地维护，具体包括分布式优化框架，AI框架，网络集合通信，算子等方面内容\n2. 负责大模型分布式优化框架的系统分析，性能调优，特性开发，问题定位等工作，支持常见的大模型分布式优化框架\n3. 负责PyTorch在异构算力下系统分析，性能调优，问题定位等工作\n4. 负责常见的大模型场景下高性能Kernel算子的关键指标分析和统计，融合开发，性能优化等工作\n5. 负责大模型超万卡规模的集合通信/NCCL关键指标分析和统计，系统定位/调优等工作\n6. 负责多种算力的Benchmark评测，对比验证，性能分析等工作",
+      "jobRequirement": "1. 有扎实的计算机理论基础，熟练掌握C++或Python语言\n2. 具备良好的问题分析和一定的解决能力，具有较好的学习能力和好奇心驱动\n3. 对LLM和多模态模型有基本的算法理解\n4. 有实际的训练或推理场景实践，熟悉相关框架和算子细节",
+      "precedence": null,
+      "highLight": "业界前列的多种算力规模，协同算法，AI框架，网络，计算，芯片等多个团队共同建设大模型软、硬件技术底座，接触最前沿的AI Infra基础设施，结合最前沿的AI平台软件栈，支撑最前沿的大模型不同领域的算法探索，从算法到算子，从芯片架构到互联集群，从POC到大规模场景，充满机遇与挑战，兼顾学习和成长，在垂直，水平等多个领域和维度，全面感受大模型带来的技术变革！",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779963374000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4151489050",
+      "name": "LongCat - 具身图形算法工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "在 LongCat 基座大模型团队，从事具身方向图形算法相关的研究和工作，从事下述方向至少之一：\n\n1. 具身智能仿真平台的研发。构建自动化的合成数据全流程的系统，包括轨迹生成采样、标注、打分、清洗和验证。同时通过仿真平台进行数据、训练和评测等全链路的研发，贯彻仿真环境在模型生产的全部生命周期。使得模型能够在仿真中快速得到验证，并最终希望应用到物理世界。\n\n2. 具身场景的 3D AIGC 方向研究和落地，关注该领域的前沿进展，对其进行使用、复现和创新。整合已有的三维资产和场景，构建数据集。基于 3D AIGC 技术，在具身智能领域自动化地进行资产、场景和任务的自动生成和重建。为了能够尽可能对物理世界进行近似，需要在生成高质量三维资产的同时，生成高质量的材质和物理参数，对于可交互物体还需还原其结构。\n\n3. 具身智能场景下强化学习框架的研发，进一步地围绕强化学习框架，考虑可能的具身训练新范式，进行比如自主学习等其它的和环境交互的训练框架研发。在这个过程中需要同时考虑仿真平台和训练、推理引擎等模块的计算特性。\n\n基于上述主要方向，可以根据个人兴趣进行相关研究和工作。",
+      "jobRequirement": "1. 在计算机科学或相关领域获得学士、硕士或博士学位。\n2. 具备扎实的编程能力、出色的自驱力、快速学习能力和解决问题的能力。\n3. 对人工智能、计算机图形学、机器人等领域有相关经验。\n4. 对具身智能和仿真技术抱有浓厚兴趣和热情，在相关领域有深入研究。\n5. 在人工智能、计算机图形学、机器人等领域的顶级会议或期刊上有论文发表者优先。",
+      "precedence": null,
+      "highLight": "1. 美团 LongCat 基座大模型的核心团队。有机会接触到前沿的多模态大模型算法方案和工程框架，技术氛围浓厚，团队重视前沿技术创新。\n2. 具身智能为当下前沿的方向之一。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779959580000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3285026405",
+      "name": "LongCat - 大模型数据运营",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 针对不同场景智能体应用，拆解多轮、规划、插件调用等核心能力，建立评测和标注体系。\n2. 主导标注人员管理与数据构建，确保数据质量和一致性，支持智能体训练、评测。\n3. 设计自动化数据合成及清洗方案，实现规模化高质量数据生产。\n4. 监测智能体效果，输出系统化分析报告，持续优化数据方案。",
+      "jobRequirement": "1. 本科及以上学历，计算机、人工智能或相关专业背景。\n2. 1年以上大模型标注/评测经验，接触过agent或智能系统应用。\n3. 拥抱AI发展，实时追踪行业动态，具备良好的沟通能力和团队协作精神。\n4. 强调细节并注重端到端效果，能够适应快节奏工作。",
+      "precedence": null,
+      "highLight": "紧跟业界前沿的AI发展和应用，深度参与生活服务真实场景的应用落地。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779956471000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3139280187",
+      "name": "LongCat - 多模态交互算法研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、多模态实时表征探索，研究视频与语音的视觉表征、Audio 表征以及底层模型结构，构建支撑双工交互的感知底座，攻克实时性与表达力的平衡。\n2、全模态模型结构与训练策略，探索统一的模型架构与训练范式，使模型能够充分融合视觉、语音、文本的理解与生成能力，逼近全模态统一智能。\n3、实时交互核心算法，研发面向人机自然对话的打断、判停与时机决策机制，让模型在复杂声学与多说话人场景下做到自然不抢话、不漏话、在恰当时机主动发起交互。\n4、下一代交互范式探索，研究交互式思考 模型、流式工具调用等前沿能力，定义下一代多模态实时交互大模型的形态边界。",
+      "jobRequirement": "1、计算机、人工智能等相关专业硕士/博士学位，具备扎实的视觉、语音和深度学习学习理论功底；\n2、深入理解VLM，Audio LLM等至少一项前沿技术；\n3、精通 PyTorch，具备大规模分布式训练经验；",
+      "precedence": null,
+      "highLight": "全栈顶配算力支持，依托美团大规模算力集群，提供千卡至万卡级算力支持。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779946515000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4041386111",
+      "name": "LongCat - 具身智能算法研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 参与具身智能大模型方向前沿算法研究，支撑包括具身感知、任务规划、行动与控制在内模块的数据生成、模型训练优化、评测迭代等方面工作。\n2. 负责研发任务泛化的端到端操作技术路线，包括VLA架构革新、训练范式优化、真机强化学习等。\n3. 跟踪和评估前沿研究进展，维护相关算法框架，开发、集成和优化具身智能系统。\n4. 协同工程等团队推动真机部署、大规模数据采集、Sim-to-Real等工作，加速前沿算法落地应用。",
+      "jobRequirement": "1. 计算机科学、机器人学、人工智能、自动化或相关领域的在读硕士或博士研究生，有相关方向1年以上研究经历。\n2. 具备扎实的编程能力，精通 Python，熟悉 C++者优先，且熟练掌握 PyTorch 框架。\n3. 在具身智能领域有深入研究，熟悉 VLA的前沿技术。\n4. 对具身智能和机器人技术抱有浓厚兴趣和热情，具备出色的自驱力、快速学习能力和解决问题的能力。\n5. 在ICRA, CVPR, NeurIPS, ICLR, IROS等人工智能或机器人学会议上有论文发表。",
+      "precedence": null,
+      "highLight": "1. 拥有快速成长的空间，一起见证技术落地的喜悦：具身大模型技术处于快速发展初期阶段，技术复杂度高，挑战性大。你将有机会主导具身智能领域的技术创新，引领行业发展方向；\n2. 你将加入优秀的团队，一起成长：团队高阶研发密度大，汇聚行业大牛，分享交流活动多。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779946338000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4487581555",
+      "name": "LongCat - 后训练算法研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.  深度参与LongCat模型基础能力优化，包括但不限于指令遵循、幻觉、推理、智能体等；\n\n2.  探索大规模RL及多目标RL的训练方案，与上下游团队合作，构建长期稳定的RL Scaling训练能力，推动模型能力持续提升；\n\n3.  探索Long Horizon场景下大模型的优化方案，包括不限于数据合成、上下文管理、长上下文RL方案等。",
+      "jobRequirement": "1. 对大模型开发流程有深入认知，熟悉预训练、指令微调、RL等流程与框架；\n\n2. 具备扎实的算法和数学理论基础及良好的编程基础，熟悉自然语言处理、生成式AI和机器学习等技术，熟悉Python、Java等至少一种编程语言，熟悉PyTorch等深度学习框架，对技术开发及应用有热情；\n\n3. 目标感强，善于分析和发现问题，拆解简化，有想法并乐于挑战自我，能够从日常工作中发现新的空间；\n\n4. 条理性强且有推动力，能够梳理繁杂的工作并建立有效机制，推动上下游配合完成目标。",
+      "precedence": null,
+      "highLight": "1. 团队扁平，人才密度高，美团“北斗计划”和博士员工比例高，近年团队在ICLR、NeurIPS、ICML、ACL等顶会累计发表论文数十篇，团队员工获EMNLP 2024 Outstanding Paper、ACL 2025 Outstanding Paper；\n\n2. 参与大语言模型核心技术研发，接触大规模RL、超长上下文、分布式训练和推理优化等前沿技术；\n\n3. 充足算力保障，拥有大规模分布式训练环境和丰富数据资源。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779946246000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4302139093",
+      "name": "LongCat - 通用 agent 算法研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 通过 Large Scale RL Scaling 等手段，训练模型能够在多样化、有噪声的真实、全模态环境下，支持多样化的 Tools、Skills、Subagents 的稳定、正确、综合、可插拔式灵活使用，并能在一定限度内进行环境的修复与可靠改造；\n\n2. 探索在易于模型理解使用的前提下，训练模型以更高信息密度的形态构建、维护和利用 memory，使模型能主动在重复性任务或封闭任务域中总结、提炼认知与经验，并进行有效复用，达到不断自进化的效果；\n\n3. 训练模型的系统性长程任务高效处理能力，可以自主进行合理的任务拆解、分工；探索通过 agent swarm 或其他先进的 multi-agent system 进行系统性长程任务的并行执行和提效；\n\n4. 探索多模态推理和多模态环境交互的范式，并基于此进行增强模型在复杂全模态环境下的任务完成能力。",
+      "jobRequirement": "1. 本科及以上学历，计算机、人工智能、自动化、数学、物理等相关专业； \n\n2. 在强化学习、大模型训练、Agent 等一个或多个领域有较深入的研究和实践经验者； \n\n3. 好奇心驱动，具有出色的分析、解决问题的能力，有自主探索解决方案的能力者； \n\n4. 具有良好的沟通协作能力，对追求纯粹的技术有强烈热情，工作积极主动，能够与团队融洽合作，一起探索新技术并快速试验想法，推进技术进步。",
+      "precedence": null,
+      "highLight": "1. 获得在业内最前沿的大模型认知和技术积累，既能做前沿 research，也有直接的落地场景；\n\n2. 有充足的数据和GPU资源用于实验探索；\n\n3. 工作环境优越，团队扁平，讨论、合作氛围好；\n\n4. 提供有竞争力的薪资福利和良好的晋升空间。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779946041000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4517367877",
+      "name": "充电宝-下沉战区-销售BD（西北区域--西宁、兰州、银川、呼和浩特、包头、绵阳、宜宾、遵义）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "西宁市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "兰州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "银川市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "呼和浩特市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "包头市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "绵阳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "宜宾市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "遵义市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-充电宝业务部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、面向本地商户，负责美团充电宝产品的销售和运营工作，并且免费为商家提供营销活动的策略支持服务；\n 2、收集商户及用户对于充电宝产品的使用情况反馈，并及时协助解决使用过程中遇到的问题；\n 3、与公司各部门配合，及时处理反馈市场信息，协助提升运营效率，提高用户满意度；\n 4、与客户建立高价值合作关系，维护客情。",
+      "jobRequirement": "1、一年及以上的销售经验，并有良好销售业绩，有互联网销售经验者优先；\n 2、热爱销售，善于挑战，积极乐观，有强烈的成功欲望和企图心；\n 3、富有激情和创新理念，追求个人职业发展和公司利益的双赢，注重职业升华机遇和优质工作氛围；\n 4、具备较强的人际沟通能力，及逻辑思维能力；为人正直，诚实可靠；\n 5、适应互联网行业的快速发展，精力充沛，具备出色完成任务的能力。",
+      "precedence": null,
+      "highLight": "我们提供互联网业内卓越的平台+有竞争力的薪资+当地五险一金+双休+所有法定节假日（带薪年、产、陪产、病等假期）+晋升机会+月度定期团建活动等。\n\n 备注：base地为义乌、金华、泉州、莆田、嘉兴、湖州、绍兴",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779944468000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4517788682",
+      "name": "充电宝-下沉战区-销售BD（苏鲁区域-临沂、泰安、常州、盐城、济宁、淄博、扬州、南通、昆山）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "临沂市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "泰安市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "常州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "盐城市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "济宁市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "淄博市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "扬州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "南通市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "苏州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-充电宝业务部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、面向本地商户，负责美团充电宝产品的销售和运营工作，并且免费为商家提供营销活动的策略支持服务；\n 2、收集商户及用户对于充电宝产品的使用情况反馈，并及时协助解决使用过程中遇到的问题；\n 3、与公司各部门配合，及时处理反馈市场信息，协助提升运营效率，提高用户满意度；\n 4、与客户建立高价值合作关系，维护客情。",
+      "jobRequirement": "1、一年及以上的销售经验，并有良好销售业绩，有互联网销售经验者优先；\n 2、热爱销售，善于挑战，积极乐观，有强烈的成功欲望和企图心；\n 3、富有激情和创新理念，追求个人职业发展和公司利益的双赢，注重职业升华机遇和优质工作氛围；\n 4、具备较强的人际沟通能力，及逻辑思维能力；为人正直，诚实可靠；\n 5、适应互联网行业的快速发展，精力充沛，具备出色完成任务的能力。",
+      "precedence": null,
+      "highLight": "我们提供互联网业内卓越的平台+有竞争力的薪资+当地五险一金+双休+所有法定节假日（带薪年、产、陪产、病等假期）+晋升机会+月度定期团建活动等。\n\n 备注：base地为义乌、金华、泉州、莆田、嘉兴、湖州、绍兴",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779944438000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4515051756",
+      "name": "美团商家运营专员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-商业增值部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责通过电话、线上沟通等方式，与美团平台上的商家建立联系，了解商家需求并提供运营支持。  \n2. 协助商家优化店铺信息、活动策划及推广方案，提升商家在平台上的曝光与转化率。  \n3. 跟进商家日常运营数据，分析问题并提出改进建议，帮助商家实现业务增长。  \n4. 收集商家反馈，及时向内部团队传递市场动态与客户需求，推动产品与服务优化。  \n5. 完成上级交办的其他与商家运营相关的工作任务。",
+      "jobRequirement": "1. 大学专科及以上学历，专业不限。  \n2. 具备良好的沟通能力和服务意识，能够耐心倾听并有效解决问题。  \n3. 对互联网平台运营有一定了解，有销售或客服相关经验者优先。  \n4. 工作积极主动，具备较强的学习能力和思考能力。  \n5. 熟练使用办公软件。",
+      "precedence": null,
+      "highLight": "1. 接触海量商家资源，积累丰富的运营实战经验。  \n2. 完善的培训体系，助力新人快速成长，提升个人综合能力。  \n3. 扁平化管理，开放沟通氛围，提供清晰的职业发展路径。  \n4. 工作地点位于成都市，交通便利，办公环境舒适。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779935547000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3435878373",
+      "name": "Keeta - 产运战略BP（沙特）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "利雅得",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "Keeta",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. Act as the country product business partner role in the product team, deeply involved in the entire process of product requirement management, launch introduction, benefits review, and feedback improvement. Provide product solution services to business teams in different countries to support business success.\n2. Proactively identify potential opportunities and issues for the business teams through market research, user research, metric construction, and user feedback mechanism development. Drive closed-loop improvements between the product and business teams to enhance user experience.\n3. Facilitate effective cross-national (and cross-time zone) communication and collaboration, establish and maintain long-term trusted relationships, and develop appropriate collaboration mechanisms.\n4. Actively explore the use of AI tools (such as data analysis, interview summary analysis, market information aggregation, etc.) to enhance insight efficiency and form structured product requirement inputs. \n\n1. 作为境外业务产品团队国家BP角色，深度参与产品需求管理、上线导入、收益复盘、反馈改善等全过程，面向不同国家业务团队提供产品解决方案服务，助力业务成功；\n2. 通过市场调研、用户调研、指标体系搭建、用户反馈机制建设等方式、主动积极发现所面向的业务团队潜在的机会和问题、推动产品和业务团队闭环改善，提升用户体验；\n3. 有效的跨国（跨时区）的沟通合作，建立和保持长期的可信任关系，建立匹配的协作机制和流程；\n4.积极探索利用AI工具（如数据分析、访谈纪要分析、市场信息聚合等）提升洞察效率，形成结构化的产品需求输入。",
+      "jobRequirement": "1. Experience in project management, product management, product operations, or business operations in an internet company or large multinational corporation, with deep knowledge and insight in the professional field.\n2. Strong communication skills in cross-functional teams and cross-cultural environments, with excellent English proficiency.\n3. Willingness to base Middle East region and accept international travel at certain frequencies.\n4. Accept base long-term work arrangement in the Middle East and frequent cross-border business trips to the Middle East.\n\n1. 具备互联网公司或大型跨国企业项目管理、产品经理、产品运营或者业务运营经验，在专业领域具有深度认知和洞察；\n2. 具备较强的跨职能团队/跨文化背景的沟通能力，具备出色的英语听说读写能力，英语可作为工作语言；\n3.了解大模型工作原理，深度应用过AI Agent能力，借助AI工具进行过数据分析、文档撰写、运营配置等工作；\n4. 接受base中东地区长期工作安排及一定频次的中东地区跨国出差。",
+      "precedence": null,
+      "highLight": "1. Responsible for product operations and project management of overseas business, collaborating with all local business teams and engaging with regional business leaders. Broad business perspective and high market development potential, offering opportunities for rapid growth in emerging markets.\n2. Provides excellent training and learning opportunities, enabling continuous improvement in project and product management skills and professional development in the fast-growing international expansion business.\n3. The team is equipped with a robust AI tooling ecosystem that empowers members to integrate AI capabilities into daily product discovery and the continuous optimization of R&D collaboration workflows, relentlessly advancing best practices in human-AI collaboration.\n\n1. 承担境外业务的产品运营和项目管理工作，跨职能合作本地所有横向业务团队、对话区域业务负责人，业务视野广、市场发展潜力高，有机会在增量市场实现快速成长；\n2. 提供良好的培训和学习机会，能够在快速发展的国际化出海业务中不断提升自己的项目管理能力和职业素养。\n3. 团队配备完善的AI工具体系，鼓励成员将AI能力融入日常产品洞察和产研协作流程优化，持续探索人机协作最佳实践。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779881766000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "1924595845",
+      "name": "甄选销售三区-大客户经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "南京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "武汉市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "长沙市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "合肥市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "南昌市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "苏州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-酒店旅行",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 市场开拓与供给覆盖：洞察分管市场的住宿、餐饮市场格局与供需特征，主动开发潜在合作酒店，持续扩大供给覆盖，提升间夜与餐饮产量产值。\n\n2. 合作酒店精细化运营：深入理解已合作酒店的定位与特性，结合平台情况制定适配的运营策略，推动目标达成。\n\n3. 营销方案策划与落地：捕捉市场热点、节假日及行业趋势，为合作酒店提供定制化营销方案与内容运营支持，提升曝光与转化。\n\n4. 客情维护与关系管理：制定并执行酒店拜访计划，维护高质量的合作关系，提升平台在酒店端的品牌影响力与信任度。\n\n5. 服务品质与用户满意度提升：关注C端用户反馈，协同酒店持续提升用户入住体验与满意度。\n\n6. 团队协作与目标达成：配合主管推进区域重点专项，积极和组内及跨组协同同事配合协作，保障各项业绩指标与任务顺利达成。\n\n7. 完成主管布置的其他工作。",
+      "jobRequirement": "1. 目标导向，以良好的韧性和自驱力持续交付结果。\n\n2. 具备数据分析敏感度，能通过数据洞察市场变化与经营问题。\n\n3. 优秀的商务谈判与沟通能力，善于协调内外部资源，推动合作落地。\n\n4. 了解酒店和OTA行业，熟悉酒店供应链逻辑与平台运营模式。有酒店或OTA从业经历优先。\n\n5. 本科及以上学历，英文熟练者优先。",
+      "precedence": null,
+      "highLight": "1. 面对不同商家，增强销售能力和解决问题的能力，并可以让你对酒店行业有更全面、更深入的了解。\n\n2. 有机会和公司共同成长，个人综合能力将随业务发展及需求变化不断提升。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779877656000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    }
+  ]
+}

@@ -1,0 +1,961 @@
+{
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "request_body": {
+    "page": {
+      "pageNo": 4,
+      "pageSize": 20
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jfJgList": [],
+    "jobType": [
+      {
+        "code": "1",
+        "subCode": []
+      }
+    ],
+    "typeCode": [],
+    "specialCode": []
+  },
+  "reviewed_at": "2026-09-12T16:04:50Z",
+  "page": {
+    "pageNo": 4,
+    "pageSize": 20,
+    "totalCount": 189,
+    "totalPage": 10
+  },
+  "rows": [
+    {
+      "jobUnionId": "4694958524",
+      "name": "大模型算法工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 研究大模型前沿技术，包括但不限于预训练，指令微调和强化学习等对齐技术，多模态、可控文本生成等；\n2. 负责大模型高效分布式训练和性能优化；\n3. 研究模型压缩和推理优化技术，包括但不限于剪枝、量化及知识蒸馏等；\n4. 推动大模型在搜索、客服、推荐、广告等场景规模化落地；\n5. 参与大模型平台建设。",
+      "jobRequirement": "1. 本科及以上学历，计算机、数学、统计学或相关专业；\n2. 扎实的算法功底，熟悉自然语言处理和机器学习技术，对技术开发及应用有热情；\n3. 熟悉Python/Java等编程语言，有一定工程能力；\n4. 熟悉PyTorch/TensoraFlow/Megatron等深度学习分布式框架并有实际项目经验；\n5. 熟悉Transformer/BERT/GPT等基础模型；\n6. 在NLP相关领域顶级会议和期刊发表过论文、在权威评测中取得优秀名次者优先。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960996000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697310753",
+      "name": "具身智能算法工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 基础模型与算法研发：深入理解美团业务场景，研究并落地通用视觉-语言-动作基础模型，针对非结构化环境下的感知与决策难题研发创新算法，推动机器人通用操作能力落地（含预训练/后训练）；\n2. 大规模数据体系建设：设计构建大规模真机与第一人称操作数据采集体系，探索类人形具身数据最优闭环范式；推动超大规模数据工具链建设，研究数据混合策略，探索 Foundation Model 在机器人中的 Scaling Law 与泛化边界；\n3. 真机部署与自我迭代：构建迈向商用的真机部署方案，结合美团真实业务场景（如无人机/机器人），研究基于人类反馈的强化学习与示范学习，使智能体实现技能的快速增量学习与迭代；\n4. 评测体系与前沿探索：建立具身智能系统化评测体系（任务成功率、泛化性等）指导模型迭代；依托公司真实场景数据与高校合作资源，定义并解决具身智能领域的关键科学问题，参与前沿学术会议的高质量论文产出。",
+      "jobRequirement": "1. 计算机科学、机器人学、自动化、人工智能等相关专业。\n2. 在以下至少一个领域有一定理论理解与研究：机器人、计算机视觉、多模态大模型、强化学习、仿真与规划控制。\n3. 有一定工程化与代码能力，有一定从前沿研究到工程落地开发的能力，可运用AI工具辅助coding及解决工程问题。\n加分项\n1. 有顶级期刊或会议（如CVPR、ICCV、ICRA、IROS、NeurIPS 等）高质量论文发表经历优先。\n2. 有机械臂、移动机器人或无人机真机部署与实际操作经验；有大规模仿真训练（如 Isaac Sim、Sapien）经验者优先。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960996000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4694998440",
+      "name": "AI大模型后台开发",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责大模型平台的系统架构设计和研发，包括模型训练、数据集管理、模型管理、模型评测、模型部署；\n2. 针对数据处理、存储、数据同步、模型训练等方面的问题，进行技术方案的制定及技术难题的攻关；\n3. 对模型进行优化和部署，提高模型的效率和性能；\n4. 充分了解业内先进技术和前沿技术发展动态，驱动团队技术提升；\n5. 与团队成员共同攻克技术难题，持续迭代项目能力输出，提高服务质量。",
+      "jobRequirement": "工作要求 :\n1. 本科及以上学历，计算机相关专业；\n2. 有扎实的编程基础，良好的数据结构和算法功底，熟悉C++/Java/Python至少一种编程语言；\n3. 有较强的系统架构设计和性能优化能力，优秀的分析和解决问题的能力；\n4. 熟悉至少一种主流的机器学习框架（TensorFlow / PyTorch），熟悉开源社区、善于挖掘和整合开源能力者优先。\n具备以下者优先：\n1. 有实际大模型训练平台开发经验（标注平台、数据管理平台、模型管理系统、模型评测系统、模型自动化部署）；\n2. 具有实际模型训练加速经验，熟悉训练框架、分布式训练方案（Pytorch、Megatron、Deep-Speed）；\n3. 熟悉模型部署框架（Triton、FasterTransformer等）。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960996000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4695062216",
+      "name": "AI招聘Builder",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "人力资源",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "这是一个属于人力资源（HR）序列的岗位——我们重视HR的战略价值，也期待与拥抱AI的你一起，重新定义未来的人力资源工作。\n我们的职责是为公司招到最合适的人才，为业内的优秀候选人在公司内匹配最合适的位置。在这个岗位上，你可以：\n1. 深入了解业务现状和需求，讨论组织和人才规划，输出有效的招聘策略；\n2. 通过主动寻访等方式，想尽一切办法，与全球优秀候选人建立联系，并建立甄选合适人才的体系；\n3. 结合组织现状和人才理念，设计合适的offer方案，进行offer谈判；\n4. 管理招聘流程相关数据，并用数据驱动招聘流程优化，不断迭代招聘方法论和工具；\n5. 善用AI工具提升招聘效率，探索AI在人才寻访、简历筛选、数据分析等环节的创新应用，推动招聘工作的智能化升级。",
+      "jobRequirement": "1. 本科及以上学历，不限专业，不限实习经验；——我们不在意你是否是人力资源专业、不在意你是否做过人力相关实习，我们只看重你的潜力。\n2. 具备良好的学习、反思、沟通协作和逻辑思维能力，有强烈的责任心、韧劲和耐心。——我们要去解决行业内的很多新问题，摸索新的方法论并推动落地，要在公司内外协调很多事情，且很多事情需要长期坚持才能解决，因此我们希望你满足以上要求。\n3. 对AI技术有好奇心和敏感度，愿意主动学习和使用AI工具（如大语言模型、自动化工具等）来提升工作效率；有AI相关的学习、实践或项目经历者优先。\n岗位亮点：\n1. 组织建设是业务发展的基石，而招聘是组织建设的根基，招聘工作对公司发展极为重要；\n2. 有机会与内部外部优秀人才对话，深入地理解互联网行业；\n3. 作为全流程端到端的负责人，了解HR招聘、薪酬策略、员工关系等多个模块；\n4. 身处AI驱动的招聘团队，有机会深度参与AI+招聘的前沿实践，用技术重新定义招聘工作方式。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960995000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4695078142",
+      "name": "AI Recruiting Builder",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "人力资源",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "这是一个属于人力资源（HR）序列的岗位——我们重视HR的战略价值，也期待与拥抱AI的你一起，重新定义未来的人力资源工作。\n以 AI native 的视角，重新定义美团招聘体系。你不只是招聘流程的执行者，更是用 AI 重塑招聘的 Builder。\n1. 招聘 AI 建设方向：参与招聘场景中 AI Agent 的设计、搭建与迭代（如智能初筛、自动化寻访、候选人交互\n  Agent），推动从原型验证到规模化落地。\n2. 招聘数字化方向：用 AI 让数据资产发挥更大价值，发现问题、定义指标、验证方案——在质量、效率、体验和成本四个维度驱动招聘升级。\n3. 渠道智能化方向：在万级规模人才寻访工作中，探索 AI 如何重构渠道运营逻辑，让每一分钱的招聘投入更精准。\n4. 候选人体验方向：用 AI 重构候选人全流程触点，提升响应速度和个性化体验，让雇主品牌在每一次交互中被感知。",
+      "jobRequirement": "1. Builder 心态：不满足于现状，喜欢从 0 到 1 搭东西，做出来比写方案更让你兴奋。\n2. AI 实操能力：用过 Prompt Engineering、Agent 及自动化工作流搭建，或有 Vibe Coding（用自然语言驱动 AI 写代码）实践经验，习惯把 AI 当成解决问题的第一工具。\n3. 结构化思考：逻辑清晰，能基于数据和调研定义问题，给出可落地的方案。\n4. 协作落地能力：动手能力强，能与业务线招聘团队、产品、研发多方协同，把想法推到上线。\n岗位亮点\n1. 正在发生的 AI 团队：这不是\"未来要做 AI\"的团队，而是正在用 AI 重建招聘全流程的团队。入职即参与实战项目，不是观摩。\n2. 公司级视角：站在整个美团的维度规划招聘，覆盖上万面试官、百万候选人，你做的事会影响整家公司的人才质量。\n3. 跨领域成长：团队工作横跨 AI / 产品 / 数据 / 财务 / 培训，不会被困在单一赛道，职业路径远比传统 HR 宽。\n4. 稀缺复合能力:「懂招聘 × 能造 AI 工具」是当前市场最稀缺的交叉能力。2 年后你同时具备招聘业务判断力和 AI 工具构建能力，这个组合在市场上极为稀缺。\n5. 真正的价值感：你不是在写方案后等审批，而是直接把方案变成产品、跑在线上、看到数据变化——做的事能被度量、能被感知",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960995000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697275290",
+      "name": "感知/端到端算法工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 参与目标检测与跟踪、场景理解、多传感器融合等感知算法研发，并推动相关能力与端到端模型融合；\n2. 参与端到端感知与智能决策模型的研发，探索从多模态传感器输入到目标状态、场景表征、任务轨迹或机器人动作输出的算法方案；\n3. 建立数据和模型迭代闭环，参与数据采集、清洗标注、样本构建、难例挖掘、仿真数据生成及模型误差分析，定位影响算法效果的关键问题；\n4. 参与模型部署优化、系统联调和实机测试，分析算法在低光照、动态干扰、复杂背景及开放场景下的表现，持续提升模型鲁棒性和泛化能力；\n5. 探索多模态模型、视觉语言模型、视觉语言动作模型、模仿学习、生成式策略、世界模型等前沿技术在无人机和机器人场景中的应用。",
+      "jobRequirement": "1. 计算机、人工智能、自动化、机器人、电子信息、数学等相关专业，硕士及以上学历；特别优秀者可适当放宽；\n2. 具备良好的编程基础，熟悉  Python，了解 C++，能够使用 PyTorch 等深度学习框架完成模型训练与实验；\n3. 具备机器学习、深度学习和计算机视觉基础，理解常见的目标检测、图像分割、目标跟踪或视觉表征学习方法；\n4. 具备良好的数学基础、较强的学习能力、实验分析能力和问题定位能力，能够阅读相关技术资料或论文，并完成算法复现和验证；\n5. 有计算机视觉、机器人、无人机、自动驾驶等方向的科研、课程项目、竞赛或实习经历者优先；\n6. 能够合理使用代码生成、数据分析等 AI 工具提升研发效率，并能独立验证工具输出结果。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960995000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697311648",
+      "name": "AI数据开发工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 数据仓库的建设、组织和管理，沉淀数据资产；\n2. 数据建设过程的各项工具研发，如数据安全、数据质量、数据开发的工具链等；\n3. 数据应用的研发，如商业智能、挖掘、分析报告、数据可视化等；\n4. 探索大模型在数据开发场景的应用，如利用LLM辅助数据质量检测、智能数据血缘分析、自然语言查询数据（Text-to-SQL）等；\n5. 其他服务于业务各环节的数据运营工作。",
+      "jobRequirement": "【岗位要求】\n1. 计算机、信息技术相关专业本科及以上学历，对数据技术感兴趣；\n2. 熟练掌握至少一种编程语言（包括但不限于Python、Java、C++等），熟练掌握算法数据结构；\n3. 掌握数据库基本原理和知识，熟练使用SQL；\n具备以下经验者优先：\n1. 具备相关行业互联网公司核心项目实习经验；\n2. 发表过相关技术方向国际顶会或核心期刊一作论文；\n3. 对大型开源软件项目有核心开发贡献；\n4. 熟悉大数据技术（Hadoop、Spark、flink等）；\n5. 有大模型辅助数据开发的经验，如使用LLM进行Text-to-SQL、数据质量校验、自动化ETL等；\n6. 熟悉向量数据库（如Milvus等）或RAG检索增强技术。\n【岗位亮点】\n1. 美团拥有海量数据资产，为数据开发提供丰富的实战土壤；\n2. 数据与大模型深度融合，可参与构建AI驱动的智能数据平台；\n3. 完善的技术培养体系，与行业大牛共事成长。\n4. 了解大语言模型的基本概念，对AI在数据领域的应用有好奇心和学习意愿，有使用AI工具辅助数据开发的经验或实践者优先。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960995000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4694886973",
+      "name": "AI智能学习",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "人力资源",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "这是一个属于人力资源（HR）序列的岗位——我们重视HR的战略价值，也期待与拥抱AI的你一起，重新定义未来的人力资源工作。\n1. 负责培训项目的智能化设计与落地——运用AI工具优化培训全流程（需求诊断、内容开发、效果评估），推动数据驱动的培训决策；在与学员互动中提升影响力，从业务实战中萃取经验并沉淀为组织知识资产。\n2. 参与构建AI时代的学习型组织——推动AI生产力工具在员工学习与发展中的普及应用，设计人机协同的学习体验，加速全员AI素养提升。\n3. 主导AI+培训的前沿实践——研究并落地AI在学习内容生成、个性化学习推荐、智能陪练与评估等场景的应用；参与AI学习产品的数据标注与知识库建设，持续优化智能学习体验。",
+      "jobRequirement": "工作要求：\n1. 人力资源管理、工商管理、心理学、教育技术、数据科学等相关专业，大学及以上学历；\n2. 熟练使用主流AI工具，具备将AI融入工作流的实践意识；\n3. 具备基础数据分析能力，能基于学习数据诊断培训效果并推动迭代优化；\n4. 沟通能力强，善于与人交往，乐于为他人成长贡献自己的力量。\n  岗位亮点：\n1. 人才是美团的核心资产，AI正在重塑每一个岗位的能力模型。在这里，你将站在AI+组织学习的前沿，用AI工具提升培训效率十倍，用数据驱动每一个学习决策；\n2. 你不仅是培训项目的交付者，更是AI学习体验的设计师——打造智能陪练、构建自适应学习系统、让AI成为每位员工的24小时学习伙伴。\n3. 美团是一家全力拥抱AI的公司，在这里，你将在AI原生培训体系的支持下，实现从学校到职场的陡峭成长，与最优秀的AI应用探索者共同进化。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960994000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4695094295",
+      "name": "大模型推理引擎研发工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责LLM大语言模型的推理优化；\n2. 负责机器学习引擎的编译优化工作；\n3. 负责模型稀疏化和模型量化工作。",
+      "jobRequirement": "岗位要求：\n1. 熟练掌握CUDA编程、C++编程，数据结构和算法知识；\n2. 熟悉TVM或TensorRT或FastTransformer等推理优化框架；\n3. 熟悉LLM大模型相关背景知识，有相关方向的研究经验和产出。\n岗位亮点\n1. 紧跟人工智能行业进展，接触到前沿技术和行业趋势，磨练出对人工智能的独到见解；\n2. 参与AI大模型的数据、训练与评测的全流程，了解从理论到工程实践的全面技能；\n3. 有机会参与公司的创新项目，跨足不同领域，拓宽人工智能技术的应用范围。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960994000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4695030498",
+      "name": "沟通和关怀AI运营",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "人力资源",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "这是一个属于人力资源（HR）序列的岗位——我们重视HR的战略价值，也期待与拥抱AI的你一起，重新定义未来的人力资源工作。\n1. 策划并组织家庭日、节庆活动、运动赛事、沟通会等公司级大型活动，负责全流程管理，包括跨部门协同、供应商对接、跨区域标准化运营。\n2. 利用AI工具完善周年、婚育、身心健康等员工关怀产品，将AI能力融入玩法创意、内容生成、数据分析等环节，持续探索AI在员工关怀及沟通场景的落地。\n3. 基于文化活动制定传播方案，规划传播渠道，撰写图文、视频等传播内容，梳理传播数据与满意度反馈。",
+      "jobRequirement": "1. 本科及以上学历，对员工关怀和文化活动有热情，市场营销、新闻传媒、人力资源、中文等相关专业优先。\n2. 具备优秀的策划与创新意识，能将创意转化为可落地方案；思维活跃有网感，能独立输出新颖的传播方案与内容。\n3. 具备团队协作能力和执行力，能推动跨部门协同与项目落地，有互联网或广告公司实习经验优先。\n4. 具备基础数据分析能力，能收集数据并从中发现问题、提出优化建议。\n5. 有好奇心和自驱力，熟悉主流AI工具，有AI落地项目经验优先。\n【岗位亮点】\n1. 高质量成长平台：加入一家大型互联网公司，拥有丰富的学习资源，与优秀的伙伴同行，一起成长，一起更好。\n2. 全流程项目对接：直接参与公司级大型文化活动，接触公司级员工关怀项目的全流程，让你对文化落地的理解更全面、更立体。\n3. 体系化发展路径：从文化活动执行出发，逐步接触关怀体系搭建、传播运营、数据分析，能力覆盖面广。\n4. 强AI驱动导向：团队AI氛围浓厚，你将利用公司已有AI资源，在传统项目运营中获得技术化的成长机会。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960994000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4694828828",
+      "name": "AI组织转型",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "人力资源",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "这是一个属于人力资源（HR）序列的岗位——我们重视HR的战略价值，也期待与拥抱AI的你一起，重新定义未来的人力资源工作。\n1. 战略研究：基于公司发展战略和组织能力长期建设需求，深入研究AI对组织生产关系和人才策略的影响，识别组织能力和人才发展上需要被关注的问题与机会，推动相关问题的讨论与改变发生。\n2. 方案设计：结合不同业务的差异化性质、发展阶段和管理需求，综合数据分析、内部访谈、外部对标等手段，持续识别和发现组织能力和人才发展上需要被关注的问题/机会，并能够促进相关问题的讨论，撬动改变发生；\n3. 前瞻探索：围绕AI与组织的前沿话题，设计探索性的产品、工具与机制（如HRAI产品），推动从概念验证到实际落地的全链路工作。\n4. 制度与项目推进：参与公司组织与人才发展领域的政策制度迭代及年度重点项目（如组织与人才盘点、职级评审、HC预算规划等），运用访谈调研、数据分析和外部对标为决策提供依据。",
+      "jobRequirement": "1. 愿力：对AI如何改变组织运作有清晰的构想和独立思考，不满足于\"AI是工具\"的浅层理解，愿意追问\"AI在改变什么底层逻辑\"。如果你写过关于AI与组织/工作/人的思考笔记或博客，欢迎附在简历里。\n2. 创造力：在更高层次的创造性突破上，AI目前仍有限——它擅长整合已有信息，但提出新方向、定义新问题、设计新路径，依然是人的主场。我们看中的不只是\"会用AI\"，而是能看见AI还看不到的东西。\n3. 判断力：在高度复杂、充满不确定性的环境中，依然能做出高质量决策。具体来说，能判断\"这件事AI能不能做、该不该做\"，能识别前沿的变化和真正的机会，也能主动迎接挑战，与不同利益相关方共同推进问题解决。\n4. 同理心：极度关注客户，善于理解不同业务、管理者和员工的实际体验与需求，具备敏锐的问题捕捉能力。能站在对方视角看问题，而不是站在自己的专业视角提方案。\n5. 跨领域思维：具备跨学科视野或跨领域好奇心，能同时用技术和管理的语言理解问题。专业不限，重要的是你用什么方法思考，而不是你学过什么专业。\n【岗位亮点】\n1. 直接参与AI时代的组织变革：不是旁观者，而是参与者——你的研究成果可能直接影响公司级人才政策和组织决策，这是传统OD岗位很难给到的参与深度。\n2. 成长曲线陡峭：总部专业团队，直接接触公司级战略项目，与资深管理者对话，快速建立全局视野和组织洞察力。\n3. 前沿探索空间：不局限于传统管理领域，有机会做AI+组织的前瞻性研究，甚至独立设计并推动产品化工具的落地。\n4. 团队文化务实：团队专业且开放，愿意提供培养人的责任和机会，主管+Mentor+Buddy全程帮助成长，成长路径清晰。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960994000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697302797",
+      "name": "多模态生成大模型算法工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责通用视觉技术能力的构建，如OCR、人脸人体分析、图像视频理解、3D视觉、图形和渲染算法、基础模型、跨模态理解与生成、MLOps等；\n2. 负责视觉技术在美团全场景下的落地，包括但不限于内容审核、视频结构化理解、智能文档分析、身份核验、智能创作、自动驾驶、场景数字化、摄像头视觉感知、视频流分析、IoT视觉等；\n3. 负责前瞻技术的探索及攻坚，如生成式AI、神经网络渲染、点云处理、增强现实等。",
+      "jobRequirement": "1. 本科及以上学历；\n2. 熟练掌握模式识别和图像视频处理领域的基础理论和方法，在一个或多个领域有深入研究；在机器学习和深度学习方面具备扎实的理论基础和工程实现能力，熟悉PyTorch、TensorFlow等主流框架；\n3. 优秀的分析和解决问题的能力、项目推动力和团队协作能力。\n具备以下经验者优先\n1. 在计算机视觉领域内的权威期刊（TPAMI， TIP， IJCV， TMM等）或顶级会议（CVPR，ICCV，ECCV等）发表过文章；\n2. 在计算机视觉的通用或细分领域的权威竞赛中取得成绩；\n3. 对视频内容理解、行人再识别、深度学习模型压缩、弱监督学习、对抗学习等领域之一有过深入研究。\n岗位亮点\n1. 以公司实际业务为依托，有完善的技术转化和落地机制；\n2. 场景全覆盖，视觉技术方向的选择空间大；\n3. 注重技术创新，关注前沿技术；\n4. 定制化的新人培养计划，可走领域专家培养路线，也可走架构师培养路线。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960994000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4695078204",
+      "name": "机器人控制工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "硬件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责双臂机器人运动规划核心算法的研发与落地，包括但不限于：逆运动学求解、运动规划与双臂协同等； \n2. 开发基于多传感器融合（视觉、激光雷达等）的环境感知与动态避障模块，提升机器人在非结构化环境中的自主作业能力；\n3. 研究并开发遥操作系统，实现操作者对机器人的高精度、低延迟控制，探索力反馈、视觉引导等多模态遥操作方案；\n4. 结合人工智能前沿技术，探索运动规划的智能化方向，如基于学习的运动策略生成、自适应抓取规划等，并搭建原理样机验证可行性；\n5. 直接参与机器人系统的整体方案设计、技术架构制定与研发路线评审；\n6. 主动探索并运用各类AI工具优化日常工作流程，积极推动AI在业务场景中的落地实践，持续提升个人及团队的工作效率与产出质量；",
+      "jobRequirement": "1. 机器人工程、机械工程、自动化等相关专业硕士及以上学历； \n2. 有机械臂避障、协同轨迹规划相关开发经验，真实机器人开发经验；\n3. 扎实的数学基础，熟悉刚体运动学、动力学建模、李群/李代数、优化理论等\n4. 熟练掌握常用的编程语言（C++、Python ）、先进的机器人仿真平台（Isaac Sim、Mujoco）；\n5. 熟悉强化学习、VLA等先进技术；\n6. 了解机械臂底层硬件、控制原理；\n7. 具备主动学习与探索AI新工具、新方法的意识，能持续将AI能力融入实际工作场景并独立落地；",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960993000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697302855",
+      "name": "策略运营",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 策略解码与指标拆解：参与将业务目标拆解为关键结果指标与关键输入指标，梳理达成路径上的核心举措与具体动作，理解每一个数字背后的业务含义。\n2. 数据洞察与过程管理：独立搭建策略落地的监控看板，运用 SQL 进行深度分析，实时追踪执行进度与效果。善用AI工具，不只关注结果，更要能定位偏差背后的动因。\n3. 跨部门协同推进：配合项目负责人对接产研、收益、渠道运营与区域团队，推动关键举措按计划落地，识别执行中的冲突与卡点并及时上报。\n4. 复盘迭代与沉淀：参与项目复盘，基于数据反馈与一线声音发起策略校准，把验证有效的打法整理为标准流程、工具或方法论，支撑业务规模化复制。\n5. 走进业务一线：通过实地走访与用户访谈获取一手信息，让策略建立在真实场景的理解之上，而非只依赖报表。",
+      "jobRequirement": "1. 本科及以上学历应届毕业生，专业不限，商科、经济、统计、数学、计算机及相关专业优先。\n2. 具备扎实的数据思维，能把业务问题转化为可分析的数据模型；善用AI工具，掌握 SQL 或有能力在入职后快速上手，熟练使用 Excel 完成数据处理与呈现。\n3. 逻辑清晰，结构化思考能力强，能把复杂、模糊的问题拆解为可执行的步骤。\n4, 沟通表达能力突出，主人翁意识强，能在没有职级权威的前提下协调多方资源、推动事情向前。\n5, 对本地生活、OTA 或酒旅行业有兴趣和基本理解，愿意深入一线、接受出差走访。\n6. 心态积极踏实，具备较强的韧性与情绪管理能力，面对快节奏与不确定性时能保持稳定输出。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960993000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697276263",
+      "name": "广告引擎开发",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "岗位职责：\n1. 设计与实现高可用的广告投放系统，承载高并发、低延迟的广告投放需求，利用AI辅助编码工具（如GitHub Copilot/Cursor）与AI Code Review平台提升代码质量与产出效率；\n2. 实现与优化针对不同广告位置的投放策略，不断提高流量变现效率，借助AI辅助架构设计工具进行系统方案优化与代码重构；\n3. 优化广告召回、排序、竞价、流量优选等核心策略，探索AI Agent在策略自动化配置与实时调优中的应用；\n4. 参与高并发、大访问量后台服务的开发与系统调优，利用AI辅助工具进行性能瓶颈定位与根因分析。",
+      "jobRequirement": "工作要求：\n1. 掌握一种以上的开发语言（包括但不限于Java、C++、Python），对面向对象思想有深入理解，能熟练使用AI辅助编码工具（如GitHub Copilot/Cursor）融入日常开发流程；\n2. 具有扎实的数据结构和算法设计基础，熟悉操作系统、数据库、网络等计算机基础知识；\n3. 熟悉数理统计，数据逻辑清晰，抽象问题能力强，能利用AI工具辅助数据分析与问题诊断；\n4. 责任心强，积极主动，有良好的沟通能力和团队合作能力；\n5. 对spark、kafka、redis等开源组件有了解，了解AI增强的CI/CD工具与智能运维实践；\n6. 掌握分布式系统原理，对存储、队列、计算、集群管理中的一项或多项有深入的理解和认识；\n7. 具备AI辅助架构设计能力者优先，能利用大模型辅助技术方案生成、系统架构优化与代码迁移。\n具备以下条件优先：\n1. 具备高并发、大访问量的后台服务开发、系统调优经验；\n2. 具备大型搜索、广告、推荐系统开发经验；\n3. 有AI辅助开发工具（如Copilot、Cursor、CodeRabbit等）的落地实践者优先。\n岗位亮点：\n1. 前景好：商业增值是公司商业变现的重点方向，业务前景好、个人机会多；\n2. 成长快：完善的新人培养和融入机制，团队同学背景好技术牛，在平台架构、智能算力、算法平台等多个技术方向输出架构实现，得到业界广泛认可；团队已全面引入AI辅助编码工具，人均研发效率提升显著；\n3. 挑战大：广告作为技术方向的明珠，能够直面具有挑战性的工作，参与AI时代广告系统的智能化升级与前沿解决方案建设。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960993000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697275345",
+      "name": "大模型算法工程师（强化方向）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责大语言模型强化学习全链路优化，包括高质量训练数据构建、奖励模型迭代（Reward Model / Process RM）、RL策略训练（PPO/DPO/GRPO等），持续提升模型推理质量与对齐效果；\n2. 探索强化学习前沿技术并推动落地，包括但不限于：推理时计算优化（Test-time Compute）、基于搜索的推理增强、多步Agent决策优化、在线学习与自我进化；\n3. 将大模型能力与美团搜索、推荐、广告等核心业务场景深度结合，设计并迭代基于RL的策略模型，实现可量化的业务目标提升。",
+      "jobRequirement": "1. 计算机科学、自动化、数学、统计学等相关专业硕士或博士，扎实的数学基础和编程能力；\n2. 精通强化学习核心算法（Policy Gradient、PPO、DPO、GRPO等），理解Reward Modeling和RLHF/RLAIF对齐技术原理，有LLM对齐相关项目实践经验优先；\n3. 熟悉PyTorch，有大规模分布式训练经验（DeepSpeed/Megatron-LM/FSDP），能独立完成从数据处理到模型训练部署的全流程；\n4. 有以下经验者优先：大语言模型推理优化（vLLM/TensorRT-LLM）、Agent/工具调用场景RL训练、搜索推荐系统强化学习应用；\n5. 在ICML、NeurIPS、ICLR等顶级会议发表RL/LLM方向论文者优先；\n6. 良好的逻辑思维和沟通能力，自驱力强，乐于挑战开放性技术问题。\n岗位亮点：\n1. 前沿技术深水区：直接参与千亿参数大模型的RL训练，每天面对业界最前沿的Scaling RL挑战；\n2. 端到端闭环落地：从算法研究到亿级用户场景验证，你的每一行代码都能产生真实业务价值，拒绝纸上谈兵；\n3. 技术驱动文化：团队鼓励顶会投稿、内部技术分享，你可以在工作中同步保持学术竞争力。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960993000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697283165",
+      "name": "安全AI算法工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "你将有机会参与到AI for Security、Security for AI的各项前沿建设中，在 AI × Security 方向长期复合型发展：\n1. 参与构建 Security\n  Agent，基于大模型实现安全告警智能研判、攻击链推理与溯源、代码漏洞检测与自动修复、敏感资产识别检测分析、检测规则生成与优化，探索 AI for Security 的下一代产品形态。\n2. 参与面向办公网反入侵、反爬风控、数据安全等丰富安全场景，对账号、终端、资产、网络行为和攻击路径进行威胁建模，基于流量、终端及认证日志，研发异常检测、攻击识别、实体关联、攻击链还原和风险评分算法，推动算法在真实攻防场景中落地。\n3 .参与研究代码语义表示、程序分析、图表示学习（Code Graph）、代码检索等前沿技术，跟踪最新 AI 技术，持续探索在软件安全与数据智能领域的应用。\n4. 参与安全领域大模型的适配与训练，包括高质量安全数据构建、SFT/LoRA 微调、强化学习、Prompt 优化、模型评测，持续提升安全防护的智能化水平。",
+      "jobRequirement": "1. 2027届本科及以上学历，计算机、人工智能、信息安全、网络安全、软件工程、自然语言处理等相关专业。\n2. 具备扎实的机器学习/深度学习基础，熟悉分类、聚类、异常检测、序列建模、图神经网络等方法。\n3. 熟练使用 Python，熟悉 PyTorch、Transformers 等主流深度学习框架。\n4. 了解大语言模型训练与推理机制，熟悉或实践过 SFT、LoRA、DPO、RLHF、RAG、Prompt Engineering 中的一项或多项。\n5. 对 AI Agent 方向有兴趣，了解工具调用、多步推理、任务规划、记忆管理等基本概念。\n6. 具备安全攻防的基础认知，了解常见入侵手法、攻击链及检测思路，能将安全问题抽象为算法问题。\n7. 具备良好的工程能力和沟通协作能力，能根据数据与业务反馈持续优化模型效果。\n\n加分项\n\n1. 做过 LLM Agent、RAG、模型微调、异常检测、代码分析、日志分析、威胁建模等项目。\n2. 熟悉 LangChain、LlamaIndex、OpenAI Agents SDK、MCP 等 Agent 框架或协议。\n3. 了解代码大模型（CodeLLaMA/DeepSeek-Coder等）或程序分析工具（CodeQL/Semgrep 等）。\n4. 有 CTF比赛、漏洞研究、攻防演练实战、安全实习等安全领域经历。\n5. 有算法竞赛获奖（ACM/Kaggle等）、顶会论文发表、开源项目或技术分享经历。\n岗位亮点\n1. 五大安全实战场，选你最想打——反爬风控、入侵对抗、办公安全、数据安全、软件安全与数据智能，可根据兴趣和特长匹配具体方向。\n2. 成为新一代安全产品的建设者——深度参与 Security Agent 从 0 到 1 的构建，用 AI 对抗 AI。\n3. 日均数十亿级请求、复杂多元的国际化业务形态、快速获得 AI × Security 的实战落地经验，你的代码直接影响防线。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960993000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4695142159",
+      "name": "AI数据科学工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 主导通过因果分析的方法，其中主要是A/B实验，来衡量业务和技术动作的增量价值，推动data first的意识价值交付的工作机制的落地；\n2. 和各场景的业务紧密协同，深入理解业务和产品，将业务和产品的问题转化为数据和技术的问题，并且设计合理的解决方案；\n3. 通过主动的数据探索和挖掘来发现改进产品和业务的机会；\n4. 调研新的，适用于业务的因果推断、统计推断，异常检测以及其它数据科学的方法，并把这些方法应用到实际业务问题；\n5. 探索大模型在数据科学场景的应用，如利用LLM辅助实验设计、智能因果分析、自动化数据洞察生成等。",
+      "jobRequirement": "1. 本科及以上学历，在统计学、应用数学、因果推断领域的其中之一，有比较深入科研经历；\n2. 有比较强的调研能力，对sql、python等数据分析和数据科学实施的开发语言和工具有实践经验；\n3. 了解大语言模型的基本能力，对AI辅助数据分析有探索兴趣；\n4. 有较强的逻辑分析能力及沟通技巧，出色的团队协作能力。\n  具备以下经历者优先：\n1. 在统计学领域内的权威期刊或顶级会议发表过文章；\n2. 在各类国际的计算机编程大赛获得优异成绩；\n3. 组织或深度参与过AB实验设计；\n4. 有使用大模型辅助数据分析或科学研究的经验；\n5. 了解LLM在统计推断中的局限性，对大模型幻觉控制有基本认知。\n  【岗位亮点】\n美团拥有丰富的A/B实验场景和海量数据，是数据科学方法的最佳试验田；2. 大模型与数据科学交叉的前沿探索方向，可参与构建AI增强的实验分析平台；3. 与顶尖统计学家和数据科学家共事，快速成长。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960993000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4694942246",
+      "name": "无人配送/机器人infra工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 数据闭环：负责无人机、具身算法数据闭环平台开发，包括数据管理、分布式计算、指标看板、可视化分析等，提升算法迭代效率\n2. 评价体系：基于算法特性和应用场景，构建评测体系，包括数据集和指标建设，持续提高算法质量\n3. 流程优化：制定质量标准，优化测试流程，深度挖掘复杂运营场景中的算法缺陷，构建\"数据→评测→迭代\"的完整闭环，持续完善研发流程\n4. 负责将AI工具与方法应用于算法研发全流程，提升开发效率与解决方案的智能化水平",
+      "jobRequirement": "1. 本科以上学历，计算机、人工智能等相关专业\n2. 有智驾/无人机/具身相关行业实习或在校项目经验，有数据闭环/评价体系搭建的经验\n3. 熟练掌握Java/Python等至少一种编程语言，熟悉分布式系统、微服务架构\n4. 学习适应能力强，良好的思维逻辑和沟通能力\n5. 熟练运用AI辅助工具（如代码生成、数据分析、模型调优等）进行算法开发与优化",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960992000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697268474",
+      "name": "广告算法工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责美团核心本地商业下全流量场景的广告算法策略研究，利用 LLM与RLHF 优化智能出价策略，将传统人工规则迁移为模型自动决策；\n2. 参与海量数据下的广告召回技术研发，探索基于RAG的大模型辅助召回策略，提升长尾广告与泛化搜索的召回效率；\n3. 参与大规模CTR/CVR预估模型研发，结合大模型特征提取与多模态理解，构建更精准的用户意图与广告匹配能力；\n4. 探索 O2O广告模式与机制策略，利用AI Agent框架实现广告自动化策略生成与效果归因分析；\n5. 基于强化学习和自动控制算法进行智能出价研究，利用AI自动诊断与优化出价决策链路，持续迭代广告ROI；\n6. 研究广告程序化创意，利用AIGC（多模态大模型）生成广告图文/视频创意，并基于反馈数据进行闭环优化。",
+      "jobRequirement": "1. 熟练掌握Linux下面向对象编程（熟悉Java更佳），能运用 AI辅助编码工具（如GitHub Copilot/Cursor） 提升开发效率；\n2. 熟悉NLP、图嵌入、模型预估等深度学习算法，精通至少一种大模型训练框架（如HuggingFace、PyTorch/TensorFlow），具备大模型微调（LoRA/RLHF）或Prompt Engineering经验；\n3. 具备 AI应用构建能力（如LangChain/LlamaIndex/RAG），能将大模型能力落地到广告核心业务场景；\n4. 对数据敏感，有较强数据分析与解决问题能力，能利用AI工具（如自然语言问数、智能归因）快速洞察业务数据；\n5. 自驱主动，沟通良好，有团队协作精神；\n6. 工作有热情，追求卓越。\n\n具备以下条件优先：\n1. 具有广告算法实战经验，有LLM/AIGC在广告场景落地经验者优先；\n2. 在国际一流会议或期刊发表过学术论文，有AI相关顶会（如NeurIPS/ICML/ACL等）论文者优先；\n3. 在Kaggle等平台取得机器学习/深度学习竞赛靠前名次。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786960992000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    }
+  ]
+}

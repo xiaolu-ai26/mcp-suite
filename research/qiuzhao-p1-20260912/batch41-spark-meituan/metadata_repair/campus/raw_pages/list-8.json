@@ -1,0 +1,1051 @@
+{
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "request_body": {
+    "page": {
+      "pageNo": 8,
+      "pageSize": 20
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jfJgList": [],
+    "jobType": [
+      {
+        "code": "1",
+        "subCode": []
+      }
+    ],
+    "typeCode": [],
+    "specialCode": []
+  },
+  "reviewed_at": "2026-09-12T15:37:03Z",
+  "page": {
+    "pageNo": 8,
+    "pageSize": 20,
+    "totalPage": 10,
+    "totalCount": 189
+  },
+  "rows": [
+    {
+      "jobUnionId": "4533253122",
+      "name": "【北斗】大模型算法研究员（Agent RL/RAG/多模态技术）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "我们正在构建下一代企业级 AI 知识中枢——不是一个实验室里的 Demo，而是一套正在真实运转、服务数万人的智能系统。从支撑百万级文档的智能问答引擎，到覆盖全公司的 AI 办公助手，我们的技术每天都在改变真实用户的工作方式。而现在，我们正在迈向更具野心的目标：构建企业的组织认知系统（Organizational Intelligence）——让 AI 不仅回答问题，更能理解组织如何运转、知识如何流动、决策如何形成。\n\n通过连接文档、会议、IM、代码、项目与业务流程，我们正在定义企业 AI 的三层核心架构：Memory — 组织记忆：可持续沉淀、持续演化的知识底座；Cognition — 组织认知：理解上下文、识别模式、辅助决策；Agent — 智能行动：自主规划、多步执行、自我进化。\n\n核心职责：\n\n1、 多模态 RAG 架构设计面向文本、图像、表格、视频的统一检索增强生成框架，攻克跨模态知识索引与融合的核心挑战，让企业知识库中的每一种信息形态都能被精准理解和召回。\n2、Agent 强化学习与自主规划探索基于 RL 的工具调用与任务规划能力，实现多轮多步骤复杂办公任务的自主执行，构建具备长期记忆与自我进化能力的下一代办公 Agent。\n3、大模型可信度与幻觉抑制研究幻觉检测与抑制技术，构建事实一致性评估体系与证据链追溯机制，确保企业级知识问答输出的每一个字都经得起验证。",
+      "jobRequirement": "【岗位要求】\n1. 2027届硕士及以上学历，计算机、人工智能、数学等相关专业。\n2. 扎实的深度学习理论基础，精通PyTorch等主流框架，具备独立复现和改进前沿模型的能力。\n3. 在NLP/多模态/强化学习至少一个方向有深入研究经验。\n4. 具有出色的分析、解决问题的能力，能深入解决大模型训练和应用存在的问题，有自主探索解决方案的能力者优先；\n\n【加分项】\n1. 在ACL/ AAAI/ NeurIPS/ ICCV/ SIGIR/ IJCAI等顶会以第一作者发表论文。\n2. 在有影响力的开源项目中做出过核心贡献。\n3.Kaggle / ACM 等竞赛获奖经历。\n\n在这里，你将有机会参与：\n\n1、真实场景，真实影响力 — 这里没有束之高阁的论文复现，你写下的每一行代码都可能改变数万人的工作方式\n2、 前沿技术栈，全链路参与 — 从模型研究到系统设计到线上落地，你将完整经历 AI 技术从 idea 到 impact 的全过程\n3、定义级别的工作 — 你参与的不是在现有框架上做优化，而是从零定义企业 AI Operating System 的核心架构\n4、与顶尖人才共事 — 团队成员均在本领域有深度研究和实践，在 AI 前沿方向持续产出\n\n这里没有停留在实验室里的 Demo，而是真实的用户、真实的数据和真实的业务挑战。你写下的每一行代码，都可能影响数万名员工的工作方式。\n我们相信，未来企业的核心竞争力不只是拥有 AI，而是拥有能够持续学习、持续进化的组织智能（Organizational Intelligence）。\n如果你渴望参与构建企业级 AI 的 Memory、Cognition 与 Agent 三层架构，定义未来企业的智能操作系统——我们在这里等你。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780475319000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4533842729",
+      "name": "【北斗】AI Agent工程师（大模型方向）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "我们正在构建以Code Agent为核心的下一代智能编程基础设施，通过大模型技术、强化学习与多智能体协作的深度融合，推动软件开发从辅助工具向自主智能体演进。如果你对AI Coding充满热情，渴望在Post-training、强化学习（RL）、智能体系统等领域引领技术革命，这里将是你实现技术理想的终极舞台！\n\n1. 前沿技术攻坚\n主导基于Post-training、强化学习的代码生成与优化技术研发，构建工业级AI编程解决方案\n负责Code Agent系统架构设计，探索智能体在代码全生命周期的自主决策能力\n研究多智能体协作机制，构建自动化编程智能体团队\n2. 复杂场景落地\n攻克业务场景中的代码生成、质量提升与性能调优挑战，推动LLM+RL创新落地\n设计实现基于Agent的代码智能体，实现端到端自动化开发\n构建Code Agent评估体系，持续优化智能体性能\n3. 跨领域创新\n与顶尖AI团队协作，实现学术前沿到工业落地的闭环\n探索Agent技术在美团多元业务场景中的应用，推动技术跨领域迁移\n4. 行业变革引领\n打造业界领先的Code Agent解决方案，推动AI编程从辅助工具向自主智能体演进\n引领百万开发者生态变革，定义下一代编程范式！",
+      "jobRequirement": "【岗位要求】\n1. 技术基础\n计算机科学、人工智能、数学等相关专业背景，精通Python/C++，扎实的算法与系统设计能力\n熟悉Agent架构设计，了解LangChain、AutoGPT等主流Agent框架\n2. 强化学习经验\n熟悉RL核心算法（如PPO、DQN、SAC等），有实际项目经验或顶会论文（NeurIPS/ICML/ICLR等）成果者优先\n有Code Agent、多智能体系统相关项目经验者优先\n3. 问题解决能力\n善于从复杂需求中提炼技术方案，具备快速学习新领域的能力\n能够将业务需求转化为Agent系统设计方案，具备系统架构思维\n4. 领域热情\n对AI Coding、代码生成或LLM+RL结合方向有强烈探索欲\n对Agent技术、智能体自主决策有浓厚兴趣，关注业界最新进展\n5. 开源精神\n热爱技术分享，有开源项目或技术博客者优先\n有Agent相关开源项目贡献者优先\n\n【岗位吸引力】\n1.前沿技术攻坚：主导基于 Post-training、强化学习的代码生成与优化技术研发，构建工业级 AI 编程解决方案，突破开发效率极限。\n2.复杂场景落地：攻克真实业务场景中的代码生成、质量提升与性能调优等挑战，推动 LLM+RL 在代码理解领域的创新落地，建立可量化的开发效能体系。\n3.跨领域创新：与顶尖的 AI 研究员、工程师和产品团队紧密合作，实现学术前沿到工业落地的闭环。\n4.行业变革引领：你的工作将引领百万开发者生态变革，定义下一代编程范式。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780475181000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4533738738",
+      "name": "【北斗】复杂Agent应用技术研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "我们致力于用科技创新为用户和生态伙伴创造超预期的交互体验和效率提升，依托生活服务领域多样化且复杂的业务场景，聚焦基座技术与公司战略级应用方向的深度融合，持续推动前沿技术的落地，同时积极探索和挑战技术的无人区，不断定义并刷新行业的最先进技术标准。\n\n1、DataAgent核心基建：攻坚复杂长周期任务调度架构，解决上下文治理、长期记忆与状态流控难题\n2、BA场景工具链：构建高扩展性数据处理Skill体系与安全高效的代码执行沙盒\n3、精准营销Agent：基于海量用户行为数据探索精细化需求理解与大小模型协同\n4、Skill体系与模型优化：探索Skill的表示、调度与自进化机制，推进Agentic RL\n5、智能服务新范式：建立C端个人Agent与B端服务Agent的连接，研究智能体架构优化",
+      "jobRequirement": "【岗位要求】\n1、有好奇心，敢想敢做，掌握基本LLM训练和应用范式\n2、顶会论文（ACL/EMNLP/NeurIPS/ICLR/KDD等）、开源贡献或算法竞赛成果突出者优先\n3、有OpenClaw/Claude Code深度使用经验与产出优先\n4、熟悉Agentic RL者优先\n5、GitHub高Star AI原生项目或向OpenClaw/OpenCode提交过核心PR者优先\n\n【岗位吸引力】\n1、全场景产品落地：客服/销售/商业分析/营销/C端助理，覆盖平台级全场景——你的研究直接变成产品，影响千万级真实用户\n2、Skill体系与Agent架构研究：探索Skill的表示、调度与自进化机制，攻坚上下文治理、长期记忆与状态流控等复杂Agent系统核心难题，学术界和工业界都在摸索的前沿问题\n3、兼具技术深度与系统视野：既能深耕Agent等前沿算法，也能看到完整系统架构如何在真实业务中演化\n4、快速验证节奏：平台级业务数据 + 极短的技术方法到线上路径，技术探索快速得到真实反馈",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780474963000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4534896910",
+      "name": "【北斗】CodeAgent后训练方向研究员（数据分析与ToSQL方向）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "我们致力于用科技创新为用户和生态伙伴创造超预期的交互体验和效率提升，依托生活服务领域多样化且复杂的业务场景，聚焦基座技术与公司战略级应用方向的深度融合，持续推动前沿技术的落地，同时积极探索和挑战技术的无人区，不断定义并刷新行业的最先进技术标准。\n\n1、异构数据理解与数值推理：突破大模型在Table+文本混合形态下的信息丢失与幻觉瓶颈\n2、Agentic RL与数据环境交互：构建基于代码执行沙盒与真实数据计算结果反馈的强化学习闭环\n3、复杂推理与过程奖励（PRM）：构建细粒度过程奖励模型，研究Test-Time Compute策略与MCTS搜索",
+      "jobRequirement": "【岗位要求】\n1、在Agentic RL、PRM或复杂代码推理等方向有深入研究\n2、顶会论文发表（ACL/EMNLP/NeurIPS/ICLR/KDD等）者优先\n3、GitHub高Star AI原生项目或向OpenClaw/OpenCode提交过核心PR者优先\n\n【岗位吸引力】\n1、行业稀缺数据资产：美团海量真实业务数据+数值推理数据，稀缺性极高，不局限于公开数据集\n2、聚焦全链路前沿研究：代码执行沙盒作为强化学习反馈源，从场景构建→Agentic RL训练→沙盒验证→线上部署端到端完整研究，而非孤立模块\n3、充足的资源：提供充足的GPU集群与Token，加速你的研究\n4、AI-Native研发文化：团队全面拥抱AI工具，用AI加速你自己的研究——本身就是研究对象的一部分，不设条条框框",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780474833000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4534892925",
+      "name": "【北斗】多模态后训练及Agent能力拓展研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "我们致力于用科技创新为用户和生态伙伴创造超预期的交互体验和效率提升，依托生活服务领域多样化且复杂的业务场景，聚焦基座技术与公司战略级应用方向的深度融合，持续推动前沿技术的落地，同时积极探索和挑战技术的无人区，不断定义并刷新行业的最先进技术标准。\n\n1、跟踪SFT/DPO/GRPO等后训练前沿方法，快速完成技术预研与可行性验证\n2、面向多轮交互、长序列推理等复杂场景进行垂域数据建设与指令微调\n3、建设后训练评估体系与数据飞轮，驱动评测-数据-训练闭环迭代\n4、探索多模态大模型与Claude Code/OpenClaw深度结合，研究工具调用与多步规划能力边界",
+      "jobRequirement": "【岗位要求】\n1、对前沿技术有强烈探索欲，有出色的团队协作精神\n2、有OpenClaw/Claude Code深度使用经验与产出优先\n3、发表过顶级会议文章（NeurIPS/ICML/ICLR/ACL/Interspeech/ICASSP等）优先\n4、ACM竞赛获奖者优先\n\n【岗位吸引力】\n1、交叉前沿赛道：聚焦多模态大模型、Agent 等核心方向，探索技术边界——不只是执行，你可以主导关键技术模块的设计与落地\n2、顶级研究氛围 + 充足资源保障：团队26年上半年在ICML/ICLR/ACL/EMNLP发表论文9篇，与顶尖高校长期联合研究；充足GPU集群 + Token供给，实验不被资源卡脖子\n3、AI-Native 研发文化：团队把 AI 当日常工具，用它加速研究的同时，也把\"怎么用好 AI\"本身当作研究课题——不设条条框框，鼓励大胆尝试",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780474726000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4533196877",
+      "name": "【北斗】下一代Agent前沿技术研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "我们致力于用科技创新为用户和生态伙伴创造超预期的交互体验和效率提升，依托生活服务领域多样化且复杂的业务场景，聚焦基座技术与公司战略级应用方向的深度融合，持续推动前沿技术的落地，同时积极探索和挑战技术的无人区，不断定义并刷新行业的最先进技术标准。\n\n1、更聪明：通过Agentic RL、自适应推理等技术提升Agent长程规划与自我纠错能力\n2、好复用：探索Skill的表示、组织与调度机制，让能力可组合可进化\n3、低成本：攻克推理成本控制、上下文治理与长期记忆等核心难题\n4、能应用：从0到1探索C端Agent社区等产品",
+      "jobRequirement": "【岗位要求】\n1、有好奇心，敢想敢做，学习能力强，具备复杂问题深度思考与拆解能力\n2、顶会论文（ACL/EMNLP/NeurIPS/ICLR/KDD等）、开源贡献或算法竞赛成果突出者优先\n3、有OpenClaw/Claude Code深度使用经验与产出优先\n4、GitHub高Star AI原生项目或向OpenClaw/OpenCode提交过核心PR者优先\n\n【岗位吸引力】\n1、聚焦下一代Agent核心技术：聚焦Agentic RL、自适应推理、长程规划与自我纠错、Skill体系、Agent架构、推理成本优化等——这是当前Agent从\"能用\"到\"好用\"的核心技术壁垒，也是全球顶级研究团队正在攻坚的方向\n2、顶会学术氛围：团队同学26年上半年在ICML/ICLR/ACL/EMNLP等顶会发表论文9篇，与多所顶尖高校保持长期联合研究，内部有完善的学术氛围\n3、资源与自由度双保证：充足GPU集群 + Token供给，不以短期业务KPI为导向，共同商定研究问题，弹药和方向都不是瓶颈",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780474608000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4534914406",
+      "name": "【北斗】多模态理解后训练与Agent算法研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "我们正在构建具备物理世界感知、理解、仿真能力与支撑数字世界高质量呈现的本地生活视觉技术引擎，让每一次连接更智能，让物理世界的烟火气更美好。\n\n团队介绍：\n作为美团官方的视觉AI基础模型团队，负责数字世界和物理世界等本地生活全场景多模态技术的前沿探索和应用，在AIGC生成、虚拟人交互、多模态理解等领域持续沉淀行业领先的技术成果。\n\n研究方向包括但不限于：\n1、基于多模态预训练和后训练相关技术创新，提升多模态大模型在OCR、文档图表解析、Visual Grounding、细粒度感知、视觉问答等核心视觉理解任务上的能力上限；\n2、索多模态强化学习方案创新设计，实现视觉感知、多模态理解等场景下的高性能可信输出和幻觉抑制；\n3、增强模型的视觉推理能力（Visual CoT、PRM等）、工具调用与Agent能力、长上下文视觉理解能力和GUI能力，提升模型在视觉感知、理解、规划决策的长程复杂任务上的综合表现。",
+      "jobRequirement": "1、具备视觉多模态大模型的预训练或后训练研究经历；\n2、熟悉PyTorch，有充分的动手实践经验。\n加分项：\n1、社区影响力：在多模态大模型领域有影响力的开源项目中做出过核心贡献\n2、学术影响力：发表过高水平论文（如ICLR、CVPR、ICCV等），有相关竞赛经历并取得名次\n\n岗位吸引力：\n1、依托本地生活领域海量的物理世界数字化和线上多模态信息重构任务，提升模型的视觉多模态理解能力上限。\n2、立足美团本地生活应用场景，布局前沿的多模态决策智能路线，驱动长程复杂视觉任务中的表现优化和标杆级视觉Agent应用。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780474474000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4534873987",
+      "name": "【北斗】视觉生成基座和交互式视频研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "我们正在构建具备物理世界感知、理解、仿真能力与支撑数字世界高质量呈现的本地生活视觉技术引擎，让每一次连接更智能，让物理世界的烟火气更美好。\n\n团队介绍：\n作为美团官方的视觉AI基础模型团队，负责数字世界和物理世界等本地生活全场景多模态技术的前沿探索和应用，在AIGC生成、虚拟人交互、多模态理解等领域持续沉淀行业领先的技术成果。\n\n研究内容：\n研究方向包括但不限于：\n1. 高效率、低损失、高压缩比的图像视频VAE和tokenizer；\n2. 图像、视频、音视频统一生成模型的架构、训练和推理探索，包括稀疏架构、大尺寸MoE、自回归生成等；\n3. 功能模型，包括参考生成、长视频生成、流式实时视频生成、音视频生成等；\n4.实时交互视频世界模型的长时空一致性、动态性和交互控制能力增强，以及在可交互视频、虚拟人实时交互场景的应用。",
+      "jobRequirement": "1.熟悉扩散模型、VAE等相关研究进展\n2.熟悉PyTorch，有充分的动手实践经验\n加分项：\n1.有图像/视频生成、多模态大模型相关研究和实习经历，有影响力的开源项目中做出过核心贡献\n2.发表过高水平论文（如ICLR、CVPR、ICCV等），有相关竞赛经历并取得名次\n\n岗位吸引力：\n1.极具前沿性和爆发力的研究方向：你将站在视频生成基座Scaling、实时交互式生成、世界模型的交叉前沿，每个技术方向都没有完全收敛，内容创作、交互式生成、具身智能的任何一个方向爆发，你做的模型都是第一受益者。\n2.超大规模基座模型经验——PB级视频数据管线搭建、大规模分布式训练，到模型架构设计与推理优化，全链路系统级积累在行业内极度稀缺。\n3.定义未来交互，改变内容生产范式：不止于生成静态视频——探索实时交互式内容生成的全新体验，从交互形式（键盘/语音/姿态驱动）到交互时效（实时响应），重新定义人与AI协作的内容创作方式，研究成果直接落地产品场景。 \n4.顶尖团队，快速成长： 与资深研究员和优秀高校同学并肩探索，技术深度与视野广度兼具；团队技术氛围浓厚，扁平开放，鼓励独立思考与AI-Native 的工作方式，既能深耕前沿算法，也能看到技术如何改变真实世界。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780474312000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4529954465",
+      "name": "【LongCat大模型人才校招】基础模型 - 多模态",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "8",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "探索下一代原生多模态基础模型：让模型不止于接入视觉能力，而是能够统一建模文本、图像、视频与交互过程，像理解文字一样理解视觉世界，并在真实物理场景中进行推理、生成和行动。我们将重点探索统一的多模态表征体系，包括离散视觉 token、连续视觉表征及其混合形式，使图像与视频能够被基础模型高效学习、组合和生成。\n你将参与以下方向中的一个或多个：\n1.研究多模态与文本模态的深度融合策略，包括 early fusion 架构设计、多模态 / 文本数据配比优化、多模态上下文建模等，实现视觉能力与语言能力的协同提升。\n2.从互联网及业务场景中大规模挖掘、清洗和构建高质量多模态训练数据，覆盖图文交错、视频、网页、文档、GUI、代码和交互轨迹等数据形态，支撑模型在 browser use、复杂文档理解、vision-to-code 等生产力场景的能力突破。\n3.设计兼顾理解、重建与生成的视觉表征体系，包括离散视觉 tokenizer、多尺度视觉 token、视频 tokenization 以及连续 / 离散混合表征；基于理解与生成统一的表征，规模化构建图文交错、视频序列等多模态自监督预训练数据，解锁新的多模态智能维度。\n4.基于理解与生成统一的模型能力，探索长程、多轮的多模态生成与交互任务，通过端到端强化学习激发模型的自我评估和迭代修正能力；进一步探索未来帧预测、状态建模和交互轨迹学习在物理视觉世界中的推理、规划与行动能力。\n【为什么是我们】\n1.明确的技术判断：团队在原生多模态方向有非共识的长期投入，已发布 LongCat-Next 技术报告（离散自回归原生多模态），不是跟随式的能力补齐。\n2.顶级资源支撑：5～6万卡计算集群，万亿参数文本基座已训练完成，多模态正在进行大规模上推验证——你将直接参与业界最前沿规模的多模态实验。\n3.主线与探索并行：既承担多模态基座的核心交付工作，也推进下一代原生多模态架构的前沿探索，覆盖\"数据→tokenizer→预训练→后训练→RL\"全链路。",
+      "jobRequirement": "熟悉 Python，熟练使用 PyTorch/Megatron/DeepSpeed 等训练框架，满足以下至少一项：\n1.有大规模多模态预训练相关的训练经验；\n2.对视觉表征设计、多模融合策略、生成范式等有深入理解，有独立探索新方向的研究经验。\n以下优先：\n1.有顶会论文发表经验（CVPR、NeurIPS、ICML、ACL 等）；\n2.在多模态基座组有深度实习经历；\n3.有视觉 tokenizer、视觉生成、具身智能等相关研究经验；\n4.能够在方向不完全清晰的阶段独立判断和推进。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780459823000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4530553724",
+      "name": "【LongCat大模型人才校招】基础模型 - 预训练",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "8",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.探索下一代大模型训练范式，从模型结构、训练策略、数据策略、算力利用率等角度切入，打造具有更强能力和更高潜力的基座模型设计更高效的模型结构，提高给定数据量、计算量、硬件资源、序列长度等约束下的模型能力和潜力，如长序列能力、记忆能力、推理能力等。\n2.探索更科学的训练策略，对影响training dynamic的关键变量（如学习率、batchsize、初始化等）形成更科学的认知。\n3.探索更前沿的训练范式（如diffusion LLM，test-time scaling等具有潜力的技术），发现更高效和稳定的scaling路径。\n4.研究模型结构和数据的耦合关系，优化分阶段训练范式。\n5.研究模型早期表现和能力上限之间的关系。\n6.结合MLsys解决大规模训练和推理中遇到的卡点问题，实现算法和工程联合设计。",
+      "jobRequirement": "1.熟悉NLP、LLM、MLsys、Optimization、OR、Control、RL等相关领域，对其中一个或多个方向有深入的研究经历，且有相关实际项目经验。\n2.熟悉主流大模型技术熟悉PyTorch、 Megatron、DeepSpeed 、vLLM、SGLang等主流开源训练和推理框架。\n加分项：\n1.有影响力的开源项目中做出过核心贡献。\n2.发表过高水平论文优先（如NeurIPS,ICLR,ICML,ACL,EMNLP等）。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780459823000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4529811208",
+      "name": "【LongCat大模型人才校招】基座评测与前沿研究-具身智能与世界模型开放探索",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "8",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "从多模态大模型基座延伸到具身智能，我们的目标是做到具身智能的“GPT时刻”，具备test-time zero-shot/few-shot的跨本体、跨任务泛化。在这个过程中，我们进行具身智能在泛化能力评测分析和关键迭代路径的探索，包括但不限于\n1.探索激发多模态大模型Training-Free泛化能力的Data-Scaling方案（包括VLA和VA），迁移人类数据到具身本体，包括latent action和unified model等方向；\n2.探索通过世界模型作为物理仿真引擎的进阶，兼顾仿真和真机的优点，实现泛化评测、强化学习和多样性数据合成；\n3.探索通过环境交互的在线强化学习，涉及仿真环境的搭建、数据合成和真机实验，研究通过自我进化的下一代智能提升的关键途径；\n【为什么是我们】\n一起建立行业评测标杆，推动行业认知进展，代表工作包括：\n1.LARYBench 行业首个具身动作表征评测基准，揭示了动作表征的data-scaling潜力和迭代路径。\n2.WBench 行业首个统一多轮交互世界模型评测基准，将广义世界模型拉到同一参考空间进行维度全面的度量。\n3.UniHetero 行业首个验证生成能促进理解的unified model，以简洁的结构在大规模数据上得到更好的data-scaling趋势。",
+      "jobRequirement": "1. 硕士及以上学历，计算机、数学、统计学或相关专业。\n2. 熟悉Java/Python/C++等编程语言，良好的编码习惯和一定的工程能力 。\n3. 具有深度学习和大模型原理的基础知识，具有多模态大模型、具身智能之一的研究经验。\n4. 良好的沟通能力、团队合作精神以及较强的问题解决能力。 \n5. 对每一行代码负责，对业务方负责，具备工匠精神。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780459822000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4531768589",
+      "name": "【LongCat大模型人才校招】大模型算法研究员-Search Agent方向",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "8",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "你将加入 LongCat Agent 算法团队，与一线研究员共同推进下一代智能体的范式探索。具体方向包括但不限于：\n1.Agentic RL 基础算法研究：探索面向长程多步任务的强化学习训练范式，包括稀疏奖励下的信用分配、过程奖励建模、自我博弈与多智能体协同、可扩展的 reward modeling，以及训练稳定性与样本效率优化。目标是实现Agent 能力增长的主引擎；\n2.Search Agent 能力构建：研发面向开放域复杂查询的搜索智能体，覆盖多轮检索规划、查询改写、证据聚合、多源信息冲突消解与可信溯源。重点突破\"深度研究\"类长程任务（Deep Research）的端到端 RL 训练，让模型在数十步检索-推理交织中保持目标产出高质量分析内容。\n3.生活服务助理 Agent：解决美团真实业务环境中（餐饮、出行、到店、履约等多业务横跨）实现智能助理的基础问题，研究多工具长链调用、澄清和主动服务、个性化记忆与偏好建模、跨会话状态管理，以及面向真实用户反馈的RL 闭环。这里的复杂度来自亿级用户、千万级 SKU 与多步骤决策构成的真实环境。\n【为什么是我们】\n1.稀缺场景：直接接触亿级真实用户、跨业务多步决策的复杂环境，是当前业界最稀缺的 Agent 训练土壤；\n2.充足资源：充足算力、丰富多模态数据、专属带教导师、顶级 infra 团队支持；\n3.研究自由：明确鼓励技术探索，有机会参与顶会论文产出，研究成果可服务亿级真实用户实现学术与产业双闭环；\n4.成长路径：北京 / 上海双地 base，扁平协作、与算法/Infra/产品高密度共事，快速成长为下一代 Agent 技术骨干。",
+      "jobRequirement": "1.全球 Top 高校计算机科学、人工智能、数学或相关领域博士或硕士；\n2.在 NeurIPS、ICML、ICLR、ACL、EMNLP等大模型领域顶级会议以第一作者发表过论文，研究方向与大语言模型、强化学习、Agent、多模态模型等强相关；\n3.在大语言模型、强化学习、Agent、多模态等方向中至少一个领域有扎实的理论基础与实践经验，能独立完成从问题定义、方法设计、系统开发、实验验证的完整工作闭环，并深度使用AI工具辅助完成；\n4.扎实的代码功底，能高效准确实现复杂模型结构并完成大规模训练实验；\n5.具备良好的科研品味、独立思考能力与跨团队协作沟通能力，对前沿问题有持续热情，敢于挑战现有范式。\n加分项\n1.参与过千卡级大模型训练或 RL 大规模训练 infra 建设；\n2.在 GitHub 有高 star 开源项目，或在大模型 / Agent 领域知名开源社区有持续贡献；\n3.ACM/ICPC、NOI/IOI、Kaggle 等竞赛获奖者优先。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780459822000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4530729606",
+      "name": "【LongCat大模型人才校招】Agentic Coding算法研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "8",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "和我们一起开发前沿Agentic Coding模型，持续提升模型在长程复杂任务和真实开发场景中的表现，并通过代码提升数字世界的智能上限。加入团队，你将参与如下工作：\n1.代码全链路训练：包括pretrain、midtrain、SFT、RL等环节，持续提升模型在代码生成、代码理解、代码修复等方向的能力边界。\n2.高质量数据建设：构建高质量Coding数据生产、数据配比与数据质量评估体系，覆盖软件工程任务、仓库级代码生成、终端任务、Web开发等方向，推动模型能力持续演进。\n3.Coding 强化学习：构建面向 Coding 场景的大规模 RL 训练体系，研究 Reward Design、Self-Improvement 等关键技术，提升模型在真实任务中的稳定性与泛化能力。\n4.长上下文与 Repo-Level 建模：研究超长上下文代码建模、多文件关联理解、仓库级知识记忆与代码结构建模能力，提升模型对复杂大型项目的理解和生成能力。\n【为什么是我们】\n1.充分参与基模全链路的工作的机会，包括万卡集群上的超大规模训练，前沿算法研究，模型评测与行为研究，以及真实业务落地；\n2.极具挑战的目标和远期愿景，通过代码去持续探索并突破模型智能上限；\n3.对标行业极具竞争力的薪酬与资源支持。",
+      "jobRequirement": "1.具备扎实的机器学习、深度学习、强化学习功底。计算机、人工智能等相关专业硕士/博士学位优先；\n2.动手能力出色，熟练掌握 Python 等编程语言，ACM/ICPC、NOI/IOI、TopCoder、Kaggle 等竞赛获奖者优先；\n3.在 NeurIPS、ICML、ICLR、ACL等国际顶级会议发表论文，或在高质量开源项目中有重要贡献者优先；\n4.具备良好的问题分析与研究能力，能够深入解决大模型训练、推理与 Agent 执行中的复杂问题，对通用智能与下一代软件开发范式有热情。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780459822000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4530490380",
+      "name": "【LongCat大模型人才校招】基座评测与认知分析算法研究员-多模态与前沿交互研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "8",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "多模态大模型能力在近年飞速发展，模态的统一、任务的统一、多种模态联合生成和实时交互带来了崭新的应用体验和生产力提升。在这个过程中，我们需要脚踏实地的同时仰望星空，发挥想象力预判新模型能力带来的应用场景革新，研究达到理想态的关键演进路径并进行度量分析，指引长期有潜力的模型迭代方向。方向包括但不限于\n1.多模Agent方向：包括在多模态的工具调用和GUI/CUA，探索结合多模原生能力的OpenClaw展现出的生产力提升潜力，从基座模型能力角度分析其中的关键影响因素并进行自动化度量，指引基座模型的迭代；\n2.多模态统一方向：包括全模态统一模型、音视频联合生成等，思考在模态统一、任务统一和多种模态联合生成过程带来新的能力跃迁并进行度量，分析模态和任务间的相互关联，指引模型架构、训练策略等选型；\n3.多模交互方向：包括通用世界模型、音视频交互等，研究动态多轮交互中的一致性、真实性和长程记忆等关键能力的自动化度量，指引基座模型的迭代；\n【为什么是我们】\n一起建立行业评测标杆，推动行业认知进展，代表工作包括：\n1.UNOBench 行业首个考察全模态协作能力，并得出全模态和单模态能力Compositional Law，指引1+1+1>3的全模态能力发展。\n2.EvalTalker 行业首个多人、多姿态、全景覆盖的数字人评测基准，指引自研Longcat-Avatar模型稳居业界前沿。\n3.UniHetero 行业首个验证生成能促进理解的unified model，以简洁的结构在大规模数据上得到更好的data-scaling。",
+      "jobRequirement": "1. 硕士及以上学历，计算机、数学、统计学或相关专业。\n2. 熟悉Java/Python/C++等编程语言，良好的编码习惯和一定的工程能力 。\n3. 具有深度学习和大模型原理的基础知识，具有多模态大模型、具身智能之一的研究经验。\n4. 良好的沟通能力、团队合作精神以及较强的问题解决能力。 \n5. 对每一行代码负责，对业务方负责，具备工匠精神。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780459822000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4531810116",
+      "name": "【LongCat大模型人才校招】基座评测与认知分析算法研究员-基础模型及Agent能力研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "8",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "当前，我们正处在大模型从Chat Bot进化为自主智能体（Agent）的关键阶段。Agent 已深度融入代码生产、办公、搜索等场高价值景，其核心能力从单轮对话拓展到复杂任务规划、工具编排、长程记忆与多步推理。如何系统、科学地衡量这些前沿能力，已成为决定大模型能力天花板的核心挑战。我们诚邀对 Agent 评测有信念感的你，一同定义下一代 Agent 能力的标尺。\n本岗位涉及的具体方向包括：\n1.构建 Agent 全维度评测体系：设计横跨感知-规划-执行-反思完整闭环的评测维度框架，重点覆盖代码、办公、搜索等高价值场景。\n2.面向真实用户体验的评测方案建设：当前许多Agent应用领域出现了Benchmark指标相对饱和，无法准确链接真实用户使用体验等问题，我们希望从用户实际使用场景出发，构建高度拟真的交互式评测方案，设计体现用户使用体验的评测指标，对齐训练优化方向与提升用户体验的目标。\n3.基于线上回流日志的模型问题分析与评测验收：利用线上真实交互日志，系统化挖掘 Agent 在复杂链路中的典型失效模式，如工具幻觉、目标偏离等。将发现的 Badcase 自动归因并转化为可复现的回归测试用例，建立基于回流问题的评测看板，以数据驱动方式量化模型版本迭代的真实收益。\n4.探索下一代评测范式：研究人-智能体协同评估、自进化能力评估、Agentic Evaluation、Auto Research等前沿课题，推动评测范式和模型优化范式演进，产出高水平技术报告与顶会论文。\n【为什么是我们】\n1.美团拥有世界级的业务难题，从POC到大规模场景，充满机遇与挑战，兼顾学习和成长。\n2.业界前列的NV GPU和非GPU算力规模，协同算法，AI框架，网络，计算，芯片等多个团队共同建设大模型软、硬件技术底座。\n3.团队拥有同行TOP级别的评测基础能力和相应资源投入，在大模型评测研究领域具备国内领先的竞争力，团队近年产出了PRDBench、AMemGym、CATArena等数十篇高质量论文及研究工作。",
+      "jobRequirement": "1.硕士及以上学历，计算机或相关专业，博士优先。 \n2.在 ML / NLP / RL / CV / Speech 等相关方向有扎实的研究基础，在 ACL / EMNLP / NAACL / NeurIPS / ICML / ICLR / CVPR / ICCV / ICASSP 等顶级会议发表论文者优先。\n3.优秀的代码和算法功底，具备工匠精神，ACM/ICPC、NOI/IOI、Top Coder、Kaggle等比赛获奖者优先。\n4.在大模型领域或强化学习领域，主导过大影响力的项目或论文者优先。\n5.出色的问题分析和解决能力，有自主探索、深耕一个领域的决心和定力。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780459822000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4531538373",
+      "name": "【LongCat大模型人才校招】基础模型通用 agent 算法研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "8",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "我们期望探索构建这样的 AI 系统：具备真实物理世界级别的全模态信息交互与处理能力、有高学习和成长属性、可以无人监管地高效执行并完成真实复杂长程任务；从而让 AI 真正成为人类的强大帮手，对工作、生活、科研等人类社会的各个方面都进一步带来更大、更深远的有益影响。\n1.探索小时或者天级别复杂长程任务下的 RL Scaling 等可靠后训练范式，实现有效的探索引导和 credit assignment，并保障训练的 robustness、efficiency & effectiveness；\n2.探索模型的自进化系统构建方案，在易于模型理解使用的前提下，训练模型以更高信息密度的形态构建、维护和利用 memory / skills，使模型能主动在重复性任务或封闭任务域中总结、提炼认知与经验，并进行有效复用，达到不断自进化的效果；\n3.探索多模态推理和多模态环境交互的范式，尤其关注真实物理世界级别的动态环境，并基于此训练模型在复杂全模态环境下的复杂长程任务完成能力；\n4.探索模型群体智能的演化可能性，可以自主进行合理的任务拆解、分工、协同探索与智能集成；\n【为什么是我们】\n1.获得在业内最前沿的大模型认知和技术积累，团队人才密度高且具备良好的研究、讨论氛围，鼓励大家研究最重要、最难、最开放的问题；\n2.研究成果丰硕，在 agent / multi-modal agent、posttrain、reinforcement learning、memory & evolving system 等方向进行了系统探索，仅过去半年就产出 ICLR 2篇，ACL 1篇，ICML 5篇，另有10篇以上 NeurIPS/EMNLP 工作在投，投稿工作顶会中稿率达 80%，代表工作包括 VitaBench / ScaleEnv / CoBA-RL / MemOCR / Skill0 / Skill1 / SDAR 等；\n3.有充足的数据和GPU资源用于实验探索，同时有良好的高校科研合作链接和丰富的学术资源，助力大家探索最重要、最难、最开放的问题；\n4.工作环境优越，团队扁平，结果导向，提供有竞争力的薪资福利和良好的个人成长、发展空间；",
+      "jobRequirement": "【必要项】\n1.2027届获得本科及以上学历，计算机、人工智能、自动化、数学、物理等相关专业； \n2.好奇心驱动，对追求纯粹的技术有强烈热情，擅于迭代自我认知，不被惯性束缚，工作积极主动；\n3.数理基础扎实，具备第一性思考的素养和出色的分析、解决问题的能力，能够自主探索可靠的解决方案； \n4.具有良好的沟通协作能力，能够与团队融洽合作，一起探索新技术并快速试验想法，推进技术进步；\n【加分项】\n1.在强化学习、大模型训练、Agent 等一个或多个领域有较深入的研究和实践经验，主导过大影响力的项目；\n2.或在 ICLR/ICML/NIPS/CVPR/ACL 等顶级会议上以一作身份发表过有影响力的学术论文；\n3.在 CMO/NOI/CPhO/ACM 等竞赛中取得过优异成绩；",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780459822000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4531750738",
+      "name": "【LongCat大模型人才校招】基础模型 - 预训练数据策略和数据科学研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "8",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "随着模型架构逐渐收敛、算力成本持续上升，高质量数据策略正在成为提升基座模型 scaling efficiency 和能力上限的核心杠杆。本方向聚焦大规模预训练数据的理解、筛选、配比、合成与系统化迭代，致力于建立数据分布、训练动态与模型能力之间的可解释映射，并将其转化为可预测、可干预、可扩展的数据策略和数据系统，持续提升模型的 token efficiency、scaling efficiency 与智能上限。\n工作内容包括但不限于：\n1.研究数据来源、质量、多样性、难度、覆盖度与模型能力之间的关系，建立“数据分布—训练动态—模型效果”的分析与归因框架。\n2.探索面向预训练的数据价值建模方法，包括自动化质量评估、样本筛选、语义去重、污染检测、覆盖度建模、长序列数据组织与高价值 token 挖掘。\n3.研究 Data Mixture、动态配比、课程学习和多阶段训练策略，分析不同类型数据在不同模型规模、训练阶段和能力维度上的边际收益，提升 token efficiency 与 scaling efficiency。\n4.探索合成数据、蒸馏数据、模型自生成数据和反馈数据在预训练中的有效使用方式，研究合成数据的有效性、多样性保持、退化机制和训练配比策略。\n5.构建可复现、可扩展的大规模数据处理与实验闭环，将数据构建、训练验证、能力评测、数据诊断和策略更新结合起来，形成面向基础模型持续迭代的数据飞轮。\n6.研究并缓解预训练数据中的污染、偏差、重复、低质、隐私、安全和合规风险，提升数据策略的可靠性、可控性和可持续性。",
+      "jobRequirement": "1.熟悉 Python 和 PyTorch 等深度学习框架，具备扎实的机器学习、深度学习、概率统计和算法基础。\n2.熟悉大语言模型或多模态基础模型训练流程，理解预训练数据、训练动态、模型能力和评估体系之间的关系；有大规模预训练、Data Mixture、合成数据或模型评估经验者优先。\n3.对预训练数据有系统性理解，熟悉数据清洗、去重、污染检测、质量评估、覆盖度建模、长序列组织、合成 / 蒸馏数据和数据配比等关键问题。\n4.具备优秀的实验设计和分析能力，能够围绕数据与模型能力提出 hypothesis，设计可复现实验，并基于训练动态、评测结果和模型行为分析实验结论。\n5.具备较强的工程实现、自主探索和跨团队协作能力；有相关顶会论文、大模型 / 数据系统 / 训练系统 / 评估系统项目或开源经验者优先。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780459822000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4530026949",
+      "name": "【LongCat大模型人才校招】Agentic Foundation Model 算法研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "8",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "大模型从通用问答走向复杂任务执行，Agent 能力正成为模型演进的关键方向。为此我们探索将通用基座模型向原生 Agentic Foundation Model 演进，为构建下一代自主智能体提供坚实的底座支持。团队在以下方向上进行探索，若你对以下一个或者多个课题感兴趣均欢迎投递：\n1）大规模高质量数据体系与轨迹合成数据建设\n1.建设 Trillion 级别的大规模跨模态数据处理与合成链路，负责从训练数据获取到配比建模的全流程优化。\n2.探索大规模合成数据 与自蒸馏技术，制定合成数据应用策略，构建模型持续进化的数据飞轮。\n2）长上下文 (Long Context) 与高效架构演进长窗口突破\n1.持续 Scaling Up 模型的上下文窗口，优化超长上下文机制，重点提升 LongCat 基座模型在长上下文上的表现。\n2.探索并验证 MoE（混合专家）、稀疏注意力（Sparse Attention）、线性注意力等模型结构；结合剪枝与稀疏化技术，协同优化训练与推理效率，提升超长上下文场景下的效率。\n3）多模态能力融合\n1.探索多模态预训练新范式，突破模态融合瓶颈。\n2.利用多模态扩展定律指导数据与训练方案，提升模型在多模态交互场景下的原生能力。\n【为什么是我们】\n1.团队扁平，人才密度高，近年团队在ICLR、NeurIPS、ICML、ACL等顶会累计发表论文数十篇，团队员工获EMNLP 2024 Outstanding Paper、ACL 2025 Outstanding Paper； \n2.参与大语言模型核心技术研发，接触大规模RL、超长上下文、分布式训练和推理优化等前沿技术； \n3.充足算力保障，拥有大规模分布式训练环境和丰富数据资源。",
+      "jobRequirement": "1.来自全球Top高校计算机科学、人工智能、数学、物理或相关领域应届博士/顶尖硕士毕业生；\n2.在大模型领域有研究基础，或参与过有影响力的开源项目，在ICLR/NeurIPS/ICML/ACL等顶会发表论文具备扎实的算法和数学理论基础及良好的编程基础，熟悉自然语言处理、生成式AI和机器学习等技术，对技术开发及应用有热情；\n 加分项：\n1.目标感强，善于分析和发现问题，拆解简化，有想法并乐于挑战自我，能够从日常工作中发现新的空间； \n2.条理性强且有推动力，能够梳理繁杂的工作并建立有效机制，推动上下游配合完成目标；\n3.在程序设计竞赛，如ACM/ICPC、Topcoder和Codeforces等，取得优异成绩者优先。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780459821000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4531838140",
+      "name": "【LongCat大模型人才校招】具身智能前沿研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "8",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "参与探索具身智能基础模型的架构和范式，从系统架构、数据策略、模型结构、训练策略等角度切入，参与算法研究、系统工程和数据工程，打造具有更强能力和更高潜力的基座模型。\n1.多源数据的合成和处理，包括：egocentric video 数据、仿真数据、UMI 采集数据、真机遥操作数据等\n2.具身智能系统的架构设计，Agent 系统、大小脑和 Monitor 等多层次结构\n3.模型泛化性探索：无需额外训练实现跨本体多任务；基于少量演示数据作为上下文，增强模型能力；基于自动探索，在线学习新技能。\n4.模型全流程，预训练、mid train、SFT、强化学习、部署和评测等\n\n同时参与具身智能方向的前沿研究，可根据个人背景和研究兴趣选择以下方向之一深入推进：\n1.具身智能相关的仿真环境、资产、场景、任务自动化生成与重建（3D生成/场景理解）\n2.仿真环境内的轨迹自动化生成方法（数据引擎/合成数据）\n3.egocentric video 数据的有效使用\n4.基于多模态大模型的泛化具身智能 Agent 系统研究\n5.模型泛化性研究和主动探索研究\n6.其他你坚信路线正确的具身智能前沿方向\n【为什么是我们】\n1.加入美团 LongCat 基座大模型核心团队，直接参与具身智能方向的原创研究，成果可直接产出论文或落地产品；\n2.充足的 GPU 算力资源支持，研究不卡资源；\n3.多位在 AI、机器人、计算机图形学领域有丰富发表经验的前辈一对一指导，快速成长；\n4.追求卓越和鼓励创新的团队氛围。",
+      "jobRequirement": "基本要求：\n1.计算机科学、自动化、机器人、机械或相关领域应届（2026/2027）硕士/博士研究生；\n2.具备扎实编程能力，熟练掌握 Python 及 PyTorch；熟悉 C++ 者优先；\n3.对具身智能、机器人、强化学习、计算机图形学或多模态大模型中至少一个方向有深入的理论基础与研究积累；\n4.有较强的自驱力和独立解决问题的能力，能在模糊环境中推进研究；\n5.不满足于复现，有自己的研究判断和技术直觉。能够把握\"什么是真正重要的问题\"，在正确方向上深挖；\n6.乐于在跨学科团队（算法、工程、硬件）中协作推进，研究成果能转化为可落地的系统；\n具备以下者优先：\n1.在 AI、机器人、计算机图形学等领域 CCF-A 类或同级顶会/顶刊（如 CVPR/ICCV/CoRL/RSS/NeurIPS 等）发表论文（第一作者/共同一作优先）；\n2.主导过有实质影响力的开源项目或技术突破（如在机器人操作、具身导航、世界模型等领域）；\n3.有大型科研项目或有影响力开源项目的核心贡献经历；\n4.参与国际/国内顶级算法竞赛并获得名次。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780459821000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4531842029",
+      "name": "【LongCat大模型人才校招】大模型自进化与自动化研究智能体研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "8",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "LongCat 正在探索下一代基础模型的自我改进范式：让模型不只完成单次问答，而是能够围绕真实模型研发任务，持续完成问题发现、假设生成、实验设计、代码实现、训练/评测执行、结果验证、经验沉淀和策略迭代。我们希望构建面向模型研发的自动化研究智能体系统，让 AI 参与并加速 AI 自身的训练、评测和能力进化。\n1. 构建自动化研究智能体系统：提升模型在复杂任务分解、长程推理、研究规划、工具使用、代码生成与执行、证据整合和研究报告生成中的闭环能力。 \n2. 构建可交互、可验证的研究环境：围绕 search、browser、retrieval、code execution、training/eval job、sandbox 等工具，设计可执行、可评分、可回滚的实验闭环。 \n3. 设计模型自进化机制：沉淀 research episode、memory、skill和失败轨迹，设计数据配方、环境反馈和 reward 信号，反哺模型训练和评测体系。 \n4. 面向 LongCat 模型研发任务落地应用：在 pre-/mid-/post-training、coding agent、agentic workflow、模型评测诊断等场景中验证系统效果，推动能力持续迭代。\n【为什么是我们】\n1.参与 LongCat 下一代模型自进化系统建设，直接接触真实基础模型训练、后训练、评测诊断、Agent harness 和自动化研究闭环。\n2. 团队具备大规模算力、数据、模型和真实复杂任务场景，适合希望在 AI Scientist、Agentic RL和模型自我改进方向做出原创突破的同学。3\n. 团队人才密度高，在ICLR、NeurIPS、ICML、ACL等顶会发表论文50余篇，团队成员先后荣获EMNLP outstanding paper、吴文俊人工智能奖科技进步奖、CCF科技成果奖、北京市科技进步奖、北京市科技新星、北京市海英人才等荣誉激励；",
+      "jobRequirement": "必备项：\n1. 具备扎实的算法基础和工程实现能力，熟练使用 Python/C++，能够独立完成复杂系统设计、实验实现和问题定位。 \n2. 熟悉大语言模型、Agent、强化学习、代码生成、检索增强、训练/评测系统中的至少一个方向，并有真实项目经验。 \n3. 具备强研究能力和问题拆解能力，能够从开放问题中提出可验证假设，设计实验并推动结果落地。 \n4. 具备良好的沟通协作能力，能在高不确定性前沿方向中持续推进。\n加分项：\n1. 有 Coding Agent、AI Scientist、Deep Research、Multi-Agent、长期记忆系统、自动实验系统经验。 \n2. 有模型研发全链路经验，包括数据构造、Pre-training、Post-training、Reward Model、评测诊断或训练基础设施。 \n3. 在顶级会议/期刊发表论文，主导高质量开源项目、Benchmark、Agent 系统，或在 ACM/ICPC、NOI/IOI、Kaggle 等比赛中取得优秀成绩。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780459821000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    }
+  ]
+}

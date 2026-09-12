@@ -1,0 +1,1031 @@
+{
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "request_body": {
+    "page": {
+      "pageNo": 20,
+      "pageSize": 20
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jfJgList": [],
+    "jobType": [
+      {
+        "code": "3",
+        "subCode": []
+      }
+    ],
+    "typeCode": [],
+    "specialCode": []
+  },
+  "reviewed_at": "2026-09-12T15:37:41Z",
+  "page": {
+    "pageNo": 20,
+    "pageSize": 20,
+    "totalPage": 124,
+    "totalCount": 2475
+  },
+  "rows": [
+    {
+      "jobUnionId": "4548815099",
+      "name": "商业分析（经营规划与绩效分析）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快驴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 绩效分析：负责业务绩效策略的模型制定、效果评估、方案迭代，支持业务部门优化运营策略。  \n2. 经营规划：负责数据指标异动归因、经营分析统筹规划，以扎实的定量能力看清问题，提出解决方案。\n3. 与业务、产品等团队协作，理解业务需求并寻求增长机会点。",
+      "jobRequirement": "1. 本科及以上学历，数学、统计学、经济学、计算机等相关专业优先。  \n2. 熟练使用SQL，具备Python或R数据分析能力者优先，熟练使用AI工具者优先。  \n3. 具备良好的逻辑思维与沟通能力，能够独立推动跨团队协作。  \n4. 对数据敏感，有商业分析或绩效分析相关实习或工作经验者优先。\n5. 有管理经验者优先。",
+      "precedence": null,
+      "highLight": "1. 深入参与业务，接触高频、高价值业务场景。  \n2. 与业务团队紧密协作，分析成果可直接影响业务决策。  \n3. 团队氛围开放友好，重视数据驱动文化，重视绩效策略牵引，提供良好的成长与发展空间。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174860000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4541115192",
+      "name": "门店和经营分析负责人",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 负责门店经营全链路的分析工作，包括但不限于销售异动分析、门店运营效率评估、用户行为洞察、商品表现监控等，为门店运营和策略迭代提供数据支撑。\n\n2. 统筹经营分析工作，横向拉通门店、商品、用户等多维度数据，定期输出经营健康度复盘报告，识别全局性机会与风险，为管理层决策提供整合性视角。\n\n3. 主导门店复盘和过程监测分析，输出宏中微观策略建议，协助业务团队拿结果。\n\n4. 基于业务理解和发展需求，对行业持续深入的研究，输出研究报告，帮助业务策略升级迭代。\n\n5. 理解数据背后的业务本质，挖掘不同业务场景下的数据洞察，发现潜在的缺陷与机会，为业务决策提供数据支撑。\n\n6. 主导用户研究工作，结合定量与定性方法，挖掘用户需求、体验痛点及购买决策驱动因素，推动门店运营和商品策略优化。\n\n7. 推进跨部门协同项目，带领团队完成项目模块交付，把控质量和进度，提升团队影响力。",
+      "jobRequirement": "1. 具备零售/咨询公司，商业分析、数据分析、财务分析背景。\n\n2. 对数据敏感，有强烈的好奇心，能从大量数据中发现商业价值，具备优秀的分析总结能力，具备良好的数据呈现能力和观点演说能力。\n\n3. 对商业和业务逻辑敏感，具备良好的逻辑分析能力和系统性思维能力，良好的跨团队的沟通能力。\n\n4. 协同执行：具备良好的跨团队沟通能力，能推进项目进度、把控质量，协同内外部资源完成任务。\n\n5. 团队管理：能够带领部门内团队完成复杂项目，指导团队成员专业成长，并在跨事业部项目中承担协同推进角色。\n\n6. 具备用户研究经验，熟悉深度访谈、问卷设计、可用性测试等方法，能将用户洞察转化为可量化的分析指标和业务建议。",
+      "precedence": null,
+      "highLight": "1. 业务全局视角：深度参与门店经营全链路分析，快速建立对硬折扣业务的系统性认知。\n\n2. 高成长业务：业务处于快速扩张期，门店持续增长，分析成果直接反哺经营决策，价值显性，个人成长与业务发展同频。\n\n3. 管理+专业双通道：带领门店经营分析团队，在实战中积累管理经验，同时横向拉通多部门协同，提升跨团队影响力。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174857000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4528315173",
+      "name": "品类价格策略运营",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "商品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快驴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 熟悉价格数据分析，包括定价/竞争/利润/增长等视角，数据中挖掘业务增长机会并输出可落地的策略建议。  \n2. 能够通过调研走访、交叉信息等多种手段，挖掘外部标杆和市场趋势，形成规划报告，为业务决策提供认知支持。\n3. 主导跨部门协作，推动决策落地，推动项目在业务场景中的落地执行。  \n4. 能适当带领新人，完成专项分析项目，确保高质量交付与业务价值转化。",
+      "jobRequirement": "1. 大学本科及以上学历，数学、统计学、经济学或相关专业优先。  \n2. 4年以上商业分析或数据分析经验，具备互联网或科技行业背景。  \n3. 熟练使用数据工具，精通电子表格等可视化工具。  \n4. 具备团队管理经验或独立领导项目经验者优先。  \n5. 逻辑清晰，沟通能力强，能高效协同多部门推动业务目标达成。",
+      "precedence": null,
+      "highLight": "1. 参与公司核心业务战略制定，直接贡献业务增长。  \n2. 团队氛围开放，鼓励创新与技术探索。  \n3. 定期组织行业专家分享与培训，助力个人成长。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174855000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4473801400",
+      "name": "市调运营",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "商品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快驴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 负责线下市场价格调研体系的搭建与执行，制定调研标准与规范，明确调研品类范围、关键属性及数据质量要求；\n2. 基于客户分层逻辑筛选目标调研对象，输出优先级清单，协同一线团队完成数据采集与录入；\n3. 主导采集数据与平台商品的匹配分析，输出结构化的价格对比结论，为定价决策提供依据；\n4. 协同业务团队基于调研结果推动价格优化动作，跟踪效果指标并持续迭代；\n5. 设计并运营客户反馈渠道，搭建激励机制，推动数据采集从人力驱动向客户自主反馈迁移，优化采集效率与成本；\n6. 拓展外部市场信息源，建立多渠道数据交叉验证体系，持续扩大覆盖范围；\n7. 沉淀调研 SOP 与运营机制，输出周期性健康度报告，驱动体系持续优化；\n8. 善于运用 AI 工具与自动化手段提升调研匹配与分析效率。",
+      "jobRequirement": "1. 本科及以上学历，5年以上工作经验，有零售、电商、快消或 B2B 平台的运营、采购、品类管理或市场调研背景优先；\n2. 熟悉商品价格管理、竞争比价等基础逻辑，对多品类差异化经营有基本认知；\n3. 具备扎实的数据分析能力，能独立完成多维度数据处理与漏斗分析，产出可决策的数据看板；\n4. 有较强的跨部门协同与项目落地能力，能主导从 0 到 1 的机制搭建并推动多方执行；\n5. 具备实地调研意愿，能定期下沉一线获取一手信息并提炼洞察；\n6. 多线并行环境下保持节奏感，有目标拆解与周期性复盘的工作习惯；\n7. 清晰的结构化表达能力，能面向不同角色进行有效沟通。",
+      "precedence": null,
+      "highLight": "从0-1主导体系建设，具有丰富的创新性场景。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174852000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4456931299",
+      "name": "商业分析师（供应链物流方向）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快驴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 整体构建和完善物流供应链经营规划，制定预算目标，并拆解关键提效策略，输出解决方案并推动业务重要决策；\n2. 在物流仓网领域，结合当前业务痛点与长期发展方向，推动物流作业模式及网络模式迭代，提升全链路履约效率及时效；\n3. 在运营执行方面，规划不同品类的最优链路及经营策略，和一线团队共同推动商流高效发展；\n4. 指标管理，基于经营策略和目标，拆解可控输入指标，沉淀并完善经营指标框架，通过周月报形式定期监控，定位关键经营问题，实现目标-策略-监控的闭环经营管理；",
+      "jobRequirement": "1. 本科及以上学历，3年及以上数据分析相关经验，有供应链行业背景或物流背景优先；\n2. 熟悉互联网常见的分析工具和数据分析方法论；\n3. 逻辑思维能力出色，思路严谨慎密，理解能力良好；\n4. 较强的沟通表达能力和协调推进能力；\n5. 对供应链感兴趣，热爱思考，自驱力强，学习能力强；\n6.加分项：\n具备较好的自主学习能力，对AI新技术抱有浓厚兴趣，乐于探索AI可能性；\n熟练使用 AI 工具（如大模型对话、AI 搜索、智能分析平台等）辅助研究工作，在实际项目中有明确的效率提升实践。",
+      "precedence": null,
+      "highLight": "1. 参与生鲜供应链物流模式研究及各模块效率优化的持续探索迭代，积累丰富的行业及专业经验；\n2. 专业的商分团队，良好的团队氛围，能够实现快速学习成长；",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174849000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4434955902",
+      "name": "快乐猴商业分析师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 参与快乐猴业务的商业分析工作，深入理解硬折扣社区超市的商业模式与竞争策略，结合 AI 工具开展用户洞察与策略制定，支持核心业务决策；\n2. 负责快乐猴业务的经营分析，包括运营规划、月度目标拆解、绩效方案设计、经营指标体系搭建，以及周/月度经营监控与复盘，善用 AI 辅助自动化报表与数据预警；\n3. 围绕用户与门店领域开展专项分析，输出业务洞察与可落地的策略建议；围绕核心策略设定目标，与业务侧共同制定目标达成路径，能独立主导 AI 驱动的分析项目从 0 到 1 落地。",
+      "jobRequirement": "1. 本科及以上学历，数学、统计学、计算机、经济学等相关专业优先；\n2. 4 年以上商业分析或数据分析经验，具备互联网或零售行业背景；\n3. 熟练掌握 数据分析工具，熟悉主流数据可视化平台；\n4. 有 AI 工具使用习惯，能借助 ChatGPT/Copilot/通义等 LLM 工具提升分析效率，探索 AI 与业务分析的结合方式；\n5. 具备强逻辑思维、商业洞察力与跨团队协作能力，能独立推动分析结论落地。",
+      "precedence": null,
+      "highLight": "1. 加入快速成长的创新团队，参与硬折扣业态的核心策略制定，在新兴业务中获得稀缺的 AI + 零售全链路实战机会；\n2. 门店营运场景真实复杂，数据问题密度高，适合喜欢深耕、打硬仗的分析师；\n3. 扁平化管理，鼓励自主探索和 AI 工具创新应用，团队氛围开放务实；\n4. 提供持续学习资源，支持 AI 技能成长与职业路径多元发展。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174847000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4424737144",
+      "name": "商业分析师（商品方向）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快驴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1.  商品策略专项分析\n结合用户调研、行业研究与内部数据，从客户视角（STP视角）出发，建立品类客户认知，输出有深度的差异化商品策略，并推动策略落地与业务增长；\n负责相关品类的货盘策略、选品策略、定价策略等关键商品策略研究。\n\n2.目标制定与经营管理\n深度参与年度/季度/月度业务目标的制定与拆解，构建科学合理的目标体系；\n持续跟踪核心经营指标，建立诊断分析框架，及时针对异常波动归因分析；\n定期输出高质量的经营分析报告与决策支持材料，为业务提供清晰、有力的行动建议；\n推动指标框架线上化建设。\n\n3. 市场研究\n系统性开展市场研究，持续追踪行业动态、消费趋势与生鲜零售新模式；\n建立并维护竞争数据库，为商品定位与差异化策略提供参考依据；\n结合外部市场洞察与内部数据，辅助判断市场机会与潜在风险。",
+      "jobRequirement": "1、本科及以上学历，经济学、管理学、统计学、数学等相关专业优先；\n2、5年以上工作经验，有零售、电商、生鲜、快消行业背景者优先；\n3、强烈的业务 sense，对生鲜商品、供应链或消费者行为有浓厚兴趣；\n4、结构化思维突出，善于拆解复杂问题、从海量信息中提炼关键结论；\n5、掌握 数据工具，能独立完成数据提取与加工\n6、主动性强，能在模糊环境中自我驱动，推动分析项目落地。",
+      "precedence": null,
+      "highLight": "1、业务视野——深入理解生鲜供应链全链路，从产地到餐桌，建立稀缺的行业认知\n2、决策影响力——直接支撑高层决策，分析结论落地可见，感受真实业务影响力\n3、技能成长——在高密度业务场景中磨练数据分析、策略思维与商业判断力\n4、团队氛围——扁平、务实、直接，欢迎质疑、鼓励创新",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174845000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4409003264",
+      "name": "下沉市场财务BP(合作商损益方向)",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "财务",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "财务平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1.负责下沉市场合作商线下经营数据的收集及处理，对于异常数据同前线做沟通和交互。\n2.建立合作商线下数据预估模型，真实还原其经营状况。\n3.搭建合作商经营健康度指标体系，有效评估及监控合作伙伴经营状态，支持业务健康增长。\n4.推动合作商经营数据线上化，对接数据产品及研发，实现数据生产提效。\n5.AI工具应用：主动将AI工具融入日常工作，使用Agent优化提效和增加产出，例如：合作商损益处理与分析、报表/看板搭建、知识库建设等。",
+      "jobRequirement": "1.本科以上学历，财务、数学、统计等相关专业背景。\n2.三年以上财务或经营分析工作经验，有大数据分析经验者优先。\n3.熟练使用办公软件及数据处理工具。\n4.具备良好的逻辑思维能力和数据分析能力，能够独立完成数据分析任务。\n5.具备较强的沟通能力和团队合作精神，能够与不同部门有效协调合作。",
+      "precedence": null,
+      "highLight": "1. 深入参与下沉市场战略落地，业务成长空间大。  \n2. 与业务团队紧密合作，积累丰富的实战经验。  \n3. 有机会接触多元业务场景，提升综合财务能力。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174842000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4361324162",
+      "name": "半熟调自营采购",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "采购",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快驴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1、根据公司发展战略，制定并实施半熟调细分品类商品采购规划及经营策略，确定季度、月度采购计划，规划商品销售排期，完成相关品类的业绩指标；\n2、持续优化供应商结构，不断优化采购成本，建立供应链管控体系；\n3、根据市场行情，结合市场调研及比价，管控商品进价和售价，制定商品的促销计划，对品类的销售额和利润指标负责；\n4、负责供应商商务谈判，制定合作条款，管理供应商履约行为，与供应商建立长期稳定的合作关系；\n5、对品类的销售额、利润、客户满意度等核心业绩目标负责，针对关键的业绩指标和输入指标，进行每日的数据跟踪，对于各项指标理解清晰，能够及时复盘，发现问题并制定有效的解决方案，推动异常问题的高效解决；",
+      "jobRequirement": "1、热爱互联网零售事业，有3年以上冻品品类（速冻米面制品、熟食腊味、火锅丸料、调理制品，料理包）商品管理经验；\n2、具有较高的行业敏锐度，决策能力强，具备行业全局视角；熟悉产业链、上游布局，及冷冻品的供应链路及流通链路成本组成；\n3、良好的表达能力和沟通能力，执行力强，积极主动的做事风格和优秀的组织协调能力，诚实守信；\n4、对数据有一定敏感，善于通过数据分析发现和解决问题，逻辑思维能力良好。\n6. 自驱力强，具有较好的学习能力，愿意主动思考AI如何进一步优化工作流程。",
+      "precedence": null,
+      "highLight": "能够闭环负责半熟调自营重点品类采购工作\n半熟调品类增长迅速，行业前景广阔",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174839000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4342032148",
+      "name": "无人车业务部-动态感知算法工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-无人车业务部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 以业务和线上问题为导向，深入分析并解决动态感知领域的核心技术难题，负责具体模块的研发与效果打磨。方向包括但不限于：红绿灯检测、障碍物检测与跟踪、语义与意图理解。\n2. 持续推动前沿技术落地，优化以视觉为主导的感知基础模型，结合\"深度学习模型 + 算法策略\"双轮驱动，系统性提升 MPI / MPHB 等核心指标。\n3. 参与感知系统架构讨论，具备从模块视角发现系统性问题、提出并落地优化方案的能力。\n4. 配合上下游团队推动算法的数据驱动迭代和端到端可导能力建设。",
+      "jobRequirement": "1. 硕士及以上学历，计算机、电子、自动化、应用数学等相关专业，5 年以上相关经验。\n2. 在计算机视觉或三维感知领域有深入认知，精通动态障碍物检测、分割、跟踪等核心算法中至少一个方向。\n3. 具备良好的深度学习基础，熟悉 Transformer、CNN 等主流模型架构，有实际的模型调优和工程落地经验。\n4. 熟练掌握 Python / C++，有良好的编程习惯和代码架构意识。\n5. 具备较强的 Problem Solving 能力，能够独立分析长尾场景失效原因并推动解决。",
+      "precedence": null,
+      "highLight": "1. 海量实车数据：规模化运营车辆持续产生丰富的真实场景数据，能通过数据驱动真正推动算法边界。\n2. 成果直达业务：工作成果直接体现在线上核心安全指标的提升上，价值感强、反馈快。\n3. 高水平团队：与 AI、机器学习、自动化等多元背景的技术大牛共事，在解决实际问题中快速成长。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174831000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4337523728",
+      "name": "商业分析师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快驴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1、研究业务及策略分析，根据商品特性和客户需求，协助制定合理的客户和商品分层分类标准，并在此基础上制定合理的策略打法；\n2、围绕业务核心策略开展监测和复盘，搭建策略效果评估框架，协同业务团队持续迭代策略，推动业务目标达成；\n3、围绕核心策略制定目标，并与业务侧配合制定目标达成路径；\n4、进行行业研究及客户洞察，发现新的客户/商品机会并规划目标及策略；",
+      "jobRequirement": "1、5年以上商业分析/数据分析，具有较强的数据处理及分析能力，熟练掌握数据处理工具及经营分析方法；\n2、善于学习，对商业和业务逻辑敏感，具备良好的逻辑分析能力和系统性思维能力；\n3、对数据敏感，能从大量数据中敏锐判断对业务的影响，具备非常强的分析总结能力和数据呈现能力，能够将业务需求转化为数据分析，也能将数据分析的洞察转化为业务动作并沟通；\n4、自我驱动力极强，对食杂零售业务有兴趣，对工作结果交付有高度责任心，能积极主动且善于团队合作。\n5.加分项：\n具备较好的自主学习能力，对AI新技术抱有浓厚兴趣，乐于探索AI可能性；\n熟练使用 AI 工具（如大模型对话、AI 搜索、智能分析平台等）辅助研究工作，在实际项目中有明确的效率提升实践。",
+      "precedence": null,
+      "highLight": "深度参与0-1新业务的商分体系搭建和策略输出",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174822000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4230442551",
+      "name": "商家增长策略负责人",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "圣保罗",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "Keeta",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "全面负责平台商家侧（B端）增长策略的规划与落地，统领货架运营、日销场运营、促销场运营三条业务线。核心职责包括：商户分层体系搭建、分层运营策略制定、补贴与扶植策略设计、B端增长ROI管理。\n\n1. 商户分层体系搭建与分层运营策略\n基于品类、区域、价格、品质等维度，建立商家分层体系，明确各层级商家的核心价值与增长潜力。针对不同层级制定差异化运营策略，驱动重点商家向高质量层级跃迁，提升整体商家活跃度与交易额贡献。\n\n2. 补贴与扶植策略设计\n结合商家分层结果与平台增长目标，设计差异化的补贴策略与商家扶植方案，在ROI约束下实现补贴效率最优。对流量协同、补贴发放、活动参与等关键节点做出商业判断，而不仅是数据呈现。\n\n3. B端增长ROI管理\n建立B端增长数据监控体系，定期复盘各条线的投入产出效率，通过数据驱动策略迭代。统筹资源分配，协调货架、日销、促销三条线的策略协同与节奏管理，对业务结果直接负责。\n\n4. 团队管理与能力建设\n带领增长策略运营团队，设定清晰目标，明确团队分工，培养团队成员的专业能力。建立高效的跨团队协作机制，与用户增长、新签策略、商家经营等团队紧密联动。\n\n5.运用 AI 工具（如 ChatGPT、Copilot 等）辅助日常分析与策略制定，提升产出效率与质量，主动探索 AI 在本岗位的应用最佳实践。",
+      "jobRequirement": "1.8年以上互联网平台交易类产品的商业分析或大品类端运营经验，其中至少3年以上团队管理经验；具有咨询公司背景优先；\n2.有较强的商业判断力，做过关键业务决策（而不仅是数据分析），有对业务结果直接负责的经验；\n3.深度理解B端增长逻辑，有商家分层体系搭建或补贴策略设计的实战经验；\n4.具备扎实的数据分析能力，能通过数据框架建设支撑策略制定与ROI管理；\n5.熟练使用 AI 工具（如 ChatGPT、Copilot 等）辅助日常工作；具备 AI 学习意愿，能主动探索 AI 在业务场景中的应用。",
+      "precedence": null,
+      "highLight": "1.核心岗位：商家端增长策略核心负责人，统领三条运营线，拥有完整的策略制定与业务结果闭环能力；\n2.成长路径：兼具商业分析深度、增长策略广度和团队管理能力，在初创团队有丰富的发展空间；\n3.国际化前景：参与复杂市场和多元业务场景的建设，跟Keeta一起出海成长，前景广阔。\n4.身处 AI 赋能的工作环境，配备前沿 AI 工具与资源，帮助你在 AI 时代持续提升竞争力、加速职业成长。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174821000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4218662037",
+      "name": "商业分析师（物流方向）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快驴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 构建和完善物流经营规划，制定物流预算目标，并拆解关键提效策略，输出解决方案并推动业务重要决策；\n2. 基于经营策略和目标，拆解可控输入指标，沉淀并完善经营指标框架，通过周月报形式定期监控，定位关键经营问题，实现目标-策略-监控的闭环经营管理；\n3. 结合当前业务痛点与长期发展方向，推动物流作业流程及模式迭代，提升全链路履约效率及时效；\n4.不断推进数据产品优化，结构化模块化数据需求，提升数据与分析效率；\n5.结合行业数据、业界观点和市场趋势，研究仓储与配送模式创新持续提升履约效率。\n6.积极探索和应用AI工具（如大模型辅助分析、智能搜索、自动化报表等）提升个人及团队的研究与分析效率，推动AI能力在供应链分析场景的落地",
+      "jobRequirement": "1. 本科及以上学历，5年及以上数据分析相关经验，有供应链行业背景或物流背景优先；\n2. 熟悉互联网常见的分析工具和数据分析方法论；\n3. 逻辑思维能力出色，思路严谨缜密，理解能力、沟通表达能力和协调推进能力良好；\n4. 对供应链感兴趣，热爱思考，自驱力强，学习能力强。\n5.具备较好的自主学习能力，对AI新技术抱有浓厚兴趣，乐于探索AI可能性；",
+      "precedence": null,
+      "highLight": "1.参与生鲜供应链物流模式研究及各模块效率优化的持续探索迭代，积累丰富的行业及专业经验；\n2.R重点项目，向BM汇报的机会多；\n3.能够学到行业top的商业分析方法，团队积极拥抱AI工具与方法，鼓励尝试新技术、新工具，支持你在AI赋能分析的方向上探索和实践；\n4.跨部门和跨事业部交流机会多；",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174817000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4140234798",
+      "name": "商业分析师（策略研究方向）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快驴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 对餐饮细分市场开展深入研究，结合业务发展现状制定合理的策略打法，并对策略效果进行评估和迭代，推动业务目标达成；\n2. 对市场动态及竞争格局进行深入研究，输出高质量的行业分析报告；\n3. 开展战略课题研究，提供商业洞察与决策建议，并推动实施",
+      "jobRequirement": "1. 大学本科及以上学历，专业不限；\n2. 具备5年及以上行业研究或战略分析相关工作经验，有一线咨询公司、头部投资机构、头部零售企业战略部门工作经验者优先；\n3. 敏锐的商业感知能力，优秀的逻辑分析能力和项目任务拆解能力，良好的数据分析能力、报告产出能力和沟通协调能力；\n4. 执行力强，关注结果交付",
+      "precedence": null,
+      "highLight": "1. 业务发展前景好，综合能力锻炼机会多；\n2. 够沉淀长链条高复杂度生鲜供应链业务 从目标规划-策略制定-经营监控-结果验证 的闭环管理经验及方法；\n3. 能够用专业能力影响业务结果，并深入参与业务决策；\n4. 陡峭的学习成长曲线。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174814000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4121358442",
+      "name": "美团APP财务BP",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "财务",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "财务平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 财务分析：参与产品和项目的整体评估，包括商业定价、健康度评估，并建立规范的通用模型；按期出具多维度的经营分析数据及业务运营情况、行业同类产品分析报告，结合业务特点制定关键业务指标及分析体系，与业务建立双向反馈机制；\n\n2. 财务支持：深入了解业务，与业务伙伴密切合作，建立合理有效的分析体系，给予有效建议并推进解决方案，深度支持业务决策和过程管理；\n\n3. 财务管理：对业务方案进行风险评估，建立定期的业务和财务数据跟踪体系，对重点业务和项目进行随时跟进，定期反馈；\n\n4. 财务预算：准确编制对应业务的财务预测及年度预算，分析执行预算实际分析，并协助业务进行预算管理，助力业务在预算范围内达成目标；\n\n5. 财务日常工作：与账务、税务和报表团队积极协调，完成其他指定任务；\n\n6. 负责流程优化及配合内控管理、通过AI工具识别提效机会并落地 。",
+      "jobRequirement": "1. 掌握扎实的财务基本功，较好的沟通协调能力，有好奇心，愿意与业务共同成长；\n\n2. 本科及以上学历，有财务分析、财务BP、经营分析、审计咨询等工作经验5年及以上；\n\n3. 互联网财务管理工作经验优先，能够与各个部门及业务部门通力协作，学习能力强，有较强的Ownership和积极主动的工作态度。\n\n4. 能够使用AI工具对标准、重复性工作进行提效，减少手工线下处理。",
+      "precedence": null,
+      "highLight": "该岗位BP能够具备完整的业务经营财务视角，且美团平台财务有较好的发展空间\n具备以下优先:\n具备互联网财务BP、预算管理、经营分析工作经验优先。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174812000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4091020716",
+      "name": "价格策略运营",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快驴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 熟悉价格数据分析，包括定价/竞争/利润/增长等视角，数据中挖掘业务增长机会并输出可落地的策略建议。  \n2. 能够通过调研走访、交叉信息等多种手段，挖掘外部标杆和市场趋势，形成规划报告，为业务决策提供认知支持。\n3. 主导跨部门协作，推动决策落地，推动项目在业务场景中的落地执行。  \n4. 能适当带领新人，完成专项分析项目，确保高质量交付与业务价值转化。",
+      "jobRequirement": "1. 大学本科及以上学历，数学、统计学、经济学或相关专业优先。  \n2. 4年以上商业分析或数据分析经验，具备互联网或科技行业背景。  \n3. 熟练使用数据工具，精通电子表格等可视化工具。  \n4. 具备团队管理经验或独立领导项目经验者优先。  \n5. 逻辑清晰，沟通能力强，能高效协同多部门推动业务目标达成。\n6.加分项：\n具备较好的自主学习能力，对AI新技术抱有浓厚兴趣，乐于探索AI可能性；\n熟练使用 AI 工具（如大模型对话、AI 搜索、智能分析平台等）辅助研究工作，在实际项目中有明确的效率提升实践。\n了解ab实验以及模型分析等数据科学内容，能够建立模型化试点和实验体系。",
+      "precedence": null,
+      "highLight": "1. 参与公司核心业务战略制定，直接贡献业务增长。  \n2. 团队氛围开放，鼓励创新与技术探索。  \n3. 定期组织行业专家分享与培训，助力个人成长。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174808000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3477193058",
+      "name": "AI战略研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-平台及职能部门",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 负责核心本地商业在AI方向的战略研究和制定、促进共识。通过行业、市场、生态进行深度分析，为核心本地商业的AI战略规划提供研判和决策支持；\n2.有较好对内、对外沟通界面，能够组织内部协作项目，或在产品推广环节帮助拓展外部生态支持，有一定的行业影响力；\n3.参与AI工作流相关的产品设计、训练或评测等环节，并提供建议和输入。",
+      "jobRequirement": "1. 有AI战略或投资相关岗位经历，模型、应用或产业链等均可，有AI创业公司背景优先；\n2. 对AI行业有热情、有理解、有判断，能够把握行业趋势；\n3. 对业务有好奇心有理解，过往有过业务相关经验，能够将对AI的知识和洞察与业务理解相结合；\n4. 本科及以上学历背景。",
+      "precedence": null,
+      "highLight": "打造核心本地商业中既有高专业度又接地气的的商分特种部队；\n能够对核心本地商业有更全局的视角和洞察，并与各业务商分合作共赢。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174806000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3105937188",
+      "name": "核心本地商业财务-到餐财务BP",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "财务",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "财务平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1.财务支持：深入了解业务，与业务伙伴密切合作，建立合理有效的分析体系，给予有效建议并推进解决方案，深度支持业务决策和过程管理；\n2.财务分析：参与产品和项目的整体评估，包括商业定价、商户运营策略、用户营销策略等，并建立规范的通用模型；按期出具多维度的经营分析数据及业务运营情况，分析和挖掘业务表现，结合业务特点制定关键业务指标及分析体系，与业务建立双向反馈机制；\n3.财务管理：对业务方案进行风险评估，建立定期的业务和财务数据跟踪体系，对重点业务和项目进行随时跟进，定期反馈；\n4.财务预算：准确编制对应业务的财务预测及年度预算，分析执行预算实际分析，并协助业务进行预算管理，助力业务在预算范围内达成目标；\n5.财务日常工作：与账务、税务和报表团队积极协调，完成其他指定任务；\n6.负责流程优化及配合内控管理 。",
+      "jobRequirement": "1.大学本科及以上学历，财务、会计或相关专业背景。\n2.至少6年以上的财务分析经验，有互联网财务相关经历，熟悉互联网To B/C 业务。\n3.具备良好的财务分析能力，能够独立完成财务数据的收集和分析。\n4.具备较强的数据处理能力，熟练使用SQL、Power Bi等分析软件。\n5.具备较强的沟通能力和团队合作精神，能够与不同部门和层级的员工进行有效的沟通和协调。\n6.具备良好的逻辑思维能力和问题解决能力，能够快速准确地分析和解决问题。\n7.具备良好的时间管理能力，能够在压力下高效地完成工作。",
+      "precedence": null,
+      "highLight": "互联网行业最核心的业务，财务BP的工作更多聚焦于业财的综合分析，能够对平台型业务有完整和深入的理解，有助于分析能力和业务理解力提升。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174805000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3008237497",
+      "name": "Keeta技术-大模型算法工程师/专家",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-业务研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 在国际化场景下，负责 Keeta 智能客服、智能审核、智能判责等方向的算法建设，以及对应基座模型的后训练（SFT/RLHF/DPO 等）；\n2. 运用大模型、Agent、多模态及传统机器学习等算法能力，解决生成式 AI 在业务落地的关键问题，满足多语言、多模态的复杂业务场景需求，持续提升智能化覆盖率与业务运转效率；\n3. 紧跟业界大模型前沿进展，深入分析新模型结构与技术范式，并快速转化为业务可用的算法能力；\n4. 从业务需求中提炼通用、模块化的算法能力，加速算法迭代，提升 Keeta 开国、开城的效率；\n5. 积极将 AI 辅助工具（如 Copilot、AI 实验分析工具）融入日常研发流程，推动团队以 AI 协作方式提升模型迭代效率。",
+      "jobRequirement": "1. 数学、统计、运筹学、计算机或相关专业硕士及以上学历，3年以上相关工作经验；\n2. 在大模型、多模态、数据挖掘或传统深度学习领域具备独立负责项目的经验（有智能客服、审核、判责、外呼等方向经验更佳），并能在复杂业务场景中进行合理的算法选择与优化；\n3. 熟悉主流大模型，掌握 SFT、RLHF、RAG 等技术；精通 Python、Java 等编程语言，熟悉 TensorFlow、PyTorch 等常用机器学习框架；具备 AI 辅助工程开发的实践经验，能利用 Copilot、AI 实验分析等工具加速模型迭代与评估，以 AI 协作方式提升研发效率；\n4. 具备敏锐的业务洞察力和创新精神，对挑战性问题充满热情，能够将理论与实践相结合，主动学习并适应快速发展的业务环境；\n5. 良好的英语读写能力为加分项，能够与国际团队进行有效沟通。",
+      "precedence": null,
+      "highLight": "1. 前沿技术落地：参与基座模型后训练全流程（数据构建→SFT→RLHF→评估），在真实多语言业务场景中解决大模型对齐与泛化难题，技术深度与业界前沿团队接轨；\n2. 多语言多模态挑战：Keeta 覆盖多个国家，商品、客服、审核场景涉及多种语言与文化，是国内少有的真实多语言大模型落地场景；\n3. 快速成长：新业务迭代节奏快，算法工程师可在短时间内主导完整的算法方向，积累从0到1的大模型应用落地经验。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789174801000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4313463969",
+      "name": "无人车业务部-自动驾驶决策规划算法工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-无人车业务部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 负责自动驾驶系统中决策规划、路由导航的算法设计与优化，提升车辆在复杂场景下的行驶安全与效率。\n2. 参与无图自动驾驶模型研发工作，提升泛化能力，适城市道路、非规则道路等多场景。\n3. 参与自动驾驶软件交付工作，推动自动驾驶能力在复杂业务场景的落地。\n4. 持续跟踪行业前沿技术，推动自动驾驶能力的迭代创新与性能提升。",
+      "jobRequirement": "1. 硕士研究生及以上学历，计算机、自动化、车辆工程、人工智能等相关专业。  \n2. 具备2年以上自动驾驶或机器人领域算法开发经验，熟练掌握C++/Python。\n3. 具有自动驾驶端到端模型设计开发经验者优先。\n4. 具有大型交付落地项目经验者优先。",
+      "precedence": null,
+      "highLight": "1. 参与L4级自动驾驶核心算法研发，涉及无图、模型化等关键技术挑战，成长空间大。  \n2. 团队技术氛围浓厚、工作氛围轻松，能够深度参与自动驾驶落地业务全流程。\n3. 业务处于快速成长期，个人发展机会、空间大。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789171202000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    }
+  ]
+}

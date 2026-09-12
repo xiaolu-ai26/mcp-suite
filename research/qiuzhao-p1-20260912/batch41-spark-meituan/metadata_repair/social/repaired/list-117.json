@@ -1,0 +1,1351 @@
+{
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "request_body": {
+    "page": {
+      "pageNo": 117,
+      "pageSize": 20
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jfJgList": [],
+    "jobType": [
+      {
+        "code": "3",
+        "subCode": []
+      }
+    ],
+    "typeCode": [],
+    "specialCode": []
+  },
+  "reviewed_at": "2026-09-12T16:05:03Z",
+  "page": {
+    "pageNo": 117,
+    "pageSize": 20,
+    "totalCount": 2475,
+    "totalPage": 124
+  },
+  "rows": [
+    {
+      "jobUnionId": "4233893869",
+      "name": "资深渠道经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "郑州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "武汉市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-骑行事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "工作职责：\n1. 负责完成渠道合作伙伴，帮助合伙人快速建立运营机制与管理，并把业务下沉，达成目标；\n2. 研究分析渠道组成和特点，发展渠道合作伙伴，并对所负责的渠道进行规划和培养，推动渠道合作伙伴达成经营目标任务；\n3. 跟踪考核渠道商，并及时发现合作过程的问题并进行总结和反馈，跟进问题的优化；\n4. 负责合作伙伴的培训和其他相关支持的落地，辅助商项目所涉及的内部部门沟通协调；\n6. 搜集反馈市场信息，分析市场数据；\n7. 传达公司政策及市场活动等信息，保证和商之间的沟通顺畅。",
+      "jobRequirement": "1. 有丰富的渠道开发和渠道维护经验，或互联网销售管理经验者优先考虑；\n2. 学习能力强，对渠道销售模式有比较深刻的认知，有能力总结不同类型渠道合作伙伴的合作模式；\n3. 沟通能力强，有能力协调并解决联合落地项目中遇到的问题；\n4. 能够承受压力和挑战，有团队协作精神和较强的服务意识。",
+      "precedence": null,
+      "highLight": "聚焦于商开发和维护，跨区域管理成长更快、广阔晋升空间。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774850421000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "1051080585",
+      "name": "乐生活西南大区-产品销售",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "武汉市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "重庆市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "海口市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "昆明市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "南宁市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "三亚市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "中山市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "珠海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-服务零售事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、通过销售拜访，了解商户的业务现状与实际需求并结合消费者的消费动向，制定个性化营销方案，与商户谈判并达成合作；\n2、执行公司的销售策略及政策，达成业绩目标；\n3、与公司各部门配合，及时处理用户的反馈、投诉和建议，提高用户满意度；\n4、归档和更新所有目标商户拜访、协议、服务条款等有关的文件和数据，确保信息在数据库中得到正确的维护。",
+      "jobRequirement": "1、大专及以上学历，有销售工作经验优先；\n2、有很强的学习能力和适应能力，适应互联网行业的快速发展，精力充沛，具备出色完成任务的能力；\n3、具备较强的人际沟通及逻辑思维能力，思维敏捷，能够准确把握产品优势和客户心理，高效整合内外部资源促成销售业绩；\n4、富有激情和创新理念，追求个人职业发展和公司利益的双赢；\n5、热爱销售，善于挑战，积极乐观，有强烈的成功欲望和企图心；\n6、为人正直，诚实可靠，以公司利益为重。",
+      "precedence": null,
+      "highLight": "发展路径广阔，沟通机制畅通，行业潜力大。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774842918000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4112656343",
+      "name": "资金管理-资金运营-境外",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "财务",
+      "cityList": [
+        {
+          "code": null,
+          "name": "利雅得",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "圣保罗",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "财务平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、负责境外交易结算工作，处理各国结算相关问题，合理规划付款路径，在保障资金安全的同时提高付款效率；\n2、监控境外资金流动，确保合规性并优化资金使用效率；  \n3、持续优化付款流程，建立并完善标准化境内外资金操作SOP，协助制定和执行境外资金风险管理策略\n4、了解并遵循反洗钱、制裁等方面的政策，确保所有资金操作严格符合海外属地法规；\n5、梳理所负责工作中的人工操作痛点和风险点，对于可通过系统化解决的，明确需求并推进上线；\n6、其他工作：定期输出各类相关报表，如线下付款分析报告、月度质量事件分析等；配合月结、年度及专项审计等工作，协调并提供资金相关资料；完成主管临时安排的其他工作；\n7、推动该领域AI 化提效： 梳理资金高频工作场景，建立标准化 AI 辅助工作流与 Prompt 模板，沉淀团队操作规范，持续提升人均处理效率与决策质量。",
+      "jobRequirement": "学历：财务、金融类本科及以上学历，海外背景优先。\n经验：3年以上全球资金管理经验，有跨国公司资金管理岗或海外工作背景优先。熟悉企业资金管理流程及账务处理，了解企业资金内控规范。\n专业：精通国际结算流程、了解外汇管制国家如巴西的外汇政策。\n技能：有较强的逻辑思维，具备复杂问题拆解的能力，较好的归纳总结能力，善于跨部门沟通和团队协作、可熟练使用常用办公软件。\n语言：英语可作为工作语言，同时会葡萄牙语会优先。\n其他要求：具备高度风险敏感性，能够有效平衡资金安全、工作效率与成本控制；拥有跨时区协作能力，适应紧急突发业务的处理及频繁差旅需求；快速学习能力，敢于挑战。\n关注大模型、AI Agent 等前沿技术在资金领域的应用进展，有参与或推动资金场景/AI/数字化工具落地经验者优先。",
+      "precedence": null,
+      "highLight": "参与全球化资金运营，接触国际金融市场；积累资金管理运营经验，内部多岗位锻炼机会，为深耕资金管理领域做准备。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774605670000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4089006601",
+      "name": "国际资金",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "财务",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "财务平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 业务支持与定制化方案：深入理解海外业务特点（如区域分布、商业模式、结算特征），提供定制化资金解决方案。为海外经销商提供融资支持方案，增强渠道竞争力。确保海外资金运作符合当地政策要求（反洗钱、外汇管制、税务合规等），了解当地货币政策变动并寻找业务机会点。\n2. 结算体系建设：设计并实施全球结算框架，解决汇困、跨时区结算、跨境资金池等痛点；建立境内外资金高效调拨机制（注资、借款、分红等），压降资金闲置成本。\n3.外汇管理体系建设：建立外汇风险识别、计量、评估模型（交易风险、折算风险、经济风险），制定差异化外汇套保策略，优化自然对冲方案，降低套保成本。\n4.银行关系与生态构建：建立并维护与国际主流银行（如汇丰、花旗、渣打、当地头部银行）的战略合作关系，评估不同银行的差异化服务能力，针对融资、结算、外汇、政策响应等需求进行资源配置。组织银行能力评估与定期复盘，建立海外银行资源库及分级管理机制。\n5. 推动该领域AI 化提效： 梳理资金高频工作场景，建立标准化 AI 辅助工作流与 Prompt 模板，沉淀团队操作规范，持续提升人均处理效率与决策质量。",
+      "jobRequirement": "1. 核心经验与能力：深度熟悉国际金融市场规则（如国际结算、外汇衍生品、跨境融资政策），具备全球视野及政策敏感度；具备同行业资金管理经验，熟悉出海企业资金需求及解决方案设计。\n2. 资源整合与协作能力：熟悉海外银行服务及差异化合作模式，具备海外银行关系管理经验；精通国际结算系统（如SWIFT、ACH）及资金管理工具。优秀的跨文化沟通能力，能协调海外分支机构、总部及外部合作伙伴高效协作。\n3. 英语流利（商务级），可处理海外业务沟通及文档撰写。\n4. 关注大模型、AI Agent 等前沿技术在资金领域的应用进展，有参与或推动资金场景/AI/数字化工具落地经验者优先。",
+      "precedence": null,
+      "highLight": "1. 参与全球化业务，接触国际前沿资金运作模式。  \n2. 团队氛围开放，注重专业成长与职业发展。  \n3. 提供有竞争力的薪酬和国际化工作机会。  \n4. 与高层及海外团队紧密协作，提升战略视野。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774605669000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3838241336",
+      "name": "闪购-歪马-订货运营主管",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "供应链",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-闪购事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责歪马送酒的订货运营管理工作，确保产品的及时供应保障；\n2.负责团队的管理和培训，指导团队成员完成工作目标；\n3.负责制定并执行供应链管理策略，优化订货、调拨和库存管理流程；\n4.负责监控销售数据和库存情况，及时纠偏和调整订货和调拨动作，确保库存周转率。",
+      "jobRequirement": "1.大学本科及以上学历，专业不限，具备良好的逻辑分析能力；\n2.至少5年以上商品与供应链管理相关工作经验，有电商或零售行业或酒水背景者优先；\n3.具备一定的团队管理能力和沟通协调能力，能够有效带领团队完成工作目标；\n4.熟悉供应链管理流程，具备良好的协同管理能力；\n5.熟练运用办公软件，具备数据分析能力和逻辑思维能力。",
+      "precedence": null,
+      "highLight": "1.可以在歪马电商平台这样一个快节奏的行业中发展，接触到各种新产品和供应链管理方式；\n2.可以带领一个专业团队，共同挑战目标并取得成就，实现个人和团队的成长；\n3.可以通过自己的努力和管理能力，影响整个供应链管理流程，为企业带来更高效的运营和更优质的产品服务。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774577101000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "2459467874",
+      "name": "基座大模型算法专家",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 基座大模型预训练，包括但不限于不同规模、不同结构的语言模型和多模态模型的数据准备和优化、模型预训练、训练加速与框架优化等；\n\n2. 大模型对齐技术（SFT、RLHF等）链路整体优化，包括数据探索与增强、对齐流程探索、奖励模型优化、强化学习策略迭代等，持续提升对齐效果；\n\n3. 大模型训练和推理优化，包括但不限于高效训练技术和框架设计与实现、模型小型化技术（稀疏化、压缩、剪枝、蒸馏等）探索与落地、高效推理技术实现等；\n\n4. 大模型相关技术前沿探索，包括但不限于Scaling Law、模型架构探索（MoE、MAMBA等）、训练范式探索、长序列技术探索、高效训推框架探索等；\n\n5. 支撑内部应用需求，对接搜索、推荐、广告等实际业务场景，实现大模型应用落地。",
+      "jobRequirement": "1. 对大模型开发流程有深入认知，熟悉预训练、指令微调、RLHF等流程与框架，具备模型预训练、对齐、训练和推理加速、模型小型化和部署等方面的经验；\n\n2. 熟悉Transformer等模型架构，对GPT系列、LLAMA系列和MoE等模型架构有深入理解并拥有大规模训练经验；\n\n3. 具备扎实的算法和数学理论基础及良好的编程基础，熟悉自然语言处理、生成式AI和机器学习等技术，熟悉Python、Java等至少一种编程语言，熟悉PyTorch、Tensorflow等深度学习框架，对技术开发及应用有热情；\n\n4. 目标感强，善于分析和发现问题，拆解简化，有想法并乐于挑战自我，能够从日常工作中发现新的空间；\n\n5. 条理性强且有推动力，能够梳理繁杂的工作并建立有效机制，推动上下游配合完成目标。",
+      "precedence": null,
+      "highLight": "1. 团队具备良好的技术氛围，与志同道合的技术牛人一起工作；\n\n2. 能够参与到大模型核心研发工作中，为AGI目标躬身奋斗。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774506264000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4167963082",
+      "name": "美团骑行-区域安全事务负责人",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "公司事务",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-骑行事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.统筹区域安全组的各项工作，负责各类危机事件的处置、案事件打击、朋友圈建设，以及助力业务发展工作的落地推进：\n2.针对业务风险可以提供切实有效的优化管控方案，对负责业务安全实行管理、监督、协调、培训和考核，协助业务完善风险管控制度；\n3.基于业务流程梳理和风险分析，制定、验证并持续优化安全指标体系及风险预警机制，建设风控系统并落地追踪；\n4.配合业务主管部门的工作，并保持良好沟通。\n5.团队管理与跨部门协同， 负责团队建设、目标管理、绩效评估、人才培养及预算资源配置。",
+      "jobRequirement": "1.资深安全事务管理经验与战略领导力\n· 本科及以上学历，10年以上安全事务或相关领域工作经验，其中包含5年以上团队管理经验。\n· 具备卓越的战略规划与执行能力，能带领团队在复杂环境中达成目标。\n2.熟悉业务主管部门的工作方式、语言行为规则和决策流程，熟悉互联网行业，拥有一定行业资源；\n3.具有较强处理复杂事物的能力和团队合作意识，能接受高频出差；\n4.具有较强的总结分析能力、公文写作能力，语言表达能力。",
+      "precedence": null,
+      "highLight": "1.大平台，有长远的成长发展空间，贴近业务侧更容易沉淀公共资源；\n2.具备较好的发展空间，表现优异者可以往管理方面培养；\n3.公司Ai工具多多帮你从事务工作中解放出来\n3.高水平专业团队，拥有专家型同事和完善培训体系，为个人成长提供广阔环境。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774491321000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4155441908",
+      "name": "美团骑行-政企大客户专家（内蒙）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "呼和浩特市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-骑行事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.在所负责区域，制定共享骑行发展计划，为业务在当地落地打好基础；2.与合作方建立良好的沟通及合作关系，为业务的稳定运营提供保障；3.了解行业及市场动态，适时调整城市相关的节奏和计划。",
+      "jobRequirement": "1.本科及以上学历，5年以上工作经验；2.建立和维护客户关系，善于沟通和协同合作伙伴推动业务落地，有较强的销售能力，公文写作能力，有同业项目经验优先；3.熟悉政府部门体系组织架构和主要工作流程，了解政府管理方式方法；4.具有良好的团队协作和敬业精神，执行力强。",
+      "precedence": null,
+      "highLight": "带薪年假、定期体检、五险一金、发展空间大、个人能力提升快等",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774491278000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4098290985",
+      "name": "美团骑行-政企大客户专家",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "兰州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-骑行事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责甘青宁区域高校、部分地市共享电单车业务拓展；\n2.与高校后勤处、地市公安、城管、交通等部门建立良好的沟通及合作关系，为业务落地取得准入资格，并跟进项目落地；",
+      "jobRequirement": "1.本科及以上学历，5年以上工作经验；\n2.有较强的销售能力，公文写作能力，有同业项目经验优先；\n3.熟悉政府部门组织架构和工作流程，了解政府管理方式方法，有相关部门对接经验优先；\n4.具有良好的团队协作和敬业精神，执行力强，适应出差。",
+      "precedence": null,
+      "highLight": "大厂重点项目，成长路径明确，五险一金，团队气氛好",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774491084000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4020414477",
+      "name": "小象超市-上海服务站区长",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "苏州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-小象事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责大区内各店营运管理工作，根据公司战略，制定年度经营计划、有效的营运方针和营运策略；\n2.商品意识及市场判断能力强，丰富的商品知识，精通门店运转流程；\n3.数据敏感度高，能通过各种方式提升类目、频道及所负责的项目产出；\n4.具备突出的执行能力、沟通技巧、协调能力与应变能力;\n5.能有效培育高效团队，建立快速高效执行力强的学习型组织;",
+      "jobRequirement": "1.本科或以上学历，5年大型连锁超市的管理工作经验，具备新零售从业经验者优先；\n2.商品意识及市场判断能力强，丰富的商品知识，精通门店流程；\n3.数据敏感度高，能通过各种方式提升类目、频道及所负责的项目产出；\n4.具备突出的行能力、沟通技巧、协调能力与应变能力;\n5.能有效培育高效团队，建立快速高效执行力强的学习型组织;\n6.对站内人员（含劳务）的日常培训和人效管理工作，确保站员对于商品货位、品质、履约等相关操作到位；\n7.配合地推获客团队相关的物料、赠品、履约的需求。\n8.掌握基本的AI工具，使用工具提升工作流程效率。",
+      "precedence": null,
+      "highLight": "公司平台大，成长空间大，发展前景好，福利待遇好。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774427539000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4293473582",
+      "name": "产运战略BP（巴西）Product Operations Strategy BP",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "圣保罗",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "Keeta",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "Job Responsibilities:\n1、Act as the Business Partner (BP) for product teams, deeply involved in the entire process of product demand management, launch implementation, performance review, and feedback improvement. Deliver tailored product solutions to local business teams to drive business success.\n2、Proactively identify opportunities and challenges for target business teams through market research, user studies, metric system development, and user feedback mechanisms. Drive closed-loop improvements between product and business teams to enhance user experience.\n3、Facilitate effective cross-border (cross-time zone) communication and collaboration, building and maintaining long-term trusted relationships. Establish efficient workflows and coordination mechanisms.\n4、Actively explore the use of AI tools (e.g., data analysis, interview transcript analysis, market information aggregation, etc.) to enhance insight efficiency and produce structured inputs for product requirements.\n\n1.作为境外业务产品团队国家BP角色，深度参与产品需求管理、上线导入、收益复盘、反馈改善等全过程，面向不同国家业务团队提供产品解决方案服务，助力业务成功；\n2. 通过市场调研、用户调研、指标体系搭建、用户反馈机制建设等方式、主动积极发现所面向的业务团队潜在的机会和问题、推动产品和业务团队闭环改善，提升用户体验；\n3. 有效的跨国（跨时区）的沟通合作，建立和保持长期的可信任关系，建立匹配的协作机制和流程；\n4.积极探索利用AI工具（如数据分析、访谈纪要分析、市场信息聚合等）提升洞察效率，形成结构化的产品需求输入。",
+      "jobRequirement": "Job Requirements:\n1、Experience in project management, product management, product operations, or business operations at an internet company or large multinational corporation, with deep expertise and insights in the field.\n2、Strong cross-functional and cross-cultural communication skills. Excellent English proficiency (written and spoken).\n3.、Understand the working principles of large language models, have deeply applied AI Agent capabilities, and have leveraged AI tools for data analysis, document writing, operational configuration, and other tasks.\n4、Willingness to base in Brazil.\n\n1. 具备互联网公司或大型跨国企业项目管理、产品经理、产品运营或者业务运营经验，在专业领域具有深度认知和洞察；\n2. 具备较强的跨职能团队/跨文化背景的沟通能力，具备出色的英语听说读写能力，英语可作为工作语言。\n3.了解大模型工作原理，深度应用过AI Agent能力，借助AI工具进行过数据分析、文档撰写、运营配置等工作；\n4.了解或对巴西市场感兴趣，Base地在巴西。",
+      "precedence": null,
+      "highLight": "1、Oversee product operation and project management for overseas business, Collaborate cross-functionally with all local business teams and engage with regional business leaders. Enjoy broad business exposure and high market.\n2、Comprehensive training and learning opportunities provided to continuously enhance project management capabilities and professionalism in fast‑growing global business.\n3、The team is equipped with a robust AI tooling ecosystem that empowers members to integrate AI capabilities into daily product discovery and the continuous optimization of R&D collaboration workflows, relentlessly advancing best practices in human-AI collaboration.\n\n1. 承担境外业务的产品运营和项目管理工作，跨职能合作本地所有横向业务团队、对话区域业务负责人，业务视野广、市场发展潜力高，有机会在增量市场实现快速成长。\n2. 提供良好的培训和学习机会，能够在快速发展的国际化出海业务中不断提升自己的项目管理能力和职业素养。\n3. 团队配备完善的AI工具体系，鼓励成员将AI能力融入日常产品洞察和产研协作流程优化，持续探索人机协作最佳实践。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774419937000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "2901951725",
+      "name": "三四星酒店大客户经理-全国",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "常州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "无锡市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "苏州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "金华市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "烟台市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "威海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "广州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "昆明市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "贵阳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-酒店旅行",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、高星酒店业务的拓展，包含产品开发、采购、运营和维护；\n2、了解区域酒店合作需求，基于收益最大化给予酒店专业的合作方案和建议，达成双赢；\n3、了解各大平台运营规则，能快速学习美团运营规则，善于发现酒店在平台经营的生意增长点，明确提升方案；\n4、善于分析市场动态，洞察用户需求，在日常工作中微创新，为客户和平台带来价值。",
+      "jobRequirement": "1、具备较强的沟通能力和销售技巧，以及客户服务意识；\n2、了解酒店行业和市场情况，两年或以上的销售岗位从业经历以及OTA从业经历者优先；\n3、较强的学习力，韧性足。",
+      "precedence": null,
+      "highLight": "住宿业务大客户开发岗位，充分深入住宿业务核心商家，并增加大客户维护经验。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774418831000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4253055577",
+      "name": "高级供需策略产品",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "产品类",
+      "jobFamilyGroup": "产品",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-骑行事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责供需策略运营方向产品能力建设。以两轮车双业务的资产的周转提升为长期目标，提高撮合效率，对业务增量订单、经营作业体系的搭建负责\n2、重点建设调度所需的供需诊断能力、推荐点决策体系、派单运筹体系、运力监控链路、配套的使用工具，提升车辆的利用率；建设点位/围栏工具，优化点位和运营区的增删改查策略，从而优化车辆的分布来提升车辆效率。以Opex的效率提升，换取Capex的单位UE降低。\n3.负责城市运维人员作业流程及任务策略设计，包括调度撮合等模块的作业流程和智能化任务建设。深度协同运营、算法团队，以资产利用率的提升为目标设计迭代车辆调度任务，完成系统与运营人员的匹配派单策略。\n4.负责城市管理人员作业管理产品建设，包括城市经营者的作业决策、过程管理、结果诊断等。",
+      "jobRequirement": "1. 大学本科及以上学历，5年以上产品相关工作经验，有策略产品经验者优先。  \n2. 具备较强的数据分析能力，熟练使用SQL等工具，能通过数据驱动决策。 \n3. 业务意识好，有较好的视野广度，善于解构业务问题，能够独立负责某个业务方向整体产品规划及落地\n4. 逻辑清晰，具备优秀的跨团队沟通与项目管理能力。  能够在复杂协同场景下驱动业务及产品方向的演进，通过业务理解和数据推动业务发展",
+      "precedence": null,
+      "highLight": "1、千万单量核心业务，主导供需策略产品的AI原生化转型，参与制定业务部重要决策，成长空间大。\n2、供需诊断、推荐算法、派单运筹、运力履约全链路覆盖，与算法团队深度协同，近距离接触大模型在实际业务中的落地。\n3、AI工具赋能工作提效，团队积极探索Cursor、AI编程等新范式，支持自驱学习与技术创新。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774404035000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3581014981",
+      "name": "到餐广告策略运营",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-商业增值部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、负责到店餐饮广告销售策略制定与落地，协同业务团队达成业绩目标，参与考核激励机制设计\n2、搭建销售渠道信息同步机制与培训赋能体系，沉淀运营SOP，提升一线执行效率\n3、深入商家细分场景营销需求，结合AI智能诊断工具提炼广告效果优化方案，输出可复用的场景化解决方案\n4、收集客户产品需求与使用反馈，推动产品迭代优化，持续提升广告ROI与客户服务体验",
+      "jobRequirement": "1. 3年及以上互联网广告运营经验，有电商、本地生活行业的销售运营、规模化客户运营经验者优先\n2. 有较强的学习能力和独立思考能力，具备一定自助数据提取、逻辑分析与商务汇报能力\n3. 能进行市场和客户调研，对需求进行提炼总结，对接产品设计团队，管控项目进度与交付质量\n4. 有很好的合作能力，善于合作协调沟通，思维敏捷，具有非常好的书面和商务沟通谈判能力\n5.具备使用AI工具（如ChatGPT/Claude）辅助运营策略分析、培训材料制作与商务汇报撰写的实践经验。",
+      "precedence": null,
+      "highLight": "1. 工作氛围nice：团队整体氛围轻松，同时汇聚各方向专业能力人才，相互之间帮助学习成长\n2. 行业深研：拥有业界最丰富的餐饮行业信息，有机会与餐饮头部品牌讨论共创，启发行业变革\n3. 自主创新：有机会主导公司重大项目，从0到1探索新商业模式，项目在行业内具备较强竞争力",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774400411000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4303128092",
+      "name": "Marketing Campaign Manager",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "用户运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "圣保罗",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "Keeta",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 营销策划与执行：负责平台站内营销活动/大促的策略输出、创意策划和落地执行，包括但不限于节日节点。根据目标用户群体、营销主题与市场需求，设计站内+站外创意活动方案，提升平台新客获取和老客留存，推动平台交易增长。\n2. 跨部门协调与合作：与市场、产品等团队紧密合作，组织跨部门会议，推动活动进展与关键节点的按时落地。\n3. 数据分析与优化：跟踪活动的效果，分析流量、转化、补贴等数据，及时优化营销策略。基于数据结果提出优化方案，确保活动持续提升平台效益。\n4. 活动Communication：设计传播策略和传播节奏，通过站内渠道和站外媒体推广活动内容，确保物料符合主题氛围并激发用户参与兴趣。\n\n1. Marketing Planning & Execution: Responsible for the strategy, creative planning, and execution of on-platform marketing activities and major promotions, including but not limited to holiday campaigns. Design on-platform and off-platform creative activity plans based on target user groups, marketing themes, and market demand to enhance user acquisition, retention, and drive platform transaction growth.\n\n2. Cross-Department Coordination & Collaboration: Work closely with teams such as Marketing, Product, and others. Organize cross-department meetings to drive the progress of activities and ensure key milestones are met on time.\n\n3. Data Analysis & Optimization: Track and analyze the effectiveness of campaigns, including metrics such as traffic, conversion, and subsidies. Continuously optimize marketing strategies based on data insights and propose improvement plans to ensure sustained platform benefits.\n\n4. Campaign Communication: Design communication strategies and timing for campaign promotion through on-platform channels and external media. Ensure that marketing materials align with the campaign theme and generate user interest and participation.",
+      "jobRequirement": "1. 3年以上节庆营销、活动策划、品牌推广等相关领域工作经验，特别是具有大型交易导向平台的大促活动相关经验。\n熟悉站内流量分发和转化逻辑，能够有效利用流量进行精准营销。\n2. 有用户增长相关背景，能够基于用户需求和行为设计并优化活动方案。\n3. 如果有游戏化营销、会员营销相关经验者优先。\n4. 熟悉互联网站内营销工具和策略，能够独立完成活动方案制定、执行及效果分析。\n5. 良好的跨团队协作能力，能够与市场、产品、B端等团队紧密合作，推动活动顺利落地。\n6. 创新思维，能够根据节庆时机与平台特点提出独到的营销创意。\n7. 高度责任感，能够在短时间内推动复杂活动的执行。\n8. 善于在多方需求中找到平衡，具备良好的沟通能力和团队协作能力。\n\n1. 3+ years of experience in festival marketing, event planning, brand promotion, and other related fields, particularly with experience in large-scale promotional activities for transaction-driven platforms.\n   Familiar with on-platform traffic distribution and conversion logic, and able to effectively utilize traffic for targeted marketing.\n\n2. Background in user growth, with the ability to design and optimize campaign plans based on user needs and behaviors.\n\n3. Experience in gamified marketing or membership marketing** is a plus.\n\n4. Familiar with internet on-platform marketing tools and strategies**, capable of independently creating, executing, and analyzing the effectiveness of campaigns.\n\n5. Strong cross-team collaboration skills**, able to work closely with teams such as Marketing, Product, and B-side teams to ensure successful campaign execution.\n\n6. Innovative thinking, able to propose unique marketing ideas based on seasonal opportunities and platform characteristics.\n\n7. High sense of responsibility, able to drive the execution of complex campaigns within a short time frame.\n\n8. Skilled at balancing multiple demands, with excellent communication and teamwork abilities.",
+      "precedence": null,
+      "highLight": "1. Join a Global Leading Food Delivery Platform: As a member of the world’s largest food delivery platform, you will have access to top-tier resources and opportunities in the industry, participating in marketing projects that impact users globally.\n\n2. International Work Experience: Engage in multinational, cross-cultural projects, gaining valuable international work experience and collaborating with team members and partners from around the world.\n\n3. Huge Personal Growth Opportunities: As the platform grows, you will have the chance to rapidly expand your role, take on more responsibilities, and gain extensive experience across diverse business scenarios.\n\n4. Multi-dimensional Marketing Experience: Gain exposure to both **off-platform marketing communications** and the **large promotion logic within internet apps**, enhancing your marketing skills and strategic vision.\n\n5. Excellent Team Atmosphere: The team is highly collaborative and supportive, with a relaxed and open working environment that encourages innovation and free expression.",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774379916000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4258804757",
+      "name": "美团快驴K项目--急聘江西省BD",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "南昌市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "景德镇市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "九江市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "新余市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "鹰潭市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "赣州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "吉安市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "宜春市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "抚州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上饶市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "黄冈市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快驴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 面向本地水果商家，拓展及维护新老客户去使用美团旗下的快驴平台进行采购，独立完成相应服务目标；\n2. 负责区域内水果客户的回访和维护，建立稳定的合作关系，使其长期保持复购；\n3. 结合公司的营销活动和销售策略，完成服务考核指标；\n4. 根据市场现状和客户反应，及时反馈产品存在的问题，实时调整业务策略；\n5. 与被服务方部门有效配合，并快速解决突发问题，以提高商户满意度；",
+      "jobRequirement": "1. 大专及以上学历要求，学历以学信网可查到为准；\n2. 优先具备生鲜供应链行业经验与认知、有餐饮销售及服务经验、有互联网直销团队经验、有食材供应链销售及服务经验；\n3. 从事过其他销售工作；\n4. 认可销售行业，愿意长期在生鲜销售行业发展的非销售从业者。",
+      "precedence": null,
+      "highLight": "大平台发展历练，同时内部具备完善的培养、晋升体系",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774347954000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4306607954",
+      "name": "蔬菜产地品控",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "供应链",
+      "cityList": [
+        {
+          "code": null,
+          "name": "石家庄市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "济南市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "青岛市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快驴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责蔬菜的供应链环节的商品质量管理，从源头到客户，预防和优化商品质量问题，提升用户满意度；\n2. 驻场关键产地， 负责产地商品质量检查，从源头确保产品符合公司标准；\n3. 物流链路装载、防护等标准落地检核，减少各环节的商品质量问题发生；\n4. 负责跟踪解决出现的商品货源质量问题，避免商品质量问题重复出现；\n5.与产地采购沟通，推动其他环节客诉改善。",
+      "jobRequirement": "1. 大学专科及以上学历，农业、食品科学或相关专业优先 ；\n2. 2年以上蔬菜、农产品品控货产地质检相关工作经验 ；\n3. 具备较强的跨部门沟通表达及协作能力，能快速推进项目落地  ；\n4. 能接受出差；\n5. 吃苦耐劳，具备正直诚信的价值观，有较强的原则性",
+      "precedence": null,
+      "highLight": "1. 参与核心供应链环节，发展空间大，成长迅速；\n2. 提供系统的品控培训及职业发展路径；\n3. 团队氛围融洽，注重创新与效率。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774342904000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4242640496",
+      "name": "闪购-超市便利KA-商家运营（便利店）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-闪购事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、负责便利店KA头部连锁商家，在美团闪购的即时零售业务运营开展和日常管理，面向包括业务规模、盈亏、流量、营销、商品、服务等各项经营指标负责；\n2、能够基于便利店业务特性和不同商家及用户特征，形成商家运营策略并协同商家执行落地；\n3、通过指导商家进行门店上线、优化商品、营销活动、流量获取、履约改善等作业流程持续提升商家线上经营能力，并探索形成可复制的标准化流程；\n4、理解商家的业务模式、成本结构，能根据业务发展和行业理解，挖掘商家及日常团队的运营痛点，对外改善商家合作深度，对内面向产品体验升级方向提出优化建议；\n5、定期如月度、季度等进行合作伙伴拜访和业务复盘总结，形成商家成长路径和业务达成探索的沉淀输出。",
+      "jobRequirement": "1、本科以上学历，3年以上平台运营或者大客户销售运营相关从业经验，有电商、O2O、零售行业经验优先；\n2、具备成熟的商户运营经验和方法，可以从零售行业和商家区域差异视角洞悉用户消费习惯，负责过零售运营项目或者餐饮外卖商户运营者优先；\n3、具备良好商务洽谈能力，能够全面看问题，逻辑清晰，具备成熟的数据分析能力，发现问题及提供解决方案能力；\n4、具备优秀的跨部门沟通协调能力。",
+      "precedence": null,
+      "highLight": "1、公司核心业务，与行业专家共同在新零售行业探索；\n2、团队年轻充满热情，氛围轻松富有激情，个人成长空间大；\n3、能在快速发展的平台级业务中，参与规模化的过程，并在其中担任核心角色。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774318733000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4158083555",
+      "name": "品类运营",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "商品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快驴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、数据驱动的品类策略支持：基于冻品业务场景，通过数据分析制定品类规划、选品逻辑及规则，为策略制定提供量化依据；\n2、指标体系构建与监控：设计并迭代经营/运营指标体系，监控品类商品、商家、业态、PB等核心数据，通过量化分析定位趋势变化及驱动因素；\n3、深度业务洞察挖掘：结合业务逻辑分析数据，识别运营缺陷与增长机会，输出可落地的数据洞察报告，支撑业务决策；\n4、专题分析与策略输出：主导业务议题复盘，通过归因分析提炼结论，输出宏观-中观-微观策略建议，推动业务结果达成；\n5、目标拆解与路径规划：基于数据分析拆解业务目标，设计实现路径，为管理层策略制定提供数据支持。",
+      "jobRequirement": "1、行业经验：3年以上零售/电商行业数据分析经验，食杂冻品领域优先；\n2、专业能力：\n①强数据敏感度与逻辑分析能力，熟练运用统计学方法解决问题；\n②精通SQL及Python/R等分析工具，掌握Power BI等可视化工具；\n③具备预测建模、归因分析等量化分析经验者优先；\n3、软性素质：\n①优秀的跨团队沟通与协调能力，能清晰传递分析结论；\n②自驱力强，具备结果导向思维；\n③注重团队协作，善于整合资源推进项目。\n6. 自驱力强，具有较好的学习能力，愿意主动思考AI如何进一步优化工作流程。",
+      "precedence": null,
+      "highLight": "1、团队氛围好；\n2、福利待遇完善；\n3、晋升机会多，公平、透明。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774234874000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4113672979",
+      "name": "SaaS财务运营",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "财务",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "财务平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、AI赋能业务支持：负责对接SaaS业务需求，结合会计准则、结算规则、合规要求等，识别和判断业务活动对财务的影响，出具相应的财务方案；主动运用AI工具（如大模型、智能分析平台）辅助业务场景分析与财务方案设计，提升决策支持效率；\n\n2、智能财务信息化建设：结合对业务场景及业财系统的深入理解，与各方产研配合推进财务信息化建设，包括业务场景的线上计费结算、线上化传账及业财数据校验、财务系统优化升级等；积极探索AI技术在财务流程中的落地应用，推动人机协作模式创新；\n\n3、AI驱动流程优化：借助AI工具对财务运营流程进行系统性梳理与优化，识别可自动化的重复性工作环节，提高财务结果的效率和准确性，释放人力聚焦高价值工作；\n\n4、智能风险监控及数据分析：建立并优化运营监控机制，运用AI数据分析工具识别财务风险，整理、输出分析报告，协助拟定治理策略并跟踪运营落地；\n\n5、其他：与财务其他团队积极协调，完成其他指定任务。",
+      "jobRequirement": "1. 本科及以上学历，会计、经济、管理类等相关专业，具备财会相关工作经验，有核算相关经验以及财务系统对接经验优先；鼓励有AI工具落地实践经验者，年限要求可适当放宽；\n\n2. 具备AI工具使用能力，熟悉主流大模型工具（如ChatGPT、Copilot等）在财务场景中的应用，有AI辅助数据分析、报告生成等实际经验者优先；\n\n3. 具备较强的沟通、协调能力，能够独立与其他部门和合作伙伴进行有效沟通和协调；\n\n4. 具备优秀的逻辑思维和分析能力，能快速识别、拆解问题并推动问题有效解决；善于借助AI工具提升分析效率；\n\n5. 工作认真细心、责任心强，具有良好的团队协作精神和服务意识，对AI技术在财务领域的应用保持持续学习热情。",
+      "precedence": null,
+      "highLight": "1、AI工具资源丰富：公司为员工提供完善的AI工具生态，包括内部智能助手、数据分析平台、自动化流程工具等，助力财务人员从繁琐重复工作中解放，聚焦高价值创造；\n\n2、人机协作成长价值：在AI深度介入财务工作的前沿阵地，你将有机会亲历并主导财务智能化转型，积累稀缺的AI+财务复合能力，成为未来财务领域的核心竞争力；\n\n3、学习成长机会：互联网和资产相结合的新兴业态，模式复杂多变，在这里既可以体验传统行业的经验，也可以体验互联网特色，以及互联网和传统行业的有机碰撞；\n\n4、轻松高效的团队氛围：我们注重专业，注重团队协作，团队内部相互帮助、相互学习、共同进步，团队外部互助共赢，共同探索AI时代财务工作的新范式。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1774232132000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    }
+  ]
+}

@@ -1,0 +1,1031 @@
+{
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "request_body": {
+    "page": {
+      "pageNo": 22,
+      "pageSize": 20
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jfJgList": [],
+    "jobType": [
+      {
+        "code": "3",
+        "subCode": []
+      }
+    ],
+    "typeCode": [],
+    "specialCode": []
+  },
+  "reviewed_at": "2026-09-12T15:37:43Z",
+  "page": {
+    "pageNo": 22,
+    "pageSize": 20,
+    "totalPage": 124,
+    "totalCount": 2475
+  },
+  "rows": [
+    {
+      "jobUnionId": "4279524239",
+      "name": "AI搜索推荐产品经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "产品类",
+      "jobFamilyGroup": "产品",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-公共部门",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责推荐产品规划和迭代，保障推荐体验和核心指标提升；\n2.深入理解并洞察业务场景及用户需求，结合数据分析和 AI 辅助调研，制定推荐产品策略；\n3.负责定义 AI 应用场景，将AI技术转化为搜索与推荐场景的实际业务价值；\n4.善于使用 AI 工具提升需求分析效率，推动人机协同的工作方式落地；\n5.协调上下游及业务团队制定全局方案，整合跨团队资源并推动策略落地，提升业务经营指标；",
+      "jobRequirement": "1.3年以上推荐策略产品经验，能独立负责完整复杂项目；\n2.具备优秀的数据分析能力，能熟练使用 SQL；\n3.出色的跨团队沟通和项目管理能力，主观能动性强，能推动复杂项目落地；\n4.有电商、即时零售等垂直领域策略经验；\n5.能够使用大模型辅助完成需求分析、调研、文档撰写等工作，有实际落地经验优先；\n6.对 AI/大模型技术在业务场景的应用有一定理解，能够推动 AI 技术与实际业务的深度融合；",
+      "precedence": null,
+      "highLight": "1. 快速增长的行业与业务，发展空间大；\n2. 能够深度参与业务决策并影响产品发展方向；",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789113258000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4512020961",
+      "name": "行业运营负责人",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "用户运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-公共部门",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.主导行业解决方案的设计与落地，围绕特定业态客群，系统整合供给、流量、内容表达等运营能力，推动完整业务链路的高效运转；\n2.深度理解用户分层及需求，结合数据分析与用户调研，持续优化客品匹配与流量分发机制，推动客户消费深度提升；\n3.探索AI工具在运营场景的规模化应用，推动客户触达、商品推荐、内容生成等环节的效率提升，沉淀可复用的AI运营方法论；\n4.协同产品、商品、销售等多角色，推动重点项目跨团队高质量落地；\n5.负责运营团队的管理与人才培养，打造有业务理解深度、能协同作战的运营团队；",
+      "jobRequirement": "1.本科及以上学历，5年以上电商或B端交易平台运营经验，有用户运营、商城运营或流量运营背景优先；\n2.具备行业解决方案思维，能从业态维度出发整合多种运营能力，有完整项目主导经验；\n3.跨职能协同和项目推动能力强，善于在多角色协作中拿到结果；\n4.数据驱动，熟练使用SQL等取数工具，能独立完成用户分层、漏斗分析、策略验证等数据分析工作；\n5.对AI工具在运营场景有实践认知，能将AI能力融入日常运营体系，有相关落地经验者优先；",
+      "precedence": null,
+      "highLight": "1.业务持续高速增长，核心战略方向，成长空间充足；\n2.岗位视角全面，横跨用户、商品、流量多个运营维度，是深度理解B端交易业务的较全面视角之一；\n3.团队氛围融洽；",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789113238000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4584907013",
+      "name": "食杂零售-内控经理（商品）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "财务",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-公共部门",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 根据既定审计计划开展审计项目，从内部控制和风险管理的角度，对各个业务流程进行检查，评价相关流程的合理性、有效性、合规性，针对发现的问题和风险提供相应的改进或防范措施，并推进解决，从而完善内部控制体系； \n2. 参与流程和控制咨询项目，梳理流程，识别风险并进行风险评估，对于高风险领域为业务提供管理咨询建议；\n3. 作为业务BP，为业务流程建设提供咨询建议。",
+      "jobRequirement": "1. 五年以上四大、大型零售公司、互联网公司审计或咨询相关经验，熟悉风险管理及内部审计的相关工作；\n2. 了解企业业务流程风险及控制，能够设计和执行审计测试；\n3. 技能及能力要求：具备快速学习的能力、良好的沟通能力及逻辑分析能力，熟练掌握办公软件；\n4. 具备CIA，CPA等资质；\n5. 具备良好的英语听说读写能力，能够进行境外业务的沟通和协调。",
+      "precedence": null,
+      "highLight": "业务新，成长发展空间比较大，团队氛围好，领导nice",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789113217000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4737734872",
+      "name": "价格产品经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "产品类",
+      "jobFamilyGroup": "产品",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-公共部门",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责商品定价系统的策略与系统建设。\n2.负责与技术团队合作，制定产品需求和功能规划，确保产品能够满足用户和业务方的需求。\n3.负责对接商品部价格中台业务部门，承接相关策略需求。\n4.分析/归纳商品定价规则，落地并推动策略落地。\n5.协助对接算法技术部门，探索算法在定价方向的策略落地。",
+      "jobRequirement": "1.本科及以上学历。\n2.拥有3年以上产品经理或相关岗位的工作经验。\n3.具备较强的数据分析能力，有较好的SQL分析能力。\n4.具备较强的策略抽象能力，能够洞察出基于商业逻辑的定价规律。\n5.优秀的沟通能力。",
+      "precedence": null,
+      "highLight": "1.独立负责小象超市价格系统的产品功能设计。\n2.行业发展前景优秀，业务处于良性增长周期内。\n3.团队工作氛围好，务实不内卷、功能边界清晰。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789113088000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4738931505",
+      "name": "B端产品经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "产品类",
+      "jobFamilyGroup": "产品",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-公共部门",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、建设食杂零售全链路品质闭环治理能力，围绕“识别—归因—处置—验证”设计统一问题对象、归因决策树与结构化处置策略，为各协作方提供有效治理抓手；\n2、建设逆向治理与正向执行的双向飞轮，将验证有效的治理策略沉淀为品质画像与解决方案，驱动正向执行精准布控，前置拦截品质风险，提升品质供给能力；\n3、探索AI在品质治理场景的落地边界，设计治理Agent能力，将品质治理从人工驱动升级为系统驱动；\n4、与品控运营、研发及横向团队紧密协同，推动产品按时保质上线，拿到业务结果。",
+      "jobRequirement": "1、3年以上电商/零售相关产品经验，有平台治理、供应链品控经验者优先；\n2、具备较强的数据分析和抽象思维，能在复杂业务中识别关键问题和机会；\n3、对AI应用有实践和理解，能理性判断规则与模型能力的适用边界；\n4、学习能力强，思维开放，沟通协调能力强，有跨部门落地经验者优先。",
+      "precedence": null,
+      "highLight": "1、工作价值：0-1建设行业标杆的全链路品质治理体系，为数亿用户的品质体验保驾护航，治理成果直接驱动客诉率、差评率等核心指标改善；\n2、机会挑战：横跨食杂零售多业态全品类，有机会在真实的长链路复杂供给场景中，搭建行业标杆的“逆向治理+正向布控”双向飞轮；\n3、个人成长：深度实践AI在品质及食安治理领域的落地，与业务、研发及算法等多领域专家在难题攻坚突破中一起快速成长。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789113043000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4738950848",
+      "name": "资深策略产品经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "产品类",
+      "jobFamilyGroup": "产品",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-公共部门",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、负责业务中物流配送履约策略方向的工作，平衡司机运力、客户时效和配送成本，成为生鲜城配领域一流体系的重要建设者； \n2、发现问题，深入一线充分理解快驴配送业务，厘清关键变量和影响关系，通过常态化的 数据分析/竞争调研/case分析 建设健壮的分析诊断能力，持续发现关键问题和背后原因，并持续优化改进；\n 3、规划执行，基于业务输入和问题分解确定目标和关键举措、制定roadmap，设计并推动产品方案上线，评估迭代，参与设计和实现具备高质量低成本履约能力的智能物流系统；\n 4、探索并落地AI/大模型技术在配送履约场景的应用，包括但不限于智能路区规划、配送时效预估等，推动配送策略从规则驱动向数据+智能驱动演进。",
+      "jobRequirement": "1、本科以上学历，5年以上互联网工作经验，具备物流配送履约相关领域经验、O2O业务经验、策略算法相关工作经验；\n2、独立思考，避免路径依赖，理解数据背后的意义，避免纯数字驱动；\n3、目标导向，有好奇心，良好的沟通/推动能力，拥有强烈的责任心和团队合作精神；\n4、关注数据，对数据敏感，具备较好的数据处理及分析能力，且善于挖掘数据背后的业务问题。",
+      "precedence": null,
+      "highLight": "1. 餐饮供应链业务复杂，链路长，业务属性具备诸多挑战，可建立复杂业务产品的认知；\n2. 发展空间大，团队氛围好，自我成长快；\n3.团队AI氛围浓厚，鼓励用 AI 替代重复劳动。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789113012000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4757545139",
+      "name": "仓服采购岗",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "业务运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "品类采购全链路管理：负责仓储运营服务品类（再生资源售卖、生产生活垃圾处置、保险、消杀等）的采购管理工作，覆盖需求管理、寻源招采、交付履约、成本管控及供应商绩效管理全链路；通过数据分析优化各环节效率，建立品类采购的标准化与数字化管理体系。\n\n采购策略制定：深入理解业务战略方向与行业趋势，基于数据洞察制定采购策略、供应策略、成本策略及收益策略，量化策略落地效果，助力业务可持续发展。\n\n行业调研与价值深挖：负责品类行业调研，系统化收集市场数据与供应商信息，通过专业分析识别成本优化机会与价值增长点，在确保项目快速落地的同时持续降低综合成本。\n\n供应商管理与协同：负责供应商全生命周期管理，建立供应商数据化评估体系，定期输出绩效分析报告；协同业务部门处理异常问题，以数据驱动运营优化与效率提升。\n\n对账结算与数据闭环：负责业务模块的月度、季度对账及结算工作，确保采购数据的准确性与一致性，为成本分析与预算管理提供可靠的数据基础。",
+      "jobRequirement": "大学本科及以上学历，供应链管理、物流工程、商品/非商品采购或相关专业优先。\n\n工作经验：5年以上采购、供应链管理或品类管理相关工作经验，有仓储运营服务/物流服务采购经验者优先。\n\n专业能力：能独立完成招采全链路工作，能够根据业务特性制定并推进采购策略（包含需求整合、采购模式设计、供应商布局及成本管控）；具备行业调研与品类深度分析能力，可快速迁移至新品类。\n\n数据能力：具备基础数据分析能力，能独立完成供应商对标、成本测算与绩效分析；熟悉数据分析工具进行采购数据分析者优先。\n\n项目管理：具备多项目/复杂项目管理经验，优秀的横向资源协调能力与项目推进能力，能适应快节奏工作环境。\n\n工具加分：有SRM（供应商关系管理系统）、电子招采平台或采购数字化工具使用经验者加分。",
+      "precedence": null,
+      "highLight": "在美团\"零售+科技\"战略下，负责仓储运营服务的数智化采购体系建设，直接支撑核心业务的成本优化与效率提升，岗位战略价值高。\n\n深度参与采购流程的数字化转型，接触供应商数据评估模型与智能寻源工具，从传统采购向数据驱动型供应链策略转型，复合型成长路径。\n\n与运营、财务、数据等多团队跨域协作，培养“采购+数据+策略”三维能力，在北京核心团队中拥有广阔的发展空间。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789112988000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4591912332",
+      "name": "外卖场景运营",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "业务运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-外卖事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 通过场景用户外卖痛点解决，提升用户场景渗透，带动外卖业务增长。\n2. 负责外卖场景的整体运营策略制定与执行，提升用户体验和平台效率。  \n2. 分析用户行为与业务数据，识别关键问题并推动优化方案落地。  \n3. 协同产品、技术、市场等团队，推动场景功能迭代与运营活动上线。  \n4. 建立并完善外卖场景的运营指标体系，定期输出分析报告。",
+      "jobRequirement": "1. 大学本科及以上学历，3年以上互联网运营或相关业务运营经验。  \n2. 熟悉外卖或本地生活行业，以客户为中心，具备场景化运营思维和数据驱动意识。  \n3. 具备较强的沟通协调能力，能高效推动跨部门协作。  \n4. 有景区、酒店等合作KP资源者优先，具备项目管理能力。  \n5. 逻辑清晰，能适应快节奏工作环境。",
+      "precedence": null,
+      "highLight": "1. 参与核心业务场景运营，直接影响千万级用户的使用体验。  \n2. 贴近市场需求，涉及内外部多方协同，解决流程闭环，可拓展较全面的经营视角",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789112700000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4764650113",
+      "name": "Keeta-卡塔尔骑手管理方向负责人",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "业务运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "多哈",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "Keeta",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责平台骑手侧的管控体系与体验体系建设，提升骑手能力及留存率、降低骑手违规率。\n2.制定并迭代骑手行为规范、奖惩机制、分级管理制度，覆盖接单、配送、异常处理、申诉审核等全链路。\n3.基于一线反馈、数据分析等，协同产品、研发等多方团队，推动骑手管控及体验问题的识别、归因与闭环改进。\n1.Own the development of the platform's rider management and experience systems, improving rider capability and retention while reducing rider violation rates.\n2.Develop and iterate rider codes of conduct, reward and penalty mechanisms, and tiered management systems, covering the full chain of order acceptance, delivery, exception handling, and appeal review.\n3.Based on frontline feedback and data analysis, collaborate with product, R&D, and other cross-functional teams to drive identification, root-cause analysis, and closed-loop improvement of rider management and experience issues.",
+      "jobRequirement": "1. 从问题出发，对场景思考全面，有平衡多目标、多团队的能力\n2. 能站在用户视角、骑手视角、竞争视角思考问题，理解数据背后的意义，避免纯数字驱动及路径依赖\n3. 至少5年互联网运营相关经验，有2年以上管理经验，有骑手体验、管控经验或策略运营经验为加分项\n4. 英语可作为工作语言\n1.Problem-driven, with comprehensive scenario thinking and the ability to balance multiple objectives, avoiding trade-offs that sacrifice one for another.\n2.Able to think from the perspectives of users, riders, and competitors, understand the meaning behind the data, and avoid purely data-driven decisions and path dependency.\n3.At least 5 years of relevant internet operations experience, with 2+ years of management experience. Experience in rider experience, rider management, or strategy operations is a plus.\n4.English as a working language.",
+      "precedence": null,
+      "highLight": "1.深度参与海外市场新业务全链条决策，支撑业务策略制定、业务结果的达成\n2.团队平等开放、实事求是，与各地精英共同推进美团全球化\n3.团队配备完善的AI工具体系，鼓励成员将AI能力融入日常工作流\n1. Deeply participate in full-chain decision-making for new overseas business, supporting business strategy formulation and the achievement of business results.\n2. The team is egalitarian and open, pragmatic and fact-based, working alongside top talent from around the world to advance Meituan's globalization.\n3. The team is equipped with a comprehensive AI toolset and encourages members to integrate AI capabilities into their daily workflows.",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789111892000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4760329488",
+      "name": "快乐猴-成都店长",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责线下门店的日常运营管理，包括人员调配、库存管理、销售目标的制定和完成等工作；\n\n2.负责团队的招聘、培训和绩效管理，确保团队的稳定和高效运作；\n\n3.负责门店的标准管理和客户服务质量，提升门店的品牌形象和客户满意度；\n\n4.负责门店的销售数据分析和业绩报告，制定并实施改进措施，确保销售目标的达成。",
+      "jobRequirement": "1、具有传统大型零售运营的思维模式，5年以上工作经验，担任过2年以上传统实体零售门店生鲜副店长及以上级别的管理岗,关注客户价值和客户体验;\n\n2、诚实正直、品行端正、责任心强、肯吃苦、有激情且执行力强，有商人视角；\n\n3、勇于承担，乐于分享，指导与培养团队各项能力，能够打造高绩效团队，形成阶梯化人才成长模式； \n\n4、具备建设组织和体系搭建能力，可以制定并落实各环节的流程； \n\n5、掌握基本的AI工具，使用工具提升工作流程效率。",
+      "precedence": null,
+      "highLight": "1.提供具有竞争力的薪酬福利待遇，包括五险一金、带薪年假等；\n\n2.良好的晋升空间和发展机会，能够快速提升自身管理能力和职业素质；\n\n3.公司提供完善的培训体系和职业发展规划，能够持续提升个人职业发展价值。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789111688000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4760388325",
+      "name": "快乐猴-成都副店长",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责线下门店的日常运营管理，包括人员调配、库存管理、销售目标的制定和完成等工作；\n\n 2.负责团队的招聘、培训和绩效管理，确保团队的稳定和高效运作；\n\n3.负责门店的标准管理和客户服务质量，提升门店的品牌形象和客户满意度；\n\n 4.负责门店的销售数据分析和业绩报告，制定并实施改进措施，确保销售目标的达成。",
+      "jobRequirement": "1.大学专科及以上学历；\n\n2.至少3年以上线下门店营运管理领域工作经验；\n\n3.具有良好的团队管理能力、沟通能力和问题解决能力；\n\n4.具有较强的数据分析能力和业务推动能力，能够制定有效的运营策略和改进方案；\n\n5.具有责任心，能够独立思考和独立工作。 6.掌握基本的AI工具，使用工具提升工作流程效率。",
+      "precedence": null,
+      "highLight": "1.提供丰富的线下门店管理经验和团队管理经验的机会；\n\n2.提供良好的职业发展空间和晋升机会，能够在公司内部快速成；\n\n3.薪资福利优厚，公司提供完善的培训体系和职业发展计划，帮助员工实现个人职业目标。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789111620000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4760396559",
+      "name": "快乐猴-成都片区经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责线下超市（大于10家门店）小区的日常运营管理工作，包括人员调配、库存管理、销售数据分析等； \n\n2.负责招聘、培训和管理团队成员，确保团队高效运作；\n\n3.负责制定并执行营销促销活动，提升线下超市的知名度和盈利能力。",
+      "jobRequirement": "1.8年以上线下超市管理相关工作经验；\n\n2.具备较强的团队管理能力和沟通协调能力，能够有效领导团队实现业绩目标；\n\n3.具备良好的数据分析能力和解决问题能力，能够快速响应并解决运营中的问题；\n\n4.掌握基本的AI工具，使用工具提升工作流程效率。",
+      "precedence": null,
+      "highLight": "1.可以在快节奏的线下零售行业中展现个人管理能力和团队领导能力；\n\n2.有机会参与线下超市的整体运营策略规划和执行，实现个人职业发展和成长；\n\n3.薪资福利优厚，发展空间大，公司提供良好的培训和晋升机会。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789111562000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4760447551",
+      "name": "快乐猴-城市运营中台 / 区域运营支持",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 销售异常诊断与机会挖掘\n\n定期对门店/区域销售数据进行复盘，识别异常波动（含客单、提袋率等核心指标），输出诊断报告并跟进改善落地，\n\n结合用户购买行为数据，分析客群结构与分层特征，输出精准的渗透策略与拉新/复购行动建议，\n\n挖掘品类与单品的销售增长机会，协同门店及采购团队制定并推动落地方案。\n\n\n\n2. 品类健康度分析\n\n建立品类健康度评估体系，定期对在售品类进行综合评估（含销售贡献、库存周转、损耗率、用户满意度等维度），\n\n识别滞销、高损、低贡献品类，提出优化建议（含汰换、陈列调整等），\n\n跟踪新品引进后的生命周期表现。\n\n\n\n3. 陈列执行检核 & 反馈\n\n制定门店陈列标准及检核标准，定期对门店陈列执行情况进行现场巡查或线上核查，\n\n输出陈列问题清单与改善建议，跟进整改闭环，推动陈列标准持续落地，\n\n汇总优秀陈列案例，提炼可复制的最佳实践并横向推广。",
+      "jobRequirement": "1. 本科及以上学历，零售、商业管理、数据分析相关专业优先，\n\n2. 3 年以上零售行业经营分析或运营支持相关工作经验，有硬折扣/会员超市/连锁超市背景优先，\n\n3. 熟练使用 表格和SQL 进行数据分析，有 BI 工具和提效 skill 使用经验加分，\n\n4. 具备较强的结构化思维和问题诊断能力，能独立完成从数据分析到落地建议的全流程输出，\n\n5. 有较强的跨部门协同能力，能够推动门店、采购、运营等多方协作落地改善动作，\n\n6. 掌握基本的AI工具，使用工具提升工作流程效率。",
+      "precedence": null,
+      "highLight": "1. 加入快速发展的硬折扣品牌，参与门店规模化扩张与运营体系升级，\n\n2. 提供清晰的职业发展路径，可向区域管理或总部职能方向晋升，\n\n3. 扁平化管理，拥有充分的自主决策空间与创新实践机会， \n\n4. 富有竞争力的薪酬激励与完善的培训发展体系。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789111491000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4760718489",
+      "name": "快乐猴-厦门店长（储备）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "厦门市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、确保公司营运标准高效在门店落地，提升销售与毛利；\n2、理解商圈和用户，据此对门店品类和商品经营方向有清晰的认知，通过品类/商品经营、拉新、营销、门店布局、商品订货、陈列、服务，售后，库存管控等；\n3、管控店内损耗、提升门店人效，优化可控费用（如物料，水电煤等营运费用），达成主要考核KPI；\n4、对内各协同部门的日常高效交互，达成共识，高效执行总部和区域新项目落地；\n5、对外关系的建立维护，如相关政府职能部门（市场管理、消协等）、物业关系，打造协作融洽的合作伙伴；",
+      "jobRequirement": "1、具有传统大型零售运营的思维模式，5年以上工作经验，担任过2年以上传统实体零售门店生鲜副店长及以上级别的管理岗,关注客户价值和客户体验;\n2、诚实正直、品行端正、责任心强、肯吃苦、有激情且执行力强，有商人视角；\n3、勇于承担，乐于分享，指导与培养团队各项能力，能够打造高绩效团队，形成阶梯化人才成长模式；\n4、具备建设组织和体系搭建能力，可以制定并落实各环节的流程；\n5、掌握基本的AI工具，具备数字化运营思维，能快速学习并应用AI辅助工具提升工作效率。",
+      "precedence": null,
+      "highLight": "1、创新型重点项目，从0-1，成长空间广阔，共同推动门店高效营运；\n2、AI数据看板、智能补货预测、数字化稽核系统全面赋能，让你用互联网公司的工具做零售管理。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789111439000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4760778502",
+      "name": "快乐猴-厦门副店长（储备）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "厦门市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责线下门店的日常运营管理，包括人员调配、库存管理、销售目标的制定和完成等工作；\n\n 2.负责团队的招聘、培训和绩效管理，确保团队的稳定和高效运作；\n\n3.负责门店的标准管理和客户服务质量，提升门店的品牌形象和客户满意度；\n\n 4.负责门店的销售数据分析和业绩报告，制定并实施改进措施，确保销售目标的达成。",
+      "jobRequirement": "1.大学专科及以上学历；\n\n2.至少3年以上线下门店营运管理领域工作经验；\n\n3.具有良好的团队管理能力、沟通能力和问题解决能力；\n\n4.具有较强的数据分析能力和业务推动能力，能够制定有效的运营策略和改进方案；\n\n5.具有责任心，能够独立思考和独立工作。 6.掌握基本的AI工具，使用工具提升工作流程效率。",
+      "precedence": null,
+      "highLight": "1.提供丰富的线下门店管理经验和团队管理经验的机会；\n\n2.提供良好的职业发展空间和晋升机会，能够在公司内部快速成；\n\n3.薪资福利优厚，公司提供完善的培训体系和职业发展计划，帮助员工实现个人职业目标。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789111376000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4760849176",
+      "name": "快乐猴-城市运营中台",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "厦门市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 销售异常诊断与机会挖掘\n\n定期对门店/区域销售数据进行复盘，识别异常波动（含客单、提袋率等核心指标），输出诊断报告并跟进改善落地，\n\n结合用户购买行为数据，分析客群结构与分层特征，输出精准的渗透策略与拉新/复购行动建议，\n\n挖掘品类与单品的销售增长机会，协同门店及采购团队制定并推动落地方案。\n\n2. 品类健康度分析\n\n建立品类健康度评估体系，定期对在售品类进行综合评估（含销售贡献、库存周转、损耗率、用户满意度等维度），\n\n识别滞销、高损、低贡献品类，提出优化建议（含汰换、陈列调整等），\n\n跟踪新品引进后的生命周期表现。\n\n3. 陈列执行检核 & 反馈\n\n制定门店陈列标准及检核标准，定期对门店陈列执行情况进行现场巡查或线上核查，\n\n输出陈列问题清单与改善建议，跟进整改闭环，推动陈列标准持续落地，\n\n汇总优秀陈列案例，提炼可复制的最佳实践并横向推广。",
+      "jobRequirement": "1. 本科及以上学历，零售、商业管理、数据分析相关专业优先，\n\n2. 3 年以上零售行业经营分析或运营支持相关工作经验，有硬折扣/会员超市/连锁超市背景优先，\n\n3. 熟练使用 表格和SQL 进行数据分析，有 BI 工具和提效 skill 使用经验加分，\n\n4. 具备较强的结构化思维和问题诊断能力，能独立完成从数据分析到落地建议的全流程输出，\n\n5. 有较强的跨部门协同能力，能够推动门店、采购、运营等多方协作落地改善动作，\n\n6. 掌握基本的AI工具，使用工具提升工作流程效率。",
+      "precedence": null,
+      "highLight": "1.有机会参与线下超市的整体运营策略规划和执行，实现个人职业发展和成长；\n\n2.薪资福利优厚，发展空间大，公司提供良好的培训和晋升机会。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789111316000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4760814460",
+      "name": "快乐猴-厦门片区经理（储备）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "厦门市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责线下超市（大于10家门店）小区的日常运营管理工作，包括人员调配、库存管理、销售数据分析等； \n\n2.负责招聘、培训和管理团队成员，确保团队高效运作；\n\n3.负责制定并执行营销促销活动，提升线下超市的知名度和盈利能力。",
+      "jobRequirement": "1.8年以上线下超市管理相关工作经验；\n\n2.具备较强的团队管理能力和沟通协调能力，能够有效领导团队实现业绩目标；\n\n3.具备良好的数据分析能力和解决问题能力，能够快速响应并解决运营中的问题；\n\n4.掌握基本的AI工具，使用工具提升工作流程效率。",
+      "precedence": null,
+      "highLight": "1.可以在快节奏的线下零售行业中展现个人管理能力和团队领导能力；\n\n2.有机会参与线下超市的整体运营策略规划和执行，实现个人职业发展和成长；\n\n3.薪资福利优厚，发展空间大，公司提供良好的培训和晋升机会。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789111247000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4760857563",
+      "name": "快乐猴-城市安防经理（储备）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "物流",
+      "cityList": [
+        {
+          "code": null,
+          "name": "厦门市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 安全生产管理：建立区域消防安全管理体系，监督门店合规操作，定期组织消防演练与隐患排查整改，完善消防档案；牵头安全事故调查，制定整改追踪机制，杜绝重复发生；落实全员安全培训与考核，提升一线员工安全意识与应急处置能力。\n2. 应急与政府关系：作为区域应急对接人，联动内部部门及物流业务线高效处置突发事件；对接公安、消防等政府部门，配合检查并妥善应对突发事件；组织重大事件复盘，推动风险闭环。\n3. 损耗管控与挽损：制定并执行区域损耗治理方案，通过数据分析定位损耗高发品类和门店，推动流程优化；宣导防损文化，曝光违规案例，营造全员防损氛围；主导业务链条侵占财产行为的调查与打击，复盘重大损失事件并落实挽损。\n4. 团队与数字化管理：制定区域安防工作计划，协调内外部资源；搭建团队梯队，实施绩效与过程管理，推动廉洁文化建设；善用AI工具与数字化手段提升安防管理效率，探索智能化巡检、损耗预警等创新应用。\n5. 政策与机制建设：参与公司安防管理政策制定，输出可落地的管理标准与SOP，推动区域安防管理标准化。",
+      "jobRequirement": "1. 大学专科及以上学历，警校或者安全消防专业优先。\n2.3年以上社区超市或传统商超安全防损管理经验。\n3. 具备扎实的安全生产管理与应急处突能力。\n4. 具备优秀的商品丢损预防、调查与打击能力，有成功挽损案例。\n5. 具备良好的政府沟通（公安、消防）与跨部门协调能力。\n6. 具备数字化管理思维，能快速学习并应用AI辅助工具。\n7. 具备优秀损耗管理经验及突发事件处置经验者优先。",
+      "precedence": null,
+      "highLight": "1. 参与公司安防管理政策制定，输出管理标准，专业成长空间大。\n2. 薪资福利优厚，团队氛围融洽，跨部门协作顺畅。\n3. 覆盖多业态、多门店的实战场景，快速积累综合管理能力。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789111164000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4742681421",
+      "name": "快乐猴-门店选址网络规划专家-华南",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "广州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、对各城市战区规划负责，参与制定门店网络布局规划，划定选址区域。\n2、结合业务发展需求和一线拓展反馈，协同相关部门对当前规划的可行性进行重新评估，优化布局方案，提升签约效率。\n3、针对已有门店布局及选址策略进行定期复盘，借助AI工具辅助数据分析，输出可行性报告及落地针对性的优化策略。\n4、梳理网络规划标准和流程，推动线上线下全量选址数字产品化。\n5、持续搜集分析市场相关信息，借助AI工具加速商圈及市场动态的洞察整合，及时迭代网络规划策略与标准。",
+      "jobRequirement": "1、本科及以上学历，3年及以上网络规划经验。\n2、具有较强的数据分析能力和表达能力，逻辑思维清晰；能主动借助AI工具提升选址分析与市场研判效率者优先。\n3、具有良好的跨部门沟通协作能力。\n4、对华南市场及商圈极为熟悉。",
+      "precedence": null,
+      "highLight": "1、AI at Work：团队积极探索AI工具在商圈分析、选址决策中的应用，候选人将有机会参与选址数字化和智能化的建设实践。\n2、团队年轻，氛围活跃、开放、平等，可从全链路视角了解业务，发展前景广阔。\n3、在选址网络规划过程中，能够拓展专业知识和技能，提升职业发展空间。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789110654000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4764081926",
+      "name": "keemart-搜索推荐产品经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "产品类",
+      "jobFamilyGroup": "产品",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-Keemart",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责keemart业务搜推流量，通过体验优化、效率优化、导购优化等手段不断提升用户的找品效率；\n\n2.与业务深度合作，通过流量调控手段助推、匹配业务战略，共同促进业务健康发展；\n\n3.分析用户潜在需求，找到新的空间。通过场景拓展，为用户提供多元化、全链路的供给支持，从而带动搜推用户效率及体验提升；",
+      "jobRequirement": "1. 有4年及以上策略产品经验。熟悉商品搜索基本原理，能够有效分析用户需求，从而制定策略；\n\n2. 项目落地管理能力优秀，协调各方资源保证项目落地，有良好的沟通表达及多方协作能力，能在多元化、跨领域团队中高效合作；\n\n3. 用数据化思维定位问题，用产品化思维解决问题，能较好兼顾多方利益的平衡；\n\n4. 具备开放心态、快速学习、灵活迭代、主动沟通、自我驱动的特质；",
+      "precedence": null,
+      "highLight": "1. 团队氛围好 ；\n\n2. 业务发展前景大，个人成长空间高；",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789110277000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    }
+  ]
+}

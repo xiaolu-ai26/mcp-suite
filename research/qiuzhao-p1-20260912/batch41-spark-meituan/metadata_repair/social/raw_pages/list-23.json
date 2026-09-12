@@ -1,0 +1,1061 @@
+{
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "request_body": {
+    "page": {
+      "pageNo": 23,
+      "pageSize": 20
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jfJgList": [],
+    "jobType": [
+      {
+        "code": "3",
+        "subCode": []
+      }
+    ],
+    "typeCode": [],
+    "specialCode": []
+  },
+  "reviewed_at": "2026-09-12T15:37:44Z",
+  "page": {
+    "pageNo": 23,
+    "pageSize": 20,
+    "totalPage": 124,
+    "totalCount": 2475
+  },
+  "rows": [
+    {
+      "jobUnionId": "4757843759",
+      "name": "包装设计负责人",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "设计类",
+      "jobFamilyGroup": "设计",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-美团平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、包装体系与规范搭建：统筹美团自营品牌包装策略与视觉体系，统一各品牌包装语言、超级符号、风格体系、版式规范与材质标准；基于各品牌差异化定位，构建系列化包装资产，兼顾即时到家场景特性与品牌辨识度。\n2、设计全链路管理：主导包装创意驱动、结构设计、版式视觉、材质选型、成本评估的全链路追踪；推进包装方案在商品图、前置仓、用户到手多触点的转化提升。\n3、AI化提效与流程改造：探索并推动 AI 工具在包装设计链路中的应用，输出可落地的 AI 化方案，提升团队整体设计效率。\n4、包材与工艺：精通包装结构、刀模与印刷色彩管理；在品牌质感、包材成本、履约损耗之间持续做最优平衡，降低仓储配送破损率，推进环保包材落地。\n5、行业洞察：了解即时零售/商超包装趋势，结合业务增长、用户反馈、大促节点，制定各品牌包装策略，持续优化包装视觉、结构、用户开箱体验，提升商品在前置仓、APP商品图、到手开箱多触点的转化。\n6、团队管理：带领包装设计小组，负责任务拆解、项目排期、设计终审与专业赋能；建立多品牌模板库、材质工艺库、验收规范与项目复盘机制；保障多条线并行项目按时高质量交付。",
+      "jobRequirement": "1、从业经验：8年及以上商业包装设计经验，3年以上包装设计团队负责人经验；有零售/生鲜超市/酒水即时零售/快消自营品牌包装体系搭建经验优先。有行业奖项获得者优先。\n2、行业背景：有生鲜、食品、酒水、日用品等全品类包装落地经验；熟悉多子品牌差异化视觉管理，有前置仓、即时零售、商超自营品牌经验优先。\n3、专业能力：具备从策略创意、视觉设计、工艺评估到工厂量产的全链路落地能力；能够创新AI工具应用与流程链路提效改造。\n4、管理&项目能力：具备多项目、多品牌并行统筹管理能力；具备跨部门复杂沟通能力，可驱动供应链、商品团队落地包装方案；能搭建设计规范、沉淀资产，带领团队持续输出高质量包装作品。",
+      "precedence": null,
+      "highLight": "1、负责美团多条核心自营品牌，业务体量大，全品类包装操盘空间充足；\n2、深度参与从商品定义、包材供应链、履约全链路，不局限纯视觉设计，兼顾品牌、成本、仓储配送全维度；\n3、团队创意氛围好，可主导多品牌包装体系搭建，作品线上线下海量用户触达。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789109640000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4742716402",
+      "name": "快乐猴-门店选址网络规划专家-C城",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "厦门市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、对各城市战区规划负责，参与制定门店网络布局规划，划定选址区域。\n2、结合业务发展需求和一线拓展反馈，协同相关部门对当前规划的可行性进行重新评估，优化布局方案，提升签约效率。\n3、针对已有门店布局及选址策略进行定期复盘，借助AI工具辅助数据分析，输出可行性报告及落地针对性的优化策略。\n4、梳理网络规划标准和流程，推动线上线下全量选址数字产品化。\n5、持续搜集分析市场相关信息，借助AI工具加速商圈及市场动态的洞察整合，及时迭代网络规划策略与标准。",
+      "jobRequirement": "1、本科及以上学历，3年及以上网络规划经验。\n2、具有较强的数据分析能力和表达能力，逻辑思维清晰；能主动借助AI工具提升选址分析与市场研判效率者优先。\n3、具有良好的跨部门沟通协作能力。\n4、对目的城市市场及商圈极为熟悉。",
+      "precedence": null,
+      "highLight": "1、AI at Work：团队积极探索AI工具在商圈分析、选址决策中的应用，候选人将有机会参与选址数字化和智能化的建设实践。\n2、团队年轻，氛围活跃、开放、平等，可从全链路视角了解业务，发展前景广阔。\n3、在选址网络规划过程中，能够拓展专业知识和技能，提升职业发展空间。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789108915000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4745455813",
+      "name": "快乐猴-仓储经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "物流",
+      "cityList": [
+        {
+          "code": null,
+          "name": "厦门市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.仓储运营KPI数据监控与效率问题诊断\n\n持续监控出入库准时率、准确率、人效、损耗率等核心运营指标，定期输出运营分析报告\n\n及时发现数据异常，深入诊断效率瓶颈，制定改善方案并跟踪闭环，确保仓储运营KPI持续达成\n\n2. 人员排班调度与仓储作业任务分配执行\n\n根据业务量预测科学制定排班计划，合理分配收货、上架、拣选、出库、加工等各环节作业任务\n\n负责一线仓储团队建设、人才梯队搭建、人员选用育励汰实施\n\n督导员工按照作业标准规范执行，灵活应对业务波动，激励团队士气，持续提升整体人效水平\n\n3. 库存盘点组织与盘差原因分析处理\n\n制定并执行日常及周期性库存盘点计划，确保账实数据准确一致\n\n对盘差原因进行系统分析，制定针对性整改措施并推动闭环\n\n建立盘差预防机制，有效管控损耗，监控临期/滞销商品并推动及时处置\n\n4. 仓储安全生产检查与隐患整改推动\n\n建立并执行安全生产巡检机制，定期开展安全检查，及时发现隐患并推动限期整改\n\n监督食品安全与卫生标准日常落地，落实消防及设备设施安全管理要求，组织安全培训与应急演练，确保安全生产零事故\n\n5. 仓储流程优化方案制定与标准推广\n\n定期梳理仓储各环节作业流程，识别痛点与优化空间，制定可落地的优化方案并推动试点\n\n将成熟优化成果整理为操作手册，在全仓统一推广执行，持续迭代提升作业效率与规范化水平",
+      "jobRequirement": "1、学历专业：大学专科及以上学历，物流管理、供应链、仓储管理等相关专业优先。\n\n2、工作经验：具备5年以上物流/仓储运营管理经验，其中至少3年担任仓储管理岗位，有大型仓储中心管理经验者优先；具备生鲜或快消品行业背景者优充先考虑。\n\n3、专业技能：熟悉PC/RDC生产线运作流程及物流操作规范；熟悉WMS系统操作及仓储自动化设备应用；具备较强的流程优化与精益改善能力。\n\n4、通用能力：具备良好的数据分析和问题解决能力，能够准确分析问题并提出解决方案；具备优秀的团队管理能力与沟通协调能力，能跨部门有效协作。",
+      "precedence": null,
+      "highLight": "互联网一线公司，大平台，业务前景好，个人成长发展空间大，",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789108694000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4752588794",
+      "name": "快乐猴-仓储经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "物流",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "全仓经营管理：对仓库安全、质量、效率、成本、人员五大经营指标负总责；制定并落地仓内年度/季度/月度运营计划，输出周度经营复盘与月度共创改善，推动人效、坪效、货损率等核心指标持续优化。目标产出：仓内KPI全面达成。\n现场运营管理：执行走动式管理与业务深潜；监督全链路作业质量，涵盖入库收货、在库管理、出库发运、返仓退供。目标产出：上架日清率100%、返仓24小时内收货、库存差异7日内闭环。\n人员管理与组织建设：搭建并运营三级管理体系，负责班组负责人认证、带教与汰换；把关招聘面试；落地新员工10天出师体系，转正认证不通过直接汰换；负责计件管理及员工行为管理。目标产出：班组负责人认证通过率100%、新员工出师率达标、低效员工季度内≤3次进入尾部池。\n安全生产与应急管理：作为安全责任人，落实消防、作业安全、交通安全管理；牵头处置消防事件、政府来访、堵门闹事、打架斗殴、极端天气、陌生人到仓、110工单等突发事件；执行工伤/安全事故15分钟内上报机制及整改闭环。目标产出：重大安全事故零发生、突发事件处置及时率100%。\n库存与商品质量管理：监督三类盘点机制执行（循环盘点：分拣位7天/存储位30天一轮、账外商品月度全盘、安防抽盘周检）；管控质量红线（不合格食品严禁返工销售、温区严禁混放、账外商品销毁须安防监督+监控下操作）；执行弃货重提三方确认机制。目标产出：盘点差异率达标、库存差异7日闭环率100%。\n场地工程与物资资产：负责场地标准化建设验收与整改复验（不合格7日内完成）；监督工程进度质量、留存影像、拦截风险（≤1万元钱管家报销、>1万元海鸥付款）；组织月度/年度/搬迁/交接盘点，执行物资报废维修定责流程。目标产出：布局检核通过、工程验收合格率100%、物资账实相符。",
+      "jobRequirement": "行业背景：生鲜/食品/冷链仓储（B2B/B2C）优先；有RDC、前置仓、生鲜加工中心（PC）管理经验者优先。\n专业能力（必备）：精通入库、在库、出库、运输、加工、盘点全流程SOP，熟悉WMS/TMS系统操作与配置逻辑；熟练运用人效、坪效、货损率、差异率、成本结构等指标进行经营分析；掌握精益工具（5S/IE手法/流程优化），有可量化的降本增效案例",
+      "precedence": null,
+      "highLight": "核心管理岗，职权完整：作为仓库一把手，安全/质量/效率/成本/人员全维度负责，是真正意义上的经营操盘手，而非执行层管理者。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789108636000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4760895105",
+      "name": "快乐猴工程经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责快乐猴品牌门店的工程营建项目整体规划、实施与交付，确保项目按时保质完成。  \n2. 统筹门店装修、机电、消防等工程环节，协调设计、施工及供应商资源，控制成本与进度。  \n3. 建立并优化工程营建标准流程与规范，提升门店建设效率与品质一致性。  \n4. 支持新店选址评估，提供工程技术可行性分析与建议。",
+      "jobRequirement": "1. 大学本科及以上学历，建筑、工程管理、土木工程等相关专业优先。  \n2. 具备3年以上连锁零售或餐饮行业工程营建管理经验，有完整项目落地经验。  \n3. 熟悉装修施工流程、材料标准及国家相关法规，具备较强的现场管理能力。  \n4. 具备良好的沟通协调能力与沟通能力，能适应阶段性出差。",
+      "precedence": null,
+      "highLight": "1. 加入快速成长的本土品牌，参与全国门店扩张战略，发展空间广阔。  \n2. 工作氛围轻松有趣，团队年轻有活力，倡导创新与高效协作。  \n3. 提供完善的培训体系与职业发展通道，助力个人专业与管理能力提升。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789108596000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4708859161",
+      "name": "政府投诉调解（北京驻所）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "客服",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-美团平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责协助处理美团全业务政府投诉，快速解决客户问题，提高客户服务体验，增进政府对企业的理解；\n2.协助政府调解投诉事项，坚持以客户为中心快速解决风险客诉问题，化解企业投诉因量变引发的政府侧责令整改、行政处罚等风险；\n3.定期输出政府投诉经典案例，咨询政府部门意见，建立投诉处置的“政府视角”，分析客户诉求，客服痛点，优化客诉处理流程和话术；\n4.分析研判政府投诉风险，遇到业务批量投诉问题和公司解决方案，及时向政府部门预警；\n5.涉及公司的政府投诉、抽检、调查等信息，及时同步相关业务、GA、平台治理团队，争取前置影响。",
+      "jobRequirement": "1.大专及以上学历；\n2.有复杂客户投诉处理经验，具备良好的沟通表达和谈判能力，优秀的跨部门协同合作能力，良好的情绪控制能力；\n3.有良好的风险识别和危机意识，坚持以客户为中心的客户服务意识；\n4.具备一定写作功底，理解能力强，掌握法律法规相关条款，可以通过引经据典的方式让用户能够理解。如《北京市接诉即办工作条例》《食安法》《消保法》《电商法》《电子商务法》《合同法》《个保法》等；\n5.可接受排班排休的工作制度。",
+      "precedence": null,
+      "highLight": "1.良好的组织氛围和平台发展机会；\n2.业务协同机会丰富，关注体验，深度参与服务体验优化和风险防控。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789108582000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4760837732",
+      "name": "快乐猴工程经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "厦门市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责快乐猴品牌在厦门市的门店工程营建规划、实施与验收，确保项目按时保质交付。  \n2. 统筹门店装修、机电、消防等工程方案的设计与优化，控制成本并提升施工效率。  \n3. 管理工程供应商及承包商，监督施工过程，确保符合安全、质量及品牌标准。  \n4. 协同营运团队推进新店开业及老店改造项目，保障工程进度与门店运营无缝衔接。  \n5. 建立并完善工程管理制度与标准流程，提升团队专业能力与项目执行力。",
+      "jobRequirement": "1. 大学本科及以上学历，建筑、土木工程、工程管理等相关专业优先。  \n2. 具备5年以上连锁零售或餐饮行业工程营建管理经验，有完整项目落地经验。  \n3. 熟悉装修、机电、消防等工程规范，具备较强的成本控制和现场管理能力。  \n4. 具备良好的沟通协调能力，能有效管理内外部团队及供应商资源。  \n5. 工作责任心强，能适应阶段性出差及高强度工作安排。",
+      "precedence": null,
+      "highLight": "1. 加入快速成长的本土品牌，参与门店规模化扩张的核心环节。  \n2. 拥有充分的工程管理自主权，推动标准化与创新实践落地。  \n3. 提供完善的职业发展通道与跨部门协作机会。  \n4. 工作地点位于厦门核心区域，办公环境优良，团队氛围积极。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789108552000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4760884842",
+      "name": "快乐猴证照经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责快乐猴品牌门店证照的办理、变更、续期及注销等相关工作，确保门店合规运营。  \n2. 对接政府相关部门，及时了解并跟进政策法规，优化证照办理流程。  \n3. 协调工程营建、营运及法务等部门，确保证照办理与门店开业时间节点匹配。  \n4. 建立并维护证照管理台账，定期核查证照有效性，规避合规风险。",
+      "jobRequirement": "1. 大学本科及以上学历，法律、行政管理、工商管理等专业优先。  \n2. 具备3年以上证照办理或相关行政工作经验，熟悉餐饮或零售行业证照流程者优先。  \n3. 具备良好的沟通协调能力和沟通能力，能高效处理多任务并行工作。  \n4. 工作细致认真，具备较强的责任心和合规意识。",
+      "precedence": null,
+      "highLight": "1. 加入快速成长的连锁品牌，参与门店规模化扩张的关键环节。  \n2. 工作地点位于成都，享受城市活力与团队协同的工作氛围。  \n3. 提供清晰的职业发展路径和跨部门协作学习机会。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789108500000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4760950228",
+      "name": "快乐猴证照经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "厦门市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责快乐猴品牌门店证照的全流程管理，包括新开店证照办理、证照变更及续期等。  \n2. 对接政府相关部门，确保门店证照合规，及时响应政策变化并调整办理策略。  \n3. 建立并维护证照管理台账，定期核查门店证照状态，规避经营风险。  \n4. 协同工程营建、营运团队，保障新店开业证照按时到位，支持门店顺利开业。",
+      "jobRequirement": "1. 大学本科及以上学历，法律、行政管理或相关专业优先。  \n2. 具备3年以上证照管理或相关工作经验，有连锁零售或餐饮行业背景者优先。  \n3. 熟悉厦门市证照办理流程及政策法规，具备良好的沟通协调能力。  \n4. 工作细致、责任心强，具备较强的执行力和沟通能力。",
+      "precedence": null,
+      "highLight": "1. 加入快速发展的快乐猴品牌，参与门店扩张与标准化建设。  \n2. 与跨职能团队紧密协作，提升综合管理能力。  \n3. 提供清晰的职业发展路径和内部晋升机会。  \n4. 工作地点位于厦门市，享受本地化的工作与生活平衡支持。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789108491000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4760976251",
+      "name": "快乐猴设备经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责快乐猴门店设备的全生命周期管理，包括选型、采购、安装、维护及报废处理。  \n2. 制定并优化设备运维标准流程，确保门店设备高效、安全、稳定运行。  \n3. 协调工程营建团队，保障新店开业及旧店改造中设备系统的顺利落地。  \n4. 建立设备故障应急响应机制，快速处理突发问题，降低门店运营影响。  \n5. 分析设备运行数据，提出节能降耗与效率提升的改进方案。",
+      "jobRequirement": "1. 大学本科及以上学历，机械、电气、自动化或相关专业背景。  \n2. 具备3年以上设备管理或工程运维相关工作经验，有连锁零售或餐饮行业背景优先。  \n3. 熟悉商用厨房设备、空调系统、电力系统等基础设施的运行与维护。  \n4. 具备良好的沟通协调能力与项目管理能力，能独立推动跨部门协作。  \n5. 工作责任心强，具备较强的沟通能力与问题解决能力。",
+      "precedence": null,
+      "highLight": "1. 加入快速发展的连锁品牌，参与全国门店扩张与标准化建设。  \n2. 提供完善的培训体系与清晰的职业发展通道。  \n3. 工作地点位于成都，享受具有竞争力的薪酬与福利待遇。  \n4. 团队氛围开放包容，鼓励创新与持续改进。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789108466000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4760940479",
+      "name": "快乐猴设备经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "厦门市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责快乐猴门店设备的全生命周期管理，包括选型、采购、安装、维护及报废处理。  \n2. 制定并执行设备维护计划，确保门店设备高效运行，降低故障率和运营成本。  \n3. 协调工程营建团队，参与新店开业及旧店改造中的设备布局与实施工作。  \n4. 建立设备管理标准与流程，推动门店设备标准化和智能化升级。",
+      "jobRequirement": "1. 大学本科及以上学历，机械、电气、自动化或相关专业优先。  \n2. 具备3年以上设备管理或工程营建相关工作经验，有连锁零售或餐饮行业背景者优先。  \n3. 熟悉常用商用设备（如制冷、通风、POS系统等）的技术原理与维护要点。  \n4. 具备较强的沟通协调能力和项目管理能力，能独立推动跨部门协作。",
+      "precedence": null,
+      "highLight": "1. 加入快速发展的连锁品牌，参与全国门店扩张与升级项目。  \n2. 工作地点位于厦门市，享受灵活的工作氛围与完善的职业发展通道。  \n3. 提供具有竞争力的薪酬福利及专业培训机会。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789108428000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4760975490",
+      "name": "快乐猴维保经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责门店设备设施的维护、保养及故障处理，确保门店正常运营。  \n2. 制定并执行维保计划，优化维保流程，提升设备运行效率。  \n3. 管理维保团队，包括人员培训、任务分配及绩效考核。  \n4. 协调内外部资源，推动维保项目按时保质完成。  \n5. 建立维保数据体系，分析设备运行状况，提出改进建议。",
+      "jobRequirement": "1. 大学本科及以上学历，冷链设计，暖通、机电或相关专业优先。  \n2. 5年以上设备维保或工程营建相关工作经验，有零售或连锁行业背景优先。  \n3. 具备团队管理经验，能带领5人团队高效协作。  \n4. 熟悉设备维保流程及安全规范，具备较强的沟通协调能力。  \n5. 工作责任心强，能适应灵活工作安排。",
+      "precedence": null,
+      "highLight": "1. 加入快速发展的连锁品牌，参与门店扩张与运营优化。  \n2. 提供完善的培训体系与职业发展通道。  \n3. 团队氛围积极，注重员工成长与工作生活平衡。  \n4. 工作地点位于成都，享受城市便利与区域发展红利。  \n5. 具有竞争力的薪酬福利与绩效激励机制。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789108376000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4764188202",
+      "name": "进向运输主管-快驴重庆",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "物流",
+      "cityList": [
+        {
+          "code": null,
+          "name": "重庆市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快驴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、仓服与运力招募：负责仓服、新司机招募及入职管理、培训，持续提升仓服人效。\n2、缺货治理与跟进：分析缺货情况，识别重点卖家，制定改善策略，重点跟进高风险卖家。\n3、短驳运输现场运营：负责城市快驴短驳运输业务现场管理及运营，覆盖提货点、上门揽收、跨城运输、干线运营等场景。\n4、运输效率与成本优化：合理派车，监控并改善装载率，提升短驳运输效率，降低运输成本。\n5、时效质量与客户价值：负责日常运输时效优化及运输质量管理，持续提升服务产品价格竞争力、渗透率、服务能力及客户满意度。\n6、承运商与司机管理：负责承运商运营管理、自招司机运营管理及提揽点仓服管理。\n7、卖家客情维护：定期拜访/回访卖家，收集并反馈需求，协助经理优化服务方案，解决卖家短驳运输问题。",
+      "jobRequirement": "1、大专及以上学历，物流、供应链等相关专业优先。\n2、3年以上物流或运输管理经验，熟悉进向运输流程。\n3、具备良好的沟通协调与团队管理能力，能有效推动跨部门协作。\n4、熟练使用办公软件及物流管理系统，具备基础数据分析能力。\n5、责任心强，了解生鲜商品及物流仓运运营情况。",
+      "precedence": null,
+      "highLight": "1、广阔发展空间：依托美团快驴平台，深入参与物流管理各环节，积累丰富实战经验；提供清晰晋升路径与职业发展规划，助力在物流领域持续突破，迈向更高管理层。\n2、团队协作与创新：团队充满活力与进取心，注重协作与创新，共同推动业务增长；提供丰富团队建设与交流平台，增强凝聚力与归属感，让您获得更多支持与认可。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789108010000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3006639857",
+      "name": "广告销售-易生活-南部大区",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-服务零售事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责南部大区LE广告销售业务的开发与拓展。\n2.负责地面产品销售工作，包括销售渠道的建立和推广。\n3.开展市场调研，了解客户需求，制定销售策略并实施。\n4.负责与客户进行商务谈判，促成广告销售合作。\n5.协助团队达成销售目标，并跟进销售活动的执行情况。\n6.定期进行销售数据分析，提出改进销售策略的建议。\n7.建立并维护客户关系，提供优质的售后服务。",
+      "jobRequirement": "1.大学专科及以上学历，市场营销、广告学等相关专业优先。\n2.具备业务开发或地面产品销售经验者优先考虑。\n3.具备团队合作精神，能够有效带领团队完成销售任务。\n4.具备良好的沟通和谈判能力，能够与客户建立良好的合作关系。\n5.具备较强的市场分析和销售数据分析能力。\n6.能够适应高强度的工作环境。\n7.具备良好的学习能力和自我驱动力，能够持续学习和提升自己的销售技能。",
+      "precedence": null,
+      "highLight": "1.丰富的业务开发和地面产品销售经验，提供机会与优秀团队共同成长。\n2.较大的团队管理空间，有机会培养和带领下属实现个人和团队目标。\n3.上海市作为工作城市，具备广阔的市场发展空间和潜力，为个人职业发展提供广阔平台。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789106748000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4645800885",
+      "name": "产业研究与投资-科技投资",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "公司事务",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "战略与投资平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、对汽车产业链及智能硬件等前沿科技领域进行系统深入的行业研究；\n2、跟踪上述领域国内外前沿技术突破和关键进展、跟进国内外市场动态和主要公司发展情况；\n3、搜集上述领域投资机会，完成项目尽职调查、交易执行与、投后管理等工作。",
+      "jobRequirement": "1、具备上述领域投资/投研/战略BP相关经验： \n2、上述领域科技公司产业经验优先，包括研发、产品、市场等产业实践工作；\n3、研究驱动，逻辑严谨，具备扎实研究能力和学习能力，熟练阅读理解中英文专业文献，良好的沟通表达能力； \n4、Intellectual curiosity、intellectual honesty and intellectual integrity；自驱思考，有强烈的好奇心；愿意遵循first principals进行长期主义的思考；敢于提出非共识的观点，且有能力规划并推进研究来证实或证伪该观点；\n5、有ownership，能做到主动发现问题，解决问题。",
+      "precedence": null,
+      "highLight": "1、系统的方法论学习和投资与研究能力培养体系 ；\n2、良好广阔的成长空间；\n3、求真务实的文化氛围。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789103755000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4728145655",
+      "name": "大模型服务风险防控运营",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "业务运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-美团平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1)负责跟踪大模型风控的趋势，输出政策解读、合规方案和合规策略，面向公司大模型内容提供合规咨询。\n2)基于语言类、多模态类大模型风险防控要求，在大模型内生安全、外置防御、安全测评方面，设计风控策略并推动落地，确保安全与体验的平衡。\n3)根据大模型AIGC内容安全管控要求和范围，结合业务特性进行风险评估，设计出适配业务发展需要的内容安全解决方案并推动落地。\n4)通过数据分析、评测效果反馈，不断优化安全管控策略，提高大模型安全机审和人审防护质量。\n5)与业务、法律、内容安全、GA等团队协作，确保大模型产品符合相关法律法规要求。\n6)﻿风险发生时快速响应，协同产品与技术团队，推动安全问题高效解决。",
+      "jobRequirement": "1）本科以上学历，5年以上运营经验，有大模型内容安全相关行业、产品运营经历、数据处理分析能力的经验优先。\n2）对风险理解较深，对行业保持关注和洞见，能够敏锐的把握政策及风险的动态变化。\n3）熟悉大模型产品，具备与产研技术团队沟通协调的能力。\n4）优秀的逻辑思维能力与数据敏感性，思路开阔，有创新的想法，能持续学习。\n5）具备良好的职业道德，认真负责，主动担当。",
+      "precedence": null,
+      "highLight": "0-1大模型风险防控体系建设。\n全业务条线/跨平台事业，有机会提升多业务思考的视角和跨业务沟通的能力。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789097821000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4709277566",
+      "name": "快乐猴-证照经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "广州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、证照全周期管理：统筹区域所有门店“营业执照”、“食品证”的新办、变更、年检、延期和注销，建立证照状态数字化台账，实现到期预警自动化；\n2、流程体系建设：建立可复用的\"城市证照攻略\"标准化模板，将各城市证照流程文档化，支撑新城市快速复制；\n3、政府关系维护：建立并维护市场、卫生健康、消防、商务等相关政府部门的工作关系，掌握各地政策动态，提前预判合规风险\n4、数字化工具应用：推动证照管理AI化，引入AI自动化监控工具，用AI零代码平台搭建门店证照状态看板，降低人工查检成本；\n5、合规报告输出：定期输出区域证照管理报告，对开业延误风险、证照异常情况进行预警和归因分析；",
+      "jobRequirement": "1、本科及以上，法律/行政管理/工商管理相关专业优先；\n2、3年以上连锁企业证照管理或政府事务经验，有大湾区（广州/东莞/佛山/深圳）本地证照实战经验；\n3、熟悉食品经营许可证、营业执照等主要零售证照办理流程；\n4、具备出色的政府沟通能力和跨部门协调能力；\n5、熟练使用办公软件和数字化管理工具，有OA/证照管理系统使用经验；\n6、对AI技术在相关领域的应用有一定的思考或实践。",
+      "precedence": null,
+      "highLight": "1、从0到1建立体系的机会：证照管理体系正在搭建期，将有机会定义标准、建立流程，而不是接手一个成熟但僵化的系统。\n2、快速扩张带来的成就感。\n3、公司正全力推进AI化转型，打造极具吸引力的AI-Native工作环境。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789097225000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4643399672",
+      "name": "快乐猴-广州店长",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "广州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快乐猴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责门店的日常运营管理，确保公司营运标准高效在门店落地，提升销售、毛利和客户满意度；\n2.负责团队的招聘、培训和绩效管理，确保团队的稳定和高效运作；\n3.管控店内损耗、提升门店人效，优化可控费用（如物料，水电煤等营运费用），达成主要考核KPI；\n4.对内各协同部门的日常高效交互，达成共识，高效执行总部和区域新项目落地；\n5.对外关系的建立维护，如相关政府职能部门（市场管理、消协等）、物业关系，打造协作融洽的合作伙伴。",
+      "jobRequirement": "1.大学专科及以上学历。\n2.至少3年以上线下门店营运管理领域工作经验。\n3.具有良好的团队管理能力、沟通能力和问题解决能力。\n4.具有较强的数据分析能力和业务推动能力，能够制定有效的运营策略和改进方案。\n5.具有责任心，能够独立思考和独立工作。\n6.掌握基本的AI工具，使用工具提升工作流程效率。",
+      "precedence": null,
+      "highLight": "1.提供丰富的线下门店管理经验和团队管理经验的机会。\n2.提供良好的职业发展空间和晋升机会，能够在公司内部快速成长。\n3.薪资福利优厚，公司提供完善的培训体系和职业发展计划，帮助员工实现个人职业目标。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789096900000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4763441099",
+      "name": "闪购-品牌-品牌商务专家（水饮）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-闪购事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、深度理解即时零售以及水饮品类行业情况，参与制定品类运营计划，有行业产品敏感度；\n2、结合品牌发展阶段和痛点，与品牌商共同制定生意经营计划，完成品牌增长目标，为品牌GMV增长及费用投入负责；\n3、统筹品牌商在美团闪购营销需求，有效整合多方资源，跨团队协同项目落地，与品牌商共同完成即时零售心智打造；\n4、带领品牌共创产出行业成功案例，树立行业标杆。",
+      "jobRequirement": "1、3年以上工作经验，熟知品牌商运营方式，有快消相关行业经验优先，有服务/就职Global头部企业经验优先；\n2、0到1经验，具备较好的商务谈判能力，强结果导向，能独立思考并整合资源，对业务结果负责;\n3、善于交流，有良好的团队合作精神和协调沟通能力，有与协同部门等多方密切配合的经验和意识;\n4、逻辑清晰，数据分析能力强，有持续学习能力。",
+      "precedence": null,
+      "highLight": "即时零售行业前景广阔，提供品牌方视角的生意增长操盘经验。零售已成为美团战略核心，酒品类为美团闪购重点发展品类之一，可以接触到丰富的品牌资源，拓宽视野积累丰富经验。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789095176000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4751798237",
+      "name": "企业业务供应链销售直营团队负责人",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-美团平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责企业业务供应链销售直营团队的全面管理，制定并执行销售策略，确保团队达成业绩目标。  \n2. 深度挖掘餐饮/非餐品牌商户在企业业务中的经营诉求，结合企业业务核心战略和企业客户的诉求，综合制定销售和运营策略，提升企业业务整体售卖产品力。  \n3. 带领20人团队进行客户开发、项目跟进与合同谈判，提升团队整体销售能力与执行力。  \n4. 协同产品、运营及交付团队，优化供应链服务流程，提升客户满意度与业务转化率。  \n5. 分析市场动态与行业趋势，及时调整销售策略，推动业务持续增长。",
+      "jobRequirement": "1. 大学本科及以上学历，具备5年以上企业销售、餐饮品牌销售或供应链相关工作经验。  \n2. 有资深餐饮/非餐连锁品牌销售管理经验，熟悉B2B业务模式及供应链行业特点。  \n3. 具备优秀的团队管理能力，有带领20人以上团队的成功案例。  \n4. 出色的沟通协调能力与商务谈判技巧，沟通能力强，结果导向。  \n5. 工作地点为北京市，能适应高频次客户拜访与跨部门协作。",
+      "precedence": null,
+      "highLight": "1. 加入快速发展的企业业务核心团队，参与战略级项目推动。  \n2. 提供具有市场竞争力的薪酬体系与清晰的职业发展通道。  \n3. 与行业头部客户深度合作，积累高端资源与实战经验。  \n4. 扁平化管理环境，鼓励创新与自主决策，发挥个人领导力。  \n5. 完善的培训体系与团队支持，助力个人与团队共同成长。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789095115000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    }
+  ]
+}

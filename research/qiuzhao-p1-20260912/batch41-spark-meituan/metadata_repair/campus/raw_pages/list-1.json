@@ -1,0 +1,1661 @@
+{
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "request_body": {
+    "page": {
+      "pageNo": 1,
+      "pageSize": 20
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jfJgList": [],
+    "jobType": [
+      {
+        "code": "1",
+        "subCode": []
+      }
+    ],
+    "typeCode": [],
+    "specialCode": []
+  },
+  "reviewed_at": "2026-09-12T15:36:57Z",
+  "page": {
+    "pageNo": 1,
+    "pageSize": 20,
+    "totalPage": 10,
+    "totalCount": 189
+  },
+  "rows": [
+    {
+      "jobUnionId": "4739225359",
+      "name": "HR服务与流程优化岗（AI+HR服务方向）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "人力资源",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "工作地点：北京、成都、上海\n\n岗位职责 :\n负责公司各项员工服务的一项或多项运营管理工作，如：员工入离职、社保公积金、人才户政、咨询服务等。以“AI+HR服务”为主线，进行政策规则设计、服务流程智能化改造，并组织服务落地、建设数据看板与指标体系，持续提升员工体验与运营效率。\n1）重构HR共享服务：在日常运营中检视员工服务工作，推动高频、标准化服务向智能模式升级，从服务的AI自助化、人机协同（AI做预处理与辅助，人工做判断与温度）、后台流程自动化（员工无感），到服务主动找人，通过AI实现流程再造，而非简单地替代人工，让AI成为服务运营的第一生产力；\n2）数据驱动的运营迭代：设定运营指标、搭建数据看板，通过AI辅助分析等手段监控服务品质、洞察组织和员工的需求，结合外部环境变化及内部员工声音驱动规则、标准迭代；作为需求方主导智能问答/自助办事的场景挖掘、需求梳理，并持续评估其效果，推动AI能力融入服务流程；\n3）精细化与个性化运营：开展用户研究与内容运营，并基于用户画像推进精细化运营，借助AI工具推动服务内容“千人千面”的精准分发，提升服务效率、员工满意度及服务口碑。",
+      "jobRequirement": "岗位要求 :\n1）2027届本科及以上学历，专业不限；\n2）对AI应用落地有真实热情，日常有使用AI工具的习惯；有“用AI动手做过东西”的经验者优先——解决学习、实习、生活中任一领域的实际问题均可，用AI做数据分析、写小工具、搭自动化流程都算，欢迎玩票爱好者；\n3）对数据敏感，习惯用数据说话，能用Excel做基础分析即可上手，会SQL、BI工具更佳；\n4）学习能力强、好奇心旺盛，能快速适应并上手陌生领域，对“HR Tech”方向有长期兴趣。\n岗位亮点：\n多元的业务场景，真实的AI练兵场：你将深潜员工全生命周期的真实业务，理解丰富的人力资源服务场景与产品；入职后结合个人意愿与业务需要确定主责模块，通过AI推进业务重构——你可以在每一类员工服务里找到落点，每个动作都将直接作用于员工体验与运营效率的提升；\n快速的发展通道：发挥自身所长，主导方案规划并推进落地，作为项目PM完整见证价值创造历程，你的创意能被看见、被采纳，成长快者有机会较早承担带团队职责；\n有趣的导师与同事：资深导师带教，助你快速上手；与一群优秀且不乏有趣的同学并肩共事，高效快乐地合作，在互相成就中加速成长。\n投递提示：简历或补充材料中如有 AI 相关实践（项目、作品、博客均可），欢迎一并附上，我们非常期待看到。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1788259564000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4739169757",
+      "name": "人力资源数字化与AI产品经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "人力资源",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "工作地点：北京、成都、上海、深圳\n\n岗位职责：\n1）做真正落地的 AI 项目：把 AI（大模型、Agent、智能体工作流）真实应用到 HR 场景——员工入离职职、试用期管理、考勤申诉、员工服务台等。端到端负责调研需求、设计AI时代的新流程、对接研发、推动上线、运营迭代，亲眼看到自己参与设计的服务被数万员工使用。\n2）做既懂管理又懂用户的产品经理：通过业务调研、用户需求洞察、内外部对标等方式，理解公司管理与运营要求，推动数字化及 AI 解决方案落地，帮企业提升运营效率，为员工提供frustration-free的服务。",
+      "jobRequirement": "岗位要求：\n1）本科及以上学历，计算机、心理学、统计学、商业分析、人力资源等专业优先；\n2）AI 的重度使用者和实践者：对 AI 技术有热情、有真实实践——深度使用过大模型、写过高质量 prompt、搭过 Agent 或自动化工作流，并有真实用户案例；\n3）较强的数据分析能力，能使用 AI工具或Python、SQL、R 等工具处理大量数据，让判断有依据；\n4）良好的沟通协作和项目管理能力，能协同跨部门团队把事情推动落地；\n5）优秀的逻辑思维能力，善于发现事物间的内在联系，以终为始地开展工作，富有责任心。\n岗位亮点：\n1）多元且真实的业务场景：我们是员工体验提升的先行者。你将接触员工在企业全生命周期的多样场景和产品（不局限于 HR 领域），深入业务一线，通过数据分析和调研访谈挖掘改善员工体验的\"点\"，并通过自动化和智能化服务的引入，把这些\"点\"变成员工可感知的体验升级。\n2）AI 时代的前排座位：HR流程及服务是 AI 落地的重要场景之一。在这里不是\"用 AI 讲故事\"，而是端到端重构管理流程和服务模式。\n3）快速的发展通道：发挥自身所长，规划方案并推进落地，作为项目 PM 见证价值创造的完整历程，并有机会将项目方案和成果直接与公司管理层呈现、探讨。\n4）有趣的导师和同事：资深导师带你成长，与众多优秀且不乏有趣的同学成为同事，高效快乐地合作，共同成长。\n\n投递提示：简历或补充材料中如有 AI 相关实践（项目、作品、博客均可），欢迎一并附上，我们非常期待看到。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1788259564000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4734968293",
+      "name": "【北斗】具身智能运控算法研究员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "美团是中国领先的生活服务科技平台，拥有覆盖数千万商户与数亿用户的真实履约网络。美团无人机是全球率先实现城市低空配送常态化运营的团队。我们正将具身智能技术引入大规模真实物理场景，探索\"让机器像人一样理解世界、自主行动\"的下一代智能体。你将加入具身智能算法核心团队，承担以下职责：\n1. 具身小脑核心算法研发：基于强化学习训练机器人运动与操作策略，实现复杂地形自适应、动态环境下的稳定移动与操作，打通从仿真到真机的端到端部署闭环。\n2. Sim2Real全链路闭环：打通\"RL策略设计训练→仿真验证→Sim-to-Real迁移→真机规模部署\"全链路，持续探索大小脑协同的性能边界，包括模型策略输出与底层运动控制的衔接、安全兜底机制等。\n3. 前沿技术落地：推动RL-based locomotion、loco-manipulation、接触丰富操作、灵巧手控制等前沿技术的真机验证，完成从idea到落地的完整交付。",
+      "jobRequirement": "【岗位要求】\n1. 计算机科学、机器人学、自动化、人工智能等相关专业。\n2. 在以下至少一个领域有深入理论理解与研究：机器人、计算机视觉、多模态大模型、强化学习、仿真与规划控制。\n3. 扎实的工程与代码能力，能够独立完成从前沿研究到工程落地的全链路，熟练运用AI工具辅助解决复杂工程问题。\n4. 具备顶级期刊或会议（如 SR、TRO、RA-L、ICRA、IROS、CoRL等）高质量论文发表经历。\n5. 有机械臂、移动机器人或无人机真机部署与实际操作经验；有大规模仿真训练（如 Isaac Sim、Sapien）经验者优先。\n【为什么是我们】\n1. 直击AGI核心，定义具身智能前沿你将站在具身智能（Embodied AI）与多模态大模型的最前沿，在这里，你不是在使用别人的模型，而是亲自探索机器人领域的 Scaling Law 与泛化边界，做走向通用人工智能的先行者。\n2. 海量真实场景，全链路真机闭环依托美团极其丰富的真实业务场景（无人机/移动机器人/机械臂），你将打通“数据采集→模型训练→仿真评测→真机部署→基于RLHF自我迭代”的完整商业化闭环。\n3. “北斗计划”顶级资源，AI-Native研发环境作为核心人才计划的参与者，你将获得行业顶级的导师资源与充足的GPU算力，支撑超大规模 Foundation Model 训练。团队全面拥抱AI工具，鼓励用最先进的AI手段解决复杂工程问题，不设条条框框，研发效率拉满。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1788147279000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4734984182",
+      "name": "【北斗】世界模型算法工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "美团是中国领先的生活服务科技平台，拥有覆盖数千万商户与数亿用户的真实履约网络。美团无人机是全球率先实现城市低空配送常态化运营的团队。我们正将具身智能技术引入大规模真实物理场景，探索\"让机器像人一样理解世界、自主行动\"的下一代智能体。你将加入具身智能算法核心团队，承担以下职责：\n1. 具身大脑核心算法研发：设计和迭代 World Action Model 或 Video World Model 的模型结构、训练目标与表征方式，支持多模态输入(图像、深度、语言指令、机器人状态、历史动作等)到关节动作输出的统一建模\n2. 构建世界模型与强化学习/模仿学习结合的闭环系统，利用世界模型生成虚拟数据加速策略训练，降低真机数据采集成本，打通\"世界模型→数据生成→策略优化→真机验证\"的完整闭环。\n3. 前沿技术落地：推动World Action Model、Whole Body Control、物理可解释、灵巧手操作等前沿技术的真机验证，完成从idea到落地的完整交付。",
+      "jobRequirement": "【岗位要求】\n1. 计算机科学、人工智能、机器人学、自动化等相关专业。\n2. 在以下至少一个领域有深入理论理解与研究：视频理解与生成、场景重建、多模态大模型、强化学习、WAM(World Action Model)等。\n3. 扎实的工程与代码能力，能够独立完成从前沿研究到工程落地的全链路，熟练运用AI工具辅助解决复杂工程问题。\n4. 具备顶级期刊或会议（如 CVPR、TPAMI、ICCV、ICLR、RSS等）高质量论文发表经历。\n5. 有视频理解与生成、多模态大模型相关的开源社区知名工作。\n【为什么是我们】\n1. 直击AGI核心，定义具身智能前沿你将站在具身智能（Embodied AI）与多模态大模型的最前沿，在这里，你不是在使用别人的模型，而是亲自探索机器人领域的 Scaling Law 与泛化边界，做走向通用人工智能的先行者。\n2. 海量真实场景，全链路真机闭环依托美团极其丰富的真实业务场景（无人机/移动机器人/机械臂），你将打通“数据采集→模型训练→仿真评测→真机部署→基于RLHF自我迭代”的完整商业化闭环。\n3. “北斗计划”顶级资源，AI-Native研发环境作为核心人才计划的参与者，你将获得行业顶级的导师资源与充足的GPU算力，支撑超大规模 Foundation Model 训练。团队全面拥抱AI工具，鼓励用最先进的AI手段解决复杂工程问题，不设条条框框，研发效率拉满。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1788147279000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4727162964",
+      "name": "大模型数据算法工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.参与页面分析挖掘算法的研究与实现，通过算法策略优化页面分类模型、文本分类模型； \n2.利用文本挖掘、图像理解等业界先进技术，对多模态内容进行挖掘与理解； \n3.工作范围涵盖网页筛选与理解、网页与站点分类和去重、多类型非网页类多模态数据的处理和理解。",
+      "jobRequirement": "1.计算机相关专业本科及以上相关学历，具备优秀的理解力、沟通能力和团队协作能力； \n2.熟练掌握 c++/python/Java等编程语言，并且在机器学习，自然语言处理领域有扎实的理论功底和动手能力。具备优秀的逻辑思维能力和数据科学能力，在相关领域比赛中获奖优先； \n3.在信息检索、自然语言处理/图像与视频理解等方面有非常扎实的理论功底，以及丰富的解决实际问题的项目经验。有信息检索相关领域工作经验优先； \n4.善于学习领域前沿技术并能快速应用到实际工作当中，在自然语言处理，信息检索、计算机视觉等领域有相关学术论著优先。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787826965000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4721440023",
+      "name": "选址开发岗",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "广州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、负责选址工作，对所管辖区域的新店选址做现场考察、商圈评估及市场调研工作；\n2、根据本地市场的特点以及公司开店的要求制定战区规划与开店策略；\n3、负责项目的商务谈判、合同谈判、基本工程条件的谈判以及风险预估；\n4、利用相关工具对预选址进行详细分析，做出逻辑清晰、条理分明的选址报告；\n5、负责与公司内部相关团队沟通协作；\n6、负责跟进项目签约、接场、开业的流程。",
+      "jobRequirement": "1、本科学历，专业不限；\n2、自我驱动，有责任感、目标感，具备较强解决问题能力，能适应快节奏工作和出差安排；\n3、具有互联网思维及勇于奉献的主人翁精神，对零售业务模式有较好的了解",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787713003000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4721439045",
+      "name": "设计规划岗（空间设计）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "门店",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、全流程开站设计：负责服务站/前置仓的开站设计全过程，包括现场勘测、平面方案设计、全套施工图与项目设计跟踪落地；\n2、设计标准化建设：主导建立和迭代服务站设计标准库，实现设计资产复用，缩短单站出图周期；\n3、项目管理与交付保障：统筹管理多站点并行设计项目，制定项目计划，协调设计与工程施工节奏，保障开仓时间节点；\n4、跨部门协作推进：深入理解业务变化，与运营、商品、工程等团队协作，将业务痛点转化为设计解决方案，驱动服务站生产力持续提升；",
+      "jobRequirement": "1、本科及以上学历，建筑学/室内设计/环境艺术设计/工民建等相关专业；\n2、具备扎实的多专业设计知识，精通主流设计软件；\n3、有良好的沟通与组织协调能力，结果导向，能适应快节奏工作和出差安排；\n4、对运营数据有分析意识，能结合坪效/动线数据提出设计优化建议；",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787713003000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4712533511",
+      "name": "公共关系岗（公益方向）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "公司事务",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "所属部门：企业社会责任/青山项目组\n工作地点：北京\n岗位职责\n参与餐饮外卖绿色包装应用、回收再生体系建设，推进示范项目落地，开展线上线下运营宣导工作。\n负责数据收集监测，支持环境绩效（碳减排）核算，协助开展相关调研，输出项目台账和研究报告。\n跟踪循环经济、塑料污染治理等行业动态，积累可复用的行业知识库；根据相关方沟通需要，撰写项目报告、案例等材料。\n创新探索AI在青山计划各场景的应用，主动发掘、验证和推动AI在业务中的落地，推动技术赋能可持续发展。",
+      "jobRequirement": "岗位要求\n大学本科及以上学历，环境、材料、包装工程、可持续发展方向等相关专业背景优先。\n对可持续发展有基础认知或浓厚兴趣，有互联网、消费品、咨询或相关领域实习经验优先。\n逻辑思维能力强，善于表达和沟通协作，能与内外部合作方高效对接，执行力强，有自驱力。\n良好的中英文表达能力和数据分析能力，文字功底好，能独立完成会议纪要、项目报告、研究报告等材料。\n具备强烈的好奇心，熟练运用AI工具，有实际使用AI完成研究、分析或产品设计的经历优先。\n岗位亮点\n深度参与美团青山计划，参与可持续发展相关项目，将个人工作与社会价值创造充分链接。\n与各个领域的专家、不同背景的同事一起工作，鼓励创新与探索，积累ESG认知和实战经验。\n提供AI+可持续发展交叉领域的前沿探索空间，用技术手段解决真实的环境问题，在工作中持续拓展能力边界。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787282562000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4703086366",
+      "name": "飞行器设计工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "硬件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "岗位职责：\n1. 负责多旋翼/eVTOL无人机总体方案设计，包括构型选择、气动布局、推重比优化、重量分配及性能指标分解；\n2. 负责全机重量与功耗预算管理，贯穿EVT→DVT→PVT→MP各研发阶段，推动迭代收敛；\n3. 基于动量理论/叶素理论/CFD进行高效静音桨叶设计，并负责动力台架测试及载荷提取；\n4. 开展飞行器全机气动特性仿真（外形阻力仿真、配平仿真、复杂流场分析），指导外形减阻设计、整机降噪设计并主导风洞试验设计；\n5. 开展飞行器的静力学、动力学仿真分析（强度校核、模态、频率响应），确定结构裕度和优化方向；\n6. 结构试验方案制定（静力试验、疲劳试验、坠落/碰撞试验），跟踪试验执行与结果分析；\n7. 将AI工具与方法应用于飞行器设计全流程，提升开发效率、解决方案的智能化水平。",
+      "jobRequirement": "岗位要求：\n1. 学历与专业：硕士及以上学历，航空宇航科学与技术、飞行器设计、空气动力学、固体力学、工程力学、机械工程等相关专业；\n2. 专业基础，在校阶段至少熟悉以下一个方向：\n◦ 总体：熟悉飞行器总体设计流程，掌握多学科权衡与系统集成方法，有FMEA/安全性分析经验；\n◦ 气动：扎实的空气动力学基础，熟练使用CFD工具（Fluent/OpenFOAM/STAR-CCM+），了解旋翼气动理论（动量理论/叶素理论/涡格法）；\n◦ 结构力学：熟练使有限元分析软件，参与过结构力学实验，有复合材料结构或振动分析经验；\n3. 工具能力：在校阶段精通一款CAD、CAE、CFD软件；熟练使用MATLAB/Python进行数据处理与工程计算；\n4.具备AI通用能力：能熟练使用AI工具辅助完成工程设计和计算；\n\n\n为什么加入我们\n• 真实场景驱动：不是实验室里的概念机，我们的无人机每天在城市上空飞行配送，面对真实风场、真实载荷、真实运营挑战；\n• 全栈自研：从飞行器硬件、飞控算法到智能调度系统全链路自研，技术深度和广度兼备；\n• 规模化工程：已实现千架级同时在空运行，你的设计直接影响数百万用户的配送体验；\n• 快速迭代：产品迭代周期短，从设计到试飞验证的闭环反馈快，工程师成长速度快；\n• 前沿探索：下一代长航程构型、新材料应用、智能结构等方向持续投入，技术天花板高。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787060575000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4694877891",
+      "name": "战略与投资分析师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "公司事务",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 行业分析：对所跟踪行业进行行业分析，了解行业动态、新兴业务模式；\n2. 战略规划：参与探索新的商业模式和管理模式，为公司战略发展出谋划策；\n3. 资本市场：参与资本战略研究，保持与资本市场的沟通，参与资本市场项目的运作；\n4. 投资并购：跟踪行业重点项目，投资与并购机会筛选、项目执行；\n5. 国际拓展：探索全球新兴机遇，聚焦行业前沿洞察，支持公司全球拓展计划。",
+      "jobRequirement": "工作要求 : \n1. 专业背景：专业不限，欢迎计算机、电子工程、电气工程、能源、材料、化学、医疗、经管等相关专业领域的同学踊跃投递。\n2. 好奇心驱动：富有好奇心，愿意学习新行业、新知识，喜欢挑战，对 AI 技术及其在各行业中的应用有强烈兴趣，愿意主动探索和运用 AI 工具提升工作效率。\n3. 分析能力：热爱分析问题、解决问题，具备结构化思维和逻辑推理能力。能够熟练使用 AI 工具进行信息检索、数据分析与报告撰写。\n4. 表达与协作：优秀的中英文书面表达与口头表达能力，能够清晰呈现分析结论。善于与团队协作，适应快节奏的工作环境。\n5. AI 素养：熟悉主流 AI 工具，具备利用 AI 辅助完成投研、数据处理、报告生成等工作的能力。\n岗位亮点：\n1. 深入了解本地生活服务领域不同行业的特点，体验与探索前沿科技的魅力。\n2. 团队成员来自于知名投资机构、投资银行、咨询公司、互联网公司等，你将与充满激情、活力与战斗力的团队一起改变世界。\n3. 丰富的培训体系，高频与公司高管、行业大咖交流的机会，不同部门的轮岗体验。\n4. AI 驱动的工作方式：你将有机会在实战中探索 AI 与战投业务的深度融合，成为 AI 时代的新一代战略分析人才。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786961058000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697227230",
+      "name": "营销顾问/商务拓展",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "厦门市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "福州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "杭州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "无锡市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "宁波市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "温州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "苏州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "天津市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "惠州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "石家庄市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "长春市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "珠海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "济南市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "青岛市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "广州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "武汉市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "合肥市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "南京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "沈阳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "大连市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "南宁市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "西安市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "哈尔滨市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "昆明市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "长沙市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "湛江市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "重庆市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "东莞市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "南昌市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "中山市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "佛山市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "郑州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 承接执行公司销售策略及政策，负责区域内新商户的拓展、老商户的维护，与商户建立长期稳定的商务合作关系，达成业绩目标；  \n2. 通过深入了解商户需求，结合区域消费市场特征制定个性化营销和运营方案并促成更多元的合作，帮助商家提升经营水平；  \n3. 通过与公司各部门有效配合，快速解决商户经营中遇到的问题及突发事件，及时处理来自商家和消费者的投诉、反馈、建议等，提高消费者和商家的满意度；  \n4. 通过及时收集区域内商户和消费者意见，了解当地市场信息等对业务提出发展参考意见，持续帮助树立企业优良品牌。",
+      "jobRequirement": "1. 本科及以上学历，市场营销等相关专业优先，热爱销售； \n2. 具备较强的学习能力和韧性，能够适应互联网行业的快速发展； \n3. 具备较好的人际敏感度、逻辑思维能力，能够准确把握产品优势和客户心理，高效整合内外部资源。\n岗位亮点： \n1. 公司提供完善的员工福利：社保公积金+补充商业保险、法定节假日之外的额外带薪假期； \n2. 公司拥有完善的培训体系和转岗、晋升机制，可以帮助员工不断提升多项专业技能和管理技能；  \n3. 团队士气高，有激情，工作氛围好。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786961058000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697213423",
+      "name": "商户/客户服务管理培训生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "客服",
+      "cityList": [
+        {
+          "code": null,
+          "name": "张家口市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "扬州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "南通市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "石家庄市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "洛阳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "武汉市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 通过一段时间系统化的培养学习，达到独立承担所负责岗位的职责，具备基础的管理能力； \n2. 支持优化客户服务系统，提高客户整体满意度； \n3. 协助制定业务标准及流程，负责客服团队一线员工的业务辅导和绩效考核； \n4. 将理论应用于实践，及时发现业务的痛点，并积极主动优化业务流程。",
+      "jobRequirement": "工作要求 : \n1. 本科及以上学历； \n2. 热爱电子商务行业，有较高的耐心和责任心，工作积极主动； \n3. 具有较好的组织协调能力和发展潜力，学习能力强； \n4. 具有良好的服务意识，有韧性，具有较好的自我调整能力； \n5. 具有创新意识、问题解决能力和逻辑思维能力。 \n岗位亮点 ：\n1. 具有配套的科学培训体系，培养方案系统且专业； \n2. 通过在不同业务线的培训学习，可在短期内达到基础管理岗标准； \n3. 团队足够优秀，大家一起学习、交流，共同进步和成长； \n4. 通过培养方案打造成最适合美团服务体验部的复合型管理人才，形成文化认同、潜力出众、跨专业复合型的优秀管理后备人才梯队，更有利于个人职业规划和长期发展。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786961032000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697288183",
+      "name": "城市运营管理储备岗",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "业务支持",
+      "cityList": [
+        {
+          "code": null,
+          "name": "温州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "苏州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "烟台市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "绍兴市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "沈阳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "南宁市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "兰州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "昆明市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "贵阳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "珠海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "长沙市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "银川市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "重庆市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "济南市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "洛阳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "南昌市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "郑州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "佛山市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "武汉市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 从一线业务场景切入，全方位了解并学习城市运营运作模式、流程及标准；  \n2. 通过现场管理、指标监控和数据分析等方式，制定负责区域的经营策略，促进区域业务目标的达成；   \n3. 负责城市资产的健康管理及仓库现场管理，保障仓库安全及车辆维修质量和效率； \n4. 负责组建和管理运维团队，包括但不限于招聘、选拔，培训、激励等，并能通过排班与考勤管理等方式合理安排团队工作，通过既有的标准流程传达工作目标并检核团队工作；\n5. 对接区域内相关部门，配合各部门对负责区域内的城市运营问题进行管理。",
+      "jobRequirement": "工作要求：  \n1. 本科及以上学历，专业不限，拥有校内外创业、实习或兼职等实践经验；  \n2. 对共享两轮行业兴趣浓厚，能接受户外工作和工作城市调动；  \n3. 拥有较强的沟通协调能力和逻辑思维，以目标为导向，不断学习与成长； \n4. 具备较好的发展意愿，有韧性。\n岗位亮点： \n1. 完善的培养体系和丰富的学习资源：入职后将配备专属专业导师，协助制定发展目标，系统带教和辅导，并提供丰富的课程学习资源，有机会在不同岗位上历练成长。  \n2. 管理者的发展路径：有明确的成长路径，能够通过美团的管理培训体系和实践，快速走向重要管理岗位。\n3. 统筹管理的开阔视野：工作内容涉及管理、运营等方面，可以培养经营和财务思维，助力个人全面发展。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786961032000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697308025",
+      "name": "商户运营专员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "如果你对以下任意一个方向感兴趣，欢迎网申这个岗位。 \n【酒店旅行-收益管理方向】 \n1. 定价运营：负责酒店收益管理工作，包含库存和价格的制定调整，完成营收目标以及品牌价格要求；   \n2. 收益管理策略迭代：根据当地市场情况，结合市场供需、竞争变化的情况，迭代门店的收益策略；   \n3. 团队协同和沟通：和项目多职能人员保持良好的沟通合作，共同达成项目目标。 \n\n【核心本地商业-商户运营方向】 \n1. 负责全国商户线上运营方案，对商户的经营改善负责，促成商户与平台的持续合作；  \n2. 通过主动电话外呼，与合作商户负责人建立客情，洞察经营需求，并提供专业的线上营销解决方案，提升线上售卖量，提高门店运营效率；   \n3. 及时处理商户在交易类产品、线上营销活动、商家系统使用中遇到的问题，提高商户及用户满意度；  \n4. 处理客户异议，促成合同签约，并与渠道经理进行客户信息交接，为渠道经理开展后续工作提供支持。\n  \n【充电宝业务-商户运营方向】 为有志于从事美团充电宝渠道业务的合作商提供项目推介、方案制定及合同签约等工作，助力合作商创业成功，为用户提供便捷充电服务。  \n1. 通过电话和微信对于公司下发的客户商机进行有效跟进，主动探寻客户需求，提供充电宝行业及产品介绍；  \n2. 根据客户所处地区市场、资金情况及资源情况，为客户拟定充电宝合作项目方案；  \n3. 处理客户异议，促成合同签约，并与渠道经理进行客户信息交接，为渠道经理开展后续工作提供支持；\n4. 积极反馈商机跟进过程中发现的问题，并为商机投放提供建议，帮助投放组持续优化投放策略；  \n5. 积极参加公司组织的各项培训，可以保持开放的学习心态并具备岗位必备的技能要求。",
+      "jobRequirement": "【酒店旅行-收益管理方向】 \n1. 本科学历，不限专业和实习经验，对酒店行业和收益管理感兴趣； \n2. 学习能力强，对数据敏感，认真负责； 3. 优秀的沟通能力和表达能力，能够主动、有效地与内部及其他职能部门沟通。 \n\n【核心本地商业-商户运营方向】 \n1. 本科学历，电子商务、工商管理及市场营销类专业优先； \n2. 热衷于通过提供解决方案帮助商户获得成功； \n3. 思维敏捷，能够准确把握平台优势和商户诉求，高效整合各类运营举措促成商户合作；  \n4. 为人正直，有韧性，有较强的学习能力和适应能力。 \n\n【充电宝业务-商户运营方向】\n1. 本科学历，专业不限（电子商务、工商管理及市场营销类专业优先）；  \n2. 沟通表达清晰，具备较强的人际沟通能力和灵活应变能力，有责任心和担当，为人正直；  \n3. 有较强的学习能力，能较快吸收并运用知识，有基础的数据分析和总结能力；  \n4. 对销售工作有较高的热情，性格坚韧，勇于接受挑战并有进取心； \n5. 能适应互联网的快速发展节奏。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786961031000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4694732393",
+      "name": "渠道管理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "南京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "西安市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "利雅得",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "广州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "哈尔滨市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "武汉市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "郑州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【合作商渠道管理方向】 \n1.负责区域内目标合作商的挖掘和洽谈合作工作，并带领合作商完成美团业务目标； \n2.协助合作商组建和管理团队，辅导和监督合作商做好团队的管理工作； \n3.给合作商团队成员有效的培训和辅导； \n4.总结梳理合作商团队工作中的关键动作，使之流程标准化并落地执行；\n5.从业务数据中发现问题，持续优化合作商的业务和管理； \n6.从合作商的角度出发思考问题，保证合作商与美团在资源互补、目标一致的方向健康发展； \n7.对合作商团队进行公平公正且有效的工作考核，对不符合考核标准的合作商进行坚决清退。 \n\n【外卖柜渠道管理方向】 \n1.利用渠道或直拓的方式对空白市场点位进行拓展，补充低效点位空缺，提升点位规模；\n2.基于存量外卖柜点位，通过对物业关系的掌握及日常服务响应，提升与点位间合作粘性及续签率，为点位规模稳定性负责； \n3.保持与外卖柜运维商的沟通及监控，协助总部管理运维商线下运维动作，保障柜机清洁及正常运转； \n4.识别并总结影响单量、收入的核心因素，基于对总部输出的标准方案的指引，制定符合当地业务特点的提升收入目标的有效策略或建议，并负责落地执行，为单量及收入指标负责。\n\n其中部分境外岗位面向2025年6月至2027年10月毕业的全球毕业生，如遇系统投递问题，请前往Keeta Careers英文招聘官网投递。",
+      "jobRequirement": "工作要求 : \n1. 本科及以上学历，有销售类实习经验优先； \n2. 有强大的自驱力，渴望成功； \n3. 出色的人际沟通能力、团队协作精神与团队建设能力； \n4. 能接受区域内长期出差； \n5. 精力充沛，能出色完成任务； \n6. 认同并有意愿去学习打造超强执行力的团队； \n7. 为人力行正道，强烈认同以客户为中心、团队合作、拥抱变化、诚信、勤俭、敬业、学习成长的美团价值观。\n岗位亮点：\n完善的晋升和考核机制，负责管理区域内渠道业务的全闭环，良好的公司文化以及团队氛围，成长空间大。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786961031000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697233231",
+      "name": "大客户合作岗",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "杭州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "石家庄市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "迪拜",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "广州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "武汉市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "如果你对以下任一方向感兴趣，欢迎网申这个岗位。\n【核心本地商业-到店业务方向】\n1、推进全国头部本地生活行业大型连锁品牌与美团在品牌营销、促销、用户运营等领域深度合作；\n2、研究本地生活行业特点，深入了解品牌经营，帮助品牌制定专业线上线下解决方案并落地运营；\n3、通过行业、品牌和线上经营数据分析指导客户经营迭代；\n4、在合作中做好平台和商户的深度链接，反向推动平台B端和C端产品变革；\n5、深入洞察行业现状，打磨合作方法论并预判行业趋势；\n6、借助AI辅助品牌经营分析和方案输出，通过智能化手段提升客户洞察效率。\n【核心本地商业-到家业务方向】\n1、知晓行业客户分布、标杆客户和竞对策略等，寻找商机；\n2、与关键决策人建立并保持客户关系，制定谈判计划，影响其决定；准确评估客情深度；\n3、识别客户需求并主动提出优化方案；\n4、推动项目问题解决、协调资源优化流程；收集客户问题并给予建议；\n5、分析行业和竞对数据，基于客户需求撰写定制分析报告，输出策略；\n6、月度拜访、季度组织高层沟通；\n7、善用AI辅助客户洞察、竞对分析及定制化方案撰写，提升商机识别与策略输出效率。\n【核心本地商业-境外酒店港澳业务方向】\n1、协助团队推进港澳酒店合作，在品牌营销、用户运营等领域合作落地，参与客户需求沟通与方案执行；\n2、支持销售完成酒店信息录入和产品维护，保障线上数据准确完整；\n3、协助商家系统操作培训，帮助酒店掌握订单管理、房态维护等技能；\n4、定期收集竞品价格、活动信息，输出报告，支持销售策略优化；\n5、审核更新美团平台酒店页面基础信息，提升用户体验；\n6、协助数据看板维护及可视化呈现；\n7、运用AI辅助整理市场数据、竞品分析及运营报告产出，提升数据处理效率。\n【骑行业务方向】\n1、支持骑行业务区域开拓发展，与重要关联方保持战略沟通并推进布局；\n2、协助区域管理者拓宽和维护主管部门关系；\n3、研究互联网交通行业政策法规，配合政策推动交通业务落地；\n4、协调主管部门与企业发展的关系，联动业务、产品、技术等部门，挖掘利用内部资源赋能业务。\n【无人机业务方向】\n1、推进美团无人机在纵向行业或横向区域的业务合作；\n2、对垂类大KA客户负责，推进美团无人机与价值客户的业务合作；\n3、探索与推进低空航网，推动商业客户合作。",
+      "jobRequirement": "【核心本地商业-到店业务方向】\n1. 本科及以上学历；\n2. 对创新项目有兴趣，有很强的学习能力和适应能力，适应互联网行业的快速发展，精力充沛；\n3. 具备AI工具应用意识，能主动探索并使用AI辅助完成数据分析、方案撰写等工作场景，有实际使用经验者优先。\n【核心本地商业-到家业务方向】\n1. 本科及以上学历；\n2. 具备较强的结构化思考与沟通能力、不错的文案撰写和讲解能力，有很强的目标意识和自驱力；\n3. 思路清晰，能够准确把握产品优势和客户心理，高效整合内外部资源促进业绩达成；\n4. 积极主动，正直诚信；\n5. 了解并能使用AI辅助工具进行客户分析、报告撰写、信息检索等日常工作，具备持续学习AI新工具的意愿。\n【核心本地商业-境外酒店港澳业务方向】\n1. 本科及以上学历，市场营销、商科、旅游管理等相关专业优先；\n2. 责任心强，工作细致，具备良好的沟通能力与团队协作意识；英语四级以上，可熟练处理英文资料；熟练使用办公软件，有粤语能力加分；\n3. 对酒店旅游行业有浓厚兴趣，有相关实习经验者优先；\n4. 具备AI工具使用意识，能借助AI辅助完成数据整理、信息翻译、报告产出等任务，提升工作效率。\n【骑行业务方向】\n1. 本科及以上学历；\n2. 善于沟通和协调，具有较好的人际关系处理能力和应变能力，善于跨部门沟通协同；\n3. 有良好的团队合作精神，积极主动；\n4. 逻辑思维能力优秀，具有扎实的文字功底和方案输出能力。\n【无人机业务方向】\n1. 本科毕业，211/985或同级别海外院校，理工科背景，对科技领域、低空具身有浓厚兴趣，对市场类工作有一定认知。\n2. 具备数据分析能力和行业洞察力，对餐饮、医疗、电力、教育等垂直行业有过实习或者调研经验\n3. 了解头部KA或央国企或部委到地方侧的工作内容和工作方式\n\n\n其中部分境外岗位面向2025年6月至2027年10月毕业的全球毕业生，如遇系统投递问题，请前往Keeta Careers英文招聘官网投递。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786961031000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697296162",
+      "name": "安全工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "运维",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "Web应用安全方向\n1.负责应用安全开发生命周期体系的设计、优化、落地；识别潜在安全风险并提供解决方案；\n2.负责应用安全测试，如SAST、DAST等，跟踪漏洞修复；\n3.研究构建基于大模型的漏洞挖掘框架和工具，负责大模型应用安全架构设计与风险评估。\n安全运营方向\n1.负责安全告警运营、事件应急与排查，推动风险修复；推动安全漏洞的修复及能力建设；\n2.负责安全攻防能力建设，以及基于AI的安全检测策略和模型的设计开发；\n3.研究前沿安全技术，利用AI辅助威胁情报分析与自动化应急响应，通过攻防演练进行风险评估并提供防御建议。\n移动安全方向\n负责移动端平台（Android/iOS/鸿蒙等）攻防体系建设，含移动端安全组件开发、代码保护、黑灰产对抗等。\nWindows/macOS安全方向\n参与安全客户端软件的架构设计、漏洞挖掘与攻防研究，探索AI辅助的二进制漏洞自动化发现，转化成果保障主机及数据安全。\n系统安全方向\n负责动静态程序分析与漏洞挖掘的能力建设；对Windows/macOS等系统做漏洞挖掘与攻防技术研究；研究AI驱动的模糊测试与程序分析技术在系统安全中的实际应用。\n云安全防御方向\n1.负责云风险评估和安全架构设计，识别潜在的安全漏洞与配置缺陷，建设云平台安全控制体系；\n2.与开发、运维团队协作将云安全加固融入CI/CD流程，利用AI辅助配置合规检测实现安全左移；\n3.跟踪云安全领域最新漏洞与AI驱动的攻击手法，制定预案并推动修复。\n数据安全方向\n1.负责数据安全感知和运营体系建设（数据资产地图、大模型安全等）；\n2.跟踪业界安全攻防动态，利用AI辅助数据流转风险识别，评估数据安全水位并提供防御建议；\n3.负责Win/Mac端DLP、EDR等安全软件的设计、研发与优化。\n安全攻防方向\n1.通过红蓝对抗攻防演练持续评估公司安全对抗能力及安全水位；\n2.负责内外部产品漏洞及其武器化研究，利用大模型辅助漏洞挖掘自动化和PoC生成；\n3.跟进最前沿的安全攻防技术、AI驱动的自动化攻击手法与防御方案。\nAI安全方向\n1.负责美团内部Agent组件与大模型自身安全的攻防对抗研究，形成安全检测与防御能力；\n2.将AI应用于美团安全子领域，负责AI Agent安全应用的架构设计、模块研发并推动落地\n3.负责AIGC识别和检测算法研究落地",
+      "jobRequirement": "【岗位要求】\n1. 信息安全、计算机科学、人工智能、统计学、数学等相关学历及专业背景；\n2. 熟悉主流网络攻防技术和原理；\n3. 至少熟悉Python、Java、Go中的一门语言，有过实际开发实践；\n4. 熟悉业界安全攻防动态，追踪最新安全漏洞，能够分析漏洞原理并实现PoC编写；\n5. 能够无障碍阅读英文技术文献；\n6. 逻辑清晰、表达能力强，有良好的团队合作精神和主动沟通意识；\n7. 具备AI/大模型基础能力：了解Transformer架构原理，能使用大模型辅助安全分析（如利用LLM进行代码审计、日志分析、威胁情报提取）或具备Prompt Engineering实践经验。\n具备以下经验者优先\n1. 有大型互联网企业安全实习经验； \n2. 发表过有深度的安全技术文章或独立挖掘过知名开源应用/大型厂商高危漏洞； \n3. 有大型CTF比赛（DEFCON、XCTF等）获奖经历； \n4. 有AI安全相关研究或实践经验（如大模型越狱攻防、对抗样本生成、AI Agent安全评测、AIGC检测等）； \n5. 有使用大模型辅助漏洞挖掘、自动化渗透测试、智能Fuzzing等AI+安全交叉实践经验； \n6. 有大数据分析相关经验，了解Hadoop、Spark等大规模数据处理平台； \n7. 在安全或AI方向顶级会议（如CCS、S&P、USENIXSecurity、NeurIPS、ICML等）发表过文章。\n岗位亮点 \n1. AI安全最前沿：深度参与大模型安全攻防（越狱对抗、Agent安全、MCP协议安全），在美团日千万级流量规模下实战检验AI安全方案； \n2. 技术成长快速通道：与Web/二进制/内核/AI安全等多领域专家共事，支持顶会论文发表和安全社区影响力建设； \n3. 大规模数据驱动：海量IDC和日志资源，有机会构建AI驱动的智能安全检测与自动化应急响应体系； \n4. 跨领域成长空间：8大安全方向可探索，支持从传统安全向AI安全方向转型发展。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786961030000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697300133",
+      "name": "业务运营管理岗",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "业务运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "如果你对以下任意一个方向感兴趣，欢迎网申这个岗位。 \n1. 制定客服/商服体系业务规划、服务标准及政策，梳理及优化服务流程，进行呼入总量预测与分解，提高服务运营效率与质量；  \n2. 设计并不断优化服务标准，通过全渠道多种监控方式发现流程和人员执行的问题，输出高价值监控报告，推动问题改善，缩小用户期望的服务与实际感知到的服务之间的差距；  \n3. 深入了解业务，基于需求变化、外部竞争、内部状态等视角，全面地思考，结合整体的业务目标，挖掘业务机会点；联合BA、数据产品对指标数据定义统一口径，搭建业务指标体系，并推进建设数据工具；通过对数据的监控，追踪关键指标的进展，发现问题并推进改善问题，提升营运标准；负责业务团队的日常数据监控，日、周、月报的维护和输出。",
+      "jobRequirement": "1. 本科及以上学历； \n2. 能够以客户为中心，具备正直诚信的价值观，沟通顺畅，有韧性； \n3. 具备较好的流程拆解和标准化能力，较强的分析、归纳、总结能力；能够通过数据分析发现业务问题，将一线解决方法标准化、可视化、流程化；  \n4. 具备较好的过程管理能力，能够通过数据、会议、异常监控等方式推进一线工作目标的过程管理；  \n5. 具备较好的项目管理能力，良好的沟通能力和同理心，跨部门协作能力；  \n6. 具备较强的逻辑思维，通过逻辑判断迅速定位问题，解析影响用户体验的具体因素，并提供合理化的解决方案；  \n7. 具有一定的创新精神，积极思考解决问题，热爱互联网行业，追求个人价值与事业的双向成功。",
+      "precedence": null,
+      "highLight": "",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786961030000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4695077600",
+      "name": "办公安全岗",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "行政",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "该岗位北京，上海，广州，深圳均有招聘，欢迎投递。\n岗位职责：\n1. 专业运营与标准建设：参与办公安全专业的标准化体系建设，覆盖消防合规、装修审查、职业健康、疏散风险评估等，协助制定规范、流程与检查标准并落地 SOP；\n2. 安全数据监控与现场治理：运用安全三盏灯等指标体系跟踪 site 安全评分，参与 SOC 数据监控与预警；参与现场巡检、隐患整改闭环，统筹消防演练、应急管理等专项工作；\n3. 安全系统建设运营：参与办公安全信息化系统（安全驾驶舱、智能视频巡检、门禁、访客系统）的需求梳理、数据分析与日常运营；\n4. 安全设备硬件选型：参与安全设备（视频监控、门禁、消防、报警等）的选型评估，结合办公室特点与风险等级制定差异化配置标准，推动设备全生命周期管理；\n5. AI 工具探索与落地：识别可被 AI 重构、简化或自动化的环节，推动 AI 工具建设与流程再造；探索 AI Agent 在安全场景落地，让 AI 承接标准化、重复性工作，提升管理效率与质量。",
+      "jobRequirement": "岗位要求：\n1. 本科及以上，安全工程、环境工程、消防工程、行政管理等相关专业优先；偏系统建设方向者，计算机、电子信息、机械自动化、电气/通信工程等亦优先；\n2. 责任心强、执行力强，有风险意识和安全敏感度，能主动发现并推动解决安全问题；\n3. 沟通协调能力好，能跨区域、跨部门推进安全治理，适应出差与现场巡检，具备数据敏感度；\n4. AI 能力：具备 AI 通识或基础编程能力，能主动使用 AI 工具提升安全管理与协作效率。\n优先：有安全管理、物业安全、消防合规类实习或项目经验；掌握基础编程（Python/JavaScript 等），了解 YOLO 等 CV 模型或有视频分析经验；有 Agent、RPA、自动化工具或弱电/安防/消防系统经历。\n岗位亮点：\n1. 参与覆盖全国的安全管理体系建设，标准影响范围广，直接影响多办公室员工的安全体验；\n2. 横跨消防、装修、职业健康、应急管理等多专业，快速成长为懂业务、懂合规、懂数据的复合型安全人才；\n3. 安全三盏灯等数据化工具体系成熟，专业体系完整，新人可快速进入专业深井；\n4. 软硬结合：既参与安全软件系统运营建设，也参与硬件设备选型，全面理解安全业务的\"软硬一体\"。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786961030000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697301118",
+      "name": "软件开发工程师（安全工程师）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "1",
+      "jobSpecialCode": "1",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "Web应用安全方向 \n1.负责应用安全开发生命周期体系的设计、优化、落地；识别潜在安全风险并提供解决方案； \n2.负责应用安全测试，如SAST、DAST等，跟踪漏洞修复； \n3.研究构建基于大模型的漏洞挖掘框架和工具，负责大模型应用安全架构设计与风险评估。\n安全运营方向 \n1.负责安全告警运营、事件应急与排查，推动风险修复；推动安全漏洞的修复及能力建设； \n2.负责安全攻防能力建设，以及基于AI的安全检测策略和模型的设计开发； \n3.研究前沿安全技术，利用AI辅助威胁情报分析与自动化应急响应，通过攻防演练进行风险评估并提供防御建议。\n移动安全方向 \n负责移动端平台（Android/iOS/鸿蒙等）攻防体系建设，含移动端安全组件开发、代码保护、黑灰产对抗等。\nWindows/macOS安全方向 \n参与安全客户端软件的架构设计、漏洞挖掘与攻防研究，探索AI辅助的二进制漏洞自动化发现，转化成果保障主机及数据安全。\n系统安全方向 \n负责动静态程序分析与漏洞挖掘的能力建设；对Windows/macOS等系统做漏洞挖掘与攻防技术研究；研究AI驱动的模糊测试与程序分析技术在系统安全中的实际应用。\n云安全防御方向\n1.负责云风险评估和安全架构设计，识别潜在的安全漏洞与配置缺陷，建设云平台安全控制体系；  \n2.与开发、运维团队协作将云安全加固融入CI/CD流程，利用AI辅助配置合规检测实现安全左移；   \n3.跟踪云安全领域最新漏洞与AI驱动的攻击手法，制定预案并推动修复。\n数据安全方向\n1.负责数据安全感知和运营体系建设（数据资产地图、大模型安全等）； \n2.跟踪业界安全攻防动态，利用AI辅助数据流转风险识别，评估数据安全水位并提供防御建议；  \n3.负责Win/Mac端DLP、EDR等安全软件的设计、研发与优化。\n安全攻防方向 \n1.通过红蓝对抗攻防演练持续评估公司安全对抗能力及安全水位； \n2.负责内外部产品漏洞及其武器化研究，利用大模型辅助漏洞挖掘自动化和PoC生成； \n3.跟进最前沿的安全攻防技术、AI驱动的自动化攻击手法与防御方案。\nAI安全方向 \n1.负责美团内部Agent组件与大模型自身安全的攻防对抗研究，形成安全检测与防御能力；\n2.将AI应用于美团安全子领域，负责AI Agent安全应用的架构设计、模块研发并推动落地\n3.负责AIGC识别和检测算法研究落地",
+      "jobRequirement": "【岗位要求】\n1. 信息安全、计算机科学、人工智能、统计学、数学等相关学历及专业背景；\n2. 熟悉主流网络攻防技术和原理；\n3. 至少熟悉Python、Java、Go中的一门语言，有过实际开发实践；\n4. 熟悉业界安全攻防动态，追踪最新安全漏洞，能够分析漏洞原理并实现PoC编写；\n5. 能够无障碍阅读英文技术文献；\n6. 逻辑清晰、表达能力强，有良好的团队合作精神和主动沟通意识；\n7. 具备AI/大模型基础能力：了解Transformer架构原理，能使用大模型辅助安全分析（如利用LLM进行代码审计、日志分析、威胁情报提取）或具备Prompt Engineering实践经验。\n具备以下经验者优先\n1. 有大型互联网企业安全实习经验； \n2. 发表过有深度的安全技术文章或独立挖掘过知名开源应用/大型厂商高危漏洞； \n3. 有大型CTF比赛（DEFCON、XCTF等）获奖经历； \n4. 有AI安全相关研究或实践经验（如大模型越狱攻防、对抗样本生成、AI Agent安全评测、AIGC检测等）； \n5. 有使用大模型辅助漏洞挖掘、自动化渗透测试、智能Fuzzing等AI+安全交叉实践经验； \n6. 有大数据分析相关经验，了解Hadoop、Spark等大规模数据处理平台； \n7. 在安全或AI方向顶级会议（如CCS、S&P、USENIXSecurity、NeurIPS、ICML等）发表过文章。\n岗位亮点 \n1. AI安全最前沿：深度参与大模型安全攻防（越狱对抗、Agent安全、MCP协议安全），在美团日千万级流量规模下实战检验AI安全方案； \n2. 技术成长快速通道：与Web/二进制/内核/AI安全等多领域专家共事，支持顶会论文发表和安全社区影响力建设； \n3. 大规模数据驱动：海量IDC和日志资源，有机会构建AI驱动的智能安全检测与自动化应急响应体系； \n4. 跨领域成长空间：8大安全方向可探索，支持从传统安全向AI安全方向转型发展。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786961030000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    }
+  ]
+}

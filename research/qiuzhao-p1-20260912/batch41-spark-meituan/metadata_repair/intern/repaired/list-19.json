@@ -1,0 +1,948 @@
+{
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "request_body": {
+    "page": {
+      "pageNo": 19,
+      "pageSize": 20
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jfJgList": [],
+    "jobType": [
+      {
+        "code": "2",
+        "subCode": []
+      }
+    ],
+    "typeCode": [],
+    "specialCode": []
+  },
+  "reviewed_at": "2026-09-12T16:04:52Z",
+  "page": {
+    "pageNo": 19,
+    "pageSize": 20,
+    "totalCount": 416,
+    "totalPage": 21
+  },
+  "rows": [
+    {
+      "jobUnionId": "3532538442",
+      "name": "AI产品实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "产品类",
+      "jobFamilyGroup": "产品",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "广州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-美团平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.进行用户需求调研和用户行为分析，收集和整理用户反馈和数据，为产品设计提供支持。\n2.参与AI产品的需求分析、设计和开发工作，协助团队完成产品功能的优化和迭代。\n3.参与产品迭代优化，发现和解决产品中的问题，提高产品质量和用户体验。",
+      "jobRequirement": "1.大学本科及以上学历，计算机、人工智能、市场营销等相关专业优先。\n2.对人工智能技术有浓厚兴趣，熟悉常用的AI产品和工具，有较强的学习能力和解决问题能力。\n3.具备良好的团队合作精神和沟通能力，有较强的学习能力和解决问题的能力。",
+      "precedence": null,
+      "highLight": "1.参与大模型的用户产品探索，了解人工智能技术和产品设计前沿趋势，提升自己的产品能力。\n2.与一流的产品经理和开发团队合作，学习和掌握产品设计和开发流程，了解产品上线和运营的全过程。\n3.团队氛围好，可获得丰富的实践经验，参与产品的设计、测试和优化，锻炼问题解决和团队合作能力。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1752117386000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3394933538",
+      "name": "【北斗实习】大模型应用算法工程师-【Reasoning能力提升】",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】\n通用模型往往难以兼顾多样化的场景需求，容易出现泛化能力强但针对性不足的问题。针对这一挑战，本课题聚焦于研究面向具体业务或应用场景的强化学习训练优化策略，通过引入场景特定的奖励函数、环境建模和数据采样机制，提升模型在特定任务下的表现能力与适应性。课题重点突破模型在细粒度场景下的泛化能力不足、奖励稀疏、训练效率低等问题，为大模型的行业落地提供有力支撑。\n【建议研究方向】\n1.场景特定奖励设计：针对不同业务场景，定制化设计奖励函数，提升模型在目标任务中的表现能力。\n2.环境模拟与数据生成：构建高保真场景模拟环境，开发高效的数据采样与生成机制，提升强化学习训练效率。\n3.迁移与泛化能力增强：研究多场景迁移学习与元强化学习方法，提升模型从通用能力到场景定制能力的转化效率。\n4.推理增强型RAG系统：基于图结构的知识融合、混合模型的协同推理架构和强化学习驱动的优化方法，进一步提升RAG系统能力。\n5.基于价值观约束的大模型风险控制与安全防护。",
+      "jobRequirement": "海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1）超级学霸：专业成绩排名前1%。\n2）学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3）竞赛大神：在顶级大赛上获奖。\n4）工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1748312913000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3396084629",
+      "name": "【北斗实习】大模型应用算法工程师-【多场景Agent】",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】\n以大模型对话技术为核心，探索前沿技术问题。研究方向包括角色扮演、个性化对话、记忆管理，拟人化，数字人等，主要业务场景包括运营，招聘，销售，审核等。目标是构建覆盖多个场景的Agent系统，实现“技术驱动业务范式”的升级转变。\n【建议研究方向】\n1. 大模型个性化（Personalized LLM）：通过角色扮演、用户行为数据挖掘与建模、上下文理解等方法，分析用户情感状态，提升模型的个性化回复能力。\n2. 面向语音交互的拟人化技术（Voice Agent）：优化大模型在语音对话场景的效果，提升大模型的拟人化水平，探索下一代端到端语音对话大模型的技术实现。\n3. 记忆管理与增强（Memory）：通过优化模型长上下文能力、设计记忆抽取与管理模块，提升系统的记忆能力。\n4. 基于LLM的RL（LLM-based RL）：通过强化学习，提升模型规划、决策、推理等能力。\n我们将提供充足的计算资源和良好的工作自由度，目标是产出有影响力的工作，解决业务实践中的问题。",
+      "jobRequirement": "海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1）超级学霸：专业成绩排名前1%。\n2）学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3）竞赛大神：在顶级大赛上获奖。\n4）工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1748312854000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3396015151",
+      "name": "【北斗实习】大模型应用算法工程师-【行业大模型】",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】\n大模型研发正从“人类数据时代”跨入“经验时代”，评估已然是大模型研发的重点和难点。具体而言，评估驱动的行业大模型研发下半场范式主要包括两方面内容：①行业核心问题定义和评估归因；②Post-Training多阶段协同的效果提升。本课题基于美团的本地生活业务，精选销售、履约、医药和客服四个代表性行业，旨在探索评估驱动的行业大模型研发的下半场范式。\n【建议研究方向】\n1.行业大模型通用评估方案探索。\n2.行业模型reward设计与探索。\n3.面向行业推理能力建设的通用自动化样本构建方法和评估归因方法。\n4.面向行业推理能力增强的通用强化训练方案。\n5.销售、履约、医药和客服行业大模型训练。",
+      "jobRequirement": "海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1）超级学霸：专业成绩排名前1%。\n2）学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3）竞赛大神：在顶级大赛上获奖。\n4）工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1748312802000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3396064381",
+      "name": "【北斗实习】大模型应用算法工程师-【多模态数字人】",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】\n聚焦多模态数字人核心技术，以直播为应用场景，旨在突破其在真实感、智能交互、情感表达及多模态信息处理上的瓶颈。研发能自主执行复杂运营任务、展现丰富情感与高表现力，并与用户进行深度多模态内容互动的下一代数字人，革新直播行业运营模式与用户体验。\n【建议研究方向】\n1.智能运营Agent：研究数字人作为智能Agent，在直播前（策划、脚本、货盘）、中（场控、问答、促单）、后（复盘、再创）全流程承担运营职能。重点攻克基于多模态数据的智能决策、任务自动化及人机协同，提升直播运营效能。\n2.高表现力数字人生成驱动：探索高真实感、个性化数字人形象（外观、声音、风格）的快速生成与定制。重点研究大模型驱动的、与语音同步且富含细腻情感的表情、口型、动作的实时驱动，增强直播感染力。\n3.多模态内容生成和交互：研究理解用户多模态输入（文、语、图、视频）并进行深度互动。探索数字人自主生成动态多模态内容，丰富直播呈现，提升用户参与感。",
+      "jobRequirement": "海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1）超级学霸：专业成绩排名前1%。\n2）学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3）竞赛大神：在顶级大赛上获奖。\n4）工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1748312641000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3394739913",
+      "name": "【北斗实习】广告大模型应用算法工程师-【广告创意生产】",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】\n在广告场景中，优质精美的创意对用户的行为决策有显著正向影响，传统模式下商用级创意内容的制作门槛高、生产周期长，长尾商家通常难以负担其成本，而头腰部商家也难以做到个性化、高时效性的创意生产投放。\n本课题借助大模型的音、视、图、文等多模态理解、思考与生成能力，结合用户画像、商户/品特征、热点趋势等信息，探索实现低成本、个性化的商用级创意内容（如图文笔记、长视频）的生成技术。\n【建议研究方向】\n1.多模态深度思考：设计与实现多模态深度思考方案，优化模型对多源异构信息进行抽取筛选、加工整合、衍生创作的能力，提升创意内容生成的质量与多样性。\n2.开放问题的强化学习：针对无标准答案的开放问题（如笔记生成、剧本创作、素材选取等），设计与实现适配的奖励机制与策略，通过强化学习提升模型能力。\n3.创意生产Agent：参考人工生产中的不同角色分工合作流程，设计与实现创意生产的多agent协作框架，并通过线上效果反馈机制，闭环提升生产的效率与质量。",
+      "jobRequirement": "海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1）超级学霸：专业成绩排名前1%。\n2）学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3）竞赛大神：在顶级大赛上获奖。\n4）工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1748312438000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3394452304",
+      "name": "【北斗实习】广告大模型应用算法工程师-【智能IM】",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】\n美团商家通过IM与用户交互帮助用户答疑，提升用户下单意愿，完成导购、客服、留资等任务。整体链路人工依赖率高。随着大模型技术的快速发展，基于大模型的智能外呼在提升电销覆盖率和转化率方面展现出极大潜力。\n本课题致力于将大模型技术和商家端的各项客服任务相结合，通过大模型能力赋能美团商家与用户交互过程，降低商家与客户交互的成本，提升商户的成单数量。\n【建议研究方向】\n1.基于多智能体的商家助手设计：设计基于大模型的多智能体交互方案，让模型在与用户交互过程中，能给有效识别用户意图，完成多轮交互。\n2.工具调用与任务分解：设计多工具调用框架，使商家助手能够动态组合调用业务API、业务数据库等工具，完成多种复杂任务。",
+      "jobRequirement": "海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1）超级学霸：专业成绩排名前1%。\n2）学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3）竞赛大神：在顶级大赛上获奖。\n4）工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1748312371000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3395998670",
+      "name": "【北斗实习】广告大模型应用算法工程师-【智能销售】",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】\n传统销售模式中，销售人员通过电销系统触达商户，对商户进行营销/运营触达，整体链路人工依赖率高。随着大模型技术的快速发展，基于大模型的智能外呼在提升电销覆盖率和转化率方面展现出极大潜力。\n本课题致力于将大模型技术和智能外呼任务相结合，优化美团智能外呼系统，增强其在复杂对话环境下的意图理解与灵活应对能力。力图实现更自然的语音交互、更精准的营销策略，以及更灵活的应答处理等。\n【建议研究方向】\n1.转化信号奖励建模：依托业务场景多轮对话的真实转化信号，构建商家画像、对话文本特征信号以及交互环境特征，预估对话的转化率，进而通过强化学习（DPO/GRPO/RLHF）引导模型营销话术生成。\n2.销售领域垂类大模型：通过收集多场景销售数据以及美团广告产品知识，通过continue-Pretraining构建垂类通用销售模型基座，支持多业务场景快速支持应用。\n3.Multi-Agent交互式外呼系统：通过构建任务规划、流程监督、对话营销等多个agent交互逻辑，在较低响应耗时条件下，实现最佳的电话沟通效果。",
+      "jobRequirement": "海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1）超级学霸：专业成绩排名前1%。\n2）学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3）竞赛大神：在顶级大赛上获奖。\n4）工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1748312304000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3395994460",
+      "name": "【北斗实习】大模型应用算法工程师-【生成式推荐系统】",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】\n传统的向量召回和深度学习推荐范式在深度交互、冷启动、长尾商品发现、多场景适配等方面仍存在诸多挑战。生成式推荐系统以大模型为核心，具备强大的内容理解、知识推理和个性化内容生成能力。通过将用户历史行为、上下文信息、多模态内容等深度融合，生成式推荐系统能够实现用户意图的主动理解、候选内容的生成与多场景下的精准推荐，极大提升用户体验和平台生态活力。\n【建议研究方向】\n1.生成式召回：研究基于大模型的生成式召回方法，实现以模型参数为载体的候选内容记忆与生成，突破传统召回技术的局限。\n2.多轮交互推荐技术：探索多轮用户引导与深度交互机制，实时理解用户意图变化，满足“千人千面”的个性化需求。\n3.推荐系统的可解释性与安全性：研究大模型驱动的推荐逻辑可解释性方法，提升用户对推荐决策的理解和信任。同时探索生成式推荐中的内容安全，保障推荐系统的合规性与用户体验。\n4.推荐智能体与复杂任务规划：构建具备推理、规划和自主决策能力的推荐智能体，支持跨领域、跨步骤的复杂任务推荐。",
+      "jobRequirement": "海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1）超级学霸：专业成绩排名前1%。\n2）学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3）竞赛大神：在顶级大赛上获奖。\n4）工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1748312238000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3395026635",
+      "name": "【北斗实习】广告大模型算法工程师-【生成式广告】",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】\n信息流广告系统一般采用“召回->粗排->精排->出价->拍卖”的多级漏斗架构，但各模块独立优化导致优化目标不一致，前链路会制约后链路上限，漏斗效率折损大。\n近年来，随着大模型和生成式技术的快速发展，其强大的表征能力和良好的Scaling性质也为广告系统提供了新的可能性。本研究旨在探索如何利用生成式技术重塑整个广告系统，通过一个端到端的生成式广告大模型完成所有决策，打破多级漏斗框架，打开模型决策空间，最大化平台收益。\n【建议研究方向】\n1.生成式广告大模型架构设计：基于前沿大模型（如时空Transformer、MLA、MoE等），设计适配广告场景的生成式决策框架，支持根据“用户行为、实时位置、商户出价”端到端生成最优的广告商家、展示创意、相应计费。\n2.多阶段的训练范式设计：借鉴LLM的分阶段训练技术（如PT、SFT、RLHF等），设计“基于海量交互的 pre-training 和 基于业务目标的 post-training ”的分阶段训练范式，提升广告大模型效果。\n3.广告大模型的Scaling规律探索：探索广告场景下，生成式大模型“算力->效果”的转化规律，驱动推广搜迭代范式实现由“人工设计迭代”到“算力堆叠迭代”的跃迁。",
+      "jobRequirement": "海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1）超级学霸：专业成绩排名前1%。\n2）学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3）竞赛大神：在顶级大赛上获奖。\n4）工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1748312127000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3394467312",
+      "name": "【北斗实习】大模型应用算法工程师-【AI搜索 & Agent RL】",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】\nAgentic Search是以大模型为核心，具备自主感知、推理与行动能力的搜索新范式。它通过理解用户复杂意图，动态规划搜索路径，主动调用多种工具和数据源，持续优化结果推荐与交互体验。本课题旨在研究和构建面向美团App本地生活服务的Agentic Search系统，探索其在多轮对话、复杂任务分解、实时信息整合等场景下的关键技术与应用价值，推动本地生活智能搜索技术的创新升级。\n【建议研究方向】\n1.意图理解与任务分解：探索大模型在复杂用户需求下的多意图识别、任务分解、子任务规划能力，提升系统对复合型检索场景的适应性和响应能力。\n2.多轮工具调用技术研究：赋予LLM长链路的多轮工具调用能力，打造基于强化学习等前沿技术的LLM后训练方案，提升多轮调用时的精确性及用户的实际交互体验。\n3.增量学习训练技术探索：针对本地生活场景中数据不断更新的特点，运用增量学习技术，使 AI 搜索模型能够快速适应新数据。\n搜索结果可解释性提升：探索基于大模型内容深度理解与推理的可解释理由生成，增强用户对搜索结果的信任感和透明度。",
+      "jobRequirement": "海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1）超级学霸：专业成绩排名前1%。\n2）学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3）竞赛大神：在顶级大赛上获奖。\n4）工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1748312037000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3392128388",
+      "name": "大模型数据运营-音乐数据方向实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 依据规则对音乐生成、音乐理解数据做标注、对供应商数据做验收、对生成歌曲做评估，包含但不限于“流派、乐曲结构、乐节、调式、音调、配器、歌唱技巧、速度、语种”等音乐信息；\n2. 参与音乐生成、音乐理解模型的数据生产规则制定与迭代。",
+      "jobRequirement": "1. 本科学历及以上；\n2. 乐理基础扎实，熟练使用表格、文档等办公软件；\n3. 能够连续实习 3 个月及以上，每周出勤至少 4 天。",
+      "precedence": null,
+      "highLight": "1. 你将加入优秀的团队，一起成长：团队高阶研发密度大，汇聚行业大牛，分享交流活动多；\n2. 你将一起参与前沿技术的探究：热门智能技术发展方向，未来拥有广阔的应用前景；\n3. 你将拥有快速成长的空间，一起见证技术落地的喜悦：部门业务处于快速发展阶段，应用场景广泛，业务落地场景丰富，复杂度高，挑战性大。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1748311458000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3379054365",
+      "name": "商业分析师实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-商业增值部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "岗位职责:\n1. 基于业务，完善业务监控体系和分析体系，包括KPI指标体系、搭建分析框架，并进行核心指标监控；\n2. 深入业务，研究分析相关行业的标杆，诊断业务问题并提出策略建议；\n3. 与业务产品团队、运营团队密切配合，提供相关分析支持和决策支持。",
+      "jobRequirement": "岗位要求:\n1. 具备出色的逻辑思维能力和快速的学习能力，乐于思考；\n2. 有互联网行业或线上营销行业相关数据分析、经营分析实习经验；\n3. 熟练使用sql进行数据查询，使用常用数据工具进行数据分析，数据模型探索；\n4. 具有良好的逻辑分析能力、沟通能力、团队合作意识；\n5. 业务敏感度强，自驱力强，具有良好的商业敏感度和数据分析技能。",
+      "precedence": null,
+      "highLight": "岗位亮点:\n美团本地生活商业化业务，覆盖外卖、到店餐饮、丽人医美、休闲娱乐等多行业变现，未来发展空间大。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747990262000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3155429204",
+      "name": "【大模型北斗实习】推理决策智能体技术研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "本课题聚焦大模型在复杂场景下的高阶认知能力突破，面向真实需求构建具备自主推理与协作进化能力的智能系统。通过前沿算法创新与工业级场景验证，助力研究者攻克高度自适应智能体架构设计、复杂决策优化等关键技术难题。\n核心研究内容包括：\n1）构建复杂情境推理框架：开发能够处理模糊信息、进行合理假设并自主验证的决策系统，突破不完全数据下的逻辑闭环能力。\n2）建立多智能体协作范式：研究分层任务拆解机制与分布式决策架构，实现跨智能体的动态协调与效能优化。\n3）设计任务驱动进化机制：结合强化学习与反思模型，持续提升智能体在业务场景中的自主适应与问题排查能力。\n4）开发模型可解释性框架：创新推理过程可视化技术，建立决策依据追溯机制，显著降低模型幻觉风险。\n5）探索人机协同新形态：构建具备环境感知与交互进化能力的智能助手，推动大模型在真实场景的可靠落地。",
+      "jobRequirement": "1）熟悉TensorFlow、PyTorch等深度学习框架、和主流编程语言、CUDA/Triton语言，具备扎实的深度学习理论基础。\n2）有扎实的大模型实践和研究能力，尤其是在推理和决策优化领域具有深刻的理解。\n3）发表过高水平论文（如NeurIPS, ICLR, ICML, ACL, EMNLP等）。\n加分项：\n1）有影响力的开源项目中做出过核心贡献，尤其是与大模型推理或多智能体协作相关的项目。\n2）具备复杂推理、自主执行能力的大模型系统，在业务场景上设计和落地经验。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963943000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3155435203",
+      "name": "【大模型北斗实习】虚拟人交互前沿路线研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "随着多模态大模型的发展，虚拟人交互也迎来智能化和拟人化的升级。 传统的2D虚拟人主要专注于语音与嘴型对齐，而大模型时代的虚拟人需具备多模感知和推理的能力，视觉生成需具备高度拟人化。课题研究内容包括但不限于：\n1）基于多模态大模型构建端到端交互虚拟人模型，实现智能双工交互，人、物、场景交互，高度拟人化等能力。\n2）Human Video Model：构建具备高质量人脸、人体、人物交互生成能力的虚拟人基座。",
+      "jobRequirement": "1）熟悉多模态大模型、2D虚拟人、视频生成等相关研究进展。\n2）熟悉PyTorch，有充分的动手实践经验。\n加分项：\n1）社区影响力：有多模态大模型、视频生成、虚拟人相关研究和实习经历，有影响力的开源项目中做出过核心贡献。\n2）学术影响力：发表过高水平论文（如ICLR、CVPR、ICCV等），有相关竞赛经历并取得名次。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963943000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3155431042",
+      "name": "【大模型北斗实习】音频内容生成算法研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "在内容生成领域，音频生成逐渐成为热门研究方向，具有广阔的应用前景和研究价值。本课题专注于音频内容生成方向，包括但不限于：\n1）音视频联合生成：探索如何使模型在生成过程中有效地结合文本、语音和图像信息，提升生成结果的相关性和自然度。\n2）音频数据处理与融合：研究音频数据的预处理和特征提取技术，以优化生成模型的输入输出。\n3）多模态生成模型的性能评估：设计自动化评估方法，量化多模态生成模型在下游任务中的表现。",
+      "jobRequirement": "1）熟悉常见的多模态大模型架构。\n2）熟悉Python、C++等至少一门编程语言，熟悉LINUX环境。\n3）熟悉 Megatron、DeepSpeed 等开源训练框架。\n加分项：\n1）高星开源项目，社区关注度高。\n2）发表过高水平论文，如 ICLR、NeurIPS、ICML、CVPR 等。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963943000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3155424457",
+      "name": "【大模型北斗实习】图像生成大模型技术研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "在AIGC大模型的RLHF阶段，奖励模型（Reward Models）通过提供精准的奖励反馈来调整模型优化方向，以提升图像生成的质感与美感，从而增强整体视觉呈现效果。同时，随着模型参数规模的不断增加，亟需从模型架构层面探讨更优的生成策略。课题研究内容包括但不限于：\n1）多维度图像奖励模型的设计。\n2）DiT框架的优化，探索性能与推理效率的极限。\n3）图像生成范式的探索，系统性验证AR或AR+Diffusion方案的优缺点，以迈向更大规模的生成模型。",
+      "jobRequirement": "1）熟悉扩散模型研究进展。\n2）熟悉PyTorch，能快速开展实验。\n加分项：\n1）有图像/视频生成大模型研究经验，或者在相关开源项目中做出过核心贡献。\n2）对AIGC的训练与推理优化有实践经验。\n3）在计算机视觉、多媒体、人工智能的权威期刊或会议上发表过视觉生成相关的论文专著，或者在重要算法比赛中取得过优秀名次。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963943000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3155419418",
+      "name": "【大模型北斗实习】基于原生语音大模型的情感陪伴智能体",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "该课题聚焦于利用原生语音大模型构建情感陪伴 Agent，通过实时全双工交互，精准理解和感知用户情绪，凭借高情商为用户提供极具价值的回复，旨在为用户打造温暖、贴心且高度智能的情感陪伴体验。​研究内容：​\n1）模型优化：参与优化原生语音多模态大模型，通过改进Speech Tokenizer和文本-语音的对齐机制等措施，提升模型对语音中包含的语义以及声学信息的实时理解与处理能力，增强其对用户情绪的精准识别。​\n2）交互设计：设计高效、自然的全双工交互机制，确保 Agent 与用户之间的交流流畅且符合日常沟通习惯，提高交互的实时性与稳定性。​\n3）情商塑造：运用先进技术手段，赋予 Agent 高情商特质，使其能够根据用户情绪做出恰当、暖心且富有智慧的回应，提升用户情感体验。​\n4）数据构建：收集、整理、合成与情感陪伴相关的语音对话数据，为模型训练与优化提供高质量的数据支持，推动模型性能持续提升。​",
+      "jobRequirement": "1）熟悉LLM、Speech Codec、NLP Dialog、语音（ASR / TTS）、情感分析等相关领域，对至少一个方向有深入研究，并有实际项目经验，能够将理论知识应用于实践。​\n2）熟练掌握 Python 等编程语言，具备良好的编程习惯与代码能力，熟悉 Linux 开发环境。​\n3）熟悉 Megatron、DeepSpeed 等开源训练框架。​\n加分项：​\n1）曾在SpeechLM、Speech Codec、NLP Dialog等相关的开源项目中做出突出贡献。​\n2）曾在上述领域中发表过高水平论文者优先考虑。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963942000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3155417212",
+      "name": "【大模型北斗实习】Post-training 前沿算法研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "Post-training是联结大模型通用知识和人类偏好的桥梁，在规范知识输出、提升推理能力、对齐人类偏好等方面起到了关键作用。本课题专注于大模型Post-training相关前沿算法研究，包括但不限于：\n1）训练机制设计和优化：包括数据建设、指令微调，人类偏好和安全对齐，奖励模型、强化学习及效果评估等方向，优化模型文本创作、逻辑推理、指令遵循、代码生成、工具调用等能力，提升模型可控性和安全性。\n2）Post-training前沿研究：面向下一代推理基座的架构设计，test-time compute训练范式，思维链学习，多智能体和自博弈强化学习，提升模型的复杂任务处理能力和智能水平。",
+      "jobRequirement": "1）熟悉NLP、LLM、RL等领域，在一个或多个相关领域有深入研究经历并有实际论文产出或项目经验。\n2）熟悉大模型算法研究所需的相关编程语言、工具、算法等，如Python、C++等编程语言、Megatron等训练框架、DPO、PPO等相关算法。\n3）具备独立开展科学研究和实验的能力，对大模型相关技术有浓厚兴趣，具备强烈的进取心、求知欲，热衷于追求行业顶尖的技术创新。\n加分项：\n1）有大模型一线研究和实践经验，在大模型领域发表过高影响力论文或主导/参与过知名开源项目者优先。\n2）发表过高影响力论文优先（如ICLR,ICML,ACL,EMNLP等）。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963942000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3153985521",
+      "name": "【大模型北斗实习】长周期人机协作能力探索和评测",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "大模型的语言理解与生成能力标志着基于人类语言的人机交互接口接近成熟。通过agent框架拓展系统环境适应力，结合推理技术突破（如o1/R1）强化中枢决策能力，内外协同将加速实现长周期人机协作，提升生产力。本课题希望逐步实现长周期人机协作所需的大模型agent能力，并解决其中涉及的模型训练和评估问题。研究内容包括但不限于：\n1）长周期人机协作所涉及的模型能力拆解。\n2）针对长周期协作所涉及的具体能力构建agent框架。\n3）基于能力拆解建设相关的评测评估方案。\n4）通过模型微调等手段优化相应的模型能力。",
+      "jobRequirement": "1）熟悉大模型相关的推理、训练框架，有较强的工程实践能力和经验。\n2）有一定的学术研究背景，对前沿技术保持好奇心，学习能力和自驱力强。\n加分项：\n1）在有影响力的开源项目中做出核心贡献。\n2）发表过高质量学术论文。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963942000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    }
+  ]
+}

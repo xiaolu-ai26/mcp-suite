@@ -1,0 +1,931 @@
+{
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "request_body": {
+    "page": {
+      "pageNo": 16,
+      "pageSize": 20
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jfJgList": [],
+    "jobType": [
+      {
+        "code": "2",
+        "subCode": []
+      }
+    ],
+    "typeCode": [],
+    "specialCode": []
+  },
+  "reviewed_at": "2026-09-12T15:37:19Z",
+  "page": {
+    "pageNo": 16,
+    "pageSize": 20,
+    "totalPage": 21,
+    "totalCount": 416
+  },
+  "rows": [
+    {
+      "jobUnionId": "4177302566",
+      "name": "【北斗实习】大模型应用算法工程师 -【搜索系统】",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】 \n构建面向美团本地多业务场景的搜索系统，探索基于LLM的下一代本地生活服务搜索系统。通过探索LLM在搜索的意图理解、相关性建模、生成式召回、展示素材和样式的应用，提升搜索系统端到端的体验、匹配效率。\n【建议研究方向】\n1.基于LLM的轻量级搜索相关性模型\n参与设计和实现基于LLM的可解释、可蒸馏、低延迟的大模型相关性判别器，提升搜索的体验。\n2.多业务多目标混排机制\n参与设计多业务多目标混排机制，实现多业务混合排序架构，融合多业务多目标排序，实现全局最优。\n3.基于Transformer架构的高稠密精排模型\n探索融合全域样本、多业务全域特征，基于Transformer和MOE构建多业务全域统一基础模型，在Data scaling的基础上持续摸高模型稠密化Scaling up。\n4.多模态建模展示素材与创意\n探索搜索场景下的创意素材展示策略，基于多模态内容理解表征建模、在线多目标创意素材排序建模，提升搜索的展示体验与效率。",
+      "jobRequirement": "1.海内外高校计算机、人工智能、数学等相关专业 硕士或博士在读（2027年6月前毕业优先）。\n2.扎实的机器学习/深度学习基础，熟悉 Transformer、BERT、LLM 原理。\n3.热爱搜索、LLM，有技术热情，相信技术改造世界。\n4.有较强的编程能力，有大厂实验室的实习经验，或有贡献突出的开源项目，或在在顶级大赛上获奖经历。\n\n5、学术达人，在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）优先",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1770363344000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4177297780",
+      "name": "【北斗实习】智能决策算法研究员-定价方向",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】 \n在即时配送网络中，骑手定价是平衡运力供给与用户体验的核心动作。传统的定价策略往往难以精确量化价格变动对运力弹性的真实因果效应，且受限于预算约束与复杂的非凸优化目标，难以实现全局最优。本课题聚焦于“因果推断”与“运筹优化”在骑手定价业务中的前沿应用，旨在通过构建高鲁棒性的因果弹性模型，精准衡量定价干预效果，并结合大规模运筹优化技术，在给定预算下生成最优调价方案，最大化用户体验。课题将重点突破观测数据中的隐混淆与溢出效应、携带效应下的推断难题以及非凸场景下的求解效率，并探索LLM在因果建模中的增强作用。\n【建议研究方向】\n1. 复杂环境下的因果效应估计与弹性建模：针对骑手定价场景中存在的隐混淆变量（Hidden Confounders）、溢出效应（Spillover Effects）以及携带效应（Carryover Effects）等挑战，研究基于表示学习、工具变量或双重鲁棒（DR）的因果推断算法。探索无偏RCT数据与大规模观测数据的融合训练机制，解决特定Logit先验依赖问题，提升弹性模型在小样本和复杂混淆环境下的泛化能力与准确性。\n2. LLM增强因果推断（LLM4Causal）： 高价值特征挖掘与标签挖掘（Label Mining） ，针对业务数据中标签稀疏或含噪的问题，利用 LLM 的语义理解能力进行 Label Mining，推断缺失的转化标签或修正错误标签。因果去偏与反事实数据生成，研究利用 LLM 生成反事实样本或辅助识别未观测混淆变量，设计新的因果去偏机制。探索将LLM在因果推理和特征理解上的“大模型”能力，通过模型蒸馏（Model Distillation）技术迁移至轻量级的 Uplift 模型或深度因果网络（如 Dragonnet）中，提升模型能力。\n3. 大规模非凸运筹优化求解：基于因果模型输出的弹性预估，研究在预算约束下的复杂定价组合优化问题。重点攻克非凸优化（Non-convex Optimization）目标函数的求解难题，大规模分组背包等NP-Hard问题的近似算法或高效启发式求解策略，以及基于强化学习的序贯决策问题，确保定价策略在工业级时延要求下的实时产出与效果最优。",
+      "jobRequirement": "海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1.超级学霸：专业成绩排名前1%。\n2.学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3.竞赛大神：在顶级大赛上获奖。\n4.工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1770363344000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4177333170",
+      "name": "【北斗实习】大模型应用算法研究员-Agent构建",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】\n以大语言模型（LLM）的 Workflow 、 Agent、对话能力为核心，研究方向包括上下文管理、生成式推荐、Agent Skills、Post-Training、LLM+Decision、LLM +Causal 等。主要业务场景为探索 AI 在骑手运营场景下的落地实践，实现“技术驱动业务范式”的升级转变。\n【建议研究方向】\n1. Agent 工作流与规划：设计具有复杂规划（Planning）与工具调用能力的 Agent，实现任务的自动化拆解与执行。\n2. 生成式用户理解：基于 LLM 进行语义挖掘，构建动态用户画像（Persona），实现生成式的用户*运营策略的个性化推荐。\n3. 上下文与记忆管理：攻克长窗口（Long Context）难题，设计高效的记忆（Memory）与 RAG 机制，保障长周期交互的逻辑连贯。\n4. 行业大模型后训练：通过自动化样本生成、通用评估方案建设、reward设计与探索，大幅提升应用依赖的行业大模型质量。\n5. 决策科学融合：将Decision、Causal等传统决策技术与 LLM 推理结合，提升传统的决策智能表现。\n我们将提供海量的真实业务场景、充足的 GPU 计算资源和极高的探索自由度，目标是产出既有技术深度又能直接创造业务价值的未来 AI 应用范式。",
+      "jobRequirement": "海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1.超级学霸：专业成绩排名前1%。\n2.学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3.竞赛大神：在顶级大赛上获奖。\n4.工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1770363344000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4176528180",
+      "name": "【北斗实习】大模型应用算法工程师-【推荐大模型】",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】\n研发针适配美团业务的下一代生成式推荐系统，探索具有Scale Up属性的生成式建模方案，通过端到端的方式对用户行为进行深度建模和挖掘，全方位建模用户兴趣，提升推荐的准确性和实时性，并通过工程和算法的协同设计来显著提升整个链路的MFU水平，提高推荐系统的效果上限，实现更高的用户满意度和业务价值。\n【建议研究方向】\n1.参与设计和实现下一代生成式推荐系统，涵盖生成式召回、生成式预估、生成式排序等核心模块，并在美团多个业务场景落地。\n2.构建基于多模态表征Tokenizer、类Transformer架构和优化损失函数的序列生成模型，从数据流、特征工程和高效计算等维度参与生成式推荐系统的全栈优化与生态搭建。\n3.探索模型参数和计算量的Scale Up，设计高效且具有强外推属性的模型范式结构，提高系统MFU水平，打开模型效果天花板。\n4.在生成式推荐的基础上，重新定义用户兴趣提取，生成式召回/预估、推荐归因等模块，包括但不限于Long-Context，Token compression等技术。\n5.搭建基于强化学习的算法工程训练，包含模型训练，业务指标Reward，多样性，序列评估等多项工作。",
+      "jobRequirement": "海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1.超级学霸：专业成绩排名前1%。\n2.学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3.竞赛大神：在顶级大赛上获奖。\n4.工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1770363344000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4176528321",
+      "name": "【北斗实习】大模型工程开发工程师 - AI Infrastructure 与平台",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】 \n以支撑大语言模型（LLM）大规模落地为目标，构建高性能、高可用的 AI 应用基础设施。研究与建设方向包括 AI 原生应用框架（AI App Framework）、高性能 Agent 编排引擎、评测系统及模型服务治理平台。课题旨在解决 AI 应用从原型到工业级生产环境中的工程挑战，打造支撑美团业务智能化的核心底层引擎。\n【建议研究方向】\n1.AI 应用开发框架： 设计并实现高性能、可扩展的 Agent/Workflow 运行核心，支持复杂逻辑的异步流式处理与调度。\n2.Agent 工程治理： 建立 Agent 运行期的可观测性、调试工具链及故障自愈机制，提升生产环境的稳定性。\n3.Agent自动化评测： 构建工业级的 LLM 评测基础设施，实现评测数据流转、多维度自动打分及评估结果的量化分析。\n4.多智能体架构：研究Agent架构的设计原理、组成模块及交互机制，探索其在自主决策、环境感知与任务执行中的优化方法，分析出游场景下的性能表现与扩展性，为智能体系统开发提供理论支撑。\n5.智能体记忆管理： 研究长短期记忆管理机制，在智能体与用户的多轮对话中，实现对上下文和用户个性化需求的持续追踪能力。",
+      "jobRequirement": "【任职要求】\n海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1.工程高手： 拥有顶尖互联网公司 AI 基础架构实习经验，或作为核心维护者参与过知名开源项目（如 LangChain, LlamaIndex, Ray 等）。\n2.编程悍将： 具备极强的 Coding 能力，精通 Java/Python/Go 至少一门语言，对数据结构与算法有深刻理解。\n3.竞赛大神： 在 ACM-ICPC、IEEE Extreme 等顶级编程竞赛，或 Kaggle、天池等大型工程/算法赛道获得过突出奖项。\n4.科研骨干： 作为骨干成员参与过实验室或导师承接的国家级/大型横向科研项目，具备处理复杂系统工程问题的经验。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1770363344000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4177303895",
+      "name": "【北斗实习】智能决策算法研究员-因果推断方向",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】\n以外卖场景下的C端配送费定价为核心决策问题，探索因果推断与前沿人工智能技术融合的下一代决策科学范式。本研究直面高维、动态、充满混杂的商业环境中的根本性挑战：商家间复杂的替代与互补关系、多干预下的交叉混杂效应、以及决策影响的延迟传导与长期因果效应。目标是构建能够表征长程因果、进行反事实推演与前瞻性预估的智能决策系统，实现从“数据相关性分析”到“因果性决策”的根本性跨越，为定价策略提供可解释、可预估的科学依据。\n【建议研究方向】\n1.List-wise替代效应的因果效应建模：传统point-wise的因果模型无法刻画在外卖平台多商家同时曝光、用户主动比价场景下复杂的替代与竞争关系。本研究需攻克两大核心问题：一是曝光集合（Impression Set）层面的因果结构识别，即如何从用户行为序列中识别商家间的替代、互补及溢出效应网络；二是反事实需求转移的量化估计，即当某个商家的价格或补贴发生变化时，如何准确估计其带来的流量、订单在整个局部市场商家列表中的转移分布，而非孤立地看待单个商家的指标变化。目标是构建一个能够理解并量化“商家生态”内动态因果关系的List-wise Causal Model。\n2.延迟与长程因果效应建模：攻克干预动作的延迟效应表征与长程因果传导路径建模难题。建立能够量化短期冲击与长期均衡影响的动态因果模型，并基于对未来市场状态与用户行为的因果性预估，做出真正前瞻性的序列决策。\n3.基于因果模型的强化学习决策：将因果效应预估作为奖励函数或环境模型的核心组成部分，运用强化学习（RL）技术进行序列化决策优化。重点研究如何学习干预的最佳顺序、时机与剂量，提高实时决策结果。\n4.LLM + Causal融合推理：充分利用LLM的序列推理与语义理解能力，实时识别用户行为序列背后的潜在意图与决策逻辑，进行高价值特征挖掘，辅助因果图构建、混淆变量识别、反事实叙事生成，增强uplift模型能力。\n我们将提供美团外卖海量、高维的交易与用户行为数据、真实的A/B实验与线上决策平台、充足的计算资源以及面向重大业务难题的极高研究自由度。目标是能直接驱动核心业务决策系统的突破性成果，同时能在顶级学术会议（如ICML, NeurIPS, KDD）发表paper。",
+      "jobRequirement": "海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1.超级学霸：专业成绩排名前1%。\n2.学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3.竞赛大神：在顶级大赛上获奖。\n4.工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1770363343000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4177330267",
+      "name": "【北斗实习】大模型应用算法研究员-多模态技术/空间智能Agent",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】\n致力于探索多模态大模型与强化学习的前沿技术。研究方向包括多模态表征与理解、强化学习增强的生成与对齐、智能体（Agent）决策与规划等，业务影响覆盖美团外卖每天数千万的订单，核心工作是为用户及商家实现地理空间的智能规划，包括商家配送范围（决策用户是否能在该商家下单）、Area of Interest边框挖掘（AOI，即用户所处地理社区边界，保证用户下单体验的一致性）、用户拼单范围、骑手取件区域的建模与优化。目标是构建能够理解复杂业务需求、驱动范围智能调整的Agent系统，实现“技术驱动业务范式”的升级转变，最终促进平台供给繁荣与用户的供需匹配优化。\n【建议研究方向】\n1.多模态感知与表征建模：集成地理信息（GIS）、用户热力、图像、自然语言等多模态数据，进行联合表征学习与建模，攻克跨模态语义对齐难题，为空间智能理解与决策提供统一的感知基础。\n2.强化学习增强的多模态生成与优化：探索强化学习在多模态大模型中的应用，研究基于RL的多模态内容（如图像、GIS、文本描述）生成、跨模态偏好对齐及模型自适应优化，以持续提升系统对复杂业务场景的理解与推理能力。\n3.基于后训练的多模态内容理解与审核：探索多模态大模型后训练技术，实现图像质量审核、OCR识别、图文一致性校验、图像合成等能力，提升一线运营采集数据等场景的自动化水平与准确性。\n4.面向履约空间规划的智能体（Agent）构建：设计并开发能意图识别、归因分析、并自主决策执行商家范围/AOI边界调整的智能体。重点研究Agent的任务规划、工具调用与动态策略优化能力。\n5.业务仿真与决策推演：基于空间智能Agent，对不同的策略进行模拟推演，评估其对供给、平台规模、履约体验的影响，为科学决策提供支持。\n我们将提供海量的真实业务场景与数据、充足的GPU计算资源以及极高的技术探索自由度，目标是产出兼具技术前沿性与业务影响力的成果，共同定义下一代智能履约空间位置规划的技术范式，同时能在顶级学术会议（如ICML, NeurIPS, KDD）发表paper。",
+      "jobRequirement": "海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1.超级学霸：专业成绩排名前1%。\n2.学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3.竞赛大神：在顶级大赛上获奖。\n4.工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1770363343000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4177333359",
+      "name": "【北斗实习】智能决策算法研究员-智能调度方向",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】\n基于承接全球最大规模外卖业务的即时配送系统进行最前沿的端到端调度决策研究，业务影响力与研究深度并重。可以接触最前沿的调度决策体系，服务于百万级骑手、千万级订单，快速拓宽技术、业务视野。团队氛围好、研究实力强，已发表多篇顶会论文，团队工作入选2023年Franz Edelman奖，在行业内具有卓越水平。\n【建议研究方向】\n1.调度大规模实时OR+ML研究：针对调度系统内多样的调度决策行为进行分析，包括但不限于过滤、压单、指派、推荐、改派等，尝试基于深度学习、强化学习等方法对已有的调度决策行为进行端到端建模，提升调度效果。\n2.时空大模型在骑手行为方向研究：基于SOTA的时空大模型研究，探索针对调度系统分城市、分业务、分时段的差异化特点，基于每天百亿量级骑手路径和行为数据，探索统一的模型预测、决策能力，提升调度决策系统在不同场景下的适配能力。\n3. 基于长周期收益的多对一匹配问题研究：基于订单结构挖掘与优质骑手行为学习，实现多对一订单-骑手匹配问题的分布式实时（秒级）求解，同时合理刻画订单匹配长周期收益，实现调度匹配序贯决策时空全局优化，将日益增长的订单密度，在性能约束下极大程度兑现为骑手效率增益。",
+      "jobRequirement": "海内外高校本科（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1.超级学霸：专业成绩排名前1%。\n2.学术达人：在顶级期刊或学术会议上以第一作者身份发表多篇论文（或导师一作，自己为二作）。\n3.竞赛大神：在顶级大赛上获奖。\n4.工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1770363343000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4177301557",
+      "name": "【北斗实习】大模型应用算法工程师-【出游场景AI助手】",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】\n面向 C 端用户的酒旅专业 AI Agent 项目，旨在构建具备需求理解、行程规划、商品推荐与专业问答能力的酒旅智能 Agent，为用户在行前、行中与行后关键决策环节提供可靠的智能支持。\n该 Agent 面向复杂出游需求与多约束决策场景，打通“咨询—规划—推荐—交易”的一体化酒旅服务链路，提升用户决策效率与酒旅服务转化能力，形成行业领先的智能出游入口。\n【建议研究方向】\n1. 酒旅专业 Agent 技术架构设计\n围绕酒旅场景的复杂任务拆解，构建覆盖需求理解、行程规划、商品推荐与酒旅咨询的专业子 Agent 体系，研究多 Agent 之间的协作机制与任务分工策略，支持用户多轮对话下的动态需求调整与规划演化。\n2. 酒旅 Agent 自动化评测体系研究\n从酒旅专业性与用户体验两个维度，构建多维度评测 Benchmark，覆盖需求理解准确性、规划合理性、推荐匹配度与对话稳定性等核心能力；探索基于规则与模型裁判的 Auto-Eval 方法，提升 Agent 能力评测的效率与一致性。\n3. 酒旅 Agent 模型后训练与数据构建\n探索酒旅领域的合成数据构建方案，快速积累高质量训练数据；结合 SFT、偏好对齐与强化学习等方法，持续提升模型在复杂规划、推荐决策与工具调用等关键任务上的效果与泛化能力。",
+      "jobRequirement": "海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1.超级学霸：专业成绩排名前1%。\n2.学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3.竞赛大神：在顶级大赛上获奖。\n4.工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1770363343000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4177318569",
+      "name": "【北斗实习】智能决策算法研究员-配送时间方向",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【课题说明】\n外卖配送已经成为极大便利当代人生活的新基建，配送时间是精准匹配用户需求和履约能力的关键系统决策变量。\n传统的时间建模主要依赖“时空特征+深度回归”，虽能拟合历史规律，但在处理复杂因果关系、长尾小样本场景及系统级序贯优化时仍存在瓶颈。本项目旨在利用生成式大模型（LLM）的常识推理、多步规划与强大的表征性质，重构新一代时空决策框架。我们试图打破传统判别式模型的上限，通过“LLM + Decision Science”的深度融合，定义即时配送领域的技术新边界，为客户带来更好的服务体验。\n【建议研究方向】\n1. 知识迁移与新一代时空基础模型：利用 LLM 的预训练知识与元学习（Meta-learning）能力，设计适配时序与图数据的新一代时空表征架构。探索从“任务特定模型”向“时空通用基础模型”的转变，提升系统在复杂多变环境下的泛化精度，重点优化长尾小场景的建模精度\n2. 多商家选择视角的用户需求因果建模：研究如何将LLM的全局规划能力与因果推断（Causal Inference）深度融合。在多商家选择竞争下，利用LLM 辅助识别用户对时间的真实需求，构建反事实推理模型，实现有限资源下的用户需求与履约供给的最优匹配决策。\n3. 基于 LLM-Agent 的系统级序贯规划：将配送时间决策建模为动态流水线中的时延分配（Deadline Assignment）问题。研究如何利用LLM 与强化学习（RL）构建具备自我演进能力的决策 Agent，在海量动态订单流中执行跨时段、跨区域的复杂规划，通过序贯决策寻找系统最佳承载量的最优解。\n我们将提供海量的真实业务场景数据、充足的计算资源、极高的探索自由度和1对1专家指导，目标是产出既有创新深度又能创造业务价值的新一代智能决策技术范式。",
+      "jobRequirement": "海内外高校在校本科生（大三及以上）、硕士生及博士生，且以下条件至少满足一项：\n1.超级学霸：专业成绩排名前1%。\n2.学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3.竞赛大神：在顶级大赛上获奖。\n4.工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1770363343000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4171649174",
+      "name": "餐饮系统-产品实习生-成都",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "产品类",
+      "jobFamilyGroup": "产品",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-餐饮SaaS事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.可以完成简单的需求分析与撰写产品相关文档；\n\n2.辅助项目产品负责人与研发、交互等各团队密切配合，确保项目进度和质量；\n\n3.可以跟进产品上线情况，并辅助产品&运营整理分析项目相关数据。",
+      "jobRequirement": "1.大三及以上在校生；\n\n2.有一定的产品基础知识，了解基本产品工作内容和项目流程，会使用原型工具；\n\n3.具备优秀的沟通能力和独立思考能力，逻辑条理清晰、工作严谨、责任心强、有耐心；\n\n4.有餐饮相关创业/项目经历、或对餐饮行业感兴趣（爱吃爱打卡等）优先；\n\n5.至少连续实习6个月、每周5天工作时间，保证实习期间的稳定性和持续性（重要）。",
+      "precedence": null,
+      "highLight": "1.餐饮SaaS业务高速发展，进入产业互联网的绝佳时机，直接推动餐饮行业信息化和数字化；\n\n2.团队年轻有活力，工作氛围开放、直接。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1770187595000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3699512800",
+      "name": "【实习】数据研发工程师（点评 ）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-业务研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、负责大众点评App业务的数据数仓的设计、开发和运维，保障系统的稳定性和进行性能优化；\n2、深入业务场景，与业务团队一起构建高效的数据系统，数据驱动业务发展；",
+      "jobRequirement": "1、计算机、统计学相关专业大学本科及以上学历；\n2、熟悉SQL/Java/Python等至少一种开发语言；\n3、熟悉hadoop/hive/spark/flink/kafka等原理；\n4、熟悉常见数据仓库设计方法和原理，海量数据的数据开发经验；\n5、有较好的学习能力，沟通表达能力，积极主动，聪明，韧性，有进取心；",
+      "precedence": null,
+      "highLight": "1、团队氛围好，同事关系融洽；\n2、有大量成熟的数据技术方案学习；\n3、有海量数据的实时、离线开发实践的机会；\n4、有建设高效、高价值的数据开发工具的机会。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1770030087000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4111786849",
+      "name": "商业分析实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-美团平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.通过对大型生活服务互联网平台的数据进行收集、整理和分析，深入了解平台的经营状况和用户行为；\n2.负责平台流量和用户增长相关数据分析，能对其数据异动进行解读和分析，提出相应的策略优化建议；\n3.参与团队的数据分析项目，协助完成相关数据分析任务。\n4.协助团队完成日常业务支持工作，保证项目进度和质量。",
+      "jobRequirement": "1.大学本科及以上学历，BA/商业分析相关专业优先；\n2.对互联网商业分析有浓厚的兴趣，具备数据分析能力；\n3.熟练掌握SQL等数据分析工具，能够熟练运用数据库查询和数据处理；\n4.具备良好的沟通能力和团队合作精神，能够有效协作完成数据分析项目。",
+      "precedence": null,
+      "highLight": "1.参与大型生活服务互联网平台的经营分析项目，了解互联网流量增长飞轮及相应策略优化；\n2.深入结合实际业务案例进行实操分析，提升数据分析能力；\n3.有机会接触互联网行业的趋势和发展动态，积累相关经验并拓展人脉。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1770023710000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3048216134",
+      "name": "后端开发工程师（实习）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-业务研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、负责消费医疗业务项目的需求分析、设计、编码和测试工作。\n2、编写技术文档，包括设计文档、用户手册、技术总结等。\n3、参与系统的设计和优化，保证系统稳定。",
+      "jobRequirement": "1、计算机或相关专业全在校生，本科三年级或研究生一年级以上学历。\n2、具有良好的编程习惯，熟悉Java、Python、C++、Go等至少一种后端开发语言。\n3、熟悉常用的数据结构和算法，对设计模式有一定了解。\n4、了解数据库原理和使用，如MySQL、Redis等。\n5、有较强的学习能力和快速解决问题的能力，有团队合作精神。",
+      "precedence": null,
+      "highLight": "1、能够接触核心业务和技术系统，有较大的技术挑战，能够积累丰富的互联网大厂技术经验。\n2、资深技术导师全程指导。\n3、团队技术范围浓厚。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1769658184000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4029485660",
+      "name": "软件开发实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-无人车业务部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 参与模糊测试引擎调研和开发； \n2. 负责故障归因系统调研和开发；",
+      "jobRequirement": "1. 良好的沟通表达和团队协作能力，良好的学习和分析解决问题能力；\n2. 扎实的 C++、Python 语言基础；",
+      "precedence": null,
+      "highLight": "从系统的角度全面了解自动驾驶技术体系，能够快速培养自动驾驶系统体系、算法体系、工具链的技术栈；有丰富的业务场景支撑自动驾驶系统落地。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1769596554000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3913450654",
+      "name": "美团AI产品运营实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "用户运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "①参与AI产品的用户运营与增长，包括用户调研、案例挖掘、社群运营\n②策划并执行线上/线下运营活动，推动产品落地与传播\n③运营数据整理与分析，产出周期性数据报告\n④内容运营：文案撰写、素材制作、宣发推广\n⑤协助搭建运营体系和知识沉淀，参与流程优化",
+      "jobRequirement": "①本科及以上在读，有运营相关实习经验优先\n②文字功底好，逻辑清晰，擅长信息整理\n③对AI产品有兴趣，乐于尝试新工具新玩法\n④主动沟通，执行力强，能独立推进任务",
+      "precedence": null,
+      "highLight": "站在AI浪潮之巅： 深度参与美团AI产品的日常运营，第一时间了解行业最前沿的动态与技术。\n\n真正的价值创造： 你的工作将直接影响到用户对AI产品的认知和使用，你的每一个想法和策略都可能被付诸实践，并看到真实的数据反馈。\n\n全面的能力提升： 在实战中系统学习AI产品用户运营的全链路方法论，包括用户增长、社群运营、内容创作和数据分析，而不仅仅是执行琐碎任务。\n\n资深导师辅导： 由经验丰富的运营专家一对一指导，快速融入团队，获得宝贵的职业发展建议。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1769567165000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4108849549",
+      "name": "后端开发实习生（数据方向）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "无人机业务部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 参与数据平台后端系统的开发与维护，支持数据采集、存储、计算等核心功能。  \n2. 协助设计并实现高效的数据处理流程，优化数据查询与计算性能。  \n3. 与数据工程师、算法工程师协作，完成数据模型与接口的开发。  \n4. 参与系统监控、日志分析、异常排查等日常运维工作。  \n5. 学习并应用前沿大数据技术，提升系统稳定性与扩展性。",
+      "jobRequirement": "1. 大学本科及以上学历，计算机、软件工程、数据科学等相关专业优先。  \n2. 熟悉至少一种后端开发语言（如Python、Java、Go等）。  \n3. 了解常用数据库（MySQL、PostgreSQL、MongoDB等）及SQL操作。  \n4. 对大数据技术栈（如Hadoop、Spark、Flink等）有基础认知或兴趣。  \n5. 具备较强的学习能力、团队协作意识和责任心。",
+      "precedence": null,
+      "highLight": "1. 参与核心数据平台开发，接触海量数据与高性能系统架构。  \n2. 与资深工程师协作，获得技术成长与职业指导。  \n3. 参与低空经济，了解业界前沿。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1769411723000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4104268126",
+      "name": "无人车业务部-模型部署优化实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-无人车业务部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责自动驾驶模型在嵌入式平台上的部署与性能优化。  \n2. 设计并实现模型量化、剪枝、蒸馏等轻量化技术方案。  \n3. 协同算法团队完成模型训练到部署的全流程闭环。  \n4. 分析并解决模型部署过程中的精度损失与实时性瓶颈问题。",
+      "jobRequirement": "1. 硕士研究生及以上学历，计算机、自动化、电子工程等相关专业。  \n2. 熟悉C++、Python，具备扎实的编程与算法基础。  \n3. 熟悉 TensorRT 模型部署框架者优先。  \n4. 了解自动驾驶感知、规划或控制模型者优先。  \n5. 一周出勤4天以上，可长期实习优先。",
+      "precedence": null,
+      "highLight": "1. 参与前沿自动驾驶技术落地，推动行业技术革新。  \n2. 与自驾算法团队紧密协作，快速提升技术能力。  \n3. 提供高性能计算与嵌入式平台结合的实践机会。  \n4. 鼓励技术创新与个人成长，实习优秀者提供转正留用机会",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1769396264000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3967378319",
+      "name": "供给运营实习生(AI搜方向)",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-美团平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 场景探索与分析：分析用户AI搜索行为，挖掘供给信息可带来增量价值的应用方向，撰写场景分析报告，提出可行性建议\n2. 数据范围梳理与策略制定：梳理供给信息的数据维度，确定不同场景所需的数据范围和优先级，制定数据采集、清洗、标注的策略\n3. 效果回收：针对探索应用进行数据统计、A/B数据的效果评估、对比分析，生成数据报告。",
+      "jobRequirement": "1. 大学本科在读或应届毕业生，计算机相关专业为佳\n2. 具备基础数据分析能力，熟练SQL者优先。  \n3. 沟通能力强，具备团队协作意识和执行力。  \n4. 对互联网产品或电商运营有浓厚兴趣。  \n5. 每周可实习4天及以上，实习期不少于6个月。",
+      "precedence": null,
+      "highLight": "1. 接触核心供给运营工作，积累实战经验。  \n2. 团队氛围开放，提供一对一导师指导。  \n3. 表现优异者可获转正机会。  \n4. 参与跨部门协作，提升综合能力。  \n5. 工作地点位于北京市核心商圈，交通便利。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1769084034000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4100514347",
+      "name": "C端产品实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "产品类",
+      "jobFamilyGroup": "产品",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-美团平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1）用户体验设计：参与用户需求调研、流程拆解，推动 “AI + 服务” 方案精准落地\n2）用户体验验证：针对客服创新功能，设计小范围用户验证方案，通过数据埋点、用户反馈分析，输出《体验优化报告》，推动功能迭代\n3）跨团队协同：联动产品、算法、业务团队，跟进创新组件开发进度，整理业务需求文档，协助解决 “技术方案与用户体验” 的适配问题，保障创新功能按期上线",
+      "jobRequirement": "1）对 “用技术提升服务体验” 有强烈兴趣，逻辑清晰，擅长拆解复杂问题；有互联网产品相关认知优先（如了解AIGC 基础概念等）\n2）核心技能：熟练使用基础数据分析工具，并具备快速学习能力，能短时间理解智能客服组件（多模态、意图预判等）的业务逻辑\n3）软素质：积极主动，善于跨团队沟通；对细节敏感，能从用户反馈中捕捉体验漏洞，有 “用小优化创造大价值” 的思维",
+      "precedence": null,
+      "highLight": "1）业务价值：深度参与美团客服创新业务，聚焦 AIGC前沿方向，用技术重塑数亿用户服务体验，你的想法将直接影响智能客服产品迭代，创造可见价值\n2）成长机遇：与产品、算法、业务团队并肩，接触行业前沿的智能客服产品，在真实业务场景中学习 “从 0 到 1” 的创新落地逻辑，快速积累稀缺的 AI + 服务经验\n3）实践场景：深度参与 “智能客服体验革新” 全流程，覆盖产品、运营、数据分析多维度实践\n具备以下优先:\n对全新交互方式感兴趣，有3D向交互工程/设计/产品经验的同学优先",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1768817078000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    }
+  ]
+}

@@ -1,0 +1,1036 @@
+{
+  "status": "partial",
+  "complete": false,
+  "expected_total": 416,
+  "collected_jobs": 414,
+  "pages_scanned": 21,
+  "detail_complete": true,
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "errors": [
+    "duplicate source_record_id=4601916437 at page=9",
+    "duplicate source_record_id=3155417212 at page=20"
+  ],
+  "evidence": [
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-1.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-2.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-3.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-4.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-5.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-6.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-7.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-8.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-9.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-10.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-11.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-12.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-13.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-14.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-15.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-16.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-17.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-18.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-19.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-20.json",
+    "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-21.json"
+  ],
+  "evidence_files": [
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-1.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-2.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-3.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-4.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-5.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-6.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-7.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-8.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-9.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-10.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-11.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-12.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-13.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-14.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-15.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-16.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-17.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-18.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-19.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-20.json",
+    "/Users/maxzhl/Projects/mcp-suite-spark-meituan-20260912/research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-21.json"
+  ],
+  "scope_evidence": "官方公开API: zhaopin.meituan.com/api/official/job/getJobList",
+  "scope_request": {
+    "company": "美团",
+    "scope": "intern",
+    "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+    "params": {
+      "page": {
+        "pageNo": 1,
+        "pageSize": 20
+      },
+      "jobShareType": "1",
+      "jobType": [
+        {
+          "code": "2",
+          "subCode": []
+        }
+      ],
+      "keywords": "",
+      "cityList": [],
+      "department": [],
+      "jfJgList": [],
+      "typeCode": [],
+      "specialCode": []
+    }
+  },
+  "scope": "intern",
+  "company": "美团",
+  "collected_source_ids": [
+    "1038898418",
+    "2506432840",
+    "2639713807",
+    "2731047995",
+    "2836792916",
+    "2950194701",
+    "2963188562",
+    "2973819681",
+    "2984157945",
+    "2995805692",
+    "2997413577",
+    "3040997352",
+    "3048216134",
+    "3052598290",
+    "3054133943",
+    "3072326071",
+    "3094471749",
+    "3096545047",
+    "3099774305",
+    "3118455121",
+    "3126060173",
+    "3148133809",
+    "3153633714",
+    "3153650004",
+    "3153665236",
+    "3153713631",
+    "3153761150",
+    "3153761434",
+    "3153792897",
+    "3153793057",
+    "3153841114",
+    "3153872809",
+    "3153873006",
+    "3153873069",
+    "3153889354",
+    "3153937173",
+    "3153953328",
+    "3153985413",
+    "3153985521",
+    "3154001160",
+    "3155393936",
+    "3155412531",
+    "3155414459",
+    "3155417212",
+    "3155419418",
+    "3155423439",
+    "3155424457",
+    "3155429204",
+    "3155431042",
+    "3155435203",
+    "3159876283",
+    "3168261518",
+    "3185613649",
+    "3193384857",
+    "3197882635",
+    "3246270401",
+    "3258846670",
+    "3289433333",
+    "3346904295",
+    "3349134267",
+    "3358279441",
+    "3369700031",
+    "3375639537",
+    "3379054365",
+    "3379269866",
+    "3383858111",
+    "3392128388",
+    "3394452304",
+    "3394467312",
+    "3394739913",
+    "3394852239",
+    "3394933538",
+    "3395026635",
+    "3395994460",
+    "3395998670",
+    "3396015151",
+    "3396064381",
+    "3396084629",
+    "3405980682",
+    "3441065752",
+    "3453704228",
+    "3525122286",
+    "3532538442",
+    "3536120742",
+    "3546382972",
+    "3575843390",
+    "3589237321",
+    "3598204228",
+    "3600233708",
+    "3619721723",
+    "3620337309",
+    "3642100203",
+    "3643704509",
+    "3661397768",
+    "3662722414",
+    "3663960442",
+    "3688620857",
+    "3691111052",
+    "3691606760",
+    "3692056581",
+    "3699512800",
+    "3716178859",
+    "3716562469",
+    "3723476783",
+    "3728728037",
+    "3729719250",
+    "3772211058",
+    "3779779839",
+    "3781316173",
+    "3781589259",
+    "3802835253",
+    "3806618515",
+    "3836986063",
+    "3840031805",
+    "3853058770",
+    "3913280155",
+    "3913450654",
+    "3936169253",
+    "3955033511",
+    "3967378319",
+    "3969981032",
+    "3974173069",
+    "3992877820",
+    "3993111040",
+    "4014591457",
+    "4017806133",
+    "4029485660",
+    "4037011197",
+    "4037409740",
+    "4056236125",
+    "4061749831",
+    "4064326981",
+    "4098807887",
+    "4100221626",
+    "4100514347",
+    "4100864425",
+    "4104268126",
+    "4104614746",
+    "4108849549",
+    "4111786849",
+    "4129556326",
+    "4135152448",
+    "4135583466",
+    "4137367636",
+    "4138099640",
+    "4149244406",
+    "4150674945",
+    "4155951730",
+    "4164588581",
+    "4167596696",
+    "4168001862",
+    "4168181853",
+    "4171131125",
+    "4171649174",
+    "4173803702",
+    "4176343862",
+    "4176528180",
+    "4176528321",
+    "4176703830",
+    "4177265886",
+    "4177281953",
+    "4177287552",
+    "4177297780",
+    "4177301557",
+    "4177302566",
+    "4177303895",
+    "4177311305",
+    "4177318569",
+    "4177330267",
+    "4177333170",
+    "4177333359",
+    "4182692159",
+    "4184803526",
+    "4186951948",
+    "4192004081",
+    "4195532486",
+    "4208447290",
+    "4208545497",
+    "4211590659",
+    "4214797484",
+    "4215253408",
+    "4215844403",
+    "4216964995",
+    "4217632181",
+    "4241222974",
+    "4249687470",
+    "4249891076",
+    "4251492686",
+    "4252911870",
+    "4255346232",
+    "4259683073",
+    "4268845648",
+    "4275161267",
+    "4278962780",
+    "4280273801",
+    "4281737287",
+    "4281865844",
+    "4299852548",
+    "4303174055",
+    "4306214875",
+    "4318673541",
+    "4335924489",
+    "4337346398",
+    "4338167912",
+    "4346251550",
+    "4346299240",
+    "4346347366",
+    "4346394425",
+    "4346490662",
+    "4346554693",
+    "4346603206",
+    "4346698795",
+    "4346746325",
+    "4346794226",
+    "4346825573",
+    "4347049317",
+    "4347049935",
+    "4347065780",
+    "4347161746",
+    "4347503230",
+    "4347512368",
+    "4348661995",
+    "4348740468",
+    "4348763907",
+    "4348771151",
+    "4348779862",
+    "4348797539",
+    "4348807077",
+    "4348813830",
+    "4348814291",
+    "4348814376",
+    "4348820765",
+    "4348824362",
+    "4348830639",
+    "4348833221",
+    "4348841233",
+    "4348848293",
+    "4348855149",
+    "4348858121",
+    "4348890069",
+    "4357827910",
+    "4360796338",
+    "4362239277",
+    "4377847854",
+    "4402739791",
+    "4407242449",
+    "4408434482",
+    "4414331833",
+    "4437933911",
+    "4454617095",
+    "4457054728",
+    "4465499167",
+    "4468835980",
+    "4477850033",
+    "4479782490",
+    "4480738203",
+    "4490799538",
+    "4494593401",
+    "4499867840",
+    "4499868041",
+    "4500420647",
+    "4501188515",
+    "4501193441",
+    "4501197131",
+    "4510313395",
+    "4517166932",
+    "4517242070",
+    "4524949771",
+    "4526687319",
+    "4539538002",
+    "4551994213",
+    "4555137940",
+    "4555593816",
+    "4556101664",
+    "4564521242",
+    "4570770761",
+    "4570930537",
+    "4585704816",
+    "4585945291",
+    "4588857676",
+    "4588887634",
+    "4590205175",
+    "4591997596",
+    "4592373372",
+    "4592968243",
+    "4599741798",
+    "4599982715",
+    "4599991761",
+    "4600000528",
+    "4600007562",
+    "4600025247",
+    "4600028363",
+    "4600030283",
+    "4600034270",
+    "4600035256",
+    "4600051151",
+    "4601660687",
+    "4601899613",
+    "4601901665",
+    "4601916437",
+    "4601920608",
+    "4603932411",
+    "4611399961",
+    "4613337894",
+    "4614172673",
+    "4615767127",
+    "4626071131",
+    "4634499713",
+    "4635619440",
+    "4635641129",
+    "4639380544",
+    "4640371445",
+    "4643218943",
+    "4650800437",
+    "4653390910",
+    "4653525835",
+    "4663121342",
+    "4671148244",
+    "4671834749",
+    "4673575867",
+    "4674414269",
+    "4676872532",
+    "4680953116",
+    "4681090760",
+    "4683387184",
+    "4683631200",
+    "4684010133",
+    "4684312822",
+    "4685683988",
+    "4687739175",
+    "4688630032",
+    "4689045422",
+    "4690255029",
+    "4690361037",
+    "4691817003",
+    "4691986310",
+    "4691988917",
+    "4692043330",
+    "4693048454",
+    "4693143719",
+    "4694092432",
+    "4695192297",
+    "4695305856",
+    "4698722694",
+    "4699562392",
+    "4701264426",
+    "4702779494",
+    "4705621722",
+    "4708149694",
+    "4709281316",
+    "4709736107",
+    "4711609765",
+    "4718009811",
+    "4718078089",
+    "4721089799",
+    "4721255923",
+    "4721378720",
+    "4722100758",
+    "4723670007",
+    "4724418255",
+    "4724507682",
+    "4724689056",
+    "4724711057",
+    "4727031737",
+    "4728211606",
+    "4728251866",
+    "4728609343",
+    "4728610723",
+    "4728646500",
+    "4731354212",
+    "4739168514",
+    "4739271296",
+    "4739566127",
+    "4739617202",
+    "4741665206",
+    "4741966821",
+    "4742699630",
+    "4743599707",
+    "4743756908",
+    "4743956863",
+    "4744869706",
+    "4744872348",
+    "4744928166",
+    "4745820112",
+    "4746111185",
+    "4747262180",
+    "4747494125",
+    "4747953767",
+    "4748321532",
+    "4748770526",
+    "4748855942",
+    "4752276561",
+    "4752329955",
+    "4752476860",
+    "4752566777",
+    "4752580500",
+    "4752795943",
+    "4753491409",
+    "4754517798",
+    "4754718192",
+    "4755724572",
+    "4757161735",
+    "4757565057",
+    "4757787198",
+    "4758053002",
+    "4758327812",
+    "4759250945",
+    "4760016774",
+    "4761032176",
+    "4763586894",
+    "4764151086",
+    "4764627807",
+    "4767007100",
+    "507746100"
+  ],
+  "unique_source_ids": 414,
+  "detail_missing_count": 0,
+  "jobs_with_missing_fields": [],
+  "pending_source_ids": [],
+  "pagination_exhausted": true,
+  "last_page_evidence": "research/qiuzhao-p1-20260912/batch41-spark-meituan/metadata_repair/intern/repaired/list-21.json",
+  "api_calls": [
+    {
+      "page": 1,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 1,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 2,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 2,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 3,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 3,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 4,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 4,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 5,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 5,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 6,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 6,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 7,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 7,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 8,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 8,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 9,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 9,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 10,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 10,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 11,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 11,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 12,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 12,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 13,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 13,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 14,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 14,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 15,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 15,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 16,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 16,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 17,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 17,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 18,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 18,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 19,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 19,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 20,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 20,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    },
+    {
+      "page": 21,
+      "requested_total_page": 21,
+      "requested_status": 1,
+      "page_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+      "payload": {
+        "page": {
+          "pageNo": 21,
+          "pageSize": 20
+        },
+        "jobShareType": "1",
+        "keywords": "",
+        "cityList": [],
+        "department": [],
+        "jfJgList": [],
+        "jobType": [
+          {
+            "code": "2",
+            "subCode": []
+          }
+        ],
+        "typeCode": [],
+        "specialCode": []
+      }
+    }
+  ],
+  "reviewed_at": "2026-09-12T16:04:51Z"
+}

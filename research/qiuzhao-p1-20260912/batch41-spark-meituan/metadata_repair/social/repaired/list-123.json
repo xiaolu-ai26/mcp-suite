@@ -1,0 +1,1161 @@
+{
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "request_body": {
+    "page": {
+      "pageNo": 123,
+      "pageSize": 20
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jfJgList": [],
+    "jobType": [
+      {
+        "code": "3",
+        "subCode": []
+      }
+    ],
+    "typeCode": [],
+    "specialCode": []
+  },
+  "reviewed_at": "2026-09-12T16:05:04Z",
+  "page": {
+    "pageNo": 123,
+    "pageSize": 20,
+    "totalCount": 2475,
+    "totalPage": 124
+  },
+  "rows": [
+    {
+      "jobUnionId": "3899994632",
+      "name": "生产运营总监",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "物流",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-小象事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.加工运营体系搭建与优化\n1）主导生鲜品类的库内加工全流程设计（分拣、清洗、切割、包装、贴标等），确保符合平台品控标准与履约时效要求。\n2）建立标准化加工SOP，管理损耗、效率、成本、良品率等核心指标，推动持续改进。\n3）通过调整现场布局、动线规划及设备选型，提升人效与坪效。\n2.新模式创新与落地\n1）探索新品类或新型加工模式，主导试点验证与规模化复制。\n2）结合需求，对新模式的加工工艺和加工品质持续优化。\n3.供应链协同与资源整合\n1）协同采购团队制定原料验收标准，优化加工原料供给稳定性与成本结构。\n2）联动一线兄弟团队，确保加工-仓储-配送环节无缝衔接，保障商品鲜度。",
+      "jobRequirement": "1.本科及以上学历，供应链管理、物流管理、精益、食品工程、农业相关专业优先。\n2.8年以上生鲜加工管理经验，其中3年以上头部生鲜电商/大型商超/中央厨房加工中心负责人经历。\n3.精通果蔬加工工艺、保鲜技术及损耗控制方法论，熟悉冷链加工环境管理。\n4.具备从0-1规划并落地新加工能力的案例，能结合业务场景设计高品质、低损耗的加工解决方案。\n5.具备指标驱动的意识，有指标设计和运营的能力。\n6.熟练使用WMS/ERP系统，具备数据分析能力（SQL/Python加分）。\n7.对生鲜品质有更高追求，适应快节奏的工作环境。\n8. 掌握基本的AI工具，使用工具提升工作流程效率。",
+      "precedence": null,
+      "highLight": "小象业务有较好的发展前景，加工团队在在不断建设新能力拓展新领域，对员工的发展非常利好。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1762135957000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3235913691",
+      "name": "口腔SKA大客户经理（北京、上海）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "重庆市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-医药健康事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、 对重点客户的深度合作和相关业绩负责，能够和客户建立全方位战略性的合作关系；\n2、 对客户需求负责，能够深刻理解客户的经营逻辑，针对性给到解决方案。\n3、 整合内外部资源，挖掘端内场景机会，深化客户服务和营销能力的建设，并能够整合、输出、复制经验，沉淀标准工作流程和数据化的方法论；\n4、 通过客户的深度合作，提升客户在平台的资源投入，并提升客户平台成交在整体行业中的占比；\n5、 联合商户打造营销大事件，制定落地方案和传播策略，为平台和客户沉淀更多能力，配合市场团队推动双方品牌形象的打造，提升平台影响力和品牌美誉度。",
+      "jobRequirement": "1、 本科以上学历，3-5年以上互联网大客商业化工作经验；具备广告等行业经验优先，有咨询公司背景优先；\n2、 具备良好的业务开发、拓展、谈判能力，有敏锐的洞察和分析能力，突出的沟通表达能力；\n3、 有大流量及预算具体操盘经验和成熟的运营方法论，有丰富的媒介策划和营销策划经验者优先；\n4、 对于互联网平台有深度的理解，对于消费者心态、客户关系管理、品牌主需求、行业竞争现状和广告策略等有深度的理解。\n5、 敬业度高，自我驱动性强，目标感强，结果导向。",
+      "precedence": null,
+      "highLight": "超级大客维护、大客户体系搭建、帮助客户成功",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1761642313000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3111549479",
+      "name": "口腔KA大客户销售经理（深圳）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "广州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-医药健康事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责医疗行业大客户的合作和管理，通过市场调研和客户沟通，建立并维护与目标客户高层的良好合作关系。\n2.根据业务目标，制定有效的策略方案，达成深度业务合作，提升客户产值。\n3.负责开展市场信息收集、分析和整理，为公司决策提供参考依据。\n4.负责协调内部资源，与产品、运营、市场等部门紧密合作，推动项目的顺利进行。",
+      "jobRequirement": "1.大学本科以上学历，医学、市场营销、商务管理等相关专业优先。\n2.具备5年以上医疗行业大客户销售经验，熟悉互联网行业、医疗行业市场和产品，熟悉各类销售渠道和销售技巧。\n3.具备良好的沟通和谈判能力，能够与高层管理人员进行有效沟通和合作。\n4.具备良好的逻辑思维和问题解决能力，能够独立思考和解决工作中的各种问题。\n5.具备较强的抗压能力和应变能力，能够在高强度的工作环境下保持良好的工作状态。\n6.知名互联网平台企业工作经验者，有互联网广告销售运营的相关经验优先。",
+      "precedence": null,
+      "highLight": "1.有机会在口腔行业大客户销售领域展示个人能力和实现职业发展；\n2.薪资福利优厚，提供良好的晋升空间和职业发展通道；\n3.公司氛围轻松和谐，提供专业的培训和发展机会，打造专业销售团队。\n4.与口腔行业头部客户关键KP对话合作，积累优质行业人脉。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1761622268000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3881018027",
+      "name": "小象超市-鲜花绿植采购",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "采购",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-小象事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.采购策略：立足品类&区域销售场景，拆解销售目标、毛利、品质客诉和商品好评率等指标，结合商品结构、品级、市场价格波动趋势，搭建品类、商品、价格运营体系；\n2.供应商管理：以商品品质为核心，搭建类目供应商与经营范围体系，搭建供应商拿货渠道、价格、品质、配合度为评估模型，统筹基地和加工商招商及全链路维护。\n3.商品管理：洞察用户购买意识，结合商品销售周期，按照品类、品种、价格带、季节性、销量分层等多维度，制定商品选品计划和成本优化策略；发展核心品类及爆品挖掘，制定健康的商品管理sop,在采购成本、品质、出清损耗、好评率&客诉率等方面做商品全生命周期管理。\n4.活动运营：贴合平台大促节奏和品类特征，整合各协同部门资源，统筹销售行动计划-方案落地-营销协同-数据监控-突发情况处理-活动复盘的执行。\n5.数据分析：搭建全链路运营指标监控体系，拆解如销售、毛利、动销、转化、客诉等多维度关键指标的达成链路及识别异动并优化。",
+      "jobRequirement": "1.有5年以上鲜花或任何生鲜品类采购或运营经验，有实体超市采购、互联网平台运营、农业院校优秀毕业生优先；\n2.关注市场动向，对消费者购买趋势具备敏锐力。具备优秀的品商管理能力和商务谈判能力；\n3.有较强的逻辑思维，有数据sense，通过数据分析发现问题，输出落地解决方案，为负责业务板块拿结果；\n4.学习能力强，执行力强，有较强的沟通协调、资源整合及项目管理能力。\n5.掌握基本的AI工具，使用工具提升工作流程效率",
+      "precedence": null,
+      "highLight": "1.能锻炼在前置仓场景下零售+科技业务模式、全链路商品管理及覆盖国内一线城市的业务操盘与实践。\n2.牵头全年各关键营销节点活动项目，足够的个人专业度和团队协作能力的展示机会。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1761496133000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3464484946",
+      "name": "美团骑行-运营主管-南昌",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "业务支持",
+      "cityList": [
+        {
+          "code": null,
+          "name": "南昌市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-骑行事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "岗位职责：\n1.负责所属区域的车辆运营管理工作，对有效运营车辆和活跃车辆等指标负责；\n2.通过实地观察和数据分析，了解区域的车辆供需状况，制定合理的车辆投放及调度策略；\n3.根据故障车辆及未骑行车辆的数量及分布数据，制定并优化车辆干预管理的策略；\n4.配合政府部门对城市运营问题进行管理；\n5.协助运营经理管理运营团队，提升团队工作效率和结果。\n6.具备主导项目推进和闭环的能力，协调沟通能力，资源整合能力。",
+      "jobRequirement": "1.本科及以上学历，2年以上团队管理经验，善于用开拓性思维解决问题；\n2.有互联网线下运营、快消行业、物流行业、维修经验者优先；\n3.善于数据分析，并能通过数据分析的结果不断优化调整工作；",
+      "precedence": null,
+      "highLight": "部门介绍：\n美团骑行事业部隶属于美团平台，是美团出行板块重要的组成部分。骑行业务在全国各个城市开展美团单车、电单车业务，提供绿色、便捷的共享出行服务，也为城市提供了可持续发展的智能解决方案。\n美团单车在为城市居民提供通勤接驳服务，满足用户3公里以内的出行需求，美团电单车满足广大用户8公里以上的绿色出行需求，单车和电单车为城市居民地中短途出行提供了高效、低碳、便捷的出行方案。通过美团单车、电单车业务，美团为用户提供全场景消费体验，继续围绕公司使命“帮大家吃得更好，生活更好”。\n\n岗位亮点：\n加入我们，你将成为骑行业务的推动者和建设者，这里有证明自己的平台、向上奋斗的团队、追求卓越的伙伴和丰厚的激励回报。欢迎加入！",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1761304515000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3167054220",
+      "name": "商业分析专家",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "人力资源平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 监控外卖业务经营情况，以专题形式针对某一问题、机会点进行深入分析，输出有业务价值的洞察发现，形成研究报告。\n2. 聚焦业务增长或策略创新，可以清晰定义和拆解问题、搭建研究思路，输出有洞察力的分析报告，助力业务在增长机会挖掘及核心问题解决方向取得突破。\n3. 参与外卖指标框架搭建，能完成供给/用户等模块的指标洞察及建设，灵敏有效的反映业务发展变化。",
+      "jobRequirement": "1. 本科学历或以上，数学、统计学、经济类或商科相关专业背景；\n2. 7年或以上互联网商业分析或咨询公司工作经验，有商品/品类研究、用户/流量分析经验者优先；\n3. 具有良好的商业洞察及严谨的逻辑思维，能结构化拆解问题并完成分析，推动问题解决；\n4. 熟练掌握常用的数据分析工具，具有扎实的梳理统计基本功者优先；\n5. 具有较强的主观能动性、执行能力、沟通协同能力，主人翁意识强。",
+      "precedence": null,
+      "highLight": "1. 支持美团核心业务，参与外卖整体的经营分析和策略BP，培养良好的全局观、思维高度和完善的分析框架。\n2. 团队专业性强，氛围良好开放，能够帮助同学快速成长。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1760344058000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "2603623366",
+      "name": "AI工程高阶岗位",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "岗位职责：\n1.参与美团机器学习平台的机器学习基础架构；\n2.负责异构计算的高性能训练引擎，推理引擎、图学习引擎等核心引擎的研发；\n3.负责从特征生产、数据分发、模型训练、模型推理上线等机器学习全链条优化。",
+      "jobRequirement": "1.对技术有着永无止境的追求，自认为是技术Geek，具备很强的编写代码和解决问题能力；\n2.有C++/Python中大型项目开发经验（至少熟练应用一种）， 并对高并发/分布式系统有开发经验。",
+      "precedence": null,
+      "highLight": "1.有机会全身心地参与美团机器学习平台的建设，和团队一起对机器学习场景工作流进行全新的升级、再造；\n2.能在急速发展的业务当中，建立对深度学习的认知，构建完整的宏观图景；\n3.能和多元化背景的团队技术大牛一起，综合学习，共同进步。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1759285802000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3758011281",
+      "name": "城市BD",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "重庆市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-商业增值部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "岗位职责：\n1、维护存量客户的客情关系，通过对门店问题的诊断，及时进行沟通反馈，帮助商家在关键数据上进行增长，保证CTR与CVR，对商户ROI负责。\n2、对已合作美团的商户但并未合作广告产品的客户进行新签，通过管理商家预算分阶段的计划投放，撬动商家自然流量，保证广告收入。\n3、对行业有深刻理解，能够通过数据得出有效结论，在行业的新玩法上有自己的理解，并不断尝试。\n4、能够站在城市的视角上通过数据分析和大家进行经验共享和方法论输出，对于商圈、行业健康度提出自己的意见，并按照策略进行业务流程优化，并执行。",
+      "jobRequirement": "1、本科学历及以上学历为佳，大专学历，需一年及以上的销售经验，销冠为佳，或拥有良好销售业绩，有互联网销售经验者优先，高潜应届生同学亦可。\n2、聪明伶俐，应变能力强，有明显的晋升想法，有过硬的业务能力。\n3、热爱销售，善于挑战，积极乐观，有强烈的成功欲望和正确的企图心；\n4、具备较强的市场分析能力，商务谈判能力，人际沟通能力，及逻辑思维能力；\n5、适应互联网行业的快速发展，精力充沛，具备出色完成任务的能力。\n6、心态乐观、为人正直、自主目标感强；",
+      "precedence": null,
+      "highLight": "1、了解市场优先动向熟悉餐饮行业，与餐饮行业老板做朋友广阔人脉资源；\n2、一群有理想的同事、业余时间活动丰富。\n3、互联网公司节奏快！是这能让你快速发展，快速提升自己的平台；",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1758176746000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3310862269",
+      "name": "电话商务拓展专员",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-酒店旅行",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、区域内高星酒店业务拓展，通过以电话为主的形式进行客户管理与维护，了解酒店合作需求，提供恰当的合作方案与建议，完成产品采购和线上运营，对线上供给的数量及质量负责；\n2、对于签约合作门店，基于平台特性和运营规则，发现高星酒店在平台的生意增长点，制定策略，落地执行，实现门店间夜持续提升，稳固并加深商家合作意愿；\n3、收集行业信息，了解行业动态，并能参考收集信息制定酒店营销计划及月度项目落地计划，高效执行，对团队目标和业绩指标达成负责",
+      "jobRequirement": "1、了解并热衷酒店行业，有销售、运营、酒店前台或OTA相关从业经历者优先\n2、具备较强的业务拓展能力，具备良好的系统思维、数据分析能力以及沟通表达能力\n3、具备较强的学习能力\n4、需要有至少1年相关行业工作经验",
+      "precedence": null,
+      "highLight": "住宿业务开发 & 运维岗位，充分深入住宿业务核心商家，并增加高星酒店维护经验",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1757402013000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3550372443",
+      "name": "多模态工程开发专家",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1）负责构建智能交互、语音视觉、多模态方向大模型的全链路工程优化，包括模型部署和性能优化、模型蒸馏加速、异构计算推理优化等；2）协同跨职能团队（如产品、算法等）共建好用的产品工具，围绕公司各个业务在视觉、语音、多模、智能交互各个场景的应用，打通内外生态，提供创新解决方案。\n\n3）负责面向内容生成和多模态人机交互的前瞻技术储备，确保团队在新技术应用和创新上处于行业前沿。\n\n4）提升公司各部门对AI应用的使用效率和易用性，持续降低使用门槛和成本，支持内部角色的AI工具使用。\n\n5）推动平台化服务的构建，优化现有智能应用的性能与稳定性，确保产品工具的高效落地。",
+      "jobRequirement": "1）具备一线大厂大规模算法模型工程经验和多端侧开发管理经验。\n\n2）深刻理解语音识别、计算机视觉、自然语言处理、多模态各技术路线，具有相关平台的开发与应用经验。\n\n3）熟悉多模态数据流处理、跨模态特征融合和信息整合的架构设计，能够设计高效的数据管道和支持跨模态的AI训练与推理框架。\n\n4）熟悉一流技术公司的开发流程和工作方法，具备良好的编码风格和技术能力，具备培养团队技术氛围的使命感。\n\n5）具备优秀的团队管理和领导能力，能够激励团队成员，推动跨部门协作。\n\n6）强烈的责任心与业务协作精神，能够高效推进项目落地，具备良好的沟通能力和同理心。",
+      "precedence": null,
+      "highLight": "引领前沿技术在智能应用领域的落地，致力于构建易用且高效的多模态智能平台。\n\n推动公司内部智能平台的普及，降低AI应用成本，提升团队协作效率。\n\n与跨部门团队紧密合作，推动创新方案的实施，支持公司在AI应用领域的长远发展。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1757386123000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3721177184",
+      "name": "视频创作算法工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责视频创作相关的算法研发，包括：图像/视频生成、多模态理解、智能化剪辑、交互式Agent等；\n\n2. 结合实际业务需求，负责视频创作算法在各个场景的落地。",
+      "jobRequirement": "1. 计算机、数学、统计学、人工智能等相关专业，硕士及以上学历，3年以上工作经验；\n\n2. 在视觉、语言模型、多模态模型一个或多个领域有研究，有实际微调和应用经验；\n\n3. 动手能力强, 具有熟练的算法和编程能力，熟悉深度学习框架；\n\n4. 善于利用各类技术解决复杂的实际问题，有良好的沟通表达能力、团队协作能力。",
+      "precedence": null,
+      "highLight": "1. 以公司实际业务为依托，场景覆盖广，有完善的技术转化和落地机制；\n\n2. 深度参与视频创作全链路，多技术方向交叉领域，具有较高的技术挑战性和创新空间。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1756973210000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3617556731",
+      "name": "广深城市经理-餐饮SaaS",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "广州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-餐饮SaaS事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责南部战区业务开发工作，制定并实施业务拓展计划。\n2.管理团队成员，指导他们完成销售任务，提升业绩。\n3.负责与客户沟通，了解客户需求，推动业务发展。\n4.协调内部资源，确保项目顺利进行。",
+      "jobRequirement": "1.大学专科及以上学历，具备相关专业背景。\n2.具备3年以上业务开发或销售经验，有团队管理经验者优先。\n3.具备较强的沟通能力、团队合作能力。\n4.熟悉南部战区市场，有良好的客户资源者优先。",
+      "precedence": null,
+      "highLight": "1.可以在南部战区这个高发展地区展示自己的能力，获得更多的发展机会。\n2.有机会带领团队完成挑战性的业务目标，实现个人和团队的成长。\n3.公司提供良好的晋升机制和薪酬福利，帮助员工实现职业发展目标。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1755150513000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3524445451",
+      "name": "Keeta技术 - 高级Java开发工程师(智能客服方向)",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-业务研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责智能客服工程技术建设，建设大模型工程在客服领域的相关平台；\n2.负责智能客服服务端技术方案设计、需求把控及核心功能开发；\n3.持续提升核心系统在大模型应用层面的性能和质量，保证系统的安全、稳定、快速运行；\n4.借助AI Coding工具提升智能客服系统研发效率，深度参与Agent、RAG等大模型技术在客服场景中的工程落地与持续优化。",
+      "jobRequirement": "1.本科以上学历，具备扎实的编程基础和数据结构算法基础，优秀的编程能力和问题解决能力；\n2.3年以上后端开发经验，至少精通一门后台语言如Java/Go，并深入理解面向服务的架构，精通Web后台开发、微服务开发，掌握Linux/MySQL/NoSQL等；\n3.了解LLM相关工程研发知识，包括但不限于Agent、RAG、任务调度、推理加速、评测、PE等；\n4.熟练使用AI辅助编码工具（如GitHub Copilot/Cursor），能将AI工具融入日常开发流程；有智能客服、工作流引擎相关从业经验或大模型应用经验者优先。",
+      "precedence": null,
+      "highLight": "1.能全面参与国际化业务从0到1的建设过程，可了解国际化业务全貌及系统架构演进；\n2.如果你对世界充满好奇心，在这里，你会接触到不同的国家、语言和文化，开拓国际视野，探索异域市场；\n3.如果你富有冒险精神，在这里，一个个陌生的国家等待你的开发，一个个全新的关卡等待你的挑战；\n4.如果你渴望快速成长，在这里，你可以经历新业务从0到1的过程，不断解锁新技能，持续获得成就感；\n5.团队积极拥抱AI工作方式，日常研发已全面接入AI Coding工具，深度探索大模型驱动的智能客服系统工程化实践；\n6.我们的目标是星辰大海，期待有想法、敢于冒险、渴望快速成长的你加入！让我们一同见证美团国际化的征程！",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1755135940000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3602249206",
+      "name": "大模型中台服务后台工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 大模型接入平台建设\n\n负责构建和维护企业级大模型接入平台，支持内部业务系统快速接入\n集成主流外部大模型服务（OpenAI、Claude、deepseek等）和自部署开源模型服务，提供统一的接入标准\n建立完善的模型版本管理、配置管理和发布流程\n\n2. 中台服务架构设计\n\n基于统一接口标准，构建高可用、高并发的大模型中台服务\n设计实现用户权限分层管理、智能流量调度和服务降级机制\n建立完善的监控告警体系，确保服务稳定性和可观测性\n\n3. Agent生态能力建设\n\n跟踪业界Agent技术发展趋势，持续优化平台能力\n设计面向未来的API架构和能力体系，支持多模态Agent应用的落地\n构建Agent工具链和开发框架，提升开发效率\n\n4. 数据驱动的平台优化\n\n建立大模型使用数据的采集、分析和可视化体系\n基于用户行为和性能数据，持续优化平台架构和服务质量\n制定数据驱动的产品迭代策略，提升用户体验",
+      "jobRequirement": "1. 本科及以上学历，3年以上工作经验，3年以上后端系统的开发经验；\n2. 精通Java和数据结构，具有强烈的好奇心，能够发现业务中的痛点，并通过架构改进解决问题；",
+      "precedence": null,
+      "highLight": "1. 大模型平台服务入口，技术深度和挑战足够；\n2. 涵盖业务类型广，技术链条深度足够，技术范围广；\n3. 跟踪大模型领域前沿知识，获得实际的业务实施经验；\n4. 团队成员经验丰富，技术卓越，成长环境好；",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1754376484000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3536535694",
+      "name": "闪购-高级Java开发工程师（商品方向）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-业务研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.完成零售SaaS系统核心的商品模块建设，保证系统符合质量性能要求；\n2.进行需求分析以及主要业务功能的开发，对现有业务模块进行优化；\n3.将业务逻辑拆解清晰，攻克技术难点，支撑业务快速发展；\n4.系统技术优化，提升系统的稳定性、性能和可维护性；\n5.借助AI Coding工具提升商品系统研发效率，探索AI技术在商品管理智能化、业务规则自动配置等场景中的工程落地。",
+      "jobRequirement": "1.大学本科以上学历，计算机或相关专业，4年以上Java实际项目开发经验；\n2.有扎实的Java基础，Java多线程、并发以及网络通信有深厚的经验；\n3.熟悉设计模式、OOA/OOD。熟悉主流开源应用框架，如Spring、MyBatis、XML、JSON、Maven等开发技术；\n4.熟悉关系型数据库MySQL等，SQL优化。熟悉Memcached、MongoDB、Redis、HBase等；\n5.熟悉分布式系统的设计和应用，熟悉分布式、缓存、消息、负载均衡等机制和实现；\n6.热爱技术，对技术有不懈的追求，喜欢研究开源代码；\n7.良好的学习能力、团队协作能力和沟通能力；能主动承担压力，态度端正积极，善于思考，能独立分析和解决问题；\n8.熟练使用AI辅助编码工具（如GitHub Copilot/Cursor），能将AI工具融入日常开发流程；有电商商品系统或供应链商品系统开发经验者优先。",
+      "precedence": null,
+      "highLight": "1.从0到1参与新零售业务的系统建设，建设比见证更重要；\n2.全方位深入业务，在全闭环的组织里感受不同职能彼此的输入/输出，你也可以参与业务模式的定义；\n3.大厂的业务规模、业务复杂度以及快速发展所带来的技术挑战，彻底告别在一个小模块修修补补的时代；\n4.深入参与自营零售业务的经营，说不定你后续也知道怎么开店；\n5.团队技术氛围良好，能帮助自我快速提升；\n6.团队深度拥抱AI工作方式，日常研发全面接入AI Coding工具，持续探索AI驱动的SaaS商品系统智能化实践。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1753081573000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3451275664",
+      "name": "充电宝渠道经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "广州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "东莞市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "佛山市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "珠海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-充电宝业务部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责开发并管理美团共享充电宝在安徽、湖南和江西地区的渠道合作伙伴，推动共享充电宝产品在当地市场的拓展和销售业绩的提升。\n2.策划并执行渠道招商活动，寻找合适的合作伙伴，建立和维护与其的良好合作关系，推动合作伙伴的业绩增长。\n3.负责制定并实施渠道管理策略，包括渠道政策、活动等，确保渠道合作伙伴的利益最大化。\n4.跟进渠道合作伙伴的业绩和销售数据，分析市场动态和竞争对手情况，及时调整策略，确保达成销售目标。\n5.协调各部门资源，解决渠道合作伙伴的问题和需求，确保合作伙伴的满意度和忠诚度。\n6.持续关注行业发展趋势，分析市场需求，提出产品改进和推广建议，推动共享充电宝在当地市场的创新和发展。",
+      "jobRequirement": "1.专科及以上学历，市场营销、商务管理或相关专业优先考虑。\n2.至少2年以上渠道开发、业务拓展或销售经验，有充电宝、移动电源、共享经济等相关行业经验者优先。\n3.具备较强的市场洞察力和渠道开发能力，熟悉当地市场情况，了解渠道合作伙伴管理和招商的流程。\n4.具备团队合作和协调能力，能够有效管理和激励团队成员，推动团队共同完成销售目标。\n5.具备较强的沟通和谈判能力，能够与合作伙伴建立信任关系，协商合作事宜，解决问题和冲突。\n6.具备良好的数据分析和问题解决能力，能够通过数据分析和市场调研，提出有效的渠道管理和销售策略。\n7.工作积极主动，有较强的责任心和执行力，能够承受一定的工作压力。",
+      "precedence": null,
+      "highLight": "1.作为美团共享充电宝渠道经理，将有机会参与共享经济行业的发展，推动共享充电宝在安徽、湖南和江西地区的市场拓展和品牌建设。\n2.可以与各类渠道合作伙伴展开合作，提升渠道销售业绩，实现个人和团队的成长和发展。\n3.扁平化管理，团队氛围NICE。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1752559271000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3545041592",
+      "name": "AI高阶工程-大模型推理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责大规模预训练模型（如GPT、BERT、LLM等）的推理系统设计、优化与落地，实现模型在多平台（GPU、CPU、NPU等）上的高效推理。\n2. 针对模型推理场景，深入分析性能瓶颈，主导模型量化、剪枝、蒸馏、结构重参数化等前沿推理加速技术的研究与应用。\n3. 参与大模型推理框架（如TensorRT、ONNX Runtime、OpenVINO、MindSpore等）的开发与优化，提升推理效率与系统稳定性。\n4. 跟踪业界和学术界大模型推理相关前沿技术，推动创新方案在业务中的应用落地。\n5. 与算法、系统、硬件等团队紧密协作，制定端到端的推理优化方案，支撑业务高并发、低延迟的需求。\n6. 负责推理平台的技术难点攻关，解决模型部署、兼容性、资源调度等实际问题。",
+      "jobRequirement": "1. 计算机、人工智能、电子工程等相关专业硕士及以上学历，5年以上AI推理/系统优化相关工作经验。\n2. 深入理解主流大模型结构及推理原理，熟悉Transformer、LLM等模型的高效推理优化技术。\n3. 精通至少一种主流深度学习框架（如PyTorch、TensorFlow、MindSpore等）及其推理引擎（如TensorRT、ONNX Runtime等）。\n4. 熟悉模型压缩、量化、剪枝、蒸馏等加速技术，并有实际落地经验。\n5. 扎实的编程能力，精通C++/Python，具备良好的系统调优与性能分析能力。\n6. 有大规模分布式推理、异构计算（GPU/CPU/NPU）或端侧推理部署经验者优先。\n7. 具备良好的团队协作、沟通能力和创新精神，能承担复杂项目的技术攻关任务。\n8. 有相关开源项目贡献、顶会论文发表或大模型推理产品化经验者优先。",
+      "precedence": null,
+      "highLight": "围绕公司内主流应用模型进行模型压缩和加速方面的算法和工程探索，面向高效推理场景进行模型结构设计和改造；\n构建高性能、多硬件的统一NTP推理框架，支持自研模型和优秀开源模型的推理，支撑公司内大模型应用的低成本探索。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1752483455000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "2353171913",
+      "name": "连锁酒店KA大客户经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "兰州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "乌鲁木齐市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-酒店旅行",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "为解决未来1-2年的核心问题，这个岗位上的人需要做以下三件事?\n1）提升核心市场酒店竞争规模比，达到大优态势。\n2）同时该岗位在团队、客户之间进行协作，管理好不同的客户关系，提升客情生产力。\n3）同时团队人员末位淘汰，对于该岗位进行查漏补缺。",
+      "jobRequirement": "1）定期出差拜访所负责城市酒店的KP（单店店长、多店店长和区域经理），根据其运营策略、客户政策及需求，通过商务洽谈，建立良好的客情，以采购优势的库存和价格，为平台消费者提供性价比更高的产品。\n2）在复杂多变的市场环境中及武器不断迭代的情况下，进行业务下探和落地执行，达到既定目标。\n3）运用互联网知识（流量、营销等），捕捉客户需求，将需求转化为运营产品来实现业务落地。\n4）结合市场、竞争情况，对业务数据进行分析和问题定位，找到有效策略，拿到预期结果。\n5）结合业务现状，对武器使用、日常运营过程中的不足提出准确需求及优化建议。",
+      "precedence": null,
+      "highLight": "1）有更大的市场空间，更多的挑战，表现优秀的同学可以获得快速晋升；\n2）我们有开放、直接的工作氛围，以逻辑和事实说话，而不是岗位级别和层级；\n3）在这里，可以和行业内优秀的团队一起工作，获得高频的培训，助力职业发展。\n具备条件有限\n1）大客户连锁维护经验。\n2）过往工作中能取得优异就结果，有成功经验。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1752372042000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "2318526709",
+      "name": "大模型推理研发工程师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责大模型推理引擎的研发和优化，包括推理系统优化、模型量化压缩和模型部署；\n2.负责开发和维护基于大规模数据的推理引擎；\n3.参与解决推理过程中的技术难题，提升推理算法的性能和效果；\n4.开展相关领域的技术研究，提出创新性的解决方案。",
+      "jobRequirement": "1.大学本科及以上学历，计算机相关专业优先；\n2.至少3年以上软件开发经验，有推理引擎开发经验者优先考虑；\n3. 熟练掌握C++、CUDA编程，熟悉常见的数据结构和算法；\n4. 熟悉机器学习和深度学习理论，具备扎实的编程能力，熟悉Transformer结构优化者优先；\n5. 熟悉常用的深度学习框架，如TensorFlow、PyTorch等，熟悉以下推理框架者优先sglang/vllm、FasterTransformer、DeepSpeed FastGen、TensorRT-LLM等；\n6. 具备良好的团队合作精神和沟通能力，能够承担一定的工程管理职责。",
+      "precedence": null,
+      "highLight": "1.公司具备丰富的软件开发经验和技术积累，提供广阔的发展空间；\n2.参与大模型推理引擎的研发和优化，解决行业内具有挑战性的技术问题；\n3.薪资福利优厚，提供良好的培训和晋升机制，为员工提供良好的职业发展机会。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1751871340000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3496647624",
+      "name": "AI体验设计师",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "设计类",
+      "jobFamilyGroup": "设计",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-美团平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责医药健康AI类产品设计工作，包括选购交易、问诊导诊、商家工具等，为产品体验负责；\n2.参与产品讨论，与产品经理、工程师协作，从设计和用户体验的角度提出建议与解决方案；\n3.配合工程师共同创建用户界面，跟踪产品效果，保证最终设计质量；\n4.持续关注设计趋势，分享设计经验，推动提高团队的设计能力。",
+      "jobRequirement": "1.大学本科及以上学历，3年以上设计工作经验，设计相关专业优先。\n2.具备出色的学习能力和丰富的AI知识储备，能有效地将想法转化为设计方案；\n3.具备较强的沟通能力和团队合作精神，能够与产品经理和开发人员有效配合；\n4.对用户体验有深入的理解和追求，关注行业设计趋势和技术动态；\n5.对工作负责，有一定抗压能力，面对挑战能内核稳定，积极克服困难解决问题。",
+      "precedence": null,
+      "highLight": "1.参与医药健康产品的设计工作，有足够多的机会接触快速发展的互联网企业所面对的新挑战；\n2.有机会接触到大量用户和复杂的业务场景，挑战性高；3.团队扁平化管理，大家一起学习、交流，一起进步和成长。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1751269697000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    }
+  ]
+}

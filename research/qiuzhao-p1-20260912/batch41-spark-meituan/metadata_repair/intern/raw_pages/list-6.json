@@ -1,0 +1,1031 @@
+{
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "request_body": {
+    "page": {
+      "pageNo": 6,
+      "pageSize": 20
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jfJgList": [],
+    "jobType": [
+      {
+        "code": "2",
+        "subCode": []
+      }
+    ],
+    "typeCode": [],
+    "specialCode": []
+  },
+  "reviewed_at": "2026-09-12T15:37:10Z",
+  "page": {
+    "pageNo": 6,
+    "pageSize": 20,
+    "totalPage": 21,
+    "totalCount": 416
+  },
+  "rows": [
+    {
+      "jobUnionId": "4688630032",
+      "name": "员工沟通与关怀实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "人力资源",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "人力资源平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "方向一\n1. 协助开展员工舆情监测与分析，定期梳理内外部舆情动态，输出舆情简报与专题分析报告。\n2. 参与员工沟通项目的策划与落地，收集员工反馈，协助优化内部沟通机制与传播路径。\n3. 支持企业文化内容的撰写、传播与相关运营，包括文化推文创作与发布、文化社群的运营。\n4. 配合团队完成其他企业文化内部传播项目，确保信息准确、及时触达目标人群。\n\n方向二\n1. 协助策划和执行美团核心本地商业的企业文化活动，参与活动方案设计、现场执行与复盘总结。\n2. 负责活动相关的内容创作与传播支持，包括宣传文案、图文推送、短视频脚本及素材整理。\n3. 跟踪活动传播效果，收集数据并协助完成效果分析报告，持续优化传播策略。\n4. 配合团队完成日常传播运营工作，确保活动信息准确、高效触达目标人群。",
+      "jobRequirement": "方向一\n1. 大学本科及以上在读，专业不限，新闻传播、人力资源、中文等相关专业优先。\n2. 具备扎实的文字功底和良好的沟通表达能力，有舆情监测、内容传播或员工关系相关经验者优先。\n3. 有独立思考和创新意识，能在常规工作中发现问题、提出新思路，不满足于简单执行。\n4. 工作细致认真，责任心强，能在信息量较大的环境中保持清晰的判断和高效的执行。\n5. 熟练使用常用办公软件，能灵活运用 AI Agent 工具辅助内容生产与数据分析。\n\n方向二\n1. 大学本科及以上在读，专业不限，新闻传播、中文、广告、人力资源等相关专业优先。\n2. 对活动策划和内容传播有真实的热情，充满活力，愿意冲在一线、亲手把想法变成现实。\n3. 动手能力强，有图文设计或视频剪辑能力，熟练使用 AI Agent 工具及相关制作工具（如剪映、Canva等）者优先。\n4. 有激情，有活力，有创新意识，有网感，能快速捕捉传播热点，提出有新意的创意方案并推动落地。\n5. 责任心强，具备良好的沟通协作能力，适应快节奏的工作环境。",
+      "precedence": null,
+      "highLight": "1. 深度参与美团核心本地商业团队的企业文化建设，接触企业文化传播、员工沟通、员工关怀等一线业务\n2. HR导师一对一指导，系统积累人力资源与企业文化传播的实战经验。\n3. 团队氛围直接、坦诚、开放，愿意给予充分的发挥空间和专业成长支持。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787627041000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4718009811",
+      "name": "税务合规",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "财务",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "财务平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "从事互联网涉税信息报送准备工作，为业务持续合规发展做好税务处理预备方案。",
+      "jobRequirement": "有扎实的计算机专业基础，有项目管理经验，有学习和合作精神，有问题分析能力和项目推动能力。",
+      "precedence": null,
+      "highLight": "了解互联网业务全流程税务实操，积累数字化风控与合规方案经验，熟悉数据结构、操作系统，掌握基本数据库系统知识，掌握前沿合规方法论，在实战中打磨专业技能，积累宝贵行业认知。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787625461000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4694092432",
+      "name": "自动驾驶软件测试实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "测试",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-无人车业务部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责美团自动车自动驾驶产品工程框架和算法模型迭代质量保障工作；\n2. 参与制定测试相关流程、策略、方法和工具等创新，努力提升测试的质量和效率；\n3. 沉淀通用测试解决方案，负责关键专项建设，开发相关工具平台；解决测试过程中的复杂技术问题。\n3. 制定产品交付验收标准，挖掘分析质量管理盲区并制定相关改进解决方案，优化质量管理流程体系。\n5. 参与自动驾驶功能需求评审，架构评审，设计评审，代码评审，从测试角度提供评审意见，独立完成测试任务，输出测试报告",
+      "jobRequirement": "1.熟练掌握C++/Shell/Python等至少一种编程语言，熟练使用vibe-coding工具进行代码开发，对AI充满热情；\n2.了解软件开发和测试流程；\n3.对新技术有快速学习的能力，对未接触过的难题有较快解决能力，良好的思维逻辑能力；\n4.对软件测试有浓厚的兴趣，有很强的问题分析能力、定位能力和项目推动能力；\n5.具备强烈的责任心、进取心及团队合作精神，热衷于追求技术与创新。",
+      "precedence": null,
+      "highLight": "1. 自动驾驶全栈技术栈，培养感知，决策，规划，控制等全面自动驾驶技术理解，全流程把控\n2. 团队氛围好，发展空间大\n3. 兼备技术深度和广度，拓宽视野和思考格局",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787554321000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4184803526",
+      "name": "海外招聘实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "人力资源",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "人力资源平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.支持海外业务，协助招聘经理完成海外招聘流程，包括简历筛选、面试安排、录用跟进等工作。\n2.参与招聘需求的分析和招聘计划的制定，确保招聘工作的顺利进行。\n3.协助组织招聘活动，拓展招聘渠道，吸引优秀人才。\n4.协助制定和完善公司的招聘政策和流程，提高招聘效率和质量。",
+      "jobRequirement": "1.大学本科及以上学历，人力资源管理、心理学、英语等相关专业优先。\n2.对人力资源管理及招聘工作有浓厚兴趣，有较强的学习能力和团队合作意识。\n3.良好的沟通能力和组织协调能力，能够主动承担工作责任。\n4.熟练使用办公软件，有一定的数据分析能力和文案撰写能力者优先考虑。",
+      "precedence": null,
+      "highLight": "1. You can gain practical experience in the field of human resources and administration, laying a solid foundation for future employment.\n2. Participate in the company's recruitment activities and internal training programmes to expand interpersonal relationships and career development opportunities.\n3.You can work in an international corporate environment and meet talents from various industries, broadening your horizons and career development path.",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787308832000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4709736107",
+      "name": "电单车财务BP（实习）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "财务",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "财务平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 协助运营BP整理430+个城市的基础数据档案； \n2. 每月100+城市测算中，协助业务做好城市精算，为业务决策提供重要支持； \n3. 其他基础工作支持。",
+      "jobRequirement": "1. 良好的沟通能力和业务sense； \n2. 具备处理表格的能力； \n3. 每周至少出勤4天以上",
+      "precedence": null,
+      "highLight": "1. 学习共享电单车业务的运营模式 \n2. 积累互联网财务BP的工作经验，了解财务BP的价值和机会点 \n3. 和业务高频沟通，锻炼沟通能力",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787305367000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4570770761",
+      "name": "招聘实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "人力资源",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "人力资源平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 协助招聘经理完成岗位发布、简历筛选及候选人初步沟通。  \n2. 参与面试安排、协调面试官及候选人时间，确保流程顺畅。  \n3. 维护招聘系统数据，更新候选人状态并整理招聘相关文档。  \n4. 协助开展校园招聘及雇主品牌活动的组织与执行。  \n5. 完成上级交办的其他招聘支持工作。",
+      "jobRequirement": "1. 大学本科在读，人力资源、管理类相关专业优先。  \n2. 具备良好的沟通能力、责任心强，能适应快节奏工作环境。  \n3. 熟练使用办公软件，具备基础的数据整理能力。  \n4. 对人力资源工作有浓厚兴趣，愿意学习并积累实践经验。  \n5. 每周可实习5天及以上，实习期不少于3个月。",
+      "precedence": null,
+      "highLight": "1. 深入参与招聘全流程，积累一线HR实战经验。  \n2. 导师一对一指导，快速提升专业能力与职场素养。  \n3. 弹性工作时间，支持远程协作，兼顾学业与实习。  \n4. 表现优异者可获得转正机会及推荐信支持。  \n5. 团队氛围轻松友好，提供丰富的学习资源与成长空间。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787206854000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4599741798",
+      "name": "AI开发者社区运营实习生（Longcat大模型）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 海外开发者社区运营\n   * 参与搭建并日常运营 Slack / Discord 社区\n   * 维护开发者活跃度（讨论、答疑、活动组织）\n   * 管理频道结构、内容节奏与社区氛围\n2. 内容与增长运营\n   * 在 X（Twitter）、Hacker News、Reddit 等平台发布产品内容\n   * 输出开发者导向内容（demo、tutorial、use case）\n   * 协助策划产品发布、模型更新传播节奏\n3. 开发者关系（DevRel）\n   * 收集开发者反馈、痛点与需求\n   * 跟踪重点开发者的使用情况与反馈路径\n   * 整理高质量 use case（Agent / coding / workflow）\n4. 活动与增长实验\n   * 组织线上 Hackathon / AMA / Demo Session\n   * 协助设计增长实验（邀请制社区 / waitlist / referral）\n   * 跟踪关键增长指标并输出复盘",
+      "jobRequirement": "1. 对 AI / 大模型 / 开发者生态有强兴趣\n2. 英语六级\n3. 熟悉或愿意学习 X/ Slack / Discord / GitHub 社区运营逻辑\n4. 自驱力强，愿意从 0 到 1 搭建事情，愿意踏踏实实做有一定重复性的事情",
+      "precedence": null,
+      "highLight": "1. 参与一个面向全球开发者的大模型产品早期建设\n2. 深度接触 AI 模型团队（产品 + 研究 + 工程）\n3. 从 0 到 1 建立海外开发者社区的方法论\n4. 有机会参与核心产品发布与战略合作",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787194875000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "1038898418",
+      "name": "大模型算法实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、参与大模型算法研究相关工作，包括算法设计、优化和实现。\n2、通过微调/强化学习、预训练等技术方法，提升模型在各类场景下能力。\n3、跟踪和研究业界SOTA算法和技术，完成算法的调研、选型与调优。",
+      "jobRequirement": "1、扎实的算法基础，熟悉LLM、NLP相关算法和模型。\n2、有Tensorflow, pytorch等深度学习框架与自然语言处理结合实际项目经验者优先.\n3、有语义理解、对话系统、问答系统、机器翻译、知识图谱等相关项目经验者优先。\n4、在ACL、EMNLP、NAACL、SIGIR等自然语言处理会议或期刊中有论文发表者优先。\n5、每周至少全职工作四天，保证实习至少4个月。\n6、实习须征得导师同意。",
+      "precedence": null,
+      "highLight": "1、资深算法专家的一对一指导。\n2、丰富的计算资源及核心场景数据。\n3、真实应用场景的实践和挑战，为您提供挑战性的项目和技术成长机会。\n4、发表会议论文的机会，共同探索算法领域的前沿技术。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787194801000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4653390910",
+      "name": "小象超市-选址运营实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "业务运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-小象事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、协助拓展业务流程数据汇总、文档核验、信息审核等工作；\n2、协助一线业务同学解决项目问题点，确保项目顺利推进；\n4、负责项目内部签约流程的发起及推动，合同用印及输出等管理，踪项目租金、押金等相关费收支信息；\n5、辅助选址/资产其他日常工作。",
+      "jobRequirement": "1、逻辑思维能力强，有数据分析分析能力，工作细致；\n2、具备出色的服务意识和沟通协调能力，可协助他人成功，有团队合作精神；\n3、自我驱动，有责任感、目标感，具备较强解决问题能力。",
+      "precedence": null,
+      "highLight": "1.可以在前置仓领域了解；\n2.可以挑战高效率运营管理的能力；\n3.可以与各相关部门深度合作，拓宽视野；\n4.团队年轻，氛围活跃、开放、平等。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787047869000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4479782490",
+      "name": "闪购招聘实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "人力资源",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "人力资源平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.和业务部门沟通招聘需求，结合业务情况，快捷 、精准理解招聘需求；\n2. 进行人才搜索和寻访，甄选评估候选人匹配度并进行电话沟通和面试安排；\n3. 与业务部门保持有效沟通，跟进面试结果和流程反馈；\n4.招聘数据总结分析，发现招聘问题并及时解决。 ",
+      "jobRequirement": "1. 2027、2028届毕业学生，人力资源、心理学专业相关专业优先，有人力资源实习经验优先；\n2. 每周可实习5天，持续实习3个月及以上；\n3. 积极主动，有较强的沟通协调能力；希望有较强的数据敏感度及分析能力；\n4. 热爱人力资源领域，意愿在人力资源领域长期发展；\n5. 能主动积极使用AI工具探索招聘流程提效",
+      "precedence": null,
+      "highLight": "1.全流程了解人力资源招聘工作，感受互联网文化；\n2.团队氛围佳，成长空间大。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787039417000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4699562392",
+      "name": "内容运营实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "业务运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快驴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 协助策划和执行内容运营策略，提升用户活跃度和内容传播效果。  \n2. 负责日常视频剪辑、内容编辑、排版及发布，确保内容质量和时效性。  \n3. 参与用户互动管理，收集用户反馈并推动内容优化。  \n4. 协助数据分析，定期输出内容运营报告并提出改进建议。\n5. 熟练使用 AI 工具进行内容创作和运营策略优化，主动探索 AIGC 在业务场景中的应用",
+      "jobRequirement": "1. 硕士及以上学历，专业不限，新闻、中文、传媒相关专业优先。  \n2. 具备良好的文字表达能力和内容敏感度。  \n3. 熟悉社交媒体平台运营规则，有内容创作或运营经验者优先。  \n4. 工作细致，责任心强，具备良好的沟通能力和团队协作精神。\n5. 具备 AI 工具使用经验，能利用智能化手段提升内容运营效率",
+      "precedence": null,
+      "highLight": "1. 提供系统的内容运营培训，助力个人能力快速成长。  \n2. 与资深运营团队共事，积累一线实战经验。  \n3. 弹性工作时间，良好的办公环境和团队氛围。  \n4. 表现优异者有机会获得转正机会。\n5. AI+内容运营融合的成长机会，接触前沿 AI 应用实践",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787034713000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4685683988",
+      "name": "新媒体实习生（B站运营方向）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "人力资源",
+      "cityList": [
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "人力资源平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责美团招聘B站官方账号内容策划和运营；\n2.参与活动策划，输出创意文案、图文、视频脚本、直播脚本等品牌内容；\n3.参与到大型雇主品牌项目的内容策划、项目执行；\n4.协助完成其他工作。",
+      "jobRequirement": "1.中文、广告、市场营销、新闻传播类相关专业优先；\n2.段子手、熟悉热门话题、流行梗，有较强的文字功底，能独立撰写文案，文风不限；\n3.审美高、脑洞大、有创意，是B站重度用户，有相关运营经验优先；\n4.熟悉视频剪辑软件是必备项，熟悉AIGC工具是加分项；\n5.有较强的沟通能力和协调能力，能协助项目的策划和执行；\n6.每周实习4天以上，实习时间不少于3个月，能满6个月的同学优先考虑。",
+      "precedence": null,
+      "highLight": "1.深入了解雇主品牌传播项目的策划落地全流程，内容策划和项目执行能力大大提升；\n2.你的工作是面对几千万从业者，讲清楚真实的美团，吸引适合美团的人加入；同时借助美团这个平台，你的作品能够被更多人看到，收获一段成就感十足的实习经历。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787026636000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4680953116",
+      "name": "Keemart-Logistics Product（运输方向）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "产品类",
+      "jobFamilyGroup": "产品",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-Keemart",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 参与Keemart物流运输方向的产品建设，涵盖智能调度策略、运输执行链路、运力管理等核心模块。\n2. 基于运输业务数据进行深度分析，用数据驱动产品设计决策。维护核心指标监控体系，定期输出数据分析报告，支撑业务迭代。\n3. 协同技术、业务、算法团队推进产品方案落地，跟进需求调研、需求评审、开发测试及上线验收全流程，确保项目按时高质量交付。",
+      "jobRequirement": "1. 大学本科及以上学历，专业不限，每周可实习4-5天，持续3个月以上。\n2. 具备较强的逻辑思维与数据分析能力，熟练使用SQL/Python进行数据提取与分析，熟悉原型设计工具。\n3. 细心且负责，能梳理并处理涉及运输流程、权限规则等复杂业务场景。\n4. 具备良好的英语口语交流能力，能适应国际化团队沟通及海外业务场景讨论。\n5. 对物流运输行业有基本认知。",
+      "precedence": null,
+      "highLight": "1. 参与核心调度算法与策略的产品化落地，直接作用于运输效率提升，产出可量化、可感知。\n2. 海外平台视野扩展，高增长空间、体验多国差异文化。\n3. 团队扁平、氛围好。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787025570000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4691817003",
+      "name": "软件研发实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-软件研发部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 参与软件产品的需求分析、功能设计与开发工作。  \n2. 协助完成代码编写、单元测试及文档撰写。  \n3. 配合团队进行系统调试、问题排查与性能优化。  \n4. 学习并应用公司技术栈，提升工程实践能力。",
+      "jobRequirement": "1. 大学本科在读，计算机相关专业优先。  \n2. 熟悉至少一门主流编程语言，如Java、Python或C++。  \n3. 对AI 技术有一定了解，熟悉机器学习或深度学习基础概念者优先；有AI 实际应用案例者优先；  \n4. 具备良好的逻辑思维能力和学习能力。  \n5. 有责任心，能够适应团队协作开发模式。",
+      "precedence": null,
+      "highLight": "1. 提供一线互联网企业实习经历，积累实战项目经验。  \n2. 导师一对一指导，快速提升技术能力。  \n3. 开放的技术氛围，参与前沿技术探索与应用。  \n4. 表现优异者可获得转正机会。\n\n加入美团充电宝，与高速增长业务一起成长。这里有海量数据和高并发的技术挑战，可以接触互联网应用的先进技术。\n我们有开放、直接的工作氛围，以逻辑和事实说话，而不是岗位级别和层级。我们尊重知识和常识，努力以业务视角思考自身工作。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787021276000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "2506432840",
+      "name": "【实习】数仓开发",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责数据仓库的设计、开发和维护工作，保证数据仓库的高效运行。\n2.参与数据仓库ETL流程的设计和开发，确保数据的准确性和完整性。\n3.负责编写和维护相应的技术文档，包括设计文档、开发文档等。",
+      "jobRequirement": "1.大学本科及以上学历，计算机相关专业优先。\n2.对数据仓库开发有一定的了解，了解数仓开发相关的技术和工具，如Hadoop、Hive、Spark等，有实习经验者优先考虑，有Python和Java开发经验者优先。\n3.熟悉SQL语言，有数据库相关经验者优先。\n4.具备良好的沟通能力和团队合作精神，能够有效与不同部门协作。",
+      "precedence": null,
+      "highLight": "1.有机会接触到大数据技术领域，快速提升技能。\n2.获得丰富的数据仓库开发实践经验，为以后的职业发展打下坚实基础。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787018404000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4468835980",
+      "name": "自动驾驶产品实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "产品类",
+      "jobFamilyGroup": "产品",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-无人车业务部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.针对自动驾驶能力与业务需求，协助识别产品与研发迭代过程中的关键问题，参与定义、设计并推动相应的产品方案落地。\n2.协同算法、工程、运营等多方资源，助力自动驾驶技术能力在实际业务场景中持续提升。\n3.参与自动配送/自动驾驶产品规模化扩展所需产品能力的梳理与沉淀。",
+      "jobRequirement": "1.本科及以上学历，理工科背景优先，专业不限，欢迎对产品、研发、策略等方向有兴趣的同学申请。\n2.具备良好的自驱力、跨团队沟通能力和团队协作能力。\n3.具备一定数据分析能力，对自动驾驶、AI等领域有浓厚兴趣。",
+      "precedence": null,
+      "highLight": "1.参与AI与硬件深度结合的前沿自动驾驶产品研发流程。\n2.有机会接触行业先进的自动驾驶技术和产品团队，获得一线实战经验。\n3.导师指导与团队支持，助力个人成长和能力提升。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1787014847000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4693048454",
+      "name": "AI前端工程师实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-软件研发部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责Agent相关Web/桌面端产品前端研发；\n\n2. 参与AI Agent交互体验、工作流界面、多模态内容展示等核心模块建设；\n\n3. 与产品、设计、服务端、算法团队协作，推动复杂AI能力产品化；\n\n4. 持续优化前端性能、工程架构和研发效率。",
+      "jobRequirement": "1. 熟悉前端技术栈，拥有扎实的前端基础；\n\n2. 具备良好的工程能力，注重代码质量、组件设计、性能和用户体验；\n\n3. 学习能力强，能够快速理解业务技术方案，主动推进落地。",
+      "precedence": null,
+      "highLight": "AI 方向，Agent、coding、workflow、rag 多智能体等都会涉及",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786933027000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4695192297",
+      "name": "【2027】Keeta-广告商家运营实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "Keeta",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责美团境外业务Keeta的广告产品运营工作，日常监控广告数据和转化数据，及时发现异动原因并产出分析，整体为广告商家渗透率与广告收入负责\n2.日常对接BD管理商业化产品需求，落地广告产品市场调研与分析，结合业务发展阶段制定广告渗透策略与商家营销策略，设计可落地的营销方案\n3.与产品、产研团队紧密合作，推动需求与策略在各环节的有效执行，保障策略从制定到落地的闭环管理",
+      "jobRequirement": "1.27届及以后毕业的本科及以上学历同学，每周至少实习4天，工作地点北京\n2.自我驱动力强，愿意接受挑战，对工作结果具有责任心\n3.具备较强的数据分析能力，可熟练使用SQL进行数据提取，能独立完成较为复杂的专题数据分析\n4.有过商业化广告相关实习经验，或能长期实习（5个月以上）优先\n5.能熟练使用英语、阿拉伯语、粤语、葡萄牙语为加分项",
+      "precedence": null,
+      "highLight": "业务增速快、成长空间大，能够经历业务从0到1建设的完整阶段",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786693451000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4695305856",
+      "name": "【2027】Keeta-效果投放运营实习生（用户运营）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "用户运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "Keeta",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责用户增长策略的设计与执行，覆盖用户获取（Acquisition）与激活（Activation）全链路\n2.分析不同媒体渠道的效果与用户获取效率，持续优化各渠道获客效率\n3.跟踪关键指标（DAU/MAU、留存率、流失率、转化率等），提供可落地的分析洞察与优化建议\n4.与产品、市场、用户增长团队紧密协作，确保用户体验与活动执行的一致性",
+      "jobRequirement": "1.27届及以后毕业的本科及以上学历同学，每周至少实习4天\n2.对用户侧信息有较强敏感度，真正理解用户需求\n3.热爱O2O行业，善于思考与创新\n4.目标导向与拆解能力强，具备较强的执行力，确保目标达成\n5.具备良好的团队协作意识，能够有效组织和协调跨职能、跨部门资源解决问题、达成目标",
+      "precedence": null,
+      "highLight": "业务增速快、成长空间大，能够经历业务从0到1建设的完整阶段",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786693432000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4691988917",
+      "name": "【2027】Keeta-体验设计实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "设计类",
+      "jobFamilyGroup": "设计",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "Keeta",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.协助完成Keeta业务日常国际化产品需求迭代。\n2.负责保证设计及产出高质量还原落地。\n3.参与设计组件库搭建及维护。\n4.参与组内设计方案前期用户调研及信息收集。",
+      "jobRequirement": "学历要求\n1.本科及以上学历在读，视觉传达、工业设计等相关设计专业背景。（有海外经历加分）\n2.可保证每周实习时间5天，实习周期能够达到6个月及以上。\n\n\n专业技能\n1.熟练掌握设计相关软件。（具备3D或动效能力加分）\n2.熟悉移动端及网站设计规范, 有大厂项目设计参与经验。（具备大厂海外项目经验加分）\n3.具备良好的审美和创新意识，了解流行设计趋势。\n\n\n综合技能\n1.充满好奇心和想象力，具有开放性心态及学习的主动性。\n2.对工作有责任心，拥有出色的沟通协作能力，执行能力强。",
+      "precedence": null,
+      "highLight": "大厂国际化出海项目，协作完成境外业务从0到1产品设计搭建。\n1.你将了解不同文化背景下用户的使用场景与诉求，获得更广阔的国际化视野。\n2.你将参与大厂的出海项目，共同进行APP端和PC端的视觉设计，积累宝贵的实战经验。\n3.你将加入国际化设计团队，与资深设计师并肩作战，提升专业技能和团队协作能力，获得更全面的职业成长。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1786678425000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    }
+  ]
+}

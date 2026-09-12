@@ -1,0 +1,1201 @@
+{
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "request_body": {
+    "page": {
+      "pageNo": 17,
+      "pageSize": 20
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jfJgList": [],
+    "jobType": [
+      {
+        "code": "3",
+        "subCode": []
+      }
+    ],
+    "typeCode": [],
+    "specialCode": []
+  },
+  "reviewed_at": "2026-09-12T15:37:37Z",
+  "page": {
+    "pageNo": 17,
+    "pageSize": 20,
+    "totalPage": 124,
+    "totalCount": 2475
+  },
+  "rows": [
+    {
+      "jobUnionId": "4147412034",
+      "name": "到餐-连锁经营分析专家",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "业务运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-到餐事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1、搭建连锁经营分析体系：基于业务目标及策略方向，借助AI工具搭建月度/周度经营监控体系，结合AI异常检测功能自动识别业务异动，有效的监控业务异常及机会点的识别，并能够结构化沉淀出周、月报。\n2、销售机会洞察及策略有效性评估：基于业务经营数据及行业经对分析，识别各经营模块经营问题，洞察销售机会，转化为有效的销售策略。\n3、品牌分层运营：了解品牌经营模式，理解品牌经营逻辑，搭建品牌分层分类体系，匹配差异化资源策略及运营策略，构建业务运营的整体基础。\n4、了解大客户销售作业模式，建立销售过程管理评估体系，有效对过程进度进行监控及分析识别优化空间，及时给予销售策略及销售过程管理给予迭代建议。",
+      "jobRequirement": "1、熟练掌握SQL、Python等数据工具，了解机器学习基础或AI辅助分析方法，具备从数据中快速提炼业务洞察的能力。\n2、有良好的逻辑思维能力，能够掌握行业的复杂性，快速识别行业的差异；通过不同维度的分析识别、交互验证业务空间；\n3、有较好的团队协作能力，能够快团队与商分、产运等团队高效合作推进关键项目的进展。",
+      "precedence": null,
+      "highLight": "1、成长空间大，直接影响千亿大盘的业务结果。\n2、策略复杂度高，且具备落地抓手。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178507000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4130651281",
+      "name": "到餐-搜索产品经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "产品类",
+      "jobFamilyGroup": "产品",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-到餐事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 负责到餐业务搜索产品的规划、设计和迭代，提升搜索用户的找店体验；\n2. 深入理解用户需求，结合数据分析和调研，制定搜索产品策略；\n3. 协同算法、研发、设计等团队，推动搜索功能落地并持续优化。",
+      "jobRequirement": "1. 大学本科及以上学历，计算机、信息科学或相关专业优先；  \n2. 3年以上策略产品经验，了解用户的就餐决策因素，对垂类领域有深入研究加分；\n3. 具备优秀的数据分析能力，能熟练使用SQL；  \n4. 出色的跨团队沟通和项目管理能力，主观能动性强，能推动复杂项目落地；\n5. 对于美食有自己独到的理解，日常喜欢发现美食、分享美食加分。",
+      "precedence": null,
+      "highLight": "1.可做功空间和潜力巨大，能参与美团核心业务的重塑，直接影响千万级用户搜索体验；\n2.公司和团队氛围优质，组织扁平、工作氛围开放、核心团队成员年轻有活力、没有历史包袱。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178497000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4094984841",
+      "name": "到餐-全国大客户经理【上海/成都】",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-到餐事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1、负责推进全国头部正餐连锁品牌与美团在品牌营销、促销、用户运营等领域的深度商务合作。\n2、研究正餐行业特点，深入了解品牌的生意经营，帮助品牌制定专业的线上线下解决方案并协同落地运营。\n3、通过行业数据分析，品牌经营数据分析，线上经营数据分析指导客户线上线下经营迭代。\n4、在合作过程中，做好平台和商户的深入链接，能反向推动平台B端产品和C端产品的变革。\n5、深入洞察行业现状，打磨合作方法论，并预判行业趋势。",
+      "jobRequirement": "1、本科及以上学历，3年以上的销售或者市场经验，咨询行业、餐饮市场及互联网经历者优先。\n2、有很强的学习能力和适应能力，适应互联网行业的快速发展，精力充沛。",
+      "precedence": null,
+      "highLight": "1、拥有互联网（大厂）的工作经验。\n2、丰富的岗位、职能及跃迁机会。\n3、能够成为行业/领域的专家，提升个人影响力。\n4、锻炼自身的综合能力与水平。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178496000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4027220972",
+      "name": "业务运营支持",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "业务支持",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-到餐事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "工作职责\n1、负责供给策略项目的运营支持，完成日常数据监控及播报，如数据处理、周报制作、业务数据播报；探索借助AI自动化工具（如智能周报生成、数据看板）提升数据处理与播报效率。\n2、参与策略的落地，协助策略主R完成执行工作，包括但不限于SOP梳理、资源申请、销售调研、问题收集等。",
+      "jobRequirement": "1、本科学历，专业不限；\n2、2年以上销售助理、运营支持、行政、人力、企业文化等相关工作经验；\n3、熟练使用办公软件及基础统计分析工具；了解AI办公辅助工具的基本使用，有意愿借助智能化手段提升工作效率。\n4、具有较强工作主动性和执行力，具备较好的人际沟通能力、协调能力。",
+      "precedence": null,
+      "highLight": "1、团队氛围：开放直接、专注做事与成长；\n2、平台核心业务之一，成长空间大，发展潜力足；\n3、贴近市场前沿和销售团队，能够第一时间掌握行业变化。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178490000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4004545019",
+      "name": "闪购-神价供给运营",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "用户运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-闪购事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 负责闪购神价业务的供给策略制定与执行，提升神价供给规模与质量。  \n2. 深度理解供给端需求与市场趋势，制定供给分层策略，优化供给结构。  \n3. 协同商品运营及产品团队，推动神价供给招商链路的高效运转。  \n4. 建立并完善供给运营指标体系，通过数据分析驱动业务增长与效率提升。  \n5. 探索创新供给模式，提升神价业务在平台中的竞争力与用户心智。",
+      "jobRequirement": "1. 大学本科及以上学历，5年以上零售或产品运营相关工作经验。  \n2. 具备商品供给运营或商家运营经验，熟悉产研逻辑。  \n3. 数据敏感度高，具备较强的数据分析与策略制定能力。  \n4. 具备优秀的沟通协调能力，能跨团队推动项目落地。  \n5. 有闪购、即时零售或价格敏感型业务经验者优先。",
+      "precedence": null,
+      "highLight": "1. 公司核心业务，与行业大牛共同在新零售行业探索；\n2. 团队年轻充满热情，氛围轻松有激情，个人成长共空间大；\n3. 能在快速发展的平台级业务中，参与规模化的过程，并在其中担任核心角色。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178487000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3977605577",
+      "name": "闪购-食品采销（休食、粮油、速食、酒饮、乳品冰品）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "采购",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "广州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "武汉市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "西安市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "杭州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-闪购事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "岗位职责:\n1.负责食品品类采购策略的制定和执行，确保产品的供应充足并满足市场需求。\n2.负责建立和维护与供应商的良好合作关系，协商并达成有利于公司的采购合同。\n3.负责市场调研和竞争对手分析，了解行业动态和市场趋势，为采购决策提供支持。\n4.负责制定采购计划和预算，监控采购成本和效率，并及时调整采购策略。\n5.负责跟进采购订单的执行情况，协调供应商和内部部门，解决采购过程中的问题和风险。",
+      "jobRequirement": "岗位要求:\n1.大学本科及以上学历，专业不限，有采购、供应链管理或相关领域背景优先。\n2.具备3年以上综合采购相关工作经验，有闪购平台或电商行业的采购经验者优先。\n3.熟悉食品类产品的采购流程和市场特点，对市场价格和供应情况有敏锐的洞察力。\n4.具备良好的商业谈判和供应商管理能力，能够与供应商建立稳固的合作关系。\n5.具备良好的数据分析和问题解决能力，能够独立思考和处理采购过程中的挑战。\n6.具备较强的沟通能力和团队合作精神，能够有效协调内外部资源，推动采购项目的顺利进行。",
+      "precedence": null,
+      "highLight": "岗位亮点:\n1.作为综合采购岗位，能够全面了解和掌握公司的采购流程和供应链管理。\n2.作为闪购-食品品类采购岗位，能够在电商行业中负责重要品类的采购工作。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178485000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3890452034",
+      "name": "冻禽集采专家",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "采购",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快驴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1.负责冻禽集采品类的采购工作，确保供应链的稳定和高效。\n2.负责制定并执行采购计划，保证采购成本和质量的控制。\n3.负责供应商的筛选、评估和谈判，建立并维护供应商关系。\n4.跟进市场动态，及时了解行业新产品和供应商信息，为公司提供市场情报和竞争分析。\n5.协调内外部资源，跟进整个采购流程，确保采购项目的顺利进行。\n6.参与供应链优化和成本控制的相关工作，提供有效的采购解决方案。",
+      "jobRequirement": "1.大学专科及以上学历，专业不限，具备相关采购领域的知识和经验。\n2.至少5年以上丰富的采购管理经验，特别是在冻禽品类方面的经验优先考虑。\n3.熟悉供应链管理和采购流程，了解市场行情和竞争状况。\n4.具备良好的商务谈判和沟通能力，能够与供应商建立良好的合作关系。\n5.具备较强的分析和解决问题的能力，能够处理复杂的采购项目。\n6.具备团队合作精神，能够有效管理和协调内外部资源。\n6. 自驱力强，具有较好的学习能力，愿意主动思考AI如何进一步优化工作流程。",
+      "precedence": null,
+      "highLight": "1.机会：作为高级采购专家，将有机会参与公司重要采购项目，提升自我专业能力和职业发展。\n2.挑战：冻禽集采品类采购领域具有一定的挑战性，需要应对市场波动和供应链风险，提供创新的采购解决方案。\n3.影响力：在工作中将与供应商和内部团队紧密合作，通过有效的供应链管理和采购策略，对公司业务发展产生积极影响。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178482000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3869180586",
+      "name": "到餐-大客户经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-到餐事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 客户/行业洞察：知晓餐饮行业内客户分布、行业标杆客户及应对策略等，寻找商机。\n2. 建立连接：与关键决策人建立客户关系并保持沟通，制定相应谈判计划，可以一定程度影响关键决策人的决定；客户关系的程度中没有排他反对。\n3. 方案制定：识别客户需求并主动提出平台优化/新方案。\n4. 项目实施：推动项目实施过程中的问题解决并寻找资源优化相关流程；收集项目实施过程中客户的问题并给予反馈建议。\n5. 经营分析：针对行业数据进行分析，基于客户需求撰写定制化的分析报告，并有一定的策略输出。\n6. 客户关系维护及拜访：月度拜访、季度组织高层管理人员（总监级别以上）沟通会。\n7. 能够进行案例萃取总结，沉淀出可复制的经验，优化作业模式和流程，并在团队内做输出，分享最佳实践。\n8. 工作通常涉及BU内多部门协同；或涉及客户的多职能、多层级关系处理；或涉及客户多组织的需求满足，如市场部门、销售部门、技术部门等。",
+      "jobRequirement": "1. 行业认知：了解行业标杆客户的解决方案以及所属行业或区域策略。\n2. 产品/业务知识：熟悉相关业务同类产品/服务知识以及运营SOP等，同时了解公司的其他产品/服务知识。\n3. 客户管理：掌握客户关系管理知识，巩固关系，能够分析研究客户需求并提出解决方案。\n4. 销售谈判：具备较成熟的谈判思维，掌握并运用多种找筹码的方法和技巧，找准筹码，能够把握谈判的进程，运用销售技巧等，促成合作。\n5. 项目管理：掌握项目管理的基本方法论，推进项目顺利落地实施。\n6. 数据分析：掌握数据分析的方法，能够选择合适的工具，对行业的数据进行分析，并通过数据了解行业，制定应对策略。\n7. 客户运营：掌握供给运营、市场运营、活动运营等的基本逻辑，产出营销方案并能够撬动客户投入资源以驱动增长；同时能够推进销售解决方案的履约。",
+      "precedence": null,
+      "highLight": "能够服务国际、国内一线餐饮企业，通过自己的专业帮助品牌经营的更好。\n团队年轻，有活力。发展空间大，向上可晋升。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178478000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3864066847",
+      "name": "到餐-连锁策略运营专家（绩效考核方向）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "业务运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-到餐事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1、策略与考核体系搭建：基于业务目标拆解关键绩效指标，搭建覆盖“目标设定—过程追踪—效果评估—迭代优化”全链路的绩效考核与策略运营体系，确保考核方案有效牵引增长与提收。\n\n2、数据驱动策略闭环：构建经营分析监控体系，熟练运用SQL及AI分析工具完成数据提取与深度洞察，输出签约、增长及提收策略。形成“诊断→策略→执行→评估→迭代”的完整闭环，持续监控数据异动，以分析结论驱动策略与考核方案的持续优化。\n\n3、专项评估与科学验证：聚焦策略执行与考核结果，借助大模型等工具开展专项分析，运用AB实验、DID等科学方法评估效果，及时纠偏并沉淀可复制的方法论。\n\n4、线上化与智能化推进：推动绩效考核与策略运营全链路的产品化、线上化，协同产研将分析SOP与策略方法论沉淀为系统能力。积极探索AI工具在数据复盘、报告产出、流程自动化等场景的落地，实现从经验判断向数据驱动的转型。",
+      "jobRequirement": "1. 大学本科及以上学历，3年以上销售运营或业务策略相关经验。  \n2. 熟悉餐饮行业或本地生活服务领域，熟悉KA客户运营模式。  \n3. 具备优秀的数据分析能力，熟练使用SQL等工具。 \n4. 有AI工具使用意愿，能借助智能工具提升数据分析和策略洞察能力。\n5. 逻辑清晰，擅长跨团队沟通与资源整合。",
+      "precedence": null,
+      "highLight": "1、核心岗位，接触多方策略，绩效与策略双线发展\n2、绩效贴近销售一线，策略落地性强\n3、参与全国连锁餐饮品牌全链条运营，成长空间大\n4、有管理岗发展空间",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178471000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3863818810",
+      "name": "到餐-连锁经营分析组leader",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "业务运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-到餐事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1、经营分析与决策支持：负责连锁经营数据的深度分析，搭建经营分析体系，定期输出经营分析报告，为业务策略提供数据支撑，跟踪行业动态及连锁经营趋势，输出前瞻性洞察\n2、业务策略赋能：深度参与连锁策略运营，用数据验证策略可行性，深度复盘策略落地效果，开展专项分析项目（如品牌分层、供需分析、补贴效率等）\n3、团队管理与能力建设：组建并带领经营分析团队（5-10人），制定团队目标与工作计划，培养团队成员的业务分析能力，推动分析工具与数据产品化建设，提升团队分析效率与产出质量。",
+      "jobRequirement": "1.专业能力：熟练美团到餐连锁品牌运营逻辑、平台资源与玩法，具备扎实的数据洞察能力，擅长搭建经营分析框架\n2.项目能力：不局限于分析工作本身，能够高效协同策略、商分、前线销售等相关部门，将数据洞察转化为有效的业务策略，拿到结果\n3.综合素质：逻辑清晰、学习能力强，能应对高不确定业务场景，敢于定义问题、自主决策、突破存量打法\n4.工具素养：熟练运用AI工具提效，具备AI在业务运营、策略产出、数据分析中的落地思考与实践\n5.管理能力：具备策略团队带教与管理经验，能够赋能团队、沉淀方法论、带队达成业务目标",
+      "precedence": null,
+      "highLight": "1. 参与头部餐饮品牌从策略到落地的全链条运营，成长空间广阔。  \n2. 与行业资深团队共事，积累高价值连锁品牌管理经验。  \n3. 扁平化管理，决策高效，个人贡献直接影响业务发展方向。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178470000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3839144245",
+      "name": "到餐-业务合规专家（到餐业务）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "业务运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-到餐事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1.业务合规体系建设：构建业务合规体系框架，制定年度运营计划，搭建运营机制，协同相关方推动体系的落地执行。探索AI工具在合规风险识别、舞弊线索筛查中的应用，推动合规工作智能化提效。\n2.业务合规风险评估治理：对业务策略、业务流程、考核方案等进行合规风险评估，预警违规风险点并进行防范。对业务风险进行精准动态识别，建立业务风险的全景图，协同相关方进行系统性治理，降低风险的发生率和影响。\n3.合规调查：受理举报线索，利用专业合法的调查技巧开展舞弊调查，开展与相关人员的沟通访谈，获得相关证据材料；完成调查结论报告，准确简明地说明发现的事实，分析潜在的问题。\n4.生态合规：建立合作商全生命周期风险识别模型，接收各渠道举报及反馈的信息，依据制度判定合作商及代运营违约行为，并跟进后续处罚， 对重点城市合作商进行实地走访与调研，开展宣导工作。\n5.数据分析：输出月度/季度合规分析报告，根据数据表现进行问题诊断并进行风险防范。参与月会等场景，进行业务合规建设工作的信息同步。\n6.其他支持：通过线下走访及线上收集反馈，做好合规答疑、合规培训、战役保障等需求的承接。",
+      "jobRequirement": "1.本科及以上学历，5年以上相关工作经历，熟悉互联网行业，了解国家相关法律法规。\n2.5年以上相关工作经验（例如反舞弊、合规、调查、内审、稽查、监察等），掌握一定调查手法，可以独立开展调查工作。\n3.有AI工具使用意愿，能借助智能分析平台提升风险评估效率。\n4.具备较强的沟通协调、逻辑分析能力，有良好的的口头表达、文字撰写及数据分析能力。\n5.具有高度的诚信观念，正直、自律、原则性及保密意识强。\n6.能适应全国范围内频繁出差。",
+      "precedence": null,
+      "highLight": "1.参与美团到餐事业部的业务合规体系的建设，成为合规领域专家。\n2.能够与各部门紧密合作高频沟通，获得丰富的跨部门合作经验。\n3.能深入了解行业，从0到1建立对行业、业务的认知。\n4.深度参与风险治理工作，提升风险把控及跨部门影响力。\n5. 能提供公司内外多元化学习交流的机会，与优秀团队探索共创。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178468000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3838303626",
+      "name": "到餐-风险治理岗",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "业务运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-到餐事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1.负责到餐商家合规风险的识别、评估和治理，依据行业特性，梳理风险场景的规则与治理策略，引入AI预测模型辅助识别高风险商家，实现风险场景的自动化分类与优先级排序，协调各部门资源并确保其有效落地。\n2. 风险专项治理， 通过深入分析、策略设计、跨部门联动和产品化解决方案，实现对核心风险的精准打击和有效收敛。\n3.建立并优化商家风险场景的监控机制，将监控机制可视化、产品化，借助AI异常检测功能自动识别风险指标波动，缩短人工发现到响应的时间，，为业务及各类项目提供支持，降低风险水位。\n4.通过用户调研，线上监控，指标优化等手段，提升商家合规治理的质量，效率，平衡治理对业务的影响并提升用户体验。\n5.与法务、商服、风控等部门保持紧密协作，对舆情、风险进行排查，并对内协调业务部门快速响应。",
+      "jobRequirement": "1.本科及以上学历，有5年以上平台治理、策略运营或者产品相关工作经验，对规则、识别、判责等治理操作有一定的理解和实践经验。\n2. 业务理解能力强，熟悉餐饮行业合作和交易流程及各环节问题特点，具备较强的业务洞察和理解能力。\n3.具有较强的数据挖掘和分析能力，善于以数据驱动决策，熟练使用SQL等统计分析工具；\n4.具备较强的组织协调、沟通和问题解决能力，能够协调多方资源，推动复杂项目顺利开展并落地。对AI工具在风险治理场景中的应用有探索意愿，能主动推动智能化提效落地。",
+      "precedence": null,
+      "highLight": "1.在治理领域有全链路落地场景，岗位职责贯穿业务从0到1，外部合作以及跨组织协同能力。\n2.能提供公司内外多元化学习交流的机会，与优秀团队探索共创。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178461000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3752324448",
+      "name": "到餐-零食零售品类负责人",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-到餐事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 业务管理：带领团队推进零食零售全国大型连锁品牌与美团在线上经营增长、品牌营销、用户运营等领域的深度商务合作，包括创新项目验证等；对团队目标结果负责，对拿结果有策略方法，带领团队完成和超越目标；\n2. 团队管理：团队目标管理， 接收、拆解并向团队成员传达业绩指标同时做好指标的相关解读，制定团队中长期目标的规划、过程监控和方向指引，负责团队组织能力提升、文化氛围打造和人才梯队建设；\n3. 项目管理：能够带领团队完成难度较高、复杂度高的项目，协同推进跨部门多项目的实施和运作；能充分调用和整合内外部的资源，在团队内外部统筹高效协同；\n4. 复盘沉淀探索：具备长业务链条的复盘能力；能沉淀出切实有效的方法论；通过不断复盘总结寻找更优解，能够有创新业务模式输出，支持效率提升。",
+      "jobRequirement": "1. 基本要求：本科及以上学历，8年以上工作经验，4年以上团队管理经验，有大型互联网公司大客户管理工作经验优先；\n2. 专业能力：具备较强的品牌经营思维和定策略的能力，具备大客户维护管理和精益运营能力；\n3. 管理能力：有较强的项目管理能力，善于跨部门沟通和协调资源，具备成熟的团队管理经验优先；\n4. 通用能力：学习能力强，逻辑思维清晰，能够在数据中洞察问题，提出解决方案，善于抓重点，成熟度高，协同能力强，有追求卓越的勇气。",
+      "precedence": null,
+      "highLight": "1. 核心稳定的业务：美团到店餐饮大品牌客户业务，是美团公司核心本地商业的核心业务板块；\n2. 优质客户的合作机会：主要对接零食零售连锁客户中的头部连锁品牌，基于美团生态探索零食零售品牌的数字化营销策略与交易增长玩法，切中最集中的品牌经营痛点；\n3. 成熟的职业培养体系：公司提供良好的学习和发展平台，能够不断提升专业能力和职业素养；\n4. 未来职业发展路径：未来能够承担更大的业务团队，以及承接主导前后协同的新能力建设项目等。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178460000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3744248747",
+      "name": "新媒体内容运营（AI 视频方向）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "公司事务",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-平台及职能部门",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1.AI 视频内容创作：熟练使用 AI 视频生成工具，独立完成从脚本策划到成片输出的全流程，服务 B 端品牌传播需求；\n2.B 端内容策划：深度理解商业客户（商家、合作伙伴）的传播诉求，策划适配其业务场景的内容形式与传播语言；\n3.选题与趋势洞察：紧跟 AI 工具前沿动态及 B 端行业趋势，为团队提供内容创新思路；\n4.传播策划：结合市场发展趋势和业务需求，制定美团核心本地商业相关业务的B端新媒体传播策略，能够进行复杂传播项目的统筹管理，包含B端心智提炼、梳理传播节奏、细化具体的传播规划及进行落地。",
+      "jobRequirement": "1.3 年以上新媒体内容运营经验，有 B 端（To B）营销 从业背景；\n2.有AI 视频创作实战经验，能展示 AI 生成视频作品集；\n3.具备扎实的内容策划与文案能力，理解 B 端用户的内容逻辑；\n4.对短视频传播有系统性认知，熟悉主流平台算法与内容规律。",
+      "precedence": null,
+      "highLight": "1.处于快速发展期，空间广阔；\n2.团队氛围好，能充分发挥创造力；\n3.互联网前线冲浪，保持敏锐和好奇；\n4.AI应用场景丰富。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178454000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3712845261",
+      "name": "美容行业大客户经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "杭州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "郑州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "武汉市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "广州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-医药健康事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1.管理美容行业大客户，负责公司大客户的业务拓展和市场渗透。\n2.建立并维护与大客户的良好合作关系，达成销售目标。\n3.负责制定大客户发展战略，进行市场调研和竞争对手分析，制定相应的销售策略。\n4.负责跟进大客户的需求和问题，提供专业的解决方案和产品推荐，确保客户满意度。\n5.协调内外部资源，完成销售合同的谈判、签订及执行，确保合同的履行和回款的完成。\n6.组织和参与大客户活动，提升公司品牌知名度和市场份额。",
+      "jobRequirement": "1.大学本科及以上学历，连锁经营行业或相关专业背景优先。\n2.至少3年以上连锁经营行业大客户拓展或销售管理经验，具备较好的市场洞察力和商务谈判能力。\n3.具备良好的沟通能力和团队合作精神，能够有效协调内外部资源，解决问题并达成共识。\n4.具备较强的自我驱动力，能够承担较大的工作压力和销售目标。\n5.熟悉连锁经营行业市场规模和发展趋势，了解竞争对手的产品和销售策略。\n6.具备良好的客户服务意识和服务质量，能够建立并维护良好的客户关系。",
+      "precedence": null,
+      "highLight": "1.作为高级连锁经营行业大客户经理，将直接参与公司的业务拓展和市场渗透，为公司的发展做出重要贡献。\n2.在担任连锁经营行业大客户经理的岗位上，将有机会与知名连锁企业展开合作，提升个人销售能力和人际交往能力。\n3.通过带领团队完成销售目标，并对团队成员进行培训和指导，将有机会锻炼和提升团队管理能力和领导",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178448000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3689462950",
+      "name": "美容销售运营专家",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-医药健康事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "岗位职责:\n1. 协助制定并优化销售运营流程，提升团队整体效率。\n2. 收集、整理和分析销售数据，定期输出运营报告，支持业务决策。\n3. 协调销售团队与产品、市场等部门，推动跨部门协作与项目落地。\n4. 支持销售目标分解与追踪，监控关键指标达成情况。\n5. 参与销售工具与系统的日常维护与优化，提升数据准确性。",
+      "jobRequirement": "岗位要求:\n1. 大学本科及以上学历，专业不限。\n2. 具备良好的数据分析能力和逻辑思维能力。\n3. 对销售运营工作有热情，愿意在快节奏环境中成长。\n4. 工作细致认真，具备较强的沟通能力和团队协作意识。",
+      "precedence": null,
+      "highLight": "岗位亮点:\n1. 能全方位接触生活美容行业的业态发展和业务模式，并参与到核心策略运营和项目管理中；\n2. 一起探索新市场新模式的机会，加入充满热情、激情和学习氛围的团队，能力拓展的范围广；\n3. 可以与跨部门团队合作，体验多元化的工作环境，提升综合能力；\n具备以下优先:\n具有互联网背景、销售/策略运营、数据工具、指标体系搭建经验优先。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178447000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3640220402",
+      "name": "到餐-品类负责人",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-到餐事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1、负责全国范围内单独品类餐饮大客户的客情维护与深度经营，建立长期稳定的合作关系，提升客户满意度与忠诚度。\n2、承接到餐单独品类业务业绩目标，制定并执行有效的销售策略，推动业务落地，达成销售目标。\n3、带领团队完成大客户业务拓展与客情维护，搭建梯队，培养人才，同时协调内外部资源，整合平台、内容、营销等能力，为客户提供全链路解决方案。\n4、能够结合AI技术，创新客户运营模式，优化业务流程。",
+      "jobRequirement": "1、5年以上餐饮行业大客户销售管理经验，具备餐饮SaaS、互联网平台或大型餐饮品牌背景者优先。\n2、有成熟的大客户管理体系搭建与团队管理经验，能够带领团队高效达成业绩目标，推动业务持续增长。\n3、具备商业和经营思维，对业务的商业模式有独立的思考和判断。\n4、对AI驱动的业务创新和流程优化有实践经验，能够推动团队智能化转型。",
+      "precedence": null,
+      "highLight": "平台核心业务之一，成长空间大，发展潜力足，负责核心业务线，直接影响业绩目标的实现。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178445000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3592301493",
+      "name": "大客户品牌经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "重庆市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-到餐事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1、负责推进头部大型连锁品牌（火锅品类）在美团的品牌、运营、营销领域的深度商务合作；\n2、负责对外餐饮品牌运营，财务，市场、技术等多部门关系处理及业务沟通，推动公司各产品的全面合作；\n3、深入了解品牌的生意运作及消费者行为习惯，配合商家运营一起为品牌方提供整体全案解决方案；提升品牌商户线上支付转化及品牌线下生意。\n4、保持良好的客户关系，做好连锁客户管理和维护工作。",
+      "jobRequirement": "1、本科以上学历，三年及以上的工作经验，有良好销售业绩、有金融、餐饮及互联网销售经验者优先；\n2、对餐饮行业有兴趣，有很强的学习能力和适应能力，适应互联网行业的快速发展，精力充沛，具备在复杂环境下出色完成任务的能力；\n3、具备较强的公关能力及逻辑思维能力，思维敏捷，能够准确把握产品优势和客户心理，高效整合内外部资源促成商务合作；\n4、具有甲方运营经验者优先；\n5、热爱销售，善于挑战，积极乐观，有强烈的成功欲望和企图心。\n6、有一定的探需能力，能结合品牌现状与痛点做出品牌全年及节点的营销方案。",
+      "precedence": null,
+      "highLight": "1、能清晰了解餐饮行业知识；\n2、有完善培训系统，及晋升空间；\n3、团队氛围好。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178444000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3574824930",
+      "name": "美团外卖-浣熊食堂-渠道开发选址经理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "销售",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "杭州市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-外卖事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1.战略规划与网络布局：开展区域市场深度研究（商圈流量、加盟政策、租赁成本分析等），制定区域加盟网络拓展规划，建立商准入评估体系，通过选址模型（人流量/租金比、外送热力圈）构建动态数据库，实施分级管理策略；\n2.开发全流程管控：主导商资质审查，组织跨部门商准入评审会，输出可行性评估报告，设计谈判策略路径图，完成从商务洽谈到合同签署的全周期管控；\n3.财务模型与风控：构建单店盈利模型，开展租金敏感性分析及收益预测（投资回收期、EBITDA利润率），制定标准化合同模板，规避物业产权瑕疵、竞业限制等法律风险；\n4.运营赋能与生态构建：建立商健康度监测体系，迭代总部支持政策，设计商分级赋能方案；\n5.跨部门协同：协同设计、工程和财税法、招商、CAP等，确保项目的推进和实施。",
+      "jobRequirement": "1.本科及以上学历，房地产开发、餐饮开发、商业管理等相关专业背景；\n2.3年以上加盟体系拓展经验，主导完成过20+加盟项目全周期落地；\n3.熟悉加盟管理相关法律法规及政策，掌握基础财务测算（IRR/ROI计算）；\n4.具备较强的商业洽谈和谈判技巧，能够有效协商并达成加盟合作。",
+      "precedence": null,
+      "highLight": "1.操盘过商裂变计划（老商推荐激励体系）；\n2.熟悉商数字化管理系统（签约在线化、数据看板搭建）。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178433000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3523216109",
+      "name": "闪购-供应链计划-华北",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "供应链",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-闪购事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1.根据品类特性和规划制定负责制定管理策略，确保库存水平的合理控制和优化，保障商品稳定供给同时优化资金占用与物流成本。\n2.结合S&OP的运营，制定品类的日常库存运营机制，对周转和现货指标负责，监控库存现货率、周转，及时提出不动销、滞慢销、断货预警，识别风险点及机会点，提升现有供给链路效率\n3.结合供应商的合作能力，识别上游供应链优化机会，并进行供应链流程的协调与优化。\n4.搭建品类指标监控体系和数据体系，针对品类运营结果进行数据解读和下钻归因分析，不断优化品类的供应链解决方案，沉淀策略并推进产品化",
+      "jobRequirement": "1.大学本科及以上学历，专业不限，具备供应链计划管理相关背景。\n2.至少5年以上的计划管理经验，熟悉计划管理流程和相关系统工具。\n3.熟悉供应链管理和物流运作，具备供应链协调和优化能力。\n4.具备较强的数据分析能力和问题解决能力，能够利用数据优化库存管理。\n5.具备良好的沟通协调能力和团队合作精神，能与供应商和内部团队有效合作。",
+      "precedence": null,
+      "highLight": "1.有机会从0-1跟随项目成长，更广阔的的视角，更多的机会与发展空间；\n2.工作氛围简单、直接、开放、高效。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789178426000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    }
+  ]
+}

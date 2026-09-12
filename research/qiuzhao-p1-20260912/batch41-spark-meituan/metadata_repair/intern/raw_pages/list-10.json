@@ -1,0 +1,1037 @@
+{
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "request_body": {
+    "page": {
+      "pageNo": 10,
+      "pageSize": 20
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jfJgList": [],
+    "jobType": [
+      {
+        "code": "2",
+        "subCode": []
+      }
+    ],
+    "typeCode": [],
+    "specialCode": []
+  },
+  "reviewed_at": "2026-09-12T15:37:13Z",
+  "page": {
+    "pageNo": 10,
+    "pageSize": 20,
+    "totalPage": 21,
+    "totalCount": 416
+  },
+  "rows": [
+    {
+      "jobUnionId": "4556101664",
+      "name": "测试开发工程师实习生（工程基建方向）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "测试",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-软件研发部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 参与SaaS质量工程基础设施（持续交付和自动化测试）建设。\n2. 参与新技术的探索、应用和落地，参与智能化测试的探索。\n3. 参与对业务开发和测试团队的技术支持。",
+      "jobRequirement": "1. 对工程质量和工程效率领域具有长期的热情，具备充分的韧性与主动性。\n2. 本科及以上学历，计算机或其他相关专业，计算机技术基础扎实，至少掌握Java、Python等编程语言中的一种。\n3. 落地并持续改进包括持续交付系统、效能运营系统、测试框架在内的多种软件工程基础设施、框架和工具，有针对性地做出迭代改进以及创新。",
+      "precedence": null,
+      "highLight": "1. 面向美团SaaS工程师团队，承建了千级别工程师的协同开发的质量工程基础设施。包括持续交付系统、效能运营系统、自动化测试框架等，有效推动了研发效率和系统质量的稳步提升，保障业务的快速迭代。\n2. 极具技术和应用挑战，和公司内多个业务及平台部门的技术专家们深度合作交流。\n3. 团队扁平化管理，气氛开放直接融洽，技术氛围浓厚，具备完善的新人指导和培养机制。\n4. 拥有优秀的人才，前瞻的技术，成熟的机制，积极的学习氛围以及探索精神。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1782093412000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4494593401",
+      "name": "HR实习生-招聘方向",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "人力资源",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "人力资源平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.协助招聘经理完成招聘计划，负责招聘流程中的简历筛选、面试安排等工作。\n2.负责编写并发布招聘广告，通过各种渠道积极寻找合适的候选人。\n3.跟进招聘流程，与候选人进行沟通，安排面试并提供必要的面试反馈。\n4.维护和更新招聘数据库，确保招聘信息的准确性和及时性。",
+      "jobRequirement": "1.大学本科及以上学历，人力资源管理、心理学或相关专业优先考虑。\n2.具备良好的沟通能力和团队合作意识，能够与各部门有效配合。\n3.熟悉招聘流程和相关法律法规，了解常用的招聘渠道和方法。\n4.具备较强的组织和协调能力，能够有效安排面试和处理各类招聘事务。\n5.具备较强的学习能力和适应能力，能够快速融入团队并承担工作压力。",
+      "precedence": null,
+      "highLight": "1.能够接触到各类候选人，了解不同行业和岗位的需求。\n2.参与招聘流程中的各个环节，能够全面了解和掌握招聘工作的各个方面。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1781784802000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4551994213",
+      "name": "自动驾驶-感知-信号灯检测算法实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-无人车业务部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "深度参与无人车信号灯场景的感知算法探索，参与无图场景下的信号灯识别方案研发，助力无人车走遍大街小巷\n紧跟计算机视觉（CV）领域前沿技术，探索其在信号灯感知任务中的应用方案\n参与算法落地完整流程，包括数据挖掘，模型训练，部署测试等",
+      "jobRequirement": "硕士研究生及以上学历，计算机科学人工智能领域，具有扎实的深度学习、计算机视觉基础\n具备优秀的编程功底，熟练掌握 Python 或 C++ 中至少一门编程语言，熟悉 PyTorch 等主流深度学习框架\n具备强烈的求知欲、良好的沟通协作意识以及解决实际问题的自驱力",
+      "precedence": null,
+      "highLight": "了解算法在真实场景的应用与落地，丰富你对算法的认识\n丰富的业务场景和数据，提升算法能力的绝佳练兵场\n提供充足的资源保障，注重帮助成长提供一对一带教",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1781658163000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4268845648",
+      "name": "Strategy&Data Analysis Intern",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "圣保罗",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "Keeta",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "中文：\n协助策略团队完成日常数据收集、整理与清洗工作，确保数据的准确性和完整性；\n使用SQL进行数据查询、提取与分析，生成基础数据分析报表，支撑业务决策；\n协助完成数据可视化工作，将分析结果以清晰、易懂的形式呈现；\n配合团队完成其他与数据分析相关的辅助工作，参与简单的数据分析项目。\nEnglish：\nAssist the Strategy team in daily data collection, collation and cleaning to ensure the accuracy and completeness of data;\nUse SQL for data query, extraction and analysis, generate basic data analysis reports to support business decisions;\nAssist in data visualization work and present analysis results in a clear and understandable form;\nCooperate with the team to complete other auxiliary work related to data analysis and participate in simple data analysis projects.",
+      "jobRequirement": "中文：\n学历要求：本科及以上在读，统计学、数学、计算机、信息管理、经济学等相关专业优先；\n技能要求：熟练使用SQL，能够自主编写复杂查询语句，完成数据提取与分析；掌握基本数据分析方法，具备基础的数据敏感度；\n语言要求：英语熟练，能够流畅阅读英文技术文档，具备基本的英文沟通能力；\n实习时间：每周可实习5天，实习周期不少于3个月，能长期稳定实习者优先；\n个人素养：工作认真负责、细心严谨，具备良好的逻辑思维能力和团队协作精神，积极主动，乐于学习新技能。\n\nEnglish：\nEducation Requirement: Undergraduate or above, major in Statistics, Mathematics, Computer Science, Information Management, Economics or related fields is preferred;\nSkill Requirement: Proficient in SQL, able to independently write complex query statements to complete data extraction and analysis; Master basic data analysis methods and have basic data sensitivity;\nLanguage Requirement: Proficient in English, able to read English technical documents fluently and have basic English communication skills;\nInternship Time: Able to intern 5 days a week, internship period of no less than 3 months, priority given to those who can intern stably for a long time;\nPersonal Qualities: Serious and responsible at work, careful and rigorous, with good logical thinking ability and team spirit, proactive and willing to learn new skills.",
+      "precedence": null,
+      "highLight": "中文：\n接触真实业务场景，积累专业数据分析经验，提升SQL及数据分析实战能力；\n有专业导师指导，帮助快速成长，了解行业前沿动态；\n提供合理实习补贴，舒适的办公环境，融洽的团队氛围；\n表现优秀者可获得实习证明，有机会获得转正优先考虑资格。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1781527216000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4555137940",
+      "name": "业务增长AI探索-实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-无人车业务部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 协助业务增长工具系统的建设与运营，包括系统使用培训、问题收集与优化。\n2. 运用AI工具，协助团队完成数据分析、流程功能优化，包括一线问题反馈处理、监控问题发现跟进解决等。\n3. 对接相关方，协助团队完成相关项目的跟进和推进，保障项目进度和质量。",
+      "jobRequirement": "1. 大学本科及以上学历，专业不限。对无人车运营有浓厚兴趣，有较强的学习能力和执行力。\n2. 对互联网用户增长、营销、CRM有一定了解，具备AI工具和AI Coding能力。\n3. 具备良好的沟通能力和团队合作精神。",
+      "precedence": null,
+      "highLight": "1. 深入参与无人车业务，了解增长业务核心环节，积累运营实战经验。\n2. 通过沟通和解决问题的经验，能够提升自己的产运能力、解决问题能力和团队协作能力。\n3. 有机会接触并运用AI工具，拓展自己的知识面和技能。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1781175309000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4539538002",
+      "name": "运控工程师-实习",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "硬件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "无人机业务部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 参与具身机器人下肢模块的运动控制系统研发，以强化学习为核心技术路线，从仿真训练到真机落地全链路负责，同时深度参与机电系统联调与硬件迭代；\n2.基于深度强化学习（PPO、SAC 等）在 Isaac Gym / Isaac Lab / MuJoCo 等并行仿真环境中训练双足机器人行走策略，覆盖平地行走、启停、转向、抗扰动等基础运动能力，并持续提升运动自然度与鲁棒性；\n3.参与 sim-to-real 迁移工作，通过 Domain Randomization、系统辨识、Teacher-Student（Privileged Learning）等方法缩小仿真与真机动力学差距，确保策略在真实硬件上稳定部署；\n4. 设计奖励函数、课程学习方案与训练框架，具备从零搭建完整 RL 训练流水线的能力，对策略的样本效率、泛化性与运动质量负责；\n5. 参与机电联调，能独立分析关节执行器的力矩-速度特性、驱动器 FOC 参数对控制效果的影响，从控制视角提出硬件改进建议，推动结构与电气方案迭代；\n6. 参与构建高保真仿真模型，完成关节摩擦、电机动力学、接触刚度等参数的标定，缩短仿真与实机的差距；将训练好的策略部署至机载计算平台，完成推理加速与实时控制接口对接，保障策略稳定运行；",
+      "jobRequirement": "1. 机器人学、自动化、计算机、力学或相关专业硕士及以上学历；\n2. 对机电系统有浓厚兴趣，能看懂电机选型参数表、驱动器手册与机械装配图，愿意动手参与联调，不满足于只在仿真层面工作；\n3. 理解深度强化学习核心算法（PPO、SAC、TD3 等），能独立实现训练框架并针对 locomotion 任务进行系统性调优，对训练不稳定、策略退化、sim-to-real gap 等工程问题有丰富的排查经验；\n4. 有 Isaac Gym / Isaac Lab、MuJoCo 或类似并行仿真平台的深度使用经验，能独立完成 URDF/MJCF 建模、仿真环境搭建与大规模并行训练；\n5. 熟悉 sim-to-real 迁移主流方法，包括 Domain Randomization、RMA、Privileged Learning 等，有在真实硬件上完整跑通 RL 策略的经验；\n6. 熟练使用 Python 进行算法开发，具备 PyTorch 或 JAX 实战能力；具备扎实的机器人学基础，理解正逆运动学、雅可比矩阵、刚体动力学，能读懂并复现主流 locomotion 论文；\n 7.具备主动学习与探索AI新工具、新方法的意识，能持续将AI能力融入实际工作场景并独立落地；",
+      "precedence": null,
+      "highLight": "1.与优秀算法、控制与AI团队深度协作，打造下一代智能机器人产品；\n2.扁平化管理，鼓励技术创新与快速迭代。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1781073588000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4517166932",
+      "name": "AI项目实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "产品类",
+      "jobFamilyGroup": "产品",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-无人车业务部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 协助AI产品团队进行需求分析、用户调研及行业分析，输出产品文档。  \n2. 利用AI工具进行产品功能迭代，及产品落地。 \n3. 收集用户反馈，分析数据并提出产品优化建议。",
+      "jobRequirement": "1. 大学本科在读，计算机、人工智能等相关专业优先。  \n2. 对AI技术有浓厚兴趣，了解机器学习、自然语言处理等基础知识。  \n3. 具备良好的逻辑思维能力和文档撰写能力。  \n5. 实习周期不少于3个月，每周出勤4天及以上。",
+      "precedence": null,
+      "highLight": "1. 深入参与前沿AI项目，积累一线产品实践经验。  \n2. 与资深产品团队紧密协作，获得专业指导与成长机会。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780627706000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3349134267",
+      "name": "Keeta商分经管中心项目实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "Keeta",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、项目运营：协助团队推进项目落地，定期整合项目进展与风险，保障项目目标按期达成；\n2、市场调研：协助收集市场信息，并撰写分析报告，为团队决策提供支持；\n3、团队支持：协助团队完成事务性工作。",
+      "jobRequirement": "1、一周可实习5天，至少3个月；\n2、英语口语和书面语可作为工作语言，具备较强的跨团队/跨文化背景的沟通能力；\n3、具备优秀的商业敏感度与逻辑思维能力，有数据分析经验优先；\n4、自驱力和责任心强。",
+      "precedence": null,
+      "highLight": "1、有机会参与核心项目，发展机会大;\n2、能够体验不同的国家、语言和文化。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780560990000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4137367636",
+      "name": "点评招聘HR实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "人力资源",
+      "cityList": [
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "人力资源平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "部门综述：美团核心本地商业板块下点评事业部，工作地点上海。\n1、承接大众点评事业部社招岗位需求，根据岗位描述进行简历的筛选、搜索、并进行简历的推荐以及候选人意向沟通；\n2、负责面试安排、面试反馈、入职保温等环节，跟进全流程招聘工作；\n3、负责招聘渠道开拓及维护，更新招聘信息，负责人才市场的盘点和研究；\n4、协助进行人力资源相关的数据统计工作，能基于相关数据，主动发现问题并积极协助解决，一起探索招聘的最佳实践。",
+      "jobRequirement": "1、2026届及以后硕士在读，有相关实习经验优先，人力资源、心理学等专业优先；\n2、有良好的沟通协调能力，善与人沟通，逻辑思维能力及应变能力出色；\n3、自驱力较好，主动学习能力较强，韧性好，有好奇心和责任心，亲和力好；\n4、能够连续实习4个月及以上，每周出勤5天。",
+      "precedence": null,
+      "highLight": "1、一对一导师带教，个人成长更快；\n2、如能长期实习，未来机会多多；\n3、团队氛围好，能够快乐有趣的工作；\n4、地铁周边，交通便利，有餐饮津贴。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780473780000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3619721723",
+      "name": "大模型数据实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "数据构建与处理： 深入参与大模型训练数据的设计与构建，亲手处理包括但不限于文本数据，平行语料、图文交错、图生图、图像序列等多样化数据。负责数据的采集、清洗、标注和预处理工作，为模型训练提供高质量的数据基础\n\n模型训练与调优：参与或主导SFT / RL等后训练探索，提升模型在各类下游任务中的实际应用能力\n\n探索如何通过数据和训练策略，激发模型采样多模态token的能力，并将其应用于解决真实物理世界的问题，参与数据驱动模型能力提升的全过程",
+      "jobRequirement": "在NLP/ CV / 语音方向有深入的理解以及研究经历，有实际处理过图、文、音等至少一类数据的项目或实习经验者优先\n\n能保证至少3个月的全职实习，6个月及以上者优先",
+      "precedence": null,
+      "highLight": "团队资源丰富，能够完整经历大模型训练的全流程，包括数据，模型架构设计，训练策略等\n\n原生多模是Google（Gemini）与Openai（GPT-4o）在多模态上的共同选型，统一理解与生成，统一各个模态，探索空间巨大，能力天花板高",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780372665000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4524949771",
+      "name": "机器人-数据运营",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "无人机业务部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1) 协助完成数据采集任务的处理工作，包括数据清洗、整理、格式转换等，确保数据质量达标\n2) 负责数据质量的日常检查与抽检，按照既定标准对采集数据进行验收，及时反馈质量异常\n3) 协助整理运营数据报表，对采集进度、质量指标等进行统计分析，输出定期数据报告\n4) 协助制作培训材料和操作文档，支持采集同学的培训与知识沉淀工作\n5) 参与日常运营流程的执行与反馈，提出流程优化建议",
+      "jobRequirement": "1）硕士研究生，可保证每周至少4天到岗实习，持续至少3个月\n2）学习能力强，能快速掌握新工具和新流程\n3）做事细心、耐心，具备较强的责任心和执行力\n4）具备基本的数据处理能力，熟练使用AI办公工具",
+      "precedence": null,
+      "highLight": "1）前沿领域：深度参与具身智能数据采集全流程，近距离接触人形机器人、无人机等前沿技术，积累稀缺行业经验\n2）实践成长：在真实商业化项目中锻炼数据处理、质量管理和项目执行能力，而非实验室模拟\n3）团队氛围：加入年轻、高效的团队，与算法、硬件工程师紧密协作，拓展技术视野",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780318106000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4437933911",
+      "name": "具身智能算法实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "无人机业务部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 深入理解美团无人机业务场景，探究数据采集与算法训练的最优配合范式，设计高效的数据闭环方案，以提升具身智能模型在真实物理世界中的泛化能力。\n2. 针对非结构化环境下的感知与决策难题，研发创新性的具身智能算法，并探索其在无人机/机器人系统中的实际部署边界与应用价值。\n3. 依托公司真实场景数据与高校合作资源，定义并解决具身智能领域的关键科学问题，参与前沿学术会议的高质量论文产出。",
+      "jobRequirement": "学历背景： 计算机、自动化、机器人等相关专业在读，对人工智能、计算机图形学、机器人学有深入的理论理解。\n编程能力： 精通 Python 及 PyTorch 等主流框架，具备扎实的算法实现能力；熟悉 C++ 者优先\n科研热情： 对具身智能有浓厚兴趣，具备出色的自驱力，能够主动在复杂外卖场景中挖掘技术价值，而非单纯执行。\n加分项：在 CVPR、ICCV、ICRA、IROS、NeurIPS 等顶级会议或期刊发表过高质量论文。有大规模仿真训练（如 Isaac Gym/Sim）或真实机器人部署经验。",
+      "precedence": null,
+      "highLight": "接触前沿技术落地的实战机会，学术与工业界的双重赋能。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1780317911000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4278962780",
+      "name": "光年之外 - AI 浏览器-产品运营实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "内容运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "GN06",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "负责 Tabbit 在 B站、抖音、小红书、视频号/公众号等社媒平台的账号运营与内容生产，参与产品功能演示、创意短视频、图文等多种内容形式的全流程创作；根据平台数据持续复盘与迭代内容方向，提升账号影响力与用户触达效率；建设 Tabbit 产品内容体系，持续探索用户痛点场景，利用各类 AI 工具创作效率向、创意类内容，推动用户增长；\n\n1. 视频创作与剪辑：​ 负责  Tabbit 浏览器产品的视频所需素材的制作、生成、收集、录制、整理，包括但不限于功能演示、创意短片、病毒式传播视频的剪辑与后期包装；独立完成视频片段的剪辑、包装、音乐等完整工作，在指导下独立完成简单完整视频。\n\n2. 创意策划（原创/二创）：​ 参与内容选题脑洞，结合网络热梗或产品特性进行原创脚本构思，或对现有素材进行高质量的二创混剪。\n\n3. 视觉设计支持：​ 配合视频内容，制作封面图、海报等必要的平面素材（需具备基础图片处理能力）。\n\n4. 协同配合：​ 与运营团队紧密合作，根据数据反馈优化视频内容，提升内容的点击率和完播率。",
+      "jobRequirement": "1. 是 Tabbit 浏览器产品的用户；\n\n2.  熟练使用剪映、Pr、FCP 等至少一种视频剪辑软件；熟练使用修图工具；熟练使用 AI工具。\n\n3. 网感好：​ 重度社交媒体用户（B站/抖音/小红书/TikTok），对热点敏感，懂“梗”且能运用到创作中，审美在线。\n\n4. 执行力强：​ 脑洞大，且能将想法落地为视频画面，具备良好的叙事能力和节奏感。\n\n5. 有作品/账号：​ 有成熟的个人账号或过往爆款视频作品（投递请附带作品集）。\n\n6.实习时间：​ 每周到岗 3-4 天以上，实习期至少 3 个月（具体可视情况调整）。",
+      "precedence": null,
+      "highLight": "深度参与 Tabbit 浏览器从 0 到 1 的阶段，你的建设可能直接影响产品方向；\n与产品、研发、设计团队高度协作，获得跨职能视角；\n真实的用户运营经验积累，以及结构化的工作方法训练；\n扁平灵活的工作氛围；",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779712449000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4499867840",
+      "name": "【无人车北斗实习】强化学习实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【工作内容】\n1. 深度参与强化学习算法的前沿探索，推动其在自动驾驶决策与规划场景中的落地应用\n2. 设计并实现强化学习相关实验方案，完成算法验证、性能评估与迭代优化\n3. 与团队紧密协作，将研究成果转化为可工程化落地的系统方案\n【岗位吸引点】\n1. 实量产场景验证：算法直接应用于美团 RoboVan 车队的决策规划模块，在复杂城市物流场景中完成真实闭环验证，研究成果不止于论文\n2. 顶级技术环境：与强化学习方向资深研究员深度协作，接触国内少有的、将 RL 应用于规模化商业落地的完整技术栈\n3. 全链路视角：在感知-决策-执行全链路自研的环境中工作，能从系统层面理解 RL 在自动驾驶中的真实挑战与价值",
+      "jobRequirement": "1. 硕士期间发表至少1篇、博士期间发表至少3篇 CCF-A 类强化学习方向论文\n2. 具有头部自动驾驶公司强化学习相关方向实习经历，熟悉主流 RL 框架与训练流程\n3. 工程能力突出，能够独立完成大规模模型训练、调试与部署",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779432404000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4501188515",
+      "name": "【无人车北斗实习】3D高斯模型实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【工作内容】\n1. 探索基于3D Gaussian Splatting的重建模型在高精地图（HD Map）建图场景中的应用与优化\n2. 针对大规模场景重建的效率与精度瓶颈开展算法改进，推动模型在实际驾驶数据上的迭代\n3. 与工程团队协作，将3D高斯重建能力集成至自动驾驶感知与建图系统\n【岗位吸引点】\n1. 真实建图场景落地：3DGS 研究直接对接美团 RoboVan 的 HD Map 建图需求，有机会将前沿重建技术应用于规模化量产场景\n2. 多城市真实数据支撑：物流配送场景覆盖复杂城市道路，数据多样性高，为大规模3D高斯重建提供极具挑战性的真实验证环境",
+      "jobRequirement": "1. 具有大规模3D高斯重建的实际经验（实习或科研均可），熟悉3DGS及其衍生方法\n2. 了解自动驾驶建图场景需求，具备处理真实驾驶场景数据的能力\n3. 有相关领域 CCF-A 类论文发表者优先考虑",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779432404000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4501193441",
+      "name": "【无人车北斗实习】前馈式3D重建实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【工作内容】\n1. 探索前馈式3D重建模型在大规模真实驾驶数据上的训练策略与泛化能力提升方法\n2. 参与数据预处理管道建设，优化大规模训练的工程效率与资源利用率\n3. 对重建质量进行系统性评估，输出模型迭代方案并推动应用落地\n【岗位吸引点】\n1. 大规模真实驾驶数据：美团 RoboVan 在多城市持续采集物流场景数据，为前馈式重建模型的训练与泛化提供充足且多样的真实数据\n2. 应用驱动的研究闭环：重建能力直接服务于高精地图生成与仿真场景构建，研究成果有明确的业务价值出口\n3. 基础设施完善：团队具备成熟的大规模分布式训练平台与数据工程体系，实习生可专注于算法本身而非工程搭建",
+      "jobRequirement": "1. 具有前馈式3D重建模型的实际训练经验（实习或科研均可），熟悉主流重建框架\n2. 理解三维场景重建的核心技术原理，有处理大规模真实数据集的经验\n3. 有相关领域 CCF-A 类论文发表者优先考虑",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779432404000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4499868041",
+      "name": "【无人车北斗实习】世界模型实习生（感知数据生成方向）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【工作内容】\n1. 探索世界模型在感知数据生成中的应用，提升自动驾驶训练数据的多样性与真实性\n2. 研究世界模型在端到端闭环评估中的作用机制，推动评估体系的智能化升级\n3. 参与模型迭代与大规模数据实验，输出可复现的研究结论与工程方案\n【岗位吸引点】\n1. 海量真实数据资源：美团 RoboVan 车队积累了丰富的真实物流驾驶数据，为世界模型训练与感知数据生成提供高质量、多样化的数据基础\n2. 研究价值高、应用空间大：感知数据生成直接服务于车队的训练数据扩充与安全场景覆盖，研究成果对业务有直接影响\n3. 评估体系共建机会：有机会主导或深度参与闭环评估体系建设，形成在业界有独特价值的技术积累",
+      "jobRequirement": "1. 硕士期间发表至少1篇、博士期间发表至少3篇 CCF-A 类 World Model 或闭环仿真方向论文\n2. 具有头部自动驾驶公司 E2E 相关方向实习经历，理解感知数据生成与评估全流程\n3. 工程能力突出，具备生成模型训练与大规模数据处理的实践经验",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779432404000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4501197131",
+      "name": "【无人车北斗实习】世界模型实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【工作内容】\n1. 探索端到端隐式世界模型的架构设计与训练范式，推动自动驾驶感知-决策一体化研究\n2. 开展模型结构创新与对比实验，挖掘隐式表征在闭环系统中的潜力\n3. 参与大规模数据管道建设与实验平台搭建，提升研究效率\n【岗位吸引点】\n1. 前沿方向 + 真实数据：隐式世界模型研究结合美团大规模真实物流驾驶数据，让前沿探索有充足的数据支撑\n2. 端到端全栈自研优势：智能驾驶与硬件全线自研，实习生可深入了解从传感器数据到端到端模型输出的完整链路，视角系统而稀缺\n3. 成果快速落地：研究成果有机会直接集成进量产系统并在真实运营车队中验证效果",
+      "jobRequirement": "1. 硕士期间发表至少1篇、博士期间发表至少3篇 CCF-A 类端到端或世界模型方向论文\n2. 具有头部自动驾驶公司强化学习或世界模型相关方向实习经历\n3. 工程能力突出，具备从零搭建并训练端到端大模型的实际经验",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779432404000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4500420647",
+      "name": "【无人车北斗实习】端到端模型实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "深圳市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "【工作内容】\n1. 探索一段式端到端自动驾驶算法，覆盖感知、预测、规划全链路建模\n2. 研究并实践 E2E、RL、VLA、World Model 等前沿技术路线，推进闭环仿真评估体系建设\n3. 参与模型训练、消融实验与性能基准测试，持续提升端到端系统指标\n【岗位吸引点】\n1. 最前沿的技术赛道：参与一段式 E2E 自动驾驶算法研究，与业界主流技术路线同频，方向本身即是当前自动驾驶最热门的研究课题\n2. 真实闭环验证机会：美团 RoboVan 提供真实运营场景与数据，端到端算法可在实际物流场景中完成闭环测试，不局限于仿真",
+      "jobRequirement": "1. 硕士期间发表至少1篇、博士期间发表至少3篇 CCF-A 类，方向涵盖 E2E/RL/VLA/World Model/闭环仿真之一\n2. 具有头部自动驾驶公司 E2E 相关方向实习经历，熟悉主流端到端训练框架\n3. 工程能力突出，具备大规模模型训练、多任务联合优化的实战经验",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779432404000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4402739791",
+      "name": "产品运营实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "用户运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "Keeta",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.参与探索海外外卖业务运营的新增长工具，重点关注用户获取、留存和效率提升；\n2.协助进行业务数据分析、运营策略规划与迭代和新营销工具的调研及创新，并与产研团队合作，推动产品功能迭代与落地；\n3.设计和执行用户研究活动，进行访谈，深入分析用户行为数据，并将洞察转化为符合海外市场特征的可执行工具/策略实施。",
+      "jobRequirement": "1. 在读本科或研究生，中文、英语听说读写能力良好；\n2. 具备较强的数据分析能力，能熟练应用SQL进行数据提取，有在大型互联网公司渠道运营/用户运营实习经验者优先考虑；\n3. 学习能力强，具备良好的团队协作精神，注重细节，执行力出色；\n4. 至少连续实习4个月，能够长期实习者优先。",
+      "precedence": null,
+      "highLight": "1.创新业务的操盘手，挑战与机会并存；\n2.能够全方位了解外卖业务模式，有足够的空间和灵活度全面发挥你的才能；\n3.核心业务的核心部门，团队气氛好，学习成长型团队。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1779170421000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    }
+  ]
+}

@@ -1,0 +1,868 @@
+{
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "request_body": {
+    "page": {
+      "pageNo": 21,
+      "pageSize": 20
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jfJgList": [],
+    "jobType": [
+      {
+        "code": "2",
+        "subCode": []
+      }
+    ],
+    "typeCode": [],
+    "specialCode": []
+  },
+  "reviewed_at": "2026-09-12T16:04:52Z",
+  "page": {
+    "pageNo": 21,
+    "pageSize": 20,
+    "totalCount": 416,
+    "totalPage": 21
+  },
+  "rows": [
+    {
+      "jobUnionId": "3153761150",
+      "name": "【大模型北斗实习】预训练架构优化",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "本课题专注于大规模预训练场景下，分布式系统架构优化前沿技术探索。通过软硬件协同设计和算法工程联合优化，降低大规模预训练的成本和迭代周期。\n研究内容包括但不限于：1）多维并行架构的优化，如流水线并行（PP）、张量并行（TP）、数据并行（DP）等并行架构在特定硬件、模型架构下的联合优化。\n2）MoE 模型结构和训练工程架构的联合优化探索，如大量小专家场景的训练结构优化。\n3）联合算法工程师深入合作，进行Attention机制的训练策略和架构优化探索，如线性注意力、稀疏注意力等，提升超长序列建模效果和训练效率。\n4）优化多芯片架构、异地多机房环境下的异构训练系统，解锁大规模训练上推的单地域机房容量和电力限制。\n5）FP8、FP4 等低精度浮点数下的训练策略和训练性能优化探索。",
+      "jobRequirement": "海内外高校在校学生，且以下条件至少满足一项：\n1）超级学霸：专业成绩排名前5%。\n2）学术达人：在顶级期刊或学术会议上以第一作者身份发表论文（或导师一作，自己为二作）。\n3）竞赛大神：在顶级大赛上获奖。\n4）工程高手：有大厂实验室的实习经验，或有贡献突出的开源项目。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963940000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3153665236",
+      "name": "【大模型北斗实习】大模型复杂推理前沿研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法,硬件,软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "Reasoning（推理）是大模型理解和处理信息的核心能力，是通用智能水平逼近的重要观测维度。课题聚焦于探究生成式模型的高级推理发生机制，提升大模型在复杂任务上的推理表现。\n研究内容包括但不限于：\n1）复杂任务推理应用效果优化，诸如逻辑推理、数学推理、代码推理、跨模态推理、多模型决策等。\n2) RL scaling，通过大规模强化学习持续提升模型推理能力。\n3）Test time scaling，通过增加inference时消费的算力持续提升模型推理能力。",
+      "jobRequirement": "1）熟悉NLP、LLM、RL等相关领域，对其中一个或多个方向有深入的研究经历，且有相关实际项目经验。\n2）熟悉Python、C++等至少一门编程语言，熟悉LINUX环境。\n3）熟悉 Megatron、DeepSpeed 等开源训练框架。\n4）熟悉PPO、DPO、GRPO等常用RL算法。\n加分项：\n1）有影响力的开源项目中做出过核心贡献。\n2）发表过高水平论文优先（如NeurIPS,ICLR,ICML,ACL,EMNLP等）。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747963940000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3346904295",
+      "name": "IP运营",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "内容运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-美团平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责IP的运营工作，包括内容策划、推广、用户运营等相关工作。\n2.负责IP的日常管理和维护，保证产品的稳定运行和用户体验。\n3.跟进IP的数据分析和运营效果评估，制定相应的优化方案。\n4.与团队合作，共同推动IP的发展和增长。",
+      "jobRequirement": "1.大学本科及以上学历，专业不限。\n2.对互联网产品有一定的了解，有过抖音、快手、小红书、账号运营成功经验的优先考虑。\n3.具备良好的沟通能力和团队合作精神，能够承受一定的工作压力。",
+      "precedence": null,
+      "highLight": "业务增长空间巨大，团队氛围愉快，有展现能力的绝佳舞台",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747880577000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3369700031",
+      "name": "大模型数据运营-小语种/方言方向实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 深入理解多模态大模型，调研多语种语音音系特征、完善标注规范、验收数据质量，为业务和算法提供知识技能支持；\n2. 负责大模型语音数据的质量监控或验收等工作，并定期对语音技术效果做出评价与反馈；\n3. 协助mentor管理一或多个语种的数据生产项目，协助产品和算法优化模型效果。",
+      "jobRequirement": "1. 本科以上学历，语言类、小语种相关专业；\n2. 小语种方向：法语、日语、俄语、葡萄牙语专业，同时具备英文专四/专八/雅思/托福证书优先；\n3. 方言方向：北京话、西安话、上海话、东北话、河南话；\n4. 逻辑推理方向：俄语、英语，具备一定python脚本书写能力\n5. 需具备口音判断、文字校对能力，听力能力优秀者优先；\n6. 专业知识基础扎实，熟悉语言学研究方法；\n7. 具备语音数据标注执行/管理经验；\n8. 团队协作意识强，性格良好，业务意识强。",
+      "precedence": null,
+      "highLight": "1.丰富的实习经验，提供良好的职业发展机会。\n2.参与大模型语音数据运营工作，积累相关领域的专业知识和经验。\n3.与专业团队合作，学习并掌握先进的数据运营和分析技术，提升个人能力和竞争力。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747642968000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3197882635",
+      "name": "产品实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "产品类",
+      "jobFamilyGroup": "产品",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-小象事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责供应商履约、治理模块，识别业务需求及痛点，推动流程线上化\n2.对供应商的核心指标归因分析及下探改善，实现指标达成及业务业绩的优化\n3.关注行业动态及市场同类产品，形成产品改良方案并推动落地\n4.通过与业务及横向团队深入协作，提炼共性需求，建设通用能力为业务发展赋能，帮助业务持续达成目标",
+      "jobRequirement": "1.能够到岗实习，每周至少实习4天，能长期实习优先\n2.有后台、电商相关产品经验优先\n3.具备跨部门多线程协调沟通能力，能够推动项目上线",
+      "precedence": null,
+      "highLight": "大平台，较大的成长空间，能深入业务，快速提升个人能力",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1747128539000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3289433333",
+      "name": "【无人车北斗实习】自动驾驶算法与系统研究实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "3",
+      "jobSource": "2",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "基于数据驱动模型端到端一体化的长期需求，我们寻找有极强的技术信仰与热情，富有好奇心和驱动力的候选人。参与探索自动驾驶面向未来的算法设计和工程优化的综合性问题。\n1.探究自动驾驶领域分布式训练的效率极限，通过底层硬件和分布式集群/存储优化，结合深度学习框架特性和算子性能优化，达到MFU上限。\n2.基于VLM、LLM等大模型技术和无人配送的业务特点，探索自动驾驶新一代的模型结构范式，推动自动驾驶技术的进一步发展。",
+      "jobRequirement": "1.2026届本科及以上学历，人工智能、计算机、自动化、数学相关专业优先；\n2.扎实的机器学习、CV、LLM基础和出色的探索能力。具备自动驾驶或大模型领域相关算法知识；\n3.优秀的代码能力、数据结构和基础算法功底，熟练掌握C/C++或Python。有竞赛经历优先；\n4.极强的技术信仰与热情，对自动驾驶充满乐趣；\n5.富有好奇心和驱动力，了解大模型社区相关技术发展。\n\n岗位亮点：\n1.可以参与自动车团队部门级别的核心工程优化项目，学习到包括大模型领域前沿的算力效率优化技巧，锻炼ai infra相关技能。\n2.基于VLM、LLM等大模型技术，结合工程和算法，探索业务可落地的自动驾驶端到端方案。",
+      "precedence": null,
+      "highLight": null,
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1745313767000,
+      "tag": [
+        0
+      ],
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3193384857",
+      "name": "智能运营-实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "业务运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-美团平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、负责美团电商零售业务在线和电话渠道智能机器人运营，分析用户服务信息，挖掘用户服务诉求，设计智能服务方案；\n2、负责持续挖掘智能客服机器人的功能需求，产品触点需求，提供标准化、模块化的交互场景方案，并进行更新维护。",
+      "jobRequirement": "1、具备良好的逻辑思维和分析能力；\n2、具备良好的文字组织能力和沟通能力；\n3、具备良好的沟通能力和团队合作精神。",
+      "precedence": null,
+      "highLight": "深入美团一个或多个业务领域，了解相关业务知识；能持续培养多角度运营思维，积累运营方法论；锻炼长链路工作环境下的跨团队协作能力；团队氛围nice。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1745218912000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3096545047",
+      "name": "后端研发项目实习生-信息平台",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-业务研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、负责参与太平洋架构升级项目的软件开发工作，学习、应用专属的DSL语法进行需求交付。\n2、根据项目需求，完成太平洋新老构中数据对象的迁移，支撑业务对接新架构后模型实例建设，按时高质量完成交付。\n3、配合项目组成员，进行过程中元数据的生产与配置、联调、测试等工作。\n4、积极参与技术学习及反馈，保持对交付结果的敏感性，为项目提供技术支持和创新。",
+      "jobRequirement": "1、在读学生：计算机相关专业的在读学生（大三或大四学生或研一、研二）\n2、编程语言：要求至少掌握一门或多门编程语言，如Python、Java、C++等。\n3、沟通能力：良好的口头和书面沟通能力。\n4、团队合作：能够与团队成员有效合作。\n5、时间管理：能够在规定时间内完成任务，具备多任务处理能力。",
+      "precedence": null,
+      "highLight": "1、作为太平洋架构升级专项实习生，将有机会参与大型项目的落地，获得系统开发的全流程实践经验。\n2、在项目中将与资深的技术大牛紧密合作，学习他们的经验和技术，提升自身的技术水平。\n3、技术层面上能够深度了解学习对接多业务对接上的优秀架构体系，深入接触、了解及使用大厂中间件及原理应用。帮忙参与者在技术深度与广度上有更快的提升。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1744257753000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "2731047995",
+      "name": "大模型数据运营（英文实习）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 数据标注执行：人工对大模型训练所需的英文数据进行排序/改写 或 通过prompt engineering合成大批量高质数据，确保数据的准确性和一致性；\n2. 标注方案制定：分析模型效果、调研论文或收集行业数据，沉淀相关结果文档，支持数据方案迭代/优化；\n3. 标注项目管理：协助负责人管理内/外部标注人力，完成包括但不限于培训、质检、答疑等工作；\n4. 团队协作：与技术团队紧密合作，及时反馈问题，根据模型效果及时调整标注策略。",
+      "jobRequirement": "1. 学历背景：27届及以后毕业的硕士/博士在读同学；英语语言文学、语言学、计算语言学、翻译等相关专业，有扎实的学科理论基础；\n2. 语言能力：英语专四优秀及以上，优先专八优秀/雅思7+/托福105+；\n3. 逻辑思维：具有良好的逻辑思维和分析能力，能够准确理解数据任务的目的和要求，并能够高效地执行复杂的数据分析任务；\n4. 沟通与协作：具备良好的沟通能力和团队协作精神，能够与团队成员有效沟通，协同解决问题，共同推进项目进度。",
+      "precedence": null,
+      "highLight": "紧跟业界前沿的大模型迭代发展，深度参与AIGC在各场景的落地应用。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1743650102000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3099774305",
+      "name": "服务运营实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "客服",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-美团平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "岗位职责:\n1.结合团队的需求，完成服务数据的快速提取、加工、分析，围绕分析目标输出有效的分析结论及改善建议；\n2.协助对接团队内数据报表的搭建及上线，提升团队内数据提取的便利度、有效性；\n3.通过对日常服务数据的拆解，监控并快速识别异常，帮助团队内部进行数据驱动决策；\n4.协助改善用户服务的工作流程、执行规范等基础制度，并能落地实施。",
+      "jobRequirement": "1. 本科及以上学历，能够每周实习5天，持续实习4个月以上的优先考虑；\n2. 专业不限，管理类、经济类专业优先，有SQL、Python基础加分；\n3. 具备良好的逻辑思维能力和数据敏感度，能够快速发现数据中的规律和问题；\n4. 吃苦耐劳、自驱力强，做事认真、仔细、负责。",
+      "precedence": null,
+      "highLight": "1.能够在快节奏的工作环境中不断学习和成长，了解公司运营和业务情况；\n2.有机会接触到多层面的运营工作，提升数据分析能力和业务洞察力；\n3.参与团队日常工作，实践自己的运营能力，为未来职业发展打下基础。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1743142322000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3185613649",
+      "name": "香港商分实习-用户研究方向",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "香港特别行政区",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "Keeta",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.收集来自商分、产品、运营、市场等多端的用户研究需求，筛选有价值的用研命题。\n2.协助设计并执行用户调研（问卷、访谈、焦点小组等），深度挖掘用户行为与痛点。\n3.对调研数据进行清洗、整理与分析，结合站内数据进行深度分析，提炼关键用户洞察，形成可落地的建议报告。\n4.联动产品、运营、技术团队，推动相关落地事项，协助优化业务流程及用户体验。",
+      "jobRequirement": "1.大学本科或研究生在校生，商分、经济学、统计学等相关专业优先。\n2.有互联网、咨询公司实习经验优先；有商业分析、数据分析、数据基建实习经验优先。\n3.需要具备优秀的数据分析能力，掌握常用分析统计方法，熟练使用SQL语言进行数据提取并进行相应分析。\n4.逻辑清晰，擅长从复杂信息中提炼核心结论。",
+      "precedence": null,
+      "highLight": "1.行业top商分团队实习经历，能够较全面地锻炼商分能力模型。\n2.业务前景广阔、增长快。\n3.团队文化热血、专业、开放。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1742985132000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "2973819681",
+      "name": "实习-金服支付-商业分析师-北京",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "金融服务平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1、日常数据监控：进行日常数据报表的监测，能够及时发现问题并分析数据异常原因。\n2、异动归因：数据监控并识别异动，进行异动分析，归因业务原因，产出结论。\n3、业务数据分析：协助进行专题分析，深挖数据体现的业务问题，产出有应用性的数据结论。\n4、策略评估：协助进行策略分析工作，产出实验效果和结论。\n5、完成mentor交代的其他工作。",
+      "jobRequirement": "1、具备良好的数理逻辑思考能力、业务理解能力和沟通表达能力。\n2、对数据敏感，学习能力强，能够快速掌握公司内部各种数据工具。\n3、熟练使用Hive/SQL，掌握基本的数据可视化和统计方法，并有相关实习经历。\n4、一周5天，并能持续5个月及以上。",
+      "precedence": null,
+      "highLight": "完善的商分培养体系，掌握商分方法论，并在实际工作中对业务产生价值。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1742968826000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3118455121",
+      "name": "AI方向产品实习生",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "产品类",
+      "jobFamilyGroup": "产品",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-美团平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.参与AI导购、AI活动收集、AI文案生成等创新产品探索落地。\n2.进行用户需求调研和用户行为分析，收集和整理用户反馈和数据，为产品设计提供支持。\n3.参与产品迭代优化，发现和解决产品中的问题，提高产品质量和用户体验。",
+      "jobRequirement": "1.大学本科及以上学历，计算机、人工智能、市场营销等相关专业优先。\n2.对人工智能领域有浓厚兴趣，了解AI产品的基本原理和发展趋势。\n3.具备良好的团队合作精神和沟通能力，有较强的学习能力和解决问题的能力。",
+      "precedence": null,
+      "highLight": "1.参与大模型的用户产品探索，了解人工智能技术和产品设计前沿趋势，提升自己的技术和产品能力。\n2.与一流的产品经理和开发团队合作，学习和掌握产品设计和开发流程，了解产品上线和运营的全过程。\n3.获得丰富的实践经验，参与产品的设计、测试和优化，锻炼自己的问题解决能力和团队合作能力。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1741393199000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "2639713807",
+      "name": "大模型数据运营-多模态视觉方向（实习生）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1. 负责多模态数据（图像、视频等）的标注工作，确保数据标注的准确性和一致性。\n2. 以专业角度，对图片、视频等内容进行美学评估。\n3. 与团队密切合作，共同迭代模型打标、模型效果评价体系。",
+      "jobRequirement": "1. 专业背景：本科及以上学历，美术、摄影或设计相关专业背景，拥有扎实的美术基础，对色彩、构图、光影有独到见解。\n2. 摄影人士：热爱摄影，熟悉摄影技巧，能够准确评估图片的曝光、对焦、景深等摄影要素。\n3. 设计达人：具备平面设计、UI/UX设计等经验，对视觉美感有敏锐的洞察力。\n4. 职业素养：具备良好的团队协作精神和沟通能力，能够适应新业务的变化节奏。",
+      "precedence": null,
+      "highLight": "紧跟业界最前沿的大模型能力，深度参与AIGC在各场景的落地应用。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1741146306000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3072326071",
+      "name": "前端技术组-日常实习-北京+上海",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "软件",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-业务研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.参与前端技术组日常实习工作，包括Web前端开发、页面优化等相关工作。\n2.负责前端技术组的项目开发和维护，保证项目的高质量和高效率完成。\n3.与团队成员协作，共同完成团队目标，提升团队整体实力。",
+      "jobRequirement": "1.大学本科及以上学历，计算机相关专业优先。\n2.对前端技术有浓厚兴趣，具备一定的前端开发经验。\n3.具备团队合作精神，良好的沟通能力和学习能力。\n4.熟悉HTML、CSS、JavaScript等前端技术，有React、Vue等框架经验者优先。",
+      "precedence": null,
+      "highLight": "1.在前端技术领域有较大的发展空间，可以接触到前沿前端技术和项目。\n2.有机会与优秀的团队成员一起工作，共同成长和提升技术水平。\n3.公司提供良好的实习环境和发展机会，可以在实践中不断提升自己的技术能力。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1740988947000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "2963188562",
+      "name": "招聘助理",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "2",
+      "jobSpecialCode": "6",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "人力资源",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "人力资源平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": null,
+      "departmentIntro": null,
+      "jobDuty": "1.负责协助招聘经理进行人力资源招聘工作，包括但不限于发布招聘信息、筛选简历、安排面试等。\n2.跟进候选人的面试进程，及时与候选人沟通面试安排、面试反馈等事宜。\n3.维护并更新人才库，确保招聘信息的准确性和及时性。\n4.协助招聘经理进行候选人的背景调查和参考人员的联系。\n5.跟踪新员工的入职流程，协助完成入职手续，提供必要的培训和指导。\n6.协助招聘经理制定并执行招聘计划，确保招聘目标的达成。",
+      "jobRequirement": "1.本科及以上学历，人力资源管理、心理学等相关专业优先考虑。\n2.具备一定的人力资源招聘工作经验，熟悉招聘流程和方法。\n3.熟练使用招聘平台、社交媒体等招聘工具，具备良好的信息收集和整理能力。\n4.具备良好的沟通能力和协调能力，能够与不同层级的候选人和团队成员有效沟通。\n5.具备团队合作精神，能够积极配合团队完成工作任务。\n6.具备较强的时间管理能力，能够在繁忙的工作环境下高效工作。",
+      "precedence": null,
+      "highLight": "1.丰富的人力资源招聘经验，有机会与各类优秀候选人和专业团队合作。\n2.在基础研发平台招聘团队，接触到高精尖的头部技术人才，包括但不限于AI、大数据、云等方向。\n3.可以通过参与招聘工作，锻炼自己的沟通、协调和组织能力，提升自身的职业发展空间。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1740481188000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    }
+  ]
+}

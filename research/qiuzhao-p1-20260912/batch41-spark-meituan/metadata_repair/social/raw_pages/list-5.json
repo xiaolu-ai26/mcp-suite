@@ -1,0 +1,1041 @@
+{
+  "source_url": "https://zhaopin.meituan.com/api/official/job/getJobList",
+  "request_body": {
+    "page": {
+      "pageNo": 5,
+      "pageSize": 20
+    },
+    "jobShareType": "1",
+    "keywords": "",
+    "cityList": [],
+    "department": [],
+    "jfJgList": [],
+    "jobType": [
+      {
+        "code": "3",
+        "subCode": []
+      }
+    ],
+    "typeCode": [],
+    "specialCode": []
+  },
+  "reviewed_at": "2026-09-12T15:37:27Z",
+  "page": {
+    "pageNo": 5,
+    "pageSize": 20,
+    "totalPage": 124,
+    "totalCount": 2475
+  },
+  "rows": [
+    {
+      "jobUnionId": "4663341586",
+      "name": "云客服运营支持岗",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "业务运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-美团平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "一、数据驱动的运营决策支持\n\n1.数据体系建设：规划服务数据体系，搭建运营指标看板与目标管理机制，统一指标口径，保障跨团队数据一致性；从全量、准确性、易用性、安全性四个维度开展数据治理，保障数据资产质量；\n\n2.业务洞察与专项分析：通过数据挖掘和量化分析快速发现业务问题，承接专项分析需求，独立完成从需求探索到结论输出的分析闭环，推动业务策略落地与改善；\n\n3.经营分析支持：维护MBR/WBR等经营分析模板与会议机制，承接新业务数据接入需求，推动数仓建设与指标接入，确保新业务上线即有完整数据监控能力；\n\n4.服务交付全链路优化：从服务交付全链路视角，通过数据洞察识别流程瓶颈、资源错配和效率损失点，发现并推动优化机会，协调跨团队协作持续提升运营效率和服务交付质量；建立运营效率监测体系，量化评估改善效果，形成\"洞察→推动→验证\"闭环。\n\n二、用户全链路价值运营/用户增长运营\n1.用户分层与生命周期运营：建立用户分层画像体系，围绕获取、激活、留存、转化、召回全生命周期设计运营策略，通过数据定位关键因子，提升用户全链路价值与留存率；\n\n2.用户增长与精准营销：制定用户增长策略，结合渠道分析与A/B测试优化转化漏斗；基于用户画像设计精准营销方案，实现个性化触达，提升营销转化率与ROI；\n\n3.满意度监测与体验改善：搭建用户满意度监测体系，定期输出NPS分析报告并推动体验改善闭环；对营销活动全链路数据进行分析与归因，持续优化营销策略与资源配置。\n\n三、成本效率与绩效管理\n1.成本管理：维护成本核算口径与分摊数据，建立成本分析策略，保障OP目标达成；推动成本线上看板等产品能力迭代，提升成本数据线上化水平; \n\n2.绩效激励运营：基于峰值日历规划激励预算与方案，主动评估业务异常并匹配激励策略；建立复盘机制持续优化激励ROI；负责新业务绩效方案设计、测算及审批推进；维护绩效看板、ESS、绩效Agent等产品能力稳定运行。",
+      "jobRequirement": "1.学历与经验：大学本科及以上学历，5年以上运营支持、数据分析、用户运营等相关经验，有客服行业运营支持经验优先。\n\n2.数据分析能力：熟练掌握SQL及常见数据分析工具，具备复杂数据提炼和呈现能力，熟悉常规数据分析方法，对数据分析有系统的方法论；具备数据看板搭建经验。\n\n3.数据挖掘与洞察：具备优秀的数据分析能力及结构化思维，敏锐的数据洞察力，能在复杂业务和数据之间连点成面，洞见深刻。\n\n4.财务/成本意识：具备基础财务知识，能够理解成本分摊逻辑、运营计划达成计算方式，能独立完成成本分析报告。\n\n5.系统工具能力：熟悉 ESS、绩效Agent、千帆等绩效管理系统，具备系统维护或需求分析经验。\n\n6.跨团队协作能力：能够与交付、生产力、招募、商务、财务BP、数仓、数据产品、结算、产研等多条线高效协同。\n\n7.用户运营与营销经验：具备用户运营或用户营销相关经验，熟悉用户分层、生命周期管理、增长策略、精准营销等方法论，有客服/外包行业用户运营经验优先。\n\n8.AI 应用能力：具备 AI 工具使用经验，能够将 AI 能力沉淀为工作提效手段（如数据分析自动化、报告生成、智能触达等），持续探索 AI 在数据运营、用户运营、营销自动化等场景中的深度应用；熟悉主流 AI 辅助分析工具（如对话式BI、智能报表、AI Agent 等），能独立完成从数据洞察到 AI 方案落地的闭环。",
+      "precedence": null,
+      "highLight": "团队处于体系化建设早期，决策链路短；该岗位是定义团队运营标准的关键角色，候选人可通过完成数据体系、绩效机制、用户运营框架的搭建，成为团队后续能力建设的基准。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789196422000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4563979042",
+      "name": "外卖城市经营HRBP（湘赣）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "人力资源",
+      "cityList": [
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "南昌市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "武汉市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        },
+        {
+          "code": null,
+          "name": "长沙市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "人力资源平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "负责支持美团外卖中南大区武汉合肥地区的业务团队：\n1、根据公司的发展战略，深入理解业务与人员发展状况，评估并明确组织发展与人才发展对HR的需求，协助业务部门负责人做好人员招聘、人才管理、内部激励、团队文化等工作，全方位提供专业性建议方案并推动实施；\n2、负责公司HR政策、制度、体系、重点项目和各项人才管理活动在业务部门的落地与推动执行，并针对执行结果进行有效反馈和改进；\n3、主动与业务负责人配合，提升管理干部的人力资源管理能力；\n4、与支持团队的员工形成高效互动，扩展沟通渠道，协调处理业务单元内部员工间、员工与管理层间的关系，解决员工的合理要求；\n5、打造积极、开放的HR沟通平台，确保HR和各部门间的良好沟通与高效配合；\n6、负责企业文化在一线团队中的宣贯与建设；",
+      "jobRequirement": "1、本科及以上学历，至少3年以上相关工作经验；\n2、熟悉并深入理解人力资源工作，在组织发展、人才发展、业务HRBP管理等模块有扎实的专业功底及丰富实践经验，熟悉相关劳动法律、法规；\n3、有较强的成就导向和责任心，学习能力强，有良好的合作精神、执行力，工作有良好的计划性，逻辑性和条理性；\n4、能独立解决复杂的人事管理实际问题，具备较强的协调能力、人际理解力，善于整合资源驱动目标达成；\n5、能接出差，能深入到一线员工队伍中开展人力资源工作；",
+      "precedence": null,
+      "highLight": "支持大型业务团队，有机会操盘组织建设类项目，与业务同频共成长。重要的业务场景将有效提升专业能力，拓展全局视野，为个人发展提供充分的成长空间。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789196418000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4434484244",
+      "name": "支付公共事务高级专家（AI工具驱动）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "公司事务",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "金融服务平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 负责维护与拓展支付业务主管部门资源，建立良好的沟通渠道，支持业务稳健经营、行业生态良性发展。\n2. 熟悉支付业务政策和行业情况，跟踪、洞察关键政策趋势和外部环境变化，形成专业判断，辅助业务战略制定。\n3. 牵头支持业务发展中的项目，协同内外部资源推动重要项目落地。\n4. 负责处置应对突发风险事件，有效化解风险问题。积极营造正向的外部环境。\n5. 善于运用AI工具，帮助提升合规监测与文件处理能力，促进内部协同，帮助业务守好底线。",
+      "jobRequirement": "1. 本科及以上学历，10年经验为佳，支付行业或政府背景优先。\n2. 善于建立人脉资源、对外沟通，擅长处理复杂问题。\n3. 熟悉政府办事流程、风格，熟悉支付法规和政策。\n4. 有开放的心态、团队协作精神和主人翁意识。",
+      "precedence": null,
+      "highLight": "AI机会：公司提供现成的资源；探索运用AI辅助合规工作和外事沟通，快速建立全局视角，推动内部协作执行；通过对AI的输入与训练，沉淀组织能力，拥抱时代变化。\n成长与资源：1.核心团队，深潜业务，学习机会多、成长快。 2.团队氛围简单、纯粹，求真务实、积极向上。 3.吸收美团经典方法论，终身受益。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789196415000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4254050066",
+      "name": "牛羊采购专家",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "采购",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "食杂零售-快驴事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 负责牛羊肉类商品的采购策略制定与执行，保障供应链稳定与成本优化。  \n2. 开发并维护优质供应商资源，建立长期合作关系，确保货源品质与供应连续性。  \n3. 分析市场行情与价格波动趋势，及时调整采购计划，控制采购风险。  \n4. 协同品控、仓储与物流团队，优化采购流程，提升供应链整体效率。",
+      "jobRequirement": "1. 大学本科及以上学历，农业、食品科学、供应链管理或相关专业优先。  \n2. 5年以上牛羊肉类采购或相关供应链管理经验，熟悉行业上下游资源。  \n3. 具备较强的市场洞察力、谈判能力与数据分析能力。  \n4. 工作责任心强，具备良好的沟通协调能力。\n6. 自驱力强，具有较好的学习能力，愿意主动思考AI如何进一步优化工作流程。",
+      "precedence": null,
+      "highLight": "1. 参与公司核心供应链体系建设，发挥专业价值。  \n2. 与行业头部供应商深度合作，拓展职业资源网络。  \n3. 提供具有竞争力的薪酬与完善的职业发展通道。  \n4. 工作地点位于北京，交通便利，办公环境优良。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789196408000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "3935496780",
+      "name": "闪购-歪马-物流规划负责人",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "物流",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-闪购事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1、网络路由规划：基于开城覆盖及业务发展节奏，设计最优中心仓大网网络，通过对仓网结构设计和调拨频次研究，提升整体物流率约能力降低物流成本；\n2、仓库布局规划：城市仓仓内品类及动线规划，建立评估仓容规划的标准模型和方法论，建立开搬扩策略运营流程，协同内外部完成计划制定，提升仓内综合运营效率；\n3、系统流程规划：基于业务发展需要，设计物流系统规划方法及流程标准并不断升级迭代，包括项目进度、资源分配、风险评估，物流系统进行测试和验收，确保系统功能和性能符合需求；\n4、物流计划：商家商品的采购入库计划、物流产能计划协同，商品库存健康监控和协同，提升商流与物流资源匹配的健康度。\n5、物流仓配服务商寻源：仓库及3PL服务商寻源，结合业务开城需求，寻找符合业务画像的服务商，不断调整服务商结构，迭代寻源流程。",
+      "jobRequirement": "1、大学本科及以上学历，具备物流规划经验，需独立负责过较为复杂的物流规划项目；\n2、逻辑性强，能清晰洞察项目本质，能输出可执行落地的物流规划方案；\n3、需深度掌握物流规划方法论，需在网络规划、系统流程、库内布局某一或多个方向有深度的项目经验；\n4、具备行业视角，能够对整个物流行业有深度洞察。",
+      "precedence": null,
+      "highLight": "物流核心业务方向，业务管理模块跨度大，能快速提升个人综合能力。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789196400000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4614003351",
+      "name": "Picker Strategy Operations",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "科威特城",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "Keeta",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "一、负责 Picker 全链路战略规划与体系建设，主导拣选流程 SOP 的从零搭建与持续迭代，包括拣选标准、作业规范、异常处理流程、品质管控节点等，确保体系可复制、可扩展至 Hypermarket 及多业态场景，而非局限于单店层面的执行管理。\nResponsible for the strategic planning and system-building of the entire Picker workflow, leading the development and continuous iteration of picking SOPs from scratch, including picking standards, operational procedures, exception handling protocols, and quality control checkpoints. Ensure the system is replicable and scalable across Hypermarket and multi-format scenarios, rather than limited to single-store execution management.\n\n二、负责 3PL 合作的端到端管理，涵盖供应商筛选准入、服务协议与 SLA 谈判签订、定价合理性监控与分析、产能调配与冗余管理、合作绩效定期评估，后续需统筹管理数十家 3PL 公司，建立分层分级管理机制，确保履约产能稳定且成本结构合理。\nManage the end-to-end 3PL partnership lifecycle, covering vendor screening and onboarding, service agreement and SLA negotiation, pricing rationality monitoring and analysis, capacity allocation and redundancy management, and periodic performance reviews. Scale to manage dozens of 3PL companies, establishing a tiered management framework to ensure fulfillment capacity stability and reasonable cost structures.\n\n三、主导 Picker 考核与治理体系的搭建，建立涵盖效率、质量、准时、满意度等多维度的核心 KPI 框架，制定明确的预警机制（如连续不达标自动预警）、整改流程、清退标准与执行路径，同时建立 3PL 层面的扣款机制与奖惩制度，将制度固化并形成可执行的运营手册。\nLead the design and implementation of the Picker performance and governance system, building a multi-dimensional core KPI framework covering efficiency, quality, on-time performance, and satisfaction. Establish clear warning mechanisms (e.g., automatic alerts for consecutive substandard performance), rectification processes, termination standards and execution paths, and formulate 3PL-level penalty mechanisms and incentive systems. Codify these into executable operational manuals.\n\n四、负责 Picker 定价策略的制定与优化，基于履约成本结构、市场水平、商家需求与产\n能供需关系等多维因素，建立科学的定价模型，对 3PL 报价进行合理性分析与审核，确保定价既有竞争力又可持续。\nFormulate and optimize Picker pricing strategies based on multi-dimensional factors including fulfillment cost structures, market competition, merchant demands, and capacity supply-demand dynamics. Build a scientific pricing model, and conduct rationality analysis and review of 3PL quotations to ensure pricing is both competitive and sustainable.\n\n五、搭建并持续优化履约全链路核心指标监控体系，覆盖从用户下单→商家接单→商品拣选→打包→配送→送达→售后的完整链路，包括订单取消率、准时率、缺货率、完单率、退款率、用户/商家满意度、投诉率等，建立异常自动识别与闭环解决机制。\nEstablish and continuously optimize the core KPI monitoring system for the end-to-end fulfillment process, covering the complete chain from user ordering → merchant accepting order → item picking → packaging → delivery → delivery confirmation → after-sales service, including order cancellation rate, on-time rate, stock-out rate, completion rate, refund rate, user/merchant satisfaction, complaint rate, etc. Build automated anomaly identification and closed-loop resolution mechanisms.\n\n六、重点协同客服部门与配送部门，建立跨部门协同机制：对接客服团队推动客诉问题分类与根因分析，协同配送团队优化配送时效与履约效率，确保端到端用户体验达标。定期组织巡店与一线调研，深入 Hypermarket 及 Dark Store 识别履约流程问题并推动优化落地。\nCollaborate closely with Customer Service and Delivery departments to establish cross-departmental coordination mechanisms: interface with customer service teams to drive issue classification and root cause analysis, collaborate with delivery teams to optimize delivery timeliness and fulfillment efficiency, ensuring end-to-end user experience standards are met. Regularly organize store inspections and frontline research, visiting Hypermarkets and Dark Stores to identify fulfillment process issues and drive optimization implementation.",
+      "jobRequirement": "一、具备 5 年以上零售/电商履约运营或供应链管理经验，有从零搭建运营体系或 SOP 的实操经验，能清晰区分并适应 Hypermarket 与 Dark Store 不同业态的履约逻辑差异。\n5+ years of experience in retail/e-commerce fulfillment operations or supply chain management, with hands-on experience in building operational systems or SOPs from scratch. Ability to clearly differentiate and adapt to the different fulfillment logics of Hypermarket versus Dark Store formats.\n\n二、具备 3PL 供应商管理经验，包括但不限于合同谈判、SLA 制定、绩效评估、产能规划与成本分析，有管理多供应商（10 家以上）并行运营经验者优先。\nExperience in 3PL vendor management, including but not limited to contract negotiation, SLA formulation, performance evaluation, capacity planning, and cost analysis. Experience managing multiple vendors (10+) in parallel operations is preferred.\n\n三、具备数据驱动的决策能力，能独立设计 KPI 框架与考核制度，有将指标体系落地为可执行管理制度（预警、清退、扣款等）的实际经验。\nData-driven decision-making capability, with the ability to independently design KPI frameworks and assessment systems, and practical experience in translating metric systems into executable governance mechanisms (warnings, terminations, penalties, etc.).\n\n四、具备跨部门协同与推动能力，能高效对接客服、配送、产品、技术等团队，推动复杂问题的闭环解决。\nStrong cross-departmental collaboration and driving capability, able to efficiently coordinate with customer service, delivery, product, and technology teams to drive closed-loop resolution of complex issues.\n\n五、具备一线履约人员管理经验，有 Picker、Raider 或 Driver 管理背景均可，核心要求是具备对一线履约人员的大规模团队管理思路与体系化治理能力，而非仅限单店或小团队的人员调度。\nExperience in managing frontline fulfillment personnel, with a background in managing Pickers, Raiders, or Drivers all acceptable. The core requirement is the ability to manage large-scale frontline teams with a systematic governance approach, rather than being limited to single-store or small-team personnel scheduling",
+      "precedence": null,
+      "highLight": "从零到一参与业务，一起创造海外闪购的星辰大海\nJoin us to construct the overseas Grocery business from zero to one, and sail toward the boundless prospects of our business future together.",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789193700000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4763291826",
+      "name": "美团闪购服务流程运营专家",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "业务运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-美团平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1、规则与策略体系搭建：负责美团闪购服务流程设计与持续优化，建立体系化的服务标准，平衡并持续提升消费者与商家的双边体验，兼顾成本控制和风险防控；\n2、数据驱动的体验洞察：搭建服务数据指标体系，通过数据分析和AI工具挖掘客户旅程中的痛点，定位体验瓶颈的根因，产出可落地的改善方案；\n3、AI 驱动运营提效：熟练应用 AI 工具覆盖数据获取、知识沉淀和应用等运营场景；识别服务流程中的 AI 提效机会，设计并推动 AI 赋能优化方案落地。\n4、智能服务方案设计：端到端负责智能服务方案与人工服务方案的设计和持续优化，推动智能化产品在服务场景的深度融合，全面提升客户综合服务体验。",
+      "jobRequirement": "1、服务意识与业务洞察\n有较强的服务意识和出色的沟通表达能力，逻辑性强，能准确判断客户痛点并解析影响体验的关键因素。\n2、AI 应用与方案落地\n能熟练运用 AI 工具辅助分析决策，识别客服流程中的 AI 提效机会，设计完整的 AI 赋能方案并推动落地。\n3、数据能力与跨团队协作\n能借助 AI 辅助完成数据处理、报表生成与可视化；具备良好的跨团队协作能力，能与产研团队沟通 AI 需求、推动智能化产品落地。\n4、经验要求\n本科及以上学历，3 年以上客户服务行业经验；有即时零售/商品零售/本地生活行业背景，或具备AI工具在实际业务场景中的落地经验优先。",
+      "precedence": null,
+      "highLight": "行业视角：扎根即时零售业态，业务场景丰富，成长空间大。\n团队文化：开放协作，氛围轻松，注重个人发展与团队共赢。\n融合创新：参与大模型应用设计，提升复合型能力。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789192880000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4744006343",
+      "name": "美团骑行-运营主管（佛山）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "销售、客服与支持类",
+      "jobFamilyGroup": "业务支持",
+      "cityList": [
+        {
+          "code": null,
+          "name": "佛山市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-骑行事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1.负责所属区域的车辆运营管理工作，对有效运营车辆和活跃车辆等指标负责；\n2.通过实地观察和数据分析，了解区域的车辆供需状况，制定合理的车辆投放及调度策略；\n3.根据故障车辆及未骑行车辆的数量及分布数据，制定并优化车辆干预管理的策略；\n4.配合治理者对城市运营问题进行管理；\n5.协助运营经理管理运营团队，提升团队工作效率和结果。",
+      "jobRequirement": "1.本科及以上学历，1年以上团队管理经验，善于用开拓性思维解决问题；\n2.有快消品区域覆盖或互联网城市地推管理经验者优先；\n3.善于数据分析，并能通过数据分析的结果不断优化调整工作。",
+      "precedence": null,
+      "highLight": "清晰完善的晋升机制和通道，开放扁平的工作氛围。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789192869000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4737897645",
+      "name": "点评风控算法策略专家",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "技术类",
+      "jobFamilyGroup": "算法",
+      "cityList": [
+        {
+          "code": null,
+          "name": "上海市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-基础研发平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 点评风控算法策略体系搭建：围绕评价、打卡、榜单等核心业务中的作弊风险，运用机器学习、深度学习及大模型技术，进行风险特征挖掘、模型设计与风险识别，并对风险识别的准确率、召回率及线上稳定性负责。\n2. 算法落地与工程化：与产品、工程团队紧密协作，推动算法能力集成至业务系统，保障算法在实际生产环境中的有效性与稳定性，实现从建模到生效的完整闭环。\n3. 风控Agent建设：主导风险分析、策略开发、客诉运营等风控Agent的设计与建设，以Agent化方式提升风险控制全链路的自动化水平与作业效率。\n4. 数据洞察与跨团队协同：面向业务部门提供风险管理的技术支持与决策建议，推动算法能力在业务生产环节的恰当落地；搭建风险数据看板，定期产出风险态势与控制效果报告，向管理层汇报，支撑风险决策。",
+      "jobRequirement": "1、本科以上学历。\n2、有三年以上数据挖掘、机器学习、深度学习、大模型应用相关经验。至少对图算法、序列算法、传统机器学习算法、大模型应用中的一种有深入研究和应用。\n3、熟练使用sql、python等工具，能够进行有效的数据处理、统计、分析、建模等工作。\n4、业务理解能力强，对数据有较高敏感度。\n5、具备一定的沟通和影响能力。",
+      "precedence": null,
+      "highLight": "1、有海量的数据和复杂的生活服务落地场景；\n2、与安全领域的算法大牛一起学习工作，持续进步；\n3、期待一起做对社会有价值的事情，帮助人们吃得更好、生活更好。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789192865000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4737101269",
+      "name": "营销方向 AI Builder",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "产品类",
+      "jobFamilyGroup": "产品",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-骑行事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 负责营销方向AI产品的规划与设计，深入理解业务需求并转化为产品方案。  \n2. 协同算法、工程、运营等团队，推动AI模型在营销场景中的落地与优化。  \n3. 分析用户行为与市场趋势，持续迭代产品功能，提升用户体验与转化效率。  \n4. 制定产品路线图，明确优先级，确保项目按时高质量交付。  \n5. 关注行业动态发展，探索AI在营销领域的新机会与创新应用。",
+      "jobRequirement": "1. 大学本科及以上学历，计算机、市场营销、数据科学等相关专业优先。  \n2. 3年以上产品相关工作经验，有AI产品或营销科技产品背景者优先。  \n3. 熟悉AI技术原理及其在营销场景中的应用，具备较强的逻辑思维与数据分析能力。  \n4. 具备良好的跨团队沟通与项目管理能力，能够推动多方协作达成目标。  \n5. 对用户需求敏感，具备较强的产品sense与商业洞察力。",
+      "precedence": null,
+      "highLight": "1. 参与前沿AI技术在营销领域的创新实践，推动行业变革。  \n2. 深入硬件产业链，有机会发展软硬件结合的AI产品化能力。     \n3. 扁平化管理，鼓励创新与自主决策，激发个人潜能。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789192863000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4724789001",
+      "name": "财务报告专家",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "职能类",
+      "jobFamilyGroup": "财务",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "财务平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 全面负责复核境内外单体及合并财务报表的质量，以准确、完整地反映财务状况和经营成果，不断优化迭代与内部各部门的对接流程和机制，优化数据质量控制的管理方法，不断提升对外提供会计信息质量和合规程度； \n2. 持续监控月度财务报表质量，通过财务报表分析、财务指标监控、科目核对等多种手段识别问题，防范主体维度财务报表合规风险，向管理层提供多角度管理建议，规划和推动与主体相关的各项业务战略落地； \n3. 负责财务报表相关运营及流程迭代，能够理解和运用复杂逻辑，具有一定的流程管理意识，不断提高报表编制的效率和准确性；\n4. 独立完成境外合规调研，对接境外审计机构，完成专业事项把关，并组织协调内部多部门推进各项工作有序开展； \n5. 保持与业务线会计、税务、资金及各业务部门团队的紧密合作，积极和推动识别共创机会。",
+      "jobRequirement": "1. 本科及以上，会计、经济、财务管理相关专业，5年以上财务相关工作经验； \n2. 熟悉中国会计准则或国际会计准则，熟悉财务报表相关专业知识和财务实务操作，了解财税相关法律法规，CPA优先； \n3. 有跨部门沟通、团队管理或项目管理经验，良好的沟通协调能力； \n4. 积极进取，工作认真细致，责任心强； \n5. 有互联网行业从业经验、大型优秀企业财务管理经验、四大会计师事务所从业经验者优先、英语流利者优先。  \n6. 具备 AI 思维与工具应用能力，能将AI 能力主动引入财务数据分析、报告撰写、质量复核等场景，持续进行AI应用探索与落地。",
+      "precedence": null,
+      "highLight": "1、学习成长机会大：岗位职能较为综合，有机会接触公司各业态，与内外部多方共同探讨综合性较强的复杂问题，学习从公司级视角分析和解决问题，带给你前所未有的成长速度； \n2、简单高效的团队氛围：我们拥有开放的学习型文化，注重结果导向，每个人都凭业绩说话，我们尊重专业，努力构造业界先进的财务标杆，重视财务在业务中的价值体现； \n3、与行业内优秀的人共舞：我们拥有众多国内外知名企业的优秀人士，和优秀的人共事，让自己变得更加优秀。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789192852000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4720801610",
+      "name": "外卖-商业分析师（收入管理与定价）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-外卖事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 深入理解外卖商业模式和BC端定价逻辑，基于业务发展规划，搭建定价体系，并制定兼具公平性及可解释性的定价方案；\n2. 制定外卖定价落地管理机制，联动各相关方推动定价方案落地执行，实现外卖业务盈收目标；\n3. 搭建费率资源评估模型，量化影响，为品牌谈判、城市竞争等关键策略提供决策支持；\n4. 长期跟踪收入相关指标，洞察变动趋势，通过服务于不同场景的专题分析，支持管理层决策。",
+      "jobRequirement": "1. 本科及以上学历，3年以上工作经验，对所在领域的商业和业务逻辑有深刻理解，有头部互联网公司商业分析经验者优先，有收入管理/定价相关经验者优先；\n2. 对数据敏感，具备较强的数据分析能力，熟练使用SQL，能清洗数据、取数、探查分析，撰写有洞察的研究报告；\n3. 具备较强的跨部门协作和项目管理能力，能够高效完成项目的方案制定和跨部门推进落地；\n4. 具备较强的结构化思维和问题解决能力，能够分析和解决复杂的商业问题；\n5. 具备主人翁精神及强责任感；\n6.了解AI工具，并可以应用AI工具为工作赋能提效。",
+      "precedence": null,
+      "highLight": "1. 美团核心业务中的核心团队，供职于互联网商分职能的“高等学府”，深入学习经过多年打磨的餐饮O2O行业的成熟经营管理方法；\n2. 工作内容兼具业务视角及全局视角、高层管理的高度及创新性；\n2. 与业务方强协同、落地性好，成长空间充足；\n3. 团队成员教育及职业背景优秀，团队融洽和谐，学习氛围浓厚。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789192850000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4701195047",
+      "name": "餐饮系统（SaaS）-销售策略运营专家",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "业务运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "成都市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-餐饮SaaS事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1、参与直销业务策略的制定，负责将策略方向转化为可落地的运营规则和执行标准\n2、结合业务数据和一线反馈，持续优化现有运营规则，确保策略可落地、可衡量\n3、负责业务工具/系统的需求梳理与建设推动，协同产品/技术团队完成工具迭代\n4、定期进行业务数据复盘，发现问题和机会，输出可行动的结论\n5、关注AI技术在业务场景中的应用机会，主动探索AI工具在数据分析、运营提效、信息流转等方向的能力边界与落地方案",
+      "jobRequirement": "1、本科及以上学历，2年以上互联网运营/商分/策略相关经验\n2、具备一定的数据分析能力，熟练使用SQL获取业务指标口径\n3、逻辑清晰，具备结构化思维能力，能把复杂业务问题拆解成可执行的规则和流程\n4、沟通能力强，能够跨部门推动协作，能够从\"发现问题\"到\"闭环解决\"全程驱动，而非停留在信息传递层面\n5、base成都，需与北京团队密切协作",
+      "precedence": null,
+      "highLight": "1、团队氛围积极融洽，氛围轻松；\n2、团队背景多元，积累沉淀较多商业分析方法论，关注成长；\n3、餐饮SaaS作为ToB业务，前景广阔，可以为候选人开拓视野。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789192847000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4697717836",
+      "name": "酒店民宿商分-用户方向",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-酒店旅行",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1、负责C端经营分析：搭建I/O指标体系并自主迭代，进行关键指标异动解读、风险预警、目标拆解等，能够兼顾业务视角和C端用户视角，牵引业务做功；\n2、挖掘增长策略：发挥数据分析优势，自主探查流量转化提效、客群分层及精细化运营、用户留存等关键策略，协助业务进行AB测、专题复盘等深度分析工作；\n3、参与创新场景基建：辅助产运进行营销产品、玩法、策略的0-1探索，负责数据及商分能力基建，协同多业务方开展相应举措；",
+      "jobRequirement": "1、5年以上商业分析经验，有较强的数据处理能力，熟练使用office、SQL、python等传统工具，并在AI工具应用上有一定经验进展，具备酒旅行业、电商、广告及内容平台经验优先；\n2、善于处理高模糊度、高复杂度项目，有较强的跨部门沟通协同能力；",
+      "precedence": null,
+      "highLight": "深度参与发展期业务成长过程，个人能力提升快，技能点全面",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789192838000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4688024268",
+      "name": "骑手支援经理 (Courier Support Manager)",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "物流",
+      "cityList": [
+        {
+          "code": null,
+          "name": "香港特别行政区",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "Keeta",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. Team Management and Performance Strategy\nManage and develop the delivery operations support team, translating logistics strategies into structured action plans and milestones. Responsible for setting clear priorities and resource allocation, establishing and monitoring Key Performance Indicators (KPIs), guiding the team in structured problem-solving and decision-making, and ensuring the team consistently achieves its goals.\n\n2. Compliance Governance and Service Quality Control\nFully responsible for end-to-end behavior management and compliance system construction for delivery personnel, including handling violations, grievance management, and quality standard setting. Proactively identify operational risks, monitor delivery service performance, and ensure high compliance and high-quality service delivery from the delivery team.\n\n3. Delivery Personnel Empowerment and Experience Management\nDesign and implement a full lifecycle management plan for delivery personnel, covering training systems, communication mechanisms, equipment configuration, and engagement enhancement projects. Dedicated to optimizing the delivery personnel's work experience and improving delivery personnel satisfaction, thereby indirectly improving end-user satisfaction.\n\n4. Operational Process Optimization and Product Collaboration\n\nUnderstand operational pain points and lead continuous improvement (CI) initiatives. Collaborate closely with product and technology teams to drive system function optimization, workflow reshaping, and the implementation of automation tools to improve operational efficiency through technological means.\n\n5. Cross-Departmental Collaboration and Emergency Response\n\nAs the representative of the logistics team, establish efficient collaboration mechanisms with cross-functional departments such as customer service, security, and legal. Lead structured responses to delivery-related emergencies and escalation issues, ensuring timely risk reporting and proper resolution.\n\n6. Data-Driven Decision Making\n\nCollaborate with the analytics team to establish a comprehensive data monitoring system. Utilize data insights to analyze the current operational status, accurately pinpoint efficiency bottlenecks and experience shortcomings, ensure that all operational strategies are aligned with business objectives, and achieve refined operational management.",
+      "jobRequirement": "1. Bachelor's degree in Business Administration, Logistics, Statistics, Data Analytics, or related disciplines.\n\n2. 4–5 years of experience in logistics, operations, last-mile delivery, or related fields, with 2 years of team management and/or project management experience preferred.\n\n3. Proven ability to translate business objectives into actionable plans, establish and monitor KPIs, and successfully achieve defined performance targets.\n\n4. Strong stakeholder management and cross-functional collaboration skills.\n\n5. Ability to operate effectively in fast-paced and ambiguous environments.\n\n6. Hands-on SQL experience with strong data analysis capability.\n\n7. Proficient in written and spoken Mandarin, Cantonese, and English.",
+      "precedence": null,
+      "highLight": "1. Be part of a fast-growing platform shaping the future of last-mile delivery.\n\n2. High ownership role with real impact on business performance and courier experience.\n\n3. Work in a dynamic, fast-paced environment where ideas turn into action quickly.\n\n4. Accelerated career growth for high performers who deliver results.",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789192836000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4685979678",
+      "name": "绩效策略",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "商业分析类",
+      "jobFamilyGroup": "商业分析",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-外卖事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1.绩效管理：根据业务发展阶段变化，聚焦核心策略导向，建立科学合理的绩效管理框架和评价体系，设计外卖业务考核方案，开展PDCA并持续优化以确保绩效体系的激励性，推动策略落地；\n\n2.目标管理：结合公司经营要求和各市场策略，搭建和迭代策略目标测算模型，负责事前、事中、事后目标管理；\n\n3.专项分析：主动发现业务经营问题，推进业务专题研究，快速拆解问题、搭建研究思路，利用有效的数据分析方法，输出有洞察力的分析结论并做好呈现；\n\n4.流程优化：对绩效管理流程及框架进行梳理分析，推进过程管理产品化，帮助业务相关方实时了解绩效进展，进行业绩的过程改善。",
+      "jobRequirement": "1.本科或以上学历，商业分析、统计学、数学、财经类或理工科相关专业优先；\n\n2.3年以上数据/商业分析相关经验，有目标制定和绩效管理经历者优先；\n\n3.具有扎实的数理统计基本功，熟练掌握SQL进行数据提取与处理，能独立完成复杂业务分析 \n\n4.擅长结构化思维，能对业务目标及达成路径进行系统性拆解，输出可落地的策略建议；\n\n5.具备优秀的跨团队沟通能力，能清晰传递数据洞察并推动策略落地；自驱力强，能主动协调资源解决问题。\n\n6.了解AI工具，并可以应用AI工具为工作赋能提效。",
+      "precedence": null,
+      "highLight": "1. 核心业务下的核心团队，能站在外卖核心经营管理视角，成长空间大，能力发展全面；\n\n2. 工作内容兼具业务视角及全局视角，与业务方强协同、落地性好； \n\n3. 团队融洽和谐开放，学习氛围浓厚。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789192834000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4680072742",
+      "name": "骑行体验产品",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "产品类",
+      "jobFamilyGroup": "产品",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "软硬件服务-骑行事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 负责骑行体验产品的规划与设计，深入理解用户需求，优化骑行全链路体验。  \n2. 协同商分、研发、设计、运营等团队，推动产品功能落地并持续迭代。  \n3. 分析用户行为数据与市场趋势，制定产品策略并提升用户满意度与留存。  \n4. 关注行业动态，探索创新功能。",
+      "jobRequirement": "1. 大学本科及以上学历，3年以上产品相关工作经验，有出行或软硬件结合产品背景优先。  \n2. 具备较强的用户洞察力与数据分析能力，能独立推动项目闭环。  \n3. 熟悉产品从需求调研到上线的全流程，具备良好的跨团队协作能力。  \n4. 逻辑清晰，责任心强，对骑行或户外运动有热情者优先。\n5. 有AI相关实践和成果者优先。",
+      "precedence": null,
+      "highLight": "1. 参与打造千万级用户使用的骑行产品，直接影响用户体验。  \n2. 商分、产品职能兼有的团队，快速提升产品对业务判断能力。  \n3. 团队氛围好，鼓励创新与自我驱动。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789192831000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4672284177",
+      "name": "市场洞察研究",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "市场营销类",
+      "jobFamilyGroup": "市场",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-美团平台",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 负责品牌健康度追踪（BHT/BTS）项目的全流程管理，包括研究设计、供应商管理、数据质量把控、分析解读及汇报，持续监测品牌核心指标变化趋势并输出策略建议\n2. 独立设计和执行大规模定量消费者研究（如U&A、品牌定位等），从问卷设计、抽样方案、数据分析到报告撰写全链路负责\n3. 将消费者洞察转化为可落地的业务建议，推动研究成果在业务决策中的应用\n4. 跟踪行业动态表现，结合多元数据源（行为数据、调研数据、公开数据等）进行综合分析\n5. 与业务需求方紧密协作，准确理解业务痛点并将其转化为可执行的研究课题",
+      "jobRequirement": "1. 本科及以上学历，统计学、社会学等相关专业优先\n2. 5年以上市场研究/消费者洞察经验，知名互联网公司或者头部调研公司（Kantar、Nielsen、Ipsos等）品牌追踪方向经验者优先\n3. 熟悉品牌健康度追踪、品牌定位等主流品牌研究方法论，精通问卷设计、抽样、配额管理、统计检验等定量研究技能\n4. 熟练使用统计分析软件\n5. 具备出色的学习迁移与沟通汇报能力，能快速理解新业务领域并构建清晰的认知框架，同时将复杂研究发现转化为业务方可理解、可落地的洞察与建议",
+      "precedence": null,
+      "highLight": "1. 覆盖多元业务场景，具备研究视野广度、行业理解深度\n2. 多家全球头部供应商紧密合作，持续积累行业前沿方法论",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789192823000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4663282308",
+      "name": "美团闪购-酒饮KA连锁商家运营",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "运营类",
+      "jobFamilyGroup": "产品运营",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-闪购事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1.负责美团闪购酒饮连锁KA商家生意的年度规划和执行，对GTV，商业化，健康度等指标负责；\n2.分析市场需求和竞争情况，提供供给策略和优化建议，以提升供给商家的业绩和用户体验；\n3.结合行业趋势，制定品类策略和下沉市场增长策略，通过供给模式创新带动品类和下沉市场增长；\n4.使用AI产品开发工具，推动供给环节的流程优化和效率提升，改进KA运营工作流和有效性。",
+      "jobRequirement": "1.大学本科及以上学历，5年以上酒水商家运营相关工作经验，或5年以上酒水相关采销品类运营经验；\n2.熟悉供给运营流程和相关工具，具备供给商家管理能力和数据分析能力。\n3.具备良好的沟通能力和团队合作精神，能够有效协调内外部资源。\n4.熟练使用AI产品或有AI产品开发并应用案例优先",
+      "precedence": null,
+      "highLight": "1.即时零售行业前景广阔，零售已成为美团战略核心。酒品类为美团闪购重点发展品类之一，有机会参与酒水行业新型供给发展及迭代升级；\n2.对接头部商家，资源丰富，可施展拳脚，撬动巨大商业价值；\n3.团队年轻有热情、组织文化纯粹。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789192821000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    },
+    {
+      "jobUnionId": "4635428451",
+      "name": "闪购-非食日化PB商品开发（个护美妆、家清）",
+      "projectId": null,
+      "projectName": null,
+      "jobType": "3",
+      "jobSpecialCode": "5",
+      "jobSource": "1",
+      "jobStatus": "000",
+      "jobFamily": "零售类",
+      "jobFamilyGroup": "采购",
+      "cityList": [
+        {
+          "code": null,
+          "name": "北京市",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "workYear": null,
+      "department": [
+        {
+          "code": null,
+          "name": "核心本地商业-闪购事业部",
+          "children": null,
+          "sort": null,
+          "subCode": null,
+          "mapping": null,
+          "outerCode": null,
+          "bgNode": false
+        }
+      ],
+      "desc": "",
+      "departmentIntro": null,
+      "jobDuty": "1. 负责非食日化相关品类PB商品开发规划制定和执行，确保开发商品质量和效率。\n2. 调研和分析市场趋势与用户需求，制定商品开发方向、可行性研究及相应商品运营策略制定。 \n3. 主导供应商/工厂开发，筛选优质工厂合作，谈判及合同管理，优化开发成本与交付周期。  \n4. 协同设计、品控、运营、物流等团队，保障开发商品质量及效率。  \n5. 监控销售数据与用户反馈，持续优化迭代PB商品，为开品质量负责。",
+      "jobRequirement": "1. 大学本科及以上学历，化工、供应链管理或相关专业优先。  \n2. 5年以上非食采购或采销经验，至少1年以上非食商品定制开发经验。  \n3. 具备供应商（工厂）开发、管理及谈判能力，熟悉商品开发及采购全流程。  \n4. 具备优秀的跨部门协作能力，适应快节奏工作环境。",
+      "precedence": null,
+      "highLight": "1. 参与高增长潜力业务，直接推动公司核心品类发展。  \n2. 接触行业头部供应商资源，提升专业能力与行业视野。  \n3. 扁平化管理，快速决策与成长空间。  \n4. 团队年轻化，注重创新与结果导向。",
+      "otherInfo": null,
+      "firstPostTime": null,
+      "refreshTime": 1789192817000,
+      "tag": null,
+      "expiredTime": null,
+      "socialRecommendJob": null
+    }
+  ]
+}
