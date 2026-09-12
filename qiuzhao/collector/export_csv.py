@@ -10,7 +10,7 @@
 
 输出字段:
     id, recruitment_unit, job_title, cities, industry, recruitment_type,
-    job_category, education_raw, major_raw, graduation_year, deadline,
+    job_category, education_raw, major_raw, graduation_years, graduation_year_basis, graduation_year_note, deadline,
     status, detail_url, source_url, verified_at, description_raw
 """
 from __future__ import annotations
@@ -19,6 +19,11 @@ import csv
 import json
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
+import sys
+
+if __package__ in (None, ""):
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from qiuzhao.v4_fields import graduation_of
 
 TZ = timezone(timedelta(hours=8))
 DATA_DIR = Path("/var/lib/mcp-suite")
@@ -35,7 +40,9 @@ FIELDS = [
     ("job_category", "岗位类别"),
     ("education_raw", "学历要求"),
     ("major_raw", "专业要求"),
-    ("graduation_year", "毕业届别"),
+    ("graduation_years", "毕业届别"),
+    ("graduation_year_basis", "届别依据"),
+    ("graduation_year_note", "届别说明"),
     ("deadline", "截止日期"),
     ("status", "状态"),
     ("detail_url", "详情链接"),
@@ -80,9 +87,14 @@ def export_jobs(output_path, limit=None, industry_filter=None, recruitment_type_
         writer.writerow([label for _, label in FIELDS])
         # 写入数据
         for job in jobs:
+            # Recompute from the canonical extractor, also supporting older jobs.json
+            # snapshots whose new array fields have not yet been persisted.
+            years, basis, note, _ = graduation_of(job)
+            values = dict(job, graduation_years=years, graduation_year_basis=basis,
+                          graduation_year_note=note)
             row = []
             for field, _ in FIELDS:
-                value = job.get(field, "")
+                value = values.get(field, "")
                 row.append(clean_value(value))
             writer.writerow(row)
 

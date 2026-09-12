@@ -8,7 +8,7 @@ CLI:
     python -m qiuzhao.normalize --path <jobs.json> [--check]
 
 行为:
-- 只补 None / 空字符串 / 空列表 的归一化字段;已有非空值绝不改动。
+- 旧归一化字段只补缺失值；graduation_years/basis/note 每次依据 v4 真源重算，避免单值缓存丢失多届。
 - 补值优先级:对照表(复合键优先) -> 关键词规则 -> 兜底值。
 - 完全确定:同一输入永远同一输出,重复运行幂等。
 - 对照表从 Path(__file__).parent / "normalize_tables.json" 加载;
@@ -26,6 +26,7 @@ import tempfile
 from pathlib import Path
 
 NORMALIZED_FIELDS = [
+    "graduation_years", "graduation_year_basis", "graduation_year_note",
     "job_category_normalized", "graduation_year_normalized", "major_normalized",
     "city_normalized", "cities_normalized", "industry", "country",
     "overseas_flag", "region", "recruitment_type",
@@ -384,6 +385,17 @@ def _fill_recruitment_type(record, stats):
 
 # ---------------------------------------------------------------- 入口
 
+def _sync_graduation_fields(record, stats):
+    """Persist the same multi-value result served by v4, retaining source evidence."""
+    from qiuzhao.v4_fields import graduation_of
+    years, basis, note, _ = graduation_of(record)
+    for field, value in [('graduation_years', years), ('graduation_year_basis', basis),
+                         ('graduation_year_note', note)]:
+        if record.get(field) != value:
+            record[field] = value
+            stats[field] += 1
+
+
 def _normalize_one(record, stats):
     _fill_cities(record, stats)
     _fill_country(record, stats)
@@ -394,6 +406,7 @@ def _normalize_one(record, stats):
     _fill_major(record, stats)
     _fill_industry(record, stats)
     _fill_recruitment_type(record, stats)
+    _sync_graduation_fields(record, stats)
 
 
 def normalize_records(records: list[dict]) -> dict:
