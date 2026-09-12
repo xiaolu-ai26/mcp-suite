@@ -42,3 +42,15 @@ def test_tampered_evidence_and_path_escape_fail_before_publish(tmp_path):
     with pytest.raises(ValueError,match='bundle hash mismatch'):I.import_bundle(bundle,data,True)
     assert (data/'jobs.json').read_text()=='[]'
     with pytest.raises(ValueError,match='escapes root'):I.safe_path(bundle,'../outside')
+
+
+def test_nested_result_evidence_is_preserved(tmp_path):
+    manifest=author_manifest(tmp_path)
+    receipt=json.loads(manifest.read_text());candidate=Path(receipt['rows'][0]['candidate'])
+    nested=candidate.parent/'provider'/'result.json';nested.parent.mkdir();nested.write_text('{"total":1}')
+    payload=json.loads(candidate.read_text());payload['coverage']['evidence_files'].append(str(nested))
+    candidate.write_text(json.dumps(payload));receipt['rows'][0]['sha256']=I.P.sha(candidate)
+    manifest.write_text(json.dumps(receipt));bundle=tmp_path/'bundle'
+    I.build([manifest],bundle)
+    assert (bundle/'02/campus/provider/result.json').read_bytes()==nested.read_bytes()
+    assert I.import_bundle(bundle,tmp_path/'data')['validated_scopes']==1

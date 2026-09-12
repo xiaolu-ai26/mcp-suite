@@ -45,7 +45,7 @@ def build(manifests, output):
             target=output/f'{P.COMPANIES.index(company)+1:02d}'/scope
             target.mkdir(parents=True)
             for path in source.rglob('*'):
-                if not path.is_file() or path.name in {'candidate.json','coverage.json','result.json'}:continue
+                if not path.is_file() or path.resolve()==candidate:continue
                 if not path.resolve().is_relative_to(source):raise ValueError('capture symlink escaped source scope')
                 dest=target/path.relative_to(source);dest.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(path,dest)
             def reference(value):
