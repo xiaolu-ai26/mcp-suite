@@ -168,3 +168,11 @@ def test_inline_application_and_disclosure_are_not_lost_in_public_item():
     item,_=V.convert(raw)
     for field in ['application_link_type','application_instructions','detail_presentation','source_missing_fields','field_completeness']:
         assert item[field]==raw[field]
+
+
+def test_explicit_compact_degree_expressions_keep_minimum_level():
+    from qiuzhao import v4_fields as V
+    assert V.education_of('面向2027届海内外本硕博毕业生')=='本科'
+    assert V.education_of('硕博在读学生')=='硕士'
+    assert V.education_of('本硕学历')=='本科'
+    assert V.education_of('负责本硕课程市场调研')==V.UNSPECIFIED

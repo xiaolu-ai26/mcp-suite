@@ -28,3 +28,20 @@ def test_missing_status_never_counts_as_inactive_evidence():
     from qiuzhao.collector.p1_status_repair import evidence_has_status
     assert not evidence_has_status({'id':UUID},UUID,None)
     assert not evidence_has_status({'id':UUID,'status':'open'},UUID,'open')
+
+
+def test_default_search_excludes_inactive_without_inventing_deadline(tmp_path):
+    import json
+    from datetime import date
+    from qiuzhao.tools import Jobs
+    raw={'id':'paused','job_title':'岗位','recruitment_unit':'大疆','recruitment_type':'社会招聘',
+         'source_url':'https://example.org/job/paused','application_url':'https://example.org/job/paused',
+         'description_raw':'真实职责','status':'expired','source_is_active':False,'source_status_raw':'pause','deadline':None}
+    path=tmp_path/'jobs.json';path.write_text(json.dumps([raw,{**raw,'id':'open','status':'open','source_is_active':True,'source_status_raw':'open'}]))
+    jobs=Jobs(path,today=date(2026,9,13))
+    result=jobs.search(company='大疆')
+    assert result['total']==1 and result['jobs'][0]['id']=='open'
+    result=jobs.search(company='大疆',include_expired=True)
+    assert result['total']==2
+    paused=next(r for r in result['jobs'] if r['id']=='paused')
+    assert paused['deadline'] is None and paused['source_status_raw']=='pause'
