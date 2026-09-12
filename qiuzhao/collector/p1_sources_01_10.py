@@ -677,9 +677,27 @@ def collect_access_probe(company,scope,output_dir):
                 index={str(x['code']):x for field in ['latestPositionList','hottestPositionList'] for x in (data.get('result') or {}).get(field,[])}
                 c['pending_details']=[{'source_record_id':'pdd-social:'+code,'title':row['name'],'detail_url':'https://careers.pddglobalhr.com/jobs/detail?code='+code,'evidence_file':'latest-public-index.json','reason':'Public hot/latest index visible; complete detail and main-list coverage not verified'} for code,row in index.items()]
                 c['detail_missing_count']=len(index);c['observed_index_count']=len(index);c['evidence'].append('latest-public-index.json');c['evidence_files'].append('latest-public-index.json')
+                pending=[];detail_api='https://careers.pddglobalhr.com/api/recruit/position/detail'
+                for code,row in index.items():
+                    detail_api='https://careers.pddglobalhr.com/api/recruit/position/detail';payload={'code':code};attempt=datetime.now(timezone.utc).isoformat();proof='detail-attempt-'+code+'.json'
+                    try:
+                        response=session.post(detail_api,json=payload,timeout=(10,25))
+                        try:answer=response.json()
+                        except ValueError:answer={'response_text':response.text}
+                        (output_dir/proof).write_text(json.dumps({'request':{'url':detail_api,'body':payload},'http_status':response.status_code,'response':answer,'attempted_at':attempt},ensure_ascii=False))
+                        error=f'Official public detail HTTP {response.status_code}; errorCode={answer.get("errorCode")}; errorMsg={answer.get("errorMsg")}'
+                        if answer.get('success'):error='Official detail returned; schema/complete role fields require verification before use'
+                    except Exception as exc:
+                        error=str(exc).split('\n')[0];(output_dir/proof).write_text(json.dumps({'request':{'url':detail_api,'body':payload},'request_error':error,'attempted_at':attempt},ensure_ascii=False))
+                    pending.append({'source_record_id':'pdd-social:'+code,'official_source_id':code,'job_title':row['name'],'detail_url':'https://careers.pddglobalhr.com/jobs/detail?code='+code,'listing_evidence_path':'latest-public-index.json','detail_evidence_path':proof,'last_attempt_at':attempt,'pending_reason':'fetch_failed','detail_request_status':'failed','source_missing_fields':[],'unretrieved_fields':['responsibilities','requirements','education','major','cities','graduation_eligibility'],'fetch_error':error})
+                    c['evidence_files'].append(proof)
+                c['pending_index_records']=pending;c['scope_evidence']='Official PDD social latest/hottestPositionList binds each code and title; main list total unverified';c['request_params']={'main_list_url':url,'main_list_body':body,'index_url':'https://careers.pddglobalhr.com/api/recruit/position/latest_list','detail_url':detail_api,'detail_codes':list(index)}
+
 
     except Exception as exc:c['errors']=[str(exc)];c['blocking_kind']='upstream_access'
-    return finish([],c)
+    result=finish([],c);result['pending_index']=c.pop('pending_index_records',[])
+    if result['pending_index']:c['status']='partial';c['pending_count']=len(result['pending_index'])
+    return result
 
 def enrich_dji_campaign(result,output_dir):
     ident='093114fd-38fa-497b-ac5a-8a8f47777708'
