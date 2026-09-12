@@ -28,8 +28,7 @@ def test_manual_sync_reuses_runner_lock_without_unlocking_parent(tmp_path,monkey
     with path.open('a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
         env=dict(os.environ,QIUZHAO_LARK_SYNC_LOCK_PATH=str(path),QIUZHAO_LARK_SYNC_LOCK_FD=str(lock.fileno()))
-        child=subprocess.run([sys.executable,'-c','from qiuzhao.collector.sync_lark_multivalue import sync_lock;
-with sync_lock(): print("inherited")'],env=env,pass_fds=(lock.fileno(),),capture_output=True,text=True)
+        child=subprocess.run([sys.executable,'-c','from qiuzhao.collector.sync_lark_multivalue import sync_lock;\nwith sync_lock(): print("inherited")'],env=env,pass_fds=(lock.fileno(),),capture_output=True,text=True)
         assert child.returncode==0 and 'inherited' in child.stdout
         other=path.open('a')
         try:
