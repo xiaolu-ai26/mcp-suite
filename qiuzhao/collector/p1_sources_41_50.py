@@ -98,13 +98,47 @@ def collect_jd_campus(scope,out):
  except Exception as exc:c['errors'].append(str(exc))
  return shared.finish(jobs,c)
 
+def collect_jd_social(out):
+ host='https://zhaopin.jd.com';entry=host+'/web/job/job_info_list/3';c=shared.coverage(entry);jobs=[];session=shared.make_session();seen=set();raw_count=0;fingerprints={};duplicates=[]
+ try:
+  rr=session.get(entry,timeout=(10,30));rr.raise_for_status();(out/'official-entry.html').write_text(rr.text)
+  filters={'workCityJson':'[]','jobTypeJson':'[]','depTypeJson':'[]','jobSearch':''}
+  rr=session.post(host+'/web/job/job_count',data=filters,timeout=(10,35));rr.raise_for_status();total=int(rr.text);(out/'official-count.json').write_text(rr.text);c['list_total']=total;c['expected_total']=total
+  for page in range(1,10001):
+   body={**filters,'pageIndex':page,'pageSize':50};rr=session.post(host+'/web/job/job_list',data=body,timeout=(10,35));rr.raise_for_status();rows=rr.json();(out/f'list-{page}.json').write_text(json.dumps(rows,ensure_ascii=False));c['pages_scanned']+=1
+   if not isinstance(rows,list):raise ValueError('JD social list schema changed')
+   raw_count+=len(rows)
+   if not rows:c['last_page_evidence']=f'page={page};rows=0;official_total={total};unique={len(seen)}';break
+   for row in rows:
+    ident=str(row.get('requirementId') or '');position=row.get('positionId')
+    if not ident or position is None:raise ValueError('JD social missing requirementId/positionId')
+    if ident in seen:
+     duplicates.append({'requirementId':ident,'page':page})
+     if fingerprints[ident]!=row:c['errors'].append('Conflicting duplicate JD requirementId '+ident)
+     continue
+    fingerprints[ident]=row
+    seen.add(ident);desc=row.get('workContent') or '';req=row.get('qualification') or ''
+    if not shared.text(desc) and not shared.text(req):
+     c['errors'].append('Official inline description undisclosed: '+ident);c.setdefault('pending_details',[]).append({'source_record_id':'jd-social:'+ident,'job_title':row.get('positionNameOpen') or row.get('positionName'),'evidence_file':f'list-{page}.json','detail_fetch_status':'success','detail_content_status':'undisclosed'});continue
+    j=shared.job('京东','social','jd-social:'+ident,row.get('positionNameOpen') or row['positionName'],entry,desc+'\n任职要求\n'+req,row.get('workCity') or '',row)
+    j.update(official_source_id=ident,source_namespace='jd-social',recRequirementId=int(ident),positionId=position,detail_presentation='inline',application_link_type='list_entry',application_instructions='请在京东官网社会招聘列表按岗位名称查找，展开岗位后登录申请。',scope_evidence='Official JD 社会招聘 list/inline detail API',source_missing_fields=[name for name,value in [('responsibilities',desc),('requirements',req)] if not shared.text(value)],publication_date=row.get('formatPublishTime'),hiring_department_raw=row.get('positionDeptName') or '')
+    jobs.append(j)
+   if page%10==0:
+    c['collected_jobs']=len(jobs);checkpoint={'jobs':jobs,'coverage':{**c,'status':'partial','complete':False}};(out/'result.json').write_text(json.dumps(checkpoint,ensure_ascii=False))
+  if raw_count!=total:raise ValueError(f'JD social incomplete official total={total};raw_rows={raw_count};unique={len(seen)}')
+  c['raw_rows_collected']=raw_count;c['duplicate_source_records']=duplicates;c['expected_total']=len(seen)
+  c.update(pagination_exhausted=True,unique_source_ids=len(seen),detail_complete=len(jobs)==len(seen),evidence=['official-entry.html','official-count.json']+[p.name for p in out.glob('list-*.json')],scope_evidence='Official JD social job list; full inline workContent and qualification per requirementId',scope_request={'company':'京东','scope':'social','source_url':entry,'params':{**filters,'pageIndex':1,'pageSize':50}})
+  c['evidence_files']=c['evidence'];c['detail_missing_count']=len(c.get('pending_details',[]))
+ except Exception as exc:c['errors'].append(str(exc))
+ return shared.finish(jobs,c)
+
 def collect(company,scope,output_dir):
  requested=company;key=next((k for k,v in COMPANIES.items() if v==company),company);out=Path(output_dir);out.mkdir(parents=True,exist_ok=True)
  if key=='meituan':
   from .p1_meituan_public import collect as meituan_collect
   result=meituan_collect('美团',scope,out)
  elif key=='gwm':result=shared.collect_honor(scope,out,company='长城汽车',host='https://zhaopin.gwm.cn',suites_override=['SU692d3058ea11b01b6c54d0ea'])
- elif key=='jd':result=collect_jd_campus(scope,out)
+ elif key=='jd':result=collect_jd_social(out) if scope=='social' else collect_jd_campus(scope,out)
  elif key=='xiaomi':result=collect_xiaomi_domestic(scope,out)
  elif key in BEISEN:result=collect_beisen(COMPANIES[key],scope,BEISEN[key],out,category_mapping={'4':'social','8':'intern','9':'intern','10':'intern'} if key=='mindray' else None)
  elif key in MOKA:
