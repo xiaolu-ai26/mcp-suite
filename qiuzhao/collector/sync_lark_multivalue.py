@@ -310,6 +310,8 @@ def main():
     p.add_argument('--snapshot', action='store_true')
     p.add_argument('--plan', action='store_true')
     p.add_argument('--apply', action='store_true')
+    p.add_argument('--explain', action='store_true', help='sync qualification text without overwriting human text')
+    p.add_argument('--append-p1', action='store_true', help='append missing verified P1 IDs to existing industry tables')
     args = p.parse_args(); out = args.output_dir; out.mkdir(parents=True, exist_ok=True)
     if args.snapshot:
         snapshot(out)
@@ -319,6 +321,14 @@ def main():
         make_plan(out, args.jobs)
     if args.apply:
         apply_plan(out)
+    if args.explain or args.append_p1:
+        if not args.jobs:
+            p.error('--explain/--append-p1 requires --jobs')
+        from qiuzhao.collector.lark_sync_enrichment import note_sync, append_p1
+        if args.explain:
+            note_sync(out, args.jobs)
+        if args.append_p1:
+            append_p1(out, args.jobs)
 
 
 if __name__ == '__main__':
