@@ -76,7 +76,7 @@ class PendingFlowTests(unittest.TestCase):
  def test_empty_official_detail_is_index_without_invented_body(self):
   import tempfile
   with tempfile.TemporaryDirectory() as d:r=self.run_flow(Path(d),empty=True)
-  self.assertEqual(r['jobs'],[]);self.assertTrue(r['coverage']['complete']);self.assertEqual(r['coverage']['expected_total'],1);self.assertEqual(r['pending_index'][0]['pending_reason'],'source_empty_body');self.assertEqual(r['pending_index'][0]['detail_request_status'],'success')
+  self.assertEqual(r['jobs'],[]);self.assertTrue(r['coverage']['complete']);self.assertEqual(r['coverage']['expected_total'],1);self.assertEqual(r['pending_index'][0]['pending_reason'],'source_empty_body');self.assertEqual(r['pending_index'][0]['detail_request_status'],'success');self.assertEqual(r['pending_index'][0]['cities'],['上海']);self.assertEqual(r['pending_index'][0]['education_raw'],'本科');self.assertEqual(r['pending_index'][0]['major_requirements_raw'],'计算机科学');self.assertEqual(r['pending_index'][0]['source_channel_online_status'],1)
  def test_failed_detail_stays_partial_and_does_not_claim_source_empty(self):
   import tempfile
   with tempfile.TemporaryDirectory() as d:r=self.run_flow(Path(d),failed=True)
