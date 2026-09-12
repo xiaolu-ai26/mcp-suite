@@ -124,7 +124,9 @@ class BaiduPublicTests(unittest.TestCase):
   def post(url,data,headers,**kw):
    self.assertEqual(data['pageSize'],10);self.assertEqual(headers['Origin'],'https://talent.baidu.com');self.assertIn('GRADUATE',headers['Referer'])
    return R({'status':'ok','data':{'pageNum':1,'pageSize':10,'total':1,'list':[row]}})
-  def get(url,params,**kw):return R({'status':'ok','data':{**row,'jobId':'WRONG'}})
+  def get(url,params,**kw):
+   if 'config/item/list' in url:return R({'status':'ok','data':[{'recruitType':'GRADUATE','subtitle':'面向2027届'}]})
+   return R({'status':'ok','data':{**row,'jobId':'WRONG'}})
   with tempfile.TemporaryDirectory() as out,patch('qiuzhao.collector.p1_sources_11_20.requests.post',post),patch('qiuzhao.collector.p1_sources_11_20.requests.get',get):
    c={'errors':[],'pages_scanned':0};rows=_baidu('百度','campus',Fetcher(Path(out)),c)
   self.assertEqual(rows,[]);self.assertTrue(any('identity' in e for e in c['errors']))
