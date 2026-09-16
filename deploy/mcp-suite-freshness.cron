@@ -1,0 +1,6 @@
+# 秋招管线新鲜度监控:每 2 小时检查 /health 的 data_as_of 与 lark-sync-receipt.json。
+# 结果写 /var/lib/mcp-suite/freshness.json,由 Mac 侧 launchd 远程读取并告警。
+# 独立于已停用的 mcp-suite-qiuzhao.disabled-20260913,不触碰旧文件。
+SHELL=/bin/bash
+PATH=/usr/local/bin:/usr/bin:/bin
+7 */2 * * * mcp-suite /opt/mcp-suite/deploy/freshness_watch.sh
