@@ -42,18 +42,22 @@
 
 ## 套餐与库存
 
-`core/store.py` 的 `PLANS` 是套餐配置真源：**39 元，兑换激活后生效，有效至 2026-12-31 当天结束，每天 200 次工具调用**。实际失效时间为 2027-01-01 00:00:00（北京时间）。每天北京时间 00:00 重置；握手和列工具不扣次，进入工具执行的调用（包括空结果）计 1 次。
+`core/store.py` 的 `PLANS["qiuzhao-2026"]` 是套餐配置真源：**59.9 元标准价，兑换激活起 30 天有效，每天工具调用上限 999999**（实质不限量）。早鸟价按当时已兑换的正式码排名浮动：第 1–10 单 29.9 元、第 11–50 单 39.9 元、第 51–100 单 49.9 元，之后恢复 59.9 元标准价；`sale_ends_at` 为 2027-12-31。线上 `GET /api/pricing` 可实时查当前档位、已售数量与当前价，不要照抄本文档的固定数字。
 
-首发库存文件为 `/Users/maxzhl/Projects/mcp-suite/private/qiuzhao-2026-stock-50.txt`，50 个唯一兑换码，文件权限 0600。对应生产数据库位于服务器 `/var/lib/mcp-suite/access.sqlite3`；本机 `private/access.sqlite3` 是首发库存对应的初始数据库，服务上线后不能覆盖服务器现有库。库存与 API key 不入代码库或日志。最终已逐个摘要核对：**50/50 个备货码与远端数据库对应且全部未兑换；验收测试 key 已停用，活跃测试 key 为 0**。测试使用额外凭证，未消耗备货，见 [最终线上验收收据](deploy/final-online-e2e-receipt.json)。
-
-管理脚本仅输出库存文件位置与数量，不输出兑换码：
+可售库存 = 生产数据库中 `code_kind='formal'` 且尚未兑换（`redeemed_at IS NULL`）的兑换码数量。正式码只能在生产服务器上生成，本机不生成、也不持有正式码：
 
 ```sh
-.venv/bin/python -m core.admin generate-codes \
-  --db private/access.sqlite3 --out private/qiuzhao-2026-stock-50.txt --count 50
+cd /opt/mcp-suite && sudo -u mcp-suite .venv/bin/python -m core.admin generate-codes \
+  --db /var/lib/mcp-suite/access.sqlite3 \
+  --out /var/lib/mcp-suite/<批次文件名>.txt \
+  --count <数量> --plan qiuzhao-2026 --kind formal
 ```
 
-上述首发文件已经生成，脚本使用独占创建防止覆盖；不要再次生成同名库存。API key 在兑换响应中只展示一次，丢失后需要联系卖家处理，当前没有找回明文接口。数据库只存兑换码/key 摘要；用量日志只记匿名 key ID、产品、工具和时间，不记录查询参数或简历。
+以 `mcp-suite` 系统用户执行（服务本身也以该用户运行：systemd `WorkingDirectory=/opt/mcp-suite`，venv 为 `/opt/mcp-suite/.venv`）；`--db` 必须指向生产库 `/var/lib/mcp-suite/access.sqlite3`。`--kind` 现为必填参数（见 `core/admin.py`），只能是 `formal`（正式码，可售，一经生成永久不可删除）或 `test`（测试码，可随时删除，且不计入早鸟排名）。脚本对 `--out` 使用独占创建防止覆盖已有批次文件，且只打印文件位置与数量，不输出兑换码明文。
+
+**2026-09-17** 已在生产库生成 20 个正式码（`plan=qiuzhao-2026`，全部未兑换）。此前本机 `private/qiuzhao-2026-stock-50.txt` 所称的“首发库存 50 码”经核实并不对应生产库存（生成当时生产库正式码为 0），已归档为 `private/archive/NOT-IN-PROD-qiuzhao-2026-stock-50.txt`，不代表可售库存，也不在生产数据库中。库存与 API key 不入代码库或日志。
+
+API key 在兑换响应中只展示一次；丢失后可凭原兑换码调用 `POST /recover`（`core/server.py`）校验并轮换出新 key，按客户端 IP 哈希限流，不是找回原 key 明文。数据库只存兑换码/key 摘要；用量日志只记匿名 key ID、产品、工具和时间，不记录查询参数或简历。
 
 ## 实际验收
 
