@@ -122,6 +122,10 @@ td.hash{color:var(--ink-2)}
 .hint{font-size:12px;color:var(--ink-3);margin:-6px 0 4px}
 .btn-danger-text{color:var(--red)}
 .stat-card .num.small{font-size:26px}
+.note-filter{max-width:220px;height:34px}
+td.benefit-cell{white-space:normal;font-size:12px;color:var(--ink-2);max-width:220px}
+td.note-cell{white-space:normal;max-width:240px;word-break:break-all}
+td.note-cell .btn{margin-left:8px;height:26px;padding:0 8px;font-size:12px}
 
 /* Toast */
 .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--ink);color:#FFFDF9;font-size:13px;padding:10px 18px;border-radius:8px;box-shadow:0 8px 28px rgba(28,26,23,.22);opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:40}

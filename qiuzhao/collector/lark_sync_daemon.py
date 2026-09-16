@@ -2,7 +2,6 @@
 from __future__ import annotations
 import argparse
 import datetime as dt
-import fcntl
 import gzip
 import hashlib
 import os
@@ -15,6 +14,7 @@ import shutil
 import subprocess
 import sys
 from qiuzhao.collector import sync_lark_multivalue as S
+SYNC_RULE_VERSION = 2
 
 HOST='root@114.215.188.109'
 SOURCE='/var/lib/mcp-suite/jobs.json'
@@ -84,9 +84,7 @@ def external_runs_ready(state_dir,runs_dir):
 
 def run(state_dir,runs_dir=None):
     state_dir=state_dir.resolve();state_dir.mkdir(parents=True,exist_ok=True)
-    with (state_dir/'sync.lock').open('a') as lock:
-        try:fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
-        except BlockingIOError:return {'status':'already_running'}
+    with S.sync_lock() as lock:
         status_path=state_dir/'status.json'
         previous=json.loads(status_path.read_text()) if status_path.exists() else {}
         state={**previous,'last_attempt_at':now(),'status':'checking','error':None,'finished_at':None}
@@ -94,16 +92,20 @@ def run(state_dir,runs_dir=None):
         try:
             runs_root=external_runs_ready(state_dir,Path(runs_dir) if runs_dir is not None else DEFAULT_RUNS)
             observed=source_hash();state['observed_source_sha256']=observed
-            if observed==previous.get('last_source_sha256') and previous.get('last_success_at'):
+            if observed==previous.get('last_source_sha256') and previous.get('last_success_at') and previous.get('sync_rule_version') == SYNC_RULE_VERSION:
                 state.update(status='unchanged',finished_at=now());S.save(status_path,state);return state
             out=runs_root/dt.datetime.now().strftime('%Y%m%dT%H%M%S');out.mkdir(parents=True)
             state.update(status='running',run_dir=str(out),phase='capture');S.save(status_path,state)
             jobs,source_sha=capture_source(out)
+            semantic_hash=S.business_source_hash(jobs)
+            if previous.get('last_business_sha256') == semantic_hash and previous.get('last_success_at') and previous.get('sync_rule_version') == SYNC_RULE_VERSION:
+                state.update(status='unchanged',last_source_sha256=source_sha,finished_at=now())
+                S.save(status_path,state);jobs.unlink();(out/'source.jobs.json.gz').unlink();return state
             # Explicit separate steps keep failures and partially completed writes
             # inspectable. lark-cli remains local under the logged-in user.
             steps=[('snapshot',['--snapshot']),('update',['--jobs',str(jobs),'--plan','--apply']),
-                   ('source_status',['--jobs',str(jobs),'--sync-status']),('append',['--jobs',str(jobs),'--append-p1']),('conditions',['--jobs',str(jobs),'--explain'])]
-            child_env=dict(os.environ, QIUZHAO_LARK_SYNC_LOCK_PATH=str(state_dir/'sync.lock'),
+                   ('business',['--jobs',str(jobs),'--sync-business']),('source_status',['--jobs',str(jobs),'--sync-status']),('append',['--jobs',str(jobs),'--append-p1']),('conditions',['--jobs',str(jobs),'--explain']),('deduplicate',['--jobs',str(jobs),'--deduplicate-exact'])]
+            child_env=dict(os.environ, QIUZHAO_LARK_SYNC_LOCK_PATH=str(Path(lock.name).resolve()),
                            QIUZHAO_LARK_SYNC_LOCK_FD=str(lock.fileno()))
             for phase,flags in steps:
                 state['phase']=phase;S.save(status_path,state)
@@ -125,7 +127,7 @@ def run(state_dir,runs_dir=None):
             if append_state.get('finished') is not True or append_state.get('pending'):
                 raise RuntimeError('append has not reconciled all eligible source IDs')
             state.pop('capacity_blocked',None)
-            state.update(status='success',phase='complete',last_success_at=now(),last_source_sha256=source_sha,
+            state.update(status='success',phase='complete',last_success_at=now(),last_source_sha256=source_sha,last_business_sha256=semantic_hash,sync_rule_version=SYNC_RULE_VERSION,
                          finished_at=now(),source_receipt=str(out/'source-receipt.json'))
             S.save(status_path,state)
             # Keep restoration records/schema; only discard this run's redundant
@@ -139,11 +141,92 @@ def run(state_dir,runs_dir=None):
             raise
 
 
+def run_local(source_path, state_dir, runs_dir, apply=False):
+    """Sync a local collected snapshot using this machine's own user login."""
+    source_path = source_path.resolve()
+    state_dir = state_dir.resolve()
+    runs_dir = runs_dir.resolve()
+    # CLI paths stay inside the project; Windows needs no external-disk alias.
+    if not runs_dir.is_relative_to(Path.cwd().resolve()):
+        raise ValueError('local sync evidence must be inside project working directory')
+    state_dir.mkdir(parents=True, exist_ok=True)
+    runs_dir.mkdir(parents=True, exist_ok=True)
+    with S.sync_lock() as lock:
+        status_path = state_dir/'status.json'
+        previous = json.loads(status_path.read_text(encoding='utf-8')) if status_path.exists() else {}
+        # Old runs' error/finished_at are run-state residue, never evidence about
+        # this attempt (mirrors run() above); the success index fields survive via
+        # the previous-state merge below.
+        state = {**previous, 'status': 'checking', 'last_attempt_at': now(), 'source': str(source_path),
+                 'error': None, 'finished_at': None}
+        try:
+            # An authenticated business read is required even for unchanged data.
+            live = S.cli('+table-list', '--base-token', S.BASE, '--format', 'json')['data']['tables']
+            if not set(S.TABLES) <= {table['id'] for table in live}:
+                raise ValueError('target table identity drift')
+            observed = S.digest(source_path)
+            state['observed_source_sha256'] = observed
+            if apply and previous.get('last_source_sha256') == observed and previous.get('last_success_at') and previous.get('sync_rule_version') == SYNC_RULE_VERSION:
+                state = {**previous, **state, 'status': 'unchanged', 'finished_at': now(), 'auth_verified': True}
+                S.save(status_path, state)
+                return state
+            out = runs_dir/dt.datetime.now().strftime('%Y%m%dT%H%M%S%f')
+            out.mkdir()
+            jobs = out/'source.jobs.json'
+            # Copy from one open handle, then hash the actual immutable sync input.
+            with source_path.open('rb') as source, jobs.open('wb') as target:
+                shutil.copyfileobj(source, target, 1 << 20)
+            source_sha = S.digest(jobs)
+            semantic_hash = S.business_source_hash(jobs)
+            if apply and previous.get('last_business_sha256') == semantic_hash and previous.get('last_success_at') and previous.get('sync_rule_version') == SYNC_RULE_VERSION:
+                state.update(status='unchanged',last_source_sha256=source_sha,finished_at=now(),auth_verified=True)
+                S.save(status_path,state);jobs.unlink();return state
+            S.save(out/'source-receipt.json', {'sha256': source_sha, 'size': jobs.stat().st_size,
+                                             'source': str(source_path), 'captured_at': now()})
+            state.update(run_dir=str(out), phase='snapshot', status='running')
+            S.save(status_path, state)
+            S.snapshot(out)
+            S.make_plan(out, jobs)
+            if not apply:
+                state.update(status='planned', finished_at=now())
+                S.save(status_path, state)
+                return state
+            from qiuzhao.collector.lark_sync_enrichment import status_sync, append_p1, note_sync, business_sync, deduplicate_exact
+            for phase, operation in [('update', lambda: S.apply_plan(out)),
+                    ('business', lambda: business_sync(out, jobs)),
+                    ('source_status', lambda: status_sync(out, jobs)),
+                    ('append', lambda: append_p1(out, jobs)),
+                    ('conditions', lambda: note_sync(out, jobs)),
+                    ('deduplicate', lambda: deduplicate_exact(out,jobs))]:
+                state['phase'] = phase
+                S.save(status_path, state)
+                operation()
+            append_state = json.loads((out/'append-status.json').read_text(encoding='utf-8'))
+            if append_state.get('capacity_blocked') or append_state.get('pending') or append_state.get('finished') is not True:
+                raise RuntimeError('append reconciliation incomplete; inspect append-status.json')
+            state.update(status='success', phase='complete', last_source_sha256=source_sha,last_business_sha256=semantic_hash,sync_rule_version=SYNC_RULE_VERSION,
+                         last_success_at=now(), finished_at=now(), auth_verified=True)
+            S.save(status_path, state)
+            jobs.unlink()
+            return state
+        except Exception as error:
+            state.update(status='failed', error=str(error)[:1000], finished_at=now())
+            S.save(status_path, state)
+            raise
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--state-dir',type=Path,default=Path('research/qiuzhao-p1-sync-runtime'))
     p.add_argument('--runs-dir',type=Path,default=DEFAULT_RUNS)
-    args=p.parse_args();print(json.dumps(run(args.state_dir,args.runs_dir),ensure_ascii=False))
+    p.add_argument('--source-path',type=Path)
+    p.add_argument('--apply',action='store_true')
+    args=p.parse_args()
+    result = (run_local(args.source_path,args.state_dir,args.runs_dir,args.apply)
+              if args.source_path else run(args.state_dir,args.runs_dir))
+    print(json.dumps(result,ensure_ascii=False))
+    if result.get('status') not in {'success', 'unchanged', 'planned'}:
+        raise SystemExit(1)
 
 
 if __name__=='__main__':main()

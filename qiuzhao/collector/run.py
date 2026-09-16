@@ -2,7 +2,7 @@
 Run: python -m qiuzhao.collector.run --output-dir /var/lib/mcp-suite
 """
 from __future__ import annotations
-import argparse, datetime as dt, gzip, hashlib, json, logging, os, re, time
+import argparse, copy, datetime as dt, gzip, hashlib, json, logging, os, re, time
 from pathlib import Path
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
@@ -226,18 +226,27 @@ class Collector:
         merged={j.get("id") or f"auto-{i}":j for i,j in enumerate(previous)}; fetched=[]
         for name,fn in [('postal',self.postal),('chnenergy',lambda:self.chnenergy(chn_limit)),('telecom',self.telecom),('boc',self.boc),('ccb',lambda:collect_ccb(self)),('guopin',lambda:collect_guopin(self))]:
             if source not in ('all',name): continue
+            source_before=merged
             try:
-                rows=fn(); fetched.extend(rows); seen={j['id'] for j in rows}
+                rows=fn()
+                state=self.states[name]
+                if state.get('status') not in {'success','partial'} or state.get('errors'):
+                    raise ValueError('source did not return a validated successful/partial snapshot')
+                if any(not isinstance(j,dict) or not j.get('id') for j in rows):
+                    raise ValueError('source row missing stable identity')
+                source_before=merged
+                merged=copy.deepcopy(merged)
+                fetched.extend(rows); seen={j['id'] for j in rows}
                 if name=='guopin':
-                    complete_groups={k for k,v in self.states[name].get('campaigns',{}).items() if v.get('status')=='success' and v.get('complete')}
+                    complete_groups={k for k,v in self.states[name].get('campaigns',{}).items() if v.get('status')=='success' and v.get('complete') and any(j.get('source_group_key') == k for j in rows)}
                     for key,old in merged.items():
                         if key.startswith('guopin-') and old.get('source_group_key') in complete_groups and key not in seen:
-                            old.update(status='removed',reviewed_at=now(),removal_reason='Absent from complete current enterprise campaign listing')
-                elif self.states[name]['complete']:
+                            old.update(status='removed',reviewed_at=now(),removal_reason='Absent from complete current enterprise campaign listing',source_is_active=False,source_status_raw='closed',source_status_evidence={'list_status':'closed','reason':'complete_snapshot_absence','source':name,'scope':old.get('source_group_key') or name,'complete':True,'checked_at':now()})
+                elif rows and self.states[name].get('status') == 'success' and self.states[name]['complete']:
                     prefix={'postal':'postal-','chnenergy':'chn-','telecom':'telecom-','boc':'boc-','ccb':'ccb-'}[name]
                     for key,old in merged.items():
                         if key.startswith(prefix) and key not in seen:
-                            old.update(status='removed',reviewed_at=now(),removal_reason='Absent from complete current public listing')
+                            old.update(status='removed',reviewed_at=now(),removal_reason='Absent from complete current public listing',source_is_active=False,source_status_raw='closed',source_status_evidence={'list_status':'closed','reason':'complete_snapshot_absence','source':name,'scope':old.get('source_group_key') or name,'complete':True,'checked_at':now()})
                 for row in rows:
                     old=merged.get(row['id'])
                     if old:
@@ -247,6 +256,7 @@ class Collector:
                     merged[row['id']]=row
                 write_json(self.out/'jobs.json',list(merged.values()))
             except Exception as error:
+                merged=source_before
                 self.alert(name,error); self.states[name]={'status':'failed','checked_at':now(),'error':str(error)[:300]}
         jobs=[j for j in merged.values() if not re.search(r'需登录|请登录|投递入口|报名入口|招聘公告',j['job_title'])]; today=now()[:10]
         for j in jobs:

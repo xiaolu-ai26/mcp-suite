@@ -4,7 +4,8 @@ Only one browser process at a time. Use company-verified sites with tenant_names
 collect_feishu(company, scope, [{'url': ..., 'tenant_names': [...]}], output_dir)
 """
 from __future__ import annotations
-import datetime as dt,fcntl,json,os,re,shutil,time
+import datetime as dt,json,os,re,shutil,time
+from .portable_runtime import fcntl
 from pathlib import Path
 from urllib.parse import urlsplit
 from .base_headless import HeadlessSource,HeadlessUnavailable

@@ -52,5 +52,57 @@ class CollectorStatusTests(unittest.TestCase):
             restart.assert_not_called()
 
 
+class TencentMergeTests(unittest.TestCase):
+    def merge(self, previous, incoming):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'jobs.json'
+            path.write_text(json.dumps(previous))
+            before = path.read_bytes()
+            with patch.object(ac, 'JOBS_FILE', path), patch.object(ac, 'log'), patch.object(ac, 'normalize_records'):
+                added = ac.merge_tencent_jobs(incoming)
+            return added, json.loads(path.read_text()), before == path.read_bytes()
+
+    def test_stable_id_updates_changed_url_and_preserves_idless_history(self):
+        old = {'id': 'tencent-1', 'detail_url': 'https://x/old', 'job_title': 'Old'}
+        history = {'job_title': 'Historical index without ID'}
+        added, rows, unchanged = self.merge([old, history], [dict(old, detail_url='https://x/new', job_title='New')])
+        self.assertEqual(added, 0)
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(rows[0]['job_title'], 'New')
+        self.assertEqual(rows[1], history)
+        self.assertFalse(unchanged)
+
+    def test_url_alias_survives_later_url_change(self):
+        old = {'id': 'tencent-1', 'detail_url': 'https://x/job'}
+        incoming = dict(old, id='tencent-2')
+        added, rows, _ = self.merge([old], [incoming])
+        self.assertEqual(added, 0)
+        self.assertEqual(rows[0]['id'], 'tencent-1')
+        added, rows, _ = self.merge(rows, [dict(incoming, detail_url='https://x/changed')])
+        self.assertEqual(added, 0)
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]['detail_url'], 'https://x/changed')
+
+    def test_timestamp_only_and_empty_snapshot_leave_bytes_unchanged(self):
+        old = {'id': 'tencent-1', 'reviewed_at': 'yesterday', 'evidence_path': 'old'}
+        self.assertTrue(self.merge([old], [dict(old, reviewed_at='today', evidence_path='new')])[2])
+        self.assertTrue(self.merge([old], [])[2])
+        self.assertTrue(self.merge([old], None)[2])
+
+    def test_explicit_closure_is_updated_and_retained_on_unverified_listing(self):
+        old = {'id': 'tencent-1', 'status': 'unverified'}
+        closed = dict(old, status='expired', source_is_active=False, source_status_raw='closed')
+        _, rows, _ = self.merge([old], [closed])
+        self.assertEqual(rows[0]['status'], 'expired')
+        _, rows, _ = self.merge(rows, [old])
+        self.assertEqual(rows[0]['status'], 'expired')
+
+    def test_same_batch_alias_does_not_duplicate(self):
+        first = {'id': 'tencent-1', 'detail_url': 'https://x/job'}
+        added, rows, _ = self.merge([{'job_title': 'old'}], [first, dict(first, id='tencent-2')])
+        self.assertEqual(added, 1)
+        self.assertEqual(len(rows), 2)
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -53,6 +53,7 @@
   const base=new URL('./',isDemo?'https://savegems.top/qiuzhao/':document.baseURI);
   let mcpUrl=isDemo?'https://savegems.top/qiuzhao/mcp':new URL('mcp',base).href;
   let key='', busy=false, requestUncertain=false, returnFocus=null;
+  let recoveryCode='', recoveryNonce='';
   const secretButtons=['copy-prompt','copy-config','copy-key','check-usage','toggle-key','clear-key'];
   function message(id,text,error) { const e=$(id);if(e){e.textContent=text;e.className='message '+(error?'error':'ok');} }
   function selected() { return document.querySelector('input[name="client"]:checked')?.value || 'workbuddy'; }
@@ -69,7 +70,7 @@
     const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),25000);
     try{
       const r=await fetch(new URL(endpoint,base),{cache:'no-store',credentials:'omit',mode:'same-origin',redirect:'error',...options,signal:controller.signal});
-      if(!r.ok){const e=new Error('http');e.status=r.status;throw e;}
+      if(!r.ok){const e=new Error('http');e.status=r.status;e.retryAfter=Number(r.headers.get('Retry-After'))||0;try{e.serverMessage=(await r.json()).error;}catch{}throw e;}
       return await r.json();
     }finally{clearTimeout(timer);}
   }
@@ -145,16 +146,31 @@
       });
     }
   }
+  function fmtFixed(expires_at){
+    if(typeof expires_at!=='string')return null;
+    const d=new Date(expires_at);if(!Number.isFinite(d.getTime()))return null;
+    return new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(d);
+  }
   function entitlement(data){
     let date=typeof data.valid_through==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(data.valid_through)?data.valid_through:null;
     if(!date&&typeof data.expires_at==='string'){
       const d=new Date(data.expires_at);if(Number.isFinite(d.getTime())) date=new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(d.getTime()-1));
     }
-    $('valid-through').textContent=date||'请查看订单权益';
+    const fixed=data&&data.expires_type==='fixed';
+    // 固定截止是绝对时刻，必须按 expires_at 显示日期+时分；valid_through 是最后有效日，午夜截止会差一天。
+    $('valid-through').textContent=(fixed&&fmtFixed(data.expires_at))||date||'请查看订单权益';
+    const label=$('valid-through-label');if(label)label.textContent=fixed?'固定截止（北京时间）':'有效至（北京时间）';
+    const quota=$('quota-text'),note=$('quota-note');
+    if(data&&Number.isSafeInteger(data.remaining_total)&&Number.isSafeInteger(data.total_calls)){
+      quota.textContent='总次数 '+data.total_calls+' 次 · 剩余 '+data.remaining_total+' 次';
+      if(note){note.hidden=false;note.textContent='次数指 MCP 业务工具调用：搜索/统计/详情各调用一次计 1，一轮聊天可能触发多次；握手、列工具与本页校验不计。';}
+    }else{
+      quota.textContent='订阅期内无限次';if(note){note.hidden=true;note.textContent='';}
+    }
   }
   function activate(token,data,reused=false){
     if(!validKey(token))throw new Error('invalid response');
-    key=token;const allowed=safeUrl(data.mcp_url);if(allowed)mcpUrl=allowed;
+    key=token;recoveryCode='';recoveryNonce='';if($('recover-code'))$('recover-code').value='';const allowed=safeUrl(data.mcp_url);if(allowed)mcpUrl=allowed;
     $('code').value='';$('existing-token').value='';$('key-display').value=key;$('key-display').type='password';
     $('toggle-key').textContent='显示';$('toggle-key').setAttribute('aria-pressed','false');
     $('secret-consent').checked=false;entitlement(data);
@@ -164,8 +180,8 @@
     paintProfile();$('success-title').focus({preventScroll:true});
   }
   function clearSecrets(showMessage=true){
-    key='';busy=false;
-    for(const id of ['code','existing-token','key-display','clipboard-fallback'])if($(id))$(id).value='';
+    key='';busy=false;recoveryCode='';recoveryNonce='';if($('recover-confirm'))$('recover-confirm').hidden=true;
+    for(const id of ['code','recover-code','existing-token','key-display','clipboard-fallback'])if($(id))$(id).value='';
     for(const id of ['prompt-preview','config-preview'])if($(id))$(id).textContent='';
     if($('secret-consent'))$('secret-consent').checked=false;
     if($('clipboard-dialog'))$('clipboard-dialog').hidden=true;
@@ -192,7 +208,7 @@
   }
   async function initializeStatus(){
     if(isDemo){$('preview-banner').hidden=false;$('data-status').textContent='演示数据：不代表当前收录数量或服务状态';$('code').placeholder='点击下方按钮体验演示';$('code').required=false;return;}
-    try{const data=await request('config');const u=safeUrl(data.mcp_url);if(u){mcpUrl=u;paintProfile();}}catch{/* Never block redemption on optional configuration fetch. */}
+    try{const data=await request('config');const u=safeUrl(data.mcp_url);if(u){mcpUrl=u;paintProfile();}if(data.access_limits){const l=data.access_limits;document.querySelectorAll('[data-access-policy]').forEach(e=>e.textContent=`同一账号每滚动60秒${l.rpm}次业务请求、同时最多${l.inflight}个`);if($('recovery-policy'))$('recovery-policy').textContent=`每个网络来源${Math.ceil(l.recovery_ip_window/60)}分钟最多${l.recovery_ip_attempts}次恢复请求；同一账号每小时最多重新生成${l.recovery_rotations}次。响应未确认时，请留在本页重试。`;}}catch{/* Never block redemption on optional configuration fetch. */}
     try{const d=await request('health');if(d.status!=='ok'||!Number.isSafeInteger(d.jobs)||d.jobs<0)throw new Error('shape');
       let text='当前可读取 '+d.jobs.toLocaleString('zh-CN')+' 条记录';
       if(typeof d.data_as_of==='string'&&Number.isFinite(new Date(d.data_as_of).getTime()))text+=' · 全库最新一条复核：'+new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(d.data_as_of))+'（北京时间；各条时间不同）';
@@ -250,6 +266,30 @@
     try{const d=await request('redeem',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code})});activate(d.api_key,d);}
     catch(e){if(!e.status||e.status>=500)requestUncertain=true;message('redeem-message',statusError(e,true),true);}
     finally{busy=false;$('redeem-button').disabled=requestUncertain;$('redeem-button').textContent=requestUncertain?'响应未确认，请联系卖家核查':'兑换并生成专属接入指令 →';}
+  });
+  const recoveryError=e=>e.status===429?`请求过于频繁，请等待${e.retryAfter||60}秒后重试。`:e.serverMessage||'响应尚未确认，请留在本页点击重试，避免重复生成。';
+  $('recover-code')?.addEventListener('input',()=>{recoveryCode='';recoveryNonce='';$('recover-confirm').hidden=true;$('recover-consent').checked=false;$('recover-rotate').disabled=true;});
+  $('recover-consent')?.addEventListener('change',()=>{$('recover-rotate').disabled=busy||!$('recover-consent').checked;});
+  $('recover-form')?.addEventListener('submit',async event=>{
+    event.preventDefault();if(busy||key)return;
+    const code=$('recover-code').value.trim().toUpperCase();
+    if(!/^QZ-[0-9A-F]{32}$/.test(code)){message('recover-message','请输入完整的原兑换码。',true);return;}
+    busy=true;$('recover-check').disabled=true;$('recover-rotate').disabled=true;
+    try{const d=await request('recover',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,action:'check'})});
+      if(recoveryCode!==code)recoveryNonce='';recoveryCode=code;$('recover-confirm').hidden=false;$('recover-consent').checked=false;
+      const total=Number.isSafeInteger(d.remaining_total)&&Number.isSafeInteger(d.total_calls)?'总调用次数共 '+d.total_calls+' 次、剩余 '+d.remaining_total+' 次（指业务工具调用次数；恢复不会充值或重置）。':'不限总调用次数。';
+      const deadline=d.expires_type==='fixed'?'固定截止（北京时间）：'+(fmtFixed(d.expires_at)||d.valid_through)+'，不随操作顺延':'有效至（北京时间）：'+d.valid_through;
+      $('recover-entitlement').textContent='原权限'+deadline+'。'+total+'重新生成不会延长有效期，也不会重置用量。';message('recover-message','权限校验通过，请阅读并确认旧key失效提示。');
+    }catch(e){message('recover-message',recoveryError(e),true);}finally{busy=false;$('recover-check').disabled=false;}
+  });
+  $('recover-rotate')?.addEventListener('click',async()=>{
+    if(busy||key||!recoveryCode||!$('recover-consent').checked)return;
+    recoveryNonce=recoveryNonce||crypto.randomUUID();busy=true;$('recover-rotate').disabled=true;$('recover-check').disabled=true;
+    try{const d=await request('recover',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:recoveryCode,action:'rotate',request_id:recoveryNonce})});
+      activate(d.api_key,d);$('success-title').textContent='新key已生成，请更新所有客户端';
+    }catch(e){if(e.status===409){recoveryNonce='';recoveryCode='';$('recover-confirm').hidden=true;}
+      message('recover-message',recoveryError(e),true);$('recover-rotate').textContent='重试获取本次新key';
+    }finally{busy=false;$('recover-check').disabled=false;$('recover-rotate').disabled=!$('recover-consent').checked;}
   });
   $('existing-form').addEventListener('submit',async event=>{
     event.preventDefault();if(busy||key)return;

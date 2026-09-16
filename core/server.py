@@ -5,6 +5,10 @@ site and dataset this process serves; everything else (auth, metering, redemptio
 is shared.
 """
 from __future__ import annotations
+import asyncio
+import contextvars
+import contextlib
+import ipaddress
 import hashlib
 import json
 import math
@@ -24,7 +28,8 @@ from fastmcp.exceptions import ToolError
 from fastmcp.server.dependencies import get_http_request
 from fastmcp.server.middleware import Middleware
 from fastmcp.tools.tool import ToolResult
-from mcp.types import TextContent
+from mcp.types import TextContent, JSONRPCRequest, CallToolRequest
+from mcp.server.streamable_http import StreamableHTTPServerTransport
 from pydantic import BeforeValidator, Field, ValidationError
 from starlette.requests import Request
 from starlette.responses import FileResponse, HTMLResponse, JSONResponse
@@ -257,6 +262,9 @@ def log_tool_call(name, arguments, token, result, error, started, ts):
     write_call_log(entry)
 
 
+_call_admitted = contextvars.ContextVar("call_admitted", default=False)
+
+
 class MeterTools(Middleware):
     async def on_call_tool(self, context, call_next):
         started, ts = time.perf_counter(), datetime.now(TZ).isoformat(timespec="milliseconds")
@@ -268,7 +276,8 @@ class MeterTools(Middleware):
                 raise ToolError("未知工具，请刷新工具列表。")
             try:
                 token = bearer(get_http_request().headers)
-                quota = store.consume(token, PRODUCT, name)
+                if not _call_admitted.get():
+                    store.consume(token, PRODUCT, name)
             except AccessError as exc:
                 error = "quota_exceeded" if exc.status == 429 else "access_denied"
                 raise ToolError(str(exc)) from None
@@ -459,9 +468,12 @@ def bench_taxonomy() -> dict:
 
 REGISTRY = {"jobs_search": jobs_search, "jobs_stats": jobs_stats, "jobs_detail": jobs_detail,
             "bench_search": bench_search, "bench_detail": bench_detail, "bench_taxonomy": bench_taxonomy}
+QIU_TOOL_TITLES = {"jobs_search": "搜索招聘岗位", "jobs_stats": "查看岗位数量与分布",
+                   "jobs_detail": "查看岗位详情"}
 for _name in sorted(TOOLS):
     if PRODUCT == "qiuzhao":
-        mcp.tool(output_schema=None)(REGISTRY[_name])  # one copy of the result: content text only
+        mcp.tool(title=QIU_TOOL_TITLES[_name], annotations={"title": QIU_TOOL_TITLES[_name]},
+                 output_schema=None)(REGISTRY[_name])  # one copy of the result: content text only
     else:
         mcp.tool()(REGISTRY[_name])
 
@@ -488,7 +500,8 @@ async def script(request: Request):
 
 @mcp.custom_route("/config", methods=["GET"])
 async def config(request: Request):
-    return JSONResponse({"mcp_url": PUBLIC_BASE + "/mcp", "guide_url": PUBLIC_BASE + "/guide"})
+    return JSONResponse({"mcp_url": PUBLIC_BASE + "/mcp", "guide_url": PUBLIC_BASE + "/guide",
+                         "access_limits":store.limits if PRODUCT == "qiuzhao" else None})
 
 
 @mcp.custom_route("/health", methods=["GET"])
@@ -540,6 +553,48 @@ async def redeem(request: Request):
         return JSONResponse({"error": "请输入有效兑换码。"}, status_code=400)
     except AccessError as exc:
         return JSONResponse({"error": str(exc)}, status_code=exc.status)
+
+
+def recovery_ip(request):
+    peer = request.client.host if request.client else 'unknown'
+    # Only the loopback reverse proxy may supply the real client address.
+    if peer in {'127.0.0.1','::1'}:
+        forwarded=request.headers.get('x-real-ip')
+        if forwarded:
+            try:return str(ipaddress.ip_address(forwarded))
+            except ValueError:pass
+    return peer
+
+
+@mcp.custom_route("/recover", methods=["POST"])
+async def recover(request: Request):
+    try:
+        if PRODUCT != 'qiuzhao':
+            raise AccessError('此产品不支持此恢复入口。',404)
+        store.recovery_attempt(recovery_ip(request))
+        expected=urlsplit(PUBLIC_BASE)
+        if request.headers.get('origin') not in {None, f'{expected.scheme}://{expected.netloc}', str(request.base_url).rstrip('/')}:
+            raise AccessError('请在本服务兑换页操作。',403)
+        if request.headers.get('content-type','').split(';')[0] != 'application/json':
+            raise AccessError('请求格式必须为JSON。',415)
+        body=b''
+        async for chunk in request.stream():
+            body+=chunk
+            if len(body)>1024:raise AccessError('请求过大。',413)
+        try:data=json.loads(body)
+        except (ValueError,UnicodeDecodeError):raise AccessError('请输入有效恢复请求。',400) from None
+        if not isinstance(data,dict) or data.get('action') not in {'check','rotate'}:
+            raise AccessError('请输入有效恢复请求。',400)
+        if data['action']=='rotate' and not data.get('request_id'):
+            raise AccessError('恢复请求标识缺失，请重新校验。',400)
+        result=store.recover(data.get('code'),PRODUCT,data.get('request_id') if data['action']=='rotate' else None)
+        result.update(mcp_url=PUBLIC_BASE+'/mcp',guide_url=PUBLIC_BASE+'/guide')
+        return JSONResponse(result,headers={'Cache-Control':'no-store'})
+    except AccessError as exc:
+        headers={'Retry-After':str(exc.retry_after)} if exc.retry_after else {}
+        return JSONResponse({'error':str(exc)},status_code=exc.status,headers=headers)
+    except (OSError,ValueError):
+        return JSONResponse({'error':'恢复服务暂时不可用，请保留本页稍后重试。'},status_code=503)
 
 
 @mcp.custom_route("/usage", methods=["GET"])
@@ -683,11 +738,16 @@ async def admin_page(request: Request):
           <div class="field"><label for="gen-plan">套餐</label><select id="gen-plan" class="select"></select></div>
           <div class="field"><label for="gen-kind">类别</label><select id="gen-kind" class="select" autocomplete="off"><option value="test" selected>测试码</option><option value="formal">正式码</option></select></div>
           <div class="field"><label for="gen-count">生成数量</label><input id="gen-count" class="input mono" type="number" value="1" min="1" max="100"></div>
+          <div class="field"><label for="gen-expires">固定截止（北京时间，可选）</label><input id="gen-expires" class="input mono" type="datetime-local" aria-describedby="gen-benefit-hint"></div>
+          <div class="field"><label for="gen-total">总调用次数（可选）</label><input id="gen-total" class="input mono" type="number" min="1" step="1" placeholder="不限" aria-describedby="gen-benefit-hint"></div>
+          <div class="field grow"><label for="gen-note">管理员备注（可选，仅后台可见）</label><input id="gen-note" class="input" type="text" maxlength="500" placeholder="仅管理员可见，不随兑换展示"></div>
+          <button id="gen-fan5" class="btn btn-ghost" type="button" title="只预填：测试码 + 总5次，不提交">粉丝福利5次（预填）</button>
           <button id="gen-btn" class="btn btn-primary" type="button">
             <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>生成兑换码
           </button>
         </div>
         <p class="hint">测试码随时可删，不计入早鸟名额；正式码生成后不能删除，兑换成功后计入早鸟名额。</p>
+        <p class="hint" id="gen-benefit-hint">固定截止与总次数仅测试码可设：截止是绝对时刻，不随兑换顺延；总次数指 MCP 业务工具调用次数（搜索/统计/详情各调用一次计 1，一轮聊天可能触发多次，握手与列工具不计），不是岗位条数或聊天轮数。留空则沿用原套餐规则（兑后30天、不限总次数）。</p>
         <p id="gen-msg" class="msg" role="status" aria-live="polite"></p>
         <div id="gen-out" class="gen-out" hidden>
           <div class="gen-head"><b>本次生成的兑换码</b><button id="gen-copy-all" class="icon-btn" type="button" data-codes="">复制全部</button></div>
@@ -702,12 +762,14 @@ async def admin_page(request: Request):
           <button class="chip-btn on" type="button" data-kind="all">全部类别</button>
           <button class="chip-btn" type="button" data-kind="formal">正式</button>
           <button class="chip-btn" type="button" data-kind="test">测试</button>
+          <span class="filter-sep" aria-hidden="true"></span>
+          <input id="note-filter" class="input note-filter" type="search" placeholder="按备注筛选" autocomplete="off">
           <span class="spacer"></span>
           <button id="codes-refresh" class="btn btn-ghost btn-sm" type="button">刷新列表</button>
         </div>
         <div class="table-wrap"><div class="table-scroll"><table>
-          <thead><tr><th class="mono">兑换码</th><th>类别</th><th>套餐</th><th>创建时间</th><th>状态</th><th>兑换时间</th><th>操作</th></tr></thead>
-          <tbody id="codes-body"><tr><td colspan="7" class="state-row">加载中…</td></tr></tbody>
+          <thead><tr><th class="mono">兑换码</th><th>类别</th><th>套餐</th><th>权益配置</th><th>创建时间</th><th>状态</th><th>兑换时间</th><th>备注</th><th>操作</th></tr></thead>
+          <tbody id="codes-body"><tr><td colspan="9" class="state-row">加载中…</td></tr></tbody>
         </table></div></div>
       </section>
 
@@ -857,11 +919,42 @@ async def admin_generate(request: Request):
     auth = _dist_admin_ok(request)
     if auth is not True:
         return auth
+    # Legacy shape (query string only) keeps working unchanged. The test-code benefits — fixed
+    # deadline, total calls, admin note — may only travel in a JSON POST body, never in the URL:
+    # notes can name people and URLs end up in logs.
+    if any(name in request.query_params for name in ("expires_at", "total_calls", "note")):
+        return JSONResponse({"error": "固定截止、总次数和备注只能通过JSON请求体提交，不能放在URL里。"},
+                            status_code=400)
     plan = request.query_params.get("plan", "qiuzhao-2026")
     kind = request.query_params.get("kind", "")
+    count_raw = request.query_params.get("count", "1")
+    benefits = {}
+    if request.method == "POST" and request.headers.get("content-type", "").split(";")[0] == "application/json":
+        body = b""
+        async for chunk in request.stream():
+            body += chunk
+            if len(body) > 8192:
+                return JSONResponse({"error": "请求过大。"}, status_code=413)
+        try:
+            data = json.loads(body)
+        except (ValueError, UnicodeDecodeError):
+            return JSONResponse({"error": "请求必须是有效JSON。"}, status_code=400)
+        if not isinstance(data, dict):
+            return JSONResponse({"error": "请求必须是JSON对象。"}, status_code=400)
+        if not isinstance(data.get("plan", plan), str) or not isinstance(data.get("kind", kind), str):
+            return JSONResponse({"error": "套餐与类别必须是文本。"}, status_code=400)
+        plan = data.get("plan", plan)
+        kind = data.get("kind", kind)
+        if "count" in data:
+            if isinstance(data["count"], bool) or not isinstance(data["count"], int):
+                return JSONResponse({"error": "数量必须是整数。"}, status_code=400)
+            count_raw = data["count"]
+        for name in ("expires_at", "total_calls", "note"):
+            if name in data:
+                benefits[name] = data[name]
     try:
-        count = int(request.query_params.get("count", "1"))
-    except ValueError:
+        count = int(count_raw)
+    except (ValueError, TypeError):
         return JSONResponse({"error": "数量必须是整数。"}, status_code=400)
     # Plans with code kinds must name the kind on every call; other plans (bench) keep working
     # without it and get test codes, which behave there exactly as codes always did.
@@ -871,10 +964,44 @@ async def admin_generate(request: Request):
         return JSONResponse({"error": "请指定兑换码类别：kind=test（测试码）或 kind=formal（正式码）。"},
                             status_code=400)
     try:
-        codes = store.generate_codes(count, plan, kind)
+        codes = store.generate_codes(count, plan, kind, **benefits)
     except ValueError as exc:
         return JSONResponse({"error": str(exc)}, status_code=400)
-    return JSONResponse({"codes": codes, "plan": plan, "code_kind": kind})
+    return JSONResponse({"codes": codes, "plan": plan, "code_kind": kind,
+                         "expires_at": benefits.get("expires_at") if benefits else None,
+                         "total_calls": benefits.get("total_calls") if benefits else None})
+
+
+@mcp.custom_route("/api/admin/edit_note", methods=["POST"])
+async def admin_edit_note(request: Request):
+    """Edit the admin-only note of one test code. The note is stored and listed verbatim
+    (parameterized SQL, textContent on the page) and is never echoed here or in any public
+    response; this endpoint cannot change any entitlement."""
+    auth = _dist_admin_ok(request)
+    if auth is not True:
+        return auth
+    if request.headers.get("content-type", "").split(";")[0] != "application/json":
+        return JSONResponse({"error": "请求格式必须为JSON。"}, status_code=415)
+    try:
+        body = await request.json()
+    except ValueError:
+        return JSONResponse({"error": "请求必须是有效JSON。"}, status_code=400)
+    code_hash = body.get("code_hash") if isinstance(body, dict) else None
+    if not isinstance(code_hash, str) or not re.fullmatch(r"[0-9a-f]{64}", code_hash):
+        return JSONResponse({"error": "缺少或无效的 code_hash 参数"}, status_code=400)
+    note = body.get("note")
+    if note is not None and not isinstance(note, str):
+        return JSONResponse({"error": "备注必须是文本。"}, status_code=400)
+    try:
+        entry = store.set_note(code_hash, note,
+                               audit=lambda e: append_admin_log({"action": "edit_note", **e}))
+    except AccessError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=exc.status)
+    except ValueError as exc:
+        return JSONResponse({"error": str(exc)}, status_code=400)
+    except OSError:
+        return JSONResponse({"error": "管理日志写入失败，本次备注修改已取消。"}, status_code=500)
+    return JSONResponse({"success": True, "note_set": entry["note_set"]})
 
 
 class Guard:
@@ -893,15 +1020,73 @@ class Guard:
                                 (b"content-security-policy", b"default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")])
                 message["headers"] = headers
             await send(message)
+        lease = None
+        admitted_context = None
+        heartbeat = None
+        replay_receive = receive
         if scope["path"].rstrip("/") == "/mcp":
-            request = Request(scope)
+            request = Request(scope, receive)
             try:
-                store.authorize(bearer(request.headers), PRODUCT)
+                token = bearer(request.headers)
+                store.authorize(token, PRODUCT)
+                if PRODUCT == 'qiuzhao' and scope['method'] == 'POST':
+                    # Inspect/replay one bounded JSON-RPC message; batches cannot bypass admission.
+                    body=b''
+                    while True:
+                        message=await receive()
+                        if message['type']=='http.disconnect':return
+                        body+=message.get('body',b'')
+                        if len(body)>1048576:raise AccessError('请求过大。',413)
+                        if not message.get('more_body'):break
+                    try:payload=json.loads(body)
+                    except (ValueError,UnicodeDecodeError):raise AccessError('无效JSON-RPC请求。',400) from None
+                    if not isinstance(payload,dict):raise AccessError('请逐个发送JSON-RPC请求，不支持批量业务调用。',400)
+                    delivered=False
+                    async def replay_receive():
+                        nonlocal delivered
+                        if not delivered:
+                            delivered=True
+                            return {'type':'http.request','body':body,'more_body':False}
+                        return await receive()
+                    if payload.get('method')=='tools/call':
+                        # Use the same protocol models and stateless transport validation as MCP,
+                        # before any admission/usage mutation. A rejected envelope is not a call.
+                        try:
+                            JSONRPCRequest.model_validate(payload)
+                            CallToolRequest.model_validate(payload)
+                        except ValidationError:
+                            raise AccessError('无效MCP业务请求协议或参数结构。',400) from None
+                        validator=StreamableHTTPServerTransport(None,is_json_response_enabled=True)
+                        if not await validator._validate_accept_header(request,scope,secure_send):return
+                        if not validator._check_content_type(request):
+                            raise AccessError('请求格式必须为application/json。',415)
+                        if not await validator._validate_request_headers(request,secure_send):return
+                        params=payload.get('params')
+                        if 'id' not in payload:
+                            raise AccessError('业务请求必须指定请求id。',400)
+                        if isinstance(params,dict) and params.get('name') in TOOLS:
+                            lease=store.start_call(token,PRODUCT,params['name'])
+                            admitted_context=_call_admitted.set(True)
             except AccessError as exc:
-                response = JSONResponse({"error": str(exc)}, status_code=exc.status,
-                                        headers={"WWW-Authenticate": "Bearer"} if exc.status == 401 else None)
-                return await response(scope, receive, secure_send)
-        return await self.app(scope, receive, secure_send)
+                headers={'WWW-Authenticate':'Bearer'} if exc.status==401 else {}
+                if exc.retry_after:headers['Retry-After']=str(exc.retry_after)
+                response=JSONResponse({'error':str(exc)},status_code=exc.status,headers=headers)
+                return await response(scope,receive,secure_send)
+        async def maintain_lease():
+            while True:
+                await asyncio.sleep(max(0.1,store.limits['lease_seconds']/3))
+                if not store.renew_call(lease):return
+        try:
+            if lease:heartbeat=asyncio.create_task(maintain_lease())
+            return await self.app(scope,replay_receive,secure_send)
+        finally:
+            if heartbeat:
+                heartbeat.cancel()
+                with contextlib.suppress(asyncio.CancelledError,Exception):await heartbeat
+            if lease:
+                try:store.finish_call(lease)
+                finally:_call_admitted.reset(admitted_context)
+
 
 
 app = Guard(mcp.http_app(path="/mcp", json_response=True, stateless_http=True))

@@ -29,10 +29,11 @@ except ImportError:
     from qiuzhao.normalize import normalize_records
 
 TZ = timezone(timedelta(hours=8))
-DATA_DIR = Path("/var/lib/mcp-suite")
+DATA_DIR = Path(os.environ.get("QIUZHAO_DATA_DIR", "/var/lib/mcp-suite"))
+PROJECT_DIR = Path(__file__).resolve().parents[2]
 JOBS_FILE = DATA_DIR / "jobs.json"
 CHANGELOG_FILE = DATA_DIR / "changelog.json"
-COLLECTOR_DIR = Path("/opt/mcp-suite/qiuzhao/collector")
+COLLECTOR_DIR = PROJECT_DIR / "qiuzhao" / "collector"
 LOG_FILE = DATA_DIR / "auto_collect.log"
 
 def log(message):
@@ -52,7 +53,7 @@ def atomic_write_json(path, data, indent=None):
         os.chmod(tmp, st.st_mode)
         try:
             os.chown(tmp, st.st_uid, st.st_gid)
-        except PermissionError:
+        except (PermissionError, AttributeError):
             pass
     os.replace(tmp, path)
 
@@ -76,7 +77,7 @@ def run_basic_collectors():
             [sys.executable, "-m", "qiuzhao.collector.run",
              "--output-dir", str(DATA_DIR),
              "--source", "all"],
-            cwd="/opt/mcp-suite",
+            cwd=PROJECT_DIR,
             capture_output=True,
             text=True,
             timeout=1800  # 30分钟超时
@@ -114,7 +115,7 @@ def run_tencent_collector():
             result = subprocess.run(
                 [sys.executable, "-m", "qiuzhao.collector.tencent",
                  "--output-dir", staging],
-                cwd="/opt/mcp-suite",
+                cwd=PROJECT_DIR,
                 capture_output=True,
                 text=True,
                 timeout=600,
@@ -152,39 +153,88 @@ def merge_tencent_jobs(tencent_jobs):
         log("警告: jobs.json不存在，无法合并")
         return 0
 
-    with open(JOBS_FILE) as f:
+    with open(JOBS_FILE, encoding="utf-8") as f:
         all_jobs = json.load(f)
 
-    existing_ids = set(str(j.get("id", "")) for j in all_jobs if j.get("id"))
-    existing_urls = set(str(j.get("detail_url", "")) for j in all_jobs if j.get("detail_url"))
+    # Keep legacy rows (including rows without IDs) in place. URLs are only a
+    # conservative alias when exactly one Tencent identity owns that URL.
+    volatile = {'reviewed_at', 'checked_at', 'collected_at', 'updated_at',
+                'last_seen_at', 'last_attempt_at', 'evidence_path'}
+    by_id, by_url = {}, {}
 
-    added = 0
+    def index_row(index, row):
+        for identity in {str(row.get('id') or ''), *(row.get('collector_identity_aliases') or [])}:
+            if identity:
+                by_id.setdefault(identity, set()).add(index)
+        if row.get('detail_url') and row.get('id') and (
+                str(row['id']).startswith('tencent-')
+                or row.get('source_name') == '腾讯校园招聘官方网站'):
+            by_url.setdefault(row['detail_url'], set()).add(index)
+
+    for index, row in enumerate(all_jobs):
+        index_row(index, row)
+    added = updated = 0
     for job in tencent_jobs:
-        job_id = str(job.get("id", ""))
-        detail_url = str(job.get("detail_url", ""))
-        if job_id and job_id not in existing_ids:
-            all_jobs.append(job)
-            existing_ids.add(job_id)
+        job_id = str(job.get("id") or "")
+        if not job_id:
+            continue
+        matches = sorted(by_id.get(job_id, ()))
+        if len(matches) > 1:
+            log(f"腾讯身份歧义，保留现有记录: {job_id}")
+            continue
+        if not matches:
+            url = job.get('detail_url')
+            matches = sorted(by_url.get(url, ())) if url else []
+            if len(matches) > 1:
+                log(f"腾讯 URL 身份歧义，保留现有记录: {job_id}")
+                continue
+        incoming = dict(job)
+        normalize_records([incoming])
+        if not matches:
+            all_jobs.append(incoming)
+            index_row(len(all_jobs) - 1, incoming)
             added += 1
-        elif detail_url and detail_url not in existing_urls:
-            all_jobs.append(job)
-            existing_urls.add(detail_url)
-            added += 1
+            continue
+        index = matches[0]
+        old = all_jobs[index]
+        incoming['id'] = old['id']
+        aliases = set(old.get('collector_identity_aliases') or [])
+        if job_id != str(old['id']):
+            aliases.add(job_id)
+        if aliases:
+            incoming['collector_identity_aliases'] = sorted(aliases)
+        # Preserve fields this adapter does not supply, but refresh supplied
+        # business values. Observation timestamps alone must not rewrite jobs.
+        refreshed = dict(old)
+        refreshed.update(incoming)
+        if old.get('source_is_active') is False and incoming.get('source_is_active') is not True:
+            for field in ('status', 'status_note', 'source_is_active', 'source_status_raw',
+                          'source_list_status_raw', 'source_detail_status_raw', 'source_status_evidence'):
+                if field in old:
+                    refreshed[field] = old[field]
+        if ({k: v for k, v in old.items() if k not in volatile}
+                == {k: v for k, v in refreshed.items() if k not in volatile}):
+            continue
+        if old.get('detail_url') != refreshed.get('detail_url'):
+            by_url.get(old.get('detail_url'), set()).discard(index)
+        all_jobs[index] = refreshed
+        index_row(index, refreshed)
+        updated += 1
 
-    if added > 0:
-        filled = normalize_records(all_jobs)
-        log(f"归一化补齐: {filled}")
+    # This wrapper receives no durable company/scope snapshot evidence. Missing
+    # IDs, including a successful empty result, never imply removal here.
+    if added or updated:
         atomic_write_json(JOBS_FILE, all_jobs)
-        log(f"腾讯岗位合并完成，新增 {added} 条")
-
+        log(f"腾讯岗位合并完成，新增 {added} 条，更新 {updated} 条")
     return added
+
 
 def update_changelog(added_jobs, total_jobs, total_companies):
     """更新更新日志"""
     today = datetime.now(TZ).strftime("%Y-%m-%d")
 
     if CHANGELOG_FILE.exists():
-        with open(CHANGELOG_FILE) as f:
+        with open(CHANGELOG_FILE, encoding="utf-8") as f:
             changelog = json.load(f)
     else:
         changelog = []
@@ -218,13 +268,15 @@ def update_changelog(added_jobs, total_jobs, total_companies):
     # 同步到static目录
     import shutil
     try:
-        shutil.copy2(CHANGELOG_FILE, "/opt/mcp-suite/core/static/changelog.json")
+        shutil.copy2(CHANGELOG_FILE, PROJECT_DIR / "core" / "static" / "changelog.json")
     except Exception as e:
         log(f"警告: 同步changelog到static失败: {e}")
     log("更新日志已更新")
 
 def restart_service():
     """重启MCP服务"""
+    if os.environ.get("QIUZHAO_SKIP_SERVICE_RESTART") == "1":
+        return
     try:
         subprocess.run(["systemctl", "restart", "mcp-suite.service"], check=True)
         log("MCP服务已重启")
@@ -253,7 +305,7 @@ def main():
 
     # 4. 统计
     if JOBS_FILE.exists():
-        with open(JOBS_FILE) as f:
+        with open(JOBS_FILE, encoding="utf-8") as f:
             all_jobs = json.load(f)
         total_jobs = len(all_jobs)
         total_companies = len(set(str(j.get("recruitment_unit", "")) for j in all_jobs))

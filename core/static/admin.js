@@ -11,6 +11,7 @@
   var allCodes = [];
   var codeFilter = 'all';
   var kindFilter = 'all';
+  var noteFilter = '';
 
   var $ = function (id) { return document.getElementById(id); };
   // 接口前缀相对当前后台页解析：去掉末尾的 /admin、/admin/ 或 /admin.html，得到 /qiuzhao/ 前缀。
@@ -150,7 +151,7 @@
   }
 
   // ---- codes ----
-  var CODE_COLS = 7;
+  var CODE_COLS = 9;
   function setState(bodyId, cols, text, isError) {
     var body = $(bodyId);
     body.innerHTML = '';
@@ -180,8 +181,48 @@
       if (codeFilter === 'redeemed' && !c.redeemed_at) return false;
       if (codeFilter === 'pending' && c.redeemed_at) return false;
       if (kindFilter !== 'all' && !(c.kind_applies && c.code_kind === kindFilter)) return false;
+      if (noteFilter && String(c.admin_note || '').toLowerCase().indexOf(noteFilter) === -1) return false;
       return true;
     });
+  }
+  // 权益配置列：到期方式与总次数。测试码可设固定截止/总次数；其余一律沿用原套餐规则。
+  function benefitText(c) {
+    var parts = [];
+    if (c.benefit_expires_at) parts.push('固定截止 ' + fmtTime(c.benefit_expires_at));
+    if (c.benefit_total_calls != null) {
+      var total = c.benefit_total_calls;
+      parts.push(c.redeemed_at && c.remaining_total != null
+        ? '总次数 ' + total + ' · 剩 ' + c.remaining_total
+        : '总次数 ' + total);
+    }
+    return parts.length ? parts.join('；') : '原套餐规则';
+  }
+  function editNote(c) {
+    var current = c.admin_note || '';
+    var next = window.prompt('编辑备注（仅管理员可见，500 字符内；留空则清除备注）：', current);
+    if (next === null) return;
+    if (next.length > 500) { toast('备注不能超过 500 字符'); return; }
+    request('api/admin/edit_note', {
+      method: 'POST',
+      body: JSON.stringify({ code_hash: c.code_hash, note: next })
+    }).then(function () {
+      toast('备注已更新');
+      loadCodes();
+    }).catch(function (e) { if (!handleError(e)) toast(e.message || '备注修改失败'); });
+  }
+  function noteCell(c) {
+    var td = document.createElement('td'); td.className = 'note-cell';
+    var text = document.createElement('span');
+    text.textContent = c.admin_note || '—';
+    td.appendChild(text);
+    if (c.code_kind === 'test') {
+      var btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'btn btn-ghost btn-sm';
+      btn.textContent = c.admin_note ? '改备注' : '加备注';
+      btn.addEventListener('click', function () { editNote(c); });
+      td.appendChild(btn);
+    }
+    return td;
   }
   function shortCode(c) { var s = c.code_plain || c.code_hash || ''; return s.length > 15 ? s.slice(0, 15) + '…' : s; }
   function deleteConfirmText(c) {
@@ -241,9 +282,11 @@
       tr.appendChild(codeCell);
       tr.appendChild(kindBadge(c));
       tr.appendChild(cell(c.plan || '—', 'mono'));
+      tr.appendChild(cell(benefitText(c), 'benefit-cell'));
       tr.appendChild(cell(fmtTime(c.created_at), 'mono'));
       tr.appendChild(badge(!!c.redeemed_at));
       tr.appendChild(cell(c.redeemed_at ? fmtTime(c.redeemed_at) : '—', 'mono'));
+      tr.appendChild(noteCell(c));
       // 最后一列：服务端判定可删的才有删除按钮；正式码永远没有。
       var actionCell = document.createElement('td');
       if (c.deletable) {
@@ -270,23 +313,72 @@
       renderCodes(); renderToday();
     }).catch(function (e) { if (!handleError(e)) setState('codes-body', CODE_COLS, e.message || '加载失败', true); });
   }
+  function readBenefits(kind) {
+    // 返回 {payload, error}：三个可选项都只做静态校验，真正的判定在服务端。
+    var out = {};
+    var expires = $('gen-expires').value;
+    var total = $('gen-total').value.trim();
+    var note = $('gen-note').value;
+    if (kind !== 'test' && (expires || total || note.trim())) {
+      return { error: '固定截止、总次数和备注仅测试码可设；正式码请留空。' };
+    }
+    if (kind !== 'test') return { payload: out };
+    if (expires) {
+      // datetime-local 给出 'YYYY-MM-DDTHH:MM'（分钟精度），按北京时间解释。
+      if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(expires) || isNaN(new Date(expires).getTime())) {
+        return { error: '固定截止时间无效，请用日期时间选择器填写（北京时间）。' };
+      }
+      out.expires_at = expires;
+    }
+    if (total) {
+      if (!/^\d+$/.test(total) || parseInt(total, 10) < 1) {
+        return { error: '总调用次数必须是正整数（指 MCP 业务工具调用次数）。' };
+      }
+      out.total_calls = parseInt(total, 10);
+    }
+    if (note.trim()) {
+      if (note.length > 500) return { error: '备注不能超过 500 字符。' };
+      out.note = note;
+    }
+    return { payload: out };
+  }
   function generate() {
     var count = parseInt($('gen-count').value, 10);
     var plan = $('gen-plan').value;
     var kind = $('gen-kind').value;
     if (!(count >= 1 && count <= 100)) { msg('gen-msg', '数量需在 1–100 之间。', 'error'); return; }
     if (kind !== 'test' && kind !== 'formal') { msg('gen-msg', '请选择兑换码类别。', 'error'); return; }
+    var benefits = readBenefits(kind);
+    if (benefits.error) { msg('gen-msg', benefits.error, 'error'); return; }
     if (kind === 'formal' && !confirm('正式码生成后不能删除，将计入早鸟名额（兑换成功时计入）。\n\n确定生成 ' + count + ' 个正式码吗？')) {
       msg('gen-msg', '已取消，没有生成正式码。', 'ok'); return;
     }
+    var summary = [];
+    if (benefits.payload.expires_at) summary.push('固定截止 ' + benefits.payload.expires_at.replace('T', ' '));
+    if (benefits.payload.total_calls != null) summary.push('总次数 ' + benefits.payload.total_calls);
+    if (benefits.payload.note) summary.push('已写备注');
     var btn = $('gen-btn'); btn.disabled = true; msg('gen-msg', '生成中…', 'ok');
-    request('api/admin/generate?count=' + count + '&plan=' + encodeURIComponent(plan) + '&kind=' + kind, { method: 'POST' }).then(function (d) {
+    request('api/admin/generate', {
+      method: 'POST',
+      body: JSON.stringify({ count: count, plan: plan, kind: kind,
+                             expires_at: benefits.payload.expires_at,
+                             total_calls: benefits.payload.total_calls,
+                             note: benefits.payload.note })
+    }).then(function (d) {
       btn.disabled = false;
       var codes = Array.isArray(d.codes) ? d.codes : [];
-      msg('gen-msg', '成功生成 ' + codes.length + ' 个' + (kind === 'formal' ? '正式' : '测试') + '兑换码。新码已出现在下方列表中。', 'ok');
+      msg('gen-msg', '成功生成 ' + codes.length + ' 个' + (kind === 'formal' ? '正式' : '测试') + '兑换码'
+          + (summary.length ? '（' + summary.join('，') + '）' : '') + '。新码已出现在下方列表中。', 'ok');
       $('gen-kind').value = 'test';  // 每次生成后回到默认的测试码，防手滑
       loadStats(); loadCodes();
     }).catch(function (e) { btn.disabled = false; handleError(e, 'gen-msg'); });
+  }
+  function prefillFan5() {
+    // 只预填，不提交、不填日期、不批量：数量保持管理员自己的选择。
+    $('gen-kind').value = 'test';
+    $('gen-total').value = '5';
+    msg('gen-msg', '已预填「测试码 + 总调用 5 次」。固定截止与备注请按需填写，确认后手动点「生成兑换码」。', 'ok');
+    $('gen-expires').focus();
   }
   function renderGenerated(codes) {
     var box = $('gen-out'); var list = $('gen-list'); list.innerHTML = '';
@@ -352,8 +444,12 @@
     $('logout-btn').addEventListener('click', function () { logout(); });
     $('refresh-btn').addEventListener('click', refreshAll);
     $('gen-btn').addEventListener('click', generate);
+    $('gen-fan5').addEventListener('click', prefillFan5);
     $('codes-refresh').addEventListener('click', loadCodes);
     $('dist-refresh').addEventListener('click', loadDistribution);
+    $('note-filter').addEventListener('input', function () {
+      noteFilter = this.value.trim().toLowerCase(); renderCodes();
+    });
     $('gen-copy-all').addEventListener('click', function () {
       var all = this.getAttribute('data-codes') || ''; if (all) copy(all, '已复制全部兑换码');
     });

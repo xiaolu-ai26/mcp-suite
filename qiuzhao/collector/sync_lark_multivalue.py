@@ -12,7 +12,8 @@ from pathlib import Path
 import subprocess
 import time
 import tempfile
-import fcntl
+import shutil
+from qiuzhao.collector.portable_runtime import fcntl, WINDOWS
 from contextlib import contextmanager
 from collections import Counter
 from qiuzhao import v4_fields as V
@@ -46,6 +47,17 @@ def save(path, value):
         if os.path.exists(temporary):os.unlink(temporary)
 
 
+def business_source_hash(path):
+    from qiuzhao.normalize import business_value
+    fingerprints=[]
+    for row in V.iter_json_file(path):
+        if not row.get('id'):
+            continue  # Anonymous legacy records never get invented Feishu identities.
+        value=business_value(row)
+        fingerprints.append(hashlib.sha256(json.dumps(value,sort_keys=True,ensure_ascii=False).encode()).hexdigest())
+    return hashlib.sha256('\n'.join(sorted(set(fingerprints))).encode()).hexdigest()
+
+
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -75,8 +87,22 @@ def cli_file_context(args):
 def cli(*args):
     env = dict(os.environ, LARKSUITE_CLI_NO_UPDATE_NOTIFIER='1', LARKSUITE_CLI_NO_SKILLS_NOTIFIER='1')
     values,working=cli_file_context(args)
-    proc = subprocess.run(['lark-cli', 'base', *values, '--as', 'user'], capture_output=True,
-                          text=True, env=env, timeout=180,cwd=working)
+    temporary_bodies = []
+    try:
+        # Windows command-line length is finite; preserve JSON bytes via the CLI's existing @file protocol.
+        if WINDOWS:
+            for index, value in enumerate(values):
+                if index and values[index-1] == '--json' and isinstance(value,str) and not value.startswith('@') and len(value)>4096:
+                    directory=(Path(working) if working else Path.cwd())/'.lark-json-transport'
+                    directory.mkdir(parents=True,exist_ok=True)
+                    fd, name=tempfile.mkstemp(prefix='request-',suffix='.json',dir=directory)
+                    path=Path(name);temporary_bodies.append(path)
+                    with os.fdopen(fd,'w',encoding='utf-8') as target:target.write(value)
+                    values[index]='@'+os.path.relpath(path,Path(working) if working else Path.cwd())
+        proc = subprocess.run([shutil.which('lark-cli') or 'lark-cli', 'base', *values, '--as', 'user'], capture_output=True,
+                              text=True, encoding='utf-8', env=env, timeout=180,cwd=working)
+    finally:
+        for path in temporary_bodies:path.unlink(missing_ok=True)
     if proc.returncode:
         raise RuntimeError(proc.stderr[:2000])
     result = json.loads(proc.stdout)
@@ -157,7 +183,7 @@ def snapshot(out):
                 revision = m['rev']
             if revision != m['rev']:
                 raise ValueError('table changed during backup: ' + table)
-            all_rows.extend(json.loads(line) for line in path.read_text().splitlines() if line)
+            all_rows.extend(json.loads(line) for line in path.read_text(encoding='utf-8').splitlines() if line)
             if not m['has_more']:
                 break
             next_offset = m.get('next_offset')
@@ -186,7 +212,7 @@ def values_for(raw):
 
 
 def make_plan(out, jobs_path):
-    backup = json.loads((out / 'backup.json').read_text())
+    backup = json.loads((out / 'backup.json').read_text(encoding='utf-8'))
     if backup['base'] != BASE or not valid_table_selection(backup['tables']):
         raise ValueError('backup target mismatch')
     jobs = {}; ambiguous = set()
@@ -203,7 +229,7 @@ def make_plan(out, jobs_path):
         records_path = Path(meta['records']); schema_path = Path(meta['schema'])
         if digest(records_path) != meta['records_sha256'] or digest(schema_path) != meta['schema_sha256']:
             raise ValueError('backup integrity mismatch')
-        records = json.loads(records_path.read_text()); fields = json.loads(schema_path.read_text())
+        records = json.loads(records_path.read_text(encoding='utf-8')); fields = json.loads(schema_path.read_text(encoding='utf-8'))
         if any(f.get('remaining_options_count') for f in fields if f['name'] in TARGETS):
             raise ValueError('incomplete select metadata cannot be used for PUT')
         updates = {}; unmatched = []; options = {name: set() for name in TARGETS}
@@ -258,7 +284,7 @@ def read_target_values(table, ids, path):
     result = cli(*args)
     if result.get('record_not_found') or result.get('ignored_fields'):
         raise ValueError('record read omitted requested targets')
-    return {r['record_id']: r for r in (json.loads(line) for line in path.read_text().splitlines() if line)}
+    return {r['record_id']: r for r in (json.loads(line) for line in path.read_text(encoding='utf-8').splitlines() if line)}
 
 
 def writable_schema(field):
@@ -281,11 +307,11 @@ def wait_schema_ready(table, expected, timeout=45):
 
 
 def apply_plan(out):
-    plan_path = out / 'plan.json'; plan = json.loads(plan_path.read_text())
+    plan_path = out / 'plan.json'; plan = json.loads(plan_path.read_text(encoding='utf-8'))
     if plan['base'] != BASE or not valid_table_selection(plan['tables']):
         raise ValueError('plan target mismatch')
     state_path = out / 'apply-status.json'
-    state = json.loads(state_path.read_text()) if state_path.exists() else {'plan_sha256': digest(plan_path), 'done': []}
+    state = json.loads(state_path.read_text(encoding='utf-8')) if state_path.exists() else {'plan_sha256': digest(plan_path), 'done': []}
     if state['plan_sha256'] != digest(plan_path):
         raise ValueError('plan changed after partial apply')
     if not state['done']:
@@ -298,8 +324,8 @@ def apply_plan(out):
         meta = data['backup']
         if digest(Path(meta['records'])) != meta['records_sha256'] or digest(Path(meta['schema'])) != meta['schema_sha256']:
             raise ValueError('backup integrity mismatch')
-        old_records = {r['record_id']: r for r in json.loads(Path(meta['records']).read_text())}
-        old_fields = {f['id']: f for f in json.loads(Path(meta['schema']).read_text())}
+        old_records = {r['record_id']: r for r in json.loads(Path(meta['records']).read_text(encoding='utf-8'))}
+        old_fields = {f['id']: f for f in json.loads(Path(meta['schema']).read_text(encoding='utf-8'))}
         if any(f.get('remaining_options_count') for f in old_fields.values() if f['name'] in TARGETS):
             raise ValueError('incomplete backup schema cannot be applied')
         desired_for_resume = {c['field_id']: c['definition'] for c in data['schema_updates']
@@ -383,6 +409,8 @@ def main():
     p.add_argument('--plan', action='store_true')
     p.add_argument('--apply', action='store_true')
     p.add_argument('--explain', action='store_true', help='sync qualification text without overwriting human text')
+    p.add_argument('--deduplicate-exact', action='store_true', help='reconcile only full-cell identical known job IDs')
+    p.add_argument('--sync-business', action='store_true', help='sync changed product business columns')
     p.add_argument('--sync-status', action='store_true', help='sync evidence-backed lifecycle states')
     p.add_argument('--append-p1', action='store_true', help='append missing verified P1 IDs to existing industry tables')
     args = p.parse_args(); out = args.output_dir; out.mkdir(parents=True, exist_ok=True)
@@ -394,10 +422,14 @@ def main():
         make_plan(out, args.jobs)
     if args.apply:
         apply_plan(out)
-    if args.explain or args.append_p1 or args.sync_status:
+    if args.explain or args.append_p1 or args.sync_status or args.sync_business or args.deduplicate_exact:
         if not args.jobs:
             p.error('--explain/--append-p1 requires --jobs')
-        from qiuzhao.collector.lark_sync_enrichment import note_sync, append_p1, status_sync
+        from qiuzhao.collector.lark_sync_enrichment import note_sync, append_p1, status_sync, business_sync, deduplicate_exact
+        if args.deduplicate_exact:
+            deduplicate_exact(out,args.jobs)
+        if args.sync_business:
+            business_sync(out,args.jobs)
         if args.sync_status:
             status_sync(out,args.jobs)
         if args.explain:

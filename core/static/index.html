@@ -55,7 +55,7 @@
             <form id="redeem-form" autocomplete="off">
               <label for="code">兑换码</label>
               <input id="code" name="redemption_code" type="text" spellcheck="false" autocapitalize="characters" autocomplete="off" maxlength="80" placeholder="QZ-…" required aria-describedby="code-note">
-              <p id="code-note" class="field-note">每个兑换码只能使用一次。提交前请关闭录屏与屏幕共享。</p>
+              <p id="code-note" class="field-note">首次兑换开通权限；请保留兑换码，丢失key时可用它重新生成。提交前请关闭录屏与屏幕共享。</p>
               <button class="button primary full" id="redeem-button" type="submit">兑换并生成专属接入指令<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button>
             </form>
             <p id="redeem-message" class="message" role="status" aria-live="polite"></p>
@@ -70,13 +70,30 @@
                 <p class="message" id="existing-message" role="status"></p>
               </form>
             </details>
+            <details class="existing-key" id="recover-panel">
+              <summary>key 丢失或泄露？凭原兑换码重新生成</summary>
+              <form id="recover-form" autocomplete="off">
+                <label for="recover-code">原兑换码</label>
+                <input id="recover-code" type="password" autocomplete="off" maxlength="80" spellcheck="false" required placeholder="QZ-…">
+                <button class="button secondary full" type="submit" id="recover-check">先校验原有权限</button>
+              </form>
+              <div id="recover-confirm" hidden>
+                <p id="recover-entitlement" class="field-note"></p>
+                <label class="consent"><input id="recover-consent" type="checkbox"><span>我确认重新生成新key，并知道所有客户端中的旧key将立即失效；有效期、套餐与已用次数保持不变。</span></label>
+                <button class="button secondary full" id="recover-rotate" type="button" disabled>确认作废旧key并生成新key</button>
+              </div>
+              <p class="field-note" id="recovery-policy">恢复请求默认每个网络来源10分钟最多10次；同一账号每小时最多重新生成3次。响应未确认时，请留在本页重试。</p>
+              <p class="message" id="recover-message" role="status" aria-live="polite"></p>
+            </details>
             <div class="card-footnote"><svg class="ico ico-sm lock-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>只在本页内存中处理凭证，不写入本网站的浏览器持久存储。</span></div>
           </div>
 
           <div id="success-panel" hidden>
             <div class="success-heading"><span class="success-icon" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></span><div><h2 id="success-title" tabindex="-1">兑换成功</h2><p class="muted">下一步，选择你使用的 AI。</p></div></div>
-            <div class="entitlement-grid" aria-label="当前权益"><div><small>有效至（北京时间）</small><strong id="valid-through" class="mono">—</strong></div><div><small>调用额度</small><strong id="quota-text">订阅期内无限次</strong></div></div>
-            <p class="save-warning">请先妥善保存 key。关闭或刷新页面后，本页不会再显示它；需要原购买渠道处理丢失问题。</p>
+            <div class="entitlement-grid" aria-label="当前权益"><div><small id="valid-through-label">有效至（北京时间）</small><strong id="valid-through" class="mono">—</strong></div><div><small>调用额度</small><strong id="quota-text">订阅期内无限次</strong></div></div>
+            <p class="field-note" id="quota-note" hidden></p>
+            <p class="field-note">同一账号在多个客户端/Agent 间共享：每滚动 60 秒最多 30 次业务请求、同时最多 3 个；握手、列工具与额度查询不计入。</p>
+            <p class="save-warning">请先妥善保存 key。关闭或刷新页面后，本页不会再显示它；丢失或泄露后，可凭原兑换码重新生成；所有客户端须更新为新key。</p>
             <fieldset class="client-fieldset"><legend>选择你的 AI 客户端</legend>
               <div class="client-grid" id="client-options"></div>
               <details class="more-clients"><summary>Hermes、OpenClaw 及其他方式</summary><div class="client-grid" id="extra-client-options"></div></details>
@@ -156,7 +173,7 @@
               <p class="price-desc" id="price-status" role="status">正在读取当前价格和剩余名额…</p>
               <p class="price-desc">订阅生效后 30 天内有效，到期后可续费继续使用。</p>
             </div>
-            <p class="fine-print">订阅期内无限次调用，多客户端共用额度。AI 客户端本身的账号、会员或模型费用另计。并非全网全量收录，不承诺录取或代投。</p>
+            <p class="fine-print">订阅期内不限累计调用次数；<span data-access-policy>同一账号当前默认每滚动60秒30次业务请求、同时最多3个</span>，多客户端合计，不限制已配置的Agent数量。AI 客户端本身的账号、会员或模型费用另计。并非全网全量收录，不承诺录取或代投。</p>
           </div>
           <div class="card tier-card">
             <p class="eyebrow-plain">早鸟阶梯</p>
@@ -213,6 +230,37 @@
           <div><p class="sec-index">§ 04 · 更新日志</p><h2 id="changelog-title">持续扩源，记录每一次更新。</h2></div>
         </div>
         <div class="changelog-list">
+          <article class="changelog-item"><time class="changelog-date mono" datetime="2026-09-14T22:38+08:00">2026-09-14 22:38</time><div class="changelog-content"><h3>恢复采集结果上线，新增485条岗位</h3><ul><li>本批新增485条岗位，更新352条既有岗位正文；重复核验与其他元数据变化不计为新增。</li><li>本次发布后共收录91,393条可检索岗位记录；默认搜索排除已截止或已下线岗位。</li><li>固定50家重点公司均有默认可查询岗位，其中46家同时有校招、实习和社招记录；招聘类型覆盖与字段完整度仍在补充。</li><li>本批保留不完整采集的原有记录，不将缺失响应当作下架。</li></ul></div></article>
+          <article class="changelog-item">
+            <time class="changelog-date mono" datetime="2026-09-14T16:26+08:00">2026-09-14 16:26</time>
+            <div class="changelog-content"><h3>拼多多社招正文覆盖788岗，本批新增567岗</h3><ul><li>新增567条岗位：拼多多558条，小红书、蚂蚁集团、华为各3条。</li><li>拼多多社会招聘788个官方岗位均已收录正文，包含此前已上线的230条。</li><li>本批既有岗位正文修复0条；来源核验信息和城市名称格式刷新未计入正文修复。</li><li>本次发布后共收录90,908条可检索记录；默认搜索排除已截止岗位，其余范围继续更新。</li></ul></div>
+          </article>
+          <article class="changelog-item">
+            <time class="changelog-date mono" datetime="2026-09-14T15:36+08:00">2026-09-14 15:36</time>
+            <div class="changelog-content"><h3>测试兑换码可选固定截止与总调用次数</h3><ul><li>测试兑换码可由管理员设置固定截止时间（北京时间，绝对截止）与总调用次数；均不设置时沿用原规则（兑换后30天、不限总次数）。</li><li>总次数指 MCP 业务工具调用次数：搜索、统计、详情各调用一次计 1，一轮聊天可能触发多次；握手、列工具与额度查询不计。</li><li>兑换页与恢复页会显示该权益的剩余总次数与到期方式；正式付费方案的权益、价格与名额规则不变。</li></ul></div>
+          </article>
+          <article class="changelog-item">
+            <time class="changelog-date mono" datetime="2026-09-14T14:19+08:00">2026-09-14 14:19</time>
+            <div class="changelog-content">
+              <h3>账号请求限速与凭兑换码恢复key</h3>
+              <ul><li>同一账号跨客户端合计每滚动60秒最多30次业务请求、同时最多3个；不限制已配置Agent数量，原套餐与累计调用规则不变。</li><li>可凭原兑换码校验权限并重新生成key；旧key失效，到期日和已用次数保持不变。停用或到期的权限不能通过恢复重新激活。</li></ul>
+            </div>
+          </article>
+          <article class="changelog-item">
+            <time class="changelog-date mono" datetime="2026-09-13T19:38+08:00">2026-09-13 19:38</time>
+            <div class="changelog-content">
+              <h3>中文工具标题与数据更新时间修复</h3>
+              <ul><li>提供搜索招聘岗位、查看岗位详情、查看岗位数量与分布三个中文工具标题；具体显示方式由客户端决定。</li><li>数据截至时间按来源复核时间的实际先后计算，正确处理不同时区，并统一展示北京时间。</li></ul>
+            </div>
+          </article>
+          <article class="changelog-item">
+            <time class="changelog-date mono" datetime="2026-09-13T18:13+08:00">2026-09-13 18:13</time>
+            <div class="changelog-content">
+              <h3>新增 3,127 条岗位，补充重点公司岗位详情</h3>
+              <ul><li>新增 3,127 条岗位，修复 18 条岗位详情；已收录90,271条可检索岗位记录；默认搜索排除已截止岗位。</li><li>新增岗位来自快手 2,366 条、比亚迪 525 条、拼多多 214 条、理想汽车 16 条、TP 3 条、美团 2 条、华为 1 条。</li><li>本批补充拼多多 230 份岗位正文（含 214 条新增、16 条已有索引补正文），另修复联想 2 条岗位详情；拼多多其余岗位详情仍在补充。</li><li>50 家重点公司均已有岗位数据；各公司的招聘类型覆盖与字段完整度仍在补充。</li></ul>
+              <div class="changelog-stats"><span class="chip chip-green mono">新增 3,127</span><span class="chip chip-green mono">详情修复 18</span><span class="chip chip-green mono">已收录岗位 90,271</span></div>
+            </div>
+          </article>
           <article class="changelog-item">
             <time class="changelog-date mono" datetime="2026-09-11T20:00+08:00">2026-09-11 20:00</time>
             <div class="changelog-content">
@@ -304,8 +352,8 @@
       <div class="faq-list">
         <details><summary>购买之后，兑换码从哪里拿？</summary><p>回到原购买平台的订单交付内容或卖家发送的消息中查收。收到的是兑换码，不是 API key。卖家是否自动发货以该渠道实际设置为准，本页不会根据付款截图开通权限。</p></details>
         <details><summary>复制提示词就一定能接通吗？</summary><p>指令会带上所选客户端需要的地址和凭证，但客户端必须支持远程 MCP 和请求头鉴权，并有相应配置权限。普通聊天页面不一定能安装连接器。保存配置也不等于已接通，需要真实工具调用验证。</p></details>
-        <details><summary>调用次数有限制吗？</summary><p>订阅期内无限次调用，同一 key 可在多个客户端共用。AI 客户端本身的账号、会员或模型费用另计。</p></details>
-        <details><summary>刷新页面之后，key 丢了怎么办？</summary><p>兑换时只生成并返回一次明文 key，系统不提供原 key 明文找回。已经保存过的，可以在本页重新校验并生成指令；完全丢失请凭订单联系原卖家处理，不要重复购买或公开自己的 key。</p></details>
+        <details><summary>调用次数有限制吗？</summary><p>订阅期内不限累计调用次数；同一账号当前默认每滚动60秒最多30次业务请求、同时最多3个。可配置多个Agent，实际业务请求按账号合计；收到429时按Retry-After等待再试。AI 客户端本身的账号、会员或模型费用另计。测试/福利兑换码可能有单独的固定截止时间和总调用次数，以兑换成功页展示的本码权益为准。</p></details>
+        <details><summary>刷新页面之后，key 丢了怎么办？</summary><p>先检查你保存的密码管理器或私有配置。保留原兑换码时，可在本页“key 丢失或泄露”入口校验权限并重新生成；所有客户端的旧key立即失效，原套餐、到期日和已用次数不变。兑换码也丢失时，请凭订单联系原购买渠道。</p></details>
         <details><summary>是不是包含所有企业、所有岗位？</summary><p>不是。来源正在持续扩展，岗位库只返回实际收录的数据。未收录不代表企业没有招聘；“世界500强目标清单”不等于已经覆盖500家在招岗位。具体条件、状态及可投情况以原公告为准。</p></details>
         <details><summary>手机能不能用？</summary><p>手机可以打开兑换页，但各 Agent 的连接器入口和权限不同。建议在准备使用的电脑上兑换并完成接入；不把电脑版教程直接当作手机版支持证明。</p></details>
       </div>

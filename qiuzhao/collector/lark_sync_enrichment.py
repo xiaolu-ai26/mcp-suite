@@ -60,7 +60,7 @@ def qualification_note(raw):
 
 
 def verified_backup(out):
-    backup=json.loads((out/'backup.json').read_text())
+    backup=json.loads((out/'backup.json').read_text(encoding='utf-8'))
     if backup.get('base')!=S.BASE or not S.valid_table_selection(backup.get('tables',{})):
         raise ValueError('backup target mismatch')
     for meta in backup['tables'].values():
@@ -78,7 +78,7 @@ def read_id_matches(table, ids, path):
         '--field-id','job_id','--format','ndjson','--output',S.rel(path),'--overwrite','--limit','2000')
     if result.get('has_more'):
         raise ValueError('exact-ID reconciliation exceeded bounded result set')
-    return {r['job_id']:r['record_id'] for r in (json.loads(x) for x in path.read_text().splitlines()) if r.get('job_id')}
+    return {r['job_id']:r['record_id'] for r in (json.loads(x) for x in path.read_text(encoding='utf-8').splitlines()) if r.get('job_id')}
 
 
 def ensure_note_fields(out,tables=None):
@@ -98,7 +98,7 @@ def ensure_note_fields(out,tables=None):
 
 
 def note_sync(out, jobs_path):
-    ownership=json.loads(NOTE_STATE.read_text()) if NOTE_STATE.exists() else {}
+    ownership=json.loads(NOTE_STATE.read_text(encoding='utf-8')) if NOTE_STATE.exists() else {}
     backup=verified_backup(out)
     notes={};ambiguous=set()
     for raw in V.iter_json_file(jobs_path):
@@ -109,13 +109,13 @@ def note_sync(out, jobs_path):
         notes[identity]=value
     ensure_note_fields(out,backup['tables'])
     for table in backup['tables']:
-        records=json.loads(Path(backup['tables'][table]['records']).read_text())
+        records=json.loads(Path(backup['tables'][table]['records']).read_text(encoding='utf-8'))
         pairs=[(r['record_id'],r['job_id']) for r in records if r.get('job_id') in notes and r['job_id'] not in ambiguous]
         for start in range(0,len(pairs),200):
             batch=pairs[start:start+200];before=out/f'{table}.note-before-{start}.ndjson'
             S.cli('+record-get','--base-token',S.BASE,'--table-id',table,'--json',json.dumps({'record_id_list':[r for r,_ in batch]}),
                 '--field-id',NOTE_FIELD,'--format','ndjson','--output',S.rel(before),'--overwrite')
-            prior={r['record_id']:r.get(NOTE_FIELD) for r in (json.loads(x) for x in before.read_text().splitlines())}
+            prior={r['record_id']:r.get(NOTE_FIELD) for r in (json.loads(x) for x in before.read_text(encoding='utf-8').splitlines())}
             updates={}
             for rid,jid in batch:
                 previous=prior.get(rid) or '';key=table+'/'+rid
@@ -163,7 +163,7 @@ def append_p1(out,jobs_path):
         raise ValueError('append requires complete backup including approved continuation table')
     ensure_note_fields(out)
     for meta in backup['tables'].values():
-        known.update(r.get('job_id') for r in json.loads(Path(meta['records']).read_text()) if r.get('job_id'))
+        known.update(r.get('job_id') for r in json.loads(Path(meta['records']).read_text(encoding='utf-8')) if r.get('job_id'))
     candidates={};ambiguous=set()
     for raw in V.iter_json_file(jobs_path):
         if raw.get('p1_company') not in COMPANIES or raw.get('status')=='removed' or raw.get('id') in known:continue
@@ -175,7 +175,7 @@ def append_p1(out,jobs_path):
         candidates[identity]=(table,fields)
     candidates={k:v for k,v in candidates.items() if k not in ambiguous}
     S.save(out/'append-plan.json',{'source_sha256':S.digest(jobs_path),'candidates':candidates,'ambiguous':sorted(ambiguous)})
-    state_path=out/'append-status.json';state=json.loads(state_path.read_text()) if state_path.exists() else {'created':{},'pending':None}
+    state_path=out/'append-status.json';state=json.loads(state_path.read_text(encoding='utf-8')) if state_path.exists() else {'created':{},'pending':None}
     if state.get('pending'):
         ids=state['pending']['job_ids'];recovered={}
         for table in S.TABLES:
@@ -236,12 +236,17 @@ def append_p1(out,jobs_path):
 
 
 def source_lifecycle_state(row):
+    if row.get('status') == 'removed' and row.get('removal_reason') in {
+            'Absent from complete current company/scope official listing',
+            'Absent from complete current enterprise campaign listing',
+            'Absent from complete current public listing'}:
+        return 'expired'
     flag=row.get('source_is_active');proof=row.get('source_status_evidence')
     if type(flag) is not bool or not isinstance(proof,dict) or not proof:return None
     states={proof.get('list_status'),proof.get('detail_status')} - {None,''}
     if row.get('source_status_raw') not in states:return None
     if states & {'pause','closed'}:
-        return 'expired' if flag is False and row.get('status')=='expired' else None
+        return 'expired' if flag is False and row.get('status') in {'expired','removed'} else None
     if states=={'open'} and flag is True and row.get('status') in {'open','unverified'}:
         return row['status']
     return None
@@ -251,13 +256,12 @@ def status_sync(out,jobs_path):
     """Refresh machine lifecycle states only when explicit source evidence exists."""
     backup=verified_backup(out);desired={};conflicts=set();skipped=[];changed=0
     for row in V.iter_json_file(jobs_path):
-        if not row.get('p1_company'):continue
         identity=row.get('id');status=source_lifecycle_state(row)
         if not identity or status not in {'open','expired','unverified'}:continue
         if identity in desired and desired[identity]!=status:conflicts.add(identity)
         desired[identity]=status
     for table,meta in backup['tables'].items():
-        records=json.loads(Path(meta['records']).read_text())
+        records=json.loads(Path(meta['records']).read_text(encoding='utf-8'))
         pairs=[(r['record_id'],r['job_id']) for r in records if r.get('job_id') in desired and r['job_id'] not in conflicts]
         if not pairs:continue
         fields=S.full_fields(table);definition=next((f for f in fields if f['name']=='状态'),None)
@@ -269,7 +273,7 @@ def status_sync(out,jobs_path):
             batch=pairs[start:start+200];before=out/f'{table}.status-before-{start}.ndjson'
             S.cli('+record-get','--base-token',S.BASE,'--table-id',table,'--json',json.dumps({'record_id_list':[rid for rid,_ in batch]}),
                   '--field-id','状态','--field-id','job_id','--format','ndjson','--output',S.rel(before),'--overwrite')
-            saved=[json.loads(line) for line in before.read_text().splitlines()]
+            saved=[json.loads(line) for line in before.read_text(encoding='utf-8').splitlines()]
             prior={r['record_id']:r.get('状态') or [] for r in saved}
             saved_ids={r['record_id']:r.get('job_id') for r in saved}
             if any(saved_ids.get(rid)!=jid for rid,jid in batch):raise ValueError('record identity changed after snapshot')
@@ -285,7 +289,7 @@ def status_sync(out,jobs_path):
                 check=out/f'{table}.status-cas-{start}.ndjson'
                 S.cli('+record-get','--base-token',S.BASE,'--table-id',table,'--json',json.dumps({'record_id_list':list(updates)}),
                       '--field-id','状态','--field-id','job_id','--format','ndjson','--output',S.rel(check),'--overwrite')
-                current=[json.loads(line) for line in check.read_text().splitlines()]
+                current=[json.loads(line) for line in check.read_text(encoding='utf-8').splitlines()]
                 live={r['record_id']:r.get('状态') or [] for r in current}
                 live_ids={r['record_id']:r.get('job_id') for r in current}
                 if any(live.get(rid)!=prior[rid] or live_ids.get(rid)!=saved_ids[rid] for rid in updates):raise ValueError('status changed after backup')
@@ -295,3 +299,110 @@ def status_sync(out,jobs_path):
                 S.save(out/f'{table}.status-response-{start}.json',response);changed+=len(updates)
     S.save(out/'source-status-sync.json',{'changed':changed,'human_values_preserved':skipped,'conflicting_ids':sorted(conflicts),'finished':True})
     print(json.dumps({'source_status_updated':changed,'human_values_preserved':len(skipped)}),flush=True)
+
+
+def business_fields(raw):
+    """Only existing product-owned business columns; review time is never a trigger."""
+    v, _ = V.convert(raw)
+    return {'岗位名称':v['job_title'],
+            '公司名称':raw.get('p1_company') or raw.get('canonical_company') or raw.get('recruitment_unit') or '',
+            '招聘单位':raw.get('recruiting_unit_raw') or raw.get('recruitment_unit') or '',
+            '原链接':raw.get('source_url') or raw.get('detail_url') or '',
+            '投递入口':raw.get('application_url') or raw.get('detail_url') or '',
+            '来源':raw.get('source_name') or '', '投递截止':str(raw.get('deadline') or ''),
+            '岗位大类':[v['job_category']],
+            '招聘性质':[{'校园招聘':'校招','实习招聘':'实习','社会招聘':'社招'}.get(raw.get('recruitment_type'), '未注明')],
+            '岗位描述':str(raw.get('description_raw') or '')}
+
+
+def business_delta(old, desired):
+    return {name:value for name,value in desired.items()
+            if (set(old.get(name) or []) != set(value) if isinstance(value,list)
+                else str(old.get(name) or '') != value)}
+
+
+def business_sync(out, jobs_path):
+    """Update changed business fields after backup and identity/value CAS reads."""
+    backup=verified_backup(out);desired={};ambiguous=set();changed=0
+    for raw in V.iter_json_file(jobs_path):
+        identity=raw.get('id')
+        if not identity or raw.get('status') == 'removed':continue
+        value=business_fields(raw)
+        if identity in desired and desired[identity] != value:ambiguous.add(identity)
+        desired[identity]=value
+    for table,meta in backup['tables'].items():
+        definitions={f['name']:f for f in S.full_fields(table)}
+        names=[n for n in next(iter(desired.values()),{}) if n in definitions
+               and definitions[n]['type'] in {'text','select','url'}]
+        records=json.loads(Path(meta['records']).read_text(encoding='utf-8'))
+        pairs=[(r['record_id'],r['job_id']) for r in records if r.get('job_id') in desired and r['job_id'] not in ambiguous]
+        def read(batch, path):
+            args=['+record-get','--base-token',S.BASE,'--table-id',table,'--json',json.dumps({'record_id_list':[rid for rid,_ in batch]}),
+                  '--format','ndjson','--output',S.rel(path),'--overwrite','--field-id','job_id']
+            for name in names:args.extend(['--field-id',name])
+            response=S.cli(*args)
+            if response.get('record_not_found') or response.get('ignored_fields'):raise ValueError('business read incomplete')
+            rows={r['record_id']:r for r in (json.loads(x) for x in path.read_text(encoding='utf-8').splitlines())}
+            if set(rows)!={rid for rid,_ in batch} or any(rows[rid].get('job_id')!=jid for rid,jid in batch):
+                raise ValueError('business record identity drift')
+            return rows
+        for start in range(0,len(pairs),200):
+            batch=pairs[start:start+200];prior=read(batch,out/f'{table}.business-before-{start}.ndjson');updates={}
+            for rid,jid in batch:
+                wanted={n:desired[jid][n] for n in names}
+                # Never invent a select option or silently reset a human vocabulary.
+                for n in list(wanted):
+                    if definitions[n]['type']=='select' and not set(wanted[n]) <= {o['name'] for o in definitions[n].get('options',[])}:
+                        del wanted[n]
+                delta=business_delta(prior[rid],wanted)
+                if delta:updates[rid]=delta
+            if not updates:continue
+            check=read([(rid,jid) for rid,jid in batch if rid in updates],out/f'{table}.business-cas-{start}.ndjson')
+            if any(check[rid]!=prior[rid] for rid in updates):raise ValueError('business values changed after backup')
+            body=out/f'{table}.business-batch-{start}.json';S.save(body,{'update_records':updates})
+            response=S.cli('+record-batch-update','--base-token',S.BASE,'--table-id',table,'--json','@'+S.rel(body))
+            if response.get('data',{}).get('ignored_fields'):raise ValueError('business field ignored')
+            S.save(out/f'{table}.business-response-{start}.json',response);changed+=len(updates)
+    S.save(out/'business-sync.json',{'changed':changed,'conflicting_ids':sorted(ambiguous),'finished':True})
+
+
+def deduplicate_exact(out, jobs_path):
+    """Only collapse identical cells for the same known job ID; retain conflicts."""
+    backup=verified_backup(out);known={str(r['id']) for r in V.iter_json_file(jobs_path) if r.get('id')}
+    groups={}
+    for table,meta in backup['tables'].items():
+        for r in json.loads(Path(meta['records']).read_text(encoding='utf-8')):
+            if r.get('job_id') in known:groups.setdefault(r['job_id'],[]).append((table,r['record_id']))
+    duplicates={k:v for k,v in groups.items() if len(v)>1};deleted=[];conflicts=[]
+    for number,(jid,pairs) in enumerate(sorted(duplicates.items())):
+        saved=[]
+        for pos,(table,rid) in enumerate(pairs):
+            definitions=S.full_fields(table)
+            if any(f['type'] not in {'text','select'} for f in definitions):
+                saved=[];break  # Attachments, links or computed fields need separate review.
+            names=sorted(f['name'] for f in definitions)
+            path=out/f'duplicate-{number}-{pos}.before.ndjson'
+            args=['+record-get','--base-token',S.BASE,'--table-id',table,'--record-id',rid,
+                  '--format','ndjson','--output',S.rel(path),'--overwrite']
+            for name in names:args.extend(['--field-id',name])
+            response=S.cli(*args)
+            if response.get('ignored_fields') or response.get('record_not_found') or response.get('data',{}).get('ignored_fields'):
+                raise ValueError('duplicate read incomplete; no deletion')
+            values=[json.loads(x) for x in path.read_text(encoding='utf-8').splitlines()]
+            if len(values)!=1 or values[0].get('job_id')!=jid:raise ValueError('duplicate identity drift')
+            cells={n:values[0].get(n) for n in names}
+            saved.append((table,rid,cells,args))
+        if not saved or any(v[2]!=saved[0][2] for v in saved[1:]):
+            conflicts.append({'job_id':jid,'records':pairs,'reason':'different cells/schema or protected field types'});continue
+        # Recheck every member before deleting; all full cell backups remain on disk.
+        for table,rid,cells,args in saved:
+            check=list(args);path=out/f'duplicate-{number}-{rid}.cas.ndjson';check[check.index('--output')+1]=S.rel(path)
+            response=S.cli(*check)
+            if response.get('ignored_fields') or response.get('record_not_found') or response.get('data',{}).get('ignored_fields'):
+                raise ValueError('duplicate CAS read incomplete; no deletion')
+            values=[json.loads(x) for x in path.read_text(encoding='utf-8').splitlines()]
+            if len(values)!=1 or {n:values[0].get(n) for n in cells}!=cells:raise ValueError('duplicate changed after backup')
+        for table,rid,_,_ in saved[1:]:
+            response=S.cli('+record-delete','--base-token',S.BASE,'--table-id',table,'--record-id',rid,'--yes')
+            S.save(out/f'duplicate-{number}-{rid}.delete.json',response);deleted.append({'job_id':jid,'table':table,'record_id':rid})
+    S.save(out/'duplicate-reconciliation.json',{'duplicate_id_groups':len(duplicates),'deleted':deleted,'conflicts_retained':conflicts,'finished':True})

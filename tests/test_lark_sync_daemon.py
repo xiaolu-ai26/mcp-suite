@@ -1,3 +1,10 @@
+import pytest
+
+@pytest.fixture(autouse=True)
+def isolate_daemon_lock(tmp_path, monkeypatch):
+    monkeypatch.setenv('QIUZHAO_LARK_SYNC_LOCK_PATH', str(tmp_path/'isolated-sync.lock'))
+    monkeypatch.delenv('QIUZHAO_LARK_SYNC_LOCK_FD', raising=False)
+
 from pathlib import Path
 from qiuzhao.collector import lark_sync_daemon as D
 
@@ -8,7 +15,7 @@ def local_run(path,monkeypatch):
 
 
 def test_unchanged_source_does_not_read_or_write_base(tmp_path,monkeypatch):
-    D.S.save(tmp_path/'status.json',{'status':'success','last_source_sha256':'a'*64,'last_success_at':'before'})
+    D.S.save(tmp_path/'status.json',{'status':'success','last_source_sha256':'a'*64,'last_success_at':'before','sync_rule_version':D.SYNC_RULE_VERSION})
     monkeypatch.setattr(D,'source_hash',lambda:'a'*64)
     monkeypatch.setattr(D,'capture_source',lambda out: (_ for _ in ()).throw(AssertionError('unexpected snapshot')))
     result=local_run(tmp_path,monkeypatch)
@@ -60,7 +67,7 @@ def test_capacity_pending_runs_conditions_but_never_commits_source_hash(tmp_path
         def wait(self,timeout):return 0
     monkeypatch.setattr(D.subprocess,'Popen',Child)
     result=local_run(tmp_path,monkeypatch)
-    assert phases[-1]=='--explain'
+    assert '--explain' in phases and phases[-1]=='--deduplicate-exact'
     assert result['status']=='partial' and 'last_source_sha256' not in result
     assert Path(result['run_dir'],'source.jobs.json').exists()
 
@@ -75,3 +82,36 @@ def test_unmounted_external_disk_refuses_local_fallback(tmp_path,monkeypatch):
     assert not (mount/'runs').exists()
     import json
     assert json.loads((tmp_path/'status.json').read_text())['status']=='failed'
+
+
+def test_old_rule_version_cannot_skip_first_new_rule_pass(tmp_path,monkeypatch):
+    import pytest
+    D.S.save(tmp_path/'status.json',{'last_source_sha256':'a'*64,'last_success_at':'before'})
+    monkeypatch.setattr(D,'source_hash',lambda:'a'*64)
+    monkeypatch.setattr(D,'capture_source',lambda out: (_ for _ in ()).throw(RuntimeError('first new-rule capture reached')))
+    with pytest.raises(RuntimeError,match='first new-rule capture reached'):
+        local_run(tmp_path,monkeypatch)
+
+
+def test_run_local_clears_stale_error_and_finished_at_but_keeps_success_index(tmp_path,monkeypatch):
+    import json
+    source=tmp_path/'jobs.json';source.write_text('[]')
+    state_dir=tmp_path/'state';runs_dir=tmp_path/'runs'
+    # Old run residue: WinError 206 + old finished_at must not describe this attempt.
+    D.S.save(state_dir/'status.json',{'status':'failed','error':'[WinError 206] 文件名或扩展名太长。',
+        'finished_at':'2026-09-14T08:53:28+00:00','last_success_at':'keep-me',
+        'last_source_sha256':'b'*64,'last_business_sha256':'c'*64})
+    def fake_cli(*args):
+        if args and args[0]=='+table-list':
+            return {'data':{'tables':[{'id':table} for table in D.S.TABLES]}}
+        raise AssertionError('unexpected Base call: '+str(args[:1]))
+    monkeypatch.setattr(D.S,'cli',fake_cli)
+    monkeypatch.setattr('os.getcwd',lambda: str(tmp_path))  # run_local keeps evidence under cwd
+    monkeypatch.setattr(D.S,'snapshot',lambda out: None)   # planned run: snapshot body out of scope
+    monkeypatch.setattr(D.S,'make_plan',lambda out, jobs: None)
+    state=D.run_local(source,state_dir,runs_dir,apply=False)
+    assert state['status']=='planned'
+    assert state['error'] is None and state['finished_at'] is not None
+    assert state['last_success_at']=='keep-me'
+    saved=json.loads((state_dir/'status.json').read_text())
+    assert saved['error'] is None and saved['last_success_at']=='keep-me'

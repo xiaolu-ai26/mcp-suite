@@ -8,7 +8,7 @@ from __future__ import annotations
 import argparse
 import copy
 import datetime as dt
-import fcntl
+from .portable_runtime import fcntl, stop_tree
 import hashlib
 import gzip
 import importlib
@@ -214,28 +214,38 @@ def collect_process(company, scope, output_dir, timeout=3600):
     with open(output_dir / 'adapter.log', 'w', encoding='utf-8') as log:
         process = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT,
                                    start_new_session=True, cwd=Path(__file__).resolve().parents[2])
+        cleanup = None
         try:
             rc = process.wait(timeout=timeout)
         except subprocess.TimeoutExpired:
-            os.killpg(process.pid, signal.SIGKILL)
-            process.wait()
+            try:
+                cleanup = stop_tree(process, strict=False)
+            except Exception as error:
+                # An adapter writes its own scope directory, never the shared jobs file.
+                # Retain the timeout as a failure but do not abort every later scope.
+                cleanup = {'pid': process.pid, 'cleanup_error': type(error).__name__+': '+str(error)[-1500:],
+                           'process_terminated': process.poll() is not None}
+            atomic_json(output_dir / 'timeout-cleanup.json', cleanup)
             rc = 'timeout'
     if rc:
-        if result_path.exists():
+        if result_path.exists() and not (cleanup and not cleanup.get('tree_termination_confirmed')):
             try:
-                checkpoint = json.loads(result_path.read_text())
+                checkpoint = json.loads(result_path.read_text(encoding='utf-8'))
                 if checkpoint.get('jobs') or checkpoint.get('pending_index'):
                     coverage = checkpoint['coverage']
                     coverage.update(status='partial', complete=False, detail_complete=False)
                     coverage.setdefault('errors', []).append(f'adapter interrupted: {rc}; scope timeout={timeout}s')
+                    if cleanup is not None:coverage['timeout_cleanup'] = cleanup
                     return validate_result(checkpoint, company, scope, output_dir)
             except (ValueError, TypeError, KeyError):
                 pass
-        return blocked(f'adapter exit={rc}; inspect {output_dir / "adapter.log"}')
+        failed=blocked(f'adapter exit={rc}; inspect {output_dir / "adapter.log"}')
+        if cleanup is not None:failed['coverage']['timeout_cleanup']=cleanup
+        return failed
     if not result_path.exists():
         return blocked(f'adapter result missing; inspect {output_dir / "adapter.log"}')
     try:
-        return validate_result(json.loads(result_path.read_text()), company, scope, output_dir)
+        return validate_result(json.loads(result_path.read_text(encoding='utf-8')), company, scope, output_dir)
     except (ValueError, TypeError, KeyError) as error:
         return blocked(f'adapter contract rejected: {error}')
 
@@ -259,12 +269,15 @@ def merge_records(previous, results):
         if coverage['status'] == 'blocked' and not pending:
             continue
         rows=[*rows,*pending]
-        by_id = {str(row.get('p1_identity') or row.get('id')): index for index, row in enumerate(merged)}
+        by_id = {str(row.get('p1_identity') or row.get('id')): index for index, row in enumerate(merged) if row.get('id')}
+        twin_indices = {}
+        for index, row in enumerate(merged):
+            if row.get('id'):twin_indices.setdefault(row['id'], []).append(index)
         # Exact detail URL + recruitment type can safely adopt a legacy record.
         by_url = {}
         for index, row in enumerate(merged):
             url = row.get('detail_url') or row.get('source_url')
-            if url:
+            if url and row.get('id'):
                 by_url.setdefault((url, row.get('recruitment_type')), []).append(index)
         by_source_uuid = {}
         for index, row in enumerate(merged):
@@ -314,20 +327,31 @@ def merge_records(previous, results):
                                       'source_detail_status_raw','source_status_evidence','source_status_dates','source_status_conflict'):
                             if field in incoming:retained[field]=incoming[field]
                     incoming=retained
-                merged[index] = incoming
+                # Preserve existing identical-ID multiplicity without leaving stale twin rows.
+                for twin in twin_indices.get(old['id'], [index]):
+                    prior = merged[twin]
+                    if prior == old:
+                        merged[twin] = copy.deepcopy(incoming)
                 adopted_indices.add(index)
                 by_id[canonical] = index
-                changes['updated'] += 1
+                from qiuzhao.normalize import business_value
+                changes['updated'] += int(business_value(old) != business_value(incoming))
             seen.add(canonical)
-        if coverage.get('complete') is True:
+        if coverage.get('complete') is True and coverage.get('status') == 'success' and result['jobs']:
+            reviewed = coverage.get('checked_at') or now()
             for index, row in enumerate(merged):
                 if row.get('p1_company') == company and row.get('p1_scope') == scope and (row.get('p1_identity') or row.get('id')) not in seen:
                     if row.get('status') != 'removed':
                         changes['removed'] += 1
                     row = dict(row)
                     merged[index] = row
-                    row.update(status='removed', reviewed_at=now(),
-                               removal_reason='Absent from complete current company/scope official listing')
+                    row.update(status='removed', reviewed_at=reviewed,
+                               removal_reason='Absent from complete current company/scope official listing',
+                               source_is_active=False, source_status_raw='closed',
+                               source_status_evidence={'list_status':'closed', 'reason':'complete_snapshot_absence',
+                                   'company':company, 'scope':scope, 'complete':True,
+                                   'source_url':coverage.get('source_url'),
+                                   'checked_at':reviewed})
     return merged, changes
 
 
@@ -357,7 +381,7 @@ def publish(data_dir, results, run_dir):
                 raise RuntimeError('pre-write backup hash mismatch')
             atomic_json(manifest, {'uncompressed_sha256': backup_hash, 'created_at': now()})
         else:
-            backup_hash = json.loads(manifest.read_text())['uncompressed_sha256']
+            backup_hash = json.loads(manifest.read_text(encoding='utf-8'))['uncompressed_sha256']
             with gzip.open(backup, 'rb') as stream:
                 if stream_sha(stream) != backup_hash:
                     raise RuntimeError('existing batch backup hash mismatch; refusing publish')
@@ -380,7 +404,7 @@ def run(data_dir, run_dir, companies, scopes, timeout=3600, apply=False, resume=
     status_path = run_dir / 'status.json'
     if status_path.exists() and not resume:
         raise ValueError('run directory already exists; use --resume or a new directory')
-    status = json.loads(status_path.read_text()) if resume and status_path.exists() else {
+    status = json.loads(status_path.read_text(encoding='utf-8')) if resume and status_path.exists() else {
         'started_at': now(), 'run_dir': str(run_dir), 'companies': companies, 'scopes': scopes, 'results': {}, 'publications': []}
     if status['companies'] != companies or status['scopes'] != scopes:
         raise ValueError('resume company/scope selection differs from checkpoint')
@@ -410,7 +434,7 @@ def run(data_dir, run_dir, companies, scopes, timeout=3600, apply=False, resume=
                 return 1
             output = run_dir / f'{ordinal:02d}' / scope
             if saved and Path(saved['result_path']).exists():
-                result = validate_result(json.loads(Path(saved['result_path']).read_text()), company, scope, output)
+                result = validate_result(json.loads(Path(saved['result_path']).read_text(encoding='utf-8')), company, scope, output)
             else:
                 result = collect_process(company, scope, output, min(timeout, max(1, deadline - time.monotonic())))
                 atomic_json(output / 'validated.json', result)
@@ -471,11 +495,11 @@ def main():
         if not latest.exists():
             latest = args.data_dir / 'p1-status.json'
         if args.resume_latest and latest.exists():
-            checkpoint = json.loads(latest.read_text())
+            checkpoint = json.loads(latest.read_text(encoding='utf-8'))
             if checkpoint.get('run_dir'):
                 saved_path = Path(checkpoint['run_dir']) / 'status.json'
                 if saved_path.exists():
-                    checkpoint = json.loads(saved_path.read_text())
+                    checkpoint = json.loads(saved_path.read_text(encoding='utf-8'))
             if (checkpoint.get('companies') == companies and checkpoint.get('scopes') == scopes
                     and not checkpoint.get('run_finished', True) and checkpoint.get('run_dir')):
                 run_dir, args.resume = Path(checkpoint['run_dir']), True

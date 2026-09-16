@@ -66,9 +66,9 @@ class P1Tests(unittest.TestCase):
         self.assertEqual(len(current), 3)
 
     def test_complete_removes_only_same_scope(self):
-        previous, _ = p.merge_records([], [('大疆', 'campus', self.validated()),
+        previous, _ = p.merge_records([], [('大疆', 'campus', self.validated(('1','2'))),
             ('大疆', 'intern', self.validated(scope='intern'))])
-        current, stats = p.merge_records(previous, [('大疆', 'campus', self.validated(()))])
+        current, stats = p.merge_records(previous, [('大疆', 'campus', self.validated(('2',)))])
         self.assertEqual(stats['removed'], 1)
         self.assertEqual(current[0]['status'], 'removed')
         self.assertNotEqual(current[1]['status'], 'removed')
@@ -212,6 +212,7 @@ class P1Tests(unittest.TestCase):
             (collector / '__init__.py').write_text('')
             (package / 'normalize.py').write_text('def normalize_records(rows): return {}\n')
             shutil.copyfile(p.__file__, collector / 'p1_pipeline.py')
+            shutil.copyfile(Path(p.__file__).parent / 'portable_runtime.py', collector / 'portable_runtime.py')
             shutil.copyfile(Path(p.__file__).parent / 'p1_pending_index.py', collector / 'p1_pending_index.py')
             shutil.copyfile(Path(p.__file__).parents[1] / 'v4_fields.py', package / 'v4_fields.py')
             fixture = p.blocked('offline fixture adapter dispatched')
@@ -295,9 +296,9 @@ class P1Tests(unittest.TestCase):
             self.assertEqual(collected['jobs'],[])
 
     def test_merge_retains_input_immutability_when_removing(self):
-        previous,_=p.merge_records([], [('大疆','campus',self.validated())])
+        previous,_=p.merge_records([], [('大疆','campus',self.validated(('1','2')))])
         saved=copy.deepcopy(previous)
-        merged,_=p.merge_records(previous,[('大疆','campus',self.validated(()))])
+        merged,_=p.merge_records(previous,[('大疆','campus',self.validated(('2',)))])
         self.assertEqual(previous,saved)
         self.assertEqual(merged[0]['status'],'removed')
 

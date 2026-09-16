@@ -3,12 +3,12 @@ It will be compatible before version 2.0.0.
   from authlib.jose import JsonWebKey, JsonWebToken
 /Users/maxzhl/Projects/mcp-suite/.venv/lib/python3.12/site-packages/authlib/integrations/httpx_client/assertion_client.py:5: AuthlibDeprecationWarning: The httpx module is deprecated; please use httpx2 instead.
   from ._compat import httpx2
-INFO:     Started server process [7057]
+INFO:     Started server process [48071]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
-INFO:     Uvicorn running on http://127.0.0.1:51673 (Press CTRL+C to quit)
+INFO:     Uvicorn running on http://127.0.0.1:63266 (Press CTRL+C to quit)
 Tool 'jobs_deadlines' not listed, no validation will be performed
 INFO:     Shutting down
 INFO:     Waiting for application shutdown.
 INFO:     Application shutdown complete.
-INFO:     Finished server process [7057]
+INFO:     Finished server process [48071]

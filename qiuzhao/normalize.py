@@ -461,7 +461,7 @@ def normalize_file(path, check: bool = False) -> dict:
             os.chmod(tmp, stat_mod.S_IMODE(st.st_mode))
             try:
                 os.chown(tmp, st.st_uid, st.st_gid)
-            except PermissionError:
+            except (PermissionError, AttributeError):
                 pass
             os.replace(tmp, p)
         except BaseException:
@@ -474,6 +474,24 @@ def normalize_file(path, check: bool = False) -> dict:
     else:
         result["written"] = False
     return result
+
+
+OBSERVATION_FIELDS = frozenset({
+    'reviewed_at', 'checked_at', 'fetched_at', 'collected_at', 'retrieved_at',
+    'verified_at', 'list_checked_at', 'detail_checked_at',
+    'last_attempt_at', 'run_id', 'evidence_path', 'announcement_evidence_path',
+    'list_evidence_path', 'detail_evidence_path', 'evidence_files', 'evidence',
+})
+
+
+def business_value(value):
+    """Source observations do not constitute a change in the advertised job."""
+    if isinstance(value, dict):
+        return {k: business_value(v) for k, v in value.items()
+                if k not in OBSERVATION_FIELDS and not k.endswith('_evidence_path')}
+    if isinstance(value, list):
+        return [business_value(v) for v in value]
+    return value
 
 
 def main(argv=None):
