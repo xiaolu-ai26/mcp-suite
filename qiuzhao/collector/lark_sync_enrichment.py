@@ -315,10 +315,54 @@ def business_fields(raw):
             '岗位描述':str(raw.get('description_raw') or '')}
 
 
-def business_delta(old, desired):
-    return {name:value for name,value in desired.items()
-            if (set(old.get(name) or []) != set(value) if isinstance(value,list)
-                else str(old.get(name) or '') != value)}
+URL_MARKDOWN = re.compile(r'^\[[^\]]*\]\(([^()]+)\)$')
+# The live Base declares 原链接/投递入口 as plain 'text' fields (confirmed against
+# every table's *.fields.before.json in the 2026-09-17 run directory), not the
+# dedicated Lark 'url' field type — Feishu still auto-linkifies a bare url typed
+# into a text cell and echoes it back as markdown on read. Comparison therefore
+# cannot rely on field_types alone; these two link-carrying field names (the
+# same ones business_fields()/new_fields() populate from source_url/detail_url/
+# application_url) are the authoritative source of truth, checked in addition
+# to (never instead of) an actual schema type of 'url' should that ever change.
+LINK_FIELD_NAMES = {'原链接', '投递入口'}
+
+
+def normalize_url_field(value):
+    """Reduce a Lark url-type cell echo to its bare link target.
+
+    lark-cli's ndjson readback for a ``url`` field can come back as a
+    markdown link ``[text](url)``, a bare url string, a ``{"link":...,
+    "text":...}`` object, or a one-item list of any of those. Comparison
+    must only care about the link target, never the display text, so this
+    always resolves to that target (and to '' when there is none, so an
+    empty old value still registers as a difference against a real url).
+    """
+    if isinstance(value, list):
+        for item in value:
+            normalized = normalize_url_field(item)
+            if normalized:
+                return normalized
+        return ''
+    if isinstance(value, dict):
+        return normalize_url_field(value.get('link'))
+    text = str(value or '').strip()
+    match = URL_MARKDOWN.match(text)
+    return match.group(1).strip() if match else text
+
+
+def business_delta(old, desired, field_types=None):
+    field_types = field_types or {}
+    result = {}
+    for name, value in desired.items():
+        if isinstance(value, list):
+            changed = set(old.get(name) or []) != set(value)
+        elif field_types.get(name) == 'url' or name in LINK_FIELD_NAMES:
+            changed = normalize_url_field(old.get(name)) != normalize_url_field(value)
+        else:
+            changed = str(old.get(name) or '') != value
+        if changed:
+            result[name] = value
+    return result
 
 
 def business_sync(out, jobs_path):
@@ -334,6 +378,7 @@ def business_sync(out, jobs_path):
         definitions={f['name']:f for f in S.full_fields(table)}
         names=[n for n in next(iter(desired.values()),{}) if n in definitions
                and definitions[n]['type'] in {'text','select','url'}]
+        field_types={n:definitions[n]['type'] for n in names}
         records=json.loads(Path(meta['records']).read_text(encoding='utf-8'))
         pairs=[(r['record_id'],r['job_id']) for r in records if r.get('job_id') in desired and r['job_id'] not in ambiguous]
         def read(batch, path):
@@ -354,7 +399,7 @@ def business_sync(out, jobs_path):
                 for n in list(wanted):
                     if definitions[n]['type']=='select' and not set(wanted[n]) <= {o['name'] for o in definitions[n].get('options',[])}:
                         del wanted[n]
-                delta=business_delta(prior[rid],wanted)
+                delta=business_delta(prior[rid],wanted,field_types)
                 if delta:updates[rid]=delta
             if not updates:continue
             check=read([(rid,jid) for rid,jid in batch if rid in updates],out/f'{table}.business-cas-{start}.ndjson')

@@ -90,3 +90,52 @@ def test_bare_or_inconsistent_active_flag_cannot_change_base_status():
     assert E.source_lifecycle_state(row) is None
     row.update(source_is_active=False,status='expired')
     assert E.source_lifecycle_state(row)=='expired'
+
+
+def test_url_field_markdown_echo_with_same_target_is_not_a_difference():
+    old={'原链接':'[https://a.b/c](https://a.b/c)'}
+    desired={'原链接':'https://a.b/c'}
+    assert E.business_delta(old,desired,{'原链接':'url'})=={}
+
+
+def test_url_field_markdown_echo_with_different_target_is_a_difference():
+    old={'原链接':'[https://a.b/c](https://a.b/c)'}
+    desired={'原链接':'https://a.b/d'}
+    assert E.business_delta(old,desired,{'原链接':'url'})=={'原链接':'https://a.b/d'}
+
+
+def test_url_field_link_object_and_list_echo_forms_normalize_the_same():
+    desired={'原链接':'https://a.b/c'}
+    assert E.business_delta({'原链接':{'link':'https://a.b/c','text':'a.b/c'}},desired,{'原链接':'url'})=={}
+    assert E.business_delta({'原链接':[{'link':'https://a.b/c','text':'a.b/c'}]},desired,{'原链接':'url'})=={}
+    assert E.business_delta({'原链接':['[https://a.b/c](https://a.b/c)']},desired,{'原链接':'url'})=={}
+
+
+def test_url_field_empty_old_value_is_a_difference():
+    assert E.business_delta({},{'原链接':'https://a.b/c'},{'原链接':'url'})=={'原链接':'https://a.b/c'}
+    assert E.business_delta({'原链接':''},{'原链接':'https://a.b/c'},{'原链接':'url'})=={'原链接':'https://a.b/c'}
+
+
+def test_plain_text_field_with_markdown_looking_content_is_not_normalized_as_url():
+    old={'岗位描述':'[x](y)'}
+    desired={'岗位描述':'[x](y)'}
+    assert E.business_delta(old,desired,{'岗位描述':'text'})=={}
+    assert E.business_delta(old,{'岗位描述':'[a](b)'},{'岗位描述':'text'})=={'岗位描述':'[a](b)'}
+
+
+def test_link_field_is_url_aware_even_when_live_schema_type_is_text():
+    # 2026-09-17 production schema check: 原链接/投递入口 are declared as plain
+    # 'text' fields on every table (Feishu auto-linkifies a bare url typed into
+    # a text cell and echoes it back as markdown on read), not the dedicated
+    # 'url' field type. Field name membership, not schema type, must drive
+    # normalization for these two fields — this is the actual bug scenario.
+    old={'原链接':'[https://a.b/c](https://a.b/c)','投递入口':'[https://a.b/c](https://a.b/c)'}
+    desired={'原链接':'https://a.b/c','投递入口':'https://a.b/c'}
+    assert E.business_delta(old,desired,{'原链接':'text','投递入口':'text'})=={}
+    assert E.business_delta(old,desired)=={}  # field_types omitted entirely, matching name fallback alone
+
+
+def test_multiselect_field_comparison_is_unaffected_by_url_awareness():
+    old={'岗位大类':['技术']};desired={'岗位大类':['技术','产品']}
+    assert E.business_delta(old,desired,{'岗位大类':'select'})=={'岗位大类':['技术','产品']}
+    assert E.business_delta(old,{'岗位大类':['技术']},{'岗位大类':'select'})=={}
