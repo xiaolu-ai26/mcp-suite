@@ -6,7 +6,7 @@
 (function () {
   'use strict';
   var TOKEN_KEY = 'qz_admin_token';
-  var PLANS = ['qiuzhao-2026'];
+  var PLANS = ['qiuzhao-2026', 'qiuzhao-trial'];
   var token = '';
   var allCodes = [];
   var codeFilter = 'all';
