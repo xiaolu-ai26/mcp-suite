@@ -146,9 +146,38 @@ def any_validated(status):
 
 ## D. 精灵零风险离线验证(不发布、不调飞书、不改计划任务）
 
-方法:`C:\mcp-suite-partial-test\` 临时目录（robocopy 仅 `*.py` + 覆盖 4 个修复文件，sha256 逐字节核对）,`data\jobs.json` 用 `runs\20260917\jobs.before.json` 作基线，用正式 venv 的 python 以 `PYTHONPATH=临时目录` 跑 `python -m qiuzhao.collector.run --output-dir 临时data --source all --delay 2`,stdout 落 `basic-test.log`，退出码落 `exit.txt`。
+方法:`C:\mcp-suite-partial-test\` 临时目录（robocopy 仅 `*.py` + 覆盖 4 个修复文件，certutil/shasum 双向 sha256 逐字节核对一致；正式目录 `C:\mcp-suite-collector` 未动）。`data\jobs.json` 用 `runs\20260917\jobs.before.json` 作基线，用正式 venv 的 python 以 `PYTHONPATH=临时目录` 跑 `python -m qiuzhao.collector.run --output-dir 临时data --source all --delay 2`(01:12–01:30，约 18 分钟）,stdout 落 `basic-test.log`，退出码落 `exit.txt`。**未发布到服务器、未触发飞书、未改计划任务。**
 
-(结果待补：退出码 / 各来源 status 与条数 / summary added/refreshed)
+### D1. 退出码与总量
+
+- **退出码 = 2**(`exit.txt`)——部分成功，符合新契约。
+- summary:`job_count 92599`,`refreshed_jobs 1959`(telecom 14 + boc 14 + ccb 39 + guopin 1892),`added_jobs 368`（相对 9-17 基线的新 id),`alerts_count 6`。
+
+### D2. 各来源结果(source_state.json；今晚网络比 9-17 早晨差，失败面更大，正好压测了契约）
+
+| 来源 | 结果 | 处理 |
+|---|---|---|
+| postal | **failed**:`Postal pagination changed/incomplete: unique=2642, expected=2651`（抓取中列表变化） | **校验门正确拒收**，旧记录原样保留——证明校验没有放松 |
+| chnenergy | failed:read timeout | 来源级回退 |
+| telecom | success,14 条（比 9-17 多 4 条） | 已合并 |
+| boc | success+complete,14 条 | 已合并 |
+| ccb | success+complete,39 条 | 已合并 |
+| guopin | **partial**：ceec 651 条、casicjob 1241 条 success+complete;zgyd(SSL EOF)、cam2027(timeout)、zglt（差 2 条 2578/2580）被拒；cgnpc 仍目录下线 | 两个 complete 专场已合并；失败专场旧记录全部原样保留 |
+
+### D3. 合并正确性逐条核验（对临时 jobs.json 统计）
+
+- 今日刷新的 guopin 记录：**ceec 651 + casicjob 1241 = 1892**；按 id 前缀 boc 14 / ccb 39 / telecom 14 / guopin 1892 = 1959 = refreshed_jobs。
+- 今日标记 removed:**仅 ceec 4 条**（该 complete 专场里真实缺席）;"缺席即下线"没有命中任何失败专场。
+- 失败专场旧记录全部未动（旧 reviewed_at):zgyd 1748、zglt 2580、cam2027 76、cgnpc 8，以及历史遗留专场（bqgy2027 406、bqzb2027 167 等）均原样保留。
+- `source_state.json` 中 guopin 的 per-campaign 明细（campaigns[].status/error）完整保留——B1 的 state 保留改动生效。
+
+### D4. 与修复前对照
+
+同一输入（9-17 基线 + 今晚网络）在旧代码下：postal 分页校验失败 → alert → 退出 1 → **整个 basic 阶段（telecom/boc/ccb/guopin 两专场共 1959 条刷新 + 368 条新增）全部回滚**。修复后这些数据全部落库，且不合格的部分（postal 残缺列表、guopin 三失败专场）一条没进。
+
+### D5. 临时目录清理（留给总控决定）
+
+`C:\mcp-suite-partial-test\` 约占 700MB（含 350MB 基线副本 + 产出 + evidence)。精灵 C 盘余量约 70GB，不急；确认后可 `rmdir /s /q C:\mcp-suite-partial-test`。
 
 ---
 
@@ -168,3 +197,4 @@ def any_validated(status):
 4. **auto_collect(tencent）步**未纳入 0/1/2 契约（任务范围外）；它退出非 0 仍整段回滚。
 5. **p1 非 --apply(dry-run）调用**时退出码也可能为 2，但此时无实际合并；只有手工/测试走这条路，日常链总是 --apply。
 6. 任务书称基线"11 failed / 70 errors"，实测为 39 failed / 0 error（两次全量一致），以实测为准；差异原因未深究（可能口径/环境不同）。
+7. **D 验证夜新暴露的"接近完整但差几条"型失败**:postal(unique=2642/2651，抓取中列表变化）、guopin zglt(2578/2580）被校验门正确拒收。这类失败靠重试大概率能过，但 run.py 目前没有来源内重试；建议后续单独评估"来源级一次重试"，不在本次范围（本次刻意不放松任何校验）。
