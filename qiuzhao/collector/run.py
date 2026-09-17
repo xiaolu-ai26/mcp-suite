@@ -223,7 +223,7 @@ class Collector:
         from .ccb import collect_ccb
         from .guopin import collect_guopin
         previous=json.loads((self.out/'jobs.json').read_text()) if (self.out/'jobs.json').exists() else []
-        merged={j.get("id") or f"auto-{i}":j for i,j in enumerate(previous)}; fetched=[]
+        merged={j.get("id") or f"auto-{i}":j for i,j in enumerate(previous)}; fetched=[]; succeeded=[]
         for name,fn in [('postal',self.postal),('chnenergy',lambda:self.chnenergy(chn_limit)),('telecom',self.telecom),('boc',self.boc),('ccb',lambda:collect_ccb(self)),('guopin',lambda:collect_guopin(self))]:
             if source not in ('all',name): continue
             source_before=merged
@@ -255,9 +255,13 @@ class Collector:
                             if not row.get(field) and value is not None and value!='' and value!=[]:row[field]=value
                     merged[row['id']]=row
                 write_json(self.out/'jobs.json',list(merged.values()))
+                succeeded.append(name)
             except Exception as error:
                 merged=source_before
-                self.alert(name,error); self.states[name]={'status':'failed','checked_at':now(),'error':str(error)[:300]}
+                self.alert(name,error)
+                # Preserve per-scope detail (e.g. guopin campaigns) the source already recorded.
+                prior=self.states.get(name) or {}
+                self.states[name]={**prior,'status':'failed','checked_at':now(),'error':str(error)[:300]}
         jobs=[j for j in merged.values() if not re.search(r'需登录|请登录|投递入口|报名入口|招聘公告',j['job_title'])]; today=now()[:10]
         for j in jobs:
             if j.get('deadline') and j['deadline']<today and j.get('status')!='removed':j['status']='expired'
@@ -272,12 +276,17 @@ class Collector:
             'counting_note':'One original role ID per record; no city multiplication; named recruiting entities are publisher labels, not independent legal verification.'}
         write_json(self.out/'summary.json',summary);write_json(self.out/'source_state.json',self.states)
         write_json(self.out/'alerts.json',{'run_finished_at':now(),'alerts':self.alerts})
-        print(json.dumps(summary,ensure_ascii=False));return bool(self.alerts)
+        print(json.dumps(summary,ensure_ascii=False))
+        # Exit contract: 0 = every attempted source validated; 2 = at least one source
+        # validated and merged while another failed (keep partial output); 1 = nothing
+        # trustworthy was produced (callers must roll back).
+        if not self.alerts: return 0
+        return 2 if succeeded else 1
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--output-dir',type=Path,default=Path(__file__).resolve().parents[1]/'data')
     p.add_argument('--source',choices=['all','postal','chnenergy','telecom','boc','ccb','guopin'],default='all');p.add_argument('--chn-limit',type=int,default=0)
     p.add_argument('--delay',type=float,default=1.25);a=p.parse_args();a.output_dir.mkdir(parents=True,exist_ok=True)
     logging.basicConfig(level=logging.INFO,format='%(asctime)s %(levelname)s %(message)s',handlers=[logging.FileHandler(a.output_dir/'collector.log'),logging.StreamHandler()])
-    raise SystemExit(1 if Collector(a.output_dir,max(1.0,a.delay)).run(a.source,a.chn_limit) else 0)
+    raise SystemExit(Collector(a.output_dir,max(1.0,a.delay)).run(a.source,a.chn_limit))
 if __name__=='__main__':main()

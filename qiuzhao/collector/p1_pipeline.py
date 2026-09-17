@@ -398,6 +398,21 @@ def checkpoint_path(data_dir, companies, scopes):
     return Path(data_dir) / 'p1-checkpoints' / (key + '.json')
 
 
+def any_validated(status):
+    """A scope counts as trustworthy output only when its validated coverage
+    actually reached the shared store: success (complete snapshot, may add,
+    update or remove rows) or a partial that still carried rows. Empty
+    partials and blocked scopes merged nothing and do not count."""
+    for entry in status.get('results', {}).values():
+        coverage = entry.get('coverage', {})
+        if coverage.get('status') == 'success':
+            return True
+        if (coverage.get('status') == 'partial'
+                and (coverage.get('available_job_count') or coverage.get('pending_count'))):
+            return True
+    return False
+
+
 def run(data_dir, run_dir, companies, scopes, timeout=3600, apply=False, resume=False, max_run_seconds=21600):
     data_dir, run_dir = Path(data_dir), Path(run_dir)
     run_dir.mkdir(parents=True, exist_ok=True)
@@ -431,7 +446,8 @@ def run(data_dir, run_dir, companies, scopes, timeout=3600, apply=False, resume=
                 status['pending'] = [f'{c}/{s}' for c in companies for s in scopes
                                      if f'{c}/{s}' not in status['results']]
                 save_status()
-                return 1
+                # Scopes already validated and merged are trustworthy partial output.
+                return 2 if any_validated(status) else 1
             output = run_dir / f'{ordinal:02d}' / scope
             if saved and Path(saved['result_path']).exists():
                 result = validate_result(json.loads(Path(saved['result_path']).read_text(encoding='utf-8')), company, scope, output)
@@ -455,7 +471,12 @@ def run(data_dir, run_dir, companies, scopes, timeout=3600, apply=False, resume=
     status['success'] = all(e['coverage']['status'] == 'success' and e['coverage'].get('complete') is True
                             for e in status['results'].values())
     save_status()
-    return 0 if status['success'] else 1
+    # Exit contract: 0 = every scope success+complete; 2 = at least one scope passed
+    # validation and was merged while another did not (keep partial output);
+    # 1 = no scope produced trustworthy output (callers must roll back).
+    if status['success']:
+        return 0
+    return 2 if any_validated(status) else 1
 
 
 def main():

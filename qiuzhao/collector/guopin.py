@@ -164,8 +164,13 @@ def collect_guopin(collector):
             collector.alert('guopin:'+domain,error)
             states[domain]={'status':'failed','checked_at':now(),'error':str(error)[:250]}
     write_json(collector.out/'guopin_excluded_records.json',excluded)
-    collector.states['guopin']={'status':'success' if all(x['status']=='success' for x in states.values()) else 'partial_failure',
-        'checked_at':now(),'complete':all(x['status']=='success' for x in states.values()),
+    complete=all(x['status']=='success' for x in states.values())
+    # Per-campaign states stay in campaigns/alerts; a top-level 'errors' key or a
+    # non success/partial status makes run.py reject the entire source. Partial
+    # acceptance merges only campaigns whose own state is success+complete.
+    overall='success' if complete else ('partial' if any(x['status']=='success' for x in states.values()) else 'partial_failure')
+    collector.states['guopin']={'status':overall,
+        'checked_at':now(),'complete':complete,
         'collected_jobs':len(alljobs),'campaigns':states,'coverage':'allowlisted six official 2027 enterprise campaigns; campus default track only'}
     return alljobs
 

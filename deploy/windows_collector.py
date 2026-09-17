@@ -79,6 +79,32 @@ def preserve(baseline,candidate):
     atomic_json(candidate,[*identified,*anonymous])
     return preserved,len(identified)+len(anonymous)
 
+def diff_counts(before, after):
+    """Row-level deltas of one stage, so 'ran but nothing landed' is visible in the receipt."""
+    def snapshot(path):
+        rows = {}
+        for row in iter_json_file(path, strict=True):
+            if not row.get('id'):
+                continue
+            fingerprint = hashlib.sha256(json.dumps(row, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+            rows[str(row['id'])] = (fingerprint, row.get('status'))
+        return rows
+    old, new = snapshot(before), snapshot(after)
+    changes = {'added': 0, 'updated': 0, 'marked_removed': 0, 'disappeared': 0}
+    for key, (fingerprint, status) in new.items():
+        if key not in old:
+            changes['added'] += 1
+            continue
+        old_fingerprint, old_status = old[key]
+        if fingerprint == old_fingerprint:
+            continue
+        if status == 'removed' and old_status != 'removed':
+            changes['marked_removed'] += 1
+        else:
+            changes['updated'] += 1
+    changes['disappeared'] = sum(1 for key in old if key not in new)
+    return changes
+
 def publish_snapshot(candidate,expected_base,workdir):
     """Invoke the existing receiver; only version conflicts permit a rebase retry."""
     workdir=Path(workdir);workdir.mkdir(parents=True,exist_ok=True)
@@ -152,13 +178,20 @@ def main():
                         if name=='p1':reset_p1(stage)
                         raise
                     if name!='normalize':state['steps'].pop('normalize',None)
-                    if state['steps'][name]!=0:
+                    # Exit 2 = partial success: the stage's validated output is kept
+                    # (no rollback, no p1 reset); only 1/timeout/exception rolls back.
+                    if state['steps'][name] not in (0,2):
                         shutil.copyfile(pre_step,stage/'jobs.json')
                         if name=='p1':
                             reset_p1(stage)
+                        state.setdefault('step_changes',{})[name]={'exit':state['steps'][name],'result':'rolled_back'}
+                    else:
+                        state.setdefault('step_changes',{})[name]=dict(
+                            {'exit':state['steps'][name],'result':'ok' if state['steps'][name]==0 else 'partial'},
+                            **diff_counts(pre_step,stage/'jobs.json'))
                     pre_step.unlink();atomic_json(statepath,state)
             if state['steps']['normalize']!=0:raise ValueError('normalization failed; production retained')
-            if all(state['steps'][name]!=0 for name in state['steps'] if name!='normalize'):raise ValueError('all collection stages failed; production retained')
+            if all(state['steps'][name] not in (0,2) for name in state['steps'] if name!='normalize'):raise ValueError('all collection stages failed; production retained')
             state['stage']='validate-and-publish';atomic_json(statepath,state)
             state['preserved_missing'],state['total_jobs']=preserve(baseline,stage/'jobs.json')
             after=digest(stage/'jobs.json')
