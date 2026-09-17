@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+import subprocess
 import pytest
 from qiuzhao.collector import sync_lark_multivalue as S
 
@@ -112,3 +113,55 @@ def test_external_cli_files_use_real_artifact_cwd(tmp_path,monkeypatch):
     import pytest
     with pytest.raises(ValueError,match='unapproved'):
         S.cli_file_context(['+record-list','--output',str(tmp_path/'unapproved.json')])
+
+
+class FakeProc:
+    def __init__(self, returncode=0, stdout='', stderr=''):
+        self.returncode=returncode;self.stdout=stdout;self.stderr=stderr
+
+
+def test_cli_retries_network_transport_error_then_succeeds(monkeypatch, capsys):
+    responses=[FakeProc(stdout=json.dumps({'ok':False,'error':{'type':'network','subtype':'transport',
+        'message':'Post "https://open.feishu.cn/.../records/batch_update": EOF'}})),
+               FakeProc(stdout=json.dumps({'ok':True,'data':{'tables':[]}}))]
+    calls=[];sleeps=[]
+    def run(cmd,**kwargs):
+        calls.append(cmd);return responses[len(calls)-1]
+    monkeypatch.setattr(S.subprocess,'run',run)
+    monkeypatch.setattr(S.time,'sleep',sleeps.append)
+    result=S.cli('+table-list','--base-token',S.BASE,'--format','json')
+    assert result['ok'] is True
+    assert len(calls)==2 and sleeps==[5]
+    logged=[json.loads(line) for line in capsys.readouterr().out.splitlines()]
+    assert logged==[{'cli_retry':1,'delay_seconds':5,'command':'+table-list',
+                     'error_subtype':'transport','error_message':json.loads(responses[0].stdout)['error']['message']}]
+
+
+def test_cli_does_not_retry_non_network_errors(monkeypatch):
+    calls=[]
+    def run(cmd,**kwargs):
+        calls.append(cmd)
+        return FakeProc(stdout=json.dumps({'ok':False,'error':{'type':'validation','code':'800010401','message':'only one option'}}))
+    monkeypatch.setattr(S.subprocess,'run',run)
+    monkeypatch.setattr(S.time,'sleep',lambda s:None)
+    with pytest.raises(RuntimeError,match='800010401'):
+        S.cli('+record-batch-update','--base-token',S.BASE)
+    assert len(calls)==1
+
+
+def test_cli_retries_stderr_network_json_and_timeout_then_raises(monkeypatch):
+    calls=[];sleeps=[]
+    network=json.dumps({'ok':False,'error':{'type':'network','subtype':'transport','message':'EOF'}})
+    outcomes=[FakeProc(returncode=1,stderr=network),
+              subprocess.TimeoutExpired(cmd='lark-cli',timeout=180),
+              FakeProc(returncode=1,stderr=network),
+              FakeProc(returncode=1,stderr=network)]
+    def run(cmd,**kwargs):
+        outcome=outcomes[len(calls)];calls.append(cmd)
+        if isinstance(outcome,Exception):raise outcome
+        return outcome
+    monkeypatch.setattr(S.subprocess,'run',run)
+    monkeypatch.setattr(S.time,'sleep',sleeps.append)
+    with pytest.raises(RuntimeError,match='network'):
+        S.cli('+table-list','--base-token',S.BASE)
+    assert len(calls)==4 and sleeps==[5,15,45]
