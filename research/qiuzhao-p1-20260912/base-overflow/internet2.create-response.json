@@ -1,0 +1,51 @@
+{
+  "ok": true,
+  "identity": "user",
+  "data": {
+    "fields": [
+      {
+        "default_value": null,
+        "name": "岗位名称",
+        "style": {
+          "type": "plain"
+        },
+        "type": "text"
+      }
+    ],
+    "table": {
+      "fields": [
+        {
+          "default_value": null,
+          "name": "岗位名称",
+          "style": {
+            "type": "plain"
+          },
+          "type": "text"
+        }
+      ],
+      "id": "tblZOCFHBraQThw9",
+      "name": "互联网科技岗·续表2",
+      "views": [
+        {
+          "_meta": {
+            "filter": null,
+            "group": [],
+            "sort": [],
+            "visible_fields": "1 field"
+          },
+          "id": "vewUyqrlNl",
+          "name": "表格",
+          "type": "grid"
+        }
+      ]
+    }
+  },
+  "_notice": {
+    "update": {
+      "command": "lark-cli update",
+      "current": "1.0.89",
+      "latest": "1.0.95",
+      "message": "lark-cli 1.0.95 available, current 1.0.89, run: lark-cli update"
+    }
+  }
+}

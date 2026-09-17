@@ -1,0 +1,780 @@
+[
+  {
+    "default_value": null,
+    "id": "fld3mShqy6",
+    "multiple": false,
+    "name": "状态",
+    "options": [
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "open"
+      },
+      {
+        "hue": "Purple",
+        "lightness": "Lighter",
+        "name": "expired"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "removed"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "unverified"
+      }
+    ],
+    "type": "select"
+  },
+  {
+    "default_value": null,
+    "id": "fldirEID9L",
+    "name": "备注",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fldWMTqQej",
+    "name": "复核时间",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "description": "保留毕业日期范围、优秀/未就业等资格限制；历史标签无原句时明确待回源核实。",
+    "id": "fldFNEZRhA",
+    "name": "届别条件说明",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fldgPNi46F",
+    "multiple": false,
+    "name": "岗位大类",
+    "options": [
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "其他"
+      },
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "技术/研发"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "职能/支持"
+      },
+      {
+        "hue": "Red",
+        "lightness": "Lighter",
+        "name": "运营"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "产品"
+      },
+      {
+        "hue": "Carmine",
+        "lightness": "Lighter",
+        "name": "销售"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "市场/营销"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "设计"
+      },
+      {
+        "hue": "Purple",
+        "lightness": "Lighter",
+        "name": "科研"
+      },
+      {
+        "hue": "Orange",
+        "lightness": "Lighter",
+        "name": "金融"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "咨询"
+      },
+      {
+        "hue": "Red",
+        "lightness": "Lighter",
+        "name": "制造/生产"
+      },
+      {
+        "hue": "Carmine",
+        "lightness": "Lighter",
+        "name": "医疗/医药"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "教育/培训"
+      },
+      {
+        "hue": "Lime",
+        "lightness": "Lighter",
+        "name": "法律/合规"
+      }
+    ],
+    "type": "select"
+  },
+  {
+    "default_value": null,
+    "id": "fldgvknFqb",
+    "name": "投递入口",
+    "style": {
+      "type": "url"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fldSOgoyiG",
+    "multiple": false,
+    "name": "行业",
+    "options": [
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "互联网/科技"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "国企/央企"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "制造/工业"
+      },
+      {
+        "hue": "Orange",
+        "lightness": "Lighter",
+        "name": "能源/电力"
+      },
+      {
+        "hue": "Orange",
+        "lightness": "Lighter",
+        "name": "金融"
+      },
+      {
+        "hue": "Green",
+        "lightness": "Lighter",
+        "name": "医药/医疗"
+      },
+      {
+        "hue": "Red",
+        "lightness": "Lighter",
+        "name": "教育"
+      },
+      {
+        "hue": "Red",
+        "lightness": "Lighter",
+        "name": "物流/运输"
+      },
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "传媒/广告"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "消费/零售"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "农业"
+      },
+      {
+        "hue": "Lime",
+        "lightness": "Lighter",
+        "name": "房地产"
+      },
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "其他"
+      }
+    ],
+    "type": "select"
+  },
+  {
+    "default_value": null,
+    "id": "fld9chhtDJ",
+    "name": "招聘单位",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fldlbhERjg",
+    "name": "来源",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fldO6s2X2D",
+    "multiple": false,
+    "name": "截止类型",
+    "options": [
+      {
+        "hue": "Green",
+        "lightness": "Lighter",
+        "name": "明确"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "未披露"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "210029"
+      }
+    ],
+    "type": "select"
+  },
+  {
+    "default_value": null,
+    "id": "flddBdnhvr",
+    "name": "原链接",
+    "style": {
+      "type": "url"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fld82a2ZQm",
+    "multiple": true,
+    "name": "毕业届别",
+    "options": [
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "未披露"
+      },
+      {
+        "hue": "Green",
+        "lightness": "Lighter",
+        "name": "2025届"
+      },
+      {
+        "hue": "Purple",
+        "lightness": "Lighter",
+        "name": "2026届"
+      },
+      {
+        "hue": "Red",
+        "lightness": "Lighter",
+        "name": "2027届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2024届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2028届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "实习未写届别"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "未注明"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "社招不限届别"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2029届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2030届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2031届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2032届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2033届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2019届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2021届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2022届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2023届"
+      }
+    ],
+    "type": "select"
+  },
+  {
+    "default_value": null,
+    "id": "fldAPuDYTF",
+    "multiple": true,
+    "name": "工作地点",
+    "options": [
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "北京"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "上海"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "未披露"
+      },
+      {
+        "hue": "Carmine",
+        "lightness": "Lighter",
+        "name": "深圳"
+      },
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "全国"
+      },
+      {
+        "hue": "Purple",
+        "lightness": "Lighter",
+        "name": "杭州"
+      },
+      {
+        "hue": "Purple",
+        "lightness": "Lighter",
+        "name": "佛山"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "广州"
+      },
+      {
+        "hue": "Orange",
+        "lightness": "Lighter",
+        "name": "成都"
+      },
+      {
+        "hue": "Green",
+        "lightness": "Lighter",
+        "name": "武汉"
+      },
+      {
+        "hue": "Orange",
+        "lightness": "Lighter",
+        "name": "天津"
+      },
+      {
+        "hue": "Green",
+        "lightness": "Lighter",
+        "name": "重庆"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "西安"
+      },
+      {
+        "hue": "Carmine",
+        "lightness": "Lighter",
+        "name": "海口"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "南京"
+      },
+      {
+        "hue": "Green",
+        "lightness": "Lighter",
+        "name": "雄安新区"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "贵阳"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "长沙"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "东莞"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "合肥"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "哈尔滨"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "苏州"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "三亚"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "郑州"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "圣何塞"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "呼和浩特"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "孝感"
+      },
+      {
+        "hue": "Carmine",
+        "lightness": "Lighter",
+        "name": "沈阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "遵义"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "太原"
+      },
+      {
+        "hue": "Lime",
+        "lightness": "Lighter",
+        "name": "石家庄"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "长春"
+      },
+      {
+        "hue": "Lime",
+        "lightness": "Lighter",
+        "name": "珠海"
+      },
+      {
+        "hue": "Carmine",
+        "lightness": "Lighter",
+        "name": "济南"
+      },
+      {
+        "hue": "Carmine",
+        "lightness": "Lighter",
+        "name": "昆明"
+      },
+      {
+        "hue": "Purple",
+        "lightness": "Lighter",
+        "name": "青岛"
+      },
+      {
+        "hue": "Red",
+        "lightness": "Lighter",
+        "name": "宁波"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "厦门"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "大连"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "新加坡"
+      },
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "包头"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "南昌"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "保定"
+      },
+      {
+        "hue": "Red",
+        "lightness": "Lighter",
+        "name": "儋州"
+      },
+      {
+        "hue": "Carmine",
+        "lightness": "Lighter",
+        "name": "无锡"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "宁夏灵武"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "齐齐哈尔"
+      },
+      {
+        "hue": "Red",
+        "lightness": "Lighter",
+        "name": "绥化"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "南阳"
+      },
+      {
+        "hue": "Green",
+        "lightness": "Lighter",
+        "name": "西雅图"
+      }
+    ],
+    "remaining_options_count": 574,
+    "type": "select"
+  },
+  {
+    "default_value": null,
+    "id": "fldrOWVN4f",
+    "multiple": true,
+    "name": "专业",
+    "options": [
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "未披露"
+      },
+      {
+        "hue": "Lime",
+        "lightness": "Lighter",
+        "name": "计算机类"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "电子信息类"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "金融经济类"
+      },
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "其他"
+      },
+      {
+        "hue": "Orange",
+        "lightness": "Lighter",
+        "name": "机械制造类"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "管理类"
+      },
+      {
+        "hue": "Lime",
+        "lightness": "Lighter",
+        "name": "医药生物类"
+      },
+      {
+        "hue": "Lime",
+        "lightness": "Lighter",
+        "name": "文科类"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "设计艺术类"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "理科类"
+      },
+      {
+        "hue": "Green",
+        "lightness": "Lighter",
+        "name": "农业类"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "不限"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "未注明"
+      }
+    ],
+    "type": "select"
+  },
+  {
+    "default_value": null,
+    "id": "fldAiuOMCp",
+    "name": "岗位名称",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fldiR7yNED",
+    "name": "job_id",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fldk0rxqdZ",
+    "name": "公司名称",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fldpZ80M58",
+    "multiple": false,
+    "name": "招聘性质",
+    "options": [
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "校招"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "社招"
+      },
+      {
+        "hue": "Lime",
+        "lightness": "Lighter",
+        "name": "实习"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "未知"
+      }
+    ],
+    "type": "select"
+  },
+  {
+    "default_value": null,
+    "id": "fldyNJ1rJO",
+    "name": "投递截止",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  }
+]

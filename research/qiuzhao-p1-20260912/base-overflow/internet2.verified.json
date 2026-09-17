@@ -1,0 +1,52 @@
+{
+  "ok": true,
+  "base_token": "REDACTED",
+  "table": {
+    "id": "tblZOCFHBraQThw9",
+    "name": "互联网科技岗·续表2",
+    "records_count": 0
+  },
+  "template_table": {
+    "id": "tblu0nsYjntEOCGY",
+    "name": "互联网科技岗·续表1"
+  },
+  "verified_at": "2026-09-17T13:26:33.331584+08:00",
+  "method": "lark-cli base +table-create (primary field only) + sequential single +field-create calls (18 fields, one API call per field, in template order) + +view-set-visible-fields to pin the default grid view to template order",
+  "field_count": {
+    "template": 19,
+    "target": 19
+  },
+  "diff_count": 0,
+  "diff_report": {
+    "name_type_multiple_style_description_options_diff_excl_workloc": 0,
+    "workloc_option_count_source": 624,
+    "workloc_option_count_target": 624,
+    "workloc_option_order_match": true,
+    "workloc_option_name_set_match": true,
+    "view_field_order_match": true,
+    "note_on_raw_field_list_order": "The Bitable ListAppTableField API does not reliably return fields in creation order (confirmed independently by lark-cli +field-list returning divergent orders for the long-established 互联网科技岗 vs 互联网科技岗·续表1 tables, and by this build reordering select-type fields even when created one-at-a-time). The default grid view (vewUyqrlNl) visible_fields was explicitly set via +view-set-visible-fields to the exact 19-field template order and verified by readback; this is the order a user actually sees."
+  },
+  "field_order_verified_view": [
+    "岗位名称",
+    "job_id",
+    "公司名称",
+    "招聘单位",
+    "行业",
+    "招聘性质",
+    "毕业届别",
+    "工作地点",
+    "岗位大类",
+    "投递截止",
+    "截止类型",
+    "原链接",
+    "投递入口",
+    "来源",
+    "状态",
+    "复核时间",
+    "备注",
+    "专业",
+    "届别条件说明"
+  ],
+  "no_records_written": true,
+  "other_tables_untouched": true
+}

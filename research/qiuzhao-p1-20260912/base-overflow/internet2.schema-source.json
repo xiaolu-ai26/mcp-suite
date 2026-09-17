@@ -1,0 +1,3649 @@
+[
+  {
+    "default_value": null,
+    "id": "fld2Fz1Af6",
+    "name": "岗位名称",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fldlesq74m",
+    "name": "job_id",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fldH0KORPW",
+    "name": "公司名称",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fldtooEhQU",
+    "name": "招聘单位",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fldaCH0LET",
+    "multiple": false,
+    "name": "行业",
+    "options": [
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "互联网/科技"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "国企/央企"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "制造/工业"
+      },
+      {
+        "hue": "Orange",
+        "lightness": "Lighter",
+        "name": "能源/电力"
+      },
+      {
+        "hue": "Orange",
+        "lightness": "Lighter",
+        "name": "金融"
+      },
+      {
+        "hue": "Green",
+        "lightness": "Lighter",
+        "name": "医药/医疗"
+      },
+      {
+        "hue": "Red",
+        "lightness": "Lighter",
+        "name": "教育"
+      },
+      {
+        "hue": "Red",
+        "lightness": "Lighter",
+        "name": "物流/运输"
+      },
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "传媒/广告"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "消费/零售"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "农业"
+      },
+      {
+        "hue": "Lime",
+        "lightness": "Lighter",
+        "name": "房地产"
+      },
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "其他"
+      }
+    ],
+    "type": "select"
+  },
+  {
+    "default_value": null,
+    "id": "fldkN0bCWv",
+    "multiple": false,
+    "name": "招聘性质",
+    "options": [
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "校招"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "社招"
+      },
+      {
+        "hue": "Lime",
+        "lightness": "Lighter",
+        "name": "实习"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "未知"
+      }
+    ],
+    "type": "select"
+  },
+  {
+    "default_value": null,
+    "id": "fldwlynk1X",
+    "multiple": true,
+    "name": "毕业届别",
+    "options": [
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "未披露"
+      },
+      {
+        "hue": "Green",
+        "lightness": "Lighter",
+        "name": "2025届"
+      },
+      {
+        "hue": "Purple",
+        "lightness": "Lighter",
+        "name": "2026届"
+      },
+      {
+        "hue": "Red",
+        "lightness": "Lighter",
+        "name": "2027届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2024届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2028届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "实习未写届别"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "未注明"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "社招不限届别"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2029届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2030届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2031届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2032届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2033届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2019届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2021届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2022届"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "2023届"
+      }
+    ],
+    "type": "select"
+  },
+  {
+    "default_value": null,
+    "id": "fldlzwPuQL",
+    "multiple": true,
+    "name": "工作地点",
+    "options": [
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "北京"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "上海"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "未披露"
+      },
+      {
+        "hue": "Carmine",
+        "lightness": "Lighter",
+        "name": "深圳"
+      },
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "全国"
+      },
+      {
+        "hue": "Purple",
+        "lightness": "Lighter",
+        "name": "杭州"
+      },
+      {
+        "hue": "Purple",
+        "lightness": "Lighter",
+        "name": "佛山"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "广州"
+      },
+      {
+        "hue": "Orange",
+        "lightness": "Lighter",
+        "name": "成都"
+      },
+      {
+        "hue": "Green",
+        "lightness": "Lighter",
+        "name": "武汉"
+      },
+      {
+        "hue": "Orange",
+        "lightness": "Lighter",
+        "name": "天津"
+      },
+      {
+        "hue": "Green",
+        "lightness": "Lighter",
+        "name": "重庆"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "西安"
+      },
+      {
+        "hue": "Carmine",
+        "lightness": "Lighter",
+        "name": "海口"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "南京"
+      },
+      {
+        "hue": "Green",
+        "lightness": "Lighter",
+        "name": "雄安新区"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "贵阳"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "长沙"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "东莞"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "合肥"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "哈尔滨"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "苏州"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "三亚"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "郑州"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "圣何塞"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "呼和浩特"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "孝感"
+      },
+      {
+        "hue": "Carmine",
+        "lightness": "Lighter",
+        "name": "沈阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "遵义"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "太原"
+      },
+      {
+        "hue": "Lime",
+        "lightness": "Lighter",
+        "name": "石家庄"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "长春"
+      },
+      {
+        "hue": "Lime",
+        "lightness": "Lighter",
+        "name": "珠海"
+      },
+      {
+        "hue": "Carmine",
+        "lightness": "Lighter",
+        "name": "济南"
+      },
+      {
+        "hue": "Carmine",
+        "lightness": "Lighter",
+        "name": "昆明"
+      },
+      {
+        "hue": "Purple",
+        "lightness": "Lighter",
+        "name": "青岛"
+      },
+      {
+        "hue": "Red",
+        "lightness": "Lighter",
+        "name": "宁波"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "厦门"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "大连"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "新加坡"
+      },
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "包头"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "南昌"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "保定"
+      },
+      {
+        "hue": "Red",
+        "lightness": "Lighter",
+        "name": "儋州"
+      },
+      {
+        "hue": "Carmine",
+        "lightness": "Lighter",
+        "name": "无锡"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "宁夏灵武"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "齐齐哈尔"
+      },
+      {
+        "hue": "Red",
+        "lightness": "Lighter",
+        "name": "绥化"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "南阳"
+      },
+      {
+        "hue": "Green",
+        "lightness": "Lighter",
+        "name": "西雅图"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "七台河"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "万宁"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "万州区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "三明"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "三沙"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "三门峡"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "上饶"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "东丽区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "东京"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "东城区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "东方"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "东营"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "中卫"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "中山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "丰润"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "临夏"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "临汾"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "临沂"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "临沧"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "丹东"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "丽水"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "丽江"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "乌兰察布"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "乌兹别克斯坦"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "乌海"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "乌鲁木齐"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "乐东"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "乐山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "九江"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "云南"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "云南省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "云浮"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "五指山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "亳州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "仙桃"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "伊春"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "伊犁"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "伦敦"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "余杭区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "佳木斯"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "俄罗斯"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "保亭"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "保山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "信阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "克利尔沃特"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "克孜勒苏"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "克拉玛依"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "公主岭"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "六安"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "六盘水"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "兰州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "兴安"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "内江"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "内蒙古自治区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "凉山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "凉州区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "几内亚"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "刚果"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "利雅得"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "包河区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "北海"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "北美洲"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "十堰"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "南充"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "南宁"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "南山区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "南平"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "南美洲"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "南通"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "博尔塔拉"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "印尼"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "印度尼西亚"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "厄瓜多尔"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "历城区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "双流区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "双鸭山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "古尔冈"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "古来"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "台州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "吉安"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "吉林"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "吉林省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "吉阳区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "吉隆坡"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "吐鲁番"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "吕梁"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "吴忠"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "周口"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "呼伦贝尔"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "呼兰区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "和田"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "咸宁"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "咸阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "哈密"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "哈萨克斯坦"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "哥伦比亚"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "唐山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "商丘"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "商洛"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "喀什"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "嘉兴"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "嘉定区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "嘉峪关"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "四川"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "四川省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "四平"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "固原"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "圣保罗"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "圣地亚哥"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "埃及"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "塔吉克斯坦"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "塔吉格"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "塔城"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "墨西哥"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "墨西哥城"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "多伦多"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "大兴区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "大兴安岭"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "大兴安岭地区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "大同"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "大庆"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "大洋洲"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "大理"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "天水"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "天河区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "太仓"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "威海"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "娄底"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "宁夏"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "宁德"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "安庆"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "安康"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "安徽"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "安徽省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "安阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "安顺"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "定安"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "定西"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "宜宾"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "宜昌"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "宜春"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "宝鸡"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "宣城"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "宿州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "屯昌"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "山东省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "山南"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "山西"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "山西省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "岳阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "崇川区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "崇左"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "崖州区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "巴中"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "巴布亚新几内亚"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "巴彦淖尔"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "巴拿马"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "巴西"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "巴音郭楞"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "巴黎"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "常州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "常德"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "平凉"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "平房区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "平顶山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "广东"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "广东省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "广元"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "广安"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "广西"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "广西壮族自治区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "廊坊"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "延安"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "延边"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "建邺区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "开封"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "开罗"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "张家口"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "张家界"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "张掖"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "徐州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "徐汇区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "德宏"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "德州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "德阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "忻州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "怀化"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "怒江傈僳族自治州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "思明区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "恩施"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "惠州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "扬州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "承德"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "抚州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "抚顺"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "拉萨"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "揭阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "攀枝花"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "文山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "文昌"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "新乡"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "新余"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "新疆维吾尔自治区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "新都区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "旅顺口区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "日喀则"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "日本"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "日照"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "旧金山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "昆山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "昌吉"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "昌江"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "昌都"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "昭通"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "晋中"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "晋城"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "普洱"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "景德镇"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "智利"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "曲靖"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "曼谷"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "朔州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "朝阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "朝阳区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "未央区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "未注明"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "本溪"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "来宾"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "松原"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "松江区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "林芝"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "果洛"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "枣庄"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "柳州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "株洲"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "桂林"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "梅州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "梧州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "楚雄"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "榆林"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "欧洲"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "武威"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "武昌区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "毕节"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "永州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "汉中"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "汕头"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "汕尾"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "江苏"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "江苏省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "江西"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "江西省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "江门"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "江阴"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "池州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "沧州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "河北"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "河北省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "河南"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "河南省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "河池"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "河源"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "泉州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "泰国"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "泰安"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "泰州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "泸州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "洛杉矶"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "洛阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "浈江区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "济宁"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "济源"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "浙江"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "浙江省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "浦东新区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "海东"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "海南"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "海南省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "海南藏族自治州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "海外"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "海淀区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "海珠区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "海盐县"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "海西蒙古族藏族自治州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "淄博"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "淮北"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "淮南"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "淮安"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "清原满族自治县"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "清远"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "温州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "渭南"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "湖北"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "湖北省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "湖南"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "湖南省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "湖州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "湖里区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "湘潭"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "湘西"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "湛江"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "滁州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "滨州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "滨江区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "漯河"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "漳州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "潍坊"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "潮州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "澄迈"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "澄迈县"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "濮阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "灞桥区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "灵台县"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "烟台"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "焦作"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "牡丹江"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "玄武区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "玉林"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "玉溪"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "环翠区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "琼中"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "琼海"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "瑶海区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "瓦房店"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "甘井子区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "甘南"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "甘孜藏族自治州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "甘肃"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "甘肃省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "白云区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "白沙"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "百色"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "益阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "盐城"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "盘锦"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "眉山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "石嘴山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "石景山区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "石河子"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "福州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "福建"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "福建省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "福田区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "秀英区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "科威特城"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "秘鲁"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "秦淮区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "秦皇岛"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "红河"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "约翰内斯堡"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "纽约"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "绍兴"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "绵阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "罗源县"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "美兰区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "美国"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "聊城"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "肇庆"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "肥西县"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "胡志明"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "自贡"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "舟山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "芜湖"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "苏丹"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "苏仙区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "苏州工业园区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "英国"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "茂名"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "荆州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "荆门"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "莆田"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "莫斯科"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "菏泽"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "萍乡"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "营口"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "萧山区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "葫芦岛"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "蒙特利尔"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "蔡甸区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "蕉城区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "虹口区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "蚌埠"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "衡水"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "衡阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "襄州区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "襄阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "西双版纳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "西城区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "西塞山区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "西宁"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "西湖区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "许昌"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "贵州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "贵州省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "贵港"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "贺州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "资阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "赞比亚"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "赣州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "赤峰"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "越南"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "辽宁"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "辽宁省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "辽阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "达州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "运城"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "远程"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "连云港"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "迪庆"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "迪拜"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "通化"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "通辽"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "遂宁"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "邛崃"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "邢台"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "那曲"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "邯郸"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "邵阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "郴州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "鄂尔多斯"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "鄂州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "酒泉"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "金华"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "金昌"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "钦州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "铁岭"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "铜仁"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "铜官区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "铜川"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "铜陵"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "银川"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "锡山区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "锡林郭勒"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "锦州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "锦江区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "镇江"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "长安区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "长治"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "闵行区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "阜新"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "阜阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "防城港"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "阳江"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "阳泉"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "阿克苏"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "阿勒泰"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "阿坝"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "阿拉善"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "阿拉尔"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "阿拉木图"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "阿荣旗"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "阿里"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "陆丰"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "陕西省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "陵水"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "随州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "雁峰区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "雄县"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "雅安"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "雨花台区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "霍林郭勒"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "霞山区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "青浦区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "非洲"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "鞍山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "韶关"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "首尔"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "香坊区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "香洲区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "香港"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "马鞍山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "驻马店"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "高新区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "高陵区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "鸡西"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "鹤壁"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "鹤岗"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "鹰潭"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "黄冈"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "黄南藏族自治州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "黄山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "黄浦区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "黄石"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "黑河"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "黑龙江"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "黑龙江省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "黔东南"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "黔南"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "黔西南"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "龙岩"
+      },
+      {
+        "hue": "Carmine",
+        "lightness": "Lighter",
+        "name": "NewYork"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "Remote"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "SanFrancisco"
+      },
+      {
+        "hue": "Purple",
+        "lightness": "Lighter",
+        "name": "{'area_code': '000000.110000.110100.110108', 'area_cn': '北京"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "Bangalore"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "Barcelona"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "Berlin"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "Chicago"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "Edinburgh"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "Frankfurt"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "LosAngeles"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "Manila"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "Nagoya"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "Shenzhen"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "Singapore"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "Sydney"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "Tokyo"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "宁夏回族自治区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "横琴粤澳深度合作区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "西藏自治区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "青海省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "衢州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "阿坝藏族羌族自治州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "Canada"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "上海市-上海"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "中国-香港特别行政区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "义乌"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "伊宁"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "兴安盟"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "凭祥"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "北京市-北京"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "北流"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "台湾省"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "合山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "启东"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "固安县"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "国外"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "大理白族自治州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "天津市-天津"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "天门"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "头屯河区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "奎屯"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "宜州区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "宿迁"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "岳麓区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "崂山区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "广阳区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "庆阳"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "库尔勒"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "延吉"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "张家港"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "格尔木"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "洪山区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "涿州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "湘西土家族苗族自治州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "潜江"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "澳门"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "白山"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "白银"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "神农架林区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "蜀山区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "辽源"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "重庆市-重庆"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "金水区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "锡林郭勒盟"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "长丰县"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "阿拉善盟"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "陇南"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "陵水黎族自治县"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "雁塔区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "雅加达"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "马来西亚"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "鹿泉区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "黔东南苗族侗族自治州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "黔南布依族苗族自治州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "黔西南布依族苗族自治州"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "鼓楼区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "云岩区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "南沙区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "和平区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "杨浦区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "碑林区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "西山区"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "青秀区"
+      }
+    ],
+    "type": "select"
+  },
+  {
+    "default_value": null,
+    "id": "fld8v6Vyt1",
+    "multiple": false,
+    "name": "岗位大类",
+    "options": [
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "其他"
+      },
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "技术/研发"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "职能/支持"
+      },
+      {
+        "hue": "Red",
+        "lightness": "Lighter",
+        "name": "运营"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "产品"
+      },
+      {
+        "hue": "Carmine",
+        "lightness": "Lighter",
+        "name": "销售"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "市场/营销"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "设计"
+      },
+      {
+        "hue": "Purple",
+        "lightness": "Lighter",
+        "name": "科研"
+      },
+      {
+        "hue": "Orange",
+        "lightness": "Lighter",
+        "name": "金融"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "咨询"
+      },
+      {
+        "hue": "Red",
+        "lightness": "Lighter",
+        "name": "制造/生产"
+      },
+      {
+        "hue": "Carmine",
+        "lightness": "Lighter",
+        "name": "医疗/医药"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "教育/培训"
+      },
+      {
+        "hue": "Lime",
+        "lightness": "Lighter",
+        "name": "法律/合规"
+      }
+    ],
+    "type": "select"
+  },
+  {
+    "default_value": null,
+    "id": "flddGzdzON",
+    "name": "投递截止",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fldRxwBJ1b",
+    "multiple": false,
+    "name": "截止类型",
+    "options": [
+      {
+        "hue": "Green",
+        "lightness": "Lighter",
+        "name": "明确"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "未披露"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "210029"
+      }
+    ],
+    "type": "select"
+  },
+  {
+    "default_value": null,
+    "id": "fld7UX4q9o",
+    "name": "原链接",
+    "style": {
+      "type": "url"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fld3E3yP05",
+    "name": "投递入口",
+    "style": {
+      "type": "url"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fldDr46fZb",
+    "name": "来源",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fldfQTvdhX",
+    "multiple": false,
+    "name": "状态",
+    "options": [
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "open"
+      },
+      {
+        "hue": "Purple",
+        "lightness": "Lighter",
+        "name": "expired"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "removed"
+      },
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "unverified"
+      }
+    ],
+    "type": "select"
+  },
+  {
+    "default_value": null,
+    "id": "flddafkP2V",
+    "name": "复核时间",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fldp5C1aa0",
+    "name": "备注",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  },
+  {
+    "default_value": null,
+    "id": "fldtUesHyV",
+    "multiple": true,
+    "name": "专业",
+    "options": [
+      {
+        "hue": "Turquoise",
+        "lightness": "Lighter",
+        "name": "未披露"
+      },
+      {
+        "hue": "Lime",
+        "lightness": "Lighter",
+        "name": "计算机类"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "电子信息类"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "金融经济类"
+      },
+      {
+        "hue": "Gray",
+        "lightness": "Lighter",
+        "name": "其他"
+      },
+      {
+        "hue": "Orange",
+        "lightness": "Lighter",
+        "name": "机械制造类"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "管理类"
+      },
+      {
+        "hue": "Lime",
+        "lightness": "Lighter",
+        "name": "医药生物类"
+      },
+      {
+        "hue": "Lime",
+        "lightness": "Lighter",
+        "name": "文科类"
+      },
+      {
+        "hue": "Yellow",
+        "lightness": "Lighter",
+        "name": "设计艺术类"
+      },
+      {
+        "hue": "Wathet",
+        "lightness": "Lighter",
+        "name": "理科类"
+      },
+      {
+        "hue": "Green",
+        "lightness": "Lighter",
+        "name": "农业类"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "不限"
+      },
+      {
+        "hue": "Blue",
+        "lightness": "Lighter",
+        "name": "未注明"
+      }
+    ],
+    "type": "select"
+  },
+  {
+    "default_value": null,
+    "description": "保留毕业日期范围、优秀/未就业等资格限制；历史标签无原句时明确待回源核实。",
+    "id": "fldc5ZpbBV",
+    "name": "届别条件说明",
+    "style": {
+      "type": "plain"
+    },
+    "type": "text"
+  }
+]
