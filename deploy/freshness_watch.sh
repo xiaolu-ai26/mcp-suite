@@ -2,9 +2,10 @@
 # freshness_watch.sh — 秋招管线新鲜度监控(服务器侧)
 # 由 /etc/cron.d/mcp-suite-freshness 以 mcp-suite 用户每 2 小时运行。
 # 判定规则:
-#   stale   — /health 的 data_as_of 距今 > 26h(采集/推送停了)
-#   lagging — lark-sync-receipt.json 存在,其 synced_source_sha256 与当前
-#             jobs.json sha256 不一致,且 receipt 的 synced_at 距今 > 6h(飞书没跟上)
+#   stale       — /health 的 data_as_of 距今 > 26h(采集/推送停了)
+#   lagging     — lark-sync-receipt.json 存在,其 synced_source_sha256 与当前
+#                 jobs.json sha256 不一致,且 receipt 的 synced_at 距今 > 6h(飞书没跟上)
+#   unreachable — /health 连续 3 次(间隔 10s)读不到;保留上次成功的 data_as_of 供参考
 # 结果原子写入 /var/lib/mcp-suite/freshness.json。只读 jobs.json,不改任何其他文件。
 set -u
 export DATA_DIR=/var/lib/mcp-suite
@@ -36,9 +37,21 @@ result = {
     'receipt': None,
 }
 
-try:
-    with urllib.request.urlopen(os.environ['HEALTH_URL'], timeout=10) as resp:
-        health = json.loads(resp.read().decode('utf-8'))
+# 单次超时不告警:最多 3 次、间隔 10 秒;三次都失败才记 unreachable,
+# 并从上一次 freshness.json 里带出最后一次成功读到的 data_as_of。
+health = None
+last_error = None
+for attempt in range(3):
+    try:
+        with urllib.request.urlopen(os.environ['HEALTH_URL'], timeout=10) as resp:
+            health = json.loads(resp.read().decode('utf-8'))
+        break
+    except Exception as exc:
+        last_error = exc
+        if attempt < 2:
+            time.sleep(10)
+
+if health is not None:
     data_as_of = health.get('data_as_of')
     result['data_as_of'] = data_as_of
     result['jobs'] = health.get('jobs')
@@ -51,8 +64,17 @@ try:
                 'stale: data_as_of %s is %.1fh old (> %dh)' % (data_as_of, age_h, stale_hours))
     else:
         result['problems'].append('stale: /health returned no data_as_of')
-except Exception as exc:
-    result['problems'].append('stale: cannot read %s: %s' % (os.environ['HEALTH_URL'], exc))
+else:
+    previous_path = os.path.join(data_dir, 'freshness.json')
+    try:
+        with open(previous_path, 'r', encoding='utf-8') as fh:
+            previous = json.load(fh)
+        if previous.get('data_as_of'):
+            result['last_known_data_as_of'] = previous['data_as_of']
+    except Exception:
+        pass
+    result['problems'].append(
+        'unreachable: cannot read %s after 3 attempts: %s' % (os.environ['HEALTH_URL'], last_error))
 
 jobs_path = os.path.join(data_dir, 'jobs.json')
 try:

@@ -88,31 +88,64 @@ def cli_file_context(args):
     return values,working
 
 
+NETWORK_RETRY_DELAYS = (5, 15, 45)
+
+
+def cli_error_payload(proc):
+    # lark-cli reports structured errors as a JSON body, on stdout (ok:false)
+    # or on stderr together with a non-zero exit code.
+    for text in (proc.stdout, proc.stderr):
+        try:
+            value = json.loads(text or '')
+        except ValueError:
+            continue
+        if isinstance(value, dict) and isinstance(value.get('error'), dict):
+            return value['error']
+    return None
+
+
 def cli(*args):
     env = dict(os.environ, LARKSUITE_CLI_NO_UPDATE_NOTIFIER='1', LARKSUITE_CLI_NO_SKILLS_NOTIFIER='1')
     values,working=cli_file_context(args)
-    temporary_bodies = []
-    try:
-        # Windows command-line length is finite; preserve JSON bytes via the CLI's existing @file protocol.
-        if WINDOWS:
-            for index, value in enumerate(values):
-                if index and values[index-1] == '--json' and isinstance(value,str) and not value.startswith('@') and len(value)>4096:
-                    directory=(Path(working) if working else Path.cwd())/'.lark-json-transport'
-                    directory.mkdir(parents=True,exist_ok=True)
-                    fd, name=tempfile.mkstemp(prefix='request-',suffix='.json',dir=directory)
-                    path=Path(name);temporary_bodies.append(path)
-                    with os.fdopen(fd,'w',encoding='utf-8') as target:target.write(value)
-                    values[index]='@'+os.path.relpath(path,Path(working) if working else Path.cwd())
-        proc = subprocess.run([shutil.which('lark-cli') or 'lark-cli', 'base', *values, '--as', 'user'], capture_output=True,
-                              text=True, encoding='utf-8', env=env, timeout=180,cwd=working)
-    finally:
-        for path in temporary_bodies:path.unlink(missing_ok=True)
-    if proc.returncode:
-        raise RuntimeError(proc.stderr[:2000])
-    result = json.loads(proc.stdout)
-    if result.get('ok') is False:
-        raise RuntimeError('lark-cli rejected request')
-    return result
+    attempt = 0
+    while True:
+        temporary_bodies = []
+        timed_out = None
+        try:
+            # Windows command-line length is finite; preserve JSON bytes via the CLI's existing @file protocol.
+            if WINDOWS:
+                for index, value in enumerate(values):
+                    if index and values[index-1] == '--json' and isinstance(value,str) and not value.startswith('@') and len(value)>4096:
+                        directory=(Path(working) if working else Path.cwd())/'.lark-json-transport'
+                        directory.mkdir(parents=True,exist_ok=True)
+                        fd, name=tempfile.mkstemp(prefix='request-',suffix='.json',dir=directory)
+                        path=Path(name);temporary_bodies.append(path)
+                        with os.fdopen(fd,'w',encoding='utf-8') as target:target.write(value)
+                        values[index]='@'+os.path.relpath(path,Path(working) if working else Path.cwd())
+            try:
+                proc = subprocess.run([shutil.which('lark-cli') or 'lark-cli', 'base', *values, '--as', 'user'], capture_output=True,
+                                      text=True, encoding='utf-8', env=env, timeout=180,cwd=working)
+            except subprocess.TimeoutExpired as error:
+                proc = None; timed_out = error
+        finally:
+            for path in temporary_bodies:path.unlink(missing_ok=True)
+        if proc is None:
+            error = {'type': 'network', 'subtype': 'timeout', 'message': str(timed_out)}
+        elif proc.returncode:
+            error = cli_error_payload(proc) or {'type': 'exit', 'message': proc.stderr[:2000]}
+        else:
+            result = json.loads(proc.stdout)
+            if result.get('ok') is not False:
+                return result
+            error = result.get('error') or {'type': 'unknown'}
+        if error.get('type') == 'network' and attempt < len(NETWORK_RETRY_DELAYS):
+            delay = NETWORK_RETRY_DELAYS[attempt]; attempt += 1
+            print(json.dumps({'cli_retry': attempt, 'delay_seconds': delay, 'command': values[0],
+                              'error_subtype': error.get('subtype'),
+                              'error_message': str(error.get('message', ''))[:300]}, ensure_ascii=False), flush=True)
+            time.sleep(delay)
+            continue
+        raise RuntimeError('lark-cli rejected request: ' + json.dumps(error, ensure_ascii=False)[:2000])
 
 
 def rel(path):
