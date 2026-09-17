@@ -189,6 +189,39 @@ def any_validated(status):
 4. **首日观察**:06:10 后看 `runs\<日期>\receipt.json`:`steps` 里出现 `2`、`step_changes` 有逐阶段条数、`publication.published=true` 即符合预期；预期当天新增量级 = postal/国聘五专场/p1 通过校验公司的增量。
 5. **回滚方法**:把备份的 4 个文件拷回即可；回滚后行为完全回到"非 0 即回滚"。被本修复保留入库的数据本身有完整证据链（evidence/ + source_state + step_changes),不需要数据层回滚；若确需数据回滚，服务器侧有每日 `jobs.json.bak.windows.*` 与 `runs\<日期>\jobs.before.json`。
 
+## E. 可部署产物与部署步骤(修订版,20260918)
+
+**为什么修订**:总控核实精灵正式目录 `deploy\windows_collector.py`(sha256 前16 `ea28c7b767a39391`,187 行,9-13 部署)不在 git 里,与 git main 的唯一差异是末尾飞书同步段——精灵版调 `qiuzhao.collector.lark_sync_daemon ... --apply`(`state['stage']='base-sync'`,`finished/success` 还要求 `sync_exit==0`);main/分支版是未部署的 `lark_sync_index` 镜像实现,精灵上没有 `lark_sync_index.py`,整文件拷上去会在同步段 ModuleNotFoundError。因此 `windows_collector.py` 必须用**移植版**(精灵正式版为底 + 仅套上分支 B4 的三处改动),**不能**用分支里的 `deploy/windows_collector.py`。`run.py`/`guopin.py`/`p1_pipeline.py` 精灵正式版与 main 逐字节一致,分支版可直接用。**本节取代上文《给总控的部署步骤建议》。**
+
+### E1. 产物(`pipeline-watch/deploy-artifacts/20260918/`,已随本提交入库)
+
+| 文件 | 来源 | sha256 前16 |
+|---|---|---|
+| `windows_collector.py` | **移植版** = 精灵正式版 + 分支 B4 三处改动 | `5025742fe86ffe24` |
+| `run.py` | 分支 `fix/collector-partial-keep` | `5e94f91b770ef02b` |
+| `guopin.py` | 分支 | `22e5f6ad0b66487b` |
+| `p1_pipeline.py` | 分支 | `dc046e32f37d7482` |
+| `windows_collector.prod-20260913.orig.py` | 精灵正式版原样备份(= 部署前回滚件) | `ea28c7b767a39391` |
+| `SHA256SUMS.txt` | 以上五个文件的完整 sha256 | — |
+| `PORT-DIFF.txt` | 精灵正式版 → 移植版的 unified diff,供总控逐行审 | — |
+
+移植版 = 对精灵正式版逐字节副本 `git apply` 分支 commit `3bb0632` 中 `deploy/windows_collector.py` 的 diff(三处 hunk,全部落在第 178 行之前,与同步段无交集)。`PORT-DIFF.txt` 可证:仅含 ① 新增 `diff_counts()`;② 退出码 2 保留产出 + `step_changes`;③ "all collection stages failed" 改为"没有任何阶段是 0 或 2"。末尾 `base-sync` 同步段与 `finished/success` 写法与精灵正式版逐字符一致(`lark_sync_daemon ... --apply`,无 `lark_sync_index`)。换行符风格已核对:精灵正式版与移植版均为 LF(精灵正式版本来就无 CRLF)。
+
+### E2. 验证记录
+
+- `python3 -m py_compile`:四个待部署文件全部通过(Mac)。
+- 单元测试:`tests/test_collector_partial_keep.py` 中 4 个 windows_collector 用例以 importlib 按路径加载**移植版**模块再跑一遍(`--no-sync` + 假 step,不调真实同步),**4 passed**。
+- 精灵临时目录 `C:\mcp-suite-partial-test\deploy\windows_collector.py`(分片 base64 传输,精灵侧 Get-FileHash 与 Mac 侧 shasum 逐字节一致;另补传了 import 依赖 `deploy\windows_rebase.py`):用正式 venv `Python 3.12.2` 以 `PYTHONPATH=C:\mcp-suite-partial-test` 执行 `py_compile` 与 `python -c "import deploy.windows_collector"` → `PY_COMPILE_OK` / `IMPORT_OK`,解析路径确认为临时目录内的移植版。**未运行 main,未触发发布/同步/计划任务,正式目录 `C:\mcp-suite-collector` 未动。**
+- 连通性备注:runbook 中精灵地址 `192.168.1.52` 已过时(搬家换宽带),本次实测可用地址 `192.168.31.204`。
+
+### E3. 部署步骤(修订版)
+
+1. **备份**:在精灵上把 `C:\mcp-suite-collector` 整目录 robocopy 一份到 `C:\mcp-suite-backup-<日期>\`(至少含 `deploy\windows_collector.py`、`qiuzhao\collector\run.py`、`guopin.py`、`p1_pipeline.py`)。其中 `deploy\windows_collector.py` 的备份应与 `deploy-artifacts/20260918/windows_collector.prod-20260913.orig.py` sha256 一致(`ea28c7b767a39391...`)——若不一致说明正式文件又被改过,**停下来找总控**。
+2. **传输**:把 `deploy-artifacts/20260918/` 下四个待部署文件传到精灵临时位置(scp 不可用,用分片 base64,方法同 E2),精灵侧 `Get-FileHash` 与 `SHA256SUMS.txt` **逐字节核对通过后再覆盖**。
+3. **只覆盖 4 个文件**:`qiuzhao\collector\run.py`、`qiuzhao\collector\guopin.py`、`qiuzhao\collector\p1_pipeline.py`(分支版)+ `deploy\windows_collector.py`(**用移植版 `deploy-artifacts/20260918/windows_collector.py`,不是分支 `deploy/windows_collector.py`**)。覆盖后再对这 4 个目标路径各做一次 sha256,与 `SHA256SUMS.txt` 比对留证。不需要重启任何服务;计划任务次日 06:10 自然生效。
+4. **首日观察**:06:10 后看 `runs\<日期>\receipt.json`:`steps` 出现 `2`、`step_changes` 有逐阶段条数、`stage` 依次过 `validate-and-publish` → `base-sync`、`sync_exit==0`、`publication.published=true` 即符合预期。
+5. **回滚方法**:`deploy\windows_collector.py` 用 `windows_collector.prod-20260913.orig.py`(或第 1 步的本地备份)拷回;其余三个文件用第 1 步备份拷回(它们与 main 逐字节一致,也可从 main 取)。回滚后行为完全回到"非 0 即回滚";被本修复保留入库的数据有完整证据链(evidence/ + source_state + step_changes),不需要数据层回滚,若确需可用服务器侧 `jobs.json.bak.windows.*` 与 `runs\<日期>\jobs.before.json`。
+
 ## 遗留问题与不确定点
 
 1. **chnenergy 的 SSL UNEXPECTED_EOF** 是精灵出口到国家能源站点的偶发断连（9-17 抓到 126/422 时断）。本修复让它不再拖死其他来源，但该来源本身仍可能天天失败；建议后续加重试/断点，不在本次范围。
