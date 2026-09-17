@@ -186,9 +186,14 @@ def main():
                             reset_p1(stage)
                         state.setdefault('step_changes',{})[name]={'exit':state['steps'][name],'result':'rolled_back'}
                     else:
+                        # diff_counts is reporting-only: its failure must never abort the run.
+                        try:
+                            changes=diff_counts(pre_step,stage/'jobs.json')
+                        except Exception as diff_failure:
+                            changes={'diff_error':type(diff_failure).__name__+': '+str(diff_failure)[:200]}
                         state.setdefault('step_changes',{})[name]=dict(
                             {'exit':state['steps'][name],'result':'ok' if state['steps'][name]==0 else 'partial'},
-                            **diff_counts(pre_step,stage/'jobs.json'))
+                            **changes)
                     pre_step.unlink();atomic_json(statepath,state)
             if state['steps']['normalize']!=0:raise ValueError('normalization failed; production retained')
             if all(state['steps'][name] not in (0,2) for name in state['steps'] if name!='normalize'):raise ValueError('all collection stages failed; production retained')

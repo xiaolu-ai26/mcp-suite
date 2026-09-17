@@ -3,6 +3,7 @@
 0 = every attempted source/scope validated; 2 = at least one validated and merged
 while another failed (callers keep the stage output); 1 = nothing trustworthy.
 """
+import importlib.util
 import json
 from pathlib import Path
 
@@ -248,15 +249,15 @@ def read_ids(path):
     return {r['id'] for r in json.loads(Path(path).read_text())}
 
 
-def run_windows_collector(tmp_path, monkeypatch, behavior, smoke=True):
-    """Drive W.main with fake pull/step/publish. behavior: step name -> exit code."""
+def run_windows_collector(tmp_path, monkeypatch, behavior, smoke=True, module=W):
+    """Drive main with fake pull/step/publish. behavior: step name -> exit code."""
     run_dir = tmp_path / 'runs' / ('day-smoke' if smoke else 'day')
     run_dir.mkdir(parents=True)
     baseline_rows = ['old']
 
     def fake_pull(target):
         write_jobs(Path(target), baseline_rows)
-        return W.digest(Path(target))
+        return module.digest(Path(target))
 
     def stage_of(args, env):
         for flag in ('--output-dir', '--data-dir', '--path'):
@@ -266,9 +267,9 @@ def run_windows_collector(tmp_path, monkeypatch, behavior, smoke=True):
         return Path(env['QIUZHAO_DATA_DIR'])  # auto_collect reads the stage dir from env
 
     def fake_step(args, log, env, timeout):
-        module = args[args.index('-m') + 1]
+        module_name = args[args.index('-m') + 1]
         name = {'qiuzhao.collector.run': 'basic', 'qiuzhao.collector.auto_collect': 'tencent',
-                'qiuzhao.collector.p1_pipeline': 'p1', 'qiuzhao.normalize': 'normalize'}[module]
+                'qiuzhao.collector.p1_pipeline': 'p1', 'qiuzhao.normalize': 'normalize'}[module_name]
         stage = stage_of(args, env)
         code = behavior.get(name, 0)
         if code != 1:  # a failing stage leaves the shared file untouched
@@ -282,18 +283,18 @@ def run_windows_collector(tmp_path, monkeypatch, behavior, smoke=True):
         return code
 
     def fake_publish(baseline, candidate, expected_base, work, pull, publish):
-        return {'publication': {'published': True, 'after_sha256': W.digest(Path(candidate))},
+        return {'publication': {'published': True, 'after_sha256': module.digest(Path(candidate))},
                 'published_path': str(candidate)}
 
-    monkeypatch.setattr(W, 'ROOT', tmp_path)
-    monkeypatch.setattr(W, 'pull', fake_pull)
-    monkeypatch.setattr(W, 'step', fake_step)
-    monkeypatch.setattr(W, 'publish_with_rebase', fake_publish)
+    monkeypatch.setattr(module, 'ROOT', tmp_path)
+    monkeypatch.setattr(module, 'pull', fake_pull)
+    monkeypatch.setattr(module, 'step', fake_step)
+    monkeypatch.setattr(module, 'publish_with_rebase', fake_publish)
     argv = ['windows_collector', '--no-sync', '--resume-run', str(run_dir)]
     if smoke:
         argv.append('--smoke')
     monkeypatch.setattr('sys.argv', argv)
-    code = W.main()
+    code = module.main()
     receipt = json.loads((run_dir / 'receipt.json').read_text())
     return code, receipt, run_dir
 
@@ -337,3 +338,30 @@ def test_windows_collector_all_stages_failed_keeps_production(tmp_path, monkeypa
     assert 'all collection stages failed' in receipt['error']
     assert 'publication' not in receipt
     assert receipt['step_changes']['basic']['result'] == 'rolled_back'
+
+
+def load_ported_collector():
+    """The jingling deploy artifact, loaded by path so it runs under the same harness."""
+    path = (Path(__file__).resolve().parents[1] / 'pipeline-watch' / 'deploy-artifacts'
+            / '20260918' / 'windows_collector.py')
+    spec = importlib.util.spec_from_file_location('windows_collector_ported', path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+@pytest.mark.parametrize('module', [W, load_ported_collector()], ids=['branch', 'ported'])
+def test_windows_collector_diff_counts_failure_is_reporting_only(tmp_path, monkeypatch, module):
+    def exploding_diff(*_args):
+        raise RuntimeError('diff exploded')
+
+    monkeypatch.setattr(module, 'diff_counts', exploding_diff)
+    code, receipt, _ = run_windows_collector(tmp_path, monkeypatch, {}, module=module)
+    assert code == 0  # the run still reaches publication and succeeds
+    assert 'publication' in receipt
+    changes = receipt['step_changes']['basic']
+    assert changes['exit'] == 0
+    assert changes['result'] == 'ok'
+    assert changes['diff_error'].startswith('RuntimeError: diff exploded')
+    assert 'added' not in changes
+    assert 'basic-new' in read_ids(tmp_path / 'data' / 'jobs.json')

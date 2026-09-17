@@ -197,7 +197,7 @@ def any_validated(status):
 
 | 文件 | 来源 | sha256 前16 |
 |---|---|---|
-| `windows_collector.py` | **移植版** = 精灵正式版 + 分支 B4 三处改动 | `5025742fe86ffe24` |
+| `windows_collector.py` | **移植版** = 精灵正式版 + 分支 B4 三处改动 + 小修(diff_counts 异常降级) | `14e17785ccff51f9` |
 | `run.py` | 分支 `fix/collector-partial-keep` | `5e94f91b770ef02b` |
 | `guopin.py` | 分支 | `22e5f6ad0b66487b` |
 | `p1_pipeline.py` | 分支 | `dc046e32f37d7482` |
@@ -205,7 +205,7 @@ def any_validated(status):
 | `SHA256SUMS.txt` | 以上五个文件的完整 sha256 | — |
 | `PORT-DIFF.txt` | 精灵正式版 → 移植版的 unified diff,供总控逐行审 | — |
 
-移植版 = 对精灵正式版逐字节副本 `git apply` 分支 commit `3bb0632` 中 `deploy/windows_collector.py` 的 diff(三处 hunk,全部落在第 178 行之前,与同步段无交集)。`PORT-DIFF.txt` 可证:仅含 ① 新增 `diff_counts()`;② 退出码 2 保留产出 + `step_changes`;③ "all collection stages failed" 改为"没有任何阶段是 0 或 2"。末尾 `base-sync` 同步段与 `finished/success` 写法与精灵正式版逐字符一致(`lark_sync_daemon ... --apply`,无 `lark_sync_index`)。换行符风格已核对:精灵正式版与移植版均为 LF(精灵正式版本来就无 CRLF)。
+移植版 = 对精灵正式版逐字节副本 `git apply` 分支 commit `3bb0632` 中 `deploy/windows_collector.py` 的 diff(三处 hunk,全部落在第 178 行之前,与同步段无交集),随后叠加总控小修(见 E4)。`PORT-DIFF.txt` 可证:仅含 ① 新增 `diff_counts()`;② 退出码 2 保留产出 + `step_changes`;③ "all collection stages failed" 改为"没有任何阶段是 0 或 2";④ `diff_counts` 调用包进 try/except(小修)。末尾 `base-sync` 同步段与 `finished/success` 写法与精灵正式版逐字符一致(`lark_sync_daemon ... --apply`,无 `lark_sync_index`)。换行符风格已核对:精灵正式版与移植版均为 LF(精灵正式版本来就无 CRLF)。
 
 ### E2. 验证记录
 
@@ -213,6 +213,18 @@ def any_validated(status):
 - 单元测试:`tests/test_collector_partial_keep.py` 中 4 个 windows_collector 用例以 importlib 按路径加载**移植版**模块再跑一遍(`--no-sync` + 假 step,不调真实同步),**4 passed**。
 - 精灵临时目录 `C:\mcp-suite-partial-test\deploy\windows_collector.py`(分片 base64 传输,精灵侧 Get-FileHash 与 Mac 侧 shasum 逐字节一致;另补传了 import 依赖 `deploy\windows_rebase.py`):用正式 venv `Python 3.12.2` 以 `PYTHONPATH=C:\mcp-suite-partial-test` 执行 `py_compile` 与 `python -c "import deploy.windows_collector"` → `PY_COMPILE_OK` / `IMPORT_OK`,解析路径确认为临时目录内的移植版。**未运行 main,未触发发布/同步/计划任务,正式目录 `C:\mcp-suite-collector` 未动。**
 - 连通性备注:runbook 中精灵地址 `192.168.1.52` 已过时(搬家换宽带),本次实测可用地址 `192.168.31.204`。
+
+### E4. 小修记录(20260918,总控审查 `fix/collector-partial-keep`@`8936f72` 后)
+
+**审查结论**:移植版通过,仅要求一处加固——`diff_counts` 是报告功能,出错不得中断采集。
+
+**改动**(分支 `deploy/windows_collector.py` 与移植版 `deploy-artifacts/20260918/windows_collector.py` 两份逐字符一致地改):步骤循环内 `diff_counts(pre_step,stage/'jobs.json')` 调用包进 `try/except Exception`;失败时 `step_changes[name]` 仍记录 `exit` 与 `result`(`ok`/`partial`),另加 `'diff_error': type(e).__name__+': '+str(e)[:200]`,流程照常继续到发布。移植版其余内容(尤其末尾 `base-sync` 同步段)一个字符未动(`PORT-DIFF.txt` 已重生成可证)。
+
+**验证**:
+
+- 新增单测 `test_windows_collector_diff_counts_failure_is_reporting_only`(monkeypatch `diff_counts` 抛 `RuntimeError`):断言退出码 0、已发布(`publication` 在 receipt)、`step_changes.basic` 有 `exit=0`/`result='ok'`/`diff_error` 且无 `added`、阶段产出(`basic-new`)仍落库。对分支版与移植版(importlib 按路径加载)各跑一遍,**均通过**;`tests/test_collector_partial_keep.py` 全文件 **18 passed**。
+- `SHA256SUMS.txt` 与 `PORT-DIFF.txt` 已重新生成;四个待部署文件 Mac 侧 `py_compile` 全部通过。移植版新 sha256:**`14e17785ccff51f94aea519bee1637582d974c6d65540ee6f379954b08c90c4a`**(14265 字节)。
+- 移植版新文件已分片 base64(10 片 × 2000 字符,避开远端 cmd 8191 字符命令行上限)同步到精灵临时目录 `C:\mcp-suite-partial-test\deploy\windows_collector.py`:精灵侧 `Get-FileHash` SHA256 = `14E17785...C90C4A`、长度 14265,与 Mac 侧逐字节一致;正式 venv `Python 3.12.2` 以 `PYTHONPATH=C:\mcp-suite-partial-test` 执行 `py_compile` → `PY_COMPILE_OK`,`import deploy.windows_collector` → `IMPORT_OK`(解析路径确认为临时目录内移植版)。**未运行 main,未触发发布/同步/计划任务,未覆盖 `C:\mcp-suite-collector\` 下任何文件。**
 
 ### E3. 部署步骤(修订版)
 

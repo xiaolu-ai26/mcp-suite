@@ -1,5 +1,5 @@
---- pipeline-watch/deploy-artifacts/20260918/windows_collector.prod-20260913.orig.py	2026-09-18 01:37:53
-+++ pipeline-watch/deploy-artifacts/20260918/windows_collector.py	2026-09-18 01:37:53
+--- pipeline-watch/deploy-artifacts/20260918/windows_collector.prod-20260913.orig.py	2026-09-18 01:49:00
++++ pipeline-watch/deploy-artifacts/20260918/windows_collector.py	2026-09-18 01:50:21
 @@ -79,6 +79,32 @@
      atomic_json(candidate,[*identified,*anonymous])
      return preserved,len(identified)+len(anonymous)
@@ -33,7 +33,7 @@
  def publish_snapshot(candidate,expected_base,workdir):
      """Invoke the existing receiver; only version conflicts permit a rebase retry."""
      workdir=Path(workdir);workdir.mkdir(parents=True,exist_ok=True)
-@@ -152,13 +178,20 @@
+@@ -152,13 +178,25 @@
                          if name=='p1':reset_p1(stage)
                          raise
                      if name!='normalize':state['steps'].pop('normalize',None)
@@ -46,9 +46,14 @@
                              reset_p1(stage)
 +                        state.setdefault('step_changes',{})[name]={'exit':state['steps'][name],'result':'rolled_back'}
 +                    else:
++                        # diff_counts is reporting-only: its failure must never abort the run.
++                        try:
++                            changes=diff_counts(pre_step,stage/'jobs.json')
++                        except Exception as diff_failure:
++                            changes={'diff_error':type(diff_failure).__name__+': '+str(diff_failure)[:200]}
 +                        state.setdefault('step_changes',{})[name]=dict(
 +                            {'exit':state['steps'][name],'result':'ok' if state['steps'][name]==0 else 'partial'},
-+                            **diff_counts(pre_step,stage/'jobs.json'))
++                            **changes)
                      pre_step.unlink();atomic_json(statepath,state)
              if state['steps']['normalize']!=0:raise ValueError('normalization failed; production retained')
 -            if all(state['steps'][name]!=0 for name in state['steps'] if name!='normalize'):raise ValueError('all collection stages failed; production retained')
