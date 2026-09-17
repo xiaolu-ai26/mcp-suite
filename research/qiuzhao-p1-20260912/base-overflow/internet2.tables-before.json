@@ -1,0 +1,59 @@
+{
+  "ok": true,
+  "identity": "user",
+  "data": {
+    "tables": [
+      {
+        "id": "tblX7rOpjWaRArng",
+        "name": "互联网科技岗",
+        "records_count": 19702,
+        "rev": 1454
+      },
+      {
+        "id": "tblu0nsYjntEOCGY",
+        "name": "互联网科技岗·续表1",
+        "records_count": 19993,
+        "rev": 623
+      },
+      {
+        "id": "tbl0xkmJUMmLqZ1W",
+        "name": "国企央企岗",
+        "records_count": 5920,
+        "rev": 401
+      },
+      {
+        "id": "tbl0gDcxEaIOYERw",
+        "name": "制造工业岗",
+        "records_count": 14723,
+        "rev": 1470
+      },
+      {
+        "id": "tbllqb2R9itUKXdH",
+        "name": "制造工业岗·续表1",
+        "records_count": 19973,
+        "rev": 607
+      },
+      {
+        "id": "tblffIc9CoTXcRUH",
+        "name": "制造工业岗·续表2",
+        "records_count": 5093,
+        "rev": 160
+      },
+      {
+        "id": "tblcrBAi0ld7uej8",
+        "name": "其他行业岗",
+        "records_count": 7632,
+        "rev": 743
+      }
+    ],
+    "total": 7
+  },
+  "_notice": {
+    "update": {
+      "command": "lark-cli update",
+      "current": "1.0.89",
+      "latest": "1.0.95",
+      "message": "lark-cli 1.0.95 available, current 1.0.89, run: lark-cli update"
+    }
+  }
+}

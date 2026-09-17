@@ -24,11 +24,9 @@ EXTERNAL_RUNS=EXTERNAL_MOUNT/'MCP产品/qiuzhao-p1-20260913/runtime-runs'
 TABLES = ['tblX7rOpjWaRArng', 'tbl0xkmJUMmLqZ1W', 'tbl0gDcxEaIOYERw', 'tblcrBAi0ld7uej8']
 ORIGINAL_TABLES = tuple(TABLES)
 INTERNET_CONTINUATION_1 = 'tblu0nsYjntEOCGY'
-# 占位待启用(2026-09-17 pipeline-watch 审计):互联网科技岗·续表1 已 19993/20000,距上限 7 行。
-# 启用前需站长在飞书建好同名续表「互联网科技岗·续表2」,把真实 table_id 替换下行占位符,
-# 并按既有 verified 约定留存 schema 核对证据(参照 manufacturing2.*.json)。占位符不是合法
-# table_id,daemon 的 live-table 校验会拒绝运行,不会误写线上。
-INTERNET_CONTINUATION = 'PENDING_CREATE_IN_FEISHU__internet_continuation_2'
+# 互联网科技岗·续表2:已建表并逐字段核对通过(19/19 字段名/类型/顺序/选项一致,含 工作地点
+# 624 个选项),0 条记录。核对证据见 research/qiuzhao-p1-20260912/base-overflow/internet2.*.json。
+INTERNET_CONTINUATION = 'tblZOCFHBraQThw9'
 MANUFACTURING_CONTINUATION_1 = 'tbllqb2R9itUKXdH'
 MANUFACTURING_CONTINUATION = 'tblffIc9CoTXcRUH'
 TABLES_V6 = [*ORIGINAL_TABLES, INTERNET_CONTINUATION_1, MANUFACTURING_CONTINUATION_1]
