@@ -36,6 +36,11 @@ PLANS = {
                      # last tier. Only redeemed formal codes of this plan take a rank. The redemption
                      # page and the admin page both read this through /api/pricing.
                      "early_bird": ((10, 29.9), (50, 39.9), (100, 49.9))},
+    "qiuzhao-trial": {"product": "qiuzhao", "price_cny": 9.9, "daily_limit": 100, "days": 7,
+                      "sale_ends_at": "2027-12-31T00:00:00+08:00",
+                      "code_prefix": "QT-", "key_prefix": "qt_",
+                      "ended_message": "试用已结束，请购买正式会员。",
+                      "code_kinds": True},
     "bench-monthly": {"product": "bench", "price_cny": 29, "daily_limit": 200, "days": 30,
                       "sale_ends_at": "2027-12-31T00:00:00+08:00",
                       "code_prefix": "BM-", "key_prefix": "bm_",
