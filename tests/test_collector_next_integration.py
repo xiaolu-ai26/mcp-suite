@@ -22,6 +22,7 @@ from qiuzhao.collector import p1_platform_moka as moka
 PLATFORM_ONLY = ('中信建投', '中金公司', '国信证券', '浙江民泰商业银行',
                  '安踏集团', '小天才', '信也科技')
 OVERLAP = ('三七互娱', '金山办公', '鹰角网络')
+BANK_ONLY = ('中国工商银行', '中国农业银行', '交通银行', '招商银行', '中信银行')
 
 
 def validated(company, scope='campus'):
@@ -56,11 +57,18 @@ def test_default_companies_append_platform_in_config_order_without_duplicates():
 
 
 def test_platform_companies_are_appended_after_hardcoded_in_config_order():
-    platform = [name for name in p.DEFAULT_COMPANIES if name not in p.COMPANIES]
+    extra = [name for name in p.DEFAULT_COMPANIES if name not in p.COMPANIES]
+    platform = [name for name in extra if name in PLATFORM_ONLY]
+    banks = [name for name in extra if name in BANK_ONLY]
     assert set(platform) == set(PLATFORM_ONLY)
-    # p1_platform_companies.json lists beisen first, then moka.
+    assert set(banks) == set(BANK_ONLY)
+    # p1_platform_companies.json lists beisen first, then moka; banks come last.
     assert platform.index('中信建投') < platform.index('安踏集团')
     assert platform[-1] == '信也科技'
+    assert extra[:len(platform)] == platform
+    assert extra[-len(banks):] == banks
+    for name in BANK_ONLY:
+        assert p.REGISTRY[name] == 'qiuzhao.collector.p1_banks_01'
 
 
 def test_platform_company_runs_without_index_error_and_gets_unique_dir(tmp_path):

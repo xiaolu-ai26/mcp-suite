@@ -1,0 +1,1690 @@
+{
+ "IsSuc": true,
+ "Msg": "查询成功！",
+ "pageCount": 20,
+ "tableData": {
+  "rows": [
+   {
+    "columns": [
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "BRANCH_DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "CONTENT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "RELEASENAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEMANDCOUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "WORKADDR"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "FBZWDATE"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "POSTNAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "IS_COUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "SH_UP"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "XY_UP"
+     }
+    ],
+    "rowIndex": 0,
+    "itemMap": {
+     "DEPT_ID": 3214,
+     "ISDELIVERY": "0",
+     "RELEASENAME": "客户经理类(A005272)",
+     "DEPT_CODE": "1007034",
+     "FBZWDATE": "2026-09-01",
+     "DEMANDCOUNT": 0,
+     "IS_COUNT": "1",
+     "XY_UP": "1",
+     "BRANCH_DEPT_CODE": "1007",
+     "CONTENT": "营口分行",
+     "ID": 5826,
+     "POSTNAME": "客户经理类",
+     "WORKADDR": "辽宁营口市"
+    },
+    "dataRowState": "Added"
+   },
+   {
+    "columns": [
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "BRANCH_DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "CONTENT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "RELEASENAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEMANDCOUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "WORKADDR"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "FBZWDATE"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "POSTNAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "IS_COUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "SH_UP"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "XY_UP"
+     }
+    ],
+    "rowIndex": 1,
+    "itemMap": {
+     "DEPT_ID": 8148,
+     "ISDELIVERY": "0",
+     "RELEASENAME": "信息科技类(A005271)",
+     "DEPT_CODE": "1019",
+     "FBZWDATE": "2026-09-01",
+     "DEMANDCOUNT": 0,
+     "IS_COUNT": "1",
+     "XY_UP": "1",
+     "BRANCH_DEPT_CODE": "1019",
+     "CONTENT": "南昌分行",
+     "ID": 5825,
+     "POSTNAME": "信息科技类",
+     "WORKADDR": "江西南昌市,江西萍乡市,江西九江市,江西赣州市,江西上饶市"
+    },
+    "dataRowState": "Added"
+   },
+   {
+    "columns": [
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "BRANCH_DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "CONTENT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "RELEASENAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEMANDCOUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "WORKADDR"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "FBZWDATE"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "POSTNAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "IS_COUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "SH_UP"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "XY_UP"
+     }
+    ],
+    "rowIndex": 2,
+    "itemMap": {
+     "DEPT_ID": 12222,
+     "ISDELIVERY": "0",
+     "RELEASENAME": "信息科技类(A005268)",
+     "DEPT_CODE": "1029",
+     "FBZWDATE": "2026-08-31",
+     "DEMANDCOUNT": 0,
+     "IS_COUNT": "1",
+     "XY_UP": "1",
+     "BRANCH_DEPT_CODE": "1029",
+     "CONTENT": "重庆分行",
+     "ID": 5822,
+     "POSTNAME": "信息科技类",
+     "WORKADDR": "重庆市"
+    },
+    "dataRowState": "Added"
+   },
+   {
+    "columns": [
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "BRANCH_DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "CONTENT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "RELEASENAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEMANDCOUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "WORKADDR"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "FBZWDATE"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "POSTNAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "IS_COUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "SH_UP"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "XY_UP"
+     }
+    ],
+    "rowIndex": 3,
+    "itemMap": {
+     "DEPT_ID": 9213,
+     "ISDELIVERY": "0",
+     "RELEASENAME": "信息科技类(A005260)",
+     "DEPT_CODE": "1022",
+     "FBZWDATE": "2026-08-31",
+     "DEMANDCOUNT": 0,
+     "IS_COUNT": "1",
+     "XY_UP": "1",
+     "BRANCH_DEPT_CODE": "1022",
+     "CONTENT": "郑州分行",
+     "ID": 5814,
+     "POSTNAME": "信息科技类",
+     "WORKADDR": "河南郑州市"
+    },
+    "dataRowState": "Added"
+   },
+   {
+    "columns": [
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "BRANCH_DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "CONTENT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "RELEASENAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEMANDCOUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "WORKADDR"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "FBZWDATE"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "POSTNAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "IS_COUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "SH_UP"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "XY_UP"
+     }
+    ],
+    "rowIndex": 4,
+    "itemMap": {
+     "DEPT_ID": 14111,
+     "ISDELIVERY": "0",
+     "RELEASENAME": "信息科技类(A005253)",
+     "DEPT_CODE": "1037",
+     "FBZWDATE": "2026-08-31",
+     "DEMANDCOUNT": 0,
+     "IS_COUNT": "1",
+     "XY_UP": "1",
+     "BRANCH_DEPT_CODE": "1037",
+     "CONTENT": "西宁分行",
+     "ID": 5807,
+     "POSTNAME": "信息科技类",
+     "WORKADDR": "青海西宁市"
+    },
+    "dataRowState": "Added"
+   },
+   {
+    "columns": [
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "BRANCH_DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "CONTENT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "RELEASENAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEMANDCOUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "WORKADDR"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "FBZWDATE"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "POSTNAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "IS_COUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "SH_UP"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "XY_UP"
+     }
+    ],
+    "rowIndex": 5,
+    "itemMap": {
+     "DEPT_ID": 10700,
+     "ISDELIVERY": "0",
+     "RELEASENAME": "信息科技类(A005201)",
+     "DEPT_CODE": "1025",
+     "FBZWDATE": "2026-08-31",
+     "DEMANDCOUNT": 0,
+     "IS_COUNT": "1",
+     "XY_UP": "1",
+     "BRANCH_DEPT_CODE": "1025",
+     "CONTENT": "广州分行",
+     "ID": 5755,
+     "POSTNAME": "信息科技类",
+     "WORKADDR": "广东广州市"
+    },
+    "dataRowState": "Added"
+   },
+   {
+    "columns": [
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "BRANCH_DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "CONTENT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "RELEASENAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEMANDCOUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "WORKADDR"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "FBZWDATE"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "POSTNAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "IS_COUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "SH_UP"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "XY_UP"
+     }
+    ],
+    "rowIndex": 6,
+    "itemMap": {
+     "DEPT_ID": 7082,
+     "ISDELIVERY": "0",
+     "RELEASENAME": "信息科技类(A005184)",
+     "DEPT_CODE": "1016",
+     "FBZWDATE": "2026-08-31",
+     "DEMANDCOUNT": 0,
+     "IS_COUNT": "1",
+     "XY_UP": "1",
+     "BRANCH_DEPT_CODE": "1016",
+     "CONTENT": "合肥分行",
+     "ID": 5738,
+     "POSTNAME": "信息科技类",
+     "WORKADDR": "安徽合肥市"
+    },
+    "dataRowState": "Added"
+   },
+   {
+    "columns": [
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "BRANCH_DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "CONTENT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "RELEASENAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEMANDCOUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "WORKADDR"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "FBZWDATE"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "POSTNAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "IS_COUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "SH_UP"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "XY_UP"
+     }
+    ],
+    "rowIndex": 7,
+    "itemMap": {
+     "DEPT_ID": 13889,
+     "ISDELIVERY": "0",
+     "RELEASENAME": "信息科技类(A005157)",
+     "DEPT_CODE": "1035",
+     "FBZWDATE": "2026-08-31",
+     "DEMANDCOUNT": 0,
+     "IS_COUNT": "1",
+     "XY_UP": "1",
+     "BRANCH_DEPT_CODE": "1035",
+     "CONTENT": "乌鲁木齐分行",
+     "ID": 5711,
+     "POSTNAME": "信息科技类",
+     "WORKADDR": "新疆乌鲁木齐市,新疆伊犁伊宁市,新疆伊犁哈萨克自治州霍尔果斯市"
+    },
+    "dataRowState": "Added"
+   },
+   {
+    "columns": [
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "BRANCH_DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "CONTENT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "RELEASENAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEMANDCOUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "WORKADDR"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "FBZWDATE"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "POSTNAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "IS_COUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "SH_UP"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "XY_UP"
+     }
+    ],
+    "rowIndex": 8,
+    "itemMap": {
+     "DEPT_ID": 7425,
+     "ISDELIVERY": "0",
+     "RELEASENAME": "信息科技类(A005146)",
+     "DEPT_CODE": "1017",
+     "FBZWDATE": "2026-08-31",
+     "DEMANDCOUNT": 0,
+     "IS_COUNT": "1",
+     "XY_UP": "1",
+     "BRANCH_DEPT_CODE": "1017",
+     "CONTENT": "福州分行",
+     "ID": 5700,
+     "POSTNAME": "信息科技类",
+     "WORKADDR": "福建福州鼓楼区,福建福州台江区,福建福州仓山区,福建福州马尾区,福建福州晋安区,福建福州长乐区,福建福州闽侯县,福建福州连江县,福建福州平潭县,福建福州罗源县,福建福州福清市,福建泉州市,福建莆田市,福建三明市,福建漳州市,福建龙岩市,福建宁德市"
+    },
+    "dataRowState": "Added"
+   },
+   {
+    "columns": [
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "BRANCH_DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "CONTENT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "RELEASENAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEMANDCOUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "WORKADDR"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "FBZWDATE"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "POSTNAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "IS_COUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "SH_UP"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "XY_UP"
+     }
+    ],
+    "rowIndex": 9,
+    "itemMap": {
+     "DEPT_ID": 3229,
+     "ISDELIVERY": "0",
+     "RELEASENAME": "信息科技类(A005139)",
+     "DEPT_CODE": "1008",
+     "FBZWDATE": "2026-08-31",
+     "DEMANDCOUNT": 0,
+     "IS_COUNT": "1",
+     "XY_UP": "1",
+     "BRANCH_DEPT_CODE": "1008",
+     "CONTENT": "大连分行",
+     "ID": 5693,
+     "POSTNAME": "信息科技类",
+     "WORKADDR": "辽宁大连市"
+    },
+    "dataRowState": "Added"
+   },
+   {
+    "columns": [
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "BRANCH_DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "CONTENT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "RELEASENAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEMANDCOUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "WORKADDR"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "FBZWDATE"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "POSTNAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "IS_COUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "SH_UP"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "XY_UP"
+     }
+    ],
+    "rowIndex": 10,
+    "itemMap": {
+     "DEPT_ID": 13073,
+     "ISDELIVERY": "0",
+     "RELEASENAME": "信息科技类(A005117)",
+     "DEPT_CODE": "1032",
+     "FBZWDATE": "2026-08-31",
+     "DEMANDCOUNT": 0,
+     "IS_COUNT": "1",
+     "XY_UP": "1",
+     "BRANCH_DEPT_CODE": "1032",
+     "CONTENT": "昆明分行",
+     "ID": 5671,
+     "POSTNAME": "信息科技类",
+     "WORKADDR": "云南昆明市,云南曲靖市,云南玉溪市,云南大理白族自治州"
+    },
+    "dataRowState": "Added"
+   },
+   {
+    "columns": [
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "BRANCH_DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "CONTENT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "RELEASENAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEMANDCOUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "WORKADDR"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "FBZWDATE"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "POSTNAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "IS_COUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "SH_UP"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "XY_UP"
+     }
+    ],
+    "rowIndex": 11,
+    "itemMap": {
+     "DEPT_ID": 11940,
+     "ISDELIVERY": "0",
+     "RELEASENAME": "信息科技类(A005116)",
+     "DEPT_CODE": "1027",
+     "FBZWDATE": "2026-08-31",
+     "DEMANDCOUNT": 0,
+     "IS_COUNT": "1",
+     "XY_UP": "1",
+     "BRANCH_DEPT_CODE": "1027",
+     "CONTENT": "南宁分行",
+     "ID": 5670,
+     "POSTNAME": "信息科技类",
+     "WORKADDR": "广西南宁市,广西柳州市,广西钦州市,广西桂林市"
+    },
+    "dataRowState": "Added"
+   },
+   {
+    "columns": [
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "BRANCH_DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "CONTENT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "RELEASENAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEMANDCOUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "WORKADDR"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "FBZWDATE"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "POSTNAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "IS_COUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "SH_UP"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "XY_UP"
+     }
+    ],
+    "rowIndex": 12,
+    "itemMap": {
+     "DEPT_ID": 5395,
+     "ISDELIVERY": "0",
+     "RELEASENAME": "信息科技类(A005107)",
+     "DEPT_CODE": "1013",
+     "FBZWDATE": "2026-08-31",
+     "DEMANDCOUNT": 0,
+     "IS_COUNT": "1",
+     "XY_UP": "1",
+     "BRANCH_DEPT_CODE": "1013",
+     "CONTENT": "苏州分行",
+     "ID": 5661,
+     "POSTNAME": "信息科技类",
+     "WORKADDR": "江苏苏州市"
+    },
+    "dataRowState": "Added"
+   },
+   {
+    "columns": [
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "BRANCH_DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "CONTENT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "RELEASENAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEMANDCOUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "WORKADDR"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "FBZWDATE"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "POSTNAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "IS_COUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "SH_UP"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "XY_UP"
+     }
+    ],
+    "rowIndex": 13,
+    "itemMap": {
+     "DEPT_ID": 10281,
+     "ISDELIVERY": "0",
+     "RELEASENAME": "信息科技类(A005082)",
+     "DEPT_CODE": "1024",
+     "FBZWDATE": "2026-08-31",
+     "DEMANDCOUNT": 0,
+     "IS_COUNT": "1",
+     "XY_UP": "1",
+     "BRANCH_DEPT_CODE": "1024",
+     "CONTENT": "长沙分行",
+     "ID": 5636,
+     "POSTNAME": "信息科技类",
+     "WORKADDR": "湖南长沙市"
+    },
+    "dataRowState": "Added"
+   },
+   {
+    "columns": [
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "BRANCH_DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_CODE"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "CONTENT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "RELEASENAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEPT_ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "DEMANDCOUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "WORKADDR"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "FBZWDATE"
+     },
+     {
+      "displayed": true,
+      "dataType": 4,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "ID"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "POSTNAME"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "IS_COUNT"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "SH_UP"
+     },
+     {
+      "displayed": true,
+      "dataType": 12,
+      "columnIndex": 0,
+      "readOnly": false,
+      "columnName": "XY_UP"
+     }
+    ],
+    "rowIndex": 14,
+    "itemMap": {
+     "DEPT_ID": 446,
+     "ISDELIVERY": "0",
+     "RELEASENAME": "信息科技类(A005062)",
+     "DEPT_CODE": "1002",
+     "FBZWDATE": "2026-08-31",
+     "DEMANDCOUNT": 0,
+     "IS_COUNT": "1",
+     "XY_UP": "1",
+     "BRANCH_DEPT_CODE": "1002",
+     "CONTENT": "北京分行",
+     "ID": 5616,
+     "POSTNAME": "信息科技类",
+     "WORKADDR": "北京市"
+    },
+    "dataRowState": "Added"
+   }
+  ],
+  "totalCount": 15
+ }
+}
