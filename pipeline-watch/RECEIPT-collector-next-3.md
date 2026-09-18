@@ -240,3 +240,175 @@ REGISTRY 各占一条、互不覆盖；守护单测断言 REGISTRY/默认集合�
    首日是否 blocked，仍需部署执行者在部署时确认（本任务未 SSH、未验证）。
 6. **本任务未部署**：k 的首次真实运行数据（948 家的耗时、`--max-run-seconds 18000`
    是否够、各平台 blocked 比例）要等次日 06:10 那次运行才能确认。
+
+## 10. 部署记录（20260918k 叠加部署到精灵，2026-09-18 20:19–20:31）
+
+**结论先行：部署成功，未触发回滚。** 执行者按任务书把累积部署件
+`pipeline-watch/deploy-artifacts/20260918k/`（分支 `feat/collector-next-3`，
+`git log -1 --format=%h feat/collector-next-3` = **`f423084`**）叠加覆盖到精灵
+`C:\mcp-suite-collector` 的 **17 个目标路径**。部署前按 `PROD-BACKUP-MANIFEST.txt`
+的**前提②**（精灵已是 20260918h）逐文件核对现役哈希：**17/17 一致、零漂移**，
+确认精灵确为 h 状态，未出现 i/j 越权上线或旁路改动。四道哈希（部署前前提 / 备份内容 /
+覆盖后目标 / 暂存区对清单）全部通过；`py_compile` 退出码 0，
+`IMPORT_OK 948 948`，REGISTRY 抽查 `字节跳动→p1_bytedance_public`、
+`美的集团→p1_midea_public`、`德勤→p1_foreign_01`、`百事→p1_platform_51job`。
+Playwright `chromium-1187` 已在位，**只做启动验证、未重装**。
+
+硬约束遵守情况：未重启任何服务、未改计划任务定义、未碰 `.venv` 内 Playwright 以外内容、
+未碰 `data\` 与 `runs\`、未碰 `run.py`、未碰阿里云、未手动跑飞书同步、未读取或打印任何
+令牌、未删除精灵上任何目录、未 push、未合并、**未终止任何进程**。
+
+### 10.1 时间线（Asia/Shanghai，均为远端/本地实测值）
+
+| 时刻 | 步骤 | 实测结果 |
+|---|---|---|
+| 20:19:32 | 步骤1 等空闲判定 | **通过** |
+| 20:19:5x | 部署前前提②逐文件核对 | **17/17 一致**（ok=17 bad=0） |
+| 20:20:12 | 步骤2 robocopy 备份结束 | deploy 退出码 **1**、qiuzhao 退出码 **1**（≤7 = 成功） |
+| 20:20:2x | 备份内容按前提②复核 | **17/17 一致**（ok=17 bad=0） |
+| 20:20:5x | 步骤3 Playwright 确认 | `chromium-1187` 在，最小启动 **`LAUNCH_OK`**，未重装 |
+| 20:21:5x–20:26:59 | 步骤4 分片 base64 传输 17 文件 | **17/17 `XFER_OK`**（每片 ≤1300 字节，两片一次调用） |
+| 20:27:0x | 暂存区按远端 `SHA256SUMS.txt` 独立复核 | **`STAGE-VERIFY ok=17 bad=0`**，`_tmp` 无残留 |
+| **20:27:41** | 步骤5 覆盖 17 个目标路径 | `COPY_DONE`（新增文件 CreationTime=20:27:41 实测） |
+| 20:27:5x | 覆盖后目标路径复核哈希 | **`PROD-AFTER-K ok=17 bad=0`** |
+| 20:28:0x | `py_compile` + import + REGISTRY 校验 | **全通过**（见 10.5） |
+| 20:28:19 | 收尾核查（`run.py`、计划任务、`runs\`/`data\` 未动） | **通过**（见 10.6） |
+
+### 10.2 步骤1 等空闲（判定：空闲，未等待）
+
+| 判据 | 实测 |
+|---|---|
+| `runs\<今天>\receipt.json` 有 `completed_at` | `runs\20260918\receipt.json`（注意目录名是 `20260918`，不是 `2026-09-18`）`completed_at = 2026-09-18T20:03:53.883036+08:00`，`started_at = 2026-09-18T06:10:01`，`steps = {basic:2, tencent:0, p1:2, normalize:0}` |
+| 无 `windows_collector.py` / `p1_pipeline` / `lark_sync` 的 python 进程 | 全机仅 1 个 python 进程：`pythonw.exe "C:\jack-asr\bridge.py"`（PID 20956，与秋招无关），标记匹配结果 `NO-MATCH` |
+| `data\lark-sync\status.json` 不是 `running` | `status = "success"`，`phase = "complete"`，`finished_at = 12:03:53Z`（= 20:03:53+08），mtime 20:03:53 |
+
+当日 06:10 那一轮已在 20:03:53 全部收尾，20:19 判定空闲成立，**未发生 5 分钟轮询等待**。
+
+### 10.3 步骤2 备份（新时间戳，未覆盖既有备份）
+
+- 备份目录：**`C:\mcp-suite-backup-20260918-2020`**（CreationTime 实测 2026-09-18 20:20:12）。
+  既有的 `C:\mcp-suite-backup-20260918`（13:06）与 `C:\mcp-suite-backup-20260918-2010`
+  （h 那次部署，20:10）**原样保留、未被触碰**。
+- 命令与结果（只备份 `deploy` 与 `qiuzhao` 两棵树，**未**做全目录 robocopy）：
+  - `robocopy C:\mcp-suite-collector\deploy C:\mcp-suite-backup-20260918-2020\deploy /E /R:2 /W:5` → 退出码 **1**（94.6 k）
+  - `robocopy C:\mcp-suite-collector\qiuzhao C:\mcp-suite-backup-20260918-2020\qiuzhao /E /R:2 /W:5` → 退出码 **1**（2.12 m）
+- 备份内容复核（根 `C:\mcp-suite-backup-20260918-2020` + 同一张 17 行前提②表）：
+  **`ok=17 bad=0`**，即 13 个现役文件哈希与前提②逐一相等，4 个文件确认 ABSENT。
+
+### 10.4 步骤4/5 哈希对照（覆盖前 = 前提②，覆盖后 = k 清单）
+
+| 目标路径（相对 `C:\mcp-suite-collector`） | 覆盖前 sha256（前提②实测） | 覆盖后 sha256（= k 清单） | 覆盖后字节 |
+|---|---|---|---|
+| `qiuzhao\collector\p1_pipeline.py` | `c48dbf94c13f03394897a767f2fb918d1afcd06658ae93d32975d42cf98310a9` | `ff96be4d772847a0273003e2db0466d3ad698dc5cd719d968f40fb96abc8dc76` | 60357 |
+| `qiuzhao\collector\p1_platform_companies.json` | `ee0f288cf6213da356f9f0dcaf03e54374472ab3519b2a1a4f91e8b9ee86349b` | `bf592f62cd644a20d16e948027832763da268d236439be6dba1d95dc1980f843` | 91766 |
+| `deploy\windows_collector.py` | `9eaf97cc5d4e968c062aaa65468ab34c584534a4ced5523d75c7c26229ec8312` | 同左（k 与 h **逐字节一致**，覆盖后哈希不变） | 14311 |
+| `qiuzhao\collector\guopin.py` | `add0d50c715e06eb968bb7671bc2e9787e81d9ad39be008e66731337f16b6c03` | 同左 | 17499 |
+| `qiuzhao\collector\alibaba_headless.py` | `dab17686cf251f220950b8c8e13984d39dcbb07b8a3eeeea84bdea3ca3be7db2` | 同左 | 27404 |
+| `qiuzhao\collector\p1_banks_01.py` | `25e2399812f64ee1762b7686849bf7241c8e1353d7203347562f9794223ffb19` | 同左 | 31314 |
+| `qiuzhao\collector\p1_feishu_public.py` | `e9855205ad1cc9494855d1357ab93c68f6e6ead646e7441bd6032c7311a8ca4f` | 同左 | 25593 |
+| `qiuzhao\collector\p1_platform_beisen.py` | `3faeb5686aa7bf05a7b6754b35a607c50a9666e8247dd5b46d430307b9eb33a5` | 同左 | 15571 |
+| `qiuzhao\collector\p1_platform_moka.py` | `569e0865d96ba7f91a4803330975ac76f9f35277b9f1bf312092c598c636a777` | 同左 | 15737 |
+| `qiuzhao\collector\p1_platform_successfactors.py` | `658c81c07bd4ebda62735662dfac54722dccc830517072e3a40d9329701f1216` | 同左 | 22012 |
+| `qiuzhao\collector\p1_platform_workday.py` | `d95e11b29f30368a1f4657d22fdb1c10d88495bd1ccac03f8a15c613caeb706b` | 同左 | 19966 |
+| `qiuzhao\collector\tencent_music.py` | `7d19cbc34b45dfc5e31c3d9b7ed41dd51c638c5adb6c62bf6e0330904f3d3787` | 同左 | 14631 |
+| `qiuzhao\collector\bytedance.py` | `609a241e2a6f0d80e31e6c1a5e8abfeb2979404f6f2efffdbc4edb6fb3e16a00`（旧采集器版，实测存在，与两种前提预期一致） | `07922a5111dd6356d97d289d472ae78bf177dd95bf8f401db6284e8e18140c8d` | 13890 |
+| `qiuzhao\collector\p1_bytedance_public.py` | **ABSENT**（实测） | `bc2926472037e24c212f47a0d62750ca9cd921a7b01df5af6dbe0f56d5c160e6` | 16885 |
+| `qiuzhao\collector\p1_midea_public.py` | **ABSENT**（实测） | `509b9a502d7e1010c478896fc1312ae380aa97a3847412bdef8cb48bc2c97186` | 18023 |
+| `qiuzhao\collector\p1_foreign_01.py` | **ABSENT**（实测） | `549481bbe540a7633c080a519617bbe7e23dc4d95d5bb1f4ec127b771460a052` | 15043 |
+| `qiuzhao\collector\p1_platform_51job.py` | **ABSENT**（实测） | `f19201fe4340e802216f8fb1428cece2457aba611cdf798bd9cce42441bc32bb` | 12696 |
+
+- 传输暂存目录：**`C:\mcp-suite-deploy-20260918k\`**（17 个运行时文件 + `SHA256SUMS.txt`；
+  该清单远端 sha256 = `239052ea6b163983579912ef7e392011d8d8aa6db2bdb25a3a103bb4ccf6d19b`
+  = 本地 `git show` 版本，逐字节一致）。分片入参是
+  `C:\mcp-suite-deploy-20260918k\_tmp\*.b64`，全部解码后已自删，**`_tmp` 目录保留为空目录**
+  （硬约束：不删除精灵上任何目录）。
+- `p1_feishu_public.py` 的 CAVEAT：实测**存在**且哈希 = 前提②值 `e9855205…`（属 h 的 12 个
+  之一），因此回滚口径是**还原备份**，不是删除。
+- **异常与恢复（如实记录）**：第一次跑传输循环时，`ssh` 继承了 `while read` 的 stdin，
+  把 `expected.tsv` 余下各行吃掉，只传完 `alibaba_headless.py` 就跳到结束。已在 ssh 调用上
+  加 `< /dev/null` 后整体重跑；第二次 17/17 全部 `XFER_OK`，覆盖前对暂存区的独立复核为
+  `STAGE-VERIFY ok=17 bad=0`。第一次的残留只是暂存区里一个随后被正确覆盖的同名文件，
+  生产目录当时未被触碰。
+
+### 10.5 步骤5 覆盖后校验（正式 venv，cwd=`C:\mcp-suite-collector`）
+
+```
+PY_COMPILE_EXIT=0                       # 16 个 .py 全部 py_compile 通过（json 不参与）
+IMPORT_OK 948 948                       # 预期 948 948 ✔
+REGISTRY3 qiuzhao.collector.p1_bytedance_public qiuzhao.collector.p1_midea_public qiuzhao.collector.p1_foreign_01
+MODS {"字节跳动": "qiuzhao.collector.p1_bytedance_public",
+      "美的集团": "qiuzhao.collector.p1_midea_public",
+      "德勤": "qiuzhao.collector.p1_foreign_01",
+      "百事": "qiuzhao.collector.p1_platform_51job"}
+=== S5-CHECK-DONE ===
+```
+
+- 解释器：`C:\mcp-suite-collector\.venv\Scripts\python.exe` →
+  `3.12.2 (tags/v3.12.2:6abddd9, Feb  6 2024) [MSC v.1937 64 bit (AMD64)]`。
+- **未重启任何服务、未改计划任务定义、未手动补跑**（首次实测 = 次日 06:10 的
+  `Qiuzhao-Collector-Daily`）。
+
+### 10.6 步骤3 Playwright 与收尾核查
+
+Playwright（阿里系 headless 依赖，**未重装**）：
+
+```
+MS_PW=C:\Users\-LZH-\AppData\Local\ms-playwright  EXISTS=True
+  ENTRY .links / chromium_headless_shell-1187 / chromium-1187 / ffmpeg-1011 / winldd-1007
+CHROMIUM_1187_EXISTS=True
+  CHROME ...\chromium-1187\chrome-win\chrome.exe  3006976
+PLAYWRIGHT_IMPORT_OK ...\.venv\Lib\site-packages\playwright\__init__.py
+PW_PKG_VER 1.55.0
+LAUNCH_OK ok
+BROWSER_VERSION 140.0.7339.16
+```
+
+最小启动验证只用 `set_content()` 渲染一行 HTML、**未访问外网**。结论：阿里系 / 飞书
+headless 路径可用，**不存在"首日 blocked"风险**。
+
+收尾核查：
+
+| 检查 | 实测 |
+|---|---|
+| `qiuzhao\collector\run.py` 未动 | sha256 = `5e94f91b770ef02bfad887e10bb6fab3405d8b184a81b98df9d14fe28c266b28`（前 8 位 `5e94f91b` 与前提一致），mtime 仍是 2026-09-18 13:36:00 |
+| `runs\20260918\receipt.json` 未动 | mtime 仍是 2026-09-18 20:03:53 |
+| `data\lark-sync\status.json` 未动 | mtime 仍是 2026-09-18 20:03:53 |
+| 计划任务定义未改 | `Qiuzhao-Collector-Daily` = Ready、`Qiuzhao-Rebase-20260913` = Ready、`Qiuzhao-Resume-20260914` = Ready、`Qiuzhao-Followthrough-20260914` = Disabled（只读列举，未做任何写操作） |
+| `qiuzhao\collector` 目录 | 只有 17 个目标文件 mtime 变为 20:22–20:27（`Copy-Item` 保留源 mtime，故显示为传输时刻；实际覆盖时刻以新增文件 CreationTime **20:27:41** 为准），其余文件 mtime 全部维持 2026-09-13/14/17；子目录只有既有的 `__pycache__` |
+
+### 10.7 回滚件与回滚口径（本次未使用）
+
+- 返回 h 状态：用 **`C:\mcp-suite-backup-20260918-2020`** 还原 17 个路径
+  （恢复 13 个现役文件，删除 k 新增的 4 个：`p1_bytedance_public.py`、`p1_midea_public.py`、
+  `p1_foreign_01.py`、`p1_platform_51job.py`；`p1_feishu_public.py` **还原而非删除**）。
+- 触发条件：本任务书第 5 步任一校验失败（本次全部通过，**未触发**）。
+
+### 10.8 次日（2026-09-19 06:10）观察项（供总控核对）
+
+- `runs\20260919\receipt.json`：`steps` 出现 basic/p1 的 `0` 或 `2`、`step_changes.p1` 条数、
+  p1 起止时间（不轮转、三 scope、8 路并发，预期 3–5 小时；若触顶 5 小时上限，看
+  `status.pending` 与次日公平排序是否生效）。
+- `runs\20260919\data\source_state.json`：`guopin.discovered`（预期约 14）、`fallback_used=false`。
+- p1 status：**公司数应为 948**（看到 924/926/947 说明覆盖不完整或配置段丢失）；
+  平台公司尝试数（应为全部 874 或受 5 小时上限截断的数量）、各平台 blocked 比例、
+  银行/阿里/外企的 `coverage.status`。
+- **字节跳动**：`campus` 约 2663 条、`intern` 约 5578 条、`social` 命中接口 1 万上限 →
+  `partial`（设计如此，**永不**触发缺席下线）；应为原 `bytedance-<id>` 原地更新、
+  0 重复（预演值：新增约 441 条、2222 条原地更新）。
+- **美的集团**：`campus` 约 214 条、`intern` 约 321 条，均 `success + complete`；
+  `social` 应为 `blocked`（设计如此，不是故障）；`midea-<positionId>` 原地更新。
+- **大易（德勤等 7 家）**：首次要看三 scope 各自 `coverage.status`；7 家同 `hotjob.cn`
+  受平台 gate（同平台并发 ≤3、单元启动间隔 ≥1s）约束，预计排在平台段中后部。
+- **51job（百事）**：`campus` 正常出岗位；`intern/social` 预期 `success/0 条 + note`
+  （官网只发布校招），**不要当成失败**。
+- `data\p1-retry-queue.json` 是否生成；飞书同步 `changed` 量级。
+- 阿里系 / 飞书：Playwright 已验证可用，首日**不应**因浏览器缺失而 blocked；
+  若仍 blocked，按网络/门户改版排查，不要再怀疑 Chromium 安装。
+
+### 10.9 本节的边界
+
+- 本节只证明「文件已正确落盘 + 模块可导入 + 集合规模 = 948」，**不等于** k 的业务效果已验证：
+  948 家的真实耗时、`--max-run-seconds 18000` 是否够、字节/美的/大易/51job 的真实产出，
+  都要等次日 06:10 那次运行。
+- 部署件里的 `DEPLOY-NOTES.md` 与 `PROD-BACKUP-MANIFEST.txt` **未**传到精灵暂存区
+  （任务书只要求传运行时文件 + 清单）；回滚依据在本仓库内。
