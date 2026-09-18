@@ -43,6 +43,14 @@ SCOPES = {'campus': '校园招聘', 'intern': '实习招聘', 'social': '社会�
 REGISTRY = {name: f'qiuzhao.collector.p1_sources_{(i // 10) * 10 + 1:02d}_{(i // 10 + 1) * 10:02d}'
             for i, name in enumerate(COMPANIES)}
 
+# Platform-level adapters (Beisen zhiye.com / Moka) register every company
+# declared in p1_platform_companies.json without another REGISTRY edit.
+try:
+    from .p1_platform_beisen import merged_registry as _platform_registry
+    REGISTRY.update(_platform_registry())
+except Exception:  # optional platform config may be absent in a minimal checkout
+    pass
+
 
 def now():
     return dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds')

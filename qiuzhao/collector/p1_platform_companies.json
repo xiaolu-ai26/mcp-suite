@@ -1,0 +1,33 @@
+{
+  "_README": "Platform-level recruit adapters config. One company = one line. Keys: beisen=<tenant> zhiye.com slug; moka=<org>/<siteId> (derived campus URL) or an object with explicit sites. Value is the canonical company name (string shorthand) or an object {name, host?, ignore_categories?, categories?, sites?}. Adding a line registers the company in qiuzhao.collector.p1_pipeline.REGISTRY via the platform module.",
+  "beisen": {
+    "csc108": {
+      "name": "中信建投",
+      "ignore_categories": [
+        "4"
+      ]
+    },
+    "cicc": "中金公司",
+    "guosen": "国信证券",
+    "mintai": {
+      "name": "浙江民泰商业银行",
+      "ignore_categories": [
+        "4"
+      ]
+    }
+  },
+  "moka": {
+    "37/58016": "三七互娱",
+    "wps/41436": {
+      "name": "金山办公",
+      "sites": [
+        "https://join.wps.cn/campus-recruitment/wps/41436",
+        "https://app.mokahr.com/social-recruitment/wps/3471"
+      ]
+    },
+    "hypergryph/26326": "鹰角网络",
+    "antahr/142914": "安踏集团",
+    "eebbk/37594": "小天才",
+    "paipaidai/168312": "信也科技"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "jobs": [
+    {
+      "id": "moka-campus-1",
+      "title": "2027届校招-研发工程师",
+      "hireMode": 2,
+      "commitment": "全职",
+      "status": "open",
+      "openedAt": "2026-09-01T00:00",
+      "updatedAt": "2026-09-04T18:51:20",
+      "closedAt": null,
+      "locations": [{"cityName": "上海市", "provinceName": "上海市", "country": "中国"}]
+    },
+    {
+      "id": "moka-intern-1",
+      "title": "2027届暑期实习-算法实习生",
+      "hireMode": 2,
+      "commitment": "实习",
+      "status": "open",
+      "openedAt": "2026-09-02T00:00",
+      "updatedAt": "2026-09-03T00:00:00",
+      "closedAt": null,
+      "locations": []
+    },
+    {
+      "id": "moka-paused-1",
+      "title": "2026届校招-已停招岗位",
+      "hireMode": 2,
+      "commitment": "全职",
+      "status": "pause",
+      "openedAt": "2026-08-01T00:00",
+      "updatedAt": "2026-08-20T00:00:00",
+      "closedAt": "2026-08-20T00:00:00",
+      "locations": []
+    }
+  ],
+  "jobStats": {"total": 3}
+}

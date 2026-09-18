@@ -1,0 +1,46 @@
+{
+  "Code": 200,
+  "Message": "operation success",
+  "Count": 3,
+  "Data": [
+    {
+      "Id": "job-campus-1",
+      "JobAdName": "（2027届校招）投资银行助理",
+      "CategoryId": "2",
+      "Category": "校园招聘",
+      "PostDate": "2026-08-31T11:54:29",
+      "EndTime": "2026-10-12T00:00:00",
+      "LocNames": ["北京市", "上海市"],
+      "Duty": "负责投行项目支持。",
+      "Require": "2027届硕士，金融相关专业。",
+      "Kind": "全职",
+      "Degree": "硕士"
+    },
+    {
+      "Id": "job-campus-2",
+      "JobAdName": "（2027届校招）风险管理岗",
+      "CategoryId": "2",
+      "Category": "校园招聘",
+      "PostDate": "2026-09-01T09:00:00",
+      "EndTime": "2222-02-02T00:00:00",
+      "LocNames": ["上海市"],
+      "Duty": "",
+      "Require": "",
+      "Kind": "全职",
+      "Degree": null
+    },
+    {
+      "Id": "job-social-1",
+      "JobAdName": "社会招聘-高级工程师",
+      "CategoryId": "1",
+      "Category": "社会招聘",
+      "PostDate": "2026-08-01T00:00:00",
+      "EndTime": null,
+      "LocNames": ["深圳市"],
+      "Duty": "社招职责",
+      "Require": "社招要求",
+      "Kind": "全职",
+      "Degree": null
+    }
+  ]
+}
