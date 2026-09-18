@@ -1,0 +1,11 @@
+--- 20260918/windows_collector.py	2026-09-18 15:51:18
++++ 20260918b/windows_collector.py	2026-09-18 15:57:34
+@@ -159,7 +159,7 @@
+             env=dict(os.environ,PYTHONUTF8='1',PYTHONIOENCODING='utf-8',QIUZHAO_DATA_DIR=str(stage),QIUZHAO_SKIP_SERVICE_RESTART='1')
+             steps=[('basic',['-m','qiuzhao.collector.run','--output-dir',str(stage),'--source','boc' if a.smoke else 'all','--delay','2'],180 if a.smoke else 7200)]
+             if not a.smoke:
+-                steps += [('tencent',['-m','qiuzhao.collector.auto_collect','--skip-basic-collectors'],1800),('p1',['-m','qiuzhao.collector.p1_pipeline','--data-dir',str(stage),'--apply','--resume-latest','--timeout','1200','--max-run-seconds','18000'],18100)]
++                steps += [('tencent',['-m','qiuzhao.collector.auto_collect','--skip-basic-collectors'],1800),('p1',['-m','qiuzhao.collector.p1_pipeline','--data-dir',str(stage),'--apply','--resume-latest','--scope-timeout','600','--workers','4','--max-run-seconds','18000'],18100)]
+             steps += [('normalize',['-m','qiuzhao.normalize','--path',str(stage/'jobs.json')],1800)]
+             for stale in run.glob('*.before.json'):
+                 if stale.name=='jobs.before.json':continue
