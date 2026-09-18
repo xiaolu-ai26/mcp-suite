@@ -1,0 +1,20 @@
+Jingling (精灵) production original-backup manifest for bundle 20260919e
+Generated on the Mac worktree, 2026-09-19 (Asia/Shanghai), branch feat/company-normalize.
+
+Purpose: record the byte-exact sha256 that every target file must have on jingling
+BEFORE this bundle is copied. 精灵现役代码 = 20260918k（收据 RECEIPT-collector-next-3.md）。
+本次只碰 3 个路径，其余文件（p1_pipeline.py / windows_collector.py / 各适配器）一律不动。
+
+Target path on jingling                      PRE-DEPLOY sha256                                                    action
+-------------------------------------------  ------------------------------------------------------------------  --------------------------------
+qiuzhao/normalize.py                         a53adaf33c891b5d8d8dd5b7531c0799b57666d5a62e987dc92ac22b9eb51b31  overwrite
+qiuzhao/company_names.py                     ABSENT                                                                add (new module)
+qiuzhao/data/company_aliases.json            ABSENT (qiuzhao/data/ 目录本身也不存在)                                 add (new dir + file)
+
+实测于 2026-09-19 01:0x，只读比对精灵正式目录，三项与上表一致。
+若实际哈希与上表不符，STOP：先记录真实哈希、照常备份该文件，并把差异当作漂移另行说明。
+
+回滚：把 qiuzhao/normalize.py 还原成上表的 a53adaf3…；删掉 qiuzhao/company_names.py 与
+qiuzhao/data/（若 data/ 下没有别的东西）。旧代码不认这两个新路径，删除即回到现役行为。
+
+注意：qiuzhao/normalize.py.before-followthrough-20260914T171541 是历史遗留文件，本次不动。
