@@ -5,7 +5,10 @@ private/
 *.sqlite3*
 .env
 .mcp.json
-qiuzhao/data/
+qiuzhao/data/*
+# 公司名别名表是随代码发布的运行时数据(公司名规范化要用),必须入库;
+# 其余 qiuzhao/data/ 仍然是本机/采集机的运行数据,不入库。
+!qiuzhao/data/company_aliases.json
 bench/data/
 bench/sources/
 *.mcp.json
