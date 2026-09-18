@@ -66,7 +66,10 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
     assert platform.index('中信建投') < platform.index('安踏集团')
     assert platform[-1] == '信也科技'
     assert extra[:len(platform)] == platform
-    assert extra[-len(banks):] == banks
+    # The bank block stays contiguous right after the platform block; the later
+    # append-only Ali/Tencent gap block follows it.
+    first_bank = extra.index('中国工商银行')
+    assert extra[first_bank:first_bank + len(banks)] == banks
     for name in BANK_ONLY:
         assert p.REGISTRY[name] == 'qiuzhao.collector.p1_banks_01'
 

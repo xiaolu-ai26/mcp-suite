@@ -1,0 +1,10 @@
+# 叠加顺序：在 20260918c（银行批次 1）之后叠加部署。
+#   * alibaba_headless.py  本次重写为多实体 p1 适配器（新增文件级替换）
+#   * tencent_music.py     本次新增（腾讯音乐专用适配器）
+#   * p1_pipeline.py       本次仅在现有 REGISTRY 注册块之后追加独立注册块（append-only）
+# 若 20260918d / 其它并行批次已部署，合并 p1_pipeline.py 时必须保留各批次的注册块；
+# 不要用本文件整体覆盖而丢掉其它批次追加的注册块。
+# Headless（阿里系）需要 Playwright Chromium，见 DEPLOY-NOTES.md；本次未在精灵执行任何安装/部署。
+dab17686cf251f220950b8c8e13984d39dcbb07b8a3eeeea84bdea3ca3be7db2  alibaba_headless.py
+7d19cbc34b45dfc5e31c3d9b7ed41dd51c638c5adb6c62bf6e0330904f3d3787  tencent_music.py
+ffc83250e50d5d3467e9c753044d48cbf6a676211ceda31e503faf667ea6c42d  p1_pipeline.py
