@@ -34,40 +34,17 @@ PUBLIC_API_ONLY = ('字节跳动', '美的集团')
 # Foreign batch 2 (20260918j): Dayee hotjob.cn tenants + the 51job micro-site.
 DAYEE_MODULE = 'qiuzhao.collector.p1_foreign_01'
 JOB51_MODULE = 'qiuzhao.collector.p1_platform_51job'
-# Foreign batch A (20260919b): Eightfold AI and Phenom People public careers.
-EIGHTFOLD_MODULE = 'qiuzhao.collector.p1_platform_eightfold'
-PHENOM_MODULE = 'qiuzhao.collector.p1_platform_phenom'
-EIGHTFOLD_ONLY = ('惠普', '微软', '高通', '应用材料', '泛林')
-PHENOM_ONLY = ('宝洁', '玛氏', '罗氏', '波士顿咨询', 'ABB', '飞利浦', '默沙东', '思科')
 DAYEE_ONLY = ('德勤', '康师傅', 'ZARA', '广汽集团', '益海嘉里', '迪卡侬', 'ZURU')
 JOB51_ONLY = ('百事',)
-# Foreign batch 3 (20260919c): Avature portals, the iCIMS Career Portal and Oracle
-# Recruiting Cloud candidate-experience sites, plus the three Workday tenants and
-# one SuccessFactors tenant whose earlier "China -> 0" reading was a scope/parser
-# artefact. The iCIMS section deliberately registers no company (every
-# China-relevant tenant publishes "Disallow: /"); the module still ships.
-AVATURE_MODULE = 'qiuzhao.collector.p1_platform_avature'
-ICIMS_MODULE = 'qiuzhao.collector.p1_platform_icims'
-ORC_MODULE = 'qiuzhao.collector.p1_platform_orc'
-AVATURE_ONLY = ('西门子', '欧莱雅', '艺电', '贝恩')
-ORC_ONLY = ('霍尼韦尔', '摩根大通', '康明斯', '艾默生', '洲际酒店', '万豪', '宣伟',
-            '阿卡迈', '百胜餐饮')
-WORKDAY_FIXED = ('可口可乐', '耐克', 'GSK')
-SF_FIXED = ('巴斯夫',)
 # Foreign batch C (20260919f): the tupu360 multi-tenant platform. 强生 is also
 # declared under its section but deliberately keeps the approved Workday entry
 # (the tupu360 registration block uses setdefault), so it is not in this list.
 TUPU360_MODULE = 'qiuzhao.collector.p1_platform_tupu360'
 TUPU360_ONLY = ('IQVIA 艾昆纬', '礼来', '舍弗勒', '宝马', '茵梦达')
 # 20260918h shipped 924 companies; this cumulative branch adds 字节跳动/美的集团
-# (20260918i), 22 foreign-batch names (20260918j), 13 foreign ATS tenants from
-# batch A (20260919b: Eightfold 5 + Phenom 8), 17 names from the 20260919c platform
-# blocks and 5 net-new tupu360 tenants (20260919f), i.e. 948 + 13 + 17 + 5 = 983
-# names before the same-company conflict handling is applied. 毕马威 keeps its
-# older moka tenant and 德州仪器 keeps its moka slot (the ORC tenant is
-# deliberately not registered); the workday/eightfold/phenom duplicate rows are
-# parked by the collector-next-4 integration commit.
-EXPECTED_DEFAULT_COMPANIES = 983
+# (20260918i) plus 22 new foreign-batch names (20260918j) and 5 net new tupu360
+# companies (20260919f: IQVIA 艾昆纬/礼来/舍弗勒/宝马/茵梦达; 强生 keeps Workday).
+EXPECTED_DEFAULT_COMPANIES = 953
 CONFIG_SECTION_MODULES = {
     'beisen': 'qiuzhao.collector.p1_platform_beisen',
     'moka': 'qiuzhao.collector.p1_platform_moka',
@@ -76,11 +53,6 @@ CONFIG_SECTION_MODULES = {
     'successfactors': 'qiuzhao.collector.p1_platform_successfactors',
     'dayee': DAYEE_MODULE,
     'job51': JOB51_MODULE,
-    'eightfold': EIGHTFOLD_MODULE,
-    'phenom': PHENOM_MODULE,
-    'avature': AVATURE_MODULE,
-    'icims': ICIMS_MODULE,
-    'orc': ORC_MODULE,
     'tupu360': TUPU360_MODULE,
 }
 # Sections whose registration block uses REGISTRY.setdefault, so a name they
@@ -142,19 +114,9 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
     # Foreign batch-2 blocks (20260918j) appended after the public-API block.
     dayee_names = [n for n in extra if module_of(n) == 'qiuzhao.collector.p1_foreign_01']
     job51_names = [n for n in extra if module_of(n) == 'qiuzhao.collector.p1_platform_51job']
-    # Foreign batch A (20260919b) appended after the 51job block.
-    eightfold_names = [n for n in extra if module_of(n) == EIGHTFOLD_MODULE]
-    phenom_names = [n for n in extra if module_of(n) == PHENOM_MODULE]
-    # Foreign batch-3 blocks (20260919c) appended after the batch-A blocks.
-    avature_names = [n for n in extra if module_of(n) == AVATURE_MODULE]
-    icims_names = [n for n in extra if module_of(n) == ICIMS_MODULE]
-    orc_names = [n for n in extra if module_of(n) == ORC_MODULE]
-    # Foreign batch C (20260919f) appended last.
+    # Foreign batch C (20260919f) appended after the 51job block.
     tupu360_names = [n for n in extra if module_of(n) == TUPU360_MODULE]
 
-    assert set(AVATURE_ONLY) <= set(avature_names)
-    assert set(ORC_ONLY) <= set(orc_names)
-    assert icims_names == [], 'no iCIMS tenant may be registered while robots disallows'
     assert set(PLATFORM_ONLY) <= set(beisen_names) | set(moka_names)
     assert set(BANK_ONLY) <= set(bank_names)
     assert set(FOREIGN_ONLY) <= set(foreign_names)
@@ -163,18 +125,13 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
     coverage_blocks = (set(beisen_names) | set(moka_names) | set(bank_names) | set(ali_names)
                        | set(tme_names) | set(foreign_names) | set(feishu_names)
                        | set(public_api_names) | set(dayee_names) | set(job51_names)
-                       | set(eightfold_names) | set(phenom_names)
-                       | set(avature_names) | set(icims_names) | set(orc_names)
                        | set(tupu360_names))
     assert set(extra) == coverage_blocks
-    assert set(EIGHTFOLD_ONLY) <= set(eightfold_names)
-    assert set(PHENOM_ONLY) <= set(phenom_names)
 
     # Approved append order: beisen then moka, banks, Ali/Tencent gap, foreign
     # Workday/SuccessFactors, config-driven Feishu, the 20260918i public-API batch
-    # (字节跳动/美的集团), the 20260918j foreign batch-2 blocks (Dayee hotjob.cn,
-    # then 51job micro-sites), then the 20260919b foreign batch-A blocks
-    # (Eightfold AI, then Phenom People). Every block stays contiguous and no
+    # (字节跳动/美的集团), then the 20260918j foreign batch-2 blocks (Dayee
+    # hotjob.cn, then 51job micro-sites). Every block stays contiguous and no
     # block is interleaved with another.
     block_order = [
         ('beisen', beisen_names),
@@ -187,11 +144,6 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
         ('public_api', public_api_names),
         ('dayee', dayee_names),
         ('51job', job51_names),
-        ('eightfold', eightfold_names),
-        ('phenom', phenom_names),
-        ('avature', avature_names),
-        ('icims', icims_names),
-        ('orc', orc_names),
         ('tupu360', tupu360_names),
     ]
     cursor = 0
@@ -204,27 +156,6 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
         assert p.REGISTRY[name] == 'qiuzhao.collector.p1_banks_01'
     assert p.REGISTRY['英伟达'] == 'qiuzhao.collector.p1_platform_workday'
     assert p.REGISTRY['思爱普'] == 'qiuzhao.collector.p1_platform_successfactors'
-    for name in AVATURE_ONLY:
-        assert p.REGISTRY[name] == AVATURE_MODULE, name
-    for name in ORC_ONLY:
-        assert p.REGISTRY[name] == ORC_MODULE, name
-    # The 20260919c fixes keep their original platform owners.
-    for name in WORKDAY_FIXED:
-        assert p.REGISTRY[name] == 'qiuzhao.collector.p1_platform_workday', name
-    for name in SF_FIXED:
-        assert p.REGISTRY[name] == 'qiuzhao.collector.p1_platform_successfactors', name
-    # 德州仪器 must stay on its moka campus tenant (the ORC tenant of the same name
-    # was deliberately not registered so it cannot overwrite this slot).
-    assert p.REGISTRY['德州仪器'] == 'qiuzhao.collector.p1_platform_moka'
-
-
-def test_icims_module_still_exposes_the_collect_contract():
-    # Signed off but with an empty config: the module must stay importable so a
-    # future robots-permitted tenant is a one-line change.
-    import importlib
-    module = importlib.import_module(ICIMS_MODULE)
-    assert callable(module.collect)
-    assert module.COMPANIES == {}
 
 
 def test_every_registry_module_exposes_the_collect_contract():
@@ -361,14 +292,10 @@ def test_deployable_windows_collector_uses_scope_timeout_and_workers():
 
 # --- 5. merged 20260918i + 20260918j registry guards --------------------------
 
-def test_default_set_is_h_baseline_plus_i_j_a_and_c_additions():
-    # 站长口径的 924 家 (20260918h) + 字节跳动/美的集团 + 外企第二批 + 外企 ATS
-    # 批 A(13 家)+ 批 3(17 家,含 3 家 workday/1 家 SF 修复行)+ tupu360(5 家)
-    # = 983(同名冲突处置前的合并中间态;最终值见整合提交).
+def test_default_set_is_h_baseline_plus_i_and_j_additions():
+    # 站长口径的 924 家 (20260918h) + 字节跳动/美的集团 + 外企第二批 + tupu360 = 953.
     assert len(p.DEFAULT_COMPANIES) == EXPECTED_DEFAULT_COMPANIES
-    for name in (*PUBLIC_API_ONLY, *DAYEE_ONLY, *JOB51_ONLY, *EIGHTFOLD_ONLY,
-                *PHENOM_ONLY, *AVATURE_ONLY, *ORC_ONLY, *WORKDAY_FIXED, *SF_FIXED,
-                *TUPU360_ONLY):
+    for name in (*PUBLIC_API_ONLY, *DAYEE_ONLY, *JOB51_ONLY, *TUPU360_ONLY):
         assert name in p.DEFAULT_COMPANIES, name
     assert p.REGISTRY['字节跳动'] == 'qiuzhao.collector.p1_bytedance_public'
     assert p.REGISTRY['美的集团'] == 'qiuzhao.collector.p1_midea_public'
@@ -376,10 +303,6 @@ def test_default_set_is_h_baseline_plus_i_j_a_and_c_additions():
         assert p.REGISTRY[name] == DAYEE_MODULE, name
     for name in JOB51_ONLY:
         assert p.REGISTRY[name] == JOB51_MODULE, name
-    for name in EIGHTFOLD_ONLY:
-        assert p.REGISTRY[name] == EIGHTFOLD_MODULE, name
-    for name in PHENOM_ONLY:
-        assert p.REGISTRY[name] == PHENOM_MODULE, name
     for name in TUPU360_ONLY:
         assert p.REGISTRY[name] == TUPU360_MODULE, name
     # The tupu360 block is append-only setdefault: the earlier Workday owner of
@@ -399,8 +322,8 @@ def _declared_config_names(section):
     data = json.loads(path.read_text(encoding='utf-8'))
     names = []
     for key, entry in (data.get(section) or {}).items():
-        if str(key).startswith('_'):  # section documentation, not a tenant
-            continue
+        if str(key).startswith('_'):
+            continue  # section-level documentation key
         if isinstance(entry, dict) and entry.get('enabled') is False:
             continue  # a disabled survey line never registers a company
         name = entry if isinstance(entry, str) else str((entry or {}).get('name') or '')

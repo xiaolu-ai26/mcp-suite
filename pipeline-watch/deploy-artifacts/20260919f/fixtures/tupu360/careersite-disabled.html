@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+    <head>
+        <title>公告</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, user-scalable=no"/>
+        <link href="https://cdn.careersite.tupu360.com/csresources/styles/default/comm.css" rel="stylesheet" type="text/css"/>
+        <link href="https://cdn.careersite.tupu360.com/csresources/scripts/plugin/bootstrap/4.6.2/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" src="https://cdn.careersite.tupu360.com/csresources/scripts/jquery-3.7.1.min.js"></script>
+    </head>
+    <body>
+
+        <div class="wrap">
+            <div class="container">
+                <div class="modal-dialog" >
+                    <div class="alert-content modal-content login-content">
+                        <div class="alert-logo pt-3 pb-3" style="text-align: center; font-weight: 600; font-size: 20px;">
+                                公告
+                        </div>
+                        <div class="alert-body" style="margin: auto; ">
+                            <span style="white-space:pre-line">抱歉，该网站已停用</span>
+                            <span id="times" style="display: block; margin-top: 10px; text-align: center;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script nonce="">
+        
+            var url = "https://www.tupu360.com.cn"
+            var time = 3;
+            var time1=setInterval(function(){
+                if(time===0){
+                    clearInterval(time1);
+                    window.location.href = url;
+                }else{
+                    $("#times").html('<a href="'+url+'">'+time+'s</a> 后离开本页面');
+                    time--;
+                }
+            }, 1000);
+        
+    </script>
+    </body>
+</html>

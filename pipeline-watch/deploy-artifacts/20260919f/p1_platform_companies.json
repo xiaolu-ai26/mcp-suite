@@ -1,5 +1,5 @@
 {
-  "_README": "Platform-level recruit adapters config. One company = one line. Keys: beisen=<tenant> zhiye.com slug; moka=<org>/<siteId> (derived campus URL) or an object with explicit sites. Value is the canonical company name (string shorthand) or an object {name, host?, ignore_categories?, categories?, sites?}. Adding a line registers the company in qiuzhao.collector.p1_pipeline.REGISTRY via the platform module. Keys: feishu=<portal object> (config-driven Feishu jobs portal). Keys: workday=<tenant>/<region>/<site> (CXS); successfactors=<career-site host>; dayee=<SU hash> (Dayee hotjob.cn, value {name, host}). Workday value may be an object {name, search_text (string|{scope:str}), max_list_pages, campus_keywords, intern_keywords}; SuccessFactors value may be {name, query, country, page_size, max_list_pages, campus_keywords, intern_keywords}. Keys: avature=<host>/<locale>/<portal> (Avature search portal; optional search, offset_param, page_size_param); icims=<portal host> (iCIMS Career Portal; the adapter refuses hosts whose robots.txt disallows crawling); orc=<host>/<siteNumber> (Oracle Recruiting Cloud candidate experience).",
+  "_README": "Platform-level recruit adapters config. One company = one line. Keys: beisen=<tenant> zhiye.com slug; moka=<org>/<siteId> (derived campus URL) or an object with explicit sites. Value is the canonical company name (string shorthand) or an object {name, host?, ignore_categories?, categories?, sites?}. Adding a line registers the company in qiuzhao.collector.p1_pipeline.REGISTRY via the platform module. Keys: feishu=<portal object> (config-driven Feishu jobs portal). Keys: workday=<tenant>/<region>/<site> (CXS); successfactors=<career-site host>; dayee=<SU hash> (Dayee hotjob.cn, value {name, host}). Workday value may be an object {name, search_text (string|{scope:str}), max_list_pages, campus_keywords, intern_keywords}; SuccessFactors value may be {name, query, country, page_size, max_list_pages, campus_keywords, intern_keywords}.",
   "beisen": {
     "keyence": "基恩士",
     "csc108": {
@@ -494,36 +494,16 @@
     "ey/166374": "安永",
     "pwc/148260": "普华永道",
     "kpmg/74356": "毕马威",
-    "colpal/28788": {
-      "name": "高露洁棕榄",
-      "sites": [
-        "https://app.mokahr.com/apply/colpal/28788"
-      ]
-    },
+    "colpal/28788": {"name": "高露洁棕榄", "sites": ["https://app.mokahr.com/apply/colpal/28788"]},
     "ti/142216": "德州仪器",
     "bayer/148388": "拜耳",
     "tesla/41460": "特斯拉",
     "vwa/142785": "大众汽车集团(CARIAD)",
     "danone/170511": "达能",
     "REDACTED": "达美乐中国",
-    "eaton/166618": {
-      "name": "伊顿",
-      "sites": [
-        "https://app.mokahr.com/social-recruitment/eaton/166618"
-      ]
-    },
-    "atlascopcogroup/150203": {
-      "name": "阿特拉斯科普柯",
-      "sites": [
-        "https://app.mokahr.com/social-recruitment/atlascopcogroup/150203"
-      ]
-    },
-    "dfmc/170464": {
-      "name": "神龙汽车",
-      "sites": [
-        "https://app.mokahr.com/campus-recruitment/dfmc/170464"
-      ]
-    },
+    "eaton/166618": {"name": "伊顿", "sites": ["https://app.mokahr.com/social-recruitment/eaton/166618"]},
+    "atlascopcogroup/150203": {"name": "阿特拉斯科普柯", "sites": ["https://app.mokahr.com/social-recruitment/atlascopcogroup/150203"]},
+    "dfmc/170464": {"name": "神龙汽车", "sites": ["https://app.mokahr.com/campus-recruitment/dfmc/170464"]},
     "37/58016": "三七互娱",
     "wps/41436": {
       "name": "金山办公",
@@ -3342,24 +3322,12 @@
       "host": "wecruit.hotjob.cn",
       "note": "Dayee multi-tenant portal; recruitType 1=campus 2=society 12=intern. Verified 2026-09-18."
     },
-    "REDACTED": {
-      "name": "康师傅"
-    },
-    "REDACTED": {
-      "name": "ZARA"
-    },
-    "REDACTED": {
-      "name": "广汽集团"
-    },
-    "REDACTED": {
-      "name": "益海嘉里"
-    },
-    "REDACTED": {
-      "name": "迪卡侬"
-    },
-    "REDACTED": {
-      "name": "ZURU"
-    }
+    "REDACTED": {"name": "康师傅"},
+    "REDACTED": {"name": "ZARA"},
+    "REDACTED": {"name": "广汽集团"},
+    "REDACTED": {"name": "益海嘉里"},
+    "REDACTED": {"name": "迪卡侬"},
+    "REDACTED": {"name": "ZURU"}
   },
   "job51": {
     "pepsico2027": {
@@ -3385,161 +3353,13 @@
     "mmc/wd1/MMC": "奥纬咨询",
     "marvell/wd1/MarvellCareers": "美满电子",
     "herbertsmithfreehills/wd3/External": "史密夫斐尔",
-    "intel/wd1/External": "英特尔",
-    "coke/wd1/coca-cola-careers": "可口可乐",
-    "nike/wd1/nke": "耐克",
-    "gsk/wd5/GSKCareers": "GSK"
+    "intel/wd1/External": "英特尔"
+
   },
   "successfactors": {
     "jobs.sap.com": "思爱普",
     "jobs.zf.com": "采埃孚",
-    "jobs.boehringer-ingelheim.com": "勃林格殷格翰",
-    "basf.jobs": "巴斯夫"
-  },
-  "eightfold": {
-    "_note": "Eightfold AI public careers tenants. Key = the public careers host (shared hosts add /<domain>). 'domain' is the Eightfold tenant domain the page itself sends; 'hl' is the page locale. Contract read off the live pages 2026-09-19: /api/pcsx/search (start= cursor, 10 rows/page) and /api/pcsx/position_details. No login, no signature, no CAPTCHA.",
-    "apply.hp.com": {
-      "name": "惠普",
-      "host": "https://apply.hp.com",
-      "domain": "hp.com",
-      "hl": "zh-CN",
-      "location": "china",
-      "careers_path": "/careers"
-    },
-    "apply.careers.microsoft.com": {
-      "name": "微软",
-      "host": "https://apply.careers.microsoft.com",
-      "domain": "microsoft.com",
-      "hl": "en-US",
-      "location": "china",
-      "careers_path": "/careers"
-    },
-    "careers.qualcomm.com": {
-      "name": "高通",
-      "host": "https://careers.qualcomm.com",
-      "domain": "qualcomm.com",
-      "hl": "en-US",
-      "location": "china",
-      "careers_path": "/careers"
-    },
-    "careers.appliedmaterials.com": {
-      "name": "应用材料",
-      "host": "https://careers.appliedmaterials.com",
-      "domain": "appliedmaterials.com",
-      "hl": "en-US",
-      "location": "china",
-      "careers_path": "/careers"
-    },
-    "careers.lamresearch.com": {
-      "name": "泛林",
-      "host": "https://careers.lamresearch.com",
-      "domain": "lamresearch.com",
-      "hl": "en-US",
-      "location": "china",
-      "careers_path": "/careers"
-    }
-  },
-  "phenom": {
-    "_note": "Phenom People public careers tenants. Key = the tenant refNum the public page itself sends as refNum. Contract read off the live pages 2026-09-19: POST /widgets ddoKey=refineSearch (from= cursor, size capped at 500) and ddoKey=jobDetail. The search location/country filter fields are ignored by non-country-scoped tenants, so Greater China membership is decided on each posting's own official country/location text. No login, no signature, no CAPTCHA.",
-    "PGBPGCCN": {
-      "name": "宝洁",
-      "host": "https://careers.pg.com.cn",
-      "lang": "en_cn",
-      "country": "cn",
-      "ref": "PGBPGCCN",
-      "note": "China-only tenant; every posting is Greater China."
-    },
-    "MARSGLOBAL": {
-      "name": "玛氏",
-      "host": "https://careers.mars.com",
-      "lang": "zh_cn",
-      "country": "cn",
-      "ref": "MARSGLOBAL",
-      "note": "zh_cn locale scopes the listing to China."
-    },
-    "ROCHGLOBAL": {
-      "name": "罗氏",
-      "host": "https://careers.roche.com",
-      "lang": "en_global",
-      "country": "global",
-      "ref": "ROCHGLOBAL",
-      "scope_labels": {
-        "subCategory": {
-          "Internship": "intern",
-          "Development Program": "campus"
-        }
-      },
-      "note": "Roche 官方 subCategory 就是项目标签：Internship=实习；Development Program=StartUp China 毕业生项目（岗位正文原文 university graduates at the start of their careers）。核实于 2026-09-19。"
-    },
-    "BCG1US": {
-      "name": "波士顿咨询",
-      "host": "https://careers.bcg.com",
-      "lang": "en_global",
-      "country": "global",
-      "ref": "BCG1US"
-    },
-    "ABB1GLOBAL": {
-      "name": "ABB",
-      "host": "https://careers.abb",
-      "lang": "en_global",
-      "country": "global",
-      "ref": "ABB1GLOBAL"
-    },
-    "PHILUS": {
-      "name": "飞利浦",
-      "host": "https://www.careers.philips.com",
-      "lang": "en_global",
-      "country": "global",
-      "ref": "PHILUS"
-    },
-    "MSD1GB": {
-      "name": "默沙东",
-      "host": "https://jobs.msd.com",
-      "lang": "en_global",
-      "country": "global",
-      "ref": "MSD1GB"
-    },
-    "CISCISGLOBAL": {
-      "name": "思科",
-      "host": "https://careers.cisco.com",
-      "lang": "en_global",
-      "country": "global",
-      "ref": "CISCISGLOBAL"
-    }
-  },
-  "avature": {
-    "_note": "Foreign batch 3 (20260919c). Key = <host>/<locale>/<portal>. Optional: search (built-in keyword search; empty = list everything), offset_param/page_size_param (portals that page with pipelineOffset or folderOffset), max_list_pages, max_jobs, page_size. Verified read-only 2026-09-19: 西门子 portal 144 (search=China -> 215 postings, 41 campus / 5 intern / 153 social China rows), 欧莱雅 portal 170, 艺电 portal 4, 贝恩 portal 24. NOT registered although located: 汇丰 portal 88 (mycareer.hsbc.com/en_GB/external, pipelineOffset paging, search=\"\") - all 36 China-portal pipelines resolve to Poland on the official detail page, i.e. 0 China rows today; IBM careers.ibm.com/ibmglobal.avature.net - plain HTTP is answered with the AWS WAF 202 challenge (token.awswaf.com) and the browser-rendered search=China slice is 2 postings, both Malaysia-based; IKEA / TotalEnergies - robots.txt Disallow: /; CBRE / TSMC / IQVIA - WAF 202/403.",
-    "jobs.siemens.com/en_US/externaljobs": {
-      "name": "西门子",
-      "search": "China"
-    },
-    "careers.loreal.com/en_US/jobs": {
-      "name": "欧莱雅",
-      "search": "China"
-    },
-    "jobs.ea.com/en_US/careers": {
-      "name": "艺电",
-      "search": "China"
-    },
-    "careers.bain.com/en_US/jobs": {
-      "name": "贝恩",
-      "search": "China"
-    }
-  },
-  "icims": {
-    "_note": "Foreign batch 3 (20260919c). Key = <portal host>; optional: search_location, search_path, max_list_pages, max_jobs. The adapter reads /robots.txt first and refuses to crawl a host whose published policy disallows the search path. Every China-relevant iCIMS tenant verified on 2026-09-19 (AMD careers-amd.icims.com, Schneider careers-se.icims.com, PepsiCo, General Mills, Garmin, Keysight, Aon, ZS) publishes \"User-agent: * / Disallow: /\", so no company is configured here; see RECEIPT-foreign-ats-b.md section 6."
-  },
-  "orc": {
-    "_note": "Foreign batch 3 (20260919c). Key = <host>/<siteNumber>. Optional: page_size (<=200), detail_batch_size, max_list_pages. China is selected through the site-specific geography id discovered from the official recruitingHierarchyLocations finder. 德州仪器 (edbz.fa.us2.oraclecloud.com/CX_1, 95 China postings) is deliberately NOT registered: 德州仪器 already exists as the Moka campus tenant ti/142216, and a second name would overwrite that REGISTRY slot; add it under a distinct name if the global site is wanted.",
-    "ibqbjb.fa.ocs.oraclecloud.com/CX_1": "霍尼韦尔",
-    "jpmc.fa.oraclecloud.com/CX_1001": "摩根大通",
-    "fa-espx-saasfaprod1.fa.ocs.oraclecloud.com/CX_1": "康明斯",
-    "hdjq.fa.us2.oraclecloud.com/CX_1": "艾默生",
-    "fa-evax-saasfaprod1.fa.ocs.oraclecloud.com/CX_1": "洲际酒店",
-    "ejwl.fa.us2.oraclecloud.com/CX_2": "万豪",
-    "ejhp.fa.us6.oraclecloud.com/CX_1": "宣伟",
-    "fa-extu-saasfaprod1.fa.ocs.oraclecloud.com/CX_1": "阿卡迈",
-    "eczd.fa.us2.oraclecloud.com/CX_1": "百胜餐饮"
+    "jobs.boehringer-ingelheim.com": "勃林格殷格翰"
   },
   "tupu360": {
     "_README": "tupu360 (图谱天下) multi-tenant recruitment sites. Key = tenant slug on careersite.tupu360.com (override with \"tenant\"). Value {name, host?, tenant?, channels?, extra_channels?, scope?, wechat_only?, url?, enabled?, note?}. Careersite tenants are public/server-rendered; wxtemp tenants (<slug>.tupu360.com) only answer behind WeChat OAuth and are kept as enabled:false survey records. Verified 2026-09-19.",
