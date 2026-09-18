@@ -8,9 +8,28 @@ import tempfile
 import threading
 import time
 import unittest
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 from qiuzhao.collector import p1_pipeline as p
 from qiuzhao.v4_fields import graduation_of, convert
+
+
+def timed_out_process():
+    """A child still alive at the timeout that dies once its process group is killed.
+
+    A real ``Popen`` reports ``poll() is None`` while the adapter is running, so
+    ``stop_tree`` can confirm tree termination after SIGKILL and the partial
+    checkpoint is then safe to reuse. A bare ``MagicMock`` would report a truthy
+    ``poll()`` and silently model the "parent already gone" cleanup case instead.
+    """
+    state = {'killed': False}
+    process = MagicMock(pid=1234)
+    process.wait.side_effect = [subprocess.TimeoutExpired('adapter', 1), 0]
+    process.poll.side_effect = lambda: 0 if state['killed'] else None
+
+    def killpg(pid, sig):
+        state['killed'] = True
+
+    return process, killpg
 
 
 def result(ids=('1',), complete=True, scope='campus'):
@@ -272,20 +291,63 @@ class P1Tests(unittest.TestCase):
             self.assertFalse(json.loads((root / 'subset' / 'status.json').read_text())['run_finished'])
 
     def test_timeout_publishes_only_validated_partial_checkpoint(self):
-        from unittest.mock import MagicMock
+        # Current behaviour: a timed-out adapter's checkpoint is reused only when
+        # stop_tree confirms the whole process tree is dead. The mock therefore has
+        # to look like a live child (poll() is None) whose group kill is confirmed.
         with tempfile.TemporaryDirectory() as d:
             root=Path(d)
-            process=MagicMock(pid=1234)
-            process.wait.side_effect=[subprocess.TimeoutExpired('adapter',1),0]
+            process, killpg = timed_out_process()
             def start(*args,**kwargs):
                 p.atomic_json(root/'result.json',result())
                 return process
-            with patch.object(p.subprocess,'Popen',side_effect=start), patch.object(p.os,'killpg'):
+            with patch.object(p.subprocess,'Popen',side_effect=start), patch.object(p.os,'killpg',side_effect=killpg):
                 collected=p.collect_process('大疆','campus',root,timeout=1)
             self.assertEqual(len(collected['jobs']),1)
             self.assertEqual(collected['coverage']['status'],'partial')
             self.assertFalse(collected['coverage']['complete'])
             self.assertTrue(collected['coverage']['errors'])
+            # Retained rows carry validate_result's identity/scope fields, proving the
+            # partial went through validation rather than being published raw.
+            row=collected['jobs'][0]
+            self.assertEqual(row['p1_company'],'大疆')
+            self.assertEqual(row['p1_scope'],'campus')
+            self.assertEqual(row['p1_identity'],row['id'])
+            cleanup=json.loads((root/'timeout-cleanup.json').read_text())
+            self.assertTrue(cleanup['tree_termination_confirmed'])
+
+    def test_timeout_does_not_publish_unvalidated_checkpoint(self):
+        # Same confirmed cleanup, but the adapter wrote a row that fails the contract:
+        # nothing may be published, so the scope stays blocked.
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            process, killpg = timed_out_process()
+            def start(*args,**kwargs):
+                payload=result()
+                payload['jobs'][0].pop('description_raw')
+                p.atomic_json(root/'result.json',payload)
+                return process
+            with patch.object(p.subprocess,'Popen',side_effect=start), patch.object(p.os,'killpg',side_effect=killpg):
+                collected=p.collect_process('大疆','campus',root,timeout=1)
+            self.assertEqual(collected['coverage']['status'],'blocked')
+            self.assertEqual(collected['jobs'],[])
+
+    def test_timeout_with_unconfirmed_cleanup_does_not_publish_checkpoint(self):
+        # If the parent already exited, descendant termination is unverifiable, so the
+        # checkpoint must not be reused even though it contains valid-looking jobs.
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            process=MagicMock(pid=1234)
+            process.wait.side_effect=[subprocess.TimeoutExpired('adapter',1),0]
+            process.poll.return_value=0
+            def start(*args,**kwargs):
+                p.atomic_json(root/'result.json',result())
+                return process
+            with patch.object(p.subprocess,'Popen',side_effect=start), patch.object(p.os,'killpg'):
+                collected=p.collect_process('大疆','campus',root,timeout=1)
+            self.assertEqual(collected['coverage']['status'],'blocked')
+            self.assertEqual(collected['jobs'],[])
+            cleanup=json.loads((root/'timeout-cleanup.json').read_text())
+            self.assertFalse(cleanup['tree_termination_confirmed'])
 
     def test_timeout_does_not_reuse_preexisting_result(self):
         from unittest.mock import MagicMock
