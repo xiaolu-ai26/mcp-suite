@@ -34,13 +34,19 @@ PUBLIC_API_ONLY = ('字节跳动', '美的集团')
 # Foreign batch 2 (20260918j): Dayee hotjob.cn tenants + the 51job micro-site.
 DAYEE_MODULE = 'qiuzhao.collector.p1_foreign_01'
 JOB51_MODULE = 'qiuzhao.collector.p1_platform_51job'
+# Foreign batch A (20260919b): Eightfold AI and Phenom People public careers.
+EIGHTFOLD_MODULE = 'qiuzhao.collector.p1_platform_eightfold'
+PHENOM_MODULE = 'qiuzhao.collector.p1_platform_phenom'
+EIGHTFOLD_ONLY = ('惠普', '微软', '高通', '应用材料', '泛林')
+PHENOM_ONLY = ('宝洁', '玛氏', '罗氏', '波士顿咨询', 'ABB', '飞利浦', '默沙东', '思科')
 DAYEE_ONLY = ('德勤', '康师傅', 'ZARA', '广汽集团', '益海嘉里', '迪卡侬', 'ZURU')
 JOB51_ONLY = ('百事',)
 # 20260918h shipped 924 companies; this cumulative branch adds 字节跳动/美的集团
-# (20260918i) plus 22 new foreign-batch names (20260918j). 毕马威 was already
-# registered through an older moka tenant, so the batch's second kpmg tenant adds
-# no company — that is exactly the duplicate-name risk this file guards.
-EXPECTED_DEFAULT_COMPANIES = 948
+# (20260918i), 22 new foreign-batch names (20260918j) and 13 foreign ATS tenants
+# from batch A (20260919b: Eightfold 5 + Phenom 8). 毕马威 was already registered
+# through an older moka tenant, so the batch's second kpmg tenant adds no company
+# — that is exactly the duplicate-name risk this file guards.
+EXPECTED_DEFAULT_COMPANIES = 961
 CONFIG_SECTION_MODULES = {
     'beisen': 'qiuzhao.collector.p1_platform_beisen',
     'moka': 'qiuzhao.collector.p1_platform_moka',
@@ -49,6 +55,8 @@ CONFIG_SECTION_MODULES = {
     'successfactors': 'qiuzhao.collector.p1_platform_successfactors',
     'dayee': DAYEE_MODULE,
     'job51': JOB51_MODULE,
+    'eightfold': EIGHTFOLD_MODULE,
+    'phenom': PHENOM_MODULE,
 }
 
 
@@ -105,6 +113,9 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
     # Foreign batch-2 blocks (20260918j) appended after the public-API block.
     dayee_names = [n for n in extra if module_of(n) == 'qiuzhao.collector.p1_foreign_01']
     job51_names = [n for n in extra if module_of(n) == 'qiuzhao.collector.p1_platform_51job']
+    # Foreign batch A (20260919b) appended after the 51job block.
+    eightfold_names = [n for n in extra if module_of(n) == EIGHTFOLD_MODULE]
+    phenom_names = [n for n in extra if module_of(n) == PHENOM_MODULE]
 
     assert set(PLATFORM_ONLY) <= set(beisen_names) | set(moka_names)
     assert set(BANK_ONLY) <= set(bank_names)
@@ -112,13 +123,17 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
     assert set(PUBLIC_API_ONLY) <= set(public_api_names)
     coverage_blocks = (set(beisen_names) | set(moka_names) | set(bank_names) | set(ali_names)
                        | set(tme_names) | set(foreign_names) | set(feishu_names)
-                       | set(public_api_names) | set(dayee_names) | set(job51_names))
+                       | set(public_api_names) | set(dayee_names) | set(job51_names)
+                       | set(eightfold_names) | set(phenom_names))
     assert set(extra) == coverage_blocks
+    assert set(EIGHTFOLD_ONLY) <= set(eightfold_names)
+    assert set(PHENOM_ONLY) <= set(phenom_names)
 
     # Approved append order: beisen then moka, banks, Ali/Tencent gap, foreign
     # Workday/SuccessFactors, config-driven Feishu, the 20260918i public-API batch
-    # (字节跳动/美的集团), then the 20260918j foreign batch-2 blocks (Dayee
-    # hotjob.cn, then 51job micro-sites). Every block stays contiguous and no
+    # (字节跳动/美的集团), the 20260918j foreign batch-2 blocks (Dayee hotjob.cn,
+    # then 51job micro-sites), then the 20260919b foreign batch-A blocks
+    # (Eightfold AI, then Phenom People). Every block stays contiguous and no
     # block is interleaved with another.
     block_order = [
         ('beisen', beisen_names),
@@ -131,6 +146,8 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
         ('public_api', public_api_names),
         ('dayee', dayee_names),
         ('51job', job51_names),
+        ('eightfold', eightfold_names),
+        ('phenom', phenom_names),
     ]
     cursor = 0
     for label, names in block_order:
@@ -278,10 +295,11 @@ def test_deployable_windows_collector_uses_scope_timeout_and_workers():
 
 # --- 5. merged 20260918i + 20260918j registry guards --------------------------
 
-def test_default_set_is_h_baseline_plus_i_and_j_additions():
-    # 站长口径的 924 家 (20260918h) + 字节跳动/美的集团 + 外企第二批新增 = 948.
+def test_default_set_is_h_baseline_plus_i_j_and_a_additions():
+    # 站长口径的 924 家 (20260918h) + 字节跳动/美的集团 + 外企第二批新增 22 家
+    # + 外企 ATS 批 A 新增 13 家 (Eightfold 5 + Phenom 8) = 961.
     assert len(p.DEFAULT_COMPANIES) == EXPECTED_DEFAULT_COMPANIES
-    for name in (*PUBLIC_API_ONLY, *DAYEE_ONLY, *JOB51_ONLY):
+    for name in (*PUBLIC_API_ONLY, *DAYEE_ONLY, *JOB51_ONLY, *EIGHTFOLD_ONLY, *PHENOM_ONLY):
         assert name in p.DEFAULT_COMPANIES, name
     assert p.REGISTRY['字节跳动'] == 'qiuzhao.collector.p1_bytedance_public'
     assert p.REGISTRY['美的集团'] == 'qiuzhao.collector.p1_midea_public'
@@ -289,6 +307,10 @@ def test_default_set_is_h_baseline_plus_i_and_j_additions():
         assert p.REGISTRY[name] == DAYEE_MODULE, name
     for name in JOB51_ONLY:
         assert p.REGISTRY[name] == JOB51_MODULE, name
+    for name in EIGHTFOLD_ONLY:
+        assert p.REGISTRY[name] == EIGHTFOLD_MODULE, name
+    for name in PHENOM_ONLY:
+        assert p.REGISTRY[name] == PHENOM_MODULE, name
     # Earlier blocks keep their owners after the merge.
     assert p.REGISTRY['中信建投'] == 'qiuzhao.collector.p1_platform_beisen'
     assert p.REGISTRY['英伟达'] == 'qiuzhao.collector.p1_platform_workday'
@@ -302,7 +324,9 @@ def _declared_config_names(section):
     path = Path(p.__file__).with_name('p1_platform_companies.json')
     data = json.loads(path.read_text(encoding='utf-8'))
     names = []
-    for entry in (data.get(section) or {}).values():
+    for key, entry in (data.get(section) or {}).items():
+        if str(key).startswith('_'):  # section documentation, not a tenant
+            continue
         name = entry if isinstance(entry, str) else str((entry or {}).get('name') or '')
         if name:
             names.append(name)
