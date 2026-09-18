@@ -1,9 +1,12 @@
 import copy
+import datetime as dt
 import gzip
 import json
 from pathlib import Path
 import subprocess
 import tempfile
+import threading
+import time
 import unittest
 from unittest.mock import patch
 from qiuzhao.collector import p1_pipeline as p
@@ -371,3 +374,224 @@ def test_pending_unknown_availability_stays_visible_but_explicit_pause_does_not(
     row.update(status='expired',source_status_raw='pause')
     data.write_text(json.dumps([row]))
     assert Jobs(data,today=date(2026,9,13)).search()['total']==0
+
+
+def validated_for(company, scope, complete=True):
+    """A validated complete/partial result for any company/scope, no I/O."""
+    return p.validate_result(result(('1',), complete, scope), company, scope)
+
+
+class P1ConcurrencyTests(unittest.TestCase):
+    def test_concurrent_run_is_bounded_by_longest_unit(self):
+        companies = ['大疆', '拼多多', '小米', '京东']
+        delay = 0.25
+
+        def fake(company, scope, output, timeout):
+            time.sleep(delay)
+            return validated_for(company, scope)
+
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            with patch.object(p, 'collect_process', side_effect=fake):
+                started = time.monotonic()
+                self.assertEqual(p.run(root, root / 'run', companies, ['campus'], workers=4), 0)
+                elapsed = time.monotonic() - started
+        self.assertGreaterEqual(elapsed, delay)
+        # Four serial units would need 4x delay; four workers finish near one delay.
+        self.assertLess(elapsed, delay * len(companies) * 0.75)
+
+    def test_same_company_scopes_serialize_while_companies_overlap(self):
+        lock = threading.Lock()
+        per_company, global_active = {}, {'value': 0}
+        observed = {'same': 0, 'global': 0}
+
+        def fake(company, scope, output, timeout):
+            with lock:
+                per_company[company] = per_company.get(company, 0) + 1
+                observed['same'] = max(observed['same'], per_company[company])
+                global_active['value'] += 1
+                observed['global'] = max(observed['global'], global_active['value'])
+            time.sleep(0.3)
+            with lock:
+                per_company[company] -= 1
+                global_active['value'] -= 1
+            return validated_for(company, scope)
+
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            with patch.object(p, 'collect_process', side_effect=fake):
+                self.assertEqual(p.run(root, root / 'run', ['大疆', '拼多多'],
+                                       ['campus', 'intern'], workers=4), 0)
+        self.assertEqual(observed['same'], 1, 'same company scopes must never overlap')
+        self.assertGreaterEqual(observed['global'], 2, 'different companies should overlap')
+
+    def test_concurrent_checkpoints_keep_one_entry_per_unit(self):
+        companies, scopes = ['大疆', '拼多多', '小米'], ['campus', 'intern']
+
+        def fake(company, scope, output, timeout):
+            time.sleep(0.05)
+            return validated_for(company, scope)
+
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            run = root / 'run'
+            with patch.object(p, 'collect_process', side_effect=fake):
+                self.assertEqual(p.run(root, run, companies, scopes, workers=3), 0)
+            expected = {f'{c}/{s}' for c in companies for s in scopes}
+            status = json.loads((run / 'status.json').read_text(encoding='utf-8'))
+            checkpoint = json.loads(p.checkpoint_path(root, companies, scopes).read_text(encoding='utf-8'))
+            self.assertEqual(set(status['results']), expected)
+            self.assertEqual(set(checkpoint['results']), expected)
+            self.assertTrue(status['run_finished'])
+            for key, entry in status['results'].items():
+                self.assertTrue(Path(entry['result_path']).is_file(), key)
+
+    def test_failed_unit_enters_retry_queue_and_runs_first_next_time(self):
+        def first_run(company, scope, output, timeout):
+            if company == '大疆':
+                return p.blocked('SSLError: certificate verify failed')
+            return validated_for(company, scope)
+
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            with patch.object(p, 'collect_process', side_effect=first_run):
+                self.assertEqual(p.run(root, root / 'run1', ['大疆', '拼多多'], ['campus'], workers=1), 2)
+            entries = json.loads(p.retry_queue_path(root).read_text(encoding='utf-8'))['entries']
+            entry = entries['大疆/campus']
+            self.assertEqual(entry['reason'], 'ssl')
+            self.assertEqual(entry['count'], 1)
+            self.assertEqual(entry['consecutive_days'], 1)
+            self.assertNotIn('拼多多/campus', entries)
+
+            order = []
+
+            def second_run(company, scope, output, timeout):
+                order.append((company, scope))
+                return validated_for(company, scope)
+
+            with patch.object(p, 'collect_process', side_effect=second_run):
+                # 拼多多 is listed first, but the queued 大疆/campus unit must lead.
+                self.assertEqual(p.run(root, root / 'run2', ['拼多多', '大疆'], ['campus'], workers=1), 0)
+            self.assertEqual(order[0], ('大疆', 'campus'))
+            self.assertNotIn('大疆/campus',
+                             json.loads(p.retry_queue_path(root).read_text(encoding='utf-8'))['entries'])
+
+    def test_three_day_failure_is_demoted_to_last(self):
+        yesterday = (dt.datetime.now(dt.timezone.utc).date() - dt.timedelta(days=1)).isoformat()
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            p.atomic_json(p.retry_queue_path(root), {'entries': {'大疆/campus': {
+                'company': '大疆', 'scope': 'campus', 'reason': 'timeout', 'count': 3,
+                'consecutive_days': 3, 'last_failed_date': yesterday}}})
+            order = []
+
+            def fake(company, scope, output, timeout):
+                order.append((company, scope))
+                if company == '大疆':
+                    return p.blocked('adapter exit=timeout')
+                return validated_for(company, scope)
+
+            with patch.object(p, 'collect_process', side_effect=fake):
+                p.run(root, root / 'run', ['大疆', '拼多多'], ['campus'], workers=1)
+            self.assertEqual(order[-1], ('大疆', 'campus'))
+            status = json.loads((root / 'run' / 'status.json').read_text(encoding='utf-8'))
+            self.assertIn('大疆/campus', status['retry']['demoted'])
+            entries = json.loads(p.retry_queue_path(root).read_text(encoding='utf-8'))['entries']
+            self.assertEqual(entries['大疆/campus']['consecutive_days'], 4)
+
+    def test_resume_latest_reuses_concurrent_checkpoint_without_repeating(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            run = root / 'run'
+
+            def interrupted(company, scope, output, timeout):
+                # 拼多多 finishes first and checkpoints; 大疆 interrupts the run.
+                time.sleep(0.4 if company == '大疆' else 0.1)
+                if company == '大疆':
+                    raise KeyboardInterrupt
+                return validated_for(company, scope)
+
+            with patch.object(p, 'collect_process', side_effect=interrupted):
+                with self.assertRaises(KeyboardInterrupt):
+                    p.run(root, run, ['大疆', '拼多多'], ['campus'], workers=2)
+            mid = json.loads((run / 'status.json').read_text(encoding='utf-8'))
+            self.assertFalse(mid['run_finished'])
+            self.assertEqual(set(mid['results']), {'拼多多/campus'})
+
+            with patch.object(p, 'collect_process',
+                              side_effect=lambda company, scope, output, timeout: validated_for(company, scope)) as collect:
+                with patch('sys.argv', ['p1', '--data-dir', str(root), '--companies', '大疆,拼多多',
+                                       '--scopes', 'campus', '--resume-latest', '--workers', '2']):
+                    self.assertEqual(p.main(), 0)
+            self.assertEqual(collect.call_count, 1)
+            self.assertEqual(collect.call_args.args[0], '大疆')
+            self.assertTrue(json.loads((run / 'status.json').read_text(encoding='utf-8'))['run_finished'])
+
+    def test_resume_latest_resumes_unfinished_concurrent_run(self):
+        companies = ['大疆', '拼多多', '小米']
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            run = root / 'run'
+            # Nothing runs, but the checkpoint is written for a concurrent configuration.
+            self.assertEqual(p.run(root, run, companies, ['campus'], max_run_seconds=0, workers=3), 1)
+            calls = []
+
+            def fake(company, scope, output, timeout):
+                calls.append((company, scope))
+                return validated_for(company, scope)
+
+            with patch.object(p, 'collect_process', side_effect=fake):
+                with patch('sys.argv', ['p1', '--data-dir', str(root), '--companies', ','.join(companies),
+                                       '--scopes', 'campus', '--resume-latest', '--workers', '3']):
+                    self.assertEqual(p.main(), 0)
+            self.assertEqual(sorted(calls), sorted((c, 'campus') for c in companies))
+
+    def test_retry_reason_classification(self):
+        queue = {}
+        p.record_retry_failure(queue, '大疆', 'campus',
+                               {'status': 'blocked', 'errors': ['adapter exit=timeout'],
+                                'timeout_cleanup': {'pid': 1}})
+        p.record_retry_failure(queue, '大疆', 'intern',
+                               {'status': 'blocked', 'errors': ['SSLError: bad handshake']})
+        p.record_retry_failure(queue, '大疆', 'social',
+                               {'status': 'blocked', 'errors': ['adapter result missing']})
+        self.assertEqual(queue['大疆/campus']['reason'], 'timeout')
+        self.assertEqual(queue['大疆/intern']['reason'], 'ssl')
+        self.assertEqual(queue['大疆/social']['reason'], 'blocked')
+
+    def test_scope_timeout_flag_precedence_and_workers_passed(self):
+        with tempfile.TemporaryDirectory() as d:
+            with patch.object(p, 'run', return_value=0) as run_mock:
+                with patch('sys.argv', ['p1', '--data-dir', d, '--companies', '大疆', '--scopes', 'campus',
+                                       '--timeout', '1200', '--scope-timeout', '600', '--workers', '2']):
+                    p.main()
+            self.assertEqual(run_mock.call_args.args[4], 600)
+            self.assertEqual(run_mock.call_args.args[8], 2)
+            with patch.object(p, 'run', return_value=0) as legacy:
+                # The elf chain still passes --timeout 1200 without --scope-timeout.
+                with patch('sys.argv', ['p1', '--data-dir', d, '--companies', '大疆', '--scopes', 'campus',
+                                       '--timeout', '1200']):
+                    p.main()
+            self.assertEqual(legacy.call_args.args[4], 1200)
+            self.assertEqual(legacy.call_args.args[8], 4)
+
+    def test_concurrent_apply_publishes_every_unit_and_keeps_publish_lock(self):
+        companies = ['大疆', '拼多多', '小米']
+
+        def fake(company, scope, output, timeout):
+            time.sleep(0.05)
+            return validated_for(company, scope)
+
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / 'jobs.json').write_text('[]', encoding='utf-8')
+            with patch.object(p, 'collect_process', side_effect=fake):
+                self.assertEqual(p.run(root, root / 'run', companies, ['campus'],
+                                       apply=True, workers=3), 0)
+            rows = json.loads((root / 'jobs.json').read_text(encoding='utf-8'))
+            self.assertEqual({row['p1_company'] for row in rows}, set(companies))
+            status = json.loads((root / 'run' / 'status.json').read_text(encoding='utf-8'))
+            self.assertEqual(len(status['publications']), len(companies))
+            self.assertTrue(all(entry['published'] for entry in status['results'].values()))
+            backup = Path(status['publications'][0]['backup'])
+            self.assertTrue(backup.is_file())

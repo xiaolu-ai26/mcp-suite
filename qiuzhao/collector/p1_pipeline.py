@@ -6,6 +6,7 @@ remove previously P1-owned records; partial sources retain old records.
 """
 from __future__ import annotations
 import argparse
+import concurrent.futures
 import copy
 import datetime as dt
 from .portable_runtime import fcntl, stop_tree
@@ -20,6 +21,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 import uuid
 from urllib.parse import urlsplit
@@ -413,7 +415,122 @@ def any_validated(status):
     return False
 
 
-def run(data_dir, run_dir, companies, scopes, timeout=3600, apply=False, resume=False, max_run_seconds=21600):
+def retry_queue_path(data_dir):
+    return Path(data_dir) / 'p1-retry-queue.json'
+
+
+def load_retry_queue(data_dir):
+    """Read the previous day's failed-unit queue; tolerate a missing/corrupt file."""
+    try:
+        payload = json.loads(retry_queue_path(data_dir).read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        return {}
+    entries = payload.get('entries') if isinstance(payload, dict) else None
+    if not isinstance(entries, dict):
+        return {}
+    return {str(key): dict(value) for key, value in entries.items()
+            if isinstance(value, dict) and value.get('company') and value.get('scope')}
+
+
+def save_retry_queue(data_dir, queue):
+    """Best-effort atomic write; a read-only data dir must never abort collection."""
+    try:
+        atomic_json(retry_queue_path(data_dir), {'updated_at': now(), 'entries': queue})
+    except OSError:
+        pass
+
+
+def failure_reason(coverage):
+    errors = ' | '.join(str(error) for error in (coverage.get('errors') or []))
+    if coverage.get('timeout_cleanup') is not None or 'timeout' in errors.lower():
+        return 'timeout'
+    if 'ssl' in errors.lower():
+        return 'ssl'
+    if coverage.get('status') == 'blocked':
+        return 'blocked'
+    return 'incomplete'
+
+
+def is_full_success(coverage):
+    return coverage.get('status') == 'success' and coverage.get('complete') is True
+
+
+def next_consecutive_days(previous, today):
+    last = previous.get('last_failed_date')
+    try:
+        last_date = dt.date.fromisoformat(str(last))
+    except (TypeError, ValueError):
+        return 1
+    if last_date == today:
+        return max(1, int(previous.get('consecutive_days') or 1))
+    if last_date == today - dt.timedelta(days=1):
+        return max(1, int(previous.get('consecutive_days') or 1)) + 1
+    return 1
+
+
+def record_retry_failure(queue, company, scope, coverage):
+    key = f'{company}/{scope}'
+    previous = queue.get(key) or {}
+    today = dt.datetime.now(dt.timezone.utc).date()
+    entry = dict(previous)
+    entry.update(company=company, scope=scope, reason=failure_reason(coverage),
+                 count=int(previous.get('count') or 0) + 1, last_failed_at=now(),
+                 last_failed_date=today.isoformat(),
+                 consecutive_days=next_consecutive_days(previous, today),
+                 first_failed_at=previous.get('first_failed_at') or now())
+    dates = [str(day) for day in (previous.get('fail_dates') or [])]
+    if today.isoformat() not in dates:
+        dates.append(today.isoformat())
+    entry['fail_dates'] = dates[-10:]
+    queue[key] = entry
+    return entry
+
+
+def record_retry_success(queue, company, scope):
+    queue.pop(f'{company}/{scope}', None)
+
+
+def retry_tier(entry):
+    """-1 = failed yesterday, run first; 0 = normal; 1 = three-day failure, run last."""
+    if not entry:
+        return 0
+    try:
+        days = int(entry.get('consecutive_days') or 1)
+    except (TypeError, ValueError):
+        days = 1
+    return -1 if days < 3 else 1
+
+
+def plan_chains(companies, scopes, queue):
+    """Company chains keep same-company scopes serial while companies run concurrently.
+
+    Retry-queue units lead their company and the global order; units that failed three
+    consecutive days are demoted to the very end without dropping any company.
+    """
+    position = {company: index for index, company in enumerate(companies)}
+    scope_position = {scope: index for index, scope in enumerate(scopes)}
+    chains = {}
+    for company in companies:
+        chains[company] = sorted(scopes, key=lambda scope: (
+            retry_tier(queue.get(f'{company}/{scope}')), scope_position[scope]))
+    def company_key(company):
+        tiers = [retry_tier(queue.get(f'{company}/{scope}')) for scope in scopes]
+        return (min(tiers) if tiers else 0, position[company])
+    return [{'company': company, 'scopes': chains[company]}
+            for company in sorted(companies, key=company_key)]
+
+
+def retry_summary(queue, companies, scopes):
+    priority, demoted = [], []
+    for company in companies:
+        for scope in scopes:
+            entry = queue.get(f'{company}/{scope}')
+            if entry:
+                (demoted if retry_tier(entry) > 0 else priority).append(f'{company}/{scope}')
+    return priority, demoted
+
+
+def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=False, max_run_seconds=21600, workers=4):
     data_dir, run_dir = Path(data_dir), Path(run_dir)
     run_dir.mkdir(parents=True, exist_ok=True)
     status_path = run_dir / 'status.json'
@@ -423,54 +540,116 @@ def run(data_dir, run_dir, companies, scopes, timeout=3600, apply=False, resume=
         'started_at': now(), 'run_dir': str(run_dir), 'companies': companies, 'scopes': scopes, 'results': {}, 'publications': []}
     if status['companies'] != companies or status['scopes'] != scopes:
         raise ValueError('resume company/scope selection differs from checkpoint')
+    retry_queue = load_retry_queue(data_dir)
+    state_lock = threading.Lock()
+
     def save_status():
         atomic_json(status_path, status)
         atomic_json(data_dir / 'p1-status.json', status)
         atomic_json(checkpoint_path(data_dir, companies, scopes), status)
 
+    def publish_retry_summary():
+        priority, demoted = retry_summary(retry_queue, companies, scopes)
+        status['retry'] = {'priority': priority, 'demoted': demoted,
+                           'queue_path': str(retry_queue_path(data_dir))}
+
+    publish_retry_summary()
     status.update(run_finished=False, success=False)
     save_status()
     publication_dir = run_dir / 'batches' / str(time.time_ns())
     deadline = time.monotonic() + max_run_seconds
-    for company in companies:
+    workers = max(1, int(workers))
+
+    def run_unit(company, scope):
+        key = f'{company}/{scope}'
         ordinal = COMPANIES.index(company) + 1
-        for scope in scopes:
-            key = f'{company}/{scope}'
+        output = run_dir / f'{ordinal:02d}' / scope
+        with state_lock:
             saved = status['results'].get(key)
-            if saved and saved.get('attempted', True) and (not apply or saved.get('published')):
-                continue
-            if time.monotonic() >= deadline:
-                status['run_finished'] = False
-                status['success'] = False
-                status['paused_at'] = now()
-                status['pending'] = [f'{c}/{s}' for c in companies for s in scopes
-                                     if f'{c}/{s}' not in status['results']]
-                save_status()
-                # Scopes already validated and merged are trustworthy partial output.
-                return 2 if any_validated(status) else 1
-            output = run_dir / f'{ordinal:02d}' / scope
-            if saved and Path(saved['result_path']).exists():
-                result = validate_result(json.loads(Path(saved['result_path']).read_text(encoding='utf-8')), company, scope, output)
+        if saved and saved.get('attempted', True) and (not apply or saved.get('published')):
+            return 'skipped'
+        if time.monotonic() >= deadline:
+            return 'deadline'
+        if saved and Path(saved['result_path']).exists():
+            result = validate_result(json.loads(Path(saved['result_path']).read_text(encoding='utf-8')), company, scope, output)
+        else:
+            result = collect_process(company, scope, output, min(timeout, max(1, deadline - time.monotonic())))
+            atomic_json(output / 'validated.json', result)
+        # publish() serializes on the p1-publish.lock file lock; the status append is
+        # protected below so concurrent company chains cannot lose a checkpoint entry.
+        publication = None
+        if apply and (result['jobs'] or result.get('pending_index') or result['coverage'].get('complete')):
+            publication = publish(data_dir, [(company, scope, result)], publication_dir)
+        with state_lock:
+            status['results'][key] = {'coverage': result['coverage'],
+                                      'result_path': str(output / 'validated.json'),
+                                      'published': bool(apply), 'attempted': True}
+            if publication is not None:
+                status['publications'].append(dict(company=company, scope=scope, **publication))
+            if is_full_success(result['coverage']):
+                record_retry_success(retry_queue, company, scope)
             else:
-                result = collect_process(company, scope, output, min(timeout, max(1, deadline - time.monotonic())))
-                atomic_json(output / 'validated.json', result)
-            entry = {'coverage': result['coverage'], 'result_path': str(output / 'validated.json'),
-                     'published': False, 'attempted': True}
-            status['results'][key] = entry
+                record_retry_failure(retry_queue, company, scope, result['coverage'])
             save_status()
-            print(json.dumps({'company': company, 'scope': scope, **result['coverage']}, ensure_ascii=False), flush=True)
-            if apply:
-                if result['jobs'] or result.get('pending_index') or result['coverage'].get('complete'):
-                    publication = publish(data_dir, [(company, scope, result)], publication_dir)
-                    status['publications'].append(dict(company=company, scope=scope, **publication))
-                entry['published'] = True  # processed; may intentionally retain existing data
-                save_status()
-    status['run_finished'] = True
-    status['pending'] = []
-    status['completed_at'] = now()
-    status['success'] = all(e['coverage']['status'] == 'success' and e['coverage'].get('complete') is True
-                            for e in status['results'].values())
-    save_status()
+            save_retry_queue(data_dir, retry_queue)
+        print(json.dumps({'company': company, 'scope': scope, **result['coverage']}, ensure_ascii=False), flush=True)
+        return 'ok'
+
+    def run_chain(chain):
+        for scope in chain['scopes']:
+            if run_unit(chain['company'], scope) == 'deadline':
+                return 'deadline'
+        return 'ok'
+
+    # One chain per company: same-company scopes stay serial, workers limit how many
+    # companies (and therefore units) run at once.
+    chains = plan_chains(companies, scopes, retry_queue)
+    interrupted = False
+    executor = concurrent.futures.ThreadPoolExecutor(max_workers=workers)
+    try:
+        futures = {}
+        queue_of_chains = list(chains)
+        stop_submitting = False
+
+        def submit_next():
+            if stop_submitting or not queue_of_chains or time.monotonic() >= deadline:
+                return
+            chain = queue_of_chains.pop(0)
+            futures[executor.submit(run_chain, chain)] = chain
+
+        for _ in range(min(workers, len(queue_of_chains))):
+            submit_next()
+        while futures:
+            done, _ = concurrent.futures.wait(list(futures), return_when=concurrent.futures.FIRST_COMPLETED)
+            for future in done:
+                futures.pop(future, None)
+                try:
+                    outcome = future.result()
+                except BaseException:
+                    interrupted = True
+                    raise
+                if outcome == 'deadline':
+                    stop_submitting = True
+                submit_next()
+    finally:
+        executor.shutdown(wait=not interrupted, cancel_futures=True)
+
+    with state_lock:
+        remaining = [f'{company}/{scope}' for company in companies for scope in scopes
+                     if f'{company}/{scope}' not in status['results']]
+        publish_retry_summary()
+        status['pending'] = remaining
+        if remaining:
+            # Scopes already validated are trustworthy partial output; resume later.
+            status['run_finished'] = False
+            status['success'] = False
+            status['paused_at'] = now()
+        else:
+            status['run_finished'] = True
+            status['pending'] = []
+            status['completed_at'] = now()
+            status['success'] = all(is_full_success(e['coverage']) for e in status['results'].values())
+        save_status()
     # Exit contract: 0 = every scope success+complete; 2 = at least one scope passed
     # validation and was merged while another did not (keep partial output);
     # 1 = no scope produced trustworthy output (callers must roll back).
@@ -489,7 +668,12 @@ def main():
     parser.add_argument('--run-dir', type=Path)
     parser.add_argument('--companies', help='comma-separated exact company names; default all 50')
     parser.add_argument('--scopes', default=','.join(SCOPES))
-    parser.add_argument('--timeout', type=int, default=3600)
+    parser.add_argument('--timeout', type=int, default=None,
+                        help='legacy per-scope timeout in seconds; --scope-timeout takes precedence')
+    parser.add_argument('--scope-timeout', type=int, default=None,
+                        help='per-scope subprocess timeout in seconds (default 600)')
+    parser.add_argument('--workers', type=int, default=4,
+                        help='max concurrent units/companies, 1-6 (default 4)')
     parser.add_argument('--apply', action='store_true')
     parser.add_argument('--resume', action='store_true')
     parser.add_argument('--resume-latest', action='store_true')
@@ -503,6 +687,10 @@ def main():
             result = blocked(f'{type(error).__name__}: {error}')
         atomic_json(args.output_dir / 'result.json', result)
         return 0
+    if not 1 <= args.workers <= 6:
+        parser.error('--workers must be between 1 and 6')
+    scope_timeout = args.scope_timeout if args.scope_timeout is not None else (
+        args.timeout if args.timeout is not None else 600)
     companies = args.companies.split(',') if args.companies else COMPANIES
     scopes = args.scopes.split(',')
     if any(c not in REGISTRY for c in companies) or any(s not in SCOPES for s in scopes):
@@ -539,11 +727,11 @@ def main():
         with lock:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
             select_checkpoint()
-            return run(args.data_dir, run_dir, companies, scopes, args.timeout,
-                       args.apply, args.resume, args.max_run_seconds)
+            return run(args.data_dir, run_dir, companies, scopes, scope_timeout,
+                       args.apply, args.resume, args.max_run_seconds, args.workers)
     select_checkpoint()
-    return run(args.data_dir, run_dir, companies, scopes, args.timeout,
-               args.apply, args.resume, args.max_run_seconds)
+    return run(args.data_dir, run_dir, companies, scopes, scope_timeout,
+               args.apply, args.resume, args.max_run_seconds, args.workers)
 
 
 if __name__ == '__main__':
