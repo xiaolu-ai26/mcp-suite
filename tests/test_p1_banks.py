@@ -227,11 +227,13 @@ def test_banks_register_without_moving_hardcoded_ordinals():
         assert name not in pipeline.COMPANIES
     # The hardcoded 50 keep their exact approved order.
     assert pipeline.DEFAULT_COMPANIES[:len(pipeline.COMPANIES)] == pipeline.COMPANIES
-    # Banks stay a contiguous block after the hardcoded companies; later adapters
-    # (Ali/Tencent gap) may be appended after them.
-    first_bank = pipeline.DEFAULT_COMPANIES.index('中国工商银行')
-    assert (pipeline.DEFAULT_COMPANIES[first_bank:first_bank + len(banks.COMPANIES)]
-            == list(banks.COMPANIES.values()))
+    # Banks are appended as one contiguous block in config order. Later append-only
+    # blocks (Ali/Tencent gap, foreign Workday/SuccessFactors, Feishu) may follow and
+    # must not reorder or interleave the bank block.
+    bank_names = list(banks.COMPANIES.values())
+    extra = [name for name in pipeline.DEFAULT_COMPANIES if name not in pipeline.COMPANIES]
+    bank_start = next(index for index, name in enumerate(extra) if name == bank_names[0])
+    assert extra[bank_start:bank_start + len(bank_names)] == bank_names
 
 
 def test_unknown_company_and_scope_raise():

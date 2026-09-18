@@ -1,0 +1,11 @@
+# 叠加顺序：在 20260918e（阿里/腾讯缺口批）之后叠加部署。
+#   * p1_platform_workday.py       本次新增（Workday CXS 通用适配器）
+#   * p1_platform_successfactors.py 本次新增（SAP SuccessFactors CSB 通用适配器，兼容 data-row / job-row 两种主题）
+#   * p1_platform_companies.json    追加 workday(9) / successfactors(3) 两个配置块
+#   * p1_pipeline.py                累积版 = 20260918e 全文 + 本批 append-only 外企注册块（见 DEPLOY-NOTES.md）
+# 若 20260918d 或其它并行批次已部署，合并 p1_pipeline.py 时必须保留各批次的注册块；
+# 不要用非累积版本整体覆盖而丢掉其它批次追加的注册块。本次未部署、未 SSH、未写库。
+d95e11b29f30368a1f4657d22fdb1c10d88495bd1ccac03f8a15c613caeb706b  p1_platform_workday.py
+658c81c07bd4ebda62735662dfac54722dccc830517072e3a40d9329701f1216  p1_platform_successfactors.py
+95ce8383051e95002b356f8ad5ee1a3af31742312d6e9b72023ed51db6aa5435  p1_platform_companies.json
+1034eb28224815eb4d3ccabe0d0546e415e75acf85924366a3211e280bb92018  p1_pipeline.py

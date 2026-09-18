@@ -91,11 +91,8 @@ except Exception:  # optional platform config may be absent in a minimal checkou
 # The daily chain is invoked without --companies, so the default set must contain
 # every extra adapter company, not only the hardcoded 50. Hardcoded companies
 # keep their approved priority order; platform companies follow in config order
-# (beisen then moka, deduplicated against the hardcoded names because
-# 三七互娱 / 金山办公 / 鹰角网络 appear in both lists), then the bank block, then
-# the Ali/Tencent gap block, then the foreign Workday/SuccessFactors block, and
-# finally config-driven Feishu tenants (setdefault, so they never displace an
-# earlier adapter).
+# (beisen then moka) and are deduplicated against the hardcoded names, because
+# 三七互娱 / 金山办公 / 鹰角网络 appear in both lists; bank adapters come last; the foreign Workday/SuccessFactors block follows.
 PLATFORM_COMPANIES = [name for name in REGISTRY if name not in COMPANIES]
 DEFAULT_COMPANIES = [*COMPANIES, *PLATFORM_COMPANIES]
 
