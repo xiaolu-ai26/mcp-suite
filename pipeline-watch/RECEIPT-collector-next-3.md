@@ -348,6 +348,28 @@ MODS {"字节跳动": "qiuzhao.collector.p1_bytedance_public",
 - **未重启任何服务、未改计划任务定义、未手动补跑**（首次实测 = 次日 06:10 的
   `Qiuzhao-Collector-Daily`）。
 
+**补充校验（import 闭包，`py_compile` 覆盖不到）**：`DEPLOY-NOTES.md` 断言"17 个文件覆盖后
+没有悬空 import"。`py_compile` 只查语法、指定的 import 命令只加载 `p1_pipeline`/`guopin`/
+`windows_collector`，都不足以证伪这一点；而这 4 个新模块一旦有悬空 import，字节/美的/大易/
+51job 会在首日直接 blocked。因此用同一个正式 venv 逐个 import（导入前已用 AST 核对这 5 个
+文件顶层只有常量/正则/字典定义与一个只读配置加载 `_load_companies()`，**导入无网络、无写入**）：
+
+```
+IMP_OK qiuzhao.collector.bytedance              ...\qiuzhao\collector\bytedance.py
+IMP_OK qiuzhao.collector.p1_bytedance_public    ...\qiuzhao\collector\p1_bytedance_public.py
+IMP_OK qiuzhao.collector.p1_midea_public        ...\qiuzhao\collector\p1_midea_public.py
+IMP_OK qiuzhao.collector.p1_foreign_01          ...\qiuzhao\collector\p1_foreign_01.py
+IMP_OK qiuzhao.collector.p1_platform_51job      ...\qiuzhao\collector\p1_platform_51job.py
+IMP_OK qiuzhao.collector.p1_sources_01_10       ...\qiuzhao\collector\p1_sources_01_10.py
+CLOSURE_EXIT=0
+COUNTS {"qiuzhao.collector.p1_foreign_01": 7, "qiuzhao.collector.p1_platform_51job": 1}
+SCOPES 字节跳动 ['campus', 'intern', 'social'] | 美的集团 ['campus', 'intern', 'social']
+```
+
+结论：6 个模块全部从**真实生产路径**导入成功，闭包自洽；大易 7 家、51job 1 家与
+`DEPLOY-NOTES.md` 一致。**未触发回滚**（本补充校验在覆盖后追加，任何一项失败都会按第 5 步
+口径回滚，实际全部通过）。
+
 ### 10.6 步骤3 Playwright 与收尾核查
 
 Playwright（阿里系 headless 依赖，**未重装**）：
