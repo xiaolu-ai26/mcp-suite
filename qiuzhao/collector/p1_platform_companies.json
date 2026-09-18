@@ -2338,7 +2338,61 @@
     "REDACTED": "溢达",
     "ti/143986": "德州仪器-补招专场",
     "REDACTED": "嘉实基金",
-    "wuxibiologics/98698": "药明生物"
+    "wuxibiologics/98698": "药明生物",
+    "hfc-foods/102201": {
+      "name": "荷美尔",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/hfc-foods/102201"
+      ]
+    },
+    "santen/99365": {
+      "name": "参天制药",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/santen/99365"
+      ]
+    },
+    "chiesi/99166": {
+      "name": "凯西医药",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/chiesi/99166"
+      ]
+    },
+    "comau/98393": {
+      "name": "柯马",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/comau/98393"
+      ]
+    },
+    "desouttertools/126040": {
+      "name": "马头动力工具",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/desouttertools/126040"
+      ]
+    },
+    "glico/102428": {
+      "name": "格力高",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/glico/102428"
+      ]
+    },
+    "nexteer/72403": {
+      "name": "耐世特",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/nexteer/72403"
+      ]
+    },
+    "ef/94566": {
+      "name": "EF英孚教育",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/ef/94566"
+      ]
+    },
+    "REDACTED": {
+      "name": "道达尔能源",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/REDACTED"
+      ]
+    }
   },
   "feishu": {
     "arashivision": {
@@ -3379,6 +3433,10 @@
       "name": "永赢基金",
       "host": "wecruit.hotjob.cn",
       "note": "discovered 2026-09-19 from 闲鱼表 外企/合资 rows (read-only)"
+    },
+    "REDACTED": {
+      "name": "德国西克SICK",
+      "host": "wecruit.hotjob.cn"
     }
   },
   "job51": {
@@ -3423,6 +3481,18 @@
       "url": "https://campus.51job.com/te/p2.html",
       "scope": "campus",
       "note": "discovered 2026-09-19 from 闲鱼表 外企/合资 rows (read-only)"
+    },
+    "DellEmc": {
+      "name": "易安信",
+      "url": "https://campus.51job.com/DellEmc/",
+      "scope": "campus",
+      "note": "discovered 2026-09-19 round2 (【易安信信息技术研发(上海)有限公司】易安信信息技术研发(上海)有限公司前程无忧)"
+    },
+    "marquardt": {
+      "name": "马夸特",
+      "url": "https://campus.51job.com/marquardt/",
+      "scope": "campus",
+      "note": "discovered 2026-09-19 round2 (马夸特上海2022校园招聘)"
     }
   },
   "workday": {
@@ -3443,7 +3513,279 @@
     "herbertsmithfreehills/wd3/External": "史密夫斐尔",
     "intel/wd1/External": "英特尔",
     "mastercard/wd1/Campus": "万事达卡",
-    "trafigura/wd3/TrafiguraCareerSite": "托克"
+    "trafigura/wd3/TrafiguraCareerSite": "托克",
+    "3m/wd1/Search": {
+      "name": "3M",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "aig/wd1/aig": {
+      "name": "AIG美国国际集团",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "blackstone/wd1/BX_External_Site": {
+      "name": "黑石集团",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "broadcom/wd1/External_Career": {
+      "name": "博通",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "amat/wd1/External": {
+      "name": "应用材料",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "autodesk/wd1/Ext": {
+      "name": "欧特克",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "altera/wd1/Altera": {
+      "name": "Altera",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "analogdevices/wd1/External": {
+      "name": "亚德诺半导体",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "aampower/wd1/AAM-Career-Site": {
+      "name": "AAM",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "amgen/wd1/Careers": {
+      "name": "安进",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "arrow/wd1/ac": {
+      "name": "艾睿电子",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "baxter/wd1/baxter": {
+      "name": "百特医疗",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "blackrock/wd1/BlackRock_Professional": {
+      "name": "贝莱德",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "brunswick/wd1/search": {
+      "name": "Brunswick",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "caa/wd1/Careers": {
+      "name": "Creative Artists Agency",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "cadence/wd1/External_Careers": {
+      "name": "楷登电子",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "cardinalhealth/wd1/EXT": {
+      "name": "嘉德诺",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "brooksauto/wd1/Brooks_External_Site": {
+      "name": "布鲁克斯自动化",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "ascendperformancematerials/wd1/Ascend": {
+      "name": "Ascend Performance Materials",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "axalta/wd1/Axalta": {
+      "name": "艾仕得",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "capgroup/wd1/capitalgroupcareers": {
+      "name": "Capital Group",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "clarioclinical/wd1/clarioclinical_careers": {
+      "name": "Clario",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "cognex/wd1/External_Career_Site": {
+      "name": "康耐视",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "coke/wd1/coca-cola-careers": {
+      "name": "可口可乐",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "REDACTED": {
+      "name": "康维德",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "REDACTED": {
+      "name": "百时美施贵宝",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "dentsuaegis/wd3/DAN_GLOBAL": {
+      "name": "电通",
+      "search_text": "China",
+      "max_list_pages": 24
+    },
+    "flextronics/wd1/Careers": {
+      "name": "伟创力",
+      "search_text": "China",
+      "max_list_pages": 24
+    },
+    "heinz/wd1/KraftHeinz_Careers": {
+      "name": "卡夫亨氏",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "REDACTED": {
+      "name": "艾昆纬",
+      "search_text": "China",
+      "max_list_pages": 24
+    },
+    "REDACTED": {
+      "name": "迈图高新材料",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "paypal/wd1/jobs": {
+      "name": "贝宝",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "philips/wd3/jobs-and-careers": {
+      "name": "飞利浦",
+      "search_text": "China",
+      "max_list_pages": 24
+    },
+    "snapchat/wd1/snap": {
+      "name": "Snap",
+      "search_text": "China",
+      "max_list_pages": 8,
+      "host": "https://wd1.myworkdaysite.com"
+    },
+    "dow/wd1/ExternalCareers": {
+      "name": "陶氏",
+      "search_text": "China",
+      "max_list_pages": 24
+    },
+    "gilead/wd1/gileadcareers": {
+      "name": "吉利德",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "jll/wd1/jllcareers": {
+      "name": "仲量联行",
+      "search_text": "China",
+      "max_list_pages": 24
+    },
+    "magna/wd3/Magna": {
+      "name": "麦格纳",
+      "search_text": "China",
+      "max_list_pages": 8,
+      "host": "https://wd3.myworkdaysite.com"
+    },
+    "pvh/wd1/PVH_Careers": {
+      "name": "PVH集团",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "REDACTED": {
+      "name": "赛诺菲",
+      "search_text": "China",
+      "max_list_pages": 24
+    },
+    "bbh/wd5/BBH": {
+      "name": "布朗兄弟哈里曼",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "REDACTED": {
+      "name": "切迟杜威",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "clorox/wd1/Clorox": {
+      "name": "高乐氏",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "cw/wd1/External": {
+      "name": "戴德梁行",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "hp/wd5/ExternalCareerSite": {
+      "name": "惠普",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "ebay/wd5/apply": {
+      "name": "eBay",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "albemarle/wd5/External": {
+      "name": "雅保",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "bb/wd3/QNX": {
+      "name": "BlackBerry QNX",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "REDACTED": {
+      "name": "慧与",
+      "search_text": "China",
+      "max_list_pages": 16
+    },
+    "huntsman/wd1/Huntsman": {
+      "name": "亨斯迈",
+      "search_text": "China",
+      "max_list_pages": 16
+    },
+    "illumina/wd1/illumina-careers": {
+      "name": "因美纳",
+      "search_text": "China",
+      "max_list_pages": 16
+    },
+    "ingredion/wd1/IngredionCareers": {
+      "name": "宜瑞安",
+      "search_text": "China",
+      "max_list_pages": 16
+    },
+    "integer/wd1/External": {
+      "name": "Integer",
+      "search_text": "China",
+      "max_list_pages": 16
+    },
+    "kidsii/wd1/KidsII_Career_Site": {
+      "name": "KidsII",
+      "search_text": "China",
+      "max_list_pages": 16
+    }
   },
   "successfactors": {
     "jobs.sap.com": "思爱普",

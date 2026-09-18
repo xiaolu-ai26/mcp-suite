@@ -144,8 +144,8 @@ def test_dayee_and_51job_companies_join_the_platform_gate():
     dayee = _companies_with_module('qiuzhao.collector.p1_foreign_01')
     job51 = _companies_with_module('qiuzhao.collector.p1_platform_51job')
     # 外企发现批 20260919d 追加 3 家大易(一汽大众/宝时得/永赢基金)与 6 个 51job 微站
-    assert len(dayee) == 10 and '德勤' in dayee
-    assert len(job51) == 7 and '百事' in job51
+    assert len(dayee) == 11 and '德勤' in dayee
+    assert len(job51) == 9 and '百事' in job51
     for name in dayee:
         # Same multi-tenant host => one shared gate group, three scopes, no rotation.
         assert p.platform_group(name) == 'hotjob.cn', name

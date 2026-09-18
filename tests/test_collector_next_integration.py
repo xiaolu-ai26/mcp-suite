@@ -41,8 +41,10 @@ JOB51_ONLY = ('百事',)
 # registered through an older moka tenant, so the batch's second kpmg tenant adds
 # no company — that is exactly the duplicate-name risk this file guards.
 # 948 (20260918k) + foreign-discovery 20260919d: +1 beisen, +4 moka, +3 dayee,
-# +6 51job, +2 workday = 964.
-EXPECTED_DEFAULT_COMPANIES = 964
+# +6 51job, +2 workday = 964. foreign-discovery round 2 (20260919d bundle):
+# +9 moka, +1 dayee, +2 51job, +54 workday = 1030 (every row verified by the real
+# adapter with at least one China posting; see RECEIPT-foreign-discovery.md §2R).
+EXPECTED_DEFAULT_COMPANIES = 1030
 CONFIG_SECTION_MODULES = {
     'beisen': 'qiuzhao.collector.p1_platform_beisen',
     'moka': 'qiuzhao.collector.p1_platform_moka',

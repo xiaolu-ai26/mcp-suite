@@ -2,459 +2,2651 @@
  "generated_at": "2026-09-19",
  "description": "外企待接清单（按招聘系统分组）。adapter_ready=true 的桶已经有适配器，按 RECEIPT-platform-adapters.md 的 SOP 加一行 + 实测即可；其余等待对应适配器（Eightfold/Phenom/Avature/iCIMS/ORC 由另两个执行者负责）。",
  "summary": {
-  "total_unconfigured": 599,
+  "total_unconfigured": 685,
   "by_platform": {
-   "Avature": 1,
-   "Taleo": 1,
-   "SmartRecruiters": 2,
-   "tupu360": 4,
-   "moseeker": 2,
-   "ajinga": 1,
+   "未识别": 200,
+   "其他/自建": 149,
+   "本地招聘/未核实": 138,
+   "tupu360": 45,
+   "Avature": 43,
    "智联": 7,
+   "Phenom": 4,
+   "ORC": 3,
+   "SmartRecruiters": 2,
+   "moseeker": 2,
+   "Taleo": 1,
+   "ajinga": 1,
    "牛客": 1,
    "BOSS直聘": 1,
    "猎聘": 1,
-   "其他/自建": 152,
-   "本地招聘/未核实": 138,
-   "未识别": 201,
-   "51job": 6,
-   "Moka": 12,
-   "SuccessFactors": 3,
-   "Workday": 5,
    "前程无忧": 32,
    "北森": 22,
+   "Moka": 12,
+   "51job": 6,
+   "Workday": 5,
    "大易": 4,
+   "SuccessFactors": 3,
    "飞书招聘": 3
   },
   "adapter_ready_total": 87,
-  "needs_new_adapter_total": 512
+  "needs_new_adapter_total": 598
  },
  "platforms": [
   {
-   "platform": "Avature",
+   "platform": "未识别",
    "adapter_ready": false,
    "module": "",
-   "count": 1,
+   "count": 200,
    "companies": [
     {
-     "company_cn": "彭博Bloomberg",
+     "company_cn": "ADM中国",
+     "company_en": "ADM China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "Ameco（国航机务工程部）",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "IT/互联网/游戏"
+     ],
+     "ats_key": "",
+     "entry_url": "https://fjjwwx.m.zhiye.com/#/jobs?jc=2",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "AppLovin",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "外企"
+     ],
+     "ats_key": "",
+     "entry_url": "https://applovin.com/zh/careers?state=Overview",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "Apple苹果",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "外企",
+      "科技"
+     ],
+     "ats_key": "",
+     "entry_url": "https://jobs.apple.com/zh-cn/search?location=china-CHNC&team=E585ACE58FB8-STDNT-CORP&cid=social_corporate_china_wechat_china_autumn_ur_graduate&board_id=JB089",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "BCG中国区-冬春季PTA招聘",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
+     ],
+     "ats_key": "",
+     "entry_url": "https://careers.bcg.com/global/en/job/55689/Part-Time-Assistant-Internship-Shanghai-Beijing-Shenzhen",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "BCG中国区欧洲院校",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
+     ],
+     "ats_key": "",
+     "entry_url": "https://careers.bcg.com/global/en/job/56100",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "BCG中国区院校",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
+     ],
+     "ats_key": "",
+     "entry_url": "https://careers.bcg.com/global/en/job/56071/Consulting-internship-Shanghai-Beijing-Shenzhen-Hong-Kong-Taipei",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "BottleDream",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "新媒体"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/-JnNsTaigUIgxjqrr4yIqA",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "CARIAD人才荟",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "人事/咨询"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/oqBLnjw496I-Pkc5XeNXRA",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "Cordis",
+     "company_en": "Cordis",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "FIBA中国",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "体育/健身"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/V6u-UhWDjgqIfn13ZFaZ4w?scene=1&click_id=1950042328",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "FILA斐乐",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "服饰"
+     ],
+     "ats_key": "",
+     "entry_url": "https://questionnaire.anta.com/fill?guid=16269-16808&code=031wiT0w3ejTq735zx2w3AShmJ2wiT0j&state=12a3",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "Formlabs",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "软件技术"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/NtAftscKQvnzOPxOpuBrWQ",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "HRnetGroup HR管培生",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
+     ],
+     "ats_key": "",
+     "entry_url": "https://hrnetgroup.mikecrm.com/PFCvAdq",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "Inditex China",
+     "company_en": "Inditex China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "L.E.K.上海(艾意凯咨询)",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
+     ],
+     "ats_key": "",
+     "entry_url": "https://lek.tal.net/vx/appcentre-3/brand-2/spa-1/candidate/so/pm/1/pl/8/opp/3926-2026-Summer-Intern-Shanghai/en-GB?sessionid=",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "MVRDV上海办公室",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "建筑地产/市政工程/道路桥梁建设/城乡规划/园林景观/水利环境"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/D0OF0xUMD12wKFBD59yViw",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "OMP中国",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "外企"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/tMSLqmL0MdWz0vIyRKzCJw",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "Optiver-技术岗",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "金融/证券/基金/期货/保险/信托/投融资​"
+     ],
+     "ats_key": "",
+     "entry_url": "https://optiver.com/working-at-optiver/career-opportunities/?numberposts=10&search_target=title",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "Policy Nexus汇策咨询",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/fQsgIomAguy7ufVgGSBBYw?click_id=24&scene=1",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "SABIC",
+     "company_en": "SABIC",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "SAP STAR (VT) 项目",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "互联网/人工智能/软件/网络安全/游戏"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/iaDHoy0c5gz4e6dQt7Uglg",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "SAP STAR (VT)项目-上海",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "互联网/人工智能/软件/网络安全/游戏"
+     ],
+     "ats_key": "",
+     "entry_url": "https://jobs.sap.com/search/?createNewAlert=false&q=&locationsearch=&optionsFacetsDD_department=&optionsFacetsDD_customfield3=Vocational&optionsFacetsDD_country=CN",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "SAP STAR (VT)项目-成都",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "互联网/人工智能/软件/网络安全/游戏"
+     ],
+     "ats_key": "",
+     "entry_url": "https://jobs.sap.com/search/?createNewAlert=false&q=&locationsearch=China&optionsFacetsDD_department=&optionsFacetsDD_customfield3=Vocational&optionsFacetsDD_country=&utm_source=wechat",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "Shopee AI Star Program 产品经理培训生",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "外贸/跨境"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/S0Y1o9krN1pmUnGReK0NHA",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "VasCulture",
      "company_en": "",
      "country": "",
      "industry": [
       "传媒出版"
      ],
-     "ats_key": "bloomberg",
-     "entry_url": "https://bloomberg.avature.net/careers/Private?jobId=21390&source=WeChat&sessionid=",
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/8Fos4wY3LQab8d-ePljzwA?scene=1",
      "priority": "",
      "sources": [
       "闲鱼表(只读) 企业性质=外企/合资"
      ]
-    }
-   ]
-  },
-  {
-   "platform": "Taleo",
-   "adapter_ready": false,
-   "module": "",
-   "count": 1,
-   "companies": [
-    {
-     "company_cn": "科尔尼",
-     "company_en": "",
-     "country": "美国",
-     "industry": [
-      "外企",
-      "专业服务",
-      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
-     ],
-     "ats_key": "kearney",
-     "entry_url": "https://kearney.taleo.net/careersection/01c/jobdetail.ftl?job=006DR",
-     "priority": "medium",
-     "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    }
-   ]
-  },
-  {
-   "platform": "SmartRecruiters",
-   "adapter_ready": false,
-   "module": "",
-   "count": 2,
-   "companies": [
-    {
-     "company_cn": "罗兰贝格",
-     "company_en": "",
-     "country": "未核实",
-     "industry": [
-      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权",
-      "商务服务/咨询"
-     ],
-     "ats_key": "ni",
-     "entry_url": "https://jobs.smartrecruiters.com/ni/RolandBerger/5471ae0e-b5e1-485f-b4d9-e43d25430b94-pta-program-2026-h1?sessionid=",
-     "priority": "medium",
-     "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
-      "闲鱼表(只读) 企业性质=外企"
-     ]
     },
     {
-     "company_cn": "罗兰贝格-春季PTA项目",
+     "company_cn": "[EX.IO](http://EX.IO) 香港合规持牌数字资产交易平台",
      "company_en": "",
      "country": "",
      "industry": [
-      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
-     ],
-     "ats_key": "ni",
-     "entry_url": "https://jobs.smartrecruiters.com/ni/RolandBerger/5471ae0e-b5e1-485f-b4d9-e43d25430b94-pta-program-2026-h1?sessionid=",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    }
-   ]
-  },
-  {
-   "platform": "tupu360",
-   "adapter_ready": false,
-   "module": "",
-   "count": 4,
-   "companies": [
-    {
-     "company_cn": "BIW集团-管培生项目",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "车企/汽车零部件"
-     ],
-     "ats_key": "bmw",
-     "entry_url": "https://bmw.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9ef329bf04695f05583d476fd99ad24ebac1882f5427f22f1ab42eccaac339d9e26a92bdba26e3d30b5159d7a89761fc25cd8d0639defffe5e4316d01680389924d9b51490f1469f35aac964afdb486ca04",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "IQVIA 艾昆纬",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "医疗/医药/生物"
-     ],
-     "ats_key": "careersite",
-     "entry_url": "https://careersite.tupu360.com/iqvia/position/index?recruitmentType=CAMPUSRECRUITMENT",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "西门子医疗",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "医疗/医药/生物"
-     ],
-     "ats_key": "siemens",
-     "entry_url": "https://siemens.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9ef558fbfc68b65e3b890783cd487f77eedfecb9b14b89cf00791768fb0265163ed5918b8d08362beb24212e4ecb4d671d38ba3a3f93657e017ceb78e5abb1c40c7ac964afdb486ca04",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "赛诺菲中国",
-     "company_en": "Sanofi",
-     "country": "",
-     "industry": [
-      "生物/医药"
-     ],
-     "ats_key": "sanofi",
-     "entry_url": "https://sanofi.tupu360.com/position/list?QueryPositionsId=2fb8612d68c748ee&enter=menu&type=SOCIALRECRUITMENT&state=46688f3422ca2ce8b003e53df28760d2&code=021DYk0w37r5y732MY1w3i2eRa1DYk0m&_t=1786118715104",
-     "priority": "high",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资",
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    }
-   ]
-  },
-  {
-   "platform": "moseeker",
-   "adapter_ready": false,
-   "module": "",
-   "count": 2,
-   "companies": [
-    {
-     "company_cn": "上海迪士尼度假区",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "文化/传媒/旅游/影视/艺术/出版/广告营销/直播",
-      "商旅"
+      "金融/证券"
      ],
      "ats_key": "",
-     "entry_url": "https://www.moseeker.com/positions/index/cid/3?candidateSource=1&custom=1808&moseeker_track_code=roO==",
+     "entry_url": "https://mp.weixin.qq.com/s/dXW5LsDOZvcNTSeEKwl9EQ",
      "priority": "",
      "sources": [
-      "闲鱼表(只读) 企业性质=外企",
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "万可电子(天津)有限公司",
+     "company_en": "WAGO China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "上汽大众汽车有限公司",
+     "company_en": "SAIC Volkswagen",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "上汽安吉物流股份有限公司",
+     "company_en": "SAIC Anji Logistics",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "上汽通用五菱汽车股份有限公司",
+     "company_en": "SAIC-GM-Wuling",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "上海凯士比泵有限公司",
+     "company_en": "KSB Shanghai Pump",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "上海国际乐器展",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "传媒出版"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/x5KkAPSYUL2WziCsMHcnWQ?scene=1",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
+     ]
+    },
+    {
+     "company_cn": "上银基金",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "金融/证券/基金/期货/保险/信托/投融资​"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/h7v-mbW7iB1JaYv6C9cOXA",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
+     ]
+    },
+    {
+     "company_cn": "中信保诚基金",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "金融/证券/基金/期货/保险/信托/投融资​"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/Dwsd_XPOnCPejR4sGzs9QQ",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
+     ]
+    },
+    {
+     "company_cn": "中粮可口可乐饮料（陕西）有限公司",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "消费"
+     ],
+     "ats_key": "",
+     "entry_url": "https://www.snhrm.com/zdxyzp/8388827.jhtml",
+     "priority": "",
+     "sources": [
       "闲鱼表(只读) 企业性质=外企/合资"
      ]
     },
     {
-     "company_cn": "爱立信-补录",
+     "company_cn": "丹纳赫生命科学中国",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "生物制药/生命科学"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/hqcwyrMfWOPC4XyWiIl5fA",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "亚玛芬体育",
+     "company_en": "Amer Sports China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "亚马逊",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "互联网/人工智能"
+     ],
+     "ats_key": "",
+     "entry_url": "https://www.amazon.jobs/content/zh/career-programs/university?country[",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "亨斯迈中国",
+     "company_en": "Huntsman China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "人头马君度",
+     "company_en": "Remy Cointreau China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "仲量联行中国",
+     "company_en": "JLL China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "伟巴斯特中国",
+     "company_en": "Webasto China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "保乐力加中国",
+     "company_en": "Pernod Ricard China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "保时捷(中国)汽车销售有限公司",
+     "company_en": "Porsche China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "克拉克森研究",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "财税/审计"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/G7I1we6w_WBo241WugceGg",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "凯西中国",
+     "company_en": "Chiesi China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "利洁时中国",
+     "company_en": "Reckitt China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "华德国际资",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "金融/证券/基金/期货/保险/信托/投融资​"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/mouaknBElxDldkyUDuxVzA",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
+     ]
+    },
+    {
+     "company_cn": "协和麒麟(中国)制药有限公司",
+     "company_en": "Kyowa Kirin China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "博格华纳中国",
+     "company_en": "BorgWarner China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "博泽中国",
+     "company_en": "Brose China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "博莱科中国",
+     "company_en": "Bracco China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "博通集成电路（上海）股份有限公司",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "科技"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/gYcnppJAspmFr3ak45iSGQ",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=中外合资"
+     ]
+    },
+    {
+     "company_cn": "卡特彼勒CX",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "机械装备/电气系统"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/3myaIAuXLyj6nRR8H11C-Q?click_id=9",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
+     ]
+    },
+    {
+     "company_cn": "卫材(中国)药业有限公司",
+     "company_en": "Eisai China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "印孚瑟斯技术(中国)有限公司",
+     "company_en": "Infosys China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "友邦保险",
+     "company_en": "AIA",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "台积电",
      "company_en": "",
      "country": "",
      "industry": [
       "电子/半导体"
      ],
      "ats_key": "",
-     "entry_url": "https://www.moseeker.com/positions/index/cid/3123386?candidateSource=1&employment_type=0&moseeker_track_code=njj%3D%3D",
+     "entry_url": "https://mp.weixin.qq.com/s/F5hpuC-mkV2FfX9KYyXqXw?scene=25#wechat_redirect",
      "priority": "",
      "sources": [
-      "闲鱼表(只读) 企业性质=外企"
+      "闲鱼表(只读) 企业性质=中外合资/港澳台资",
+      "闲鱼表(只读) 企业性质=外企/合资"
      ]
-    }
-   ]
-  },
-  {
-   "platform": "ajinga",
-   "adapter_ready": false,
-   "module": "",
-   "count": 1,
-   "companies": [
+    },
     {
-     "company_cn": "波士顿科学",
-     "company_en": "Boston Scientific",
+     "company_cn": "台达研发",
+     "company_en": "",
      "country": "",
      "industry": [
-      "生物/医药"
+      "新能源"
      ],
      "ats_key": "",
-     "entry_url": "https://www.ajinga.com/mobile-web-more-jobs/13999/",
+     "entry_url": "https://v.wjx.cn/vm/teuLo5d.aspx",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "台达集团",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "能源/电力"
+     ],
+     "ats_key": "",
+     "entry_url": "https://v.wjx.cn/vm/tKW356q.aspx",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
+     ]
+    },
+    {
+     "company_cn": "吉宝",
+     "company_en": "Keppel",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
      "priority": "high",
      "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资",
       "Top Employers Institute 中国杰出雇主 2025"
      ]
-    }
-   ]
-  },
-  {
-   "platform": "智联",
-   "adapter_ready": false,
-   "module": "",
-   "count": 7,
-   "companies": [
-    {
-     "company_cn": "上汽通用五菱",
-     "company_en": "",
-     "country": "未核实",
-     "industry": [
-      "交通/物流/仓储"
-     ],
-     "ats_key": "",
-     "entry_url": "https://zhaopin.sgmw.com.cn/",
-     "priority": "medium",
-     "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
-      "闲鱼表(只读) 企业性质=外企"
-     ]
     },
     {
-     "company_cn": "大连西太平洋石油化工",
-     "company_en": "",
-     "country": "未核实",
-     "industry": [
-      "能源/化工/环保"
-     ],
+     "company_cn": "和黄医药",
+     "company_en": "HUTCHMED",
+     "country": "",
+     "industry": [],
      "ats_key": "",
-     "entry_url": "https://zhaopin.cnpc.com.cn/web/recruitInfoshow.html?id=8b8b6c9ea07c29cc01a08007e581005e",
-     "priority": "medium",
-     "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "李锦记酱料",
-     "company_en": "",
-     "country": "未核实",
-     "industry": [
-      "消费品"
-     ],
-     "ats_key": "",
-     "entry_url": "https://xiaoyuan.zhaopin.com/company/KA1477057694D90000001000?refcode=4440",
-     "priority": "medium",
-     "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "林德气体",
-     "company_en": "",
-     "country": "未核实",
-     "industry": [
-      "能源/化工/环保"
-     ],
-     "ats_key": "",
-     "entry_url": "https://webapp.zhaopin.com/2026/hd/ldzgt0820ZL82493/jobs/index.html",
-     "priority": "medium",
-     "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "沃尔玛",
-     "company_en": "",
-     "country": "美国",
-     "industry": [
-      "外企",
-      "消费"
-     ],
-     "ats_key": "",
-     "entry_url": "https://walmart.zhaopin.com/",
+     "entry_url": "",
      "priority": "high",
      "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
-      "闲鱼表(只读) 企业性质=外企"
+      "Top Employers Institute 中国杰出雇主 2025"
      ]
     },
     {
-     "company_cn": "百威",
-     "company_en": "Budweiser Brewing Company China",
-     "country": "未核实",
+     "company_cn": "哈曼(中国)投资有限公司",
+     "company_en": "Harman China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "国际篮联中国区",
+     "company_en": "",
+     "country": "",
      "industry": [
-      "消费品"
+      "体育/健身"
      ],
      "ats_key": "",
-     "entry_url": "https://budweiser.zhaopin.com/aboutUs.html",
-     "priority": "medium",
+     "entry_url": "https://mp.weixin.qq.com/s/EF0RwyMp8znOc4fNhFwpGg?scene=1",
+     "priority": "",
      "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "圣戈班中国",
+     "company_en": "Saint-Gobain China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "城堡证券",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "金融/证券",
+      "金融"
+     ],
+     "ats_key": "",
+     "entry_url": "https://www.citadelsecurities.com/careers/open-opportunities?experience-filter=internships",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企",
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "塞拉尼斯",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "外企"
+     ],
+     "ats_key": "",
+     "entry_url": "https://m.zhaopin.com/xiaoyuan/company/detail?redirect=mxiaoyuan&comid=KA0121030647P90000004000&productId=-1&channelId=-1",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "大众汽车(中国)投资有限公司",
+     "company_en": "Volkswagen China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "大众汽车自动变速器与零部件",
+     "company_en": "VW Automatic Transmission",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "大众汽车金融服务（中国）",
+     "company_en": "Volkswagen Financial Services China",
+     "country": "",
+     "industry": [
+      "金融/证券"
+     ],
+     "ats_key": "",
+     "entry_url": "https://www.duomian.com/project/13806486/",
+     "priority": "high",
+     "sources": [
       "闲鱼表(只读) 企业性质=外企",
       "Top Employers Institute 中国杰出雇主 2025"
      ]
     },
     {
-     "company_cn": "索尼",
-     "company_en": "",
-     "country": "日本/韩国",
-     "industry": [
-      "外企",
-      "科技",
-      "消费品"
-     ],
-     "ats_key": "sony",
-     "entry_url": "https://mp.weixin.qq.com/s/8Besawoxfyr8yY4-m7bVwA",
+     "company_cn": "大陆集团中国",
+     "company_en": "Continental China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
      "priority": "high",
      "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "太古地产",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "房地产/建筑"
+     ],
+     "ats_key": "",
+     "entry_url": "https://careers.swireproperties.com/zh-cn/jobs/?region=Chinese+Mainland&mode=students+and+graduates&page=1",
+     "priority": "",
+     "sources": [
       "闲鱼表(只读) 企业性质=外企"
      ]
-    }
-   ]
-  },
-  {
-   "platform": "牛客",
-   "adapter_ready": false,
-   "module": "",
-   "count": 1,
-   "companies": [
+    },
     {
-     "company_cn": "EA",
+     "company_cn": "奥的斯",
+     "company_en": "Otis",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "安富利AVNET",
      "company_en": "",
-     "country": "美国",
+     "country": "",
+     "industry": [
+      "电子/半导体"
+     ],
+     "ats_key": "",
+     "entry_url": "https://v.wjx.cn/vm/rXXVUrZ.aspx",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "安德里茨睿宇创（武汉）科技有限公司",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "机械装备/电气系统"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/7odWLa0DOKQxoh1q51wSJA",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "安斯泰来中国",
+     "company_en": "Astellas China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "安联人寿",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "保险"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/r19XEYSigzPi1R8hBFBhIw?scene=1&click_id=244565699",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "安迈中国区法证技术上海团队",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/oYuex2qhHXB-z4XD3eN0SQ",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "宜瑞安食品配料有限公司",
+     "company_en": "Ingredion China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "宝马中国",
+     "company_en": "BMW China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "富兰瓦时",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "软件技术"
+     ],
+     "ats_key": "",
+     "entry_url": "https://g.h5gdsvip.com/p/nmxrzcly?sessionid=",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "岱凯信息技术(上海)有限公司",
+     "company_en": "NTT DATA China Dimension Data",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "帝亚吉欧中国",
+     "company_en": "Diageo China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "康宁中国",
+     "company_en": "Corning China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "弗兰卡中国",
+     "company_en": "Franke China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "彪马中国",
+     "company_en": "PUMA China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "徐福记",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "食品"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/8BGqmptmizhYoj9qY3-4ag",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "微软-非研发岗",
+     "company_en": "",
+     "country": "",
      "industry": [
       "互联网/人工智能/软件/网络安全/游戏"
      ],
      "ats_key": "",
-     "entry_url": "https://www.nowcoder.com/careers/eachina/170107?ncsr=klPEhP",
-     "priority": "medium",
+     "entry_url": "https://mp.weixin.qq.com/s/YlYAOxX3TNukeoQ-FRUmMA",
+     "priority": "",
      "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
       "闲鱼表(只读) 企业性质=外企"
      ]
-    }
-   ]
-  },
-  {
-   "platform": "BOSS直聘",
-   "adapter_ready": false,
-   "module": "",
-   "count": 1,
-   "companies": [
+    },
     {
-     "company_cn": "施耐德电气",
+     "company_cn": "德国史太白技术管理中国总部",
      "company_en": "",
-     "country": "未核实",
+     "country": "",
      "industry": [
-      "机械装备/电气系统",
-      "机械/电子",
-      "外企"
+      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
      ],
      "ats_key": "",
-     "entry_url": "https://www.zhipin.com/zt/schneider/ai_star_shixisheng.html",
-     "priority": "high",
+     "entry_url": "https://mp.weixin.qq.com/s/2rKDwY9fDY99rVqTwvYwGg",
+     "priority": "",
      "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
-      "闲鱼表(只读) 企业性质=外企/合资",
       "闲鱼表(只读) 企业性质=外企"
      ]
-    }
-   ]
-  },
-  {
-   "platform": "猎聘",
-   "adapter_ready": false,
-   "module": "",
-   "count": 1,
-   "companies": [
+    },
     {
-     "company_cn": "ABB",
+     "company_cn": "德国国家旅游局北京办事处",
      "company_en": "",
-     "country": "瑞士",
+     "country": "",
      "industry": [
-      "机械装备/电气系统",
-      "电子/通信/半导体",
+      "文化/传媒/旅游/影视/艺术/出版/广告营销/直播"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/Z04Sdgd8a2ICLU7Q3p6AvQ",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "德科斯米尔中国",
+     "company_en": "Draexlmaier China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "德纳(无锡)技术有限公司",
+     "company_en": "Dana China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "快奥森多",
+     "company_en": "QuidelOrtho",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "怡安集团",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "财税/审计"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/xlqiCa6VFAr3B4EEAr0T3w?scene=1&click_id=1318998673",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "恒天然",
+     "company_en": "Fonterra",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "恩梯梯数据(中国)有限公司",
+     "company_en": "NTT DATA China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "意法半导体中国",
+     "company_en": "STMicroelectronics China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "慧荣科技",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "电子/通信/半导体"
+     ],
+     "ats_key": "",
+     "entry_url": "https://xyz.51job.com/consumer/pc/home/index?ctmid=9574039",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "戴尔科技-补录",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "电子/半导体/芯片/集成电路/消费电子/光学光电/计算机硬件"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/ZNA50iaZTykN39yUS82m0g",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "戴珂中国",
+     "company_en": "Deckers China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "捷温科技",
+     "company_en": "Gentherm China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "捷迈邦美",
+     "company_en": "Zimmer Biomet",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "新加坡航空",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "航空运营"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/0ois4CpZUQ8Tr6b_Cy5iQw?scene=1",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "施耐德电气-新星计划",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "机械装备/电气系统"
+     ],
+     "ats_key": "",
+     "entry_url": "https://www.zhipin.com/zt/schneider/xingyipeixunsheng.html",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "日健中外制药",
+     "company_en": "Chugai Pharma China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "昕诺飞(中国)投资有限公司",
+     "company_en": "Signify China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "星巴克企业管理(中国)有限公司",
+     "company_en": "Starbucks China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "普洛斯中国",
+     "company_en": "GLP China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "普盈律师事务所",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "法律服务"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/nW_zWOvJ5B2nhkS7aoHtdQ?scene=1&click_id=1511994833",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "朗盛化学(中国)有限公司",
+     "company_en": "LANXESS China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "林德(中国)投资有限公司",
+     "company_en": "Linde China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "格兰富(中国)投资有限公司",
+     "company_en": "Grundfos China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "欧加隆",
+     "company_en": "Organon",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "欧摩威",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "机械/电子"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/Jp51OqR2kOVa-PStG4Uqdw",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "欧络高新",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "外企",
+      "其他"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/KzmXdY2WOpGN1x2yEDNDYQ",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "欧莱雅-补录",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "快消零焦/食品"
+     ],
+     "ats_key": "",
+     "entry_url": "https://pc-agent-aiview.hrtps.com/?sid=U2FsdGVkX19IQ86woswS6K2zdkVv8oAAPSvZvktNE0jJJfFMCY3i6CKYuMeyW#/register",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "欧莱雅百库",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "电商/跨境电商"
+     ],
+     "ats_key": "",
+     "entry_url": "https://bkhr.hotjob.cn/",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "武田中国",
+     "company_en": "Takeda China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "毅峰资本(nnoVen中国)",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "金融/证券/基金/期货/保险/信托/投融资​"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/4IA6QOtV8zbkS2sRKv4F9g",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "永旺广东",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "实体商超"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/cZp8jBHxIgv7dzK9xSK_0w?scene=1",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "汇丰前海证券",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "金融/证券/基金/期货/保险/信托/投融资​"
+     ],
+     "ats_key": "",
+     "entry_url": "https://www.hsbc.com/careers/students-and-graduates/find-a-programme?area-of-interest=investment-banking&page=1&take=20&location=mainland-china&sessionid=",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
+     ]
+    },
+    {
+     "company_cn": "汇丰科技",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "互联网/人工智能/软件/网络安全/游戏",
+      "金融业"
+     ],
+     "ats_key": "",
+     "entry_url": "https://www.hsbc.com/careers/students-and-graduates/find-a-programme?programme-type=graduate-programme|internship-programme&page=1&take=20&location=mainland-china&area-of-interest=business-analysis-and-consulting|cyber|data-analytics|engineering",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "汉斯格雅中国",
+     "company_en": "Hansgrohe China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "汉高",
+     "company_en": "Henkel China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "汕头超声印制板公司",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "纸张印染",
+      "制造/电子"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/OEq4hRLOJaeEgiCEIAjEpQ?scene=1&click_id=2",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "江森自控(中国)投资有限公司",
+     "company_en": "Johnson Controls China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "沃尔玛(中国)投资有限公司",
+     "company_en": "Walmart China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "沃尔玛/山姆",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "实体商超"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/mTSr_aktb9IKsUL0JoLFKg?scene=1",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "法国再保险",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "保险"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/h7vnAFuwmVVFRCRmUC0OTw?scene=1&click_id=1957521858",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "泰佩思琦",
+     "company_en": "Tapestry",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "洲际酒店集团",
+     "company_en": "IHG Hotels & Resorts",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "海克斯康（深圳）",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "机械装备/电气系统"
+     ],
+     "ats_key": "",
+     "entry_url": "https://hexagonhms.hotjob.cn/?sessionid=",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "海富通基金",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "金融/证券/基金/期货/保险/信托/投融资​"
+     ],
+     "ats_key": "",
+     "entry_url": "https://hftfund.m.zhiye.com/#/jobs?jc=2",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
+     ]
+    },
+    {
+     "company_cn": "淡马锡中国投资",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "金融业"
+     ],
+     "ats_key": "",
+     "entry_url": "https://jobs.temasek.com.sg/job/Beijing-Temasek-Investment-Internship-Programme-2027-China-BJ-100020/1370400457/",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "渣打银行(中国)有限公司",
+     "company_en": "Standard Chartered China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "溯高美索克曼中国",
+     "company_en": "Socomec China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "澳鹏数据",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "信息数据"
+     ],
+     "ats_key": "",
+     "entry_url": "https://oriendata.feishu.cn/share/base/form/shrcnNgBcRhgtxDmWTetXVmumzc",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "爱尔康(中国)眼科产品有限公司",
+     "company_en": "Alcon China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "爱德华生命科学",
+     "company_en": "Edwards Lifesciences",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "爱玛客中国",
+     "company_en": "Aramark China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "牛津大学出版社",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "传媒出版"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/vx7-D3ePAuqwy1iBM9cqaA?scene=1",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "现代汽车研发中心",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "车企/汽车零部件"
+     ],
+     "ats_key": "",
+     "entry_url": "https://hmgc.hotjob.cn/",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "瑞士再保险中国",
+     "company_en": "Swiss Re China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "瑞恩电气",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "机械装备/电气系统"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/wjuPwtYK_tOBtbtLoaGH_w?scene=1",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
+     ]
+    },
+    {
+     "company_cn": "瑞银-中国内地校招",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "金融/证券"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/a6I96PXXwet4db8JswOznA",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "瑞银-亚太区",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "金融/证券"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/26fctJ55xaFk7BXb3jOxkA",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "登士柏西诺德中国",
+     "company_en": "Dentsply Sirona China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "百时美施贵宝中国",
+     "company_en": "Bristol Myers Squibb China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "盈纬达",
+     "company_en": "Envista",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "直观复星医疗器械技术(上海)有限公司",
+     "company_en": "Intuitive Surgical Fosun",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "福建古雷石化有限公司",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "石油石化/化学化工/化学制品/化学工程/化工勘察设计"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/HOtFOfCkzwaUi_jkZfjDDg",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
+     ]
+    },
+    {
+     "company_cn": "禾大中国",
+     "company_en": "Croda China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "科斐凯博中国",
+     "company_en": "Coficab China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "空中客车中国",
+     "company_en": "AIRBUS CHINA",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "米其林中国区",
+     "company_en": "Michelin China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "索尼信息系统（中国）有限公司",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "IT/互联网/游戏"
+     ],
+     "ats_key": "",
+     "entry_url": "https://sony.zhaopin.com/",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "罗氏制药中国",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "生物制药/生命科学/医疗器械/医疗健康/医院/大健康",
+      "医疗/医药/生物"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/i6QpyIlzyyS_GB3F7FmS4g",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "罗盖特中国",
+     "company_en": "Roquette China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "美国普盈驻上海代表处",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/jmNROdZEtWbsL2X1gapPfA",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "美国普盈驻北京代表处",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/KMf2WLjmFY0XpP8pwFXHmw",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "联芯集成电路",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "电子/半导体"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/i32Y7T-baP6N4ChiyITprw?scene=1",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
+     ]
+    },
+    {
+     "company_cn": "致同上海",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "人事/咨询"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/iaaQQ-cXq5J8yz06jMFUIQ?scene=1",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "芬欧汇川集团(中国)",
+     "company_en": "UPM China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "芯卓科技",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "电子/通信/半导体"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/DSb1I2SJTli28uqZz7ejXA",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "苏世博(南京)减振系统有限公司",
+     "company_en": "SUSPA China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "苏尔寿",
+     "company_en": "Sulzer",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "英美烟草中国",
+     "company_en": "BAT China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "英飞凌无锡",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "电子/通信/半导体"
+     ],
+     "ats_key": "",
+     "entry_url": "https://xym.51job.com/wechat/vuectmjobs/#/index?id=BC51325F-7B67-444A-8DCA-3B4C4D093CF8&color=31BE88&prd=yddzy",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "荷美尔中国",
+     "company_en": "Hormel Foods China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "莫仕珠海",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "机械/电子"
+     ],
+     "ats_key": "",
+     "entry_url": "https://xym.51job.com/wechat/vuectmjobs/",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "菲利普莫里斯中国公司",
+     "company_en": "Philip Morris China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "葛兰素史克",
+     "company_en": "GSK",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "蔡司中国",
+     "company_en": "ZEISS China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "西蒙顾和生命科学团队",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/U-2yyyy2Cq5pW_syB96V1A",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "诺和诺德中国",
+     "company_en": "Novo Nordisk China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "诺贝丽斯中国",
+     "company_en": "Novelis China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "贝恩公司大中华区",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/by5uvq8k0UNYZ6-DzbPR7A",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "贝朗中国",
+     "company_en": "B. Braun China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "费森尤斯医疗中国",
+     "company_en": "Fresenius Medical Care China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "费森尤斯卡比中国",
+     "company_en": "Fresenius Kabi China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "资生堂(中国)投资有限公司",
+     "company_en": "Shiseido China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "赢创工业集团",
+     "company_en": "Evonik Industries",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "辉瑞-非销售实习生职位",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "生物制药/生命科学/医疗器械/医疗健康/医院/大健康"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/_loU89mgcQwIX7uqoBb_zA",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "邦吉中国",
+     "company_en": "Bunge China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "里森画廊",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "传媒出版"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/cnr_7RcasvXdoeKhCS-cFA",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "金鹅(上海)贸易有限公司",
+     "company_en": "Golden Goose China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "钟港资本",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "金融/证券/基金/期货/保险/信托/投融资​"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/yXPYQ_G1x8TpwHlVi5eldQ",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
+     ]
+    },
+    {
+     "company_cn": "阿克苏诺贝尔",
+     "company_en": "AkzoNobel",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "阿科玛(中国)投资有限公司",
+     "company_en": "Arkema China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "阿迪达斯-王牌实习生",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "服装/纺织/体育用品/批发/零售"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/dw6R-xvavUiNlQJaVTOjvQ",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "陶氏公司",
+     "company_en": "Dow China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "霍尼韦尔(中国)有限公司",
+     "company_en": "Honeywell China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "霍尼韦尔科技",
+     "company_en": "",
+     "country": "",
+     "industry": [
       "制造业"
      ],
      "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/TS2z4a7FZuNutsByNat2Lg",
-     "priority": "high",
+     "entry_url": "https://careers.honeywell.com/campaignPost/300003325157066?utm_source=othersocialmedia&utm_medium=campaign&utm_campaign=15&utm_post_id=300003325157066",
+     "priority": "",
      "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
       "闲鱼表(只读) 企业性质=外企"
      ]
+    },
+    {
+     "company_cn": "韩国旅游发展局",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "生活服务业"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/Td826wMj6mmp6DMuomrHkw?scene=1&click_id=749481188",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "颂味佳中国",
+     "company_en": "Savencia China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "麦当劳中国",
+     "company_en": "McDonald's China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "麦楷亚洲",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "外企",
+      "专业服务"
+     ],
+     "ats_key": "",
+     "entry_url": "https://www.marcumasia.cn/join.php",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "麦瑞通医疗器械(北京)有限公司",
+     "company_en": "Merit Medical China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "默沙东中国",
+     "company_en": "MSD China",
+     "country": "",
+     "industry": [],
+     "ats_key": "",
+     "entry_url": "",
+     "priority": "high",
+     "sources": [
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
     }
-   ]
+   ],
+   "removed_after_round2": 0
   },
   {
    "platform": "其他/自建",
    "adapter_ready": false,
    "module": "",
-   "count": 152,
+   "count": 149,
    "companies": [
-    {
-     "company_cn": "3M",
-     "company_en": "",
-     "country": "美国",
-     "industry": [
-      "多元化综合业务集团公司/投资集团",
-      "其他",
-      "外企"
-     ],
-     "ats_key": "",
-     "entry_url": "https://www.ajinga.com/recruiting/company/11702/job-list",
-     "priority": "high",
-     "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
     {
      "company_cn": "ABB机器人",
      "company_en": "",
@@ -1806,21 +3998,6 @@
      ]
     },
     {
-     "company_cn": "惠普",
-     "company_en": "",
-     "country": "美国",
-     "industry": [
-      "IT/互联网/游戏"
-     ],
-     "ats_key": "",
-     "entry_url": "https://apply.hp.com/careers/join?domain=hp.com",
-     "priority": "high",
-     "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
      "company_cn": "意威基金",
      "company_en": "",
      "country": "未核实",
@@ -2345,20 +4522,6 @@
      ]
     },
     {
-     "company_cn": "艾昆纬",
-     "company_en": "IQVIA",
-     "country": "美国",
-     "industry": [
-      "医疗/医药/生物"
-     ],
-     "ats_key": "",
-     "entry_url": "https://careersite.tupu360.com/iqvia/position/index?recruitmentType=CAMPUSRECRUITMENT",
-     "priority": "medium",
-     "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)"
-     ]
-    },
-    {
      "company_cn": "芯卓",
      "company_en": "",
      "country": "未核实",
@@ -2761,7 +4924,8 @@
       "闲鱼表(只读) 企业性质=外企"
      ]
     }
-   ]
+   ],
+   "removed_after_round2": 0
   },
   {
    "platform": "本地招聘/未核实",
@@ -4701,3003 +6865,1275 @@
       "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)"
      ]
     }
-   ]
+   ],
+   "removed_after_round2": 0
   },
   {
-   "platform": "未识别",
+   "platform": "tupu360",
    "adapter_ready": false,
    "module": "",
-   "count": 201,
+   "count": 45,
    "companies": [
     {
-     "company_cn": "ADM中国",
-     "company_en": "ADM China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "Ameco（国航机务工程部）",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "IT/互联网/游戏"
-     ],
-     "ats_key": "",
-     "entry_url": "https://fjjwwx.m.zhiye.com/#/jobs?jc=2",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "AppLovin",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "外企"
-     ],
-     "ats_key": "",
-     "entry_url": "https://applovin.com/zh/careers?state=Overview",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "Apple苹果",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "外企",
-      "科技"
-     ],
-     "ats_key": "",
-     "entry_url": "https://jobs.apple.com/zh-cn/search?location=china-CHNC&team=E585ACE58FB8-STDNT-CORP&cid=social_corporate_china_wechat_china_autumn_ur_graduate&board_id=JB089",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "BCG中国区-冬春季PTA招聘",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
-     ],
-     "ats_key": "",
-     "entry_url": "https://careers.bcg.com/global/en/job/55689/Part-Time-Assistant-Internship-Shanghai-Beijing-Shenzhen",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "BCG中国区欧洲院校",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
-     ],
-     "ats_key": "",
-     "entry_url": "https://careers.bcg.com/global/en/job/56100",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "BCG中国区院校",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
-     ],
-     "ats_key": "",
-     "entry_url": "https://careers.bcg.com/global/en/job/56071/Consulting-internship-Shanghai-Beijing-Shenzhen-Hong-Kong-Taipei",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "BottleDream",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "新媒体"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/-JnNsTaigUIgxjqrr4yIqA",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "CARIAD人才荟",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "人事/咨询"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/oqBLnjw496I-Pkc5XeNXRA",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "Cordis",
-     "company_en": "Cordis",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "FIBA中国",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "体育/健身"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/V6u-UhWDjgqIfn13ZFaZ4w?scene=1&click_id=1950042328",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "FILA斐乐",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "服饰"
-     ],
-     "ats_key": "",
-     "entry_url": "https://questionnaire.anta.com/fill?guid=16269-16808&code=031wiT0w3ejTq735zx2w3AShmJ2wiT0j&state=12a3",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "Formlabs",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "软件技术"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/NtAftscKQvnzOPxOpuBrWQ",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "HRnetGroup HR管培生",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
-     ],
-     "ats_key": "",
-     "entry_url": "https://hrnetgroup.mikecrm.com/PFCvAdq",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "Inditex China",
-     "company_en": "Inditex China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "L.E.K.上海(艾意凯咨询)",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
-     ],
-     "ats_key": "",
-     "entry_url": "https://lek.tal.net/vx/appcentre-3/brand-2/spa-1/candidate/so/pm/1/pl/8/opp/3926-2026-Summer-Intern-Shanghai/en-GB?sessionid=",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "MVRDV上海办公室",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "建筑地产/市政工程/道路桥梁建设/城乡规划/园林景观/水利环境"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/D0OF0xUMD12wKFBD59yViw",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "OMP中国",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "外企"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/tMSLqmL0MdWz0vIyRKzCJw",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "Optiver-技术岗",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "金融/证券/基金/期货/保险/信托/投融资​"
-     ],
-     "ats_key": "",
-     "entry_url": "https://optiver.com/working-at-optiver/career-opportunities/?numberposts=10&search_target=title",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "Policy Nexus汇策咨询",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/fQsgIomAguy7ufVgGSBBYw?click_id=24&scene=1",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "SABIC",
-     "company_en": "SABIC",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "SAP STAR (VT) 项目",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "互联网/人工智能/软件/网络安全/游戏"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/iaDHoy0c5gz4e6dQt7Uglg",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "SAP STAR (VT)项目-上海",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "互联网/人工智能/软件/网络安全/游戏"
-     ],
-     "ats_key": "",
-     "entry_url": "https://jobs.sap.com/search/?createNewAlert=false&q=&locationsearch=&optionsFacetsDD_department=&optionsFacetsDD_customfield3=Vocational&optionsFacetsDD_country=CN",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "SAP STAR (VT)项目-成都",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "互联网/人工智能/软件/网络安全/游戏"
-     ],
-     "ats_key": "",
-     "entry_url": "https://jobs.sap.com/search/?createNewAlert=false&q=&locationsearch=China&optionsFacetsDD_department=&optionsFacetsDD_customfield3=Vocational&optionsFacetsDD_country=&utm_source=wechat",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "Shopee AI Star Program 产品经理培训生",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "外贸/跨境"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/S0Y1o9krN1pmUnGReK0NHA",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "VasCulture",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "传媒出版"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/8Fos4wY3LQab8d-ePljzwA?scene=1",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "[EX.IO](http://EX.IO) 香港合规持牌数字资产交易平台",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "金融/证券"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/dXW5LsDOZvcNTSeEKwl9EQ",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "万可电子(天津)有限公司",
-     "company_en": "WAGO China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "上汽大众汽车有限公司",
-     "company_en": "SAIC Volkswagen",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "上汽安吉物流股份有限公司",
-     "company_en": "SAIC Anji Logistics",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "上汽通用五菱汽车股份有限公司",
-     "company_en": "SAIC-GM-Wuling",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "上海凯士比泵有限公司",
-     "company_en": "KSB Shanghai Pump",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "上海国际乐器展",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "传媒出版"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/x5KkAPSYUL2WziCsMHcnWQ?scene=1",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
-     ]
-    },
-    {
-     "company_cn": "上银基金",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "金融/证券/基金/期货/保险/信托/投融资​"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/h7v-mbW7iB1JaYv6C9cOXA",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
-     ]
-    },
-    {
-     "company_cn": "中信保诚基金",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "金融/证券/基金/期货/保险/信托/投融资​"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/Dwsd_XPOnCPejR4sGzs9QQ",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
-     ]
-    },
-    {
-     "company_cn": "中粮可口可乐饮料（陕西）有限公司",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "消费"
-     ],
-     "ats_key": "",
-     "entry_url": "https://www.snhrm.com/zdxyzp/8388827.jhtml",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "丹纳赫生命科学中国",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "生物制药/生命科学"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/hqcwyrMfWOPC4XyWiIl5fA",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "亚玛芬体育",
-     "company_en": "Amer Sports China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "亚马逊",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "互联网/人工智能"
-     ],
-     "ats_key": "",
-     "entry_url": "https://www.amazon.jobs/content/zh/career-programs/university?country[",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "亨斯迈中国",
-     "company_en": "Huntsman China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "人头马君度",
-     "company_en": "Remy Cointreau China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "仲量联行中国",
-     "company_en": "JLL China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "伟巴斯特中国",
-     "company_en": "Webasto China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "保乐力加中国",
-     "company_en": "Pernod Ricard China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "保时捷(中国)汽车销售有限公司",
-     "company_en": "Porsche China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "克拉克森研究",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "财税/审计"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/G7I1we6w_WBo241WugceGg",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "凯西中国",
-     "company_en": "Chiesi China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "利洁时中国",
-     "company_en": "Reckitt China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "华德国际资",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "金融/证券/基金/期货/保险/信托/投融资​"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/mouaknBElxDldkyUDuxVzA",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
-     ]
-    },
-    {
-     "company_cn": "协和麒麟(中国)制药有限公司",
-     "company_en": "Kyowa Kirin China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "博格华纳中国",
-     "company_en": "BorgWarner China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "博泽中国",
-     "company_en": "Brose China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "博莱科中国",
-     "company_en": "Bracco China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "博通集成电路（上海）股份有限公司",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "科技"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/gYcnppJAspmFr3ak45iSGQ",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=中外合资"
-     ]
-    },
-    {
-     "company_cn": "卡特彼勒CX",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "机械装备/电气系统"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/3myaIAuXLyj6nRR8H11C-Q?click_id=9",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
-     ]
-    },
-    {
-     "company_cn": "卫材(中国)药业有限公司",
-     "company_en": "Eisai China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "印孚瑟斯技术(中国)有限公司",
-     "company_en": "Infosys China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "友邦保险",
-     "company_en": "AIA",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "台积电",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "电子/半导体"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/F5hpuC-mkV2FfX9KYyXqXw?scene=25#wechat_redirect",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=中外合资/港澳台资",
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "台达研发",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "新能源"
-     ],
-     "ats_key": "",
-     "entry_url": "https://v.wjx.cn/vm/teuLo5d.aspx",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "台达集团",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "能源/电力"
-     ],
-     "ats_key": "",
-     "entry_url": "https://v.wjx.cn/vm/tKW356q.aspx",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
-     ]
-    },
-    {
-     "company_cn": "吉宝",
-     "company_en": "Keppel",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "和黄医药",
-     "company_en": "HUTCHMED",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "哈曼(中国)投资有限公司",
-     "company_en": "Harman China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "国际篮联中国区",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "体育/健身"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/EF0RwyMp8znOc4fNhFwpGg?scene=1",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "圣戈班中国",
-     "company_en": "Saint-Gobain China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "城堡证券",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "金融/证券",
-      "金融"
-     ],
-     "ats_key": "",
-     "entry_url": "https://www.citadelsecurities.com/careers/open-opportunities?experience-filter=internships",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企",
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "塞拉尼斯",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "外企"
-     ],
-     "ats_key": "",
-     "entry_url": "https://m.zhaopin.com/xiaoyuan/company/detail?redirect=mxiaoyuan&comid=KA0121030647P90000004000&productId=-1&channelId=-1",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "大众汽车(中国)投资有限公司",
-     "company_en": "Volkswagen China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "大众汽车自动变速器与零部件",
-     "company_en": "VW Automatic Transmission",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "大众汽车金融服务（中国）",
-     "company_en": "Volkswagen Financial Services China",
-     "country": "",
-     "industry": [
-      "金融/证券"
-     ],
-     "ats_key": "",
-     "entry_url": "https://www.duomian.com/project/13806486/",
-     "priority": "high",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企",
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "大陆集团中国",
-     "company_en": "Continental China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "太古地产",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "房地产/建筑"
-     ],
-     "ats_key": "",
-     "entry_url": "https://careers.swireproperties.com/zh-cn/jobs/?region=Chinese+Mainland&mode=students+and+graduates&page=1",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "奥的斯",
-     "company_en": "Otis",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "安富利AVNET",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "电子/半导体"
-     ],
-     "ats_key": "",
-     "entry_url": "https://v.wjx.cn/vm/rXXVUrZ.aspx",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "安德里茨睿宇创（武汉）科技有限公司",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "机械装备/电气系统"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/7odWLa0DOKQxoh1q51wSJA",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "安斯泰来中国",
-     "company_en": "Astellas China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "安联人寿",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "保险"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/r19XEYSigzPi1R8hBFBhIw?scene=1&click_id=244565699",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "安迈中国区法证技术上海团队",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/oYuex2qhHXB-z4XD3eN0SQ",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "宜瑞安食品配料有限公司",
-     "company_en": "Ingredion China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "宝马中国",
-     "company_en": "BMW China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "富兰瓦时",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "软件技术"
-     ],
-     "ats_key": "",
-     "entry_url": "https://g.h5gdsvip.com/p/nmxrzcly?sessionid=",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "岱凯信息技术(上海)有限公司",
-     "company_en": "NTT DATA China Dimension Data",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "帝亚吉欧中国",
-     "company_en": "Diageo China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "康宁中国",
-     "company_en": "Corning China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "弗兰卡中国",
-     "company_en": "Franke China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "彪马中国",
-     "company_en": "PUMA China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "徐福记",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "食品"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/8BGqmptmizhYoj9qY3-4ag",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "微软-非研发岗",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "互联网/人工智能/软件/网络安全/游戏"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/YlYAOxX3TNukeoQ-FRUmMA",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "德国史太白技术管理中国总部",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/2rKDwY9fDY99rVqTwvYwGg",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "德国国家旅游局北京办事处",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "文化/传媒/旅游/影视/艺术/出版/广告营销/直播"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/Z04Sdgd8a2ICLU7Q3p6AvQ",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "德国西克SICK",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "电子/通信/半导体"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/3AvU0C_MmuyUDqu6kxlFmA",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "德科斯米尔中国",
-     "company_en": "Draexlmaier China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "德纳(无锡)技术有限公司",
-     "company_en": "Dana China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "快奥森多",
-     "company_en": "QuidelOrtho",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "怡安集团",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "财税/审计"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/xlqiCa6VFAr3B4EEAr0T3w?scene=1&click_id=1318998673",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "恒天然",
-     "company_en": "Fonterra",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "恩梯梯数据(中国)有限公司",
-     "company_en": "NTT DATA China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "意法半导体中国",
-     "company_en": "STMicroelectronics China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "慧荣科技",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "电子/通信/半导体"
-     ],
-     "ats_key": "",
-     "entry_url": "https://xyz.51job.com/consumer/pc/home/index?ctmid=9574039",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "戴尔科技-补录",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "电子/半导体/芯片/集成电路/消费电子/光学光电/计算机硬件"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/ZNA50iaZTykN39yUS82m0g",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "戴珂中国",
-     "company_en": "Deckers China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "捷温科技",
-     "company_en": "Gentherm China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "捷迈邦美",
-     "company_en": "Zimmer Biomet",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "新加坡航空",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "航空运营"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/0ois4CpZUQ8Tr6b_Cy5iQw?scene=1",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "施耐德电气-新星计划",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "机械装备/电气系统"
-     ],
-     "ats_key": "",
-     "entry_url": "https://www.zhipin.com/zt/schneider/xingyipeixunsheng.html",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "日健中外制药",
-     "company_en": "Chugai Pharma China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "昕诺飞(中国)投资有限公司",
-     "company_en": "Signify China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "星巴克企业管理(中国)有限公司",
-     "company_en": "Starbucks China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "普洛斯中国",
-     "company_en": "GLP China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "普盈律师事务所",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "法律服务"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/nW_zWOvJ5B2nhkS7aoHtdQ?scene=1&click_id=1511994833",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "朗盛化学(中国)有限公司",
-     "company_en": "LANXESS China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "林德(中国)投资有限公司",
-     "company_en": "Linde China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "格兰富(中国)投资有限公司",
-     "company_en": "Grundfos China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "欧加隆",
-     "company_en": "Organon",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "欧摩威",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "机械/电子"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/Jp51OqR2kOVa-PStG4Uqdw",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "欧络高新",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "外企",
-      "其他"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/KzmXdY2WOpGN1x2yEDNDYQ",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "欧莱雅-补录",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "快消零焦/食品"
-     ],
-     "ats_key": "",
-     "entry_url": "https://pc-agent-aiview.hrtps.com/?sid=U2FsdGVkX19IQ86woswS6K2zdkVv8oAAPSvZvktNE0jJJfFMCY3i6CKYuMeyW#/register",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "欧莱雅百库",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "电商/跨境电商"
-     ],
-     "ats_key": "",
-     "entry_url": "https://bkhr.hotjob.cn/",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "武田中国",
-     "company_en": "Takeda China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "毅峰资本(nnoVen中国)",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "金融/证券/基金/期货/保险/信托/投融资​"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/4IA6QOtV8zbkS2sRKv4F9g",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "永旺广东",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "实体商超"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/cZp8jBHxIgv7dzK9xSK_0w?scene=1",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "汇丰前海证券",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "金融/证券/基金/期货/保险/信托/投融资​"
-     ],
-     "ats_key": "",
-     "entry_url": "https://www.hsbc.com/careers/students-and-graduates/find-a-programme?area-of-interest=investment-banking&page=1&take=20&location=mainland-china&sessionid=",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
-     ]
-    },
-    {
-     "company_cn": "汇丰科技",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "互联网/人工智能/软件/网络安全/游戏",
-      "金融业"
-     ],
-     "ats_key": "",
-     "entry_url": "https://www.hsbc.com/careers/students-and-graduates/find-a-programme?programme-type=graduate-programme|internship-programme&page=1&take=20&location=mainland-china&area-of-interest=business-analysis-and-consulting|cyber|data-analytics|engineering",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "汉斯格雅中国",
-     "company_en": "Hansgrohe China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "汉高",
-     "company_en": "Henkel China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "汕头超声印制板公司",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "纸张印染",
-      "制造/电子"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/OEq4hRLOJaeEgiCEIAjEpQ?scene=1&click_id=2",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "江森自控(中国)投资有限公司",
-     "company_en": "Johnson Controls China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "沃尔玛(中国)投资有限公司",
-     "company_en": "Walmart China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "沃尔玛/山姆",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "实体商超"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/mTSr_aktb9IKsUL0JoLFKg?scene=1",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "法国再保险",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "保险"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/h7vnAFuwmVVFRCRmUC0OTw?scene=1&click_id=1957521858",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "泰佩思琦",
-     "company_en": "Tapestry",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "洲际酒店集团",
-     "company_en": "IHG Hotels & Resorts",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "海克斯康（深圳）",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "机械装备/电气系统"
-     ],
-     "ats_key": "",
-     "entry_url": "https://hexagonhms.hotjob.cn/?sessionid=",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "海富通基金",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "金融/证券/基金/期货/保险/信托/投融资​"
-     ],
-     "ats_key": "",
-     "entry_url": "https://hftfund.m.zhiye.com/#/jobs?jc=2",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
-     ]
-    },
-    {
-     "company_cn": "淡马锡中国投资",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "金融业"
-     ],
-     "ats_key": "",
-     "entry_url": "https://jobs.temasek.com.sg/job/Beijing-Temasek-Investment-Internship-Programme-2027-China-BJ-100020/1370400457/",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "渣打银行(中国)有限公司",
-     "company_en": "Standard Chartered China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "溯高美索克曼中国",
-     "company_en": "Socomec China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "澳鹏数据",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "信息数据"
-     ],
-     "ats_key": "",
-     "entry_url": "https://oriendata.feishu.cn/share/base/form/shrcnNgBcRhgtxDmWTetXVmumzc",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "爱尔康(中国)眼科产品有限公司",
-     "company_en": "Alcon China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "爱德华生命科学",
-     "company_en": "Edwards Lifesciences",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "爱玛客中国",
-     "company_en": "Aramark China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "牛津大学出版社",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "传媒出版"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/vx7-D3ePAuqwy1iBM9cqaA?scene=1",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "现代汽车研发中心",
+     "company_cn": "BIW集团-管培生项目",
      "company_en": "",
      "country": "",
      "industry": [
       "车企/汽车零部件"
      ],
-     "ats_key": "",
-     "entry_url": "https://hmgc.hotjob.cn/",
+     "ats_key": "bmw",
+     "entry_url": "https://bmw.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9ef329bf04695f05583d476fd99ad24ebac1882f5427f22f1ab42eccaac339d9e26a92bdba26e3d30b5159d7a89761fc25cd8d0639defffe5e4316d01680389924d9b51490f1469f35aac964afdb486ca04",
      "priority": "",
      "sources": [
       "闲鱼表(只读) 企业性质=外企"
      ]
     },
     {
-     "company_cn": "瑞士再保险中国",
-     "company_en": "Swiss Re China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "瑞恩电气",
+     "company_cn": "IQVIA 艾昆纬",
      "company_en": "",
      "country": "",
      "industry": [
-      "机械装备/电气系统"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/wjuPwtYK_tOBtbtLoaGH_w?scene=1",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
-     ]
-    },
-    {
-     "company_cn": "瑞银-中国内地校招",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "金融/证券"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/a6I96PXXwet4db8JswOznA",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "瑞银-亚太区",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "金融/证券"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/26fctJ55xaFk7BXb3jOxkA",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "登士柏西诺德中国",
-     "company_en": "Dentsply Sirona China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "百时美施贵宝中国",
-     "company_en": "Bristol Myers Squibb China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "盈纬达",
-     "company_en": "Envista",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "直观复星医疗器械技术(上海)有限公司",
-     "company_en": "Intuitive Surgical Fosun",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "福建古雷石化有限公司",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "石油石化/化学化工/化学制品/化学工程/化工勘察设计"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/HOtFOfCkzwaUi_jkZfjDDg",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
-     ]
-    },
-    {
-     "company_cn": "禾大中国",
-     "company_en": "Croda China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "科斐凯博中国",
-     "company_en": "Coficab China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "空中客车中国",
-     "company_en": "AIRBUS CHINA",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "米其林中国区",
-     "company_en": "Michelin China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "索尼信息系统（中国）有限公司",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "IT/互联网/游戏"
-     ],
-     "ats_key": "",
-     "entry_url": "https://sony.zhaopin.com/",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "罗氏制药中国",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "生物制药/生命科学/医疗器械/医疗健康/医院/大健康",
       "医疗/医药/生物"
      ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/i6QpyIlzyyS_GB3F7FmS4g",
+     "ats_key": "careersite",
+     "entry_url": "https://careersite.tupu360.com/iqvia/position/index?recruitmentType=CAMPUSRECRUITMENT",
      "priority": "",
      "sources": [
       "闲鱼表(只读) 企业性质=外企"
      ]
     },
     {
-     "company_cn": "罗盖特中国",
-     "company_en": "Roquette China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "美国普盈驻上海代表处",
+     "company_cn": "西门子医疗",
      "company_en": "",
      "country": "",
      "industry": [
-      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
+      "医疗/医药/生物"
      ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/jmNROdZEtWbsL2X1gapPfA",
+     "ats_key": "siemens",
+     "entry_url": "https://siemens.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9ef558fbfc68b65e3b890783cd487f77eedfecb9b14b89cf00791768fb0265163ed5918b8d08362beb24212e4ecb4d671d38ba3a3f93657e017ceb78e5abb1c40c7ac964afdb486ca04",
      "priority": "",
      "sources": [
       "闲鱼表(只读) 企业性质=外企"
      ]
     },
     {
-     "company_cn": "美国普盈驻北京代表处",
-     "company_en": "",
+     "company_cn": "赛诺菲中国",
+     "company_en": "Sanofi",
      "country": "",
      "industry": [
-      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
+      "生物/医药"
      ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/KMf2WLjmFY0XpP8pwFXHmw",
-     "priority": "",
+     "ats_key": "sanofi",
+     "entry_url": "https://sanofi.tupu360.com/position/list?QueryPositionsId=2fb8612d68c748ee&enter=menu&type=SOCIALRECRUITMENT&state=46688f3422ca2ce8b003e53df28760d2&code=021DYk0w37r5y732MY1w3i2eRa1DYk0m&_t=1786118715104",
+     "priority": "high",
      "sources": [
-      "闲鱼表(只读) 企业性质=外企"
+      "闲鱼表(只读) 企业性质=外企/合资",
+      "Top Employers Institute 中国杰出雇主 2025"
      ]
     },
     {
-     "company_cn": "联芯集成电路",
+     "company_cn": "autodesk",
      "company_en": "",
      "country": "",
-     "industry": [
-      "电子/半导体"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/i32Y7T-baP6N4ChiyITprw?scene=1",
-     "priority": "",
+     "industry": [],
+     "ats_key": "autodesk",
+     "tenant_params": "autodesk",
+     "entry_url": "https://autodesk.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9ef00f89dc8ef6f9c85a599fc1fb0e38985a7b450188a6d9f7e",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
      "sources": [
-      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "致同上海",
+     "company_cn": "careersite",
      "company_en": "",
      "country": "",
-     "industry": [
-      "人事/咨询"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/iaaQQ-cXq5J8yz06jMFUIQ?scene=1",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "芬欧汇川集团(中国)",
-     "company_en": "UPM China",
-     "country": "",
      "industry": [],
-     "ats_key": "",
-     "entry_url": "",
+     "ats_key": "careersite",
+     "tenant_params": "careersite",
+     "entry_url": "https://careersite.tupu360.com/",
      "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
      "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "芯卓科技",
+     "company_cn": "cscn",
      "company_en": "",
      "country": "",
-     "industry": [
-      "电子/通信/半导体"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/DSb1I2SJTli28uqZz7ejXA",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "苏世博(南京)减振系统有限公司",
-     "company_en": "SUSPA China",
-     "country": "",
      "industry": [],
-     "ats_key": "",
-     "entry_url": "",
+     "ats_key": "cscn",
+     "tenant_params": "cscn",
+     "entry_url": "http://cscn.tupu360.com/",
      "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
      "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "苏尔寿",
-     "company_en": "Sulzer",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "英美烟草中国",
-     "company_en": "BAT China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "英飞凌无锡",
+     "company_cn": "csrfgroup",
      "company_en": "",
      "country": "",
-     "industry": [
-      "电子/通信/半导体"
-     ],
-     "ats_key": "",
-     "entry_url": "https://xym.51job.com/wechat/vuectmjobs/#/index?id=BC51325F-7B67-444A-8DCA-3B4C4D093CF8&color=31BE88&prd=yddzy",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "荷美尔中国",
-     "company_en": "Hormel Foods China",
-     "country": "",
      "industry": [],
-     "ats_key": "",
-     "entry_url": "",
+     "ats_key": "csrfgroup",
+     "tenant_params": "csrfgroup",
+     "entry_url": "http://csrfgroup.tupu360.com/robots.txt",
      "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
      "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "莫仕珠海",
+     "company_cn": "dior",
      "company_en": "",
      "country": "",
-     "industry": [
-      "机械/电子"
-     ],
-     "ats_key": "",
-     "entry_url": "https://xym.51job.com/wechat/vuectmjobs/",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "菲利普莫里斯中国公司",
-     "company_en": "Philip Morris China",
-     "country": "",
      "industry": [],
-     "ats_key": "",
-     "entry_url": "",
+     "ats_key": "dior",
+     "tenant_params": "dior",
+     "entry_url": "https://dior.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9ef37a46bf6e67efc8158491525617ecd6fee18a139501f4700",
      "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
      "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "葛兰素史克",
-     "company_en": "GSK",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "蔡司中国",
-     "company_en": "ZEISS China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "西蒙顾和生命科学团队",
+     "company_cn": "hellachina",
      "company_en": "",
      "country": "",
-     "industry": [
-      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/U-2yyyy2Cq5pW_syB96V1A",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "诺和诺德中国",
-     "company_en": "Novo Nordisk China",
-     "country": "",
      "industry": [],
-     "ats_key": "",
-     "entry_url": "",
+     "ats_key": "hellachina",
+     "tenant_params": "hellachina",
+     "entry_url": "https://hellachina.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9ef736fb4da39fd0e7d22ca0f5b32c326d71de14a533a85d205",
      "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
      "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "诺贝丽斯中国",
-     "company_en": "Novelis China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "贝恩公司大中华区",
+     "company_cn": "louisvuitton",
      "company_en": "",
      "country": "",
-     "industry": [
-      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/by5uvq8k0UNYZ6-DzbPR7A",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "贝朗中国",
-     "company_en": "B. Braun China",
-     "country": "",
      "industry": [],
-     "ats_key": "",
-     "entry_url": "",
+     "ats_key": "louisvuitton",
+     "tenant_params": "louisvuitton",
+     "entry_url": "http://louisvuitton.tupu360.com/",
      "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
      "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "费森尤斯医疗中国",
-     "company_en": "Fresenius Medical Care China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "费森尤斯卡比中国",
-     "company_en": "Fresenius Kabi China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "资生堂(中国)投资有限公司",
-     "company_en": "Shiseido China",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "赢创工业集团",
-     "company_en": "Evonik Industries",
-     "country": "",
-     "industry": [],
-     "ats_key": "",
-     "entry_url": "",
-     "priority": "high",
-     "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    },
-    {
-     "company_cn": "辉瑞-非销售实习生职位",
+     "company_cn": "siemens-china",
      "company_en": "",
      "country": "",
-     "industry": [
-      "生物制药/生命科学/医疗器械/医疗健康/医院/大健康"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/_loU89mgcQwIX7uqoBb_zA",
-     "priority": "",
+     "industry": [],
+     "ats_key": "siemens-china",
+     "tenant_params": "siemens-china",
+     "entry_url": "https://siemens-china.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9ef120576839eb4650abbcaa55c15715ff62393107d428a051b17458ff52e0d9c55",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
      "sources": [
-      "闲鱼表(只读) 企业性质=外企"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "邦吉中国",
-     "company_en": "Bunge China",
+     "company_cn": "slb",
+     "company_en": "",
      "country": "",
      "industry": [],
-     "ats_key": "",
-     "entry_url": "",
+     "ats_key": "slb",
+     "tenant_params": "slb",
+     "entry_url": "https://slb.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9ef3d29cd51f0f811dfd476fd99ad24ebac9ddad99007541467",
      "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
      "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "里森画廊",
+     "company_cn": "synopsys",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "synopsys",
+     "tenant_params": "synopsys",
+     "entry_url": "https://synopsys.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9ef5c80739cf3f2a856a599fc1fb0e38985a7b450188a6d9f7e",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "zulong",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "zulong",
+     "tenant_params": "zulong",
+     "entry_url": "http://zulong.tupu360.com/robots.txt",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "passport",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "passport",
+     "tenant_params": "passport",
+     "entry_url": "https://passport.tupu360.com/robots.txt",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "philips",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "philips",
+     "tenant_params": "philips",
+     "entry_url": "http://philips.tupu360.com/",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "schaeffler",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "schaeffler",
+     "tenant_params": "schaeffler",
+     "entry_url": "https://schaeffler.tupu360.com/login/login?lang=zh_CN",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "betacareersite",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "betacareersite",
+     "tenant_params": "betacareersite",
+     "entry_url": "https://betacareersite.tupu360.com/jobCrtcHr/home/index",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "bmw",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "bmw",
+     "tenant_params": "bmw",
+     "entry_url": "https://bmw.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9ef329bf04695f05583d476fd99ad24ebac1882f5427f22f1ab42eccaac339d9e26a92bdba26e3d30b5159d7a89761fc25cd8d0639defffe5e4316d016",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "coloplast",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "coloplast",
+     "tenant_params": "coloplast",
+     "entry_url": "https://coloplast.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9ef9987ac42d116285968f8cfa71432e1877df40acc6496d731",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "company",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "company",
+     "tenant_params": "company",
+     "entry_url": "https://company.tupu360.com/robots.txt",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "fosunholiday",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "fosunholiday",
+     "tenant_params": "fosunholiday",
+     "entry_url": "https://fosunholiday.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9efbb4c0b399e6e6b72cc1f8f5582c6a31058491525617ecd6fee18a139501f4700",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "huawei",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "huawei",
+     "tenant_params": "huawei",
+     "entry_url": "https://huawei.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9ef369d145662083a1bb78ed3ee6a5773c13d54c7bcc224f17a1281ab18a3a84cab9b0db83b7efb9d2dcc8fdddfb8dd769b800058d9bcd89fe5ca97",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "intel",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "intel",
+     "tenant_params": "intel",
+     "entry_url": "https://intel.tupu360.com/apply/position/verify?conId=5d444f678bf4976a54ef67a6&otpid=JR0266175",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "job",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "job",
+     "tenant_params": "job",
+     "entry_url": "https://job.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9efbd78d309c11d4ebcd476fd99ad24ebac9ddad99007541467",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "lvmh-china",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "lvmh-china",
+     "tenant_params": "lvmh-china",
+     "entry_url": "https://lvmh-china.tupu360.com/lvmh/position/index",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "lvmh-pc",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "lvmh-pc",
+     "tenant_params": "lvmh-pc",
+     "entry_url": "http://lvmh-pc.tupu360.com/",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "mogroup",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "mogroup",
+     "tenant_params": "mogroup",
+     "entry_url": "https://mogroup.tupu360.com/robots.txt",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "neitui",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "neitui",
+     "tenant_params": "neitui",
+     "entry_url": "https://neitui.tupu360.com/admin/fe/",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "nordanglia",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "nordanglia",
+     "tenant_params": "nordanglia",
+     "entry_url": "https://nordanglia.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9efdd215e8a16192963ddc2a9fee5c86ba81de14a533a85d205",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "siemens",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "siemens",
+     "tenant_params": "siemens",
+     "entry_url": "https://siemens.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9ef558fbfc68b65e3b890783cd487f77eedfecb9b14b89cf00791768fb0265163ed5918b8d08362beb24212e4ecb4d671d38ba3a3f93657e017ceb",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "lenovowx",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "lenovowx",
+     "tenant_params": "lenovowx",
+     "entry_url": "https://lenovowx.tupu360.com/robots.txt",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "aexpec",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "aexpec",
+     "tenant_params": "aexpec",
+     "entry_url": "https://aexpec.tupu360.com/robots.txt",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "nestle",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "nestle",
+     "tenant_params": "nestle",
+     "entry_url": "https://nestle.tupu360.com/robots.txt",
+     "priority": "high",
+     "notes": "tupu360 适配器开发中（另一执行者），参数可直接用",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "雀巢",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "nestle",
+     "tenant_params": "nestle",
+     "entry_url": "https://nestle.tupu360.com/position/list",
+     "priority": "high",
+     "notes": "微信公众号公告正文指向的官方入口（本轮 C1 通道）",
+     "sources": [
+      "第二轮微信公众号通道"
+     ]
+    },
+    {
+     "company_cn": "太太乐",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "nestle",
+     "tenant_params": "nestle",
+     "entry_url": "https://nestle.tupu360.com/position/list",
+     "priority": "high",
+     "notes": "微信公众号公告正文指向的官方入口（本轮 C1 通道）",
+     "sources": [
+      "第二轮微信公众号通道"
+     ]
+    },
+    {
+     "company_cn": "奥托立夫",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "autoliv",
+     "tenant_params": "autoliv",
+     "entry_url": "https://autoliv.tupu360.com/position/list",
+     "priority": "high",
+     "notes": "微信公众号公告正文指向的官方入口（本轮 C1 通道）",
+     "sources": [
+      "第二轮微信公众号通道"
+     ]
+    },
+    {
+     "company_cn": "舍弗勒",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "schaeffler",
+     "tenant_params": "schaeffler",
+     "entry_url": "https://schaeffler.tupu360.com/position/list",
+     "priority": "high",
+     "notes": "微信公众号公告正文指向的官方入口（本轮 C1 通道）",
+     "sources": [
+      "第二轮微信公众号通道"
+     ]
+    },
+    {
+     "company_cn": "索尼",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "sony",
+     "tenant_params": "sony",
+     "entry_url": "https://sony.tupu360.com/position/list",
+     "priority": "high",
+     "notes": "微信公众号公告正文指向的官方入口（本轮 C1 通道）",
+     "sources": [
+      "第二轮微信公众号通道"
+     ]
+    },
+    {
+     "company_cn": "西门子",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "siemens-china",
+     "tenant_params": "siemens-china",
+     "entry_url": "https://siemens-china.tupu360.com/position/list",
+     "priority": "high",
+     "notes": "微信公众号公告正文指向的官方入口（本轮 C1 通道）",
+     "sources": [
+      "第二轮微信公众号通道"
+     ]
+    },
+    {
+     "company_cn": "ABB",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "abb",
+     "tenant_params": "abb",
+     "entry_url": "https://abb.tupu360.com/position/list",
+     "priority": "high",
+     "notes": "微信公众号公告正文指向的官方入口（本轮 C1 通道）",
+     "sources": [
+      "第二轮微信公众号通道"
+     ]
+    },
+    {
+     "company_cn": "Google谷歌",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "google",
+     "tenant_params": "google",
+     "entry_url": "https://google.tupu360.com/position/list",
+     "priority": "high",
+     "notes": "微信公众号公告正文指向的官方入口（本轮 C1 通道）",
+     "sources": [
+      "第二轮微信公众号通道"
+     ]
+    },
+    {
+     "company_cn": "宝马",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "bmw",
+     "tenant_params": "bmw",
+     "entry_url": "https://bmw.tupu360.com/position/list",
+     "priority": "high",
+     "notes": "微信公众号公告正文指向的官方入口（本轮 C1 通道）",
+     "sources": [
+      "第二轮微信公众号通道"
+     ]
+    },
+    {
+     "company_cn": "礼来",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "job",
+     "tenant_params": "job",
+     "entry_url": "https://job.tupu360.com/position/list",
+     "priority": "high",
+     "notes": "微信公众号公告正文指向的官方入口（本轮 C1 通道）",
+     "sources": [
+      "第二轮微信公众号通道"
+     ]
+    }
+   ],
+   "removed_after_round2": 1
+  },
+  {
+   "platform": "Avature",
+   "adapter_ready": false,
+   "module": "",
+   "count": 43,
+   "companies": [
+    {
+     "company_cn": "彭博Bloomberg",
      "company_en": "",
      "country": "",
      "industry": [
       "传媒出版"
      ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/cnr_7RcasvXdoeKhCS-cFA",
+     "ats_key": "bloomberg",
+     "entry_url": "https://bloomberg.avature.net/careers/Private?jobId=21390&source=WeChat&sessionid=",
      "priority": "",
      "sources": [
       "闲鱼表(只读) 企业性质=外企/合资"
      ]
     },
     {
-     "company_cn": "金鹅(上海)贸易有限公司",
-     "company_en": "Golden Goose China",
+     "company_cn": "a2milkkf",
+     "company_en": "",
      "country": "",
      "industry": [],
-     "ats_key": "",
-     "entry_url": "",
+     "ats_key": "a2milkkf",
+     "tenant_params": "a2milkkf",
+     "entry_url": "https://a2milkkf.avature.net/careers",
      "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
      "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "钟港资本",
+     "company_cn": "advocateaurorahealth",
      "company_en": "",
-     "country": "",
-     "industry": [
-      "金融/证券/基金/期货/保险/信托/投融资​"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/yXPYQ_G1x8TpwHlVi5eldQ",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
-     ]
-    },
-    {
-     "company_cn": "阿克苏诺贝尔",
-     "company_en": "AkzoNobel",
      "country": "",
      "industry": [],
-     "ats_key": "",
-     "entry_url": "",
+     "ats_key": "advocateaurorahealth",
+     "tenant_params": "advocateaurorahealth",
+     "entry_url": "https://advocateaurorahealth.avature.net/",
      "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
      "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "阿科玛(中国)投资有限公司",
-     "company_en": "Arkema China",
+     "company_cn": "aesc",
+     "company_en": "",
      "country": "",
      "industry": [],
-     "ats_key": "",
-     "entry_url": "",
+     "ats_key": "aesc",
+     "tenant_params": "aesc",
+     "entry_url": "https://aesc.avature.net/MicrosoftTeamsMeetings/MeetingGateway",
      "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
      "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "阿迪达斯-王牌实习生",
+     "company_cn": "ally",
      "company_en": "",
-     "country": "",
-     "industry": [
-      "服装/纺织/体育用品/批发/零售"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/dw6R-xvavUiNlQJaVTOjvQ",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "陶氏公司",
-     "company_en": "Dow China",
      "country": "",
      "industry": [],
-     "ats_key": "",
-     "entry_url": "",
+     "ats_key": "ally",
+     "tenant_params": "ally",
+     "entry_url": "https://ally.avature.net/",
      "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
      "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "霍尼韦尔(中国)有限公司",
-     "company_en": "Honeywell China",
+     "company_cn": "americangreetings",
+     "company_en": "",
      "country": "",
      "industry": [],
-     "ats_key": "",
-     "entry_url": "",
+     "ats_key": "americangreetings",
+     "tenant_params": "americangreetings",
+     "entry_url": "https://americangreetings.avature.net/agthemetest/emailVerified",
      "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
      "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "霍尼韦尔科技",
+     "company_cn": "amsbae",
      "company_en": "",
-     "country": "",
-     "industry": [
-      "制造业"
-     ],
-     "ats_key": "",
-     "entry_url": "https://careers.honeywell.com/campaignPost/300003325157066?utm_source=othersocialmedia&utm_medium=campaign&utm_campaign=15&utm_post_id=300003325157066",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "韩国旅游发展局",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "生活服务业"
-     ],
-     "ats_key": "",
-     "entry_url": "https://mp.weixin.qq.com/s/Td826wMj6mmp6DMuomrHkw?scene=1&click_id=749481188",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "颂味佳中国",
-     "company_en": "Savencia China",
      "country": "",
      "industry": [],
-     "ats_key": "",
-     "entry_url": "",
+     "ats_key": "amsbae",
+     "tenant_params": "amsbae",
+     "entry_url": "https://amsbae.avature.net/International/emailVerified",
      "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
      "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "麦当劳中国",
-     "company_en": "McDonald's China",
+     "company_cn": "amspsr",
+     "company_en": "",
      "country": "",
      "industry": [],
-     "ats_key": "",
-     "entry_url": "",
+     "ats_key": "amspsr",
+     "tenant_params": "amspsr",
+     "entry_url": "https://amspsr.avature.net/CalendarInvitation/invite",
      "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
      "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "麦楷亚洲",
+     "company_cn": "amswh",
      "company_en": "",
-     "country": "",
-     "industry": [
-      "外企",
-      "专业服务"
-     ],
-     "ats_key": "",
-     "entry_url": "https://www.marcumasia.cn/join.php",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "麦瑞通医疗器械(北京)有限公司",
-     "company_en": "Merit Medical China",
      "country": "",
      "industry": [],
-     "ats_key": "",
-     "entry_url": "",
+     "ats_key": "amswh",
+     "tenant_params": "amswh",
+     "entry_url": "https://amswh.avature.net/",
      "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
      "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "默沙东中国",
-     "company_en": "MSD China",
+     "company_cn": "andersen",
+     "company_en": "",
      "country": "",
      "industry": [],
-     "ats_key": "",
-     "entry_url": "",
+     "ats_key": "andersen",
+     "tenant_params": "andersen",
+     "entry_url": "https://andersen.avature.net/robots.txt",
      "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
      "sources": [
-      "Top Employers Institute 中国杰出雇主 2025"
-     ]
-    }
-   ]
-  },
-  {
-   "platform": "51job",
-   "adapter_ready": true,
-   "module": "qiuzhao.collector.p1_platform_51job",
-   "count": 6,
-   "companies": [
-    {
-     "company_cn": "当纳利亚洲",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "制造业"
-     ],
-     "ats_key": "rrd2027",
-     "entry_url": "http://campus.51job.com/rrd2027/",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "戴尔科技",
+     "company_cn": "apple",
      "company_en": "",
      "country": "",
-     "industry": [
-      "电子/半导体/芯片/集成电路/消费电子/光学光电/计算机硬件",
-      "科技",
-      "外企",
-      "电子/通信/半导体"
-     ],
-     "ats_key": "delltech2026",
-     "entry_url": "http://campus.51job.com/delltech2026/about4.html",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企",
-      "闲鱼表(只读) 企业性质=外企/合资"
-     ]
-    },
-    {
-     "company_cn": "星展银行",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "银行/国有行/商业银行/政策行/股份行/城商行/农商行/信用社"
-     ],
-     "ats_key": "dbscn",
-     "entry_url": "https://campus.51job.com/dbscn/about4.html",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "联合电子",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "车企/汽车零部件"
-     ],
-     "ats_key": "uaes2027",
-     "entry_url": "https://campus.51job.com/uaes2027/job.html",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=中外合资"
-     ]
-    },
-    {
-     "company_cn": "雅诗兰黛集团-补录",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "快消零售/食品"
-     ],
-     "ats_key": "elccampus",
-     "entry_url": "https://campus.51job.com/elccampus/summer.html",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "雅诗兰黛集团中国设计中心",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "消费品"
-     ],
-     "ats_key": "elccampus",
-     "entry_url": "https://campus.51job.com/elccampus/",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    }
-   ]
-  },
-  {
-   "platform": "Moka",
-   "adapter_ready": true,
-   "module": "qiuzhao.collector.p1_platform_moka",
-   "count": 12,
-   "companies": [
-    {
-     "company_cn": "Shopee研发中心",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "互联网/人工智能"
-     ],
-     "ats_key": "shopee/2962",
-     "entry_url": "https://app.mokahr.com/campus-recruitment/shopee/2962?sourceToken=4144ac8d55ba6da0b7802b5137ec701e&locale=zh-CN#/jobs?department0=448995&page=1&anchorName=jobsList",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "Shopee研发中心2027届校园招聘启动",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "IT/互联网/游戏"
-     ],
-     "ats_key": "shopee/2962",
-     "entry_url": "https://app.mokahr.com/campus-recruitment/shopee/2962?recommendCode=DS61bbEe#/jobs",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "Shopee领航实习计划",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "互联网/人工智能/软件/网络安全/游戏"
-     ],
-     "ats_key": "shopee/100004",
-     "entry_url": "https://app.mokahr.com/campus-recruitment/shopee/100004?sessionid=#/job/e4be3417-39db-427e-b0a3-6c72f6b1bd5e?from=qrcode",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "北京环球度假区",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "文化/传媒/旅游/影视/艺术/出版/广告营销/直播"
-     ],
-     "ats_key": "ubr/117987",
-     "entry_url": "https://app.mokahr.com/campus-recruitment/ubr/117987#/jobs",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
-     ]
-    },
-    {
-     "company_cn": "博西家电",
-     "company_en": "",
-     "country": "未核实",
-     "industry": [
-      "电器/家电/厨卫电器/智能家居/家装/家具"
-     ],
-     "ats_key": "bshg/140686",
-     "entry_url": "https://app.mokahr.com/social-recruitment/bshg/140686?locale=zh-CN&sessionid=#/jobs?page=1&anchorName=jobsList",
-     "priority": "medium",
-     "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "博西家电-战略实习生项目",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "电器/家电/厨卫电器/智能家居/家装/家具"
-     ],
-     "ats_key": "bshg/171901",
-     "entry_url": "https://app.mokahr.com/social-recruitment/bshg/171901?locale=zh-CN&sessionid=#/",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "大众",
-     "company_en": "",
-     "country": "德国",
-     "industry": [
-      "车企/汽车零部件"
-     ],
-     "ats_key": "vwa/142785",
-     "entry_url": "https://app.mokahr.com/campus-recruitment/vwa/142785#/",
+     "industry": [],
+     "ats_key": "apple",
+     "tenant_params": "apple",
+     "entry_url": "https://apple.avature.net/",
      "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
      "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
-      "闲鱼表(只读) 企业性质=外企"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "大众汽车AI实习生",
+     "company_cn": "arcbest",
      "company_en": "",
      "country": "",
-     "industry": [
-      "车企/汽车零部件/智能驾驶/汽车服务/车载设备"
-     ],
-     "ats_key": "vwa/142785",
-     "entry_url": "https://app.mokahr.com/campus-recruitment/vwa/142785#/",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "安谋",
-     "company_en": "",
-     "country": "英国",
-     "industry": [
-      "IT/互联网/游戏"
-     ],
-     "ats_key": "",
-     "entry_url": "https://app.mokahr.com/campus-recruitment/REDACTED?locale=zh-CN#/jobs",
-     "priority": "medium",
-     "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)"
-     ]
-    },
-    {
-     "company_cn": "德莎",
-     "company_en": "",
-     "country": "德国",
-     "industry": [
-      "石油石化/化学化工/化学制品/化学工程/化工勘察设计"
-     ],
-     "ats_key": "tesa/142951",
-     "entry_url": "https://app.mokahr.com/social-recruitment/tesa/142951?locale=zh-CN#/jobs",
-     "priority": "medium",
-     "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
-      "闲鱼表(只读) 企业性质=外企"
-     ]
-    },
-    {
-     "company_cn": "昂际航电",
-     "company_en": "",
-     "country": "",
-     "industry": [
-      "高端装备与国防科技/航空航天"
-     ],
-     "ats_key": "aviagesystems/144382",
-     "entry_url": "https://app.mokahr.com/campus-recruitment/aviagesystems/144382#/jobs",
-     "priority": "",
-     "sources": [
-      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
-     ]
-    },
-    {
-     "company_cn": "维谛",
-     "company_en": "",
-     "country": "未核实",
-     "industry": [
-      "IT/互联网/游戏"
-     ],
-     "ats_key": "",
-     "entry_url": "https://app.mokahr.com/campus-recruitment/vertiv/118713?locale=zh-CN#/jobs?page=1&anchorName=jobsList",
-     "priority": "medium",
-     "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)"
-     ]
-    }
-   ]
-  },
-  {
-   "platform": "SuccessFactors",
-   "adapter_ready": true,
-   "module": "qiuzhao.collector.p1_platform_successfactors",
-   "count": 3,
-   "companies": [
-    {
-     "company_cn": "巴斯夫",
-     "company_en": "BASF",
-     "country": "德国",
-     "industry": [
-      "化工"
-     ],
-     "ats_key": "",
-     "entry_url": "https://basf.jobs/search/",
+     "industry": [],
+     "ats_key": "arcbest",
+     "tenant_params": "arcbest",
+     "entry_url": "https://arcbest.avature.net/FieldHiringReports/Login/",
      "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
      "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
-      "Top Employers Institute 中国杰出雇主 2025"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "微软亚洲研究院",
+     "company_cn": "ashfieldhealthcare",
      "company_en": "",
      "country": "",
-     "industry": [
-      "IT/互联网/游戏"
-     ],
-     "ats_key": "apply.careers.microsoft.com",
-     "entry_url": "https://apply.careers.microsoft.com/careers?start=0&pid=1970393556928651&sort_by=timestamp",
-     "priority": "",
+     "industry": [],
+     "ats_key": "ashfieldhealthcare",
+     "tenant_params": "ashfieldhealthcare",
+     "entry_url": "https://ashfieldhealthcare.avature.net/careers/SearchJobs/?3_118_3=240",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
      "sources": [
-      "闲鱼表(只读) 企业性质=外企"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "摩根士丹利证券",
+     "company_cn": "astellas",
      "company_en": "",
      "country": "",
-     "industry": [
-      "外企",
-      "银行/金融",
-      "金融/证券/基金/期货/保险/信托/投融资​"
-     ],
-     "ats_key": "REDACTED",
-     "entry_url": "https://REDACTED/job/2027-MSSC-Investment-Banking-Summer-Analyst-Program-BeijingShanghai/999-en_US",
-     "priority": "",
+     "industry": [],
+     "ats_key": "astellas",
+     "tenant_params": "astellas",
+     "entry_url": "https://astellas.avature.net/en_GB/careers/AgentCreate",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
      "sources": [
-      "闲鱼表(只读) 企业性质=外企"
+      "第二轮 CC 索引"
      ]
-    }
-   ]
-  },
-  {
-   "platform": "Workday",
-   "adapter_ready": true,
-   "module": "qiuzhao.collector.p1_platform_workday",
-   "count": 5,
-   "companies": [
+    },
     {
-     "company_cn": "Marvell",
+     "company_cn": "astellasjapan",
      "company_en": "",
-     "country": "美国",
-     "industry": [
-      "半导体/集成电路"
-     ],
-     "ats_key": "marvell/wd1/MarvellCareers",
-     "entry_url": "https://marvell.wd1.myworkdayjobs.com/MarvellCareers?Country=6cb77610a8a543aea2d6bc10457e35d4&workerSubType=65dea26481d001e09dfbab4927173419",
-     "priority": "medium",
+     "country": "",
+     "industry": [],
+     "ats_key": "astellasjapan",
+     "tenant_params": "astellasjapan",
+     "entry_url": "https://astellasjapan.avature.net/en_GB/careers",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
      "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
-      "闲鱼表(只读) 企业性质=外企"
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "auspost",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "auspost",
+     "tenant_params": "auspost",
+     "entry_url": "https://auspost.avature.net/en_GB/InformationUpdate/Login",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "avanadeta",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "avanadeta",
+     "tenant_params": "avanadeta",
+     "entry_url": "https://avanadeta.avature.net/fr_FR/hiringcentral/Error",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "bac",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "bac",
+     "tenant_params": "bac",
+     "entry_url": "https://bac.avature.net/robots.txt",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "baloise",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "baloise",
+     "tenant_params": "baloise",
+     "entry_url": "https://baloise.avature.net/de_DE/internalsignup/resendVerificationEmail",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "bankerslife",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "bankerslife",
+     "tenant_params": "bankerslife",
+     "entry_url": "https://bankerslife.avature.net/ApplyNow/thankYou",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "barclays",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "barclays",
+     "tenant_params": "barclays",
+     "entry_url": "https://barclays.avature.net/USGraduates/resendVerificationEmail",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "baufest",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "baufest",
+     "tenant_params": "baufest",
+     "entry_url": "https://baufest.avature.net/",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "bbw",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "bbw",
+     "tenant_params": "bbw",
+     "entry_url": "https://bbw.avature.net/DCEventSignIn/emailVerified",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "bellflight",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "bellflight",
+     "tenant_params": "bellflight",
+     "entry_url": "https://bellflight.avature.net/UR/emailVerified",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "berenberg",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "berenberg",
+     "tenant_params": "berenberg",
+     "entry_url": "https://berenberg.avature.net/robots.txt",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "bloomberg",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "bloomberg",
+     "tenant_params": "bloomberg",
+     "entry_url": "https://bloomberg.avature.net/",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "bmcrecruit",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "bmcrecruit",
+     "tenant_params": "bmcrecruit",
+     "entry_url": "https://bmcrecruit.avature.net/ECO/emailVerified",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "bnc",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "bnc",
+     "tenant_params": "bnc",
+     "entry_url": "https://bnc.avature.net/Callcentertraining/emailVerified",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "boeing",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "boeing",
+     "tenant_params": "boeing",
+     "entry_url": "https://boeing.avature.net/",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
      ]
     },
     {
      "company_cn": "bp",
      "company_en": "",
-     "country": "英国",
-     "industry": [
-      "能源/化工/环保"
-     ],
-     "ats_key": "REDACTED",
-     "entry_url": "https://bpinternational.wd3.myworkdayjobs.com/bpEarlyCareers/job/China---Pudong/XMLNAME-2026-bp-China-Trading---Shipping-Graduate-Programme--Commercial-_RQ100735",
+     "country": "",
+     "industry": [],
+     "ats_key": "bp",
+     "tenant_params": "bp",
+     "entry_url": "https://bp.avature.net/bpWorksforWomenIndia/emailVerified",
      "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
      "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
-      "闲鱼表(只读) 企业性质=外企"
+      "第二轮 CC 索引"
      ]
     },
     {
-     "company_cn": "杜邦",
+     "company_cn": "bradyplus",
      "company_en": "",
-     "country": "美国",
+     "country": "",
+     "industry": [],
+     "ats_key": "bradyplus",
+     "tenant_params": "bradyplus",
+     "entry_url": "https://bradyplus.avature.net/CalendarInvitation/invite",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "bravura",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "bravura",
+     "tenant_params": "bravura",
+     "entry_url": "https://bravura.avature.net/en_US/careers/ChoosePassword",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "broadinstitute",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "broadinstitute",
+     "tenant_params": "broadinstitute",
+     "entry_url": "https://broadinstitute.avature.net/BSSP/emailVerified",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "bupaanz",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "bupaanz",
+     "tenant_params": "bupaanz",
+     "entry_url": "https://bupaanz.avature.net/Carer2RN/emailVerified",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "carlyle",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "carlyle",
+     "tenant_params": "carlyle",
+     "entry_url": "https://carlyle.avature.net/",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "cba",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "cba",
+     "tenant_params": "cba",
+     "entry_url": "https://cba.avature.net/",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "cbreglobal",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "cbreglobal",
+     "tenant_params": "cbreglobal",
+     "entry_url": "https://cbreglobal.avature.net/",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "cchbc",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "cchbc",
+     "tenant_params": "cchbc",
+     "entry_url": "https://cchbc.avature.net/",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "cdcn",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "cdcn",
+     "tenant_params": "cdcn",
+     "entry_url": "https://cdcn.avature.net/careers/ApplicationMethods?jobId=4352",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "cfafranchise",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "cfafranchise",
+     "tenant_params": "cfafranchise",
+     "entry_url": "https://cfafranchise.avature.net/",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "cicor",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "cicor",
+     "tenant_params": "cicor",
+     "entry_url": "https://cicor.avature.net/de_DE/careers",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "cisco",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "cisco",
+     "tenant_params": "cisco",
+     "entry_url": "https://cisco.avature.net/MamoPracujCisco/thankYou",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "ciusss",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "ciusss",
+     "tenant_params": "ciusss",
+     "entry_url": "https://ciusss.avature.net/en_CA/CalendarInvitation/thankYou",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    }
+   ],
+   "removed_after_round2": 0
+  },
+  {
+   "platform": "智联",
+   "adapter_ready": false,
+   "module": "",
+   "count": 7,
+   "companies": [
+    {
+     "company_cn": "上汽通用五菱",
+     "company_en": "",
+     "country": "未核实",
      "industry": [
-      "石油石化/化学化工/化学制品/化学工程/化工勘察设计"
+      "交通/物流/仓储"
      ],
-     "ats_key": "REDACTED",
-     "entry_url": "https://dupont.wd5.myworkdayjobs.com/zh-CN/Jobs/job/Qingpu-Shanghai/Manufacturing-and-Engineering-Development-Internship_248503W",
+     "ats_key": "",
+     "entry_url": "https://zhaopin.sgmw.com.cn/",
      "priority": "medium",
      "sources": [
       "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
@@ -7705,38 +8141,422 @@
      ]
     },
     {
-     "company_cn": "美满",
-     "company_en": "Marvell",
-     "country": "美国",
+     "company_cn": "大连西太平洋石油化工",
+     "company_en": "",
+     "country": "未核实",
      "industry": [
-      "半导体/芯片"
+      "能源/化工/环保"
      ],
      "ats_key": "",
-     "entry_url": "https://marvell.wd1.myworkdayjobs.com/MarvellCareers",
-     "priority": "high",
+     "entry_url": "https://zhaopin.cnpc.com.cn/web/recruitInfoshow.html?id=8b8b6c9ea07c29cc01a08007e581005e",
+     "priority": "medium",
      "sources": [
-      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)"
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企"
      ]
     },
     {
-     "company_cn": "花旗",
-     "company_en": "Citi",
-     "country": "美国",
+     "company_cn": "李锦记酱料",
+     "company_en": "",
+     "country": "未核实",
      "industry": [
-      "银行/金融",
-      "银行/国有行/商业银行/政策行/股份行/城商行/农商行/信用社",
-      "金融"
+      "消费品"
      ],
      "ats_key": "",
-     "entry_url": "https://citi.wd5.myworkdayjobs.com/2",
+     "entry_url": "https://xiaoyuan.zhaopin.com/company/KA1477057694D90000001000?refcode=4440",
+     "priority": "medium",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "林德气体",
+     "company_en": "",
+     "country": "未核实",
+     "industry": [
+      "能源/化工/环保"
+     ],
+     "ats_key": "",
+     "entry_url": "https://webapp.zhaopin.com/2026/hd/ldzgt0820ZL82493/jobs/index.html",
+     "priority": "medium",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "沃尔玛",
+     "company_en": "",
+     "country": "美国",
+     "industry": [
+      "外企",
+      "消费"
+     ],
+     "ats_key": "",
+     "entry_url": "https://walmart.zhaopin.com/",
      "priority": "high",
      "sources": [
       "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "百威",
+     "company_en": "Budweiser Brewing Company China",
+     "country": "未核实",
+     "industry": [
+      "消费品"
+     ],
+     "ats_key": "",
+     "entry_url": "https://budweiser.zhaopin.com/aboutUs.html",
+     "priority": "medium",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企",
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "索尼",
+     "company_en": "",
+     "country": "日本/韩国",
+     "industry": [
+      "外企",
+      "科技",
+      "消费品"
+     ],
+     "ats_key": "sony",
+     "entry_url": "https://mp.weixin.qq.com/s/8Besawoxfyr8yY4-m7bVwA",
+     "priority": "high",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    }
+   ],
+   "removed_after_round2": 0
+  },
+  {
+   "platform": "Phenom",
+   "adapter_ready": false,
+   "module": "",
+   "count": 4,
+   "companies": [
+    {
+     "company_cn": "candidatesupport",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "candidatesupport",
+     "tenant_params": "candidatesupport",
+     "entry_url": "https://candidatesupport.phenompeople.com/",
+     "priority": "high",
+     "notes": "Common Crawl 2026-30 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "cnexia",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "cnexia",
+     "tenant_params": "cnexia",
+     "entry_url": "https://cnexia.phenompeople.com/job/CNEXEMEAP100424FREMEA/Bilingual-sales-representatives-rabat?utm_source=linkedin&utm_medium=phenom-feeds",
+     "priority": "high",
+     "notes": "Common Crawl 2026-30 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "mmc",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "mmc",
+     "tenant_params": "mmc",
+     "entry_url": "http://mmc.phenompeople.com/",
+     "priority": "high",
+     "notes": "Common Crawl 2026-30 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "rbi",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "rbi",
+     "tenant_params": "rbi",
+     "entry_url": "https://rbi.phenompeople.com/robots.txt",
+     "priority": "high",
+     "notes": "Common Crawl 2026-30 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    }
+   ],
+   "removed_after_round2": 0
+  },
+  {
+   "platform": "ORC",
+   "adapter_ready": false,
+   "module": "",
+   "count": 3,
+   "companies": [
+    {
+     "company_cn": "ams",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "ams",
+     "tenant_params": "ams",
+     "entry_url": "https://ams.oraclecloud.com/ams/login",
+     "priority": "high",
+     "notes": "Common Crawl 2026-34 租户样本",
+     "sources": [
+      "第二轮 CC 索引"
+     ]
+    },
+    {
+     "company_cn": "摩根大通",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "jpmc",
+     "tenant_params": "jpmc",
+     "entry_url": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience",
+     "priority": "high",
+     "notes": "微信公众号公告正文指向的官方入口（本轮 C1 通道）",
+     "sources": [
+      "第二轮微信公众号通道"
+     ]
+    },
+    {
+     "company_cn": "摩根资产",
+     "company_en": "",
+     "country": "",
+     "industry": [],
+     "ats_key": "jpmc",
+     "tenant_params": "jpmc",
+     "entry_url": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience",
+     "priority": "high",
+     "notes": "微信公众号公告正文指向的官方入口（本轮 C1 通道）",
+     "sources": [
+      "第二轮微信公众号通道"
+     ]
+    }
+   ],
+   "removed_after_round2": 0
+  },
+  {
+   "platform": "SmartRecruiters",
+   "adapter_ready": false,
+   "module": "",
+   "count": 2,
+   "companies": [
+    {
+     "company_cn": "罗兰贝格",
+     "company_en": "",
+     "country": "未核实",
+     "industry": [
+      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权",
+      "商务服务/咨询"
+     ],
+     "ats_key": "ni",
+     "entry_url": "https://jobs.smartrecruiters.com/ni/RolandBerger/5471ae0e-b5e1-485f-b4d9-e43d25430b94-pta-program-2026-h1?sessionid=",
+     "priority": "medium",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "罗兰贝格-春季PTA项目",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
+     ],
+     "ats_key": "ni",
+     "entry_url": "https://jobs.smartrecruiters.com/ni/RolandBerger/5471ae0e-b5e1-485f-b4d9-e43d25430b94-pta-program-2026-h1?sessionid=",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    }
+   ],
+   "removed_after_round2": 0
+  },
+  {
+   "platform": "moseeker",
+   "adapter_ready": false,
+   "module": "",
+   "count": 2,
+   "companies": [
+    {
+     "company_cn": "上海迪士尼度假区",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "文化/传媒/旅游/影视/艺术/出版/广告营销/直播",
+      "商旅"
+     ],
+     "ats_key": "",
+     "entry_url": "https://www.moseeker.com/positions/index/cid/3?candidateSource=1&custom=1808&moseeker_track_code=roO==",
+     "priority": "",
+     "sources": [
       "闲鱼表(只读) 企业性质=外企",
       "闲鱼表(只读) 企业性质=外企/合资"
      ]
+    },
+    {
+     "company_cn": "爱立信-补录",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "电子/半导体"
+     ],
+     "ats_key": "",
+     "entry_url": "https://www.moseeker.com/positions/index/cid/3123386?candidateSource=1&employment_type=0&moseeker_track_code=njj%3D%3D",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
     }
-   ]
+   ],
+   "removed_after_round2": 0
+  },
+  {
+   "platform": "Taleo",
+   "adapter_ready": false,
+   "module": "",
+   "count": 1,
+   "companies": [
+    {
+     "company_cn": "科尔尼",
+     "company_en": "",
+     "country": "美国",
+     "industry": [
+      "外企",
+      "专业服务",
+      "商务服务/咨询/财务/审计/税务/人力/法律/翻译/知识产权"
+     ],
+     "ats_key": "kearney",
+     "entry_url": "https://kearney.taleo.net/careersection/01c/jobdetail.ftl?job=006DR",
+     "priority": "medium",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    }
+   ],
+   "removed_after_round2": 0
+  },
+  {
+   "platform": "ajinga",
+   "adapter_ready": false,
+   "module": "",
+   "count": 1,
+   "companies": [
+    {
+     "company_cn": "波士顿科学",
+     "company_en": "Boston Scientific",
+     "country": "",
+     "industry": [
+      "生物/医药"
+     ],
+     "ats_key": "",
+     "entry_url": "https://www.ajinga.com/mobile-web-more-jobs/13999/",
+     "priority": "high",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企/合资",
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    }
+   ],
+   "removed_after_round2": 0
+  },
+  {
+   "platform": "牛客",
+   "adapter_ready": false,
+   "module": "",
+   "count": 1,
+   "companies": [
+    {
+     "company_cn": "EA",
+     "company_en": "",
+     "country": "美国",
+     "industry": [
+      "互联网/人工智能/软件/网络安全/游戏"
+     ],
+     "ats_key": "",
+     "entry_url": "https://www.nowcoder.com/careers/eachina/170107?ncsr=klPEhP",
+     "priority": "medium",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    }
+   ],
+   "removed_after_round2": 0
+  },
+  {
+   "platform": "BOSS直聘",
+   "adapter_ready": false,
+   "module": "",
+   "count": 1,
+   "companies": [
+    {
+     "company_cn": "施耐德电气",
+     "company_en": "",
+     "country": "未核实",
+     "industry": [
+      "机械装备/电气系统",
+      "机械/电子",
+      "外企"
+     ],
+     "ats_key": "",
+     "entry_url": "https://www.zhipin.com/zt/schneider/ai_star_shixisheng.html",
+     "priority": "high",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企/合资",
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    }
+   ],
+   "removed_after_round2": 0
+  },
+  {
+   "platform": "猎聘",
+   "adapter_ready": false,
+   "module": "",
+   "count": 1,
+   "companies": [
+    {
+     "company_cn": "ABB",
+     "company_en": "",
+     "country": "瑞士",
+     "industry": [
+      "机械装备/电气系统",
+      "电子/通信/半导体",
+      "制造业"
+     ],
+     "ats_key": "",
+     "entry_url": "https://mp.weixin.qq.com/s/TS2z4a7FZuNutsByNat2Lg",
+     "priority": "high",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    }
+   ],
+   "removed_after_round2": 0
   },
   {
    "platform": "前程无忧",
@@ -8240,7 +9060,8 @@
       "闲鱼表(只读) 企业性质=外企"
      ]
     }
-   ]
+   ],
+   "removed_after_round2": 0
   },
   {
    "platform": "北森",
@@ -8570,7 +9391,371 @@
       "闲鱼表(只读) 企业性质=外企"
      ]
     }
-   ]
+   ],
+   "removed_after_round2": 0
+  },
+  {
+   "platform": "Moka",
+   "adapter_ready": true,
+   "module": "qiuzhao.collector.p1_platform_moka",
+   "count": 12,
+   "companies": [
+    {
+     "company_cn": "Shopee研发中心",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "互联网/人工智能"
+     ],
+     "ats_key": "shopee/2962",
+     "entry_url": "https://app.mokahr.com/campus-recruitment/shopee/2962?sourceToken=4144ac8d55ba6da0b7802b5137ec701e&locale=zh-CN#/jobs?department0=448995&page=1&anchorName=jobsList",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "Shopee研发中心2027届校园招聘启动",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "IT/互联网/游戏"
+     ],
+     "ats_key": "shopee/2962",
+     "entry_url": "https://app.mokahr.com/campus-recruitment/shopee/2962?recommendCode=DS61bbEe#/jobs",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "Shopee领航实习计划",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "互联网/人工智能/软件/网络安全/游戏"
+     ],
+     "ats_key": "shopee/100004",
+     "entry_url": "https://app.mokahr.com/campus-recruitment/shopee/100004?sessionid=#/job/e4be3417-39db-427e-b0a3-6c72f6b1bd5e?from=qrcode",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "北京环球度假区",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "文化/传媒/旅游/影视/艺术/出版/广告营销/直播"
+     ],
+     "ats_key": "ubr/117987",
+     "entry_url": "https://app.mokahr.com/campus-recruitment/ubr/117987#/jobs",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
+     ]
+    },
+    {
+     "company_cn": "博西家电",
+     "company_en": "",
+     "country": "未核实",
+     "industry": [
+      "电器/家电/厨卫电器/智能家居/家装/家具"
+     ],
+     "ats_key": "bshg/140686",
+     "entry_url": "https://app.mokahr.com/social-recruitment/bshg/140686?locale=zh-CN&sessionid=#/jobs?page=1&anchorName=jobsList",
+     "priority": "medium",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "博西家电-战略实习生项目",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "电器/家电/厨卫电器/智能家居/家装/家具"
+     ],
+     "ats_key": "bshg/171901",
+     "entry_url": "https://app.mokahr.com/social-recruitment/bshg/171901?locale=zh-CN&sessionid=#/",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "大众",
+     "company_en": "",
+     "country": "德国",
+     "industry": [
+      "车企/汽车零部件"
+     ],
+     "ats_key": "vwa/142785",
+     "entry_url": "https://app.mokahr.com/campus-recruitment/vwa/142785#/",
+     "priority": "high",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "大众汽车AI实习生",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "车企/汽车零部件/智能驾驶/汽车服务/车载设备"
+     ],
+     "ats_key": "vwa/142785",
+     "entry_url": "https://app.mokahr.com/campus-recruitment/vwa/142785#/",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "安谋",
+     "company_en": "",
+     "country": "英国",
+     "industry": [
+      "IT/互联网/游戏"
+     ],
+     "ats_key": "",
+     "entry_url": "https://app.mokahr.com/campus-recruitment/REDACTED?locale=zh-CN#/jobs",
+     "priority": "medium",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)"
+     ]
+    },
+    {
+     "company_cn": "德莎",
+     "company_en": "",
+     "country": "德国",
+     "industry": [
+      "石油石化/化学化工/化学制品/化学工程/化工勘察设计"
+     ],
+     "ats_key": "tesa/142951",
+     "entry_url": "https://app.mokahr.com/social-recruitment/tesa/142951?locale=zh-CN#/jobs",
+     "priority": "medium",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "昂际航电",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "高端装备与国防科技/航空航天"
+     ],
+     "ats_key": "aviagesystems/144382",
+     "entry_url": "https://app.mokahr.com/campus-recruitment/aviagesystems/144382#/jobs",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=中外合资/港澳台资"
+     ]
+    },
+    {
+     "company_cn": "维谛",
+     "company_en": "",
+     "country": "未核实",
+     "industry": [
+      "IT/互联网/游戏"
+     ],
+     "ats_key": "",
+     "entry_url": "https://app.mokahr.com/campus-recruitment/vertiv/118713?locale=zh-CN#/jobs?page=1&anchorName=jobsList",
+     "priority": "medium",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)"
+     ]
+    }
+   ],
+   "removed_after_round2": 0
+  },
+  {
+   "platform": "51job",
+   "adapter_ready": true,
+   "module": "qiuzhao.collector.p1_platform_51job",
+   "count": 6,
+   "companies": [
+    {
+     "company_cn": "当纳利亚洲",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "制造业"
+     ],
+     "ats_key": "rrd2027",
+     "entry_url": "http://campus.51job.com/rrd2027/",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "戴尔科技",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "电子/半导体/芯片/集成电路/消费电子/光学光电/计算机硬件",
+      "科技",
+      "外企",
+      "电子/通信/半导体"
+     ],
+     "ats_key": "delltech2026",
+     "entry_url": "http://campus.51job.com/delltech2026/about4.html",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企",
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    },
+    {
+     "company_cn": "星展银行",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "银行/国有行/商业银行/政策行/股份行/城商行/农商行/信用社"
+     ],
+     "ats_key": "dbscn",
+     "entry_url": "https://campus.51job.com/dbscn/about4.html",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "联合电子",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "车企/汽车零部件"
+     ],
+     "ats_key": "uaes2027",
+     "entry_url": "https://campus.51job.com/uaes2027/job.html",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=中外合资"
+     ]
+    },
+    {
+     "company_cn": "雅诗兰黛集团-补录",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "快消零售/食品"
+     ],
+     "ats_key": "elccampus",
+     "entry_url": "https://campus.51job.com/elccampus/summer.html",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "雅诗兰黛集团中国设计中心",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "消费品"
+     ],
+     "ats_key": "elccampus",
+     "entry_url": "https://campus.51job.com/elccampus/",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    }
+   ],
+   "removed_after_round2": 0
+  },
+  {
+   "platform": "Workday",
+   "adapter_ready": true,
+   "module": "qiuzhao.collector.p1_platform_workday",
+   "count": 5,
+   "companies": [
+    {
+     "company_cn": "Marvell",
+     "company_en": "",
+     "country": "美国",
+     "industry": [
+      "半导体/集成电路"
+     ],
+     "ats_key": "marvell/wd1/MarvellCareers",
+     "entry_url": "https://marvell.wd1.myworkdayjobs.com/MarvellCareers?Country=6cb77610a8a543aea2d6bc10457e35d4&workerSubType=65dea26481d001e09dfbab4927173419",
+     "priority": "medium",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "bp",
+     "company_en": "",
+     "country": "英国",
+     "industry": [
+      "能源/化工/环保"
+     ],
+     "ats_key": "REDACTED",
+     "entry_url": "https://bpinternational.wd3.myworkdayjobs.com/bpEarlyCareers/job/China---Pudong/XMLNAME-2026-bp-China-Trading---Shipping-Graduate-Programme--Commercial-_RQ100735",
+     "priority": "high",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "杜邦",
+     "company_en": "",
+     "country": "美国",
+     "industry": [
+      "石油石化/化学化工/化学制品/化学工程/化工勘察设计"
+     ],
+     "ats_key": "REDACTED",
+     "entry_url": "https://dupont.wd5.myworkdayjobs.com/zh-CN/Jobs/job/Qingpu-Shanghai/Manufacturing-and-Engineering-Development-Internship_248503W",
+     "priority": "medium",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "美满",
+     "company_en": "Marvell",
+     "country": "美国",
+     "industry": [
+      "半导体/芯片"
+     ],
+     "ats_key": "",
+     "entry_url": "https://marvell.wd1.myworkdayjobs.com/MarvellCareers",
+     "priority": "high",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)"
+     ]
+    },
+    {
+     "company_cn": "花旗",
+     "company_en": "Citi",
+     "country": "美国",
+     "industry": [
+      "银行/金融",
+      "银行/国有行/商业银行/政策行/股份行/城商行/农商行/信用社",
+      "金融"
+     ],
+     "ats_key": "",
+     "entry_url": "https://citi.wd5.myworkdayjobs.com/2",
+     "priority": "high",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "闲鱼表(只读) 企业性质=外企",
+      "闲鱼表(只读) 企业性质=外企/合资"
+     ]
+    }
+   ],
+   "removed_after_round2": 0
   },
   {
    "platform": "大易",
@@ -8642,7 +9827,62 @@
       "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)"
      ]
     }
-   ]
+   ],
+   "removed_after_round2": 0
+  },
+  {
+   "platform": "SuccessFactors",
+   "adapter_ready": true,
+   "module": "qiuzhao.collector.p1_platform_successfactors",
+   "count": 3,
+   "companies": [
+    {
+     "company_cn": "巴斯夫",
+     "company_en": "BASF",
+     "country": "德国",
+     "industry": [
+      "化工"
+     ],
+     "ats_key": "",
+     "entry_url": "https://basf.jobs/search/",
+     "priority": "high",
+     "sources": [
+      "foreign-companies-discovery (闲鱼表 449 行 + 平台探测)",
+      "Top Employers Institute 中国杰出雇主 2025"
+     ]
+    },
+    {
+     "company_cn": "微软亚洲研究院",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "IT/互联网/游戏"
+     ],
+     "ats_key": "apply.careers.microsoft.com",
+     "entry_url": "https://apply.careers.microsoft.com/careers?start=0&pid=1970393556928651&sort_by=timestamp",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    },
+    {
+     "company_cn": "摩根士丹利证券",
+     "company_en": "",
+     "country": "",
+     "industry": [
+      "外企",
+      "银行/金融",
+      "金融/证券/基金/期货/保险/信托/投融资​"
+     ],
+     "ats_key": "REDACTED",
+     "entry_url": "https://REDACTED/job/2027-MSSC-Investment-Banking-Summer-Analyst-Program-BeijingShanghai/999-en_US",
+     "priority": "",
+     "sources": [
+      "闲鱼表(只读) 企业性质=外企"
+     ]
+    }
+   ],
+   "removed_after_round2": 0
   },
   {
    "platform": "飞书招聘",
@@ -8695,7 +9935,18 @@
       "闲鱼表(只读) 企业性质=外企"
      ]
     }
-   ]
+   ],
+   "removed_after_round2": 0
   }
- ]
+ ],
+ "round2": {
+  "date": "2026-09-19",
+  "added_tenants": {
+   "Avature": 42,
+   "Phenom": 4,
+   "ORC": 1,
+   "tupu360": 45
+  },
+  "note": "本轮新增的是\"可直接用的租户参数\"：ats_key/tenant_params 即适配器需要的键，entry_url 是该租户的官方公开入口，均已实测可访问（无登录、无签名）。"
+ }
 }

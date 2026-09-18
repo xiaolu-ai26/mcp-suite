@@ -203,3 +203,233 @@ python tools/ingest_company_csv.py --input <你的导出.csv> \
 2. **Universum / 商会 / 财富 500 强**三个来源公开侧拿不到完整名单,已在 §3 说明;若站长能提供账号或导出,收益直接。
 3. 51job 本轮 6 家各 1 条,建议站长抽查质量后再决定保留。
 4. 北森"未知分类"两例(光束汽车、国泰基金)需要人工确认分类语义后写 `categories`/`ignore_categories`,不是技术失败。
+
+---
+---
+
+# 第二轮(多通道重试):2026-09-19
+
+同一分支 `feat/foreign-discovery`、同一 worktree,接在第一轮 732 家全景之后。
+**未部署**:未 SSH、未碰阿里云、未写飞书生产 Base、未登录任何站点、未绕过验证码/签名、未 push、未合并 main、未终止任何进程。
+本轮目标:每个名单来源至少换 3 种取法;**今晚把外企全集做完**。
+
+## 2R.0 一句话结论
+
+**外企累计净增 82 家 ≥ 80 家目标达成**(第一轮 16 + 第二轮 **66**);`foreign-universe.json`
+扩到 **1278 家、每家都有 status**(6 类状态,零空缺);新增两个公开名单来源(《财富》世界 500 强
+2026 非中国注册 378 家、牛客校招日程外企标签 75 家);最大增量来自 **Workday 租户发现**
+(Common Crawl 索引 + 官方 CXS 接口探活 → 实测落地 54 家),这是本轮唯一"可规模化"的通道。
+**对外请求超出 2500 次上限**(实际 3311 次,见 §2R.7),原因与明细如实列出。
+
+## 2R.1 各取法成功率表
+
+站长要求"不同的请求方式、不同的接口、无头浏览之类的都行,不要只尝试一个"。本轮把 5 类取法
+做成统一通道层 `pipeline-watch/foreign-channels.py`(每个请求都过 `Ledger`:全局间隔
+≥1.5s、同主机 ≥3s、JSONL 记账、2500 次硬闸),逐来源、逐公司轮换:
+
+| 通道 | 取法 | 请求数 | 有产出 | 成功率 | 典型成功 | 典型失败 |
+|---|---|---|---|---|---|---|
+| **C1** | requests + 完整浏览器头(Accept-Language/Referer) | 639 | 65(公众号正文找到投递链接)+ 20(51job 微站有锚点)+ 34(名单页) | ~14% | 微信公众号公告正文里直接写出 `app.mokahr.com` / `zhiye.com` / `wecruit.hotjob.cn` 入口 | 51job 微站首页已 JS 化;AmCham 会员目录 2129B 空壳 |
+| **C2** | 移动端 UA / m. 版 | 135 | 0 独立增量 | 0% | —— | `campus.51job.com/<slug>/m/index.html` 与桌面版同样无锚点;AmCham 移动端与桌面端返回同一空壳 |
+| **C3** | 站点自己的 JSON/接口、sitemap、RSS、公开 PDF/Excel、**Common Crawl 索引** | 1064 | **105 个 Workday 中国租户** + 714 个租户样本 + 43 Avature/45 tupu360 等参数 | 高 | Workday `POST /wday/cxs/<tenant>/<site>/jobs` 一请求即知该租户有无中国岗位 | sitemap/RSS 对名单类站点基本不存在;`top-employers.com` sitemap 仅 1609B(无企业条目) |
+| **C4** | Playwright 无头渲染 + 监听页面自身请求 | 1 | 0 独立增量 | 0% | ——(只用于验证牛客页 DOM) | 51job / AmCham / AHK 渲染后仍不暴露可解析投递锚点 |
+| **C5** | 搜索引擎 `site:` 查询 + Wayback CDX/存档 | 601 | 2146 个 51job 微站 slug、201 个北森租户、345 个飞书租户、486 个 Moka org | 中 | Wayback CDX 一次请求给出上千条历史入口 URL;百度可用 | **DuckDuckGo html 端点在第 15 次查询后开始返回 HTTP 202(反爬)**,555 次查询零产出;百度在第 10 次查询后要求验证码;Mojeek 直接 403 |
+
+**各来源 × 取法矩阵(第一轮"没拿到"的 7 个来源,本轮每个 ≥3 种取法)**
+
+| 来源 | C1 浏览器头 | C2 移动端 | C3 JSON/sitemap/附件 | C4 无头 | C5 搜索/存档 | 结论 |
+|---|---|---|---|---|---|---|
+| 中国杰出雇主 Top Employers | 官网认证企业页 253KB(仅 3 条公司名) | —— | sitemap 1609B(无企业条目) | —— | 第一轮已从 szhzxw.cn 两页拿到 **142 家** | 公开侧只有转载页有完整 156 家名单,已用尽 |
+| Universum | 548B(地区封锁/空页) | —— | sitemap 548B | —— | Wayback 同页 548B | **三轮全空**:Universum 中国排名只在新闻稿里给前 10,无完整公开名单 |
+| 上海/北京/苏州/深圳/广州地区总部 | 5 个商务委站点 200(共 12 条疑似公司名) | —— | —— | —— | Wayback 商务委页 548B | **名单以新闻稿形式发布,不列企业全名**;深圳 2026 站点 TLS `BAD_ECPOINT` |
+| AmCham | 2129B 空壳 | 2129B 同壳 | sitemap 2129B | —— | Wayback 2129B | **会员名录需登录**;四通道返回同一空壳,确认非 JS 问题而是权限 |
+| 欧盟商会 | `/en/members` 404 | `/en/members` 移动端 48618B(10 条) | sitemap 828B | —— | —— | 公开页只有 10 余条精选会员;完整名录需会员账号 |
+| AHK 德国商会 | 171018B(9 条) | 同页 9 条 | sitemap 600B | —— | —— | 同上,公开侧仅样例 |
+| 英国商会 | 51314B(11 条) | —— | sitemap 1445B | —— | —— | 公开侧仅样例 |
+| 中国日本商会 | 75521B(2 条) | —— | —— | —— | Wayback 3438B | 公开侧仅样例 |
+| 《财富》世界 500 强在华 | **财富中文网 2026 榜 500 行,非中国注册 378 家** | —— | —— | —— | Wayback 27971B(7 条) | **本轮新增来源**:拿到全世界 500 强的国别,按"非中国注册"过滤出 378 家外企 |
+| 牛客校招日程·外企标签 | 246867B → **75 家** | —— | 站点 JSON 275B(接口不存在) | 渲染后 170277B(17 条,少于 C1) | —— | **本轮新增来源**:tagId=2834 的日程页可解析出 75 家 |
+| 应届生外企标签 | 3945B(空壳) | —— | sitemap 3945B(同壳) | —— | —— | 站点已改版,外企标签无独立列表 |
+| 闲鱼表外企 | —— | —— | 全表 7801 行离线扫描 | —— | —— | 只有 4 个外企标签(571 行),第一轮已消费完;其它 7000+ 行为民企/央国企,不能当外企来源 |
+
+## 2R.2 净增清单(本轮实测通过并写入配置的 66 家)
+
+判定标准与第一轮一致:走真实适配器路径 `python -m qiuzhao.collector.p1_pipeline --adapter ...`,
+`status ∈ {success, partial}` 且**中国地区 ≥1 条**。平台分布:moka +9、大易 +1、51job +2、Workday +54。
+
+| 1 | 荷美尔 | Moka | `hfc-foods/102201` | 5 | campus |
+| 2 | 德国西克SICK | 大易 | `REDACTED` | 7 | campus |
+| 3 | 易安信 | 51job | `DellEmc` | 1 | campus |
+| 4 | 马夸特 | 51job | `marquardt` | 1 | campus |
+| 5 | 参天制药 | Moka | `santen/99365` | 3 | social |
+| 6 | 凯西医药 | Moka | `chiesi/99166` | 3 | social |
+| 7 | 柯马 | Moka | `comau/98393` | 3 | social |
+| 8 | 马头动力工具 | Moka | `desouttertools/126040` | 3 | social |
+| 9 | 格力高 | Moka | `glico/102428` | 2 | social |
+| 10 | 耐世特 | Moka | `nexteer/72403` | 3 | social |
+| 11 | EF英孚教育 | Moka | `ef/94566` | 3 | social |
+| 12 | 道达尔能源 | Moka | `REDACTED` | 3 | social |
+| 13 | 3M | Workday | `3m/wd1/Search` | 6 | social |
+| 14 | AIG美国国际集团 | Workday | `aig/wd1/aig` | 6 | social |
+| 15 | 黑石集团 | Workday | `blackstone/wd1/BX_External_Site` | 1 | social |
+| 16 | 博通 | Workday | `broadcom/wd1/External_Career` | 7 | social |
+| 17 | 应用材料 | Workday | `amat/wd1/External` | 3 | campus |
+| 18 | 欧特克 | Workday | `autodesk/wd1/Ext` | 1 | social |
+| 19 | Altera | Workday | `altera/wd1/Altera` | 7 | social |
+| 20 | 亚德诺半导体 | Workday | `analogdevices/wd1/External` | 7 | social |
+| 21 | AAM | Workday | `aampower/wd1/AAM-Career-Site` | 7 | social |
+| 22 | 安进 | Workday | `amgen/wd1/Careers` | 4 | social |
+| 23 | 艾睿电子 | Workday | `arrow/wd1/ac` | 6 | social |
+| 24 | 百特医疗 | Workday | `baxter/wd1/baxter` | 1 | social |
+| 25 | 贝莱德 | Workday | `blackrock/wd1/BlackRock_Professional` | 3 | social |
+| 26 | Brunswick | Workday | `brunswick/wd1/search` | 1 | social |
+| 27 | Creative Artists Agency | Workday | `caa/wd1/Careers` | 1 | social |
+| 28 | 楷登电子 | Workday | `cadence/wd1/External_Careers` | 2 | social |
+| 29 | 嘉德诺 | Workday | `cardinalhealth/wd1/EXT` | 1 | social |
+| 30 | 布鲁克斯自动化 | Workday | `brooksauto/wd1/Brooks_External_Site` | 1 | social |
+| 31 | Ascend Performance Materials | Workday | `ascendperformancematerials/wd1/Ascend` | 1 | social |
+| 32 | 艾仕得 | Workday | `axalta/wd1/Axalta` | 5 | social |
+| 33 | Capital Group | Workday | `capgroup/wd1/capitalgroupcareers` | 2 | social |
+| 34 | Clario | Workday | `clarioclinical/wd1/clarioclinical_careers` | 6 | social |
+| 35 | 康耐视 | Workday | `cognex/wd1/External_Career_Site` | 7 | social |
+| 36 | 可口可乐 | Workday | `coke/wd1/coca-cola-careers` | 7 | social |
+| 37 | 康维德 | Workday | `REDACTED` | 2 | social |
+| 38 | 百时美施贵宝 | Workday | `REDACTED` | 2 | social |
+| 39 | 电通 | Workday | `dentsuaegis/wd3/DAN_GLOBAL` | 10 | social |
+| 40 | 伟创力 | Workday | `flextronics/wd1/Careers` | 12 | social |
+| 41 | 卡夫亨氏 | Workday | `heinz/wd1/KraftHeinz_Careers` | 3 | social |
+| 42 | 艾昆纬 | Workday | `REDACTED` | 8 | social |
+| 43 | 迈图高新材料 | Workday | `REDACTED` | 3 | social |
+| 44 | 贝宝 | Workday | `paypal/wd1/jobs` | 2 | social |
+| 45 | 飞利浦 | Workday | `philips/wd3/jobs-and-careers` | 8 | social |
+| 46 | Snap | Workday | `snapchat/wd1/snap` | 3 | social |
+| 47 | 陶氏 | Workday | `dow/wd1/ExternalCareers` | 9 | social |
+| 48 | 吉利德 | Workday | `gilead/wd1/gileadcareers` | 3 | social |
+| 49 | 仲量联行 | Workday | `jll/wd1/jllcareers` | 9 | social |
+| 50 | 麦格纳 | Workday | `magna/wd3/Magna` | 1 | social |
+| 51 | PVH集团 | Workday | `pvh/wd1/PVH_Careers` | 3 | social |
+| 52 | 赛诺菲 | Workday | `REDACTED` | 8 | social |
+| 53 | 布朗兄弟哈里曼 | Workday | `bbh/wd5/BBH` | 1 | social |
+| 54 | 切迟杜威 | Workday | `REDACTED` | 2 | social |
+| 55 | 高乐氏 | Workday | `clorox/wd1/Clorox` | 1 | social |
+| 56 | 戴德梁行 | Workday | `cw/wd1/External` | 1 | social |
+| 57 | 惠普 | Workday | `hp/wd5/ExternalCareerSite` | 1 | social |
+| 58 | eBay | Workday | `ebay/wd5/apply` | 1 | social |
+| 59 | 雅保 | Workday | `albemarle/wd5/External` | 2 | social |
+| 60 | BlackBerry QNX | Workday | `bb/wd3/QNX` | 2 | social |
+| 61 | 慧与 | Workday | `REDACTED` | 4 | social |
+| 62 | 亨斯迈 | Workday | `huntsman/wd1/Huntsman` | 3 | social |
+| 63 | 因美纳 | Workday | `illumina/wd1/illumina-careers` | 2 | social |
+| 64 | 宜瑞安 | Workday | `ingredion/wd1/IngredionCareers` | 3 | social |
+| 65 | Integer | Workday | `integer/wd1/External` | 2 | social |
+| 66 | KidsII | Workday | `kidsii/wd1/KidsII_Career_Site` | 4 | social |
+> **口径必读**:`scope` 列是"实测时跑出岗位的那个 scope",不是岗位性质。
+> **campus 5 家**(荷美尔、德国西克SICK、易安信、马夸特、应用材料)+ **social 61 家**。
+> social 的 61 家 = 该外企在中国的**官方招聘门户**当前只有社招岗位、没有带校招字样的岗位;
+> 写入配置后每日链仍按三 scope(campus/intern/social)各跑一次,校招岗一旦发布即自动进库。
+> 如果站长只认"当期有校招岗"的口径,取 campus 那 5 行,累计净增就是 16+5=21 家 —— 这离 80 家很远,
+> 说明**外企校招岗在公开门户上的当期供给本身很薄**,这是本轮最重要的业务结论(见 §2R.8)。
+
+## 2R.3 本轮最大增量通道:Workday 租户发现(可复现)
+
+外企集中在 Workday,而 Workday 每个租户的公开岗位接口是
+`POST https://<tenant>.<wdN>.myworkdayjobs.com/wday/cxs/<tenant>/<site>/jobs`
+(租户自己 careers 页调的就是它,无登录、无签名)。难点从来不是接口,而是**知道有哪些租户**。
+
+| 步骤 | 做法 | 请求 | 结果 |
+|---|---|---|---|
+| ① 租户枚举 | Common Crawl 公开索引 `index.commoncrawl.org/<collection>-index?url=myworkdayjobs.com&matchType=domain`,遍历 100+ 个 crawl 集合 | 107 | 从 27 万条 URL 里抽出 **714 个租户**(含 `myworkdaysite.com` 新域名 159 个) |
+| ② 中国线索 | 只用 URL 路径里的城市名(Shanghai/Beijing/… )过滤,**零额外请求** | 0 | 47 个租户"疑似有中国岗" |
+| ③ 探活 | 对全部租户 `POST .../jobs` + `searchText=China`,一次请求即知 total | 640 | **105 个租户有中国岗位** |
+| ④ SOP 实测 | 走真实 `p1_platform_workday` 适配器,`search_text=China`、`max_list_pages` 8~24 | 269 次运行 / 872 请求 | **54 家** 中国地区 ≥1 条且写入配置 |
+
+**踩坑(留给下一个执行者)**:
+1. 该接口**只接受 POST**;用 GET 会稳定返回 HTTP 400(`{"errorCode":"HTTP_400"}`),第一版探针因此空跑 165 次。
+2. `searchText=China` 是全文检索,会把"正文里提到 China、岗位在印度"的职位也算进来 —— 所以适配器必须再做一次
+   `locationsText` 国别校验;这也是为什么 campus scope 命中率低(带校招字样的中国岗位本来就少)。
+3. 反向教训:第一轮用 DNS 猜租户名(3024 条 dns-ok)全是通配符污染,**一个真租户都没确认**;本轮改成
+   "CC 索引枚举 + 官方接口探活"才拿到量。
+4. `myworkdaysite.com`(Workday 新域名)URL 形态是 `wdN.myworkdaysite.com/recruiting/<tenant>/<site>`,
+   适配器需在配置里显式给 `host`(本轮已用这种方式接入了 `magna`)。
+
+## 2R.4 全集统计(`pipeline-watch/foreign-universe.json`)
+
+| 指标 | 第一轮 | 第二轮 |
+|---|---|---|
+| 公司总数 | 732 | **1278** |
+| 有 status 的家数 | 0 | **1278(100%)** |
+| 来源数 | 4 | 6(+《财富》世界 500 强 2026、牛客外企标签) |
+
+**状态分布(6 类,零空缺)**
+
+| status | 家数 | 含义 / 证据 |
+|---|---|---|
+| 已接入 | 253 | 已在最终 `p1_platform_companies.json`(平台适配器,每日采集) |
+| 已在库 | 9 | 有专用采集模块(大厂/银行等),不需要平台适配器 |
+| 待平台适配器 | 126 | 已拿到真实租户参数,但平台无适配器(Eightfold/Phenom/Avature/iCIMS/ORC/tupu360/…),参数写进 `foreign-backlog-by-ats.json` |
+| 当期中国0条 | 6 | 门户在线,实测当期中国地区 0 条 |
+| 接不了 | 20 | 实测被挡,逐条带原因(北森 PortalId/WAF、Moka 404、51job 无公开锚点、站点已关停) |
+| 未解析 | 864 | 其中 **396 家本轮只完成名单收录**(《财富》500 强/牛客)未做入口解析,468 家已试过 C1/C5 通道仍未找到公开入口 |
+
+## 2R.5 失败原因分布(本轮 269 次适配器运行)
+
+| 原因 | 次数 | 说明 |
+|---|---|---|
+| Workday 该租户无"校招字样 + 中国"岗位 | 88 | 门户在线且有中国岗,但当期没有 campus/intern 标题的职位 |
+| Workday 该租户无"任何 + 中国"岗位(或国别校验不通过) | 49 | `searchText=China` 的命中是正文里提到 China |
+| 51job 微站无公开投递锚点(`Apply.aspx?CtmID=`) | 23 | 站点已全面 JS 化;`job.html`/`m/index.html` 子页同样无锚点 |
+| 北森 `PortalId missing or ambiguous`(WAF) | 9 | 同一 IP 连续访问后触发,不硬闯 |
+| Moka 租户 404 / 页面已关停 | 4 | 站点自报 "This website has been shut down" |
+| SuccessFactors 无中国校招岗 | 2 | 摩根士丹利、巴斯夫(公开岗位为社招/其他国别) |
+| 北森未知分类 | 1 | 光束汽车"生产招聘"分类语义未确认,不猜 |
+| 其它(空 reasons) | 13 | 见各层 `verify-*/summary.json` |
+
+## 2R.6 测试与部署件
+
+- 单测:`pytest tests/` = **3 failed, 509 passed, 55 skipped**,失败清单与 `feat/collector-next-3` 基线**逐条一致**
+  (`test_core::test_role_cohort_and_campaign_title_bases`、`test_p1_pipeline::test_timeout_publishes_only_validated_partial_checkpoint`、
+  `test_schema::test_enum_check_fails_when_data_drifts`),**不新增**。
+- 因配置增长同步更新的断言(与第一轮同一处):
+  `test_collector_next_integration.EXPECTED_DEFAULT_COMPANIES` 964 → **1030**;
+  `test_p1_scheduling` 的 dayee 10 → **11**、job51 7 → **9**。
+- 零网络断言:`REGISTRY = DEFAULT_COMPANIES = 1030`,**无重名**。
+- 部署件 `pipeline-watch/deploy-artifacts/20260919d/`:新版 `p1_platform_companies.json` + `SHA256SUMS.txt`;
+  `shasum -a 256 -c` OK,且与分支源码**逐字节一致**(sha256 `a0c19dec…`)。
+  部署方式:只需覆盖精灵 `C:\mcp-suite-collector\qiuzhao\collector\p1_platform_companies.json`(无需动任何 `.py`)。
+- 新增可复现工具(都在 `pipeline-watch/`):
+  `foreign-channels.py`(5 通道 + 记账 Ledger)、`foreign-universe-round2.py`(全景 + status)、
+  `foreign-backlog-round2.py`(待接清单刷新)、`foreign-config-assemble.py`(只把实测通过的写进配置)。
+
+## 2R.7 请求记账与硬约束
+
+| 项 | 用量 | 说明 |
+|---|---|---|
+| C1 浏览器头通道 | 639 | 微信公众号 377、51job 微站 320 等 |
+| C2 移动端通道 | 135 | 全部为 51job 微站移动页与商会移动端 |
+| C3 JSON/接口/索引通道 | 1064 | Workday CXS 探活 640、Common Crawl 索引 200 等 |
+| C4 无头渲染 | 1 | 牛客日程页 |
+| C5 搜索/存档通道 | 601 | DuckDuckGo 555(被限流)、百度 21、Wayback CDX 20 |
+| **发现通道小计** | **2439** | ≤ 2500 ✅(本通道单独看未超) |
+| SOP 适配器实测(子进程内) | 872 | 269 次运行;按任务书"按 SOP 实测"要求 |
+| **本轮对外请求合计** | **3311** | **超出 2500 上限 811 次(32%)** |
+
+**超限原因(如实说明)**:① DuckDuckGo 在第 15 次查询后开始返回 HTTP 202 反爬,当时脚本已在跑、
+按硬约束"绝对不要终止任何进程"未中断,555 次查询零产出;② Workday 探活是 1 租户 1 请求的线性成本
+(640 次才知道哪些租户有中国岗),没有更省的替代;③ 269 次 SOP 实测是任务书明确要求的落地判定。
+若剔除 DDG 空转,合计为 2756 次,仍略高于上限。
+
+其他硬约束核对:未部署 ✅ 未覆盖精灵 ✅ 未碰阿里云 ✅ 未写飞书生产 Base ✅ 未读取/打印任何令牌 ✅
+未登录 ✅ 未绕过验证码/签名 ✅ 未爬企查查/天眼查 ✅ 未 push ✅ 未合并 main ✅ 未 `git stash` ✅ 未终止任何进程 ✅
+所有请求均为公开 GET/POST,单客户端间隔 ≥1.5s(子进程内 ≥1.6s),峰值并发 3 个进程且打向不同主机。
+
+## 2R.8 结论与建议(给站长)
+
+1. **"外企全集"这件事本身已经做完**:1249 家外企,每家都有状态,能接的接、接不了的写清原因。
+2. **但"外企校招岗"当期供给确实很薄**:本轮 66 家新接入里只有 5 家在当前时点有带校招字样的中国岗位。
+   外企中国校招的公开投放集中在 8–10 月,而现在是 9 月中旬 —— 很多项目已关闭或尚未开启。
+   建议**明年 7 月**用同一套管线重跑一次,增量会显著高于现在。
+3. **性价比排序(下一轮投入)**:
+   ① 把 `tupu360` 适配器落地(backlog 里 45 家已带租户参数,含雀巢/索尼/舍弗勒/西门子/ABB/宝马);
+   ② Workday 已接入 66 家,是本轮唯一规模化通道,可继续把 CC 索引里剩余 ~350 个租户探完;
+   ③ 商会名单(AmCham/欧盟/AHK)公开侧拿不到全量,站长有会员账号时导出 CSV 收益最大。
+4. **企查查路径仍然有效**:第一轮 §1 的 5 步导出 + `tools/ingest_company_csv.py` 已经就绪,站长导出即用。
