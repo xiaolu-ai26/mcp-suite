@@ -348,3 +348,94 @@ p1 步改为 `--scope-timeout 600 --workers 8 --platform-workers 3 --max-run-sec
   自然生效，不需重启。
 - 叠加顺序：从精灵现役 `20260918` 一步覆盖（b–g 均未部署）；回滚见
   `20260918h/PROD-BACKUP-MANIFEST.txt`。
+
+## F. 部署记录（20260918h 上线，已执行）
+
+**结论**：20260918h 累积部署件已上线成功。12 个目标路径覆盖后 sha256 与
+`20260918h/SHA256SUMS.txt` 逐字节一致；`py_compile` 48 个 `.py` 全部通过；
+`import deploy.windows_collector, qiuzhao.collector.p1_pipeline as P, qiuzhao.collector.guopin`
+输出 `IMPORT_OK 924 924`；Playwright Chromium 安装并最小启动验证通过。未重启服务、
+未改计划任务、未手动补跑、未动 `run.py`/`data\`/`runs\`/阿里云/计划任务；`.venv` 只新增
+Playwright 浏览器（装到 `%LOCALAPPDATA%\ms-playwright`，不在 `.venv` 内）。
+批准：Max 2026-09-18 18:40（原话“现在可以上线”）。
+
+- 部署分支：`feat/collector-next-2`，`git log -1 --format=%h` = **`bcdfd09`**
+  （2026-09-18 19:12:46 +0800，含 20260918h 部署件）。
+- 执行时间：2026-09-18 20:10–20:17（CST，精灵本地时间）。
+- 空闲判定（步骤 1）：`runs\20260918\receipt.json` `completed_at=2026-09-18T20:03:53`、
+  无 `windows_collector.py`/`p1_pipeline`/`lark_sync` 进程、`data\lark-sync\status.json`
+  = `success`/`complete`。等待窗口 19:16→20:06（当日 06:10 那次运行 + 其后 business 同步
+  于 20:03 收尾），未终止任何进程。
+- 备份：`C:\mcp-suite-backup-20260918-2010\`（`deploy\`、`qiuzhao\` 两子树，
+  `robocopy /E /R:2 /W:5`，退出码均 = 1，≤7 成功）。备份内 4 个现役文件哈希与前提一致。
+- staging：`C:\mcp-suite-deploy-20260918h\`（12 文件逐字节校验一致；另留
+  `playwright-install.log` 安装日志）。scp 不可用，用分片 base64（每片 1300B）追加写入。
+
+### F.1 覆盖前后哈希（全 64 位）
+
+| 目标路径（相对 `C:\mcp-suite-collector`） | 覆盖前 | 覆盖后（= 清单） |
+|---|---|---|
+| `deploy\windows_collector.py` | `14e17785ccff51f94aea519bee1637582d974c6d65540ee6f379954b08c90c4a` | `9eaf97cc5d4e968c062aaa65468ab34c584534a4ced5523d75c7c26229ec8312` |
+| `qiuzhao\collector\guopin.py` | `22e5f6ad0b66487ba7f6ccaee041da67c668d7ed98aeaa10408d7dc95a0abf89` | `add0d50c715e06eb968bb7671bc2e9787e81d9ad39be008e66731337f16b6c03` |
+| `qiuzhao\collector\p1_pipeline.py` | `dc046e32f37d7482ac56222898d122edb52d93d8b48fed4f3c5c2c67770fdb90` | `c48dbf94c13f03394897a767f2fb918d1afcd06658ae93d32975d42cf98310a9` |
+| `qiuzhao\collector\p1_feishu_public.py` | `08dd30e87893fb26ac653fa203c816ada07a5e9bfe201280163ceaa7f39350c8`（原本已存在） | `e9855205ad1cc9494855d1357ab93c68f6e6ead646e7441bd6032c7311a8ca4f` |
+| `qiuzhao\collector\p1_banks_01.py` | ABSENT | `25e2399812f64ee1762b7686849bf7241c8e1353d7203347562f9794223ffb19` |
+| `qiuzhao\collector\alibaba_headless.py` | `7a7feacaaed4bb091ba7cb94d39ca48824f3d205a5e0963585dc816b8cdf0e7b`（原本已存在，见 F.4） | `dab17686cf251f220950b8c8e13984d39dcbb07b8a3eeeea84bdea3ca3be7db2` |
+| `qiuzhao\collector\tencent_music.py` | ABSENT | `7d19cbc34b45dfc5e31c3d9b7ed41dd51c638c5adb6c62bf6e0330904f3d3787` |
+| `qiuzhao\collector\p1_platform_beisen.py` | ABSENT | `3faeb5686aa7bf05a7b6754b35a607c50a9666e8247dd5b46d430307b9eb33a5` |
+| `qiuzhao\collector\p1_platform_moka.py` | ABSENT | `569e0865d96ba7f91a4803330975ac76f9f35277b9f1bf312092c598c636a777` |
+| `qiuzhao\collector\p1_platform_workday.py` | ABSENT | `d95e11b29f30368a1f4657d22fdb1c10d88495bd1ccac03f8a15c613caeb706b` |
+| `qiuzhao\collector\p1_platform_successfactors.py` | ABSENT | `658c81c07bd4ebda62735662dfac54722dccc830517072e3a40d9329701f1216` |
+| `qiuzhao\collector\p1_platform_companies.json` | ABSENT | `ee0f288cf6213da356f9f0dcaf03e54374472ab3519b2a1a4f91e8b9ee86349b` |
+
+- `qiuzhao\collector\run.py` 未覆盖，覆盖后仍为 `5e94f91b770ef02bfad887e10bb6fab3405d8b184a81b98df9d14fe28c266b28`。
+- 覆盖后 12 目标 `TARGET_ALL_MATCH=True`（目标 = staging = 清单）。
+
+### F.2 py_compile 与 import（步骤 5）
+
+- `py_count=48`（`deploy\` + `qiuzhao\` 下全部 `.py`，排除 `__pycache__`/`.venv`），
+  `py_compile_batches_failed=0`（正式 venv，`-X utf8`）。
+- `IMPORT_OK 924 924`，`import_exit=0`（cwd=`C:\mcp-suite-collector`）。
+
+### F.3 Playwright Chromium（步骤 3）
+
+- 安装前：`import playwright`/`from playwright.sync_api import sync_playwright` 均 OK，
+  但 `%LOCALAPPDATA%\ms-playwright` **不存在**（默认 Chromium 启动失败）；系统 Chrome 存在
+  （`C:\Program Files\Google\Chrome\Application\chrome.exe`）。
+- 执行 `C:\mcp-suite-collector\.venv\Scripts\python.exe -m playwright install chromium`，退出 0，
+  装到 `C:\Users\-LZH-\AppData\Local\ms-playwright`：`chromium-1187`、
+  `chromium_headless_shell-1187`、`ffmpeg-1011`、`winldd-1007`（仅 chromium，无其他浏览器）。
+- 最小启动验证（headless，不访问外网）：`chromium-launch-ok 140.0.7339.16`，`launch_exit=0`。
+- 阿里系/飞书 headless 依赖就绪，首日不会因缺浏览器 blocked。
+
+### F.4 与任务前提不一致处（已按“还原而非删除”处理）
+
+- 任务/`PROD-BACKUP-MANIFEST.txt` 声明 9 个新增文件在精灵上应 ABSENT；实测
+  `alibaba_headless.py`（7900 B，mtime `2026-09-13T15:08:36`）与
+  `p1_feishu_public.py`（17074 B，mtime `2026-09-13T15:08:36`）**原本已存在**，同为
+  2026-09-13 铺底内容（非本次部署产生）。二者均已进备份。
+- 因此回滚口径修正为：3 个被覆盖的现役文件（`guopin.py`/`p1_pipeline.py`/
+  `deploy\windows_collector.py`）+ 未动的 `run.py` 从备份拷回；`p1_feishu_public.py`、
+  `alibaba_headless.py` 从备份**还原**（不删除）；其余 7 个新增文件删除。
+- `windows_collector.py` 与 20260918 基线逐行 diff：仅第 162 行 p1 步参数一处变化
+  （新增 `--scope-timeout 600 --workers 8 --platform-workers 3`，保留 `--max-run-seconds 18000`），
+  同步段未变，与任务描述一致。
+
+### F.5 回滚
+
+- **未触发**（步骤 5 全部校验通过，无需回滚）。
+- 若日后需回滚：`C:\mcp-suite-backup-20260918-2010\` 见 F.4 口径；回滚后校验 4 个现役文件
+  哈希应回到 F.1“覆盖前”列的值。
+
+### F.6 次日观察项（2026-09-19 06:10 首次实测，供总控核对）
+
+- `runs\20260919\receipt.json`：`steps` 出现 `basic`/`p1` 的 0 或 2；`step_changes.p1`
+  条数；p1 起止时间（不轮转、三 scope、8 路并发，预期 3–5 小时；若触顶 5 小时
+  `--max-run-seconds 18000`，看 `status.pending` 与次日公平排序是否生效）。
+- `runs\20260919\data\source_state.json`：`guopin.discovered`（预期约 14）、
+  `fallback_used=false`。
+- p1 status：平台公司尝试数（应为全部 874，或受 5 小时上限截断的数量）、各平台
+  blocked 比例、银行/阿里/外企的 `coverage.status`。
+- `data\p1-retry-queue.json` 是否生成；飞书同步 `changed` 量级（对比本次 9-18 的
+  92722 → 修复后应显著下降）。
+- 本次未手动补跑，首次实测即次日 06:10 计划任务。
