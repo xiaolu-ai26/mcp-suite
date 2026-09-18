@@ -62,12 +62,15 @@ TUPU360_ONLY = ('IQVIA 艾昆纬', '礼来', '舍弗勒', '宝马', '茵梦达')
 # 20260918h shipped 924 companies; this cumulative branch adds 字节跳动/美的集团
 # (20260918i), 22 foreign-batch names (20260918j), 13 foreign ATS tenants from
 # batch A (20260919b: Eightfold 5 + Phenom 8), 17 names from the 20260919c platform
-# blocks and 5 net-new tupu360 tenants (20260919f), i.e. 948 + 13 + 17 + 5 = 983
-# names before the same-company conflict handling is applied. 毕马威 keeps its
-# older moka tenant and 德州仪器 keeps its moka slot (the ORC tenant is
-# deliberately not registered); the workday/eightfold/phenom duplicate rows are
-# parked by the collector-next-4 integration commit.
-EXPECTED_DEFAULT_COMPANIES = 983
+# blocks, 5 net-new tupu360 tenants (20260919f) and the 82 foreign-discovery names
+# (20260919d/round 2: +10 moka, +5 dayee, +8 job51, +1 beisen, +58 workday, of
+# which 惠普/应用材料/飞利浦/可口可乐 duplicate batch A/B rows), i.e.
+# 948 + 13 + 17 + 5 + 82 - 4 = 1061 names before the same-company conflict
+# handling is applied. 毕马威 keeps its older moka tenant and 德州仪器 keeps its
+# moka slot (the ORC tenant is deliberately not registered); the
+# workday/eightfold/phenom duplicate rows are parked by the collector-next-4
+# integration commit.
+EXPECTED_DEFAULT_COMPANIES = 1061
 CONFIG_SECTION_MODULES = {
     'beisen': 'qiuzhao.collector.p1_platform_beisen',
     'moka': 'qiuzhao.collector.p1_platform_moka',
@@ -361,10 +364,11 @@ def test_deployable_windows_collector_uses_scope_timeout_and_workers():
 
 # --- 5. merged 20260918i + 20260918j registry guards --------------------------
 
-def test_default_set_is_h_baseline_plus_i_j_a_and_c_additions():
+def test_default_set_is_h_baseline_plus_i_j_a_c_and_discovery_additions():
     # 站长口径的 924 家 (20260918h) + 字节跳动/美的集团 + 外企第二批 + 外企 ATS
     # 批 A(13 家)+ 批 3(17 家,含 3 家 workday/1 家 SF 修复行)+ tupu360(5 家)
-    # = 983(同名冲突处置前的合并中间态;最终值见整合提交).
+    # + 外企发现两轮(82 家,其中 4 家与批 A/B 同名)= 1061(同名冲突处置前的合并
+    # 中间态;最终值见整合提交).
     assert len(p.DEFAULT_COMPANIES) == EXPECTED_DEFAULT_COMPANIES
     for name in (*PUBLIC_API_ONLY, *DAYEE_ONLY, *JOB51_ONLY, *EIGHTFOLD_ONLY,
                 *PHENOM_ONLY, *AVATURE_ONLY, *ORC_ONLY, *WORKDAY_FIXED, *SF_FIXED,
