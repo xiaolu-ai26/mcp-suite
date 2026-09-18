@@ -23,11 +23,6 @@ PLATFORM_ONLY = ('中信建投', '中金公司', '国信证券', '浙江民泰�
                  '安踏集团', '小天才', '信也科技')
 OVERLAP = ('三七互娱', '金山办公', '鹰角网络')
 BANK_ONLY = ('中国工商银行', '中国农业银行', '交通银行', '招商银行', '中信银行')
-# Append-only foreign-company block (Workday + SuccessFactors), registered after
-# the banks block so it never reorders the blocks that already shipped.
-FOREIGN_ONLY = ('英伟达', '花旗银行', '强生', '壳牌', '英国石油', '美敦力',
-                '奥纬咨询', '美满电子', '史密夫斐尔',
-                '思爱普', '采埃孚', '勃林格殷格翰')
 
 
 def validated(company, scope='campus'):
@@ -63,48 +58,24 @@ def test_default_companies_append_platform_in_config_order_without_duplicates():
 
 def test_platform_companies_are_appended_after_hardcoded_in_config_order():
     extra = [name for name in p.DEFAULT_COMPANIES if name not in p.COMPANIES]
-    def module_of(name):
-        return p.REGISTRY[name]
-
-    beisen_names = [n for n in extra if module_of(n) == 'qiuzhao.collector.p1_platform_beisen']
-    moka_names = [n for n in extra if module_of(n) == 'qiuzhao.collector.p1_platform_moka']
-    bank_names = [n for n in extra if module_of(n) == 'qiuzhao.collector.p1_banks_01']
-    ali_names = [n for n in extra if module_of(n) == 'qiuzhao.collector.alibaba_headless']
-    tme_names = [n for n in extra if module_of(n) == 'qiuzhao.collector.tencent_music']
-    foreign_names = [n for n in extra
-                     if module_of(n) in ('qiuzhao.collector.p1_platform_workday',
-                                         'qiuzhao.collector.p1_platform_successfactors')]
-    feishu_names = [n for n in extra if module_of(n) == 'qiuzhao.collector.p1_feishu_public']
-
-    assert set(PLATFORM_ONLY) <= set(beisen_names) | set(moka_names)
+    beisen_names = [n for n in extra if p.REGISTRY[n] == 'qiuzhao.collector.p1_platform_beisen']
+    moka_names = [n for n in extra if p.REGISTRY[n] == 'qiuzhao.collector.p1_platform_moka']
+    bank_names = [n for n in extra if p.REGISTRY[n] == 'qiuzhao.collector.p1_banks_01']
+    feishu_names = [n for n in extra if p.REGISTRY[n] == 'qiuzhao.collector.p1_feishu_public']
     assert set(BANK_ONLY) <= set(bank_names)
-    assert set(FOREIGN_ONLY) <= set(foreign_names)
-    covered = (set(beisen_names) | set(moka_names) | set(bank_names) | set(ali_names)
-               | set(tme_names) | set(foreign_names) | set(feishu_names))
-    assert set(extra) == covered
-
-    # Approved append order: beisen then moka, banks, Ali/Tencent gap, foreign
-    # Workday/SuccessFactors, then config-driven Feishu. Every block stays
-    # contiguous and no block is interleaved with another.
-    block_order = [
-        ('beisen', beisen_names),
-        ('moka', moka_names),
-        ('banks', bank_names),
-        ('ali', ali_names),
-        ('tencent_music', tme_names),
-        ('workday/successfactors', foreign_names),
-        ('feishu', feishu_names),
-    ]
-    cursor = 0
-    for label, names in block_order:
-        assert extra[cursor:cursor + len(names)] == names, label
-        cursor += len(names)
-    assert cursor == len(extra)
+    assert set(PLATFORM_ONLY) <= set(beisen_names) | set(moka_names)
+    # p1_platform_companies.json lists beisen first, then moka; banks form the next
+    # block, and a later-appended platform block (config-driven Feishu) follows.
+    assert extra[:len(beisen_names)] == beisen_names
+    assert extra[len(beisen_names):len(beisen_names) + len(moka_names)] == moka_names
+    assert extra[len(beisen_names) + len(moka_names):
+               len(beisen_names) + len(moka_names) + len(bank_names)] == bank_names
+    if feishu_names:
+        assert extra[len(beisen_names) + len(moka_names) + len(bank_names):
+                   len(beisen_names) + len(moka_names) + len(bank_names) + len(feishu_names)] == feishu_names
     assert extra.index('中信建投') < extra.index('安踏集团')
     for name in BANK_ONLY:
         assert p.REGISTRY[name] == 'qiuzhao.collector.p1_banks_01'
-    assert p.REGISTRY['英伟达'] == 'qiuzhao.collector.p1_platform_workday'
-    assert p.REGISTRY['思爱普'] == 'qiuzhao.collector.p1_platform_successfactors'
 
 
 def test_platform_company_runs_without_index_error_and_gets_unique_dir(tmp_path):

@@ -59,35 +59,6 @@ try:
 except Exception:  # optional bank adapters may be absent in a minimal checkout
     pass
 
-# Ali/Tencent gap adapters (batch 2, 20260918e) register their companies the same
-# way and are appended here so the hardcoded 50 ordinals and the batch-1 block
-# above stay untouched.
-try:
-    from .alibaba_headless import merged_registry as _alibaba_registry
-    REGISTRY.update(_alibaba_registry())
-except Exception:  # optional Ali adapters may be absent in a minimal checkout
-    pass
-
-try:
-    from .tencent_music import merged_registry as _tencent_music_registry
-    REGISTRY.update(_tencent_music_registry())
-except Exception:  # optional Tencent Music adapter may be absent in a minimal checkout
-    pass
-
-# Foreign-company platform adapters (Workday CXS / SAP SuccessFactors). This is an
-# append-only block independent of the platform/bank blocks above, so it never touches
-# the hardcoded 50-ordinal list and merges cleanly with the other executors' blocks.
-try:
-    from .p1_platform_workday import merged_registry as _workday_registry
-    REGISTRY.update(_workday_registry())
-except Exception:  # optional platform config may be absent in a minimal checkout
-    pass
-try:
-    from .p1_platform_successfactors import merged_registry as _sf_registry
-    REGISTRY.update(_sf_registry())
-except Exception:  # optional platform config may be absent in a minimal checkout
-    pass
-
 # Feishu platform adapter (config-driven, appended as an independent registration
 # block). setdefault keeps the hardcoded 50 and the beisen/moka entries winning, so
 # migrating 小鹏/蔚来/影石/莉莉丝/商汤 into the feishu config cannot replace their
@@ -102,11 +73,8 @@ except Exception:  # optional platform config may be absent in a minimal checkou
 # The daily chain is invoked without --companies, so the default set must contain
 # every extra adapter company, not only the hardcoded 50. Hardcoded companies
 # keep their approved priority order; platform companies follow in config order
-# (beisen then moka, deduplicated against the hardcoded names because
-# 三七互娱 / 金山办公 / 鹰角网络 appear in both lists), then the bank block, then
-# the Ali/Tencent gap block, then the foreign Workday/SuccessFactors block, and
-# finally config-driven Feishu tenants (setdefault, so they never displace an
-# earlier adapter).
+# (beisen then moka) and are deduplicated against the hardcoded names, because
+# 三七互娱 / 金山办公 / 鹰角网络 appear in both lists; bank adapters come last.
 PLATFORM_COMPANIES = [name for name in REGISTRY if name not in COMPANIES]
 DEFAULT_COMPANIES = [*COMPANIES, *PLATFORM_COMPANIES]
 

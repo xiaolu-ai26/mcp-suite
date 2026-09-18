@@ -1,5 +1,5 @@
 {
-  "_README": "Platform-level recruit adapters config. One company = one line. Keys: beisen=<tenant> zhiye.com slug; moka=<org>/<siteId> (derived campus URL) or an object with explicit sites. Value is the canonical company name (string shorthand) or an object {name, host?, ignore_categories?, categories?, sites?}. Adding a line registers the company in qiuzhao.collector.p1_pipeline.REGISTRY via the platform module. Keys: feishu=<portal object> (config-driven Feishu jobs portal). Keys: workday=<tenant>/<region>/<site> (CXS); successfactors=<career-site host>. Workday value may be an object {name, search_text (string|{scope:str}), max_list_pages, campus_keywords, intern_keywords}; SuccessFactors value may be {name, query, country, page_size, max_list_pages, campus_keywords, intern_keywords}.",
+  "_README": "Platform-level recruit adapters config. One company = one line. Keys: beisen=<tenant> zhiye.com slug; moka=<org>/<siteId> (derived campus URL) or an object with explicit sites. Value is the canonical company name (string shorthand) or an object {name, host?, ignore_categories?, categories?, sites?}. Adding a line registers the company in qiuzhao.collector.p1_pipeline.REGISTRY via the platform module.",
   "beisen": {
     "csc108": {
       "name": "中信建投",
@@ -3301,27 +3301,5 @@
         }
       ]
     }
-  },
-  "workday": {
-    "nvidia/wd5/NVIDIAExternalCareerSite": "英伟达",
-    "citi/wd5/2": "花旗银行",
-    "jj/wd5/JJ": {
-      "name": "强生",
-      "search_text": {
-        "campus": "应届",
-        "default": "China"
-      }
-    },
-    "shell/wd3/ShellCareers": "壳牌",
-    "REDACTED": "英国石油",
-    "REDACTED": "美敦力",
-    "mmc/wd1/MMC": "奥纬咨询",
-    "marvell/wd1/MarvellCareers": "美满电子",
-    "herbertsmithfreehills/wd3/External": "史密夫斐尔"
-  },
-  "successfactors": {
-    "jobs.sap.com": "思爱普",
-    "jobs.zf.com": "采埃孚",
-    "jobs.boehringer-ingelheim.com": "勃林格殷格翰"
   }
 }

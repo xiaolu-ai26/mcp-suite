@@ -1,0 +1,11 @@
+# 须在 20260918c 之后叠加部署（overlay on top of 20260918c）
+# 生产文件覆盖到采集机同级：p1_feishu_public.py / p1_pipeline.py / p1_platform_companies.json；
+# p1_pipeline.py 相对 20260918c 仅追加飞书注册块，其余一字未动。
+# tests/ 为可选测试文件，覆盖到采集机 tests/。
+# p1_platform_companies.json 在 20260918c 的 beisen/moka 基础上新增 feishu 段与本次实测通过的租户。
+d5b74223ca83d84845089366ac38c089dd655df7766383a52c20e500b97cfcc2  p1_feishu_public.py
+fbb6577ecf2d5b82565468ddbf2e11e07872ff21ddad49820d96fcd0eef063d8  p1_pipeline.py
+0669a15f8cf39b8b1d368cc2abe49b0c35ec79e2b30429149c97634fc161fb20  p1_platform_companies.json
+e1048d845cd84477450bb6a5ba2475b16d8714fe808358943f50ecf8f875101e  tests/test_collector_next_integration.py
+1abd709a746f17b888e709a87dccc1a958f48212c9997be767ba10322eb02389  tests/test_p1_banks.py
+c8a4168b93cf6c180d106aba006a1edf6250f15514f7deeae0c847fa15be4528  tests/test_p1_platform_feishu.py
