@@ -59,6 +59,21 @@ try:
 except Exception:  # optional bank adapters may be absent in a minimal checkout
     pass
 
+# Ali/Tencent gap adapters (batch 2, 20260918e) register their companies the same
+# way and are appended here so the hardcoded 50 ordinals and the batch-1 block
+# above stay untouched.
+try:
+    from .alibaba_headless import merged_registry as _alibaba_registry
+    REGISTRY.update(_alibaba_registry())
+except Exception:  # optional Ali adapters may be absent in a minimal checkout
+    pass
+
+try:
+    from .tencent_music import merged_registry as _tencent_music_registry
+    REGISTRY.update(_tencent_music_registry())
+except Exception:  # optional Tencent Music adapter may be absent in a minimal checkout
+    pass
+
 # Foreign-company platform adapters (Workday CXS / SAP SuccessFactors). This is an
 # append-only block independent of the platform/bank blocks above, so it never touches
 # the hardcoded 50-ordinal list and merges cleanly with the other executors' blocks.
@@ -77,7 +92,7 @@ except Exception:  # optional platform config may be absent in a minimal checkou
 # every extra adapter company, not only the hardcoded 50. Hardcoded companies
 # keep their approved priority order; platform companies follow in config order
 # (beisen then moka) and are deduplicated against the hardcoded names, because
-# 三七互娱 / 金山办公 / 鹰角网络 appear in both lists; bank adapters come last.
+# 三七互娱 / 金山办公 / 鹰角网络 appear in both lists; bank adapters come last; the foreign Workday/SuccessFactors block follows.
 PLATFORM_COMPANIES = [name for name in REGISTRY if name not in COMPANIES]
 DEFAULT_COMPANIES = [*COMPANIES, *PLATFORM_COMPANIES]
 

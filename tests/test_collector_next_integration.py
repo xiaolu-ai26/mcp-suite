@@ -23,6 +23,11 @@ PLATFORM_ONLY = ('中信建投', '中金公司', '国信证券', '浙江民泰�
                  '安踏集团', '小天才', '信也科技')
 OVERLAP = ('三七互娱', '金山办公', '鹰角网络')
 BANK_ONLY = ('中国工商银行', '中国农业银行', '交通银行', '招商银行', '中信银行')
+# Append-only foreign-company block (Workday + SuccessFactors), registered after
+# the banks block so it never reorders the blocks that already shipped.
+FOREIGN_ONLY = ('英伟达', '花旗银行', '强生', '壳牌', '英国石油', '美敦力',
+                '奥纬咨询', '美满电子', '史密夫斐尔',
+                '思爱普', '采埃孚', '勃林格殷格翰')
 
 
 def validated(company, scope='campus'):
@@ -60,15 +65,21 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
     extra = [name for name in p.DEFAULT_COMPANIES if name not in p.COMPANIES]
     platform = [name for name in extra if name in PLATFORM_ONLY]
     banks = [name for name in extra if name in BANK_ONLY]
+    foreign = [name for name in extra if name in FOREIGN_ONLY]
     assert set(platform) == set(PLATFORM_ONLY)
     assert set(banks) == set(BANK_ONLY)
-    # p1_platform_companies.json lists beisen first, then moka; banks come last.
+    assert set(foreign) == set(FOREIGN_ONLY)
+    # Order of the append-only blocks: beisen then moka (as in the config), then
+    # banks, then the foreign Workday/SuccessFactors block added last.
     assert platform.index('中信建投') < platform.index('安踏集团')
     assert platform[-1] == '信也科技'
     assert extra[:len(platform)] == platform
-    assert extra[-len(banks):] == banks
+    assert extra[len(platform):len(platform) + len(banks)] == banks
+    assert extra[-len(foreign):] == foreign
     for name in BANK_ONLY:
         assert p.REGISTRY[name] == 'qiuzhao.collector.p1_banks_01'
+    assert p.REGISTRY['英伟达'] == 'qiuzhao.collector.p1_platform_workday'
+    assert p.REGISTRY['思爱普'] == 'qiuzhao.collector.p1_platform_successfactors'
 
 
 def test_platform_company_runs_without_index_error_and_gets_unique_dir(tmp_path):
