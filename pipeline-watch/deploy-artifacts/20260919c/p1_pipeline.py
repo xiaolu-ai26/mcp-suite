@@ -138,24 +138,6 @@ try:
 except Exception:  # optional micro-site adapters may be absent in a minimal checkout
     pass
 
-# Foreign-company ATS adapters, batch A (20260919b). Eightfold AI public careers
-# tenants (惠普/微软/高通/应用材料/泛林) and Phenom People public careers tenants
-# (宝洁/玛氏/罗氏/波士顿咨询/ABB/飞利浦/默沙东/思科). Both read the JSON the
-# public careers page itself asks for; neither logs in, signs or solves anything.
-# Append-only independent registration block: it only adds names to REGISTRY, so
-# the hardcoded 50 ordinals and every earlier block stay byte-identical.
-try:
-    from .p1_platform_eightfold import merged_registry as _eightfold_registry
-    REGISTRY.update(_eightfold_registry())
-except Exception:  # optional Eightfold adapters may be absent in a minimal checkout
-    pass
-
-try:
-    from .p1_platform_phenom import merged_registry as _phenom_registry
-    REGISTRY.update(_phenom_registry())
-except Exception:  # optional Phenom adapters may be absent in a minimal checkout
-    pass
-
 # Foreign batch 3 (20260919c): Avature portals, iCIMS Career Portal and Oracle
 # Recruiting Cloud candidate-experience sites. Three more append-only registration
 # blocks placed after every existing block, so the hardcoded 50 ordinals and all
@@ -209,11 +191,6 @@ PLATFORM_MODULES = frozenset({
     # (same-host concurrency <= PLATFORM_WORKERS, >= PLATFORM_MIN_INTERVAL apart).
     'qiuzhao.collector.p1_foreign_01',
     'qiuzhao.collector.p1_platform_51job',
-    # Foreign batch A (20260919b): Eightfold AI and Phenom People are shared
-    # upstream platforms, so every tenant of each belongs to the platform gate
-    # (same-platform concurrency <= PLATFORM_WORKERS, >= PLATFORM_MIN_INTERVAL apart).
-    'qiuzhao.collector.p1_platform_eightfold',
-    'qiuzhao.collector.p1_platform_phenom',
     # Foreign batch 3 (20260919c): Avature portals (shared *.avature.net / branded
     # Avature hosts), iCIMS Career Portal and Oracle Recruiting Cloud all live on
     # shared upstream hosts, so they belong to the platform gate as well.
@@ -244,8 +221,6 @@ PLATFORM_HOST_GROUPS = {
     'qiuzhao.collector.tencent_music': 'tencent_music',
     'qiuzhao.collector.p1_foreign_01': 'hotjob.cn',
     'qiuzhao.collector.p1_platform_51job': '51job.com',
-    'qiuzhao.collector.p1_platform_eightfold': 'eightfold',
-    'qiuzhao.collector.p1_platform_phenom': 'phenom',
     # Foreign batch 3 (20260919c). Avature portals share the *.avature.net front end;
     # iCIMS portals share the iCIMS Career Portal; ORC tenants share Oracle Cloud HCM.
     'qiuzhao.collector.p1_platform_avature': 'avature',
@@ -269,7 +244,7 @@ def _load_scope_opt_ins():
     except Exception:  # optional platform config may be absent in a minimal checkout
         return opt_ins
     for section in ('beisen', 'moka', 'feishu', 'workday', 'successfactors',
-                    'dayee', 'job51', 'eightfold', 'phenom', 'avature', 'icims', 'orc'):
+                    'dayee', 'job51', 'avature', 'icims', 'orc'):
         entries = data.get(section)
         if not isinstance(entries, dict):
             continue

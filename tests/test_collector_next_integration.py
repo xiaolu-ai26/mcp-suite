@@ -41,12 +41,27 @@ EIGHTFOLD_ONLY = ('惠普', '微软', '高通', '应用材料', '泛林')
 PHENOM_ONLY = ('宝洁', '玛氏', '罗氏', '波士顿咨询', 'ABB', '飞利浦', '默沙东', '思科')
 DAYEE_ONLY = ('德勤', '康师傅', 'ZARA', '广汽集团', '益海嘉里', '迪卡侬', 'ZURU')
 JOB51_ONLY = ('百事',)
+# Foreign batch 3 (20260919c): Avature portals, the iCIMS Career Portal and Oracle
+# Recruiting Cloud candidate-experience sites, plus the three Workday tenants and
+# one SuccessFactors tenant whose earlier "China -> 0" reading was a scope/parser
+# artefact. The iCIMS section deliberately registers no company (every
+# China-relevant tenant publishes "Disallow: /"); the module still ships.
+AVATURE_MODULE = 'qiuzhao.collector.p1_platform_avature'
+ICIMS_MODULE = 'qiuzhao.collector.p1_platform_icims'
+ORC_MODULE = 'qiuzhao.collector.p1_platform_orc'
+AVATURE_ONLY = ('西门子', '欧莱雅', '艺电', '贝恩')
+ORC_ONLY = ('霍尼韦尔', '摩根大通', '康明斯', '艾默生', '洲际酒店', '万豪', '宣伟',
+            '阿卡迈', '百胜餐饮')
+WORKDAY_FIXED = ('可口可乐', '耐克', 'GSK')
+SF_FIXED = ('巴斯夫',)
 # 20260918h shipped 924 companies; this cumulative branch adds 字节跳动/美的集团
-# (20260918i), 22 new foreign-batch names (20260918j) and 13 foreign ATS tenants
-# from batch A (20260919b: Eightfold 5 + Phenom 8). 毕马威 was already registered
-# through an older moka tenant, so the batch's second kpmg tenant adds no company
-# — that is exactly the duplicate-name risk this file guards.
-EXPECTED_DEFAULT_COMPANIES = 961
+# (20260918i), 22 foreign-batch names (20260918j), 13 foreign ATS tenants from
+# batch A (20260919b: Eightfold 5 + Phenom 8) and 17 more names from the 20260919c
+# platform blocks, i.e. 948 + 13 + 17 = 978 names before the same-company conflict
+# handling is applied. 毕马威 keeps its older moka tenant and 德州仪器 keeps its
+# moka slot (the ORC tenant is deliberately not registered); the workday/eightfold/
+# phenom duplicate rows are parked by the collector-next-4 integration commit.
+EXPECTED_DEFAULT_COMPANIES = 978
 CONFIG_SECTION_MODULES = {
     'beisen': 'qiuzhao.collector.p1_platform_beisen',
     'moka': 'qiuzhao.collector.p1_platform_moka',
@@ -57,6 +72,9 @@ CONFIG_SECTION_MODULES = {
     'job51': JOB51_MODULE,
     'eightfold': EIGHTFOLD_MODULE,
     'phenom': PHENOM_MODULE,
+    'avature': AVATURE_MODULE,
+    'icims': ICIMS_MODULE,
+    'orc': ORC_MODULE,
 }
 
 
@@ -116,7 +134,14 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
     # Foreign batch A (20260919b) appended after the 51job block.
     eightfold_names = [n for n in extra if module_of(n) == EIGHTFOLD_MODULE]
     phenom_names = [n for n in extra if module_of(n) == PHENOM_MODULE]
+    # Foreign batch-3 blocks (20260919c) appended after the batch-A blocks.
+    avature_names = [n for n in extra if module_of(n) == AVATURE_MODULE]
+    icims_names = [n for n in extra if module_of(n) == ICIMS_MODULE]
+    orc_names = [n for n in extra if module_of(n) == ORC_MODULE]
 
+    assert set(AVATURE_ONLY) <= set(avature_names)
+    assert set(ORC_ONLY) <= set(orc_names)
+    assert icims_names == [], 'no iCIMS tenant may be registered while robots disallows'
     assert set(PLATFORM_ONLY) <= set(beisen_names) | set(moka_names)
     assert set(BANK_ONLY) <= set(bank_names)
     assert set(FOREIGN_ONLY) <= set(foreign_names)
@@ -124,7 +149,8 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
     coverage_blocks = (set(beisen_names) | set(moka_names) | set(bank_names) | set(ali_names)
                        | set(tme_names) | set(foreign_names) | set(feishu_names)
                        | set(public_api_names) | set(dayee_names) | set(job51_names)
-                       | set(eightfold_names) | set(phenom_names))
+                       | set(eightfold_names) | set(phenom_names)
+                       | set(avature_names) | set(icims_names) | set(orc_names))
     assert set(extra) == coverage_blocks
     assert set(EIGHTFOLD_ONLY) <= set(eightfold_names)
     assert set(PHENOM_ONLY) <= set(phenom_names)
@@ -148,6 +174,9 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
         ('51job', job51_names),
         ('eightfold', eightfold_names),
         ('phenom', phenom_names),
+        ('avature', avature_names),
+        ('icims', icims_names),
+        ('orc', orc_names),
     ]
     cursor = 0
     for label, names in block_order:
@@ -159,6 +188,27 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
         assert p.REGISTRY[name] == 'qiuzhao.collector.p1_banks_01'
     assert p.REGISTRY['英伟达'] == 'qiuzhao.collector.p1_platform_workday'
     assert p.REGISTRY['思爱普'] == 'qiuzhao.collector.p1_platform_successfactors'
+    for name in AVATURE_ONLY:
+        assert p.REGISTRY[name] == AVATURE_MODULE, name
+    for name in ORC_ONLY:
+        assert p.REGISTRY[name] == ORC_MODULE, name
+    # The 20260919c fixes keep their original platform owners.
+    for name in WORKDAY_FIXED:
+        assert p.REGISTRY[name] == 'qiuzhao.collector.p1_platform_workday', name
+    for name in SF_FIXED:
+        assert p.REGISTRY[name] == 'qiuzhao.collector.p1_platform_successfactors', name
+    # 德州仪器 must stay on its moka campus tenant (the ORC tenant of the same name
+    # was deliberately not registered so it cannot overwrite this slot).
+    assert p.REGISTRY['德州仪器'] == 'qiuzhao.collector.p1_platform_moka'
+
+
+def test_icims_module_still_exposes_the_collect_contract():
+    # Signed off but with an empty config: the module must stay importable so a
+    # future robots-permitted tenant is a one-line change.
+    import importlib
+    module = importlib.import_module(ICIMS_MODULE)
+    assert callable(module.collect)
+    assert module.COMPANIES == {}
 
 
 def test_every_registry_module_exposes_the_collect_contract():
@@ -299,7 +349,8 @@ def test_default_set_is_h_baseline_plus_i_j_and_a_additions():
     # 站长口径的 924 家 (20260918h) + 字节跳动/美的集团 + 外企第二批新增 22 家
     # + 外企 ATS 批 A 新增 13 家 (Eightfold 5 + Phenom 8) = 961.
     assert len(p.DEFAULT_COMPANIES) == EXPECTED_DEFAULT_COMPANIES
-    for name in (*PUBLIC_API_ONLY, *DAYEE_ONLY, *JOB51_ONLY, *EIGHTFOLD_ONLY, *PHENOM_ONLY):
+    for name in (*PUBLIC_API_ONLY, *DAYEE_ONLY, *JOB51_ONLY, *EIGHTFOLD_ONLY,
+                *PHENOM_ONLY, *AVATURE_ONLY, *ORC_ONLY, *WORKDAY_FIXED, *SF_FIXED):
         assert name in p.DEFAULT_COMPANIES, name
     assert p.REGISTRY['字节跳动'] == 'qiuzhao.collector.p1_bytedance_public'
     assert p.REGISTRY['美的集团'] == 'qiuzhao.collector.p1_midea_public'
