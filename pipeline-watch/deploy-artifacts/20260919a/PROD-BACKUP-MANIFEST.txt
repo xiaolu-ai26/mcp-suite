@@ -1,0 +1,34 @@
+Jingling (精灵) production original-backup manifest for deploy bundle 20260919a
+Generated on the Mac worktree, 2026-09-19 (Asia/Shanghai), branch feat/lark-reload-mirror.
+
+Purpose: record what every target file must look like on jingling BEFORE this bundle is
+copied. 20260919a only touches the base-sync step, so the premise is simple: jingling is
+running 20260918k (17/17 verified on 2026-09-18 20:27, IMPORT_OK 948 948).
+
+Target path on jingling                              PREMISE (jingling = 20260918k)                                    action
+---------------------------------------------------  ----------------------------------------------------------------  ----------------------------------
+deploy/windows_collector.py                          9eaf97cc5d4e968c062aaa65468ab34c584534a4ced5523d75c7c26229ec8312  overwrite (a content = k content + base-sync branch)
+qiuzhao/collector/lark_reload_mirror.py              ABSENT                                                            new in a
+qiuzhao/collector/lark_sync_index.py                 ABSENT (expected; main-branch only, never shipped in 20260918*)     new in a
+qiuzhao/collector/lark_sync_enrichment.py            ABSENT (expected; same as above)                                  new in a
+
+CAVEAT on lark_sync_index.py / lark_sync_enrichment.py: neither file was ever part of a
+20260918* deploy bundle, and the deployed windows_collector.py only calls lark_sync_daemon,
+which imports sync_lark_multivalue alone. So both are expected ABSENT. If either exists,
+it is drift: back it up, record its real sha256 in this file, and re-verify that nothing
+else in the deployed tree imports it before overwriting (nothing does today).
+
+PRE-EXISTING FILES THIS BUNDLE DEPENDS ON BUT DOES NOT SHIP (verify, do not overwrite):
+  qiuzhao/collector/sync_lark_multivalue.py   5c77cde828bae6f609684fe1c00606c85e50a69b0258dbab6bafc75ed3878ce0
+  qiuzhao/v4_fields.py                        3c08ed8dd5a67e723522ef5f9aee6f89ea52961d12bed6aadbd5a08d5fab1463
+  qiuzhao/collector/portable_runtime.py       1e40c5c215b97f374b38a558c55ce2e9ca46bea0654399cec7f88b56afd69bda
+  qiuzhao/normalize.py                        a53adaf33c891b5d8d8dd5b7531c0799b57666d5a62e987dc92ac22b9eb51b31
+  qiuzhao/collector/p1_pipeline.py            ff96be4d772847a0273003e2db0466d3ad698dc5cd719d968f40fb96abc8dc76
+                                              (identical to the 20260918k SHA256SUMS value, so k's copy is current)
+  lark-cli on PATH                             any version with `api` and `+field-search-options`; developed and
+                                              prototyped on 1.0.89 (1.0.96 available, upgrade not required)
+
+BACKUP SCOPE (same convention as 20260918*):
+  robocopy C:\mcp-suite-collector\deploy           C:\mcp-suite-backup-<stamp>\deploy           /E
+  robocopy C:\mcp-suite-collector\qiuzhao\collector C:\mcp-suite-backup-<stamp>\qiuzhao\collector /E
+  Do NOT back up or touch data\ or runs\ (3.4 GB recovery tree).
