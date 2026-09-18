@@ -28,28 +28,6 @@ BANK_ONLY = ('中国工商银行', '中国农业银行', '交通银行', '招商
 FOREIGN_ONLY = ('英伟达', '花旗银行', '强生', '壳牌', '英国石油', '美敦力',
                 '奥纬咨询', '美满电子', '史密夫斐尔',
                 '思爱普', '采埃孚', '勃林格殷格翰')
-# Public-API batch appended last (20260918i): both companies already own a legacy
-# id namespace in production, so their adapters publish coverage['stable_id_prefix'].
-PUBLIC_API_ONLY = ('字节跳动', '美的集团')
-# Foreign batch 2 (20260918j): Dayee hotjob.cn tenants + the 51job micro-site.
-DAYEE_MODULE = 'qiuzhao.collector.p1_foreign_01'
-JOB51_MODULE = 'qiuzhao.collector.p1_platform_51job'
-DAYEE_ONLY = ('德勤', '康师傅', 'ZARA', '广汽集团', '益海嘉里', '迪卡侬', 'ZURU')
-JOB51_ONLY = ('百事',)
-# 20260918h shipped 924 companies; this cumulative branch adds 字节跳动/美的集团
-# (20260918i) plus 22 new foreign-batch names (20260918j). 毕马威 was already
-# registered through an older moka tenant, so the batch's second kpmg tenant adds
-# no company — that is exactly the duplicate-name risk this file guards.
-EXPECTED_DEFAULT_COMPANIES = 948
-CONFIG_SECTION_MODULES = {
-    'beisen': 'qiuzhao.collector.p1_platform_beisen',
-    'moka': 'qiuzhao.collector.p1_platform_moka',
-    'feishu': 'qiuzhao.collector.p1_feishu_public',
-    'workday': 'qiuzhao.collector.p1_platform_workday',
-    'successfactors': 'qiuzhao.collector.p1_platform_successfactors',
-    'dayee': DAYEE_MODULE,
-    'job51': JOB51_MODULE,
-}
 
 
 def validated(company, scope='campus'):
@@ -97,29 +75,21 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
                      if module_of(n) in ('qiuzhao.collector.p1_platform_workday',
                                          'qiuzhao.collector.p1_platform_successfactors')]
     feishu_names = [n for n in extra if module_of(n) == 'qiuzhao.collector.p1_feishu_public']
-    # Append-only public-API block shipped after the Feishu block (20260918i):
-    # 字节跳动 and 美的集团 each keep a historical id namespace in production.
-    public_api_names = [n for n in extra
-                        if module_of(n) in ('qiuzhao.collector.p1_bytedance_public',
-                                            'qiuzhao.collector.p1_midea_public')]
-    # Foreign batch-2 blocks (20260918j) appended after the public-API block.
     dayee_names = [n for n in extra if module_of(n) == 'qiuzhao.collector.p1_foreign_01']
     job51_names = [n for n in extra if module_of(n) == 'qiuzhao.collector.p1_platform_51job']
 
     assert set(PLATFORM_ONLY) <= set(beisen_names) | set(moka_names)
     assert set(BANK_ONLY) <= set(bank_names)
     assert set(FOREIGN_ONLY) <= set(foreign_names)
-    assert set(PUBLIC_API_ONLY) <= set(public_api_names)
-    coverage_blocks = (set(beisen_names) | set(moka_names) | set(bank_names) | set(ali_names)
-                       | set(tme_names) | set(foreign_names) | set(feishu_names)
-                       | set(public_api_names) | set(dayee_names) | set(job51_names))
-    assert set(extra) == coverage_blocks
+    covered = (set(beisen_names) | set(moka_names) | set(bank_names) | set(ali_names)
+               | set(tme_names) | set(foreign_names) | set(feishu_names)
+               | set(dayee_names) | set(job51_names))
+    assert set(extra) == covered
 
     # Approved append order: beisen then moka, banks, Ali/Tencent gap, foreign
-    # Workday/SuccessFactors, config-driven Feishu, the 20260918i public-API batch
-    # (字节跳动/美的集团), then the 20260918j foreign batch-2 blocks (Dayee
-    # hotjob.cn, then 51job micro-sites). Every block stays contiguous and no
-    # block is interleaved with another.
+    # Workday/SuccessFactors, config-driven Feishu, then the batch-2 foreign
+    # blocks (Dayee hotjob.cn, then 51job micro-sites). Every block stays
+    # contiguous and no block is interleaved with another.
     block_order = [
         ('beisen', beisen_names),
         ('moka', moka_names),
@@ -128,7 +98,6 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
         ('tencent_music', tme_names),
         ('workday/successfactors', foreign_names),
         ('feishu', feishu_names),
-        ('public_api', public_api_names),
         ('dayee', dayee_names),
         ('51job', job51_names),
     ]
@@ -274,66 +243,3 @@ def test_deployable_windows_collector_uses_scope_timeout_and_workers():
     assert "state['stage']='base-sync'" in source
     assert 'lark_sync_daemon' in source
     assert 'lark_sync_index' not in source
-
-
-# --- 5. merged 20260918i + 20260918j registry guards --------------------------
-
-def test_default_set_is_h_baseline_plus_i_and_j_additions():
-    # 站长口径的 924 家 (20260918h) + 字节跳动/美的集团 + 外企第二批新增 = 948.
-    assert len(p.DEFAULT_COMPANIES) == EXPECTED_DEFAULT_COMPANIES
-    for name in (*PUBLIC_API_ONLY, *DAYEE_ONLY, *JOB51_ONLY):
-        assert name in p.DEFAULT_COMPANIES, name
-    assert p.REGISTRY['字节跳动'] == 'qiuzhao.collector.p1_bytedance_public'
-    assert p.REGISTRY['美的集团'] == 'qiuzhao.collector.p1_midea_public'
-    for name in DAYEE_ONLY:
-        assert p.REGISTRY[name] == DAYEE_MODULE, name
-    for name in JOB51_ONLY:
-        assert p.REGISTRY[name] == JOB51_MODULE, name
-    # Earlier blocks keep their owners after the merge.
-    assert p.REGISTRY['中信建投'] == 'qiuzhao.collector.p1_platform_beisen'
-    assert p.REGISTRY['英伟达'] == 'qiuzhao.collector.p1_platform_workday'
-    assert p.REGISTRY['思爱普'] == 'qiuzhao.collector.p1_platform_successfactors'
-    assert p.REGISTRY['中国工商银行'] == 'qiuzhao.collector.p1_banks_01'
-    assert p.REGISTRY['阿里巴巴'] == 'qiuzhao.collector.alibaba_headless'
-    assert p.REGISTRY['腾讯音乐'] == 'qiuzhao.collector.tencent_music'
-
-
-def _declared_config_names(section):
-    path = Path(p.__file__).with_name('p1_platform_companies.json')
-    data = json.loads(path.read_text(encoding='utf-8'))
-    names = []
-    for entry in (data.get(section) or {}).values():
-        name = entry if isinstance(entry, str) else str((entry or {}).get('name') or '')
-        if name:
-            names.append(name)
-    return names
-
-
-def test_registry_names_are_unique_and_config_sections_never_hijack_a_module():
-    # A duplicate canonical name would silently merge two adapters into one daily
-    # unit and drop one of them from the run plan. 高露洁 (beisen) and 高露洁棕榄
-    # (moka) are two distinct official names on purpose.
-    assert len(p.DEFAULT_COMPANIES) == len(set(p.DEFAULT_COMPANIES))
-    assert len(p.REGISTRY) == len(p.DEFAULT_COMPANIES)
-    assert set(p.REGISTRY) == set(p.DEFAULT_COMPANIES)
-    assert p.REGISTRY['高露洁'] == 'qiuzhao.collector.p1_platform_beisen'
-    assert p.REGISTRY['高露洁棕榄'] == 'qiuzhao.collector.p1_platform_moka'
-
-    declared = {section: _declared_config_names(section)
-                for section in CONFIG_SECTION_MODULES}
-    # No name may be declared by two different sections: the later block would
-    # silently replace the earlier block's adapter through REGISTRY.update().
-    owners = {}
-    for section, names in declared.items():
-        for name in set(names):
-            assert name not in owners, (name, owners.get(name), section)
-            owners[name] = section
-    # Every declared name resolves to its own section's module. A setdefault
-    # section (feishu) is allowed to leave an earlier dedicated adapter in place;
-    # anything else means the section hijacked a company it does not own.
-    for section, names in declared.items():
-        for name in names:
-            owner = p.REGISTRY[name]
-            if owner == CONFIG_SECTION_MODULES[section] or section == 'feishu':
-                continue
-            raise AssertionError((section, name, owner))

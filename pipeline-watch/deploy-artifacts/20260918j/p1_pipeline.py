@@ -99,27 +99,6 @@ try:
 except Exception:  # optional platform config may be absent in a minimal checkout
     pass
 
-# ByteDance public-API adapter (batch 3, 20260918i). 字节跳动 is not one of the
-# hardcoded 50, so this appends it as one more platform-style company with all
-# three scopes; it publishes the historical 'bytedance-<job post id>' identity via
-# coverage['stable_id_prefix'] so the 4171 existing rows are updated in place
-# instead of being duplicated under a fresh hash namespace.
-try:
-    from .p1_bytedance_public import merged_registry as _bytedance_registry
-    REGISTRY.update(_bytedance_registry())
-except Exception:  # optional ByteDance adapter may be absent in a minimal checkout
-    pass
-
-# Midea public school-recruitment adapter (same batch). 美的集团 also keeps its
-# historical 'midea-<positionId>' identity through the same opt-in prefix, so the
-# 146 live rows are refreshed instead of replaced.  Its social scope is blocked by
-# design: the public school API does not expose experienced postings.
-try:
-    from .p1_midea_public import merged_registry as _midea_registry
-    REGISTRY.update(_midea_registry())
-except Exception:  # optional Midea adapter may be absent in a minimal checkout
-    pass
-
 # Foreign-company dedicated adapters, batch 2 (Dayee hotjob.cn — Deloitte and the
 # other foreign employers on that multi-tenant portal). Append-only independent
 # registration block: it only adds names to REGISTRY, so the hardcoded 50 ordinals
@@ -143,12 +122,9 @@ except Exception:  # optional micro-site adapters may be absent in a minimal che
 # keep their approved priority order; platform companies follow in config order
 # (beisen then moka, deduplicated against the hardcoded names because
 # 三七互娱 / 金山办公 / 鹰角网络 appear in both lists), then the bank block, then
-# the Ali/Tencent gap block, then the foreign Workday/SuccessFactors block, then
-# config-driven Feishu tenants (setdefault, so they never displace an earlier
-# adapter), then the 20260918i public-API daily adapters (字节跳动/美的集团), and
-# finally the 20260918j foreign batch-2 blocks (Dayee hotjob.cn, then the 51job
-# micro-sites). The merge of 20260918i and 20260918j keeps both append-only
-# blocks verbatim, so no earlier company changes slot.
+# the Ali/Tencent gap block, then the foreign Workday/SuccessFactors block, and
+# finally config-driven Feishu tenants (setdefault, so they never displace an
+# earlier adapter).
 PLATFORM_COMPANIES = [name for name in REGISTRY if name not in COMPANIES]
 DEFAULT_COMPANIES = [*COMPANIES, *PLATFORM_COMPANIES]
 
@@ -164,11 +140,6 @@ PLATFORM_MODULES = frozenset({
     'qiuzhao.collector.p1_platform_workday',
     'qiuzhao.collector.p1_platform_successfactors',
     'qiuzhao.collector.p1_banks_01',
-    # Foreign batch 2 (20260918j): Dayee multi-tenant portal and 51job campus
-    # micro-sites are shared upstream hosts, so they belong to the platform gate
-    # (same-host concurrency <= PLATFORM_WORKERS, >= PLATFORM_MIN_INTERVAL apart).
-    'qiuzhao.collector.p1_foreign_01',
-    'qiuzhao.collector.p1_platform_51job',
 })
 PLATFORM_DEFAULT_SCOPES = ('campus', 'intern', 'social')
 # Per-platform concurrency cap and minimum spacing between same-host unit launches.
@@ -191,8 +162,6 @@ PLATFORM_HOST_GROUPS = {
     'qiuzhao.collector.p1_banks_01': 'banks',
     'qiuzhao.collector.alibaba_headless': 'alibaba',
     'qiuzhao.collector.tencent_music': 'tencent_music',
-    'qiuzhao.collector.p1_foreign_01': 'hotjob.cn',
-    'qiuzhao.collector.p1_platform_51job': '51job.com',
 }
 
 
@@ -210,8 +179,7 @@ def _load_scope_opt_ins():
         data = json.loads(Path(CONFIG_PATH).read_text(encoding='utf-8'))
     except Exception:  # optional platform config may be absent in a minimal checkout
         return opt_ins
-    for section in ('beisen', 'moka', 'feishu', 'workday', 'successfactors',
-                    'dayee', 'job51'):
+    for section in ('beisen', 'moka', 'feishu', 'workday', 'successfactors'):
         entries = data.get(section)
         if not isinstance(entries, dict):
             continue
@@ -434,18 +402,7 @@ def validate_result(payload, company, scope, evidence_dir=None):
         row['parent_unit_raw'] = ' / '.join(dict.fromkeys([company, str(row.get('parent_unit_raw') or company)]))
         row['recruiting_unit_raw'] = row.get('recruiting_unit_raw') or row['recruitment_unit']
         row['reviewed_at'] = row.get('reviewed_at') or now()
-        # Identity is normally a fresh company|scope|source hash.  An adapter that
-        # already owns a historical id namespace (ByteDance: 4171 live rows under
-        # 'bytedance-<job post id>') may declare coverage['stable_id_prefix']; its
-        # own ids are then kept so the merge updates those rows instead of adding a
-        # duplicate company under a new hash namespace.  The prefix is opt-in and
-        # must match the adapter-supplied id, so no other adapter changes identity.
-        prefix = str(coverage.get('stable_id_prefix') or '')
-        supplied = str(row.get('id') or '')
-        if prefix and supplied.startswith(prefix) and len(supplied) > len(prefix):
-            row['id'] = supplied
-        else:
-            row['id'] = 'p1-' + hashlib.sha256(f'{company}|{scope}|{source_id}'.encode()).hexdigest()[:24]
+        row['id'] = 'p1-' + hashlib.sha256(f'{company}|{scope}|{source_id}'.encode()).hexdigest()[:24]
         row['p1_identity'] = row['id']
         row['status'] = row.get('status') if row.get('status') in {'open', 'unverified', 'expired'} else 'unverified'
         years = graduation_of(row)[0]
