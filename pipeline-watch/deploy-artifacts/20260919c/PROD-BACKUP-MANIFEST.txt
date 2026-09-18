@@ -1,0 +1,36 @@
+Jingling (精灵) production original-backup manifest for deploy bundle 20260919c
+Generated on the Mac worktree, 2026-09-19 (Asia/Shanghai), branch feat/foreign-ats-b.
+
+Purpose: record the byte-exact sha256 every target file must have on jingling BEFORE
+this bundle is copied. 20260918k was deployed on 2026-09-18 20:27 and verified 17/17,
+so exactly ONE premise is possible now:
+
+  PREMISE 1: jingling runs the deployed 20260918k bundle (expected).
+
+If the real pre-deploy hash of a file differs from the value below, STOP: record the
+real hash, back the file up anyway and treat the difference as drift (another bundle
+deployed out of band; its DEPLOY-NOTES carry their own expected hashes). ABSENT means
+the file must not exist; if it does, back it up and note it.
+
+Target path on jingling                          PREMISE 1 pre-deploy sha256 (== 20260918k)                action
+-----------------------------------------------  --------------------------------------------------------  ------------------------------------
+qiuzhao/collector/p1_pipeline.py                 ff96be4d772847a0273003e2db0466d3ad698dc5cd719d968f40fb96abc8dc76  overwrite
+qiuzhao/collector/p1_platform_companies.json     bf592f62cd644a20d16e948027832763da268d236439be6dba1d95dc1980f843  overwrite
+qiuzhao/collector/p1_platform_successfactors.py  658c81c07bd4ebda62735662dfac54722dccc830517072e3a40d9329701f1216  overwrite
+qiuzhao/collector/p1_platform_avature.py         ABSENT                                                        add
+qiuzhao/collector/p1_platform_icims.py           ABSENT                                                        add
+qiuzhao/collector/p1_platform_orc.py             ABSENT                                                        add
+
+Post-deploy expectation (must equal SHA256SUMS.txt in this bundle):
+qiuzhao/collector/p1_pipeline.py                 a411a0f2c78bd58cd91341adc566ad7d6c705e8463872eb5670744ce4aae005f
+qiuzhao/collector/p1_platform_companies.json     8c7fc2e786a6e2d072b05c69c06de73e180e02d38d47c0722a4760415f79d966
+qiuzhao/collector/p1_platform_successfactors.py  ea8eedd4017287bfd57a6606fc1cd763018340228efc4e5ada8f7614017d7e30
+qiuzhao/collector/p1_platform_avature.py         1ca801ebd6be2fd48c3ed8812c148efc1b8ef8a4886e6ba648afcce12c868149
+qiuzhao/collector/p1_platform_icims.py           93134ef311721bf697c85eb438c34f890c841c88050e222161ca314a528c6416
+qiuzhao/collector/p1_platform_orc.py             10e3195b9b6d4cccc9717caf4de655bc407bde0ec7a5e8256fa8a2bca283905c
+
+Rollback: restore p1_pipeline.py / p1_platform_companies.json /
+p1_platform_successfactors.py from the 20260918k-2020 backup directory
+(C:\mcp-suite-backup-20260918-2020\) and delete the three new p1_platform_{avature,
+icims,orc}.py files. After rollback the 20260919c companies leave the daily chain and
+every 20260918k company keeps working unchanged.
