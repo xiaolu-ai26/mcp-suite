@@ -159,7 +159,7 @@ def main():
             env=dict(os.environ,PYTHONUTF8='1',PYTHONIOENCODING='utf-8',QIUZHAO_DATA_DIR=str(stage),QIUZHAO_SKIP_SERVICE_RESTART='1')
             steps=[('basic',['-m','qiuzhao.collector.run','--output-dir',str(stage),'--source','boc' if a.smoke else 'all','--delay','2'],180 if a.smoke else 7200)]
             if not a.smoke:
-                steps += [('tencent',['-m','qiuzhao.collector.auto_collect','--skip-basic-collectors'],1800),('p1',['-m','qiuzhao.collector.p1_pipeline','--data-dir',str(stage),'--apply','--resume-latest','--timeout','1200','--max-run-seconds','18000'],18100)]
+                steps += [('tencent',['-m','qiuzhao.collector.auto_collect','--skip-basic-collectors'],1800),('p1',['-m','qiuzhao.collector.p1_pipeline','--data-dir',str(stage),'--apply','--resume-latest','--scope-timeout','600','--workers','4','--max-run-seconds','18000'],18100)]
             steps += [('normalize',['-m','qiuzhao.normalize','--path',str(stage/'jobs.json')],1800)]
             for stale in run.glob('*.before.json'):
                 if stale.name=='jobs.before.json':continue
@@ -214,35 +214,9 @@ def main():
             if not a.no_sync:
                 if not sync_owner_ready():
                     raise ValueError('Base sync ownership handoff pending; old Mac writer must drain first')
-                # Website publication already succeeded above. The Base mirror is
-                # only an eventually-consistent consumer: hand the attested
-                # published snapshot to the mirror queue, then run the bounded
-                # incremental mirror under its own sync lock. A mirror failure is
-                # recorded with its phase but never rolls back publication or
-                # blocks the next collection; the persistent index/journal resume it.
-                state['stage']='base-mirror';atomic_json(statepath,state)
-                published_sha=digest(Path(published))
-                from qiuzhao.collector import lark_sync_index as mirror_index
-                state['mirror_intent']=mirror_index.enqueue_intent(ROOT/'data/mirror-queue',
-                    published_path=ROOT/'data/jobs.json',sha256=published_sha,
-                    published_receipt=state.get('publication'))
-                atomic_json(statepath,state)
-                mirror_state_path=ROOT/'data/lark-sync'
-                try:
-                    mirror_exit=step(['-m','qiuzhao.collector.lark_sync_index','--source',str(ROOT/'data/jobs.json'),
-                        '--sha256',published_sha,'--index',str(mirror_state_path/'mirror-index.json'),
-                        '--journal',str(mirror_state_path/'mirror-journal.json'),
-                        '--run-dir',str(run/'mirror'),'--scope','complete'],run/'mirror.log',env,7200)
-                except Exception as mirror_error:
-                    mirror_exit=None
-                    state['mirror_error']=type(mirror_error).__name__+': '+str(mirror_error)[:500]
-                receipt_path=run/'mirror'/'mirror-receipt.json'
-                state['mirror_receipt']=(json.loads(receipt_path.read_text(encoding='utf-8'))
-                                         if receipt_path.exists() else {'status':'mirror_failed_no_receipt','exit_code':mirror_exit})
-                state['mirror_receipt']['exit_code']=mirror_exit
-                state['sync_exit']=0 if mirror_exit==0 else None
-                atomic_json(statepath,state)
-            state['finished']=all(v==0 for v in state['steps'].values());state['success']=all(v==0 for v in state['steps'].values())
+                state['stage']='base-sync';atomic_json(statepath,state)
+                state['sync_exit']=step(['-m','qiuzhao.collector.lark_sync_daemon','--source-path',str(ROOT/'data/jobs.json'),'--state-dir',str(ROOT/'data/lark-sync'),'--runs-dir',str(ROOT/'data/lark-sync/runs'),'--apply'],run/'sync.log',env,21600)
+            state['finished']=all(v==0 for v in state['steps'].values()) and (a.no_sync or state.get('sync_exit')==0);state['success']=all(v==0 for v in state['steps'].values()) and (a.no_sync or state.get('sync_exit')==0)
         except Exception as e:
             state['error']=type(e).__name__+': '+str(e)[:500];state['success']=False
         state['stage']='completed' if state.get('success') else 'partial-or-failed'

@@ -6,8 +6,9 @@ One adapter covers every tenant: adding a company is one line in
 returning ``{'jobs': [...], 'coverage': {...}}`` and writing the same evidence.
 
 Request budget: ``QIUZHAO_PLATFORM_REQUEST_BUDGET`` (or the ``max_requests``
-argument) caps network calls per tenant per run. The verification runs use 20 to
-stay polite in front of the Beisen WAF; production leaves it unset.
+argument) caps network calls per tenant per run. Production defaults to no cap
+(``DEFAULT_REQUEST_BUDGET = None``); the offline verification runs set 20 only to
+stay polite in front of the Beisen WAF, which would truncate a large tenant.
 """
 from __future__ import annotations
 import json
@@ -33,6 +34,12 @@ FIELDS = ['LocId', 'Degree', 'Kind', 'OrgId', 'Category', 'PostDate', 'HeadCount
 # Details are fetched for verification (and as a fallback when the list omits
 # role text), never above the remaining request budget.
 DETAIL_VERIFY_LIMIT = 5
+# Production default: no cap. Budgeting is an opt-in politeness guard; the offline
+# verification runs pass 20 on purpose via QIUZHAO_PLATFORM_REQUEST_BUDGET /
+# max_requests. A low default would truncate a healthy tenant: 安踏集团 alone has
+# 158 published rows, which needs far more than 20 list/detail requests. A run is
+# still bounded per scope by the pipeline's --scope-timeout / --max-run-seconds.
+DEFAULT_REQUEST_BUDGET = None
 UA = ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 '
       '(KHTML, like Gecko) Chrome/124.0 Safari/537.36')
 
@@ -109,7 +116,7 @@ def _budget_limit(max_requests):
     if max_requests is not None:
         return int(max_requests)
     raw = os.environ.get('QIUZHAO_PLATFORM_REQUEST_BUDGET')
-    return int(raw) if raw and raw.strip() else None
+    return int(raw) if raw and raw.strip() else DEFAULT_REQUEST_BUDGET
 
 
 def _make_session():

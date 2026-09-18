@@ -143,7 +143,7 @@ def test_guopin_partial_accepted_and_removal_scoped_to_complete_campaigns(tmp_pa
     assert states['guopin']['campaigns']['cgnpc']['status'] == 'failed'
 
 
-GUOPIN_DOMAINS = ['zgyd', 'ceec', 'cgnpc', 'cam2027', 'casicjob', 'zglt']
+GUOPIN_DOMAINS = ['zgyd', 'ceec', 'cam2027', 'casicjob', 'zglt']
 
 
 def fake_guopin_api(advertised):
@@ -174,18 +174,20 @@ def fake_guopin_api(advertised):
 
 
 def test_collect_guopin_one_campaign_delisted_marks_partial(tmp_path, monkeypatch):
-    advertised = [d for d in GUOPIN_DOMAINS if d != 'cgnpc']
+    # cgnpc is no longer hardcoded (auto-campaign branch); delist zglt instead to
+    # exercise the same "one campaign gone => partial, not rejected" semantics.
+    advertised = [d for d in GUOPIN_DOMAINS if d != 'zglt']
     monkeypatch.setattr(G, 'public_api', fake_guopin_api(advertised))
     collector = R.Collector(tmp_path, delay=0)
     rows = G.collect_guopin(collector)
-    assert len(rows) == 5
+    assert len(rows) == 4
     state = collector.states['guopin']
     assert state['status'] == 'partial'
     assert state['complete'] is False
-    assert state['campaigns']['cgnpc']['status'] == 'failed'
-    assert 'no longer advertises' in state['campaigns']['cgnpc']['error']
+    assert state['campaigns']['zglt']['status'] == 'failed'
+    assert 'no longer advertises' in state['campaigns']['zglt']['error']
     assert all(state['campaigns'][d]['status'] == 'success' for d in advertised)
-    assert [a['source'] for a in collector.alerts] == ['guopin:cgnpc']
+    assert [a['source'] for a in collector.alerts] == ['guopin:zglt']
 
 
 def test_collect_guopin_all_campaigns_failed_stays_rejected(tmp_path, monkeypatch):

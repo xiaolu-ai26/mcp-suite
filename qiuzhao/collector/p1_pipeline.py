@@ -51,6 +51,14 @@ try:
 except Exception:  # optional platform config may be absent in a minimal checkout
     pass
 
+# The daily chain is invoked without --companies, so the default set must contain
+# every platform-adapter company, not only the hardcoded 50. Hardcoded companies
+# keep their approved priority order; platform companies follow in config order
+# (beisen then moka) and are deduplicated against the hardcoded names, because
+# 三七互娱 / 金山办公 / 鹰角网络 appear in both lists.
+PLATFORM_COMPANIES = [name for name in REGISTRY if name not in COMPANIES]
+DEFAULT_COMPANIES = [*COMPANIES, *PLATFORM_COMPANIES]
+
 
 def now():
     return dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds')
@@ -408,6 +416,21 @@ def checkpoint_path(data_dir, companies, scopes):
     return Path(data_dir) / 'p1-checkpoints' / (key + '.json')
 
 
+def resume_compatible(checkpoint, companies, scopes):
+    """Can this checkpoint continue into the requested selection?
+
+    A checkpoint resumes when the scopes match and its company set is a subset of
+    the request. Platform companies are appended to the default set as one line is
+    added to ``p1_platform_companies.json``; those additions must not look like a
+    broken resume. Existing validated results are reused and only the added
+    companies run. A removed or otherwise different selection is a genuine
+    mismatch: callers must start a new run instead of reusing stale results.
+    """
+    if list(checkpoint.get('scopes') or []) != list(scopes):
+        return False
+    return set(checkpoint.get('companies') or []).issubset(set(companies))
+
+
 def any_validated(status):
     """A scope counts as trustworthy output only when its validated coverage
     actually reached the shared store: success (complete snapshot, may add,
@@ -544,10 +567,20 @@ def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=F
     status_path = run_dir / 'status.json'
     if status_path.exists() and not resume:
         raise ValueError('run directory already exists; use --resume or a new directory')
-    status = json.loads(status_path.read_text(encoding='utf-8')) if resume and status_path.exists() else {
-        'started_at': now(), 'run_dir': str(run_dir), 'companies': companies, 'scopes': scopes, 'results': {}, 'publications': []}
-    if status['companies'] != companies or status['scopes'] != scopes:
-        raise ValueError('resume company/scope selection differs from checkpoint')
+    fresh = {'started_at': now(), 'run_dir': str(run_dir), 'companies': list(companies),
+             'scopes': list(scopes), 'results': {}, 'publications': []}
+    if resume and status_path.exists():
+        status = json.loads(status_path.read_text(encoding='utf-8'))
+        if resume_compatible(status, companies, scopes):
+            # Pure addition (platform companies appended to the default set): reuse
+            # every validated result and run only the new companies.
+            status['companies'] = list(companies)
+        else:
+            # A removed/different selection is a new run, not a fatal resume
+            # mismatch: restart in place instead of failing the whole day.
+            status = fresh
+    else:
+        status = fresh
     retry_queue = load_retry_queue(data_dir)
     state_lock = threading.Lock()
 
@@ -570,7 +603,11 @@ def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=F
 
     def run_unit(company, scope):
         key = f'{company}/{scope}'
-        ordinal = COMPANIES.index(company) + 1
+        # Position in this run's company list, not the hardcoded COMPANIES, so
+        # platform-adapter companies get a directory instead of an index error.
+        # Hardcoded companies stay first, so their ordinals (and any resume of the
+        # same selection) are unchanged.
+        ordinal = companies.index(company) + 1
         output = run_dir / f'{ordinal:02d}' / scope
         with state_lock:
             saved = status['results'].get(key)
@@ -674,7 +711,8 @@ def main():
     parser.add_argument('--output-dir', type=Path)
     parser.add_argument('--data-dir', type=Path, default=Path('/var/lib/mcp-suite'))
     parser.add_argument('--run-dir', type=Path)
-    parser.add_argument('--companies', help='comma-separated exact company names; default all 50')
+    parser.add_argument('--companies', help='comma-separated exact company names; '
+                        'default all hardcoded + platform-adapter companies')
     parser.add_argument('--scopes', default=','.join(SCOPES))
     parser.add_argument('--timeout', type=int, default=None,
                         help='legacy per-scope timeout in seconds; --scope-timeout takes precedence')
@@ -699,7 +737,7 @@ def main():
         parser.error('--workers must be between 1 and 6')
     scope_timeout = args.scope_timeout if args.scope_timeout is not None else (
         args.timeout if args.timeout is not None else 600)
-    companies = args.companies.split(',') if args.companies else COMPANIES
+    companies = args.companies.split(',') if args.companies else DEFAULT_COMPANIES
     scopes = args.scopes.split(',')
     if any(c not in REGISTRY for c in companies) or any(s not in SCOPES for s in scopes):
         parser.error('unknown company or scope')

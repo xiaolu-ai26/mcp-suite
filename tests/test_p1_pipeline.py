@@ -257,7 +257,7 @@ class P1Tests(unittest.TestCase):
                 with patch('sys.argv', ['p1', '--data-dir', str(root), '--companies', '大疆',
                                        '--scopes', 'campus', '--resume-latest']):
                     self.assertEqual(p.main(), 0)
-                self.assertEqual(collect.call_args.args[2], first / '02' / 'campus')
+                self.assertEqual(collect.call_args.args[2], first / '01' / 'campus')
             self.assertFalse(json.loads((second / 'status.json').read_text())['run_finished'])
             self.assertTrue(json.loads((first / 'status.json').read_text())['run_finished'])
 

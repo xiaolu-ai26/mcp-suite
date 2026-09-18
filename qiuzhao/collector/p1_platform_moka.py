@@ -6,7 +6,9 @@ logic from ``p1_sources_01_10`` (``request_json`` / ``moka_detail_cached`` /
 ``apply_moka_status``) and keeps the exact ``p1_sources_*`` result contract.
 
 Request budget: ``QIUZHAO_PLATFORM_REQUEST_BUDGET`` (or ``max_requests``) caps
-network calls per tenant per run; the verification runs use 20.
+network calls per tenant per run. Production defaults to no cap
+(``DEFAULT_REQUEST_BUDGET = None``); the offline verification runs set 20 only as
+a politeness limit, which would truncate a large org.
 """
 from __future__ import annotations
 import html as _html
@@ -29,6 +31,11 @@ MODULE_PATH = 'qiuzhao.collector.p1_platform_moka'
 SITE_RE = re.compile(r'/(?:(?:campus|social)-recruitment|campus_apply|apply)/([^/]+)/(\d+)')
 UA = ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 '
       '(KHTML, like Gecko) Chrome/124.0 Safari/537.36')
+# Production default: no cap. The per-tenant request budget is an opt-in guard for
+# polite/offline verification (the verification runs pass 20). A low default would
+# truncate a healthy org's listing (安踏集团 has 158 published rows, >20 requests);
+# per-scope wall-clock is still bounded by --scope-timeout / --max-run-seconds.
+DEFAULT_REQUEST_BUDGET = None
 
 
 class BudgetExhausted(RuntimeError):
@@ -100,7 +107,7 @@ def _budget_limit(max_requests):
     if max_requests is not None:
         return int(max_requests)
     raw = os.environ.get('QIUZHAO_PLATFORM_REQUEST_BUDGET')
-    return int(raw) if raw and raw.strip() else None
+    return int(raw) if raw and raw.strip() else DEFAULT_REQUEST_BUDGET
 
 
 def _make_session():
