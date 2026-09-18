@@ -40,7 +40,9 @@ JOB51_ONLY = ('百事',)
 # (20260918i) plus 22 new foreign-batch names (20260918j). 毕马威 was already
 # registered through an older moka tenant, so the batch's second kpmg tenant adds
 # no company — that is exactly the duplicate-name risk this file guards.
-EXPECTED_DEFAULT_COMPANIES = 948
+# 948 (20260918k) + foreign-discovery 20260919d: +1 beisen, +4 moka, +3 dayee,
+# +6 51job, +2 workday = 964.
+EXPECTED_DEFAULT_COMPANIES = 964
 CONFIG_SECTION_MODULES = {
     'beisen': 'qiuzhao.collector.p1_platform_beisen',
     'moka': 'qiuzhao.collector.p1_platform_moka',
@@ -279,7 +281,8 @@ def test_deployable_windows_collector_uses_scope_timeout_and_workers():
 # --- 5. merged 20260918i + 20260918j registry guards --------------------------
 
 def test_default_set_is_h_baseline_plus_i_and_j_additions():
-    # 站长口径的 924 家 (20260918h) + 字节跳动/美的集团 + 外企第二批新增 = 948.
+    # 站长口径的 924 家 (20260918h) + 字节跳动/美的集团 + 外企第二批新增 = 948,
+    # + 外企发现批 20260919d 净增 16 家 = 964.
     assert len(p.DEFAULT_COMPANIES) == EXPECTED_DEFAULT_COMPANIES
     for name in (*PUBLIC_API_ONLY, *DAYEE_ONLY, *JOB51_ONLY):
         assert name in p.DEFAULT_COMPANIES, name
