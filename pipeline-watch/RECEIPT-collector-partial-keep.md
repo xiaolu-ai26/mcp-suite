@@ -243,3 +243,74 @@ def any_validated(status):
 5. **p1 非 --apply(dry-run）调用**时退出码也可能为 2，但此时无实际合并；只有手工/测试走这条路，日常链总是 --apply。
 6. 任务书称基线"11 failed / 70 errors"，实测为 39 failed / 0 error（两次全量一致），以实测为准；差异原因未深究（可能口径/环境不同）。
 7. **D 验证夜新暴露的"接近完整但差几条"型失败**:postal(unique=2642/2651，抓取中列表变化）、guopin zglt(2578/2580）被校验门正确拒收。这类失败靠重试大概率能过，但 run.py 目前没有来源内重试；建议后续单独评估"来源级一次重试"，不在本次范围（本次刻意不放松任何校验）。
+
+## F. 部署记录(20260918,Max 11:20 批准上线,执行者实测)
+
+### F0. 部署前状态复核(只读)
+
+- 精灵 `runs\20260918\receipt.json`(06:10 起跑的当日常规任务)在 13:00 只读核实:`completed_at=2026-09-18T12:50:45`,`steps={basic:1,tencent:0,p1:1,normalize:0}`,`total_jobs=92532`,`publication.published=true`,`sync_requested=true`,`sync_exit=0`。`Get-CimInstance Win32_Process -Filter "Name='python.exe'"` 无返回(无 windows_collector.py/p1_pipeline/lark_sync 相关进程)。`data\lark-sync\status.json`:`status=success`,`finished_at=2026-09-18T04:50:45Z`(=12:50:45+08)。三个只读条件同时满足,判定当日跑批已结束,直接从第 2 步开始。
+- 顺手核对当日飞书同步结果(部署前基线,非本次部署触发):`data\lark-sync\runs\20260918T120131523462\business-sync.json` → `changed=1231`,`finished=true`;`status.json` 显示 `last_attempt_at=2026-09-18T04:01:27Z`(=12:01:31+08 起)→`finished_at=2026-09-18T04:50:45Z`(=12:50:45+08),耗时约 49 分钟。较昨日同口径 `changed=92722` 下降两个数量级——这是昨晚"链接比较"修复上线后的首次实测,结果符合预期,判定通过。
+
+### F1. 备份(第 2 步,过程有波折)
+
+- 初次按任务书跑全目录 `robocopy C:\mcp-suite-collector C:\mcp-suite-backup-20260918 /E /XD .venv runs data` 后台执行 12 分钟仅拷贝 14 个文件。总控只读排查发现:上一位执行者(Kimi)断线前遗留的孤儿进程 PID 12872(12:53 启动)与本执行者本次启动的 PID 3208(13:01)两个 robocopy 同时写同一目标目录,互相锁文件、每次重试等 30 秒,导致几乎不推进。经 `Get-CimInstance Win32_Process -Filter "Name='robocopy.exe'"` 确认两个进程的 `CommandLine` 均为指向 `C:\mcp-suite-backup-20260918` 的 robocopy(非生产进程)后,`Stop-Process -Id 12872,3208 -Force` 终止;确认后 `robocopy.exe` 进程列表为空。
+- 改为定向备份:`robocopy C:\mcp-suite-collector\deploy C:\mcp-suite-backup-20260918\deploy /E /R:2 /W:5`(exit=0)与 `robocopy C:\mcp-suite-collector\qiuzhao C:\mcp-suite-backup-20260918\qiuzhao /E /R:2 /W:5`(exit=1,均 ≤7,成功);`core`、`keys` 已在此前全目录 robocopy 里落地,未受影响。
+- 备份内 4 个目标文件 sha256(`Get-FileHash`)与部署前哈希/`SHA256SUMS.txt` 回滚件核对:
+
+| 文件 | 备份哈希 | 核对结果 |
+|---|---|---|
+| `qiuzhao\collector\run.py` | `11C8B59085DBD4079F3EB9122192763F4E307DC0645B87EC168F5129440C123F` | 前 8 位 `11c8b590`,与部署前一致 |
+| `qiuzhao\collector\guopin.py` | `7E1FF1A6F68D42CFA5FA23167309B5CDC0D5003150BA67816153718EEDAE863D` | 前 8 位 `7e1ff1a6`,与部署前一致 |
+| `qiuzhao\collector\p1_pipeline.py` | `505AA72559563D6B0A52CF557DDC488D1E83F06C569D43E5A4668F70168CC426` | 前 8 位 `505aa725`,与部署前一致 |
+| `deploy\windows_collector.py` | `EA28C7B767A3939164237BFF3913F2B8D417ECE1CA1AEEBD4DA64D622BBEE2A9` | 与 `windows_collector.prod-20260913.orig.py` 完整 sha256 **逐字符一致** |
+
+四项核对全部通过,进入第 3 步。
+
+### F2. 传输(第 3 步)
+
+- 4 个部署件用 `git show fix/collector-partial-keep:pipeline-watch/deploy-artifacts/20260918/<文件>` 取(主工作区保持 main,未切换),本地 `shasum -a 256` 与 `SHA256SUMS.txt` 先行核对一致。
+- 传输方法:base64 分片(每片 1400 字节)+ `powershell -NoProfile -EncodedCommand`(UTF-16LE)逐片 `Add-Content` 写入精灵 `C:\mcp-suite-deploy-20260918\<文件>.b64`(run.py 22 片、guopin.py 14 片、p1_pipeline.py 30 片、windows_collector.py 14 片,共 80 片全部发送成功),最后 `[Convert]::FromBase64String` 解码写出二进制并删除临时 `.b64`。
+- 精灵侧 `Get-FileHash` 结果与 `SHA256SUMS.txt` 逐字节比对:
+
+| 文件 | 精灵侧哈希 | 长度(字节) | 结果 |
+|---|---|---|---|
+| `run.py` | `5E94F91B770EF02BFAD887E10BB6FAB3405D8B184A81B98DF9D14FE28C266B28` | 22709 | 一致 |
+| `guopin.py` | `22E5F6AD0B66487BA7F6CCAEE041DA67C668D7ED98AEAA10408D7DC95A0ABF89` | 13739 | 一致 |
+| `p1_pipeline.py` | `DC046E32F37D7482AC56222898D122EDB52D93D8B48FED4F3C5C2C67770FDB90` | 30959 | 一致 |
+| `windows_collector.py` | `14E17785CCFF51F94AEA519BEE1637582D974C6D65540EE6F379954B08C90C4A` | 14265 | 一致 |
+
+4/4 通过,进入第 4 步。
+
+### F3. 覆盖(第 4 步)
+
+- `Copy-Item -Force` 覆盖:`qiuzhao\collector\run.py`、`qiuzhao\collector\guopin.py`、`qiuzhao\collector\p1_pipeline.py`、`deploy\windows_collector.py`,仅这 4 个路径,未动 `.venv`/`data`/`runs`。
+- 覆盖后对 4 个目标路径各重算一次 sha256,与 `SHA256SUMS.txt` 逐一比对:**4/4 MATCH=True**(与 F2 表中精灵侧哈希相同)。
+- 编译/导入检查(cwd=`C:\mcp-suite-collector`,正式 venv `C:\mcp-suite-collector\.venv\Scripts\python.exe`):`python -m py_compile qiuzhao\collector\run.py qiuzhao\collector\guopin.py qiuzhao\collector\p1_pipeline.py deploy\windows_collector.py` → **exit=0**;`python -c "import deploy.windows_collector"` → 输出 `IMPORT_OK`,**exit=0**。未重启任何服务,未改计划任务。
+
+### F4. 补跑(第 5 步)
+
+- `Start-ScheduledTask -TaskName 'Qiuzhao-Collector-Daily'` 于 **13:36:44** 触发。8 秒后确认:`Get-ScheduledTask` 状态 = **Running**;`Get-CimInstance Win32_Process -Filter "Name='python.exe'"` 可见新进程(PID 22916/640 跑 `deploy\windows_collector.py`,PID 588/18676 跑 `qiuzhao.collector.run --output-dir ...\runs\20260918\data --source all --delay 2`),确认为同日续跑(runner 在 `runs\20260918` 内续跑,退出码非 0 的阶段 basic/p1 重跑,tencent 因原退出码 0 预期跳过)。
+
+### F5. 上线证据(第 6 步,basic 阶段)
+
+- 前台 `while` + `Start-Sleep 120` 轮询 `receipt.json`,单次 SSH 会话 ≤8 分钟,超时即返回进度再发起下一轮。basic 阶段从 13:36:44 启动,**13:51:23 确认 `steps.basic` 从 1 变为 2**,耗时约 **15 分钟**(优于预期的 30–50 分钟,可能因大部分来源当日已抓过一轮,本轮为增量/重试)。
+- `step_changes.basic`:`exit=2`,`result="partial"`,`added=115`,`updated=5930`,`marked_removed=22`,`disappeared=0`。**说明**:`updated` 达千级,符合预期;`added` 为百级(115),低于任务书"添加/更新为千级"的粗略预期——判断原因是当日 06:10 已跑过一次同源采集,本次补跑主要触发的是数据刷新(updated)而非新增(added),不属于任务书列出的回滚触发条件。
+- `runs\20260918\data\source_state.json`(补跑后):
+
+| 来源 | 状态 | 备注 |
+|---|---|---|
+| postal | success,complete,2648 条 | 与部署前一致 |
+| chnenergy | failed(SSL UNEXPECTED_EOF) | 与部署前一致,来源侧网络问题,非本次改动范围 |
+| telecom | failed(SSL UNEXPECTED_EOF) | 部署前本为 success,本轮转为网络偶发失败,与部署内容无关(telecom.py 未在本次 4 个部署文件内) |
+| boc | success,complete,14 条 | 与部署前一致 |
+| ccb | success,complete,39 条 | 与部署前一致 |
+| **guopin** | **partial**,`collected_jobs=3097` | **修复验证通过**:部署前(旧 guopin.py)本轮上游整体 `status=failed`("source did not return a validated successful/partial snapshot",0 条);部署后 6 个专场中 zgyd(1775)、cam2027(81)、casicjob(1241)success+complete,ceec/zglt 因 SSL/超时失败、cgnpc 目录下线维持原状——guopin 从"整体失败"变为"部分专场成功入库",与 B/D 节验证的修复行为一致 |
+
+### F6. 回滚判定
+
+- 任务书第 6 步回滚触发条件为"`basic` 仍为 1 或 `step_changes` 缺失"。实测 `steps.basic=2` 且 `step_changes.basic` 完整存在,**不满足回滚条件,未触发第 8 步回滚**。
+- `added` 低于粗略预期已在 F5 注明,留作后续观察项,不作为独立回滚依据。
+
+### F7. 后续观察(p1,约 5 小时后,本次不等待)
+
+- 待观察:`runs\20260918\receipt.json` 的 `steps.p1` 是否变为 2、`step_changes.p1`、`publication.published`、`sync_exit`,以及飞书同步 `data\lark-sync\runs\<新 run 目录>\business-sync.json` 的 `changed`(对照 F0 中本次部署前的 `changed=1231` 基线)。本执行者未等待、未手动触发飞书同步,由 runner 按既有门控自行执行。
