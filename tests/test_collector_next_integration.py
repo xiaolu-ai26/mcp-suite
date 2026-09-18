@@ -28,6 +28,9 @@ BANK_ONLY = ('中国工商银行', '中国农业银行', '交通银行', '招商
 FOREIGN_ONLY = ('英伟达', '花旗银行', '强生', '壳牌', '英国石油', '美敦力',
                 '奥纬咨询', '美满电子', '史密夫斐尔',
                 '思爱普', '采埃孚', '勃林格殷格翰')
+# Public-API batch appended last (20260918i): both companies already own a legacy
+# id namespace in production, so their adapters publish coverage['stable_id_prefix'].
+PUBLIC_API_ONLY = ('字节跳动', '美的集团')
 
 
 def validated(company, scope='campus'):
@@ -75,17 +78,24 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
                      if module_of(n) in ('qiuzhao.collector.p1_platform_workday',
                                          'qiuzhao.collector.p1_platform_successfactors')]
     feishu_names = [n for n in extra if module_of(n) == 'qiuzhao.collector.p1_feishu_public']
+    # Append-only public-API block shipped after the Feishu block (20260918i):
+    # 字节跳动 and 美的集团 each keep a historical id namespace in production.
+    public_api_names = [n for n in extra
+                        if module_of(n) in ('qiuzhao.collector.p1_bytedance_public',
+                                            'qiuzhao.collector.p1_midea_public')]
 
     assert set(PLATFORM_ONLY) <= set(beisen_names) | set(moka_names)
     assert set(BANK_ONLY) <= set(bank_names)
     assert set(FOREIGN_ONLY) <= set(foreign_names)
+    assert set(PUBLIC_API_ONLY) <= set(public_api_names)
     covered = (set(beisen_names) | set(moka_names) | set(bank_names) | set(ali_names)
-               | set(tme_names) | set(foreign_names) | set(feishu_names))
+               | set(tme_names) | set(foreign_names) | set(feishu_names)
+               | set(public_api_names))
     assert set(extra) == covered
 
     # Approved append order: beisen then moka, banks, Ali/Tencent gap, foreign
-    # Workday/SuccessFactors, then config-driven Feishu. Every block stays
-    # contiguous and no block is interleaved with another.
+    # Workday/SuccessFactors, config-driven Feishu, then the public-API batch.
+    # Every block stays contiguous and no block is interleaved with another.
     block_order = [
         ('beisen', beisen_names),
         ('moka', moka_names),
@@ -94,6 +104,7 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
         ('tencent_music', tme_names),
         ('workday/successfactors', foreign_names),
         ('feishu', feishu_names),
+        ('public_api', public_api_names),
     ]
     cursor = 0
     for label, names in block_order:
