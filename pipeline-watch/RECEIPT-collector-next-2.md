@@ -214,3 +214,137 @@ banks 5 / alibaba 6 / tencent_music 1 / workday 9 / successfactors 3；平台 sc
 5. **公司名以闲鱼表为准**：个别表名与站点标题差异较大（如 tkgroup 东江北森→东江控股、
    yasc→长飞先进半导体），已按"优先闲鱼表"处理；如总控认为应以站点为准，可在
    `company-name-cleanup.csv` 上标注后重跑 `--write`。
+
+## G. 站长最终口径版（20260918h）
+
+**结论先行**：按站长 2026-09-18 18:40 最终口径改完——`--platform-rotation` 默认 **1**
+（不轮转，924 家每天全跑）、平台公司默认 **三 scope（含 social）**、`windows_collector.py`
+p1 步改为 `--scope-timeout 600 --workers 8 --platform-workers 3 --max-run-seconds 18000`
+（以 `20260918b/windows_collector.py` 为底只改这一行，同步段一字未动）、新增次日公平排序
+（`data/p1-last-attempt.json` + `plan_chains()`）。离线单测**确定性失败 3 条，与基线同一集合**
+（另 1 条既存 flaky `test_codes_kind` 时有时无；改动后两次全量分别为 4 failed/448 passed 与
+3 failed/449 passed），零网络探针 `PROBE OK`。Mac 零网络桩实测
+每单元子进程 ≈**162 MB**；8 路 ≈1.5 GB、12 路 ≈2.1 GB。部署件
+`pipeline-watch/deploy-artifacts/20260918h/` 就绪，`shasum -c` 全 OK。
+**未部署、未 SSH、未碰阿里云、未调飞书、未发外部请求、未 push、未合并。**
+
+### G.1 改动清单
+
+| 文件 | 改动 |
+|---|---|
+| `qiuzhao/collector/p1_pipeline.py` | `PLATFORM_ROTATION_DEFAULT` 2→1；`PLATFORM_DEFAULT_SCOPES` →`campus,intern,social`；`--workers` 上限 6→64；新增 `last_attempt_path/load_last_attempt/save_last_attempt/stale_key`；`plan_chains(..., last_attempt=)` 公平排序；`run_unit()` 记录真实尝试时间 |
+| `deploy/windows_collector.py` | p1 步参数只改一行：`--workers 4`→`--workers 8` 并新增 `--platform-workers 3` |
+| `tests/test_p1_scheduling.py` | 调整 3 条因默认值失效的断言；新增 6 条：三 scope、配置收窄、rotation 默认 1、公平排序×2、两天模拟、run 记录 last-attempt |
+| `tests/test_collector_next_integration.py` | 默认全量 + `--platform-rotation 2` 仍子集；windows args 断言改 `8`/`3` |
+| `pipeline-watch/collector-next2-probe.py` | 断言改为新口径 + 公平排序 |
+| `pipeline-watch/rss-measure-20260918h.py` / `.out` | 零网络 RSS 实测（可复现） |
+
+未改任何适配器、未改同步段（`lark_sync_daemon` / `base-sync` 原样）、未改
+`QIUZHAO_PLATFORM_REQUEST_INTERVAL` 逻辑。
+
+### G.2 调度口径（不轮转 + 三 scope）
+
+- `--platform-rotation` 默认 **1**：`companies_for_day(DEFAULT_COMPANIES, 1)` 原样返回全部
+  **924 家**；参数保留，`--platform-rotation 2` 实测仍选中 489 家（50 硬编码 + 24 每天跑 +
+  415 平台）。显式 `--companies` 永远全跑，不受轮转影响。
+- 平台公司（北森/Moka/飞书/Workday/SuccessFactors/银行）默认 `campus,intern,social`；某公司
+  仍可在 `p1_platform_companies.json` 的对象里用 `"scopes":["campus","intern"]` 收窄
+  （字符串或数组均可）。
+- 同平台并发 `--platform-workers 3`、同平台单元启动间隔 `--platform-interval` ≥1s、
+  `QIUZHAO_PLATFORM_REQUEST_INTERVAL` 注入逻辑均保持。
+
+### G.3 公平性兜底（5 小时硬上限）
+
+- `run_unit()` 每次**真实**执行（`collect_process` 跑过、非 resume/skip）后，把
+  `company/scope → epoch` 写入 `data/p1-last-attempt.json`；跳过/复用的单元刻意不更新，
+  以保证「被截断」与「已完成」可区分。
+- `plan_chains()` 公司排序键 = `(demoted, never_attempted, failed, stale, position)`：
+  1. 连续 3 天失败整链仍降到最后（`demoted=1`，语义不变）；
+  2. **有任一 scope 从未尝试**的公司排最前（`stale=0`）——正是当天被 `--max-run-seconds`
+     截断的单元；
+  3. 其余先排重试队列里的失败单元（`failed=0`），再按最早尝试时间升序（越旧越先）。
+- 单测：`test_plan_chains_leads_with_never_attempted_then_stalest`（小米未尝试→最前）、
+  `test_plan_chains_prioritizes_failed_units_next_day`（失败单元压过更晚尝试的成功单元）、
+  `test_two_day_simulation_attempts_every_unit_once`（Day1 只跑首家公司，Day2 未尝试的两家
+  排最前，两天并集覆盖全部单元）、`test_run_records_last_attempts_and_promotes_missing_unit`
+  （run 级端到端）。
+- 结论：即便某天 5h 上限截断，被截断的单元次日必然排最前，**每家公司至少隔日更新**；
+  失败单元次日优先重试。
+
+### G.4 耗时估算（workers=8 / platform-workers=3 / 3 scope / 不轮转）
+
+口径：按各分支收据实测请求数（北森 477 家 ≈9,500 请求/2 scope、Moka 301 ≈18,000、
+飞书 72 ≈1,000+144 次浏览器启动）×1.5（campus/intern→三 scope）、每条请求有效 ~0.5s、
+每次 headless 启动 ~4s。同平台 3 路、全局 8 路，三个平台并列时 3+3+3=9 被全局 8 截住。
+
+| 平台 | 生效公司 | 请求/轮（3 scope） | 单通道耗时 | 3 路并发 |
+|---|---|---|---|---|
+| 北森 zhiye.com | 477 | ~14,250 | ~7,125s | ~40 min |
+| Moka app.mokahr.com | 301 | ~27,000 | ~13,500s | ~75 min |
+| 飞书 jobs.feishu.cn | 72 | ~1,500 + 216 浏览器 | ~1,614s | ~9 min |
+
+平台小计 **~1–1.5h**（Moka 为长尾）；再叠加每天必跑的 74 家（硬编码 50 + 银行 5 + 阿里 6 +
+腾讯音乐 1 + Workday 9 + SF 3，三 scope）**~0.5–1h**（workers 4→8 约减半）；
+整轮估算 **~1.5–3h**。生产 Moka 全量详情（无预算上限）与 `publish()` 串行写 `jobs.json`
+是最大不确定项，保守上界 **~3–4h < 18000s**。
+
+**若实测超过 5 小时**：G.3 兜底生效——当天未尝试的单元在 `p1-last-attempt.json` 里没有记录，
+次日 `plan_chains()` 把它们排最前，因此**每家至少隔日更新**，不会出现长期饿死。
+
+**`--workers` 提到 12 时**：请求时间理论上再降约 1/3（受同平台 3 路限制，实际收益递减），
+整轮约 1–2h；代价见 G.5，内存约 2.1 GB、CPU 峰值 ≤75% 逻辑占用，精灵（16 GB / 12C16T / 日常
+可用 5.8 GB）扛得住。不建议再往 12 以上加，瓶颈会变成同平台限流与 WAF。
+
+### G.5 内存实测（Mac，零网络桩，不写库）
+
+方法：`pipeline-watch/rss-measure-20260918h.py` 在临时目录建零网络桩适配器，用真实
+`p1_pipeline --adapter` 子进程路径起单元，`ps -o rss=` 采样；结果存
+`pipeline-watch/rss-measure-20260918h.out`。
+
+| 项 | 实测 |
+|---|---|
+| 单单元峰值 RSS | **162.4 MB** |
+| 两并发单元峰值 | 162.4 / 162.7 MB |
+| 仅解释器 + import p1_pipeline | 162.3 MB |
+| 父编排进程峰值（450 单元 / workers=12） | 166.0 MB |
+
+结论：每单元子进程 ≈**160–165 MB**，几乎全部是 Python 解释器 + requests/bs4/normalize 栈，
+与适配器无关；父进程开销可忽略。
+
+- **8 路**：8×162.5 + 0.17 ≈ **1.47 GB**；**12 路**：≈ **2.12 GB**。精灵可用 5.8 GB →
+  8 路余 ~4.3 GB、12 路余 ~3.7 GB。
+- headless 单元（阿里 6 + 飞书 72，受 `--platform-workers 3` 限制最多 3 个并发）另起
+  Chromium 子进程，按每路 +0.3–0.6 GB 粗估；12 路 + 3 headless 仍 < 4 GB。
+- **CPU**：12 个单线程单元铺在 12 核 / 16 线程上，瞬时峰值 ≤75% 逻辑占用；单元以网络 I/O
+  为主，CPU 不是瓶颈。
+- **带宽**：平台 ~4.3 万请求/轮，按平均响应 50 KB（列表页为主，详情页更小）估 ≈2.1 GB/轮，
+  3h 内均 ~1.6 Mbps、并发峰值个位数 Mbps；真正的约束是同平台 ≥1s 启动间隔与上游 WAF，
+  不是链路带宽。50 KB/请求为估算假设，非实测。
+
+### G.6 验证
+
+- **单测**：基线 `pytest tests/` = 442 passed / 55 skipped，确定性失败 3 条：
+  `test_core::test_role_cohort_and_campaign_title_bases`、
+  `test_p1_pipeline::test_timeout_publishes_only_validated_partial_checkpoint`、
+  `test_schema::test_enum_check_fails_when_data_drifts`；另 1 条既存 flaky
+  `test_codes_kind::test_migration_is_safe_when_both_services_start_together` 时有时无
+  （基线那次记为第 4 条失败）。改动后同样是这 3 条确定性失败，两次全量为
+  **4 failed / 448 passed** 与 **3 failed / 449 passed**（+6 为新增测试），无新增失败。
+- **零网络探针**：`python pipeline-watch/collector-next2-probe.py` → `PROBE OK`。关键值：
+  `default_total=924`、`duplicates=0`、平台公司 `['campus','intern','social']`、
+  `rotation_default=1`、`default_select_full=true`、`rotation2_total=489`、
+  `fairness_order=['小米','拼多多','大疆']`、`failed_order=['拼多多','大疆']`。
+- **部署件**：`shasum -c SHA256SUMS.txt` 全部 `OK`，且
+  `p1_pipeline.py`/`windows_collector.py` 与源码 sha256 逐一相等。
+
+### G.7 部署差异（20260918h）
+
+- 12 文件与 20260918g 同名同集：`p1_pipeline.py`（`c48dbf94…`，本次新版）与
+  `windows_collector.py`（`9eaf97cc…`，本次新版）更新，其余 10 个哈希与 g 逐字节相同。
+- **Playwright**：总控实测精灵 `%LOCALAPPDATA%\ms-playwright` 当前不存在，部署时先检测
+  （`Test-Path "$env:LOCALAPPDATA\ms-playwright"`），缺失则由站长执行
+  `C:\mcp-suite-collector\.venv\Scripts\python.exe -m playwright install chromium`。
+- **计划任务参数无需改**：p1 全部参数在 `deploy/windows_collector.py` 内，覆盖后次日 06:10
+  自然生效，不需重启。
+- 叠加顺序：从精灵现役 `20260918` 一步覆盖（b–g 均未部署）；回滚见
+  `20260918h/PROD-BACKUP-MANIFEST.txt`。

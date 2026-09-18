@@ -145,19 +145,19 @@ def test_cli_default_company_set_reaches_run(tmp_path):
     with patch.object(p, 'run', side_effect=fake_run):
         with patch('sys.argv', ['p1', '--data-dir', str(tmp_path), '--scopes', 'campus']):
             assert p.main() == 0
-    # Day rotation buckets only config-driven platform companies; the hardcoded 50
-    # and every other daily adapter always reach the run.
+    # Default is no rotation (站长 2026-09-18): every hardcoded and platform company
+    # reaches the run.
+    assert captured['companies'] == p.DEFAULT_COMPANIES
+    # --platform-rotation 2 stays available and buckets only config platforms.
+    with patch.object(p, 'run', side_effect=fake_run):
+        with patch('sys.argv', ['p1', '--data-dir', str(tmp_path), '--platform-rotation', '2']):
+            assert p.main() == 0
     companies = set(captured['companies'])
     assert set(p.COMPANIES) <= companies
     daily = {name for name in p.DEFAULT_COMPANIES
              if name not in p.COMPANIES and p.REGISTRY[name] not in p.ROTATING_MODULES}
     assert daily <= companies <= set(p.DEFAULT_COMPANIES)
     assert len(captured['companies']) < len(p.DEFAULT_COMPANIES)
-    # --platform-rotation 1 disables rotation and runs the full default set.
-    with patch.object(p, 'run', side_effect=fake_run):
-        with patch('sys.argv', ['p1', '--data-dir', str(tmp_path), '--platform-rotation', '1']):
-            assert p.main() == 0
-    assert captured['companies'] == p.DEFAULT_COMPANIES
 
 
 # --- 2. resume accepts added platform companies, never aborts -----------------
@@ -229,7 +229,8 @@ def test_deployable_windows_collector_uses_scope_timeout_and_workers():
     from deploy import windows_collector as W
     source = Path(W.__file__).read_text(encoding='utf-8')
     assert "'--scope-timeout','600'" in source
-    assert "'--workers','4'" in source
+    assert "'--workers','8'" in source
+    assert "'--platform-workers','3'" in source
     assert "'--max-run-seconds','18000'" in source
     assert "'--timeout','1200'" not in source
     # The ported production tail (base-sync via lark_sync_daemon) must be intact.

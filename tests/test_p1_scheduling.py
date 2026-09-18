@@ -1,10 +1,13 @@
 """Scheduling safety for the 900+ company daily chain.
 
-Covers: platform scope defaults (campus+intern, social opt-in), per-platform host
-concurrency/spacing, deterministic multi-day rotation, and per-company chain plans.
-All tests are offline; ``collect_process`` is patched.
+Covers: three-scope defaults (social included), per-company config narrowing,
+per-platform host concurrency/spacing, deterministic multi-day rotation, per-company
+chain plans, and the next-day fairness fallback that promotes units the
+``--max-run-seconds`` cap never attempted. All tests are offline;
+``collect_process`` is patched.
 """
 import datetime as dt
+import json
 import threading
 import time
 from unittest.mock import patch
@@ -35,9 +38,10 @@ def test_hardcoded_companies_keep_all_three_scopes():
     assert p.company_scopes('三七互娱') == ['campus', 'intern', 'social']
 
 
-def test_platform_companies_default_to_campus_intern():
+def test_platform_companies_default_to_three_scopes():
+    # 站长 2026-09-18：社招也跑，平台公司不再默认跳过 social。
     for company in (MOKA_COMPANIES[0], '中信建投', '交通银行', '英伟达', '思爱普'):
-        assert p.company_scopes(company) == ['campus', 'intern'], company
+        assert p.company_scopes(company) == ['campus', 'intern', 'social'], company
 
 
 def test_ali_and_tencent_keep_three_scopes():
@@ -45,13 +49,13 @@ def test_ali_and_tencent_keep_three_scopes():
     assert p.company_scopes('阿里巴巴') == ['campus', 'intern', 'social']
 
 
-def test_config_scopes_opt_in_enables_social(monkeypatch):
+def test_config_scopes_override_can_narrow_a_platform_company(monkeypatch):
     monkeypatch.setitem(p.PLATFORM_SCOPE_OPT_INS, MOKA_COMPANIES[0],
-                        {'campus', 'intern', 'social'})
-    assert p.company_scopes(MOKA_COMPANIES[0]) == ['campus', 'intern', 'social']
+                        {'campus', 'intern'})
+    assert p.company_scopes(MOKA_COMPANIES[0]) == ['campus', 'intern']
 
 
-def test_run_skips_social_for_platform_but_runs_it_for_hardcoded(tmp_path):
+def test_run_runs_social_by_default_for_platform_and_hardcoded(tmp_path):
     calls = []
 
     def fake(company, scope, output, timeout):
@@ -61,10 +65,25 @@ def test_run_skips_social_for_platform_but_runs_it_for_hardcoded(tmp_path):
     with patch.object(p, 'collect_process', side_effect=fake):
         assert p.run(tmp_path, tmp_path / 'run', ['大疆', MOKA_COMPANIES[0]],
                      ['campus', 'intern', 'social'], workers=2) == 2
-    assert ('大疆', 'social') in calls
-    assert (MOKA_COMPANIES[0], 'social') not in calls
+    for company in ('大疆', MOKA_COMPANIES[0]):
+        for scope in ('campus', 'intern', 'social'):
+            assert (company, scope) in calls
+
+
+def test_run_honours_config_narrowing(tmp_path, monkeypatch):
+    monkeypatch.setitem(p.PLATFORM_SCOPE_OPT_INS, MOKA_COMPANIES[0], {'campus'})
+    calls = []
+
+    def fake(company, scope, output, timeout):
+        calls.append((company, scope))
+        return validated(company, scope)
+
+    with patch.object(p, 'collect_process', side_effect=fake):
+        p.run(tmp_path, tmp_path / 'run', [MOKA_COMPANIES[0]],
+              ['campus', 'intern', 'social'], workers=1)
     assert (MOKA_COMPANIES[0], 'campus') in calls
-    assert (MOKA_COMPANIES[0], 'intern') in calls
+    assert (MOKA_COMPANIES[0], 'intern') not in calls
+    assert (MOKA_COMPANIES[0], 'social') not in calls
 
 
 # --- per-platform gate --------------------------------------------------------
@@ -144,8 +163,82 @@ def test_rotation_is_deterministic_and_off_by_default_one():
     assert p.companies_for_day(p.DEFAULT_COMPANIES, 1) == p.DEFAULT_COMPANIES
 
 
+def test_rotation_default_is_one_full_set():
+    # 站长口径：默认不轮转，每天全公司跑。
+    assert p.PLATFORM_ROTATION_DEFAULT == 1
+    assert p.companies_for_day(p.DEFAULT_COMPANIES, p.PLATFORM_ROTATION_DEFAULT) == \
+        p.DEFAULT_COMPANIES
+
+
 def test_plan_chains_uses_per_company_scopes():
+    scopes_by_company = {'大疆': ['campus', 'intern', 'social'],
+                         MOKA_COMPANIES[0]: ['campus', 'intern']}
     chains = {chain['company']: chain['scopes'] for chain in p.plan_chains(
-        ['大疆', MOKA_COMPANIES[0]], ['campus', 'intern', 'social'], {})}
+        ['大疆', MOKA_COMPANIES[0]], ['campus', 'intern', 'social'], {},
+        scopes_by_company=scopes_by_company)}
     assert chains['大疆'] == ['campus', 'intern', 'social']
     assert chains[MOKA_COMPANIES[0]] == ['campus', 'intern']
+
+
+# --- next-day fairness fallback for the 5h hard cap ----------------------------
+
+def test_plan_chains_leads_with_never_attempted_then_stalest():
+    companies = ['大疆', '拼多多', '小米']
+    scopes = ['campus']
+    # 大疆 attempted most recently, 拼多多 long ago, 小米 was never reached.
+    last_attempt = {'大疆/campus': 2000.0, '拼多多/campus': 1000.0}
+    order = [chain['company'] for chain in p.plan_chains(
+        companies, scopes, {}, last_attempt=last_attempt)]
+    assert order == ['小米', '拼多多', '大疆']
+
+
+def test_plan_chains_prioritizes_failed_units_next_day():
+    companies = ['大疆', '拼多多']
+    scopes = ['campus']
+    queue = {'拼多多/campus': {'company': '拼多多', 'scope': 'campus',
+                               'consecutive_days': 1, 'reason': 'timeout'}}
+    # 拼多多 was attempted later than 大疆 but failed, so the retry leads.
+    last_attempt = {'大疆/campus': 1000.0, '拼多多/campus': 2000.0}
+    order = [chain['company'] for chain in p.plan_chains(
+        companies, scopes, queue, last_attempt=last_attempt)]
+    assert order == ['拼多多', '大疆']
+
+
+def test_two_day_simulation_attempts_every_unit_once():
+    companies = ['大疆', '拼多多', '小米']
+    scopes = ['campus', 'intern']
+    # Day 1 cold start: the cap only fits the first company's two scopes.
+    day1 = p.plan_chains(companies, scopes, {})
+    attempted, last_attempt = set(), {}
+    for chain in day1[:1]:
+        for scope in chain['scopes']:
+            attempted.add((chain['company'], scope))
+            last_attempt[f"{chain['company']}/{scope}"] = 1000.0
+    # Day 2: the two companies the cap never reached lead the plan.
+    day2 = p.plan_chains(companies, scopes, {}, last_attempt=last_attempt)
+    assert day2[0]['company'] == '拼多多'
+    assert day2[0]['company'] not in {chain['company'] for chain in day1[:1]}
+    for chain in day2:
+        for scope in chain['scopes']:
+            attempted.add((chain['company'], scope))
+    assert attempted == {(company, scope) for company in companies for scope in scopes}
+
+
+def test_run_records_last_attempts_and_promotes_missing_unit(tmp_path):
+    calls = []
+
+    def fake(company, scope, output, timeout):
+        calls.append((company, scope))
+        return validated(company, scope)
+
+    with patch.object(p, 'collect_process', side_effect=fake):
+        p.run(tmp_path, tmp_path / 'run1', ['大疆', '拼多多'], ['campus'], workers=1)
+    entries = json.loads(p.last_attempt_path(tmp_path).read_text(encoding='utf-8'))['entries']
+    assert set(entries) == {'大疆/campus', '拼多多/campus'}
+    # Simulate the hard cap cutting 拼多多 off before it ever ran.
+    entries.pop('拼多多/campus')
+    p.atomic_json(p.last_attempt_path(tmp_path), {'entries': entries})
+    calls.clear()
+    with patch.object(p, 'collect_process', side_effect=fake):
+        p.run(tmp_path, tmp_path / 'run2', ['大疆', '拼多多'], ['campus'], workers=1)
+    assert calls[0] == ('拼多多', 'campus')

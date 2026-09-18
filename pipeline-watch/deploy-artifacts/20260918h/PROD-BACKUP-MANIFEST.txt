@@ -1,0 +1,43 @@
+Jingling (精灵) production original-backup manifest for cumulative deploy bundle 20260918h
+Generated on the Mac worktree, 2026-09-18 (Asia/Shanghai).
+
+Purpose: record the byte-exact sha256 of every jingling production file that
+20260918h overwrites, so rollback is unambiguous. Bundles 20260918b..g were all
+NOT deployed, so jingling production is still the plain 20260918 bundle
+(run.py / p1_pipeline.py / guopin.py / windows_collector.py plus the pre-existing
+collector tree; NO platform files). This cumulative bundle is therefore a
+one-step replacement of the 20260918 files and the first writer of the 9 new
+platform files.
+
+Path on jingling                              current sha256 (full, 64 hex)                                                  action
+--------------------------------------------  ----------------------------------------------------------------------------  --------------------------
+qiuzhao/collector/run.py                       5e94f91b770ef02bfad887e10bb6fab3405d8b184a81b98df9d14fe28c266b28          UNCHANGED, not in bundle
+qiuzhao/collector/guopin.py                    22e5f6ad0b66487ba7f6ccaee041da67c668d7ed98aeaa10408d7dc95a0abf89          overwrite (rollback: ../20260918/guopin.py)
+qiuzhao/collector/p1_pipeline.py               dc046e32f37d7482ac56222898d122edb52d93d8b48fed4f3c5c2c67770fdb90          overwrite (rollback: ../20260918/p1_pipeline.py)
+deploy/windows_collector.py                    14e17785ccff51f94aea519bee1637582d974c6d65540ee6f379954b08c90c4a          overwrite (rollback: ../20260918/windows_collector.py)
+
+New files: absent on jingling before this deploy (rollback = delete them):
+qiuzhao/collector/p1_platform_beisen.py        ABSENT
+qiuzhao/collector/p1_platform_moka.py          ABSENT
+qiuzhao/collector/p1_platform_workday.py       ABSENT
+qiuzhao/collector/p1_platform_successfactors.py ABSENT
+qiuzhao/collector/p1_feishu_public.py          ABSENT
+qiuzhao/collector/p1_banks_01.py               ABSENT
+qiuzhao/collector/alibaba_headless.py          ABSENT
+qiuzhao/collector/tencent_music.py             ABSENT
+qiuzhao/collector/p1_platform_companies.json   ABSENT
+
+CAVEAT on p1_feishu_public.py: this file was already added by the earlier Feishu
+commit and may exist in the pre-20260918 collector tree (the hardcoded 小鹏/蔚来/
+商汤 path lazily imports it). If it IS present on the jingling, rollback must
+RESTORE it from the step-1 backup, not delete it; only the other 8 files are
+delete-on-rollback. Verify with `dir qiuzhao\collector\p1_feishu_public.py`
+before deleting.
+
+Bundle content hashes (20260918h, for the step-2 Get-FileHash check):
+  p1_pipeline.py       c48dbf94c13f03394897a767f2fb918d1afcd06658ae93d32975d42cf98310a9
+  windows_collector.py 9eaf97cc5d4e968c062aaa65468ab34c584534a4ced5523d75c7c26229ec8312
+
+Run `sha256sum -c SHA256SUMS.txt` inside this directory after copy; every line must
+print OK. First-8 prefixes match the task statement: run.py 5e94f91b,
+p1_pipeline.py dc046e32, guopin.py 22e5f6ad, windows_collector.py 14e17785.
