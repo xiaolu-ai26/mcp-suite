@@ -11,14 +11,22 @@ from urllib.request import Request, urlopen
 from .run import Collector, base_job, clean, now, write_json, UA
 
 HOST='https://gp-api.iguopin.com'
+# Guarantee list only. The real campaign set is discovered daily from the official
+# banner directory; these aliases are the fallback when that discovery fails.
+# cgnpc (中国广核) was delisted from the directory and is no longer hardcoded; it is
+# picked up again automatically if it is ever advertised.
 CAMPAIGNS=(
     ('zgyd','中国移动通信集团有限公司'),
     ('ceec','中国能源建设集团有限公司'),
-    ('cgnpc','中国广核集团有限公司'),
     ('cam2027','中国机械科学研究总院集团有限公司'),
     ('casicjob','中国航天科工集团有限公司'),
     ('zglt','中国联合网络通信集团有限公司'),
 )
+BANNER_ALIAS='GP_index_long_banner_rolling'
+CAMPAIGN_HOST_SUFFIX='.iguopin.com'
+CAMPAIGN_ALIAS_RE=re.compile(r'^[a-z0-9][a-z0-9-]*$')
+YEAR_MARKER='2027'
+CAMPUS_MARKERS=('校园招聘','校招','秋季招聘','秋招')
 FIELDS=('job_id','job_name','company_id','company_name','recruitment_type_cn','nature_cn',
     'category_cn','education_cn','experience_cn','is_graduates','department_cn','start_time',
     'end_time','district_list','contents','status','is_apply','apply_instruction','refresh_time','update_time')
@@ -42,6 +50,50 @@ def public_api(collector,url,payload=None):
     if result.get('code')!=200:
         raise ValueError('Guopin public API rejected request: '+str(result.get('code'))+' '+str(result.get('msg',''))[:120])
     return result['data']
+
+def campaign_alias(row):
+    """Resolve a per-campaign subdomain alias from a banner's own links, or None.
+
+    Never guesses: only a single label directly under iguopin.com is accepted, so
+    ordinary iguopin pages (www/gp-api) and unrelated hosts are rejected.
+    """
+    for key in ('link_url','content_url'):
+        host=urlsplit(str(row.get(key) or '')).hostname or ''
+        if not host.endswith(CAMPAIGN_HOST_SUFFIX):continue
+        label=host[:-len(CAMPAIGN_HOST_SUFFIX)]
+        if label in ('www','gp-api') or '.' in label:continue
+        if CAMPAIGN_ALIAS_RE.match(label):return label
+    return None
+
+def discover_campaigns(collector,ads=None):
+    """Every currently advertised 2027 campus campaign, from the official banners.
+
+    Returns ``(campaigns, skipped)``: campaigns is an alias-deduplicated,
+    alias-sorted list of ``(alias, title)``; skipped lists rejected banners with a
+    concrete reason. Pass ``ads`` to reuse a banner list the caller already fetched.
+    """
+    if ads is None:
+        url=HOST+'/api/base/ads/v1/list?'+urlencode({'page':1,'page_size':100,'alias':BANNER_ALIAS})
+        ads=public_api(collector,url)['list']
+    found={};skipped=[]
+    for row in ads or []:
+        title=str(row.get('title') or '').strip()
+        text=title+' '+str(row.get('link_url') or '')+' '+str(row.get('content_url') or '')
+        if YEAR_MARKER not in text:
+            skipped.append({'id':row.get('id'),'title':title,'reason':'no 2027 marker in title/link'});continue
+        if not any(marker in text for marker in CAMPUS_MARKERS):
+            skipped.append({'id':row.get('id'),'title':title,'reason':'not an unambiguous campus campaign'});continue
+        alias=campaign_alias(row)
+        if not alias:
+            skipped.append({'id':row.get('id'),'title':title,'reason':'cannot resolve a single-label iguopin campaign alias'});continue
+        found.setdefault(alias,title)
+    return sorted(found.items()),skipped
+
+def merge_campaigns(discovered):
+    """Guarantee list union discovered campaigns, deduplicated and alias-sorted."""
+    merged=dict((alias,title) for alias,title in CAMPAIGNS)
+    for alias,title in discovered:merged.setdefault(alias,title)
+    return sorted(merged.items())
 
 def campaign_pages(collector,endpoint,request,domain,config,scan):
     first=public_api(collector,endpoint,request)
@@ -92,15 +144,27 @@ def campaign_pages(collector,endpoint,request,domain,config,scan):
         if len(part_seen)!=total:raise ValueError('Incomplete public company selector listing')
 
 def collect_guopin(collector):
-    ads_url=HOST+'/api/base/ads/v1/list?page=1&page_size=100&alias=GP_index_long_banner_rolling'
-    ads=public_api(collector,ads_url)
-    adrows=[{k:r.get(k) for k in ('id','title','link_url')} for r in ads['list']]
-    adpath=collector.evidence_file('guopin-official-campaign-directory.json',json.dumps({'source_url':ads_url,'reviewed_at':now(),'list':adrows},ensure_ascii=False,indent=2))
+    ads_url=HOST+'/api/base/ads/v1/list?'+urlencode({'page':1,'page_size':100,'alias':BANNER_ALIAS})
+    discovered=[];skipped=[];fallback_used=False;directory_ok=False;adrows=[];adpath=None
+    try:
+        ads=public_api(collector,ads_url)
+        adrows=[{k:r.get(k) for k in ('id','title','link_url','content_url')} for r in ads['list']]
+        adpath=collector.evidence_file('guopin-official-campaign-directory.json',json.dumps({'source_url':ads_url,'reviewed_at':now(),'list':adrows},ensure_ascii=False,indent=2))
+        directory_ok=True
+        discovered,skipped=discover_campaigns(collector,ads=ads['list'])
+    except Exception as error:
+        # Discovery is best-effort: it must not sink the source. Keep the guarantee
+        # list below and record the failure as an alert plus fallback_used.
+        collector.alert('guopin:discovery',error);fallback_used=True
     alljobs=[]; excluded=[]; states={}; global_seen=set()
-    for domain,group in CAMPAIGNS:
+    for domain,group in merge_campaigns(discovered):
         try:
-            ad=next((r for r in adrows if urlsplit(r['link_url'] or '').hostname==domain+'.iguopin.com' and '2027' in r['title']),None)
-            if not ad:raise ValueError('Current official directory no longer advertises this 2027 campaign')
+            ad=next((r for r in adrows if urlsplit(r['link_url'] or '').hostname==domain+'.iguopin.com' and YEAR_MARKER in str(r.get('title') or '')),None)
+            if not ad:
+                if directory_ok:raise ValueError('Current official directory no longer advertises this 2027 campaign')
+                # Banner directory unreachable: trust the guarantee list without
+                # directory proof rather than dropping the whole source.
+                ad={'title':group,'link_url':''}
             config_url=HOST+'/api/activity/exclusive/v1/info?'+urlencode({'domain':domain})
             config=public_api(collector,config_url)
             parsed=json.loads(config['content'])
@@ -164,9 +228,14 @@ def collect_guopin(collector):
             collector.alert('guopin:'+domain,error)
             states[domain]={'status':'failed','checked_at':now(),'error':str(error)[:250]}
     write_json(collector.out/'guopin_excluded_records.json',excluded)
-    collector.states['guopin']={'status':'success' if all(x['status']=='success' for x in states.values()) else 'partial_failure',
-        'checked_at':now(),'complete':all(x['status']=='success' for x in states.values()),
-        'collected_jobs':len(alljobs),'campaigns':states,'coverage':'allowlisted six official 2027 enterprise campaigns; campus default track only'}
+    complete=all(x['status']=='success' for x in states.values())
+    # Partial acceptance: one delisted/failed campaign no longer rejects the rest.
+    # (Exit-code/merge semantics live in run.py; this only reports the honest status.)
+    collector.states['guopin']={'status':'success' if complete else ('partial' if any(x['status']=='success' for x in states.values()) else 'partial_failure'),
+        'checked_at':now(),'complete':complete,
+        'collected_jobs':len(alljobs),'campaigns':states,
+        'discovered':[alias for alias,_ in discovered],'skipped':skipped,'fallback_used':fallback_used,
+        'coverage':'guarantee list union auto-discovered 2027 campus campaigns; campus default track only'}
     return alljobs
 
 def main():
