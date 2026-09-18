@@ -494,7 +494,11 @@
   "moka": {
     "ey/166374": "安永",
     "pwc/148260": "普华永道",
-    "kpmg/74356": "毕马威",
+    "kpmg/74356": {
+      "name": "毕马威",
+      "enabled": false,
+      "note": "duplicate-name parking (collector-next-4, 2026-09-19): 毕马威 is already registered by the older moka tenant kpmg/76195, which the daily run has been using; a second row cannot own the same REGISTRY slot. Kept on file so the tenant id is not lost. To switch, enable this row and disable kpmg/76195."
+    },
     "colpal/28788": {
       "name": "高露洁棕榄",
       "sites": [
@@ -3538,8 +3542,10 @@
     },
     "amat/wd1/External": {
       "name": "应用材料",
+      "enabled": false,
       "search_text": "China",
-      "max_list_pages": 8
+      "max_list_pages": 8,
+      "note": "duplicate-name parking (collector-next-4, 2026-09-19): the Eightfold tenant careers.appliedmaterials.com measured 131 China postings (campus 3 / intern 3 / social 125) versus 3 here, so the Eightfold adapter owns 应用材料. Row kept on file; flip enabled to true and disable the eightfold row to switch back."
     },
     "autodesk/wd1/Ext": {
       "name": "欧特克",
@@ -3678,8 +3684,10 @@
     },
     "philips/wd3/jobs-and-careers": {
       "name": "飞利浦",
+      "enabled": false,
       "search_text": "China",
-      "max_list_pages": 24
+      "max_list_pages": 24,
+      "note": "duplicate-name parking (collector-next-4, 2026-09-19): the Phenom tenant www.careers.philips.com measured 159 China postings (intern 14 / social 145) versus 8 here, so the Phenom adapter owns 飞利浦. Row kept on file; flip enabled to true and disable the phenom row to switch back."
     },
     "snapchat/wd1/snap": {
       "name": "Snap",
@@ -3740,8 +3748,10 @@
     },
     "hp/wd5/ExternalCareerSite": {
       "name": "惠普",
+      "enabled": false,
       "search_text": "China",
-      "max_list_pages": 8
+      "max_list_pages": 8,
+      "note": "duplicate-name parking (collector-next-4, 2026-09-19): the Eightfold tenant apply.hp.com measured 16 China postings (intern 1 / social 15) versus 1 here, so the Eightfold adapter owns 惠普. Row kept on file; flip enabled to true and disable the eightfold row to switch back."
     },
     "ebay/wd5/apply": {
       "name": "eBay",
@@ -3941,38 +3951,50 @@
     "eczd.fa.us2.oraclecloud.com/CX_1": "百胜餐饮"
   },
   "tupu360": {
-    "_README": "tupu360 (图谱天下) multi-tenant recruitment sites. Key = tenant slug on careersite.tupu360.com (override with \"tenant\"). Value {name, host?, tenant?, channels?, extra_channels?, scope?, wechat_only?, url?, enabled?, note?}. Careersite tenants are public/server-rendered; wxtemp tenants (<slug>.tupu360.com) only answer behind WeChat OAuth and are kept as enabled:false survey records. Verified 2026-09-19.",
+    "_README": "tupu360 (图谱天下) multi-tenant recruitment sites. Key = tenant slug on careersite.tupu360.com (override with \"tenant\"). Value {name, host?, tenant?, channels?, extra_channels?, scope?, wechat_only?, url?, enabled?, note?}. Careersite tenants are public/server-rendered; wxtemp tenants (<slug>.tupu360.com) only answer behind WeChat OAuth. ROBOTS DECISION 2026-09-19: tupu360's robots.txt is a site-wide 'User-agent: * / Disallow: /', and this project does not crawl sources that disallow us, so EVERY row in this section ships enabled:false (including the six tenants whose public pages were readable during verification) until 站长 decides otherwise. Flip enabled to true only on an explicit decision; the adapter skips enabled:false rows at load time. Verified 2026-09-19.",
     "iqvia": {
+      "enabled": false,
       "name": "IQVIA 艾昆纬",
-      "note": "careersite tenant; official list template A. campus 12 / intern 5 / social 12 postings on the public pages. Entry URL from foreign-discovery: careersite.tupu360.com/iqvia/position/index?recruitmentType=CAMPUSRECRUITMENT"
+      "note": "careersite tenant; official list template A. campus 12 / intern 5 / social 12 postings on the public pages. Entry URL from foreign-discovery: careersite.tupu360.com/iqvia/position/index?recruitmentType=CAMPUSRECRUITMENT",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); parked by collector-next-4"
     },
     "lilly": {
+      "enabled": false,
       "name": "礼来",
-      "note": "careersite tenant; template A. campus 2 pages (17 postings), intern/social channels exist but carry 0 postings. Entry URL from foreign-discovery: careersite.tupu360.com/lilly/home/index/#/index"
+      "note": "careersite tenant; template A. campus 2 pages (17 postings), intern/social channels exist but carry 0 postings. Entry URL from foreign-discovery: careersite.tupu360.com/lilly/home/index/#/index",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); parked by collector-next-4"
     },
     "schaeffler": {
+      "enabled": false,
       "name": "舍弗勒",
       "extra_channels": {
         "intern": [
           "TECHNOLOGYRUITMENT"
         ]
       },
-      "note": "careersite tenant; template B. campus 0, intern 2 (+2 on the tenant's own TECHNOLOGYRUITMENT channel, which the published entry URL used), social 70 across 5 pages."
+      "note": "careersite tenant; template B. campus 0, intern 2 (+2 on the tenant's own TECHNOLOGYRUITMENT channel, which the published entry URL used), social 70 across 5 pages.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); parked by collector-next-4"
     },
     "bmw": {
+      "enabled": false,
       "name": "宝马",
-      "note": "careersite tenant; template A. campus 0 / intern 0, social 2 pages. Entry URL from foreign-discovery was the WeChat tenant bmw.tupu360.com; the same tenant also has this public careersite site."
+      "note": "careersite tenant; template A. campus 0 / intern 0, social 2 pages. Entry URL from foreign-discovery was the WeChat tenant bmw.tupu360.com; the same tenant also has this public careersite site.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); parked by collector-next-4"
     },
     "innomotics": {
+      "enabled": false,
       "name": "茵梦达",
-      "note": "careersite tenant; template B. campus 3 / intern 5 / social 36 across 3 pages."
+      "note": "careersite tenant; template B. campus 3 / intern 5 / social 36 across 3 pages.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); parked by collector-next-4"
     },
     "jnj": {
+      "enabled": false,
       "name": "强生",
       "host": "chinacampus.jnj.com.cn",
       "tenant": "jnj",
       "detail": "list",
-      "note": "J&J China campus site on the same tupu360 careersite platform (custom domain). /jnj/position/index and /jnj/position/detail both redirect to a hash-route SPA, so the adapter uses the site's own POST /jnj/position/nextPageList, which returns all 18 official campus postings (template B) with title/city/function/发布日期/招聘人数; there is no public detail page, so description_raw is the official posting-list card text (detail=list). NOTE: the name 强生 is already taken by the pre-existing workday entry jj/wd5/JJ; the append-only registration block uses setdefault, so workday keeps priority until Max decides."
+      "note": "J&J China campus site on the same tupu360 careersite platform (custom domain). /jnj/position/index and /jnj/position/detail both redirect to a hash-route SPA, so the adapter uses the site's own POST /jnj/position/nextPageList, which returns all 18 official campus postings (template B) with title/city/function/发布日期/招聘人数; there is no public detail page, so description_raw is the official posting-list card text (detail=list). PARKED 2026-09-19 with the rest of the tupu360 section (platform robots.txt is a site-wide Disallow: /), so 强生 stays on the pre-existing workday entry jj/wd5/JJ. See RECEIPT-collector-next-4.md section 2 for the workday tenant's measurement.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); parked by collector-next-4"
     },
     "johnsonelectric": {
       "enabled": false,

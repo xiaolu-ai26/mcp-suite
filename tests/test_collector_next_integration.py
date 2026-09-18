@@ -10,6 +10,7 @@ Covers the two behaviors this branch adds on top of its four merged branches:
    company was added) resumes without repeating finished work, and a removed or
    otherwise different selection restarts instead of aborts.
 """
+import importlib
 import json
 from pathlib import Path
 from unittest.mock import patch
@@ -17,7 +18,6 @@ from unittest.mock import patch
 from qiuzhao.collector import p1_pipeline as p
 from qiuzhao.collector import p1_platform_beisen as beisen
 from qiuzhao.collector import p1_platform_moka as moka
-
 
 PLATFORM_ONLY = ('中信建投', '中金公司', '国信证券', '浙江民泰商业银行',
                  '安踏集团', '小天才', '信也科技')
@@ -54,11 +54,25 @@ ORC_ONLY = ('霍尼韦尔', '摩根大通', '康明斯', '艾默生', '洲际酒
             '阿卡迈', '百胜餐饮')
 WORKDAY_FIXED = ('可口可乐', '耐克', 'GSK')
 SF_FIXED = ('巴斯夫',)
-# Foreign batch C (20260919f): the tupu360 multi-tenant platform. 强生 is also
-# declared under its section but deliberately keeps the approved Workday entry
-# (the tupu360 registration block uses setdefault), so it is not in this list.
+# Foreign batch C (20260919f): the tupu360 multi-tenant platform. Every row is
+# parked (enabled:false) because the platform robots.txt is a site-wide
+# "Disallow: /" and this project does not crawl sources that disallow us, so the
+# five tenants that were readable during verification must stay out of the daily
+# set until 站长 decides.
 TUPU360_MODULE = 'qiuzhao.collector.p1_platform_tupu360'
-TUPU360_ONLY = ('IQVIA 艾昆纬', '礼来', '舍弗勒', '宝马', '茵梦达')
+TUPU360_PARKED = ('IQVIA 艾昆纬', '礼来', '舍弗勒', '宝马', '茵梦达')
+# Same-name conflicts resolved by measurement (see RECEIPT-collector-next-4):
+# 惠普/应用材料 -> Eightfold, 飞利浦 -> Phenom (more measured China postings than
+# the discovery Workday rows, which are parked); 强生 stays on the pre-existing
+# Workday tenant because tupu360 is off; 毕马威 keeps the shipped moka tenant.
+PARKED_WORKDAY = ('惠普', '应用材料', '飞利浦')
+SAME_NAME_OWNERS = {
+    '惠普': EIGHTFOLD_MODULE,
+    '应用材料': EIGHTFOLD_MODULE,
+    '飞利浦': PHENOM_MODULE,
+    '强生': 'qiuzhao.collector.p1_platform_workday',
+    '毕马威': 'qiuzhao.collector.p1_platform_moka',
+}
 # 20260918h shipped 924 companies; this cumulative branch adds 字节跳动/美的集团
 # (20260918i), 22 foreign-batch names (20260918j), 13 foreign ATS tenants from
 # batch A (20260919b: Eightfold 5 + Phenom 8), 17 names from the 20260919c platform
@@ -66,11 +80,10 @@ TUPU360_ONLY = ('IQVIA 艾昆纬', '礼来', '舍弗勒', '宝马', '茵梦达')
 # (20260919d/round 2: +10 moka, +5 dayee, +8 job51, +1 beisen, +58 workday, of
 # which 惠普/应用材料/飞利浦/可口可乐 duplicate batch A/B rows), i.e.
 # 948 + 13 + 17 + 5 + 82 - 4 = 1061 names before the same-company conflict
-# handling is applied. 毕马威 keeps its older moka tenant and 德州仪器 keeps its
-# moka slot (the ORC tenant is deliberately not registered); the
-# workday/eightfold/phenom duplicate rows are parked by the collector-next-4
-# integration commit.
-EXPECTED_DEFAULT_COMPANIES = 1061
+# handling. Parking the whole tupu360 section (5 names, 强生 was already blocked by
+# setdefault) removes exactly those 5: 1061 - 5 = **1056**. 惠普/应用材料/飞利浦 and
+# 毕马威 keep their names through the winning adapter, so they are not subtracted.
+EXPECTED_DEFAULT_COMPANIES = 1056
 CONFIG_SECTION_MODULES = {
     'beisen': 'qiuzhao.collector.p1_platform_beisen',
     'moka': 'qiuzhao.collector.p1_platform_moka',
@@ -162,7 +175,10 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
     assert set(BANK_ONLY) <= set(bank_names)
     assert set(FOREIGN_ONLY) <= set(foreign_names)
     assert set(PUBLIC_API_ONLY) <= set(public_api_names)
-    assert set(TUPU360_ONLY) <= set(tupu360_names)
+    # The whole tupu360 section is parked (site-wide robots Disallow), so the block
+    # registers no company even though the adapter module is wired in.
+    assert tupu360_names == [], 'parked tupu360 tenants must not register a company'
+    assert TUPU360_MODULE in p.PLATFORM_MODULES
     coverage_blocks = (set(beisen_names) | set(moka_names) | set(bank_names) | set(ali_names)
                        | set(tme_names) | set(foreign_names) | set(feishu_names)
                        | set(public_api_names) | set(dayee_names) | set(job51_names)
@@ -366,13 +382,11 @@ def test_deployable_windows_collector_uses_scope_timeout_and_workers():
 
 def test_default_set_is_h_baseline_plus_i_j_a_c_and_discovery_additions():
     # 站长口径的 924 家 (20260918h) + 字节跳动/美的集团 + 外企第二批 + 外企 ATS
-    # 批 A(13 家)+ 批 3(17 家,含 3 家 workday/1 家 SF 修复行)+ tupu360(5 家)
-    # + 外企发现两轮(82 家,其中 4 家与批 A/B 同名)= 1061(同名冲突处置前的合并
-    # 中间态;最终值见整合提交).
+    # 批 A(13 家)+ 批 3(17 家,含 3 家 workday/1 家 SF 修复行)+ 外企发现两轮
+    # (82 家,其中 4 家与批 A/B 同名)= 1061;tupu360 全段留档后再减 5 家 = 1056。
     assert len(p.DEFAULT_COMPANIES) == EXPECTED_DEFAULT_COMPANIES
     for name in (*PUBLIC_API_ONLY, *DAYEE_ONLY, *JOB51_ONLY, *EIGHTFOLD_ONLY,
-                *PHENOM_ONLY, *AVATURE_ONLY, *ORC_ONLY, *WORKDAY_FIXED, *SF_FIXED,
-                *TUPU360_ONLY):
+                *PHENOM_ONLY, *AVATURE_ONLY, *ORC_ONLY, *WORKDAY_FIXED, *SF_FIXED):
         assert name in p.DEFAULT_COMPANIES, name
     assert p.REGISTRY['字节跳动'] == 'qiuzhao.collector.p1_bytedance_public'
     assert p.REGISTRY['美的集团'] == 'qiuzhao.collector.p1_midea_public'
@@ -384,11 +398,17 @@ def test_default_set_is_h_baseline_plus_i_j_a_c_and_discovery_additions():
         assert p.REGISTRY[name] == EIGHTFOLD_MODULE, name
     for name in PHENOM_ONLY:
         assert p.REGISTRY[name] == PHENOM_MODULE, name
-    for name in TUPU360_ONLY:
-        assert p.REGISTRY[name] == TUPU360_MODULE, name
-    # The tupu360 block is append-only setdefault: the earlier Workday owner of
-    # 强生 survives the foreign batch C registration.
-    assert p.REGISTRY['强生'] == 'qiuzhao.collector.p1_platform_workday'
+    for name in AVATURE_ONLY:
+        assert p.REGISTRY[name] == AVATURE_MODULE, name
+    for name in ORC_ONLY:
+        assert p.REGISTRY[name] == ORC_MODULE, name
+    # Same-name conflicts: exactly one adapter owns each name, and the parked
+    # tupu360 tenants are out of the daily set entirely.
+    for name, module in SAME_NAME_OWNERS.items():
+        assert p.REGISTRY[name] == module, (name, p.REGISTRY[name])
+    for name in TUPU360_PARKED:
+        assert name not in p.REGISTRY, name
+        assert name not in p.DEFAULT_COMPANIES, name
     # Earlier blocks keep their owners after the merge.
     assert p.REGISTRY['中信建投'] == 'qiuzhao.collector.p1_platform_beisen'
     assert p.REGISTRY['英伟达'] == 'qiuzhao.collector.p1_platform_workday'
@@ -396,6 +416,53 @@ def test_default_set_is_h_baseline_plus_i_j_a_c_and_discovery_additions():
     assert p.REGISTRY['中国工商银行'] == 'qiuzhao.collector.p1_banks_01'
     assert p.REGISTRY['阿里巴巴'] == 'qiuzhao.collector.alibaba_headless'
     assert p.REGISTRY['腾讯音乐'] == 'qiuzhao.collector.tencent_music'
+
+
+def test_icims_and_tupu360_register_no_company():
+    # iCIMS ships the adapter but no tenant: every China-relevant portal publishes
+    # "Disallow: /". tupu360 ships the whole survey record parked for the same
+    # robots reason, so neither module may contribute a company to the run.
+    from qiuzhao.collector import p1_platform_icims as icims
+    from qiuzhao.collector import p1_platform_tupu360 as tupu360
+    assert icims.merged_registry() == {}
+    assert tupu360.merged_registry() == {}
+    for key, entry in tupu360._read_platform().items():
+        if str(key).startswith('_'):
+            continue
+        assert entry.get('enabled') is False, key
+        assert entry.get('blocked_reason'), key
+
+
+def test_parked_rows_are_inert_in_the_owning_adapter():
+    # 惠普/应用材料/飞利浦 are parked in the workday section: the discovery rows must
+    # not register, and the surviving workday rows keep their tenant ids.
+    from qiuzhao.collector import p1_platform_workday as workday
+    for name in PARKED_WORKDAY:
+        assert name not in workday.NAME_TO_SLUG, name
+    assert workday.NAME_TO_SLUG['可口可乐'] == 'coke/wd1/coca-cola-careers'
+    assert workday.NAME_TO_SLUG['耐克'] == 'nike/wd1/nke'
+    assert workday.NAME_TO_SLUG['GSK'] == 'gsk/wd5/GSKCareers'
+    # 毕马威's second (newer) moka tenant is parked, so the shipped tenant wins by
+    # configuration instead of by dict order.
+    assert moka.NAME_TO_SLUG['毕马威'] == 'kpmg/76195'
+    assert 'kpmg/74356' not in moka.COMPANIES
+
+
+def test_every_config_driven_adapter_honours_the_enabled_false_park():
+    # The enabled:false contract has to be uniform: one parked row must never
+    # register a company, whichever config section it lives in.
+    opened = 'REDACTED'
+    parked = 'SU648133e50dcad45af15e3cb2'
+    modules = sorted(set(CONFIG_SECTION_MODULES.values()) | {TUPU360_MODULE})
+    for module_path in modules:
+        module = importlib.import_module(module_path)
+        reader = getattr(module, '_read_platform', None) or getattr(module, '_load_platform')
+        with patch.object(module, reader.__name__,
+                          lambda: {opened: {'name': '开启公司'},
+                                   parked: {'name': '留档公司', 'enabled': False}}):
+            names = list(module._load_companies().values())
+        assert '开启公司' in names, module_path
+        assert '留档公司' not in names, module_path
 
 
 def _declared_config_names(section):

@@ -24,13 +24,20 @@ def page(name):
 
 @pytest.fixture
 def entry_override(monkeypatch):
-    """Patch one config line in-memory (the module re-reads the file per call)."""
+    """Patch one config line in-memory (the module re-reads the file per call).
+
+    The whole tupu360 section ships parked (``enabled: false``) because the
+    platform robots.txt is a site-wide ``Disallow: /``, so the fixture enables
+    the row by default: a collection test states that it runs an explicitly
+    enabled line. Pass ``enabled=False`` to model a parked row.
+    """
     original = tupu._read_platform()
+    original_reader = tupu._read_platform
 
     def apply(key, **fields):
         data = {section: dict(value) if isinstance(value, dict) else value
                 for section, value in original.items()}
-        data[key] = {**data.get(key, {}), **fields}
+        data[key] = {**data.get(key, {}), 'enabled': True, **fields}
         for field, value in fields.items():
             if value is None:
                 data[key].pop(field, None)
@@ -39,6 +46,9 @@ def entry_override(monkeypatch):
         return data
 
     yield apply
+    # Restore the real reader before reloading, otherwise the teardown reload
+    # would keep the overridden config alive for the next test.
+    monkeypatch.setattr(tupu, '_read_platform', original_reader)
     tupu.reload_config()
 
 
@@ -46,23 +56,31 @@ def entry_override(monkeypatch):
 # config contract
 # --------------------------------------------------------------------------- #
 def test_every_configured_line_is_a_company_and_disabled_lines_stay_out():
+    # 2026-09-19 站长口径：tupu360 全站 robots.txt Disallow: /，整段默认留档，
+    # 所以每个租户行都必须 enabled:false 且带 blocked_reason，REGISTRY 里不出现。
     declared = {key: entry for key, entry in CONFIG.items() if not str(key).startswith('_')}
     assert len(declared) == 14
     enabled = [key for key, entry in declared.items() if entry.get('enabled') is not False]
     disabled = [key for key, entry in declared.items() if entry.get('enabled') is False]
-    assert len(enabled) == 6 and len(disabled) == 8
+    assert enabled == [] and len(disabled) == 14
     for key, entry in declared.items():
         assert entry.get('name'), key
         assert entry.get('note'), key
-    for key in disabled:
-        assert declared[key].get('blocked_reason'), key
-    assert set(tupu.COMPANIES) == set(enabled)
-    assert set(tupu.merged_registry().values()) == {tupu.MODULE_PATH}
+        assert entry.get('blocked_reason'), key
+    assert tupu.COMPANIES == {}
+    assert tupu.merged_registry() == {}
 
 
-def test_enabled_tenants_are_the_six_verified_careersite_sites():
-    assert set(tupu.COMPANIES) == {'iqvia', 'lilly', 'schaeffler', 'bmw', 'innomotics', 'jnj'}
-    assert tupu.merged_registry()['舍弗勒'] == tupu.MODULE_PATH
+def test_survey_tenants_stay_on_file_and_can_be_enabled_explicitly(entry_override):
+    # 六个实测可读的 careersite 租户仍然留在配置里（含入口 URL 与实测条数），
+    # 只有显式 enabled=True 才会重新进 REGISTRY。
+    for key in ('iqvia', 'lilly', 'schaeffler', 'bmw', 'innomotics', 'jnj'):
+        assert CONFIG[key]['enabled'] is False, key
+        assert CONFIG[key].get('blocked_reason'), key
+    entry_override('schaeffler')
+    assert set(tupu.COMPANIES) == {'schaeffler'}
+    assert tupu.merged_registry() == {'舍弗勒': tupu.MODULE_PATH}
+    entry_override('iqvia')
     assert tupu.resolve('IQVIA 艾昆纬') == 'iqvia'
     assert tupu.resolve('iqvia') == 'iqvia'
 
@@ -301,7 +319,8 @@ def test_collect_uses_the_public_list_plus_detail_pages(tmp_path, entry_override
     assert pipeline.validate_result(result, '舍弗勒', 'intern', tmp_path)['jobs']
 
 
-def test_a_tenants_extra_official_channel_is_merged_into_the_scope(tmp_path):
+def test_a_tenants_extra_official_channel_is_merged_into_the_scope(tmp_path, entry_override):
+    entry_override('schaeffler')
     routes = {
         '/position/index': page('list-template-b-schaeffler.html'),
         '/position/detail': page('detail-template-b-schaeffler.html'),
@@ -313,7 +332,8 @@ def test_a_tenants_extra_official_channel_is_merged_into_the_scope(tmp_path):
     assert sum(1 for url in calls if '/position/index' in url) == 2
 
 
-def test_collect_paginates_through_the_sites_own_next_page_endpoint(tmp_path):
+def test_collect_paginates_through_the_sites_own_next_page_endpoint(tmp_path, entry_override):
+    entry_override('lilly')
     routes = {
         '/position/index': page('list-template-a-lilly.html'),
         '/position/nextPageList': page('nextpage-template-a-lilly.html'),
@@ -349,7 +369,8 @@ def test_collect_detail_list_mode_never_fetches_a_detail_page(tmp_path, entry_ov
         'official tupu360 posting-list card')
 
 
-def test_collect_falls_back_to_the_sites_own_next_page_api(tmp_path):
+def test_collect_falls_back_to_the_sites_own_next_page_api(tmp_path, entry_override):
+    entry_override('innomotics')
     # A hash-route SPA tenant (强生) answers the list route with a redirect stub;
     # the site's own POST endpoint still returns the whole official list.
     routes = {
@@ -474,7 +495,8 @@ def test_the_adapter_never_raises_for_an_unknown_company(tmp_path):
         tupu.collect('不存在的公司', 'campus', tmp_path)
 
 
-def test_fetch_channel_pins_the_method_not_the_recruitment_type(tmp_path):
+def test_fetch_channel_pins_the_method_not_the_recruitment_type(tmp_path, entry_override):
+    entry_override('schaeffler')
     """fetch_channel selects how to fetch; recruitmentType always comes from config."""
     routes = {
         '/position/index': page('list-template-b-schaeffler.html'),
@@ -523,7 +545,8 @@ def test_fetch_channel_pins_the_method_not_the_recruitment_type(tmp_path):
     assert html['coverage']['channels_used'] == ['INTERNSHIPRECRUITMENT:html']
 
 
-def test_headless_channel_reports_unavailable_instead_of_crashing(tmp_path, monkeypatch):
+def test_headless_channel_reports_unavailable_instead_of_crashing(tmp_path, monkeypatch, entry_override):
+    entry_override('schaeffler')
     monkeypatch.setattr(tupu, '_fetch_headless', lambda *a, **k: (_ for _ in ()).throw(
         tupu.ChannelUnavailable('playwright not importable')))
     routes = {'/position/index': page('careersite-disabled.html')}

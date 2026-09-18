@@ -118,6 +118,8 @@ def _load_companies():
     for key, entry in _read_platform().items():
         if str(key).startswith('_'):  # section documentation, not a tenant
             continue
+        if isinstance(entry, dict) and entry.get('enabled') is False:
+            continue  # parked survey line: kept on file, never registered
         name = entry if isinstance(entry, str) else str((entry or {}).get('name') or '')
         if name:
             companies[str(key)] = name

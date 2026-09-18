@@ -52,8 +52,19 @@ def _entry_name(entry):
 
 
 def _load_companies():
+    """Enabled tenants only.
+
+    ``"enabled": false`` keeps a surveyed tenant in the config (so the next
+    person sees the org/site id and why it is off) without registering the
+    company in ``p1_pipeline.REGISTRY`` for the daily run. Same contract as
+    ``p1_platform_tupu360``; 毕马威's second tenant ``kpmg/74356`` is parked this
+    way so ``NAME_TO_SLUG`` resolves 毕马威 to the shipped ``kpmg/76195``
+    deterministically instead of by dict order.
+    """
     companies = {}
     for key, entry in _read_platform().items():
+        if isinstance(entry, dict) and entry.get('enabled') is False:
+            continue
         name = _entry_name(entry)
         if name:
             companies[str(key)] = name

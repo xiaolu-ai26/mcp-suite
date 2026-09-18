@@ -78,6 +78,8 @@ def _entry_host(entry, key):
 def _load_companies():
     companies = {}
     for key, entry in _read_platform().items():
+        if isinstance(entry, dict) and entry.get('enabled') is False:
+            continue  # parked survey line: kept on file, never registered
         name = _entry_name(entry)
         declared = str((entry or {}).get('su') or '') if isinstance(entry, dict) else ''
         issue = ISSUE_RE.search(declared) or ISSUE_RE.search(str(key))

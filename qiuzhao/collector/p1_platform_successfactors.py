@@ -97,6 +97,8 @@ def _entry_name(entry):
 def _load_companies():
     companies = {}
     for key, entry in _read_platform().items():
+        if isinstance(entry, dict) and entry.get('enabled') is False:
+            continue  # parked survey line: kept on file, never registered
         name = _entry_name(entry)
         if name:
             companies[str(key)] = name
