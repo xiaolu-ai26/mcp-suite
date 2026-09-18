@@ -5,7 +5,9 @@ private/
 *.sqlite3*
 .env
 .mcp.json
-qiuzhao/data/
+# 标注表要入库(它是 written_test 的唯一真源);同目录的 jobs.json/日志/证据仍然忽略。
+qiuzhao/data/*
+!qiuzhao/data/written_test_labels.json
 bench/data/
 bench/sources/
 *.mcp.json
@@ -33,3 +35,6 @@ research/qiuzhao-500-mvp/state/jobs_merged.json
 
 # 疑似含凭据
 tests/e2e_bench_online.py
+
+# 外接盘(AppleDouble)元数据文件,不要入库
+._*

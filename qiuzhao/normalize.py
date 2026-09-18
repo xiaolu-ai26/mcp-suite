@@ -25,11 +25,15 @@ import stat as stat_mod
 import tempfile
 from pathlib import Path
 
+from qiuzhao import written_test as WT
+
 NORMALIZED_FIELDS = [
     "graduation_years", "graduation_year_basis", "graduation_year_note", "graduation_year_constraints", "major_categories",
     "job_category_normalized", "graduation_year_normalized", "major_normalized",
     "city_normalized", "cities_normalized", "industry", "country",
     "overseas_flag", "region", "recruitment_type",
+    "written_test", "written_test_scope", "written_test_basis",
+    "written_test_evidence", "written_test_source_url", "written_test_checked_at",
 ]
 
 KEY_SEP = "\x1f"
@@ -397,6 +401,39 @@ def _sync_graduation_fields(record, stats):
             stats[field] += 1
 
 
+# ---------------------------------------------------------------- 笔试要求(公司/专场标注继承)
+
+_WT_TABLES = None
+_WT_CHECKED_AT = None
+
+
+def _written_test_tables():
+    global _WT_TABLES
+    if _WT_TABLES is None:
+        _WT_TABLES = WT.load_labels()
+    return _WT_TABLES
+
+
+def _written_test_checked_at():
+    """岗位级明文覆盖没有自己的核对时间,用标注表 updated_at,保证同一输入同一输出。"""
+    global _WT_CHECKED_AT
+    if _WT_CHECKED_AT is None:
+        try:
+            payload = json.loads(WT.LABELS_PATH.read_text(encoding="utf-8"))
+            _WT_CHECKED_AT = str(payload.get("updated_at") or "")
+        except (OSError, ValueError):
+            _WT_CHECKED_AT = ""
+    return _WT_CHECKED_AT
+
+
+def _sync_written_test(record, stats):
+    """标注表是外部维护的真源,每次重算;标注表缺失时一个字都不改。"""
+    tables = _written_test_tables()
+    if not (tables[0] or tables[1]):
+        return
+    WT.apply_to_record(record, tables, stats, checked_at_default=_written_test_checked_at())
+
+
 def _normalize_one(record, stats):
     _fill_cities(record, stats)
     _fill_country(record, stats)
@@ -408,6 +445,7 @@ def _normalize_one(record, stats):
     _fill_industry(record, stats)
     _fill_recruitment_type(record, stats)
     _sync_graduation_fields(record, stats)
+    _sync_written_test(record, stats)
 
 
 def normalize_records(records: list[dict]) -> dict:

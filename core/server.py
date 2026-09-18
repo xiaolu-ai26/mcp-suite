@@ -369,7 +369,10 @@ Offset = Annotated[int, _none_to(0), Field(
 GroupBy = Annotated[str, TextIn, Field(
     description="分组维度，只能填列出的值；不传时只返回总数。major_category 的组值填回 jobs_search.major，其余填回同名参数",
     json_schema_extra=_enum(["company", "city", "job_category", "graduation_year", "education",
-                             "major_category", "industry", "recruitment_type"]))]
+                             "major_category", "industry", "recruitment_type", "written_test"]))]
+WrittenTest = Annotated[str, TextIn, Field(
+    description="笔试要求，只能填列出的值。免笔试=官方公布的完整招聘流程里没有笔试/测评环节（如 网申→面试→offer）；部分免笔试=限定性豁免（优才免笔试、优秀者可免笔试、部分岗位需笔试）；有笔试=官方公告/流程页/FAQ/岗位描述明文写了笔试、测评、在线测试、机考、OT 等任一做题环节；未注明=官方没公布流程或读不到，不等于免笔试。判断一律以官方原文为准",
+    json_schema_extra=_enum(V.WRITTEN_TEST_VALUES if PRODUCT == "qiuzhao" else []))]
 Top = Annotated[int, _none_to(20), Field(
     description="返回前几组，按 count 从大到小，默认 20、最大 100（超过按 100 返回）",
     json_schema_extra={"minimum": 1, "maximum": 100})]
@@ -391,20 +394,22 @@ def _reply(call, **kwargs):
 def jobs_search(
     keyword: Keyword = "", company: Company = "", city: City = "", job_category: JobCategory = "",
     graduation_year: GraduationYear = "", major: Major = "", education: Education = "",
-    recruitment_type: RecruitmentType = "", industry: Industry = "", deadline_within_days: DeadlineWithin = 0,
+    recruitment_type: RecruitmentType = "", industry: Industry = "", written_test: WrittenTest = "",
+    deadline_within_days: DeadlineWithin = 0,
     explicit_only: ExplicitOnly = False, include_expired: IncludeExpired = False,
     sort: Sort = "published_desc", page_size: PageSize = 10, offset: Offset = 0,
 ) -> ToolResult:
     """【岗位搜索】按条件找秋招、实习、社招岗位。每条返回全部业务字段（岗位描述、城市、届别、学历、专业、截止日、投递链接、原公告链接）和匹配依据 match。
 【何时用】用户要看具体岗位时用，例如“北京有哪些产品岗”“字节在招算法吗”“我是27届计算机硕士能投什么”“这周截止的校招”“国企的财务岗”。只问数量、分布、排名（“哪个城市最多”“有几家公司”）时，先用 jobs_stats。
-【参数来源】keyword、company、city、major 取自用户原话。job_category、graduation_year、education、recruitment_type、industry、sort 只能填 schema 列出的值，“27届”“校招”“研究生”这类说法服务端会自动归一。也可以把 jobs_stats.groups[i].value 原样填到 jobs_stats.fill_param 指定的参数。offset 只能取上一次返回的 next_offset。
+【参数来源】keyword、company、city、major 取自用户原话。job_category、graduation_year、education、recruitment_type、industry、written_test、sort 只能填 schema 列出的值，“27届”“校招”“研究生”这类说法服务端会自动归一。也可以把 jobs_stats.groups[i].value 原样填到 jobs_stats.fill_param 指定的参数。offset 只能取上一次返回的 next_offset。
 【参数用法】各条件需同时满足。city、company 可用英文逗号写多个，满足任一即可。届别、城市、专业、学历四个条件分三档返回并按此排序：明确匹配（岗位写明、活动标题写明、全国、专业不限、学历不限）→ 推断匹配（按招聘季推断、来源专场注明、实习未写届别）→ 含未注明（含“推断为其他届别”：原文没写届别，按招聘季或来源专场推断的是别的届）；同一档内，岗位写明的城市、专业、学历、届别排在 全国、专业不限、学历不限、活动标题写明 之前；每条的 match 写明档次和依据。用户说“只看写明的”时传 explicit_only=true（只留明确匹配）。按届别筛选时社招岗位不返回（社招不限届别，excluded_social_total 给出条数），要看社招请加 recruitment_type=社会招聘。education 填用户本人的学历，返回最低学历要求不高于它的岗位。recruitment_type 不传时校招、实习、社招都返回。deadline_within_days=N 只返回今天起 N 天内有明确截止日的岗位（招满即止和没写截止日的不返回），一般配 sort=deadline_asc。默认不返回已截止岗位。
 【返回】applied_filters（服务端实际使用、已归一的条件；与你传的不一致又没有 notices 说明时，说明客户端丢了参数，要告诉用户，不要重复同样的调用）、total、explicit_total、inferred_total、unspecified_total、分页信息（returned、has_next、next_offset、truncated）、data_as_of、notices（参数被归一或调整时的说明），以及 jobs[]。
 【下一步】has_next=true 且用户要更多时，用 next_offset 翻页。要对比或复查某几个岗位时，把 jobs[i].id 传给 jobs_detail。要看分布时，用相同条件调 jobs_stats。
+【笔试要求字段】每条 jobs[i] 带 written_test（免笔试/部分免笔试/有笔试/未注明）、written_test_scope（company/campaign/job）、written_test_basis、written_test_evidence（官方逐字原文）、written_test_source_url（官方页面）、written_test_checked_at。written_test 只反映官方公告/流程页/FAQ/岗位描述逐字写明的内容：「未注明」不代表免笔试，也不代表有笔试；「部分免笔试」表示限定性豁免（优才免笔试、优秀者可免笔试、部分岗位需笔试），限定语在 evidence 里。回答"这家公司/这个岗位要不要笔试"时必须同时给出 written_test_evidence 原文和 written_test_source_url，不能只说结论；没有 evidence 就说官方没写明。written_test_as_of 是标注整体核对时间，与 data_as_of 分开。
 【限制】page_size 默认 10、最大 20。一页超过约 60KB 时，在完整岗位处截断并置 truncated=true，用 next_offset 接着取。城市只认城市名，不认省份。数据只包含公告里写了的信息：回答时把明确匹配、推断匹配和未注明分开说，推断和未注明都不代表一定符合条件，并附 source_url 和 data_as_of。"""
     return _reply(jobs.search, keyword=keyword, company=company, city=city, job_category=job_category,
                   graduation_year=graduation_year, major=major, education=education,
-                  recruitment_type=recruitment_type, industry=industry,
+                  recruitment_type=recruitment_type, industry=industry, written_test=written_test,
                   deadline_within_days=deadline_within_days, explicit_only=explicit_only,
                   include_expired=include_expired, sort=sort, page_size=page_size, offset=offset)
 
@@ -412,7 +417,8 @@ def jobs_search(
 def jobs_stats(
     keyword: Keyword = "", company: Company = "", city: City = "", job_category: JobCategory = "",
     graduation_year: GraduationYear = "", major: Major = "", education: Education = "",
-    recruitment_type: RecruitmentType = "", industry: Industry = "", deadline_within_days: DeadlineWithin = 0,
+    recruitment_type: RecruitmentType = "", industry: Industry = "", written_test: WrittenTest = "",
+    deadline_within_days: DeadlineWithin = 0,
     explicit_only: ExplicitOnly = False, include_expired: IncludeExpired = False,
     group_by: GroupBy = "", top: Top = 20,
 ) -> ToolResult:
@@ -422,10 +428,11 @@ def jobs_stats(
 【参数用法】group_by 不传时只返回总数。一条岗位写了多个城市或多个届别时，按 city、graduation_year 分组会计入多个组，各组之和可能大于 total（此时 multi_valued=true）。top 控制返回的组数（默认 20、最大 100），其余组的计数合计在 other_count。
 【返回】applied_filters、total、explicit_total、inferred_total、unspecified_total、excluded_social_total（按届别筛选时没计入的社招条数）、data_as_of；分组时另有 group_by、fill_param、multi_valued、groups_total、returned_groups、other_count、groups[]（value、count、explicit_count、inferred_count、unspecified_count）。组内三档同时看筛选条件和组值本身：未注明 组算未注明，届别组按该届的依据分档（如按招聘季推断的计入 inferred_count）。
 【下一步】用户要看某一组的岗位时，把 groups[i].value 原样填到 jobs_search 中 fill_param 指定的参数，其余条件保持不变。graduation_year 分组里的“实习未写届别”“社招不限届别”不是届别，不能填回，改用 recruitment_type。
+【笔试要求】written_test 筛选同 jobs_search；group_by=written_test 可按 免笔试/部分免笔试/有笔试/未注明 分组计数，组值可直接填回 written_test 参数。返回体里的 written_test_as_of 是标注核对时间。
 【限制】计数单位是岗位条数，不是招聘人数，数据里没有招聘人数。education 分组是岗位写明的最低学历；填回 jobs_search.education 时按“门槛不高于该档”匹配，所以返回的数量会不少于该组计数。"""
     return _reply(jobs.stats, keyword=keyword, company=company, city=city, job_category=job_category,
                   graduation_year=graduation_year, major=major, education=education,
-                  recruitment_type=recruitment_type, industry=industry,
+                  recruitment_type=recruitment_type, industry=industry, written_test=written_test,
                   deadline_within_days=deadline_within_days, explicit_only=explicit_only,
                   include_expired=include_expired, group_by=group_by, top=top)
 

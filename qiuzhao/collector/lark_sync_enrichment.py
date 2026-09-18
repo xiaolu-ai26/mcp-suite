@@ -301,6 +301,28 @@ def status_sync(out,jobs_path):
     print(json.dumps({'source_status_updated':changed,'human_values_preserved':len(skipped)}),flush=True)
 
 
+# 飞书镜像的笔试要求列。默认不写入:必须先由站长确认在生产 Base 建好这 4 列,
+# 再设置 QIUSHAO_LARK_WRITTEN_TEST=1 打开(否则写入会因列不存在而失败)。
+WRITTEN_TEST_COLUMNS = ['笔试要求', '笔试依据原文', '笔试原文链接', '笔试核对时间']
+
+
+def written_test_fields(raw):
+    """岗位记录 -> 笔试要求列(缺字段按 未注明,不推断)。"""
+    from qiuzhao import written_test as WT
+    value = str(raw.get('written_test') or '').strip() or WT.UNSPECIFIED
+    out = {'笔试要求': value}
+    evidence = str(raw.get('written_test_evidence') or '').strip()
+    if evidence:
+        out['笔试依据原文'] = evidence[:1800]
+    url = str(raw.get('written_test_source_url') or '').strip()
+    if url:
+        out['笔试原文链接'] = url
+    checked = str(raw.get('written_test_checked_at') or '').strip()
+    if checked:
+        out['笔试核对时间'] = checked
+    return out
+
+
 def business_fields(raw):
     """Only existing product-owned business columns; review time is never a trigger."""
     v, _ = V.convert(raw)

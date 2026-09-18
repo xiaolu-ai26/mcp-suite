@@ -31,7 +31,7 @@ DEADLINE_DAYS_MAX = 366
 SORTS = ["published_desc", "deadline_asc"]
 GROUP_BY = {"company": "company", "city": "city", "job_category": "job_category",
             "graduation_year": "graduation_year", "education": "education", "major_category": "major",
-            "industry": "industry", "recruitment_type": "recruitment_type"}
+            "industry": "industry", "recruitment_type": "recruitment_type", "written_test": "written_test"}
 MULTI_VALUED = {"city", "graduation_year"}
 TEXT_LIMITS = {"keyword": 100, "company": 100, "city": 100, "major": 50}
 GRADUATION_YEAR_CHOICES = V.GRADUATION_YEARS + [V.UNSPECIFIED]
@@ -58,7 +58,10 @@ SYNONYMS = {
 CATEGORY_HINT = "找具体岗位名（如游戏策划、UI设计）请用 keyword。"
 FILTER_DEFAULTS = {"keyword": "", "company": "", "city": "", "job_category": "", "graduation_year": "",
                    "major": "", "education": "", "recruitment_type": "", "industry": "",
-                   "deadline_within_days": 0, "explicit_only": False, "include_expired": False}
+                   "written_test": "", "deadline_within_days": 0, "explicit_only": False,
+                   "include_expired": False}
+WRITTEN_TEST_NOTICE = ("「未注明」只表示官方公告/流程页/岗位描述里没有写明笔试或测评环节，"
+                       "不等于免笔试；免笔试必须有官方公布的完整流程或明文。")
 EMPTY_SUGGESTION = ("没有符合条件的岗位。可去掉 explicit_only、放宽城市/专业/届别，"
                     "或先用 jobs_stats 看各条件下的数量。")
 
@@ -81,7 +84,7 @@ iter_json_file = V.iter_json_file  # chunked reader: one raw row alive at a time
 class Dataset:
     """One immutable, fully converted version of jobs.json."""
     __slots__ = ("key", "items", "by_id", "keyword_text", "company_text", "data_as_of", "report",
-                 "build_seconds", "loaded_at")
+                 "build_seconds", "loaded_at", "written_test_as_of")
 
     def __init__(self, key, items, data_as_of, report, build_seconds):
         # Published date desc, then id desc: the default order, so filtering keeps it for free.
@@ -93,6 +96,9 @@ class Dataset:
         self.keyword_text = ["\n".join(str(it.get(f, "")) for f in V.KEYWORD_FIELDS).casefold() for it in items]
         self.company_text = ["\n".join(str(it.get(f, "")) for f in V.COMPANY_FIELDS).casefold() for it in items]
         self.data_as_of = data_as_of
+        # 笔试要求标注的整体核对时间,与 data_as_of(采集时间)分开。
+        self.written_test_as_of = max((it.get("written_test_checked_at") or "" for it in items),
+                                      default="") or None
         self.report = report
         self.build_seconds = build_seconds
         self.loaded_at = datetime.now(TZ).isoformat(timespec="seconds")
@@ -197,6 +203,9 @@ class Jobs:
         f["education"] = self._choice("education", f["education"], V.EDUCATIONS, notices)
         f["recruitment_type"] = self._choice("recruitment_type", f["recruitment_type"], V.RECRUITMENT_TYPES, notices)
         f["industry"] = self._choice("industry", f["industry"], V.INDUSTRIES, notices)
+        f["written_test"] = self._choice("written_test", f["written_test"], V.WRITTEN_TEST_VALUES, notices)
+        if f["written_test"] == V.UNSPECIFIED:
+            notices.append(WRITTEN_TEST_NOTICE)
         days = f["deadline_within_days"]
         if isinstance(days, bool) or not isinstance(days, int) or not 0 <= days <= DEADLINE_DAYS_MAX:
             raise ParamError(f"参数 deadline_within_days 取 1–{DEADLINE_DAYS_MAX}（今天起 N 天内截止），"
@@ -298,12 +307,15 @@ class Jobs:
         major, edu, grad = f["major"], f["education"], f["graduation_year"]
         social_ok = f["recruitment_type"] == "社会招聘"
         jc, rt, ind = f["job_category"], f["recruitment_type"], f["industry"]
+        written_test = f["written_test"]
         include_expired, explicit_only = f["include_expired"], f["explicit_only"]
         out, excluded_social = [], 0
         kw_text, co_text = data.keyword_text, data.company_text
         for i, it in enumerate(data.items):
             if (jc and it["job_category"] != jc) or (rt and it["recruitment_type"] != rt) \
                     or (ind and it["industry"] != ind):
+                continue
+            if written_test and it.get("written_test", V.UNSPECIFIED) != written_test:
                 continue
             deadline = it["deadline"]
             if not include_expired and ((deadline and deadline < today_s)
@@ -433,7 +445,7 @@ class Jobs:
         self._social_notice(f, excluded_social, notices, out, "返回")
         out.update({"sort": sort, "offset": offset, "page_size": page_size, "returned": returned,
                     "has_next": next_offset is not None, "next_offset": next_offset, "truncated": truncated,
-                    "data_as_of": data.data_as_of})
+                    "data_as_of": data.data_as_of, "written_test_as_of": data.written_test_as_of})
         if notices:
             out["notices"] = notices
         if not counts["total"]:
@@ -478,6 +490,7 @@ class Jobs:
         out = {"applied_filters": self.applied(f), **self.totals(res)}
         self._social_notice(f, excluded_social, notices, out, "计入")
         out["data_as_of"] = data.data_as_of
+        out["written_test_as_of"] = data.written_test_as_of
         if group_by:
             counts, tiers = Counter(), (Counter(), Counter(), Counter())
             for it, _, tier in res:
@@ -511,7 +524,8 @@ class Jobs:
         today = self.today()
         found = [self.public(data.by_id[i], today) for i in wanted if i in data.by_id]
         missing = [i for i in wanted if i not in data.by_id]
-        out = {"requested": len(wanted), "found": len(found), "not_found": missing, "data_as_of": data.data_as_of}
+        out = {"requested": len(wanted), "found": len(found), "not_found": missing,
+               "data_as_of": data.data_as_of, "written_test_as_of": data.written_test_as_of}
         if missing:
             out["suggestion"] = "not_found 里的 id 不存在或已下线，请重新用 jobs_search 查询最新 id。"
         out["jobs"] = found

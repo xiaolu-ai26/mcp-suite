@@ -14,7 +14,8 @@ from qiuzhao import v4_fields as V
 
 QZ_TOOLS = {"jobs_search", "jobs_stats", "jobs_detail"}
 FILTERS = {"keyword", "company", "city", "job_category", "graduation_year", "major", "education",
-           "recruitment_type", "industry", "deadline_within_days", "explicit_only", "include_expired"}
+           "recruitment_type", "industry", "written_test", "deadline_within_days", "explicit_only",
+           "include_expired"}
 BENCH_TEXT = ("topic", "format", "tag", "platform", "time_window", "keyword")
 
 

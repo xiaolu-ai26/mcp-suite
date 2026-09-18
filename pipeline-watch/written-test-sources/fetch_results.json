@@ -1,0 +1,1068 @@
+[
+ {
+  "company": "小米",
+  "url": "https://hr.xiaomi.com/website/campus.html",
+  "kind": "流程页",
+  "expected": "有笔试(测评)",
+  "site": "hr.xiaomi.com",
+  "http": 200,
+  "final_url": "https://hr.xiaomi.com/website/campus.html",
+  "bytes": 27833,
+  "text_len": 559,
+  "title": "校园招聘 | 小米招聘",
+  "hits": {
+   "test": [
+    "专项能力测试+性格测评"
+   ],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/小米__54f09f5abf63.txt"
+ },
+ {
+  "company": "玛氏",
+  "url": "https://careers.mars.com/global/en/how-to-join-us",
+  "kind": "流程页",
+  "expected": "Assessment",
+  "site": "careers.mars.com",
+  "http": 200,
+  "final_url": "https://careers.mars.com/global/en/how-to-join-us",
+  "bytes": 153210,
+  "text_len": 5914,
+  "title": "How to Join us | Mars Careers",
+  "hits": {
+   "test": [
+    "Assessment:"
+   ],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/玛氏__aa9cdcbdcca2.txt"
+ },
+ {
+  "company": "微软",
+  "url": "https://careers.microsoft.com/v2/global/en/hiringfaqs.html",
+  "kind": "FAQ",
+  "expected": "未提",
+  "site": "careers.microsoft.com",
+  "http": 200,
+  "final_url": "https://careers.microsoft.com/v2/global/en/hiringfaqs.html",
+  "bytes": 35027,
+  "text_len": 8977,
+  "title": "hiringFAQs | Microsoft Careers",
+  "hits": {
+   "test": [
+    "Accommodationrequestsduringtheassessmentstage",
+    "Extratimeforassessments"
+   ],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/微软__e43a31c9adb9.txt"
+ },
+ {
+  "company": "中国建设银行",
+  "url": "http://www3.ccb.com/chn/2025-10/17/article_2025101713495356375.shtml",
+  "kind": "公告",
+  "expected": "有笔试",
+  "site": "www3.ccb.com",
+  "http": 200,
+  "final_url": "http://www3.ccb.com/chn/2025-10/17/article_2025101713495356375.shtml",
+  "bytes": 54368,
+  "text_len": 2003,
+  "title": "中国建设银行-中德住房储蓄银行2026年度校园招聘统一笔试及性格测评公告",
+  "hits": {
+   "test": [
+    "中国建设银行-中德住房储蓄银行2026年度校园招聘统一笔试及性格测评公告",
+    "中德住房储蓄银行2026年度校园招聘统一笔试及性格测评公告",
+    "年度校园招聘初选工作已结束，入围笔试及性格测评环节的人员名单已确定，现将有关事项公告如下",
+    "一、笔试确认",
+    "我行已向获得笔试资格的应聘者发送笔试通知，请收到笔试通知的应聘者务必于北京时间",
+    "进行笔试确认，逾期未确认视为放弃笔试",
+    "本次笔试共有以下两种确认方式：",
+    "“我的通知”中查看笔试通知，并在操作栏中点击“查看详情”进行确认，选择“是”视为确认参加笔试",
+    "“中国建设银行人才招聘”公众号，点击公众号底部“我要应聘”菜单，在“个人中心”中查看笔试通知，并点击",
+    "“是”视为确认参加笔试",
+    "本次笔试为中国建设银行",
+    "年度校园招聘统一笔试，本次招聘仅组织一场笔试，笔试成绩在"
+   ],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/中国建设银行__307bdd3463c7.txt"
+ },
+ {
+  "company": "字节跳动",
+  "url": "https://jobs.bytedance.com/campus/m/page-6272Gc",
+  "kind": "专题",
+  "expected": "未注明",
+  "site": "jobs.bytedance.com",
+  "http": 200,
+  "final_url": "https://jobs.bytedance.com/campus/m/page-6272Gc",
+  "bytes": 829548,
+  "text_len": 9852,
+  "title": "字节跳动校园招聘官网｜字节跳动校招",
+  "hits": {
+   "test": [
+    "笔试时间：即日起\\n",
+    "HR会根据你的简历与岗位的匹配度判断是否需要笔试，请以实际安排为准，届时将通过邮件和短信等形式提前1-3个工作日进行通知",
+    "所有职位都会安排笔试吗？",
+    "如若投递职位有笔试安排，将采取在线笔试的形式，请耐心等待邮件和短信通知",
+    "笔试根据投递时间顺序先后发放，具体笔试时间以收到的通知为准",
+    "笔试采取什么形式？是什么时候？",
+    "建议大家收到笔试通知后，尽量按时参与",
+    "如果未及时参加笔试，且投递职位仍有需求，你将有机会再次参与笔试，请耐心等待邮件和短信通知",
+    "错过笔试，还能再参加笔试吗？",
+    "需要，笔试是根据投递岗位进行邀约的",
+    "之前做过校招笔试，本次收到笔试邀约后还需要作答吗？",
+    "不同职位的笔试完成期限、笔试时长也相应不同，请以邮件中的实际安排为准"
+   ],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/字节跳动__371f79348d4e.txt"
+ },
+ {
+  "company": "腾讯",
+  "url": "https://join.qq.com/detail.html?id=260",
+  "kind": "公告",
+  "expected": "未注明",
+  "site": "join.qq.com",
+  "http": 200,
+  "final_url": "https://join.qq.com/detail.html?id=260",
+  "bytes": 2095,
+  "text_len": 11,
+  "title": "校招公告 | 腾讯校招",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/腾讯__da9897023188.txt"
+ },
+ {
+  "company": "中国银行",
+  "url": "https://www.boc.cn/aboutboc/bi4/202603/t20260311_25654053.html",
+  "kind": "公告",
+  "expected": "有笔试",
+  "site": "boc.cn",
+  "http": 200,
+  "final_url": "https://www.boc.cn/aboutboc/bi4/202603/t20260311_25654053.html",
+  "encoding": "utf-8",
+  "bytes": 25412,
+  "text_len": 2904,
+  "title": "中国银行股份有限公司2026年春季招聘公告",
+  "hits": {
+   "test": [
+    "（三）笔试由中国银行统一组织，具体安排将通过电子邮件或95566短信等方式通知本人"
+   ],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/中国银行__b139bd9b38ba.txt"
+ },
+ {
+  "company": "中国邮政",
+  "url": "https://www.chinapost.com.cn/cn/report/2609/1176-1.htm",
+  "kind": "公告",
+  "expected": "有笔试",
+  "site": "chinapost.com.cn",
+  "http": 200,
+  "final_url": "https://www.chinapost.com.cn/cn/report/2609/1176-1.htm",
+  "encoding": "UTF-8-SIG",
+  "bytes": 12917,
+  "text_len": 1412,
+  "title": "中国邮政集团有限公司2027年度联合校园招聘公告 - 中国邮政集团有限公司",
+  "hits": {
+   "test": [
+    "网上申请—简历接收和筛选—线上笔试—面试—体检及背景调查—发放offer—签署就业协议"
+   ],
+   "flow": [
+    "网上申请—简历接收和筛选—线上笔试—面试—体检及背景调查—发放offer—签署就业协议"
+   ],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/中国邮政__6e9e8ea265a2.txt"
+ },
+ {
+  "company": "百度",
+  "url": "https://talent.baidu.com/mobile/recruit/help.html",
+  "kind": "FAQ",
+  "expected": "有笔试",
+  "site": "talent.baidu.com",
+  "http": 200,
+  "final_url": "https://talent.baidu.com/mobile/recruit/help.html",
+  "encoding": "UTF-8",
+  "bytes": 3341,
+  "text_len": 634,
+  "title": "招聘帮助",
+  "hits": {
+   "test": [
+    "注册并应聘→简历筛选（10-15个工作日）→笔试（10-15个工作日）→面试（10-15个工作日）→录用"
+   ],
+   "flow": [
+    "注册并应聘→简历筛选（10-15个工作日）→笔试（10-15个工作日）→面试（10-15个工作日）→录用"
+   ],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/百度__9b7e64a9e1fa.txt"
+ },
+ {
+  "company": "华为",
+  "url": "https://career.huawei.com/reccampportal/portal5/faq.html",
+  "kind": "FAQ",
+  "expected": "有笔试",
+  "site": "career.huawei.com",
+  "http": 200,
+  "final_url": "https://career.huawei.com/reccampportal/portal5/faq.html",
+  "encoding": "utf-8",
+  "bytes": 53879,
+  "text_len": 15411,
+  "title": "华为招聘常见问题解答--华为招聘",
+  "hits": {
+   "test": [
+    "-研发类岗位：您需参加上机考试、综合测评",
+    "-非研发类岗位：您需参加考试（部分岗位涉及）、语言测评（部分岗位涉及）、综合测评",
+    "Iftheassessmentprocesshasnotyetstarted,youcanchangeyourapplicationbygoingto",
+    "Myresumeisn't100%complete.Willthisaffecttheassessmentprocess?",
+    "面试考核一般包括专业面试、业务主管面试及综合测评，部分研发岗位增设上机考试环节，部分非研发类岗位增设语言测评环节",
+    "assessmentusuallyincludesprofessionalinterview,comprehensiveinterview,andcomprehensive",
+    "assessment.ForsomeR&Dpositions,hands-ontestsareadded.Fornon-R&Dpositions,group",
+    "interviewsareadded.Forsomenon-R&Dpositions,languageassessmentisadded.Themain",
+    "interviewandassessmentactivitieswillbecompletedwithinoneday.Aftertheinterview,the"
+   ],
+   "flow": [],
+   "exempt": [],
+   "conditional": [
+    "-非研发类岗位：您需参加考试（部分岗位涉及）、语言测评（部分岗位涉及）、综合测评"
+   ]
+  },
+  "evidence_file": "evidence/华为__53232140d659.txt"
+ },
+ {
+  "company": "宝洁",
+  "url": "https://www.careers.pg.com.cn/cn/zh/hiring-process",
+  "kind": "流程页",
+  "expected": "评估",
+  "site": "careers.pg.com.cn",
+  "error": "SSLError: HTTPSConnectionPool(host='www.careers.pg.com.cn', port=443): Max retries exceeded with url: /cn/zh/hiring-process (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)'))) | direct: SSLError: HTTPSConnectionPool(host='www.careers.pg.com.cn', port=443): Max retries exceeded with url: /cn/zh/hiring-process (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)')))"
+ },
+ {
+  "company": "可口可乐",
+  "url": "https://www.coca-colacompany.com/careers/hiring-process",
+  "kind": "流程页",
+  "expected": "流程",
+  "site": "coca-colacompany.com",
+  "http": 200,
+  "final_url": "https://www.coca-colacompany.com/careers/hiring-process",
+  "encoding": "UTF-8",
+  "bytes": 132864,
+  "text_len": 6564,
+  "title": "Hiring Process",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/可口可乐__4beca3a5026a.txt"
+ },
+ {
+  "company": "美团",
+  "url": "https://zhaopin.meituan.com/web/question/campus",
+  "kind": "FAQ",
+  "expected": "未注明",
+  "site": "zhaopin.meituan.com",
+  "http": 200,
+  "final_url": "https://zhaopin.meituan.com/web/question/campus",
+  "encoding": "UTF-8",
+  "bytes": 34063,
+  "text_len": 4,
+  "title": "美团招聘",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/美团__45bb5858a60e.txt"
+ },
+ {
+  "company": "中国电信",
+  "url": "https://www.chinatelecom.com.cn/ct/zp/165144.html",
+  "kind": "公告",
+  "expected": "有笔试",
+  "site": "chinatelecom.com.cn",
+  "http": 200,
+  "final_url": "https://www.chinatelecom.com.cn/ct/zp/165144.html?CT6T=513c00&CT6TS=1cWpWGisp_1NgGVL11JPL6KejcAWFE0hQv-h_NACN0VFkBL37Wlh8QCF8rK-LncZ",
+  "encoding": "UTF-8",
+  "bytes": 31490,
+  "text_len": 2731,
+  "title": "中国电信集团有限公司",
+  "hits": {
+   "test": [
+    "4.组织笔试面试",
+    "除中国电信集团有限公司组织的统一线上笔试外(部分单位参与，以后续通知为准)，本次招聘由中国电信集团所属分子公司根据招聘计划，根据简历筛选情况，自行组织笔试、面试"
+   ],
+   "flow": [
+    "除中国电信集团有限公司组织的统一线上笔试外(部分单位参与，以后续通知为准)，本次招聘由中国电信集团所属分子公司根据招聘计划，根据简历筛选情况，自行组织笔试、面试"
+   ],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/中国电信__71d669fba272.txt"
+ },
+ {
+  "company": "招商银行",
+  "url": "https://cmb-recruitment-mobile.paas.cmbchina.com/positionSchool",
+  "kind": "流程页",
+  "expected": "有笔试",
+  "site": "cmb-recruitment-mobile.paas.cmbchina.com",
+  "http": 200,
+  "final_url": "https://cmb-recruitment-mobile.paas.cmbchina.com/positionSchool",
+  "encoding": "utf-8",
+  "bytes": 641,
+  "text_len": 4,
+  "title": "招商银行",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/招商银行__20b80d32ff98.txt"
+ },
+ {
+  "company": "京东",
+  "url": "https://campus.jd.com/",
+  "kind": "FAQ",
+  "expected": "未注明",
+  "site": "campus.jd.com",
+  "http": 200,
+  "final_url": "https://campus.jd.com/",
+  "encoding": "utf-8",
+  "bytes": 30969,
+  "text_len": 4,
+  "title": "京东校招",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/京东__acd52d8face5.txt"
+ },
+ {
+  "company": "网易",
+  "url": "https://hr.163.com/",
+  "kind": "FAQ",
+  "expected": "未注明",
+  "site": "hr.163.com",
+  "http": 200,
+  "final_url": "https://hr.163.com/",
+  "encoding": "UTF-8",
+  "bytes": 5679,
+  "text_len": 6,
+  "title": "网易社会招聘",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/网易__5af303626591.txt"
+ },
+ {
+  "company": "快手",
+  "url": "https://campus.kuaishou.cn/",
+  "kind": "FAQ",
+  "expected": "未注明",
+  "site": "campus.kuaishou.cn",
+  "http": 200,
+  "final_url": "https://campus.kuaishou.cn/",
+  "encoding": "utf-8",
+  "bytes": 32924,
+  "text_len": 123,
+  "title": "快手校招",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/快手__1fddd21771d3.txt"
+ },
+ {
+  "company": "拼多多",
+  "url": "https://careers.pinduoduo.com/campus",
+  "kind": "FAQ",
+  "expected": "未注明",
+  "site": "careers.pinduoduo.com",
+  "http": 200,
+  "final_url": "https://careers.pddglobalhr.com/campus",
+  "encoding": "utf-8",
+  "bytes": 16341,
+  "text_len": 581,
+  "title": "拼多多集团-PDD校园招聘官网",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/拼多多__b4db15ae213c.txt"
+ },
+ {
+  "company": "阿里巴巴",
+  "url": "https://talent.alibaba.com/campus/",
+  "kind": "FAQ",
+  "expected": "未注明",
+  "site": "talent.alibaba.com",
+  "http": 200,
+  "final_url": "https://talent.alibaba.com/",
+  "encoding": "UTF-8",
+  "bytes": 8110,
+  "text_len": 10,
+  "title": "Index of Template Application",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/阿里巴巴__19cd43ec4564.txt"
+ },
+ {
+  "company": "联合利华",
+  "url": "https://careers.unilever.com/",
+  "kind": "流程页",
+  "expected": "有笔试",
+  "site": "careers.unilever.com",
+  "http": 200,
+  "final_url": "https://careers.unilever.com/en",
+  "encoding": "utf-8",
+  "bytes": 68735,
+  "text_len": 5622,
+  "title": "Working at Unilever",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/联合利华__2b5093899f0f.txt"
+ },
+ {
+  "company": "雀巢",
+  "url": "https://www.nestlecareers.cn/",
+  "kind": "流程页",
+  "expected": "未注明",
+  "site": "nestlecareers.cn",
+  "http": 502,
+  "final_url": "https://www.nestlecareers.cn/",
+  "encoding": "ascii",
+  "bytes": 585,
+  "text_len": 70,
+  "title": "502 Bad Gateway",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/雀巢__d29f25f05218.txt"
+ },
+ {
+  "company": "欧莱雅",
+  "url": "https://careers.loreal.com/",
+  "kind": "流程页",
+  "expected": "未注明",
+  "site": "careers.loreal.com",
+  "http": 200,
+  "final_url": "https://careers.loreal.com/en_US/content",
+  "encoding": "utf-8",
+  "bytes": 224359,
+  "text_len": 7718,
+  "title": "Homepage | L'Oréal Careers| Home",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/欧莱雅__14e4870ba2b1.txt"
+ },
+ {
+  "company": "普华永道",
+  "url": "https://www.pwccn.com/zh/careers/students.html",
+  "kind": "流程页",
+  "expected": "有笔试",
+  "site": "pwccn.com",
+  "http": 200,
+  "final_url": "https://www.pwccn.com/zh/careers/students.html",
+  "encoding": "utf-8",
+  "bytes": 241556,
+  "text_len": 14192,
+  "title": "普华永道中国：校园招聘",
+  "hits": {
+   "test": [
+    "在线测评是校招流程中的一个重要环节，请务必在收到在线测评邀请的48小时内完成测评",
+    "在线测评的用时较短，操作简单，你可以直接登录网页完成",
+    "Q2:什么是在线测评?",
+    "为了更好地发掘你的潜力，我们特别引入了一项在线测评工具，旨在深入探索你的能力与特质，为你匹配更合适的岗位机会",
+    "我们所使用的在线测评包含两个环节，一个限时36分钟的认知能力测评，以及一个不限时的职业性格倾向问卷，通常20-30分钟即可完成",
+    "Q3:在线测评的邀请是不是网申通过后才会收到？​",
+    "你需要确保100%完成在线申请后才有机会进入在线测评环节",
+    "提交在线申请表及完成在线测评是你加入普华永道旅程的第一步",
+    "即刻申请并完成在线测评吧",
+    "在线测评是校招流程中的一个重要环节，请务必在收到在线测评邀请的48小时内完成测评",
+    "在线测评的用时较短，操作简单，你可以直接登录网页完成",
+    "在线测评是校招流程中的一个重要环节，请务必在收到在线测评邀请的48小时内完成测评"
+   ],
+   "flow": [
+    "实习表现优秀的同学将有机会被推荐到FastTrack快速通道，直接进入PwCSuperday评估中心测评或合伙人面试环节，有机会先人一步锁定全职offer"
+   ],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/普华永道__99c0a139d219.txt"
+ },
+ {
+  "company": "德勤",
+  "url": "https://www.deloitte.com/cn/zh/careers/life-at-deloitte/students.html",
+  "kind": "流程页",
+  "expected": "未注明",
+  "site": "deloitte.com",
+  "http": 404,
+  "final_url": "https://www.deloitte.com/cn/zh/careers/life-at-deloitte/students.html",
+  "encoding": "UTF-8",
+  "bytes": 40030,
+  "text_len": 530,
+  "title": "404",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/德勤__c75b6803ca65.txt"
+ },
+ {
+  "company": "联想",
+  "url": "https://talent.lenovo.com.cn/",
+  "kind": "FAQ",
+  "expected": "有笔试",
+  "site": "talent.lenovo.com.cn",
+  "http": 200,
+  "final_url": "https://talent.lenovo.com.cn/",
+  "encoding": "UTF-8",
+  "bytes": 5353,
+  "text_len": 6,
+  "title": "联想校园招聘",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/联想__02a625516508.txt"
+ },
+ {
+  "company": "中国建设银行",
+  "url": "https://job1.ccb.com/cn/job/announcement.html?annoId=20260903163254718082",
+  "kind": "公告",
+  "expected": "有笔试",
+  "site": "job1.ccb.com",
+  "error": "SSLError: HTTPSConnectionPool(host='job1.ccb.com', port=443): Max retries exceeded with url: /cn/job/announcement.html?annoId=20260903163254718082 (Caused by SSLError(SSLError(1, '[SSL: UNSAFE_LEGACY_RENEGOTIATION_DISABLED] unsafe legacy renegotiation disabled (_ssl.c:1010)'))) | direct: SSLError: HTTPSConnectionPool(host='job1.ccb.com', port=443): Max retries exceeded with url: /cn/job/announcement.html?annoId=20260903163254718082 (Caused by SSLError(SSLError(1, '[SSL: UNSAFE_LEGACY_RENEGOTIATION_DISABLED] unsafe legacy renegotiation disabled (_ssl.c:1010)')))"
+ },
+ {
+  "company": "达能",
+  "url": "https://careersite.danone.com.cn/zh_CN/careers/Campus/index.html",
+  "kind": "流程页",
+  "expected": "流程",
+  "site": "careersite.danone.com.cn",
+  "error": "SSLError: HTTPSConnectionPool(host='careersite.danone.com.cn', port=443): Max retries exceeded with url: /zh_CN/careers/Campus/index.html (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)'))) | direct: SSLError: HTTPSConnectionPool(host='careersite.danone.com.cn', port=443): Max retries exceeded with url: /zh_CN/careers/Campus/index.html (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)')))"
+ },
+ {
+  "company": "路威酩轩LVMH",
+  "url": "https://www.lvmh.com/en/join-us/lvmh-graduate-programs/lvmh-china-retail-management-trainee-program",
+  "kind": "流程页",
+  "expected": "流程",
+  "site": "lvmh.com",
+  "http": 200,
+  "final_url": "https://www.lvmh.com/en/join-us/lvmh-graduate-programs/lvmh-china-retail-management-trainee-program",
+  "encoding": "utf-8",
+  "bytes": 2034608,
+  "text_len": 8946,
+  "title": "LVMH China Retail Management Trainee Program - LVMH",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/路威酩轩LVMH__25ba4afc5af0.txt"
+ },
+ {
+  "company": "阿迪达斯",
+  "url": "https://careers.adidas-group.com/teams/students/apac-trainee-program",
+  "kind": "流程页",
+  "expected": "流程",
+  "site": "careers.adidas-group.com",
+  "http": 200,
+  "final_url": "https://careers.adidas-group.com/teams/students/apac-trainee-program",
+  "encoding": "utf-8",
+  "bytes": 54390,
+  "text_len": 3053,
+  "title": "adidas Careers – Through sport, we have the power to change lives. Trainee Programm (Asia)",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/阿迪达斯__1ba0b3268c75.txt"
+ },
+ {
+  "company": "中国电信",
+  "url": "https://job.chinatelecom.com.cn/wt/TELE/web/index/campus",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "job.chinatelecom.com.cn",
+  "http": 200,
+  "final_url": "https://job.chinatelecom.com.cn/wt/TELE/web/index/campus",
+  "encoding": "utf-8",
+  "bytes": 57886,
+  "text_len": 941,
+  "title": "职位列表",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/中国电信__78146ec510dd.txt"
+ },
+ {
+  "company": "中国农业银行",
+  "url": "https://career.abchina.com/build/index.html",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "career.abchina.com",
+  "error": "SSLError: HTTPSConnectionPool(host='career.abchina.com', port=443): Max retries exceeded with url: /build/index.html (Caused by SSLError(SSLError(1, '[SSL: UNSAFE_LEGACY_RENEGOTIATION_DISABLED] unsafe legacy renegotiation disabled (_ssl.c:1010)'))) | direct: SSLError: HTTPSConnectionPool(host='career.abchina.com', port=443): Max retries exceeded with url: /build/index.html (Caused by SSLError(SSLError(1, '[SSL: UNSAFE_LEGACY_RENEGOTIATION_DISABLED] unsafe legacy renegotiation disabled (_ssl.c:1010)')))"
+ },
+ {
+  "company": "中国工商银行",
+  "url": "https://job.icbc.com.cn/pc/index.html",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "job.icbc.com.cn",
+  "error": "SSLError: HTTPSConnectionPool(host='job.icbc.com.cn', port=443): Max retries exceeded with url: /pc/index.html (Caused by SSLError(SSLError(1, '[SSL: UNSAFE_LEGACY_RENEGOTIATION_DISABLED] unsafe legacy renegotiation disabled (_ssl.c:1010)'))) | direct: SSLError: HTTPSConnectionPool(host='job.icbc.com.cn', port=443): Max retries exceeded with url: /pc/index.html (Caused by SSLError(SSLError(1, '[SSL: UNSAFE_LEGACY_RENEGOTIATION_DISABLED] unsafe legacy renegotiation disabled (_ssl.c:1010)')))"
+ },
+ {
+  "company": "交通银行",
+  "url": "https://job.bankcomm.com/",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "job.bankcomm.com",
+  "error": "SSLError: HTTPSConnectionPool(host='job.bankcomm.com', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLError(1, '[SSL: UNSAFE_LEGACY_RENEGOTIATION_DISABLED] unsafe legacy renegotiation disabled (_ssl.c:1010)'))) | direct: SSLError: HTTPSConnectionPool(host='job.bankcomm.com', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLError(1, '[SSL: UNSAFE_LEGACY_RENEGOTIATION_DISABLED] unsafe legacy renegotiation disabled (_ssl.c:1010)')))"
+ },
+ {
+  "company": "中国邮政储蓄银行",
+  "url": "https://www.psbc.com/cn/gywh/xyzp/",
+  "kind": "公告",
+  "expected": "有笔试",
+  "site": "psbc.com",
+  "http": 200,
+  "final_url": "https://www.psbc.com/cn/common/404/index.html",
+  "encoding": "UTF-8",
+  "bytes": 64509,
+  "text_len": 1873,
+  "title": "中国邮政储蓄银行",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/中国邮政储蓄银行__e65f92d54eda.txt"
+ },
+ {
+  "company": "中信银行",
+  "url": "https://campus.ecitic.com/",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "campus.ecitic.com",
+  "error": "SSLError: HTTPSConnectionPool(host='campus.ecitic.com', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)'))) | direct: SSLError: HTTPSConnectionPool(host='campus.ecitic.com', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)')))"
+ },
+ {
+  "company": "兴业银行",
+  "url": "https://cib.hotjob.cn/",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "cib.hotjob.cn",
+  "error": "SSLError: HTTPSConnectionPool(host='cib.hotjob.cn', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)'))) | direct: SSLError: HTTPSConnectionPool(host='cib.hotjob.cn', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)')))"
+ },
+ {
+  "company": "浦发银行",
+  "url": "https://spdb.zhiye.com/",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "spdb.zhiye.com",
+  "http": 200,
+  "final_url": "https://spdb.zhiye.com/404?errorpath=%2f",
+  "encoding": "utf-8",
+  "bytes": 1228,
+  "text_len": 97,
+  "title": "Not Found",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/浦发银行__1fc0bf1a6b3a.txt"
+ },
+ {
+  "company": "国家能源集团",
+  "url": "https://zhaopin.chnenergy.com.cn/",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "zhaopin.chnenergy.com.cn",
+  "http": 200,
+  "final_url": "https://zhaopin.chnenergy.com.cn/",
+  "encoding": "utf-8",
+  "bytes": 22408,
+  "text_len": 162,
+  "title": "登录",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/国家能源集团__4d979c0797a0.txt"
+ },
+ {
+  "company": "中国石油化工集团",
+  "url": "https://job.sinopec.com/",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "job.sinopec.com",
+  "http": 200,
+  "final_url": "https://job.sinopec.com/",
+  "encoding": "utf-8",
+  "bytes": 2409,
+  "text_len": 8,
+  "title": "中国石化招聘网站",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/中国石油化工集团__4c2001de881c.txt"
+ },
+ {
+  "company": "中国建筑集团",
+  "url": "https://cscec.iguopin.com/",
+  "kind": "专场",
+  "expected": "有笔试",
+  "site": "cscec.iguopin.com",
+  "http": 200,
+  "final_url": "https://cscec.iguopin.com/",
+  "encoding": "utf-8",
+  "bytes": 592,
+  "text_len": 4,
+  "title": "招聘官网",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/中国建筑集团__45b858b64ffa.txt"
+ },
+ {
+  "company": "中国中铁",
+  "url": "https://crec.iguopin.com/",
+  "kind": "专场",
+  "expected": "有笔试",
+  "site": "crec.iguopin.com",
+  "http": 200,
+  "final_url": "https://crec.iguopin.com/",
+  "encoding": "utf-8",
+  "bytes": 592,
+  "text_len": 4,
+  "title": "招聘官网",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/中国中铁__b22729497b52.txt"
+ },
+ {
+  "company": "中国联合网络通信集团有限公司",
+  "url": "https://zglt.iguopin.com/job",
+  "kind": "专场",
+  "expected": "有笔试",
+  "site": "zglt.iguopin.com",
+  "http": 200,
+  "final_url": "https://zglt.iguopin.com/job",
+  "encoding": "utf-8",
+  "bytes": 592,
+  "text_len": 4,
+  "title": "招聘官网",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/中国联合网络通信集团有限公司__620b40cb95a6.txt"
+ },
+ {
+  "company": "中国移动通信集团有限公司",
+  "url": "https://zgyd.iguopin.com/job",
+  "kind": "专场",
+  "expected": "有笔试",
+  "site": "zgyd.iguopin.com",
+  "http": 200,
+  "final_url": "https://zgyd.iguopin.com/job",
+  "encoding": "utf-8",
+  "bytes": 592,
+  "text_len": 4,
+  "title": "招聘官网",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/中国移动通信集团有限公司__c4f8f955ed16.txt"
+ },
+ {
+  "company": "美的集团",
+  "url": "https://careers.midea.com/",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "careers.midea.com",
+  "http": 200,
+  "final_url": "https://careers.midea.com/schoolOut",
+  "encoding": "UTF-8",
+  "bytes": 7464,
+  "text_len": 11,
+  "title": "美的集团-校园招聘官网",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/美的集团__cc76f255551e.txt"
+ },
+ {
+  "company": "京东方",
+  "url": "https://campus.boe.com/",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "campus.boe.com",
+  "http": 200,
+  "final_url": "https://campus.boe.com/",
+  "encoding": "UTF-8-SIG",
+  "bytes": 65968,
+  "text_len": 137,
+  "title": "京东方科技集团股份有限公司",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/京东方__856fc22522e9.txt"
+ },
+ {
+  "company": "中国邮政储蓄银行",
+  "url": "https://www.psbc.com/cn/gyyc/rczp/xyzp/202609/t20260907_460394.html",
+  "kind": "公告",
+  "expected": "有笔试",
+  "site": "psbc.com",
+  "http": 200,
+  "final_url": "https://www.psbc.com/cn/gyyc/rczp/xyzp/202609/t20260907_460394.html",
+  "encoding": "UTF-8",
+  "bytes": 87848,
+  "text_len": 4006,
+  "title": "中国邮政储蓄银行2027年度校园招聘公告",
+  "hits": {
+   "test": [
+    "我行将根据招聘条件对应聘者进行资格审查，并根据岗位需求及报名情况等，择优甄选确定入围笔试人员",
+    "采用线下现场机考方式，具体时间另行通知"
+   ],
+   "flow": [
+    "（四）面试、体检、背景调查及录用"
+   ],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/中国邮政储蓄银行__10e2340340e0.txt"
+ },
+ {
+  "company": "国家能源集团",
+  "url": "https://zhaopin.chnenergy.com.cn/annc/showgg?id=6a152f40-7fe5-460e-ad37-0024acafd8c9",
+  "kind": "公告",
+  "expected": "有笔试",
+  "site": "zhaopin.chnenergy.com.cn",
+  "http": 200,
+  "final_url": "https://zhaopin.chnenergy.com.cn/annc/showgg?id=6a152f40-7fe5-460e-ad37-0024acafd8c9",
+  "encoding": "utf-8",
+  "bytes": 41395,
+  "text_len": 1902,
+  "title": "",
+  "hits": {
+   "test": [
+    "统一笔试（博士研究生免笔试）"
+   ],
+   "flow": [],
+   "exempt": [
+    "统一笔试（博士研究生免笔试）"
+   ],
+   "conditional": []
+  },
+  "evidence_file": "evidence/国家能源集团__df2686c85c64.txt"
+ },
+ {
+  "company": "中国南方电网",
+  "url": "https://hr.csg.cn/",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "hr.csg.cn",
+  "error": "SSLError: HTTPSConnectionPool(host='hr.csg.cn', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)'))) | direct: SSLError: HTTPSConnectionPool(host='hr.csg.cn', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)')))"
+ },
+ {
+  "company": "中国华能集团",
+  "url": "https://job.chng.com.cn/",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "job.chng.com.cn",
+  "error": "SSLError: HTTPSConnectionPool(host='job.chng.com.cn', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)'))) | direct: SSLError: HTTPSConnectionPool(host='job.chng.com.cn', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)')))"
+ },
+ {
+  "company": "中国长江三峡集团",
+  "url": "https://www.ctg.com.cn/rczp/",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "ctg.com.cn",
+  "http": 404,
+  "final_url": "https://www.ctg.com.cn/rczp/",
+  "encoding": "ascii",
+  "bytes": 548,
+  "text_len": 33,
+  "title": "404 Not Found",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/中国长江三峡集团__6816d5cdbf68.txt"
+ },
+ {
+  "company": "中国中车",
+  "url": "https://www.crrcgc.cc/rczp",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "crrcgc.cc",
+  "http": 404,
+  "final_url": "https://www.crrcgc.cc/rczp",
+  "encoding": "ascii",
+  "bytes": 548,
+  "text_len": 33,
+  "title": "404 Not Found",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/中国中车__ba6bb900a7cc.txt"
+ },
+ {
+  "company": "中国石油天然气集团",
+  "url": "https://zhaopin.cnpc.com.cn/",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "zhaopin.cnpc.com.cn",
+  "http": 412,
+  "final_url": "https://zhaopin.cnpc.com.cn/",
+  "encoding": "utf-8",
+  "bytes": 3452,
+  "text_len": 0,
+  "title": "",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/中国石油天然气集团__d7dd8b88c48e.txt"
+ },
+ {
+  "company": "中国海洋石油集团",
+  "url": "https://cnooc.zhaopin.com/",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "cnooc.zhaopin.com",
+  "http": 200,
+  "final_url": "https://cnooc.zhaopin.com/",
+  "encoding": "UTF-8",
+  "bytes": 1568,
+  "text_len": 21,
+  "title": "中国海洋石油集团有限公司2026届校园招聘",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/中国海洋石油集团__189b6879a1c2.txt"
+ },
+ {
+  "company": "中国大唐集团",
+  "url": "https://www.china-cdt.com/rlzy/",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "china-cdt.com",
+  "http": 403,
+  "final_url": "https://www.china-cdt.com/rlzy/",
+  "encoding": "UTF-8",
+  "bytes": 446,
+  "text_len": 91,
+  "title": "Redirecting...",
+  "hits": {
+   "test": [],
+   "flow": [],
+   "exempt": [],
+   "conditional": []
+  },
+  "evidence_file": "evidence/中国大唐集团__ff2ac67fd8b2.txt"
+ },
+ {
+  "company": "中国铁建",
+  "url": "https://www.crcc.cn/col/col1591/index.html",
+  "kind": "门户",
+  "expected": "未注明",
+  "site": "crcc.cn",
+  "error": "ProxyError: HTTPSConnectionPool(host='www.crcc.cn', port=443): Max retries exceeded with url: /col/col1591/index.html (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 503 Service Unavailable'))) | direct: SSLError: HTTPSConnectionPool(host='www.crcc.cn', port=443): Max retries exceeded with url: /col/col1591/index.html (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1010)')))"
+ }
+]

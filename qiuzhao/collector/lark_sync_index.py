@@ -24,6 +24,7 @@ import argparse
 import datetime as dt
 import hashlib
 import json
+import os
 from collections import Counter
 from pathlib import Path
 
@@ -41,6 +42,19 @@ NOTE_FIELD = E.NOTE_FIELD
 BUSINESS_FIELDS = ['岗位名称', '公司名称', '招聘单位', '原链接', '投递入口', '来源',
                    '投递截止', '岗位大类', '招聘性质', '岗位描述', NOTE_FIELD, '状态',
                    *S.TARGETS]
+# 笔试要求 4 列默认不启用:生产 Base 还没有这些列,打开前写入会失败。
+# 开关:环境变量 QIUSHAO_LARK_WRITTEN_TEST=1(须先在第 4.4 节确认 Base 已建列)。
+WRITTEN_TEST_FIELDS = list(E.WRITTEN_TEST_COLUMNS)
+WRITTEN_TEST_ENV = 'QIUSHAO_LARK_WRITTEN_TEST'
+
+
+def written_test_enabled():
+    return os.environ.get(WRITTEN_TEST_ENV, '') == '1'
+
+
+def enabled_business_fields():
+    """真正参与读写与内容哈希的字段列表(默认与历史完全一致)。"""
+    return [*BUSINESS_FIELDS, *WRITTEN_TEST_FIELDS] if written_test_enabled() else list(BUSINESS_FIELDS)
 
 
 def content_hash(projection):
@@ -75,6 +89,8 @@ def business_projection(raw):
     projection = {'job_id': identity}
     projection.update(E.business_fields(raw))
     projection.update(S.values_for(raw))
+    if written_test_enabled():
+        projection.update(E.written_test_fields(raw))
     projection[NOTE_FIELD] = E.qualification_note(raw)
     state = E.source_lifecycle_state(raw)
     if state:
@@ -293,7 +309,7 @@ class LarkCliTransport:
         path = self.run_dir / f'read-{tag}-{record_id}.ndjson'
         args = ['+record-get', '--base-token', S.BASE, '--table-id', table,
                 '--record-id', record_id, '--format', 'ndjson', '--output', S.rel(path), '--overwrite']
-        for name in ['job_id', *BUSINESS_FIELDS]:
+        for name in ['job_id', *enabled_business_fields()]:
             args += ['--field-id', name]
         response = self._call(*args)
         if response.get('ignored_fields') or response.get('record_not_found'):
@@ -389,7 +405,7 @@ def reconcile_pending(index, journal, journal_path, transport):
             location = matches[identity][0]
             current = transport.read_business(location['table'], location['record_id'],
                                               identity, tag='reconcile-' + entry['operation_id'])
-            actual = content_hash({name: current.get(name) for name in ['job_id', *BUSINESS_FIELDS]
+            actual = content_hash({name: current.get(name) for name in ['job_id', *enabled_business_fields()]
                                    if name in current or name == 'job_id' or current.get(name) is not None})
             wanted = entry['content_hashes'][identity]
             if actual == wanted:
@@ -407,7 +423,7 @@ def reconcile_pending(index, journal, journal_path, transport):
 
 
 def _desired_hash_from_current(current, identity):
-    present = {name: current.get(name) for name in ['job_id', *BUSINESS_FIELDS]
+    present = {name: current.get(name) for name in ['job_id', *enabled_business_fields()]
                if current.get(name) not in (None, '', [])}
     present['job_id'] = identity
     return content_hash(present)
@@ -650,7 +666,7 @@ def run_mirror(source_path, source_sha256, *, index_path, journal_path, run_dir=
             # (schema-intersected), never of the whole source row: after a
             # confirmed create, a point read of the record must reproduce it.
             payload_hashes = {identity: content_hash({key: value for key, value in row.items()
-                                                      if key == 'job_id' or key in BUSINESS_FIELDS})
+                                                      if key == 'job_id' or key in enabled_business_fields()})
                               for (identity, _, _), row in zip(chunk, rows_payload)}
             for row in rows_payload:
                 for name in S.TARGETS:

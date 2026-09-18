@@ -33,6 +33,8 @@ MAJOR_CATEGORIES = ["计算机类", "电子信息类", "金融经济类", "机�
 # "2024—2027届高校毕业生优先"); `python -m qiuzhao.v4_fields check` fails when this drifts from data.
 GRADUATION_YEARS = ["2028届", "2027届", "2026届", "2025届", "2024届"]
 UNSPECIFIED = "未注明"
+# 笔试要求(站长 2026-09-19 口径):测评算笔试,限定性豁免标 部分免笔试。
+WRITTEN_TEST_VALUES = ["免笔试", "部分免笔试", "有笔试", "未注明"]
 
 # ---------------------------------------------------------------- match bases and tiers
 
@@ -679,7 +681,7 @@ def date_of(value):
 CORE = ("id", "job_title", "company", "job_category", "recruitment_type", "industry", "cities", "region",
         "graduation_years", "graduation_year_basis", "education", "major_category", "deadline",
         "deadline_kind", "status", "published_at", "description_raw", "application_url", "source_url",
-        "source_name", "reviewed_at")
+        "source_name", "reviewed_at", "written_test")
 KEYWORD_FIELDS = ("job_title", "job_category_raw", "description_raw", "company", "recruiting_unit_raw",
                   "parent_unit_raw", "hiring_department_raw", "contracting_entity")
 COMPANY_FIELDS = ("company", "recruiting_unit_raw", "parent_unit_raw", "contracting_entity")
@@ -756,6 +758,13 @@ def convert(r):
         "job_listing_url": _text(r.get("job_listing_url")),
         "source_name": _text(r.get("source_name")),
         "reviewed_at": r.get("reviewed_at") or None,
+        # 笔试要求:normalize 阶段按公司/专场标注表继承写入;缺字段(老库)按未注明,不推断。
+        "written_test": _text(r.get("written_test")) or UNSPECIFIED,
+        "written_test_scope": _text(r.get("written_test_scope")),
+        "written_test_basis": _text(r.get("written_test_basis")),
+        "written_test_evidence": _text(r.get("written_test_evidence")),
+        "written_test_source_url": _text(r.get("written_test_source_url")),
+        "written_test_checked_at": _text(r.get("written_test_checked_at")),
     }
     return {k: v for k, v in it.items() if k in CORE or v not in ("", [], {}, None)}, grad_rule
 

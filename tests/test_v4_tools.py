@@ -42,7 +42,7 @@ def test_default_search_shape(qz, jobs_inproc):
     out = structured(qz.call("jobs_search"))
     assert list(out) == ["applied_filters", "total", "explicit_total", "inferred_total", "unspecified_total",
                          "sort", "offset", "page_size", "returned", "has_next", "next_offset", "truncated",
-                         "data_as_of", "jobs"]
+                         "data_as_of", "written_test_as_of", "jobs"]
     assert out["total"] == out["explicit_total"] == len(jobs_inproc.dataset().items)
     assert (out["page_size"], out["returned"], out["has_next"], out["next_offset"], out["truncated"]) == (10, 10, True, 10, False)
     assert out["data_as_of"] == jobs_inproc.dataset().data_as_of
