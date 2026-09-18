@@ -1,0 +1,70 @@
+Jingling (精灵) production original-backup manifest for cumulative deploy bundle 20260918k
+Generated on the Mac worktree, 2026-09-18 (Asia/Shanghai), branch feat/collector-next-3.
+
+Purpose: record the byte-exact sha256 that every target file must have on jingling
+BEFORE this bundle is copied, under the two possible states of the machine.
+20260918i (字节跳动/美的集团) and 20260918j (外企第二批) were never deployed, so only
+two premises are possible:
+
+  PREMISE 1: jingling is still the plain 20260918 bundle (20260918h NOT deployed yet)
+  PREMISE 2: jingling already runs 20260918h (deployed tonight by the other executor)
+
+If the real pre-deploy hash of a file differs from the value for the premise that
+matches the machine, STOP: record the real hash, back the file up anyway and treat
+the difference as drift (for example i or j deployed out of band; their DEPLOY-NOTES
+carry their own expected hashes). ABSENT means the file must not exist; if it does,
+back it up and note it.
+
+Target path on jingling                        PREMISE 1 pre-deploy sha256                 PREMISE 2 pre-deploy sha256                 action
+---------------------------------------------  ------------------------------------------  ------------------------------------------  ------------------------------------
+qiuzhao/collector/p1_pipeline.py               dc046e32f37d7482ac56222898d122edb52d93d8b48fed4f3c5c2c67770fdb90  c48dbf94c13f03394897a767f2fb918d1afcd06658ae93d32975d42cf98310a9  overwrite
+deploy/windows_collector.py                    14e17785ccff51f94aea519bee1637582d974c6d65540ee6f379954b08c90c4a  9eaf97cc5d4e968c062aaa65468ab34c584534a4ced5523d75c7c26229ec8312  overwrite (k content == h content)
+qiuzhao/collector/guopin.py                    22e5f6ad0b66487ba7f6ccaee041da67c668d7ed98aeaa10408d7dc95a0abf89  add0d50c715e06eb968bb7671bc2e9787e81d9ad39be008e66731337f16b6c03  overwrite
+qiuzhao/collector/alibaba_headless.py          ABSENT                                                                        dab17686cf251f220950b8c8e13984d39dcbb07b8a3eeeea84bdea3ca3be7db2  overwrite
+qiuzhao/collector/p1_banks_01.py               ABSENT                                                                        25e2399812f64ee1762b7686849bf7241c8e1353d7203347562f9794223ffb19  overwrite
+qiuzhao/collector/p1_feishu_public.py          ABSENT (see CAVEAT below)                                                     e9855205ad1cc9494855d1357ab93c68f6e6ead646e7441bd6032c7311a8ca4f  overwrite
+qiuzhao/collector/p1_platform_beisen.py        ABSENT                                                                        3faeb5686aa7bf05a7b6754b35a607c50a9666e8247dd5b46d430307b9eb33a5  overwrite
+qiuzhao/collector/p1_platform_moka.py          ABSENT                                                                        569e0865d96ba7f91a4803330975ac76f9f35277b9f1bf312092c598c636a777  overwrite
+qiuzhao/collector/p1_platform_successfactors.py ABSENT                                                                       658c81c07bd4ebda62735662dfac54722dccc830517072e3a40d9329701f1216  overwrite
+qiuzhao/collector/p1_platform_workday.py       ABSENT                                                                        d95e11b29f30368a1f4657d22fdb1c10d88495bd1ccac03f8a15c613caeb706b  overwrite
+qiuzhao/collector/tencent_music.py             ABSENT                                                                        7d19cbc34b45dfc5e31c3d9b7ed41dd51c638c5adb6c62bf6e0330904f3d3787  overwrite
+qiuzhao/collector/p1_platform_companies.json   ABSENT                                                                        ee0f288cf6213da356f9f0dcaf03e54374472ab3519b2a1a4f91e8b9ee86349b  overwrite
+qiuzhao/collector/bytedance.py                 609a241e2a6f0d80e31e6c1a5e8abfeb2979404f6f2efffdbc4edb6fb3e16a00  609a241e2a6f0d80e31e6c1a5e8abfeb2979404f6f2efffdbc4edb6fb3e16a00  overwrite (legacy collector, same in both premises)
+qiuzhao/collector/p1_bytedance_public.py       ABSENT                                                                        ABSENT                                                              new in k
+qiuzhao/collector/p1_midea_public.py           ABSENT                                                                        ABSENT                                                              new in k
+qiuzhao/collector/p1_foreign_01.py             ABSENT                                                                        ABSENT                                                              new in k
+qiuzhao/collector/p1_platform_51job.py         ABSENT                                                                        ABSENT                                                              new in k
+
+CAVEAT on p1_feishu_public.py: an earlier Feishu commit may already have placed this
+file in the pre-20260918 collector tree (the hardcoded 小鹏/蔚来/商汤 path lazily
+imports it). Check with `dir qiuzhao\collector\p1_feishu_public.py`; if it exists,
+record its hash and back it up (rollback = restore, not delete).
+
+CAVEAT on bytedance.py: it is a pre-existing one-off collector (it produced the 4171
+`bytedance-<id>` rows in the DB), so it should be on jingling already. Verify the
+pre-deploy hash equals 609a241e...; if it differs, that is drift (another session
+touched it) - back it up and record the real value. If it is ABSENT, treat it as a
+new file (rollback = delete).
+
+Rollback:
+  PREMISE 1: restore p1_pipeline.py / guopin.py / windows_collector.py from ../20260918/,
+             delete the 9 h-new files (except a pre-existing p1_feishu_public.py, which
+             is restored), restore bytedance.py from its backup, delete the 4 k-new files.
+  PREMISE 2: restore all 12 h files from ../20260918h/, restore bytedance.py from its
+             backup, delete the 4 k-new files (p1_bytedance_public.py, p1_midea_public.py,
+             p1_foreign_01.py, p1_platform_51job.py).
+
+Bundle content hashes (20260918k, for the step-2 Get-FileHash check; the full list is
+SHA256SUMS.txt, 17 files):
+  p1_pipeline.py                 ff96be4d772847a0273003e2db0466d3ad698dc5cd719d968f40fb96abc8dc76
+  p1_platform_companies.json     bf592f62cd644a20d16e948027832763da268d236439be6dba1d95dc1980f843
+  windows_collector.py           9eaf97cc5d4e968c062aaa65468ab34c584534a4ced5523d75c7c26229ec8312
+  bytedance.py                   07922a5111dd6356d97d289d472ae78bf177dd95bf8f401db6284e8e18140c8d
+  p1_bytedance_public.py         bc2926472037e24c212f47a0d62750ca9cd921a7b01df5af6dbe0f56d5c160e6
+  p1_midea_public.py             509b9a502d7e1010c478896fc1312ae380aa97a3847412bdef8cb48bc2c97186
+  p1_foreign_01.py               549481bbe540a7633c080a519617bbe7e23dc4d95d5bb1f4ec127b771460a052
+  p1_platform_51job.py           f19201fe4340e802216f8fb1428cece2457aba611cdf798bd9cce42441bc32bb
+
+Run `shasum -a 256 -c SHA256SUMS.txt` (macOS) or
+`certutil -hashfile <file> SHA256` / `Get-FileHash -Algorithm SHA256` (jingling)
+inside this directory after copy: every line must print OK.

@@ -134,6 +134,67 @@ def test_platform_gate_spaces_same_platform_launches(tmp_path):
     assert gaps and min(gaps) >= 0.2, gaps
 
 
+# --- foreign batch 2: Dayee / 51job join the gate, 字节/美的 stay dedicated ----
+
+def _companies_with_module(module):
+    return [name for name in p.DEFAULT_COMPANIES if p.REGISTRY[name] == module]
+
+
+def test_dayee_and_51job_companies_join_the_platform_gate():
+    dayee = _companies_with_module('qiuzhao.collector.p1_foreign_01')
+    job51 = _companies_with_module('qiuzhao.collector.p1_platform_51job')
+    assert len(dayee) == 7 and '德勤' in dayee
+    assert job51 == ['百事']
+    for name in dayee:
+        # Same multi-tenant host => one shared gate group, three scopes, no rotation.
+        assert p.platform_group(name) == 'hotjob.cn', name
+        assert p.company_scopes(name) == ['campus', 'intern', 'social'], name
+    assert p.platform_group('百事') == '51job.com'
+    assert p.company_scopes('百事') == ['campus', 'intern', 'social']
+    assert not ({'qiuzhao.collector.p1_foreign_01', 'qiuzhao.collector.p1_platform_51job'}
+                & p.ROTATING_MODULES)
+
+
+def test_gate_caps_concurrency_across_dayee_tenants(tmp_path):
+    # The 7 Dayee tenants are different companies on one upstream host, so the
+    # per-platform cap (not the global worker count) must bound them.
+    lock = threading.Lock()
+    active = 0
+    peak = 0
+
+    def fake(company, scope, output, timeout):
+        nonlocal active, peak
+        with lock:
+            active += 1
+            peak = max(peak, active)
+        time.sleep(0.15)
+        with lock:
+            active -= 1
+        return validated(company, scope)
+
+    companies = _companies_with_module('qiuzhao.collector.p1_foreign_01')[:4]
+    with patch.object(p, 'collect_process', side_effect=fake):
+        p.run(tmp_path, tmp_path / 'run', companies, ['campus'], workers=4,
+              platform_workers=2, platform_min_interval=0.0)
+    assert peak <= 2, peak
+
+
+def test_bytedance_and_midea_are_daily_dedicated_adapters():
+    # 每天必跑的专用适配器：不进 PLATFORM_MODULES，所以各有独立 gate 组，
+    # 不与其他公司共享限流，也不参与任何轮转；scope 由适配器自己决定
+    # （美的 social 按其设计返回 blocked，见 test_p1_midea_public.py）。
+    for name in ('字节跳动', '美的集团'):
+        module = p.REGISTRY[name]
+        assert module not in p.PLATFORM_MODULES, name
+        assert module not in p.ROTATING_MODULES, name
+        assert p.platform_group(name) == 'company:' + name, name
+        assert p.company_scopes(name) == ['campus', 'intern', 'social'], name
+    assert p.REGISTRY['字节跳动'] == 'qiuzhao.collector.p1_bytedance_public'
+    assert p.REGISTRY['美的集团'] == 'qiuzhao.collector.p1_midea_public'
+    assert p.REGISTRY['字节跳动'] not in p.PLATFORM_HOST_GROUPS
+    assert p.REGISTRY['美的集团'] not in p.PLATFORM_HOST_GROUPS
+
+
 # --- day rotation -------------------------------------------------------------
 
 def test_rotation_partitions_only_config_platforms():

@@ -334,6 +334,16 @@ def test_registry_names_are_unique_and_config_sections_never_hijack_a_module():
     for section, names in declared.items():
         for name in names:
             owner = p.REGISTRY[name]
+            if name in p.COMPANIES:
+                if owner == CONFIG_SECTION_MODULES[section]:
+                    # beisen/moka deliberately adopt the overlapping hardcoded
+                    # 三七互娱/金山办公/鹰角网络 moka tenants.
+                    assert section in ('beisen', 'moka'), (section, name, owner)
+                else:
+                    # feishu's setdefault must keep the hardcoded p1_sources_* slot.
+                    assert section == 'feishu' and owner.startswith('qiuzhao.collector.p1_sources_'), \
+                        (section, name, owner)
+                continue
             if owner == CONFIG_SECTION_MODULES[section] or section == 'feishu':
                 continue
             raise AssertionError((section, name, owner))
