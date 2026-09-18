@@ -107,6 +107,16 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
     assert p.REGISTRY['思爱普'] == 'qiuzhao.collector.p1_platform_successfactors'
 
 
+def test_every_registry_module_exposes_the_collect_contract():
+    # p1_feishu_public shipped without a `collect` alias, so the daily chain would
+    # block every Feishu tenant. Guard the subprocess contract for every module.
+    import importlib
+
+    for module_path in sorted(set(p.REGISTRY.values())):
+        module = importlib.import_module(module_path)
+        assert callable(getattr(module, 'collect', None)), module_path
+
+
 def test_platform_company_runs_without_index_error_and_gets_unique_dir(tmp_path):
     companies = ['大疆', '小天才']
     outputs = {}
@@ -127,15 +137,27 @@ def test_cli_default_company_set_reaches_run(tmp_path):
     captured = {}
 
     def fake_run(data_dir, run_dir, companies, scopes, timeout=600, apply=False,
-                 resume=False, max_run_seconds=21600, workers=4):
+                 resume=False, max_run_seconds=21600, workers=4,
+                 platform_workers=2, platform_min_interval=1.0):
         captured['companies'] = list(companies)
         return 0
 
     with patch.object(p, 'run', side_effect=fake_run):
         with patch('sys.argv', ['p1', '--data-dir', str(tmp_path), '--scopes', 'campus']):
             assert p.main() == 0
+    # Day rotation buckets only config-driven platform companies; the hardcoded 50
+    # and every other daily adapter always reach the run.
+    companies = set(captured['companies'])
+    assert set(p.COMPANIES) <= companies
+    daily = {name for name in p.DEFAULT_COMPANIES
+             if name not in p.COMPANIES and p.REGISTRY[name] not in p.ROTATING_MODULES}
+    assert daily <= companies <= set(p.DEFAULT_COMPANIES)
+    assert len(captured['companies']) < len(p.DEFAULT_COMPANIES)
+    # --platform-rotation 1 disables rotation and runs the full default set.
+    with patch.object(p, 'run', side_effect=fake_run):
+        with patch('sys.argv', ['p1', '--data-dir', str(tmp_path), '--platform-rotation', '1']):
+            assert p.main() == 0
     assert captured['companies'] == p.DEFAULT_COMPANIES
-    assert '小天才' in captured['companies']
 
 
 # --- 2. resume accepts added platform companies, never aborts -----------------

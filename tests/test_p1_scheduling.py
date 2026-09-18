@@ -1,0 +1,151 @@
+"""Scheduling safety for the 900+ company daily chain.
+
+Covers: platform scope defaults (campus+intern, social opt-in), per-platform host
+concurrency/spacing, deterministic multi-day rotation, and per-company chain plans.
+All tests are offline; ``collect_process`` is patched.
+"""
+import datetime as dt
+import threading
+import time
+from unittest.mock import patch
+
+from qiuzhao.collector import p1_pipeline as p
+from qiuzhao.collector import p1_platform_beisen as beisen
+from qiuzhao.collector import p1_platform_moka as moka
+
+
+def validated(company, scope='campus'):
+    # A partial that still carried rows counts as trustworthy output, so run()
+    # exits 2 instead of 1 and the calls are the only assertion target.
+    return {'jobs': [], 'coverage': {'status': 'partial', 'complete': False,
+            'detail_complete': False, 'available_job_count': 1, 'pending_count': 0,
+            'collected_jobs': 0, 'pages_scanned': 1, 'errors': [],
+            'checked_at': p.now(), 'scope_evidence': 'offline'}}
+
+
+MOKA_COMPANIES = [name for name in moka.COMPANIES.values() if name not in p.COMPANIES][:6]
+
+
+# --- scope policy -------------------------------------------------------------
+
+def test_hardcoded_companies_keep_all_three_scopes():
+    assert p.company_scopes('大疆') == ['campus', 'intern', 'social']
+    # A platform config line may shadow a hardcoded REGISTRY entry (三七互娱); the
+    # hardcoded slot must still keep three scopes.
+    assert p.company_scopes('三七互娱') == ['campus', 'intern', 'social']
+
+
+def test_platform_companies_default_to_campus_intern():
+    for company in (MOKA_COMPANIES[0], '中信建投', '交通银行', '英伟达', '思爱普'):
+        assert p.company_scopes(company) == ['campus', 'intern'], company
+
+
+def test_ali_and_tencent_keep_three_scopes():
+    assert p.company_scopes('腾讯音乐') == ['campus', 'intern', 'social']
+    assert p.company_scopes('阿里巴巴') == ['campus', 'intern', 'social']
+
+
+def test_config_scopes_opt_in_enables_social(monkeypatch):
+    monkeypatch.setitem(p.PLATFORM_SCOPE_OPT_INS, MOKA_COMPANIES[0],
+                        {'campus', 'intern', 'social'})
+    assert p.company_scopes(MOKA_COMPANIES[0]) == ['campus', 'intern', 'social']
+
+
+def test_run_skips_social_for_platform_but_runs_it_for_hardcoded(tmp_path):
+    calls = []
+
+    def fake(company, scope, output, timeout):
+        calls.append((company, scope))
+        return validated(company, scope)
+
+    with patch.object(p, 'collect_process', side_effect=fake):
+        assert p.run(tmp_path, tmp_path / 'run', ['大疆', MOKA_COMPANIES[0]],
+                     ['campus', 'intern', 'social'], workers=2) == 2
+    assert ('大疆', 'social') in calls
+    assert (MOKA_COMPANIES[0], 'social') not in calls
+    assert (MOKA_COMPANIES[0], 'campus') in calls
+    assert (MOKA_COMPANIES[0], 'intern') in calls
+
+
+# --- per-platform gate --------------------------------------------------------
+
+def test_platform_group_maps_known_hosts():
+    assert p.platform_group('中信建投') == 'zhiye.com'
+    assert p.platform_group(MOKA_COMPANIES[0]) == 'app.mokahr.com'
+    assert p.platform_group('大疆') == 'company:大疆'
+
+
+def test_platform_gate_caps_same_platform_concurrency(tmp_path):
+    lock = threading.Lock()
+    active = 0
+    peak = 0
+
+    def fake(company, scope, output, timeout):
+        nonlocal active, peak
+        with lock:
+            active += 1
+            peak = max(peak, active)
+        time.sleep(0.15)
+        with lock:
+            active -= 1
+        return validated(company, scope)
+
+    companies = MOKA_COMPANIES[:4]
+    with patch.object(p, 'collect_process', side_effect=fake):
+        p.run(tmp_path, tmp_path / 'run', companies, ['campus'], workers=4,
+              platform_workers=2, platform_min_interval=0.0)
+    assert peak <= 2, peak
+
+
+def test_platform_gate_spaces_same_platform_launches(tmp_path):
+    starts = []
+    lock = threading.Lock()
+
+    def fake(company, scope, output, timeout):
+        with lock:
+            starts.append(time.monotonic())
+        return validated(company, scope)
+
+    companies = MOKA_COMPANIES[:3]
+    with patch.object(p, 'collect_process', side_effect=fake):
+        p.run(tmp_path, tmp_path / 'run', companies, ['campus'], workers=3,
+              platform_workers=2, platform_min_interval=0.3)
+    starts.sort()
+    gaps = [later - earlier for earlier, later in zip(starts, starts[1:])]
+    assert gaps and min(gaps) >= 0.2, gaps
+
+
+# --- day rotation -------------------------------------------------------------
+
+def test_rotation_partitions_only_config_platforms():
+    groups = 3
+    rotating = [name for name in p.DEFAULT_COMPANIES
+                if name not in p.COMPANIES and p.REGISTRY[name] in p.ROTATING_MODULES]
+    buckets = [p.platform_rotation_group(name, groups) for name in rotating]
+    assert set(buckets) == {0, 1, 2}
+    for day in (dt.date(2026, 9, 18), dt.date(2026, 9, 19), dt.date(2026, 9, 20)):
+        selected = p.companies_for_day(p.DEFAULT_COMPANIES, groups, day=day)
+        # Hardcoded 50 and every non-rotating adapter stay in every day.
+        assert set(p.COMPANIES) <= set(selected)
+        daily = {name for name in p.DEFAULT_COMPANIES
+                 if name not in p.COMPANIES and p.REGISTRY[name] not in p.ROTATING_MODULES}
+        assert daily <= set(selected)
+        # Rotating companies appear exactly on their bucket day.
+        bucket = day.toordinal() % groups
+        assert {name for name in selected if name in rotating} == {
+            name for name in rotating if p.platform_rotation_group(name, groups) == bucket}
+
+
+def test_rotation_is_deterministic_and_off_by_default_one():
+    rotating = [name for name in p.DEFAULT_COMPANIES
+                if name not in p.COMPANIES and p.REGISTRY[name] in p.ROTATING_MODULES]
+    assert p.companies_for_day(rotating, 2, day=dt.date(2026, 9, 18)) == \
+        p.companies_for_day(rotating, 2, day=dt.date(2026, 9, 18))
+    assert p.companies_for_day(p.DEFAULT_COMPANIES, 1) == p.DEFAULT_COMPANIES
+
+
+def test_plan_chains_uses_per_company_scopes():
+    chains = {chain['company']: chain['scopes'] for chain in p.plan_chains(
+        ['大疆', MOKA_COMPANIES[0]], ['campus', 'intern', 'social'], {})}
+    assert chains['大疆'] == ['campus', 'intern', 'social']
+    assert chains[MOKA_COMPANIES[0]] == ['campus', 'intern']

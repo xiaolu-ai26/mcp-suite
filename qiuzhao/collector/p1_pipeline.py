@@ -110,6 +110,188 @@ except Exception:  # optional platform config may be absent in a minimal checkou
 PLATFORM_COMPANIES = [name for name in REGISTRY if name not in COMPANIES]
 DEFAULT_COMPANIES = [*COMPANIES, *PLATFORM_COMPANIES]
 
+# --- 905+ company scheduling safety ------------------------------------------
+# Platform-host adapters share an upstream host family. They default to the two
+# scopes the daily chain needs (campus + intern); social is skipped unless a config
+# entry opts in with an explicit "scopes" list. The hardcoded 50 and the
+# Ali/Tencent gap adapters keep all three scopes.
+PLATFORM_MODULES = frozenset({
+    'qiuzhao.collector.p1_platform_beisen',
+    'qiuzhao.collector.p1_platform_moka',
+    'qiuzhao.collector.p1_feishu_public',
+    'qiuzhao.collector.p1_platform_workday',
+    'qiuzhao.collector.p1_platform_successfactors',
+    'qiuzhao.collector.p1_banks_01',
+})
+PLATFORM_DEFAULT_SCOPES = ('campus', 'intern')
+# Per-platform concurrency cap and minimum spacing between same-host unit launches.
+PLATFORM_WORKERS = 2
+PLATFORM_MIN_INTERVAL = 1.0
+# Only the large config-driven ATS platforms are split across days. The hardcoded
+# 50, banks, Ali/Tencent and Workday/SuccessFactors run every day.
+ROTATING_MODULES = frozenset({
+    'qiuzhao.collector.p1_platform_beisen',
+    'qiuzhao.collector.p1_platform_moka',
+    'qiuzhao.collector.p1_feishu_public',
+})
+PLATFORM_ROTATION_DEFAULT = 2
+PLATFORM_HOST_GROUPS = {
+    'qiuzhao.collector.p1_platform_beisen': 'zhiye.com',
+    'qiuzhao.collector.p1_platform_moka': 'app.mokahr.com',
+    'qiuzhao.collector.p1_feishu_public': 'jobs.feishu.cn',
+    'qiuzhao.collector.p1_platform_workday': 'myworkdayjobs.com',
+    'qiuzhao.collector.p1_platform_successfactors': 'successfactors',
+    'qiuzhao.collector.p1_banks_01': 'banks',
+    'qiuzhao.collector.alibaba_headless': 'alibaba',
+    'qiuzhao.collector.tencent_music': 'tencent_music',
+}
+
+
+def _load_scope_opt_ins():
+    """Per-company scope opt-in from object entries in the platform config.
+
+    A platform company defaults to campus+intern. An object entry may carry
+    ``"scopes": ["campus","intern","social"]`` (a bare string also works) to make
+    that company's scope set explicit. Missing/invalid config yields no opt-ins.
+    """
+    opt_ins = {}
+    try:
+        from .p1_platform_beisen import CONFIG_PATH
+        data = json.loads(Path(CONFIG_PATH).read_text(encoding='utf-8'))
+    except Exception:  # optional platform config may be absent in a minimal checkout
+        return opt_ins
+    for section in ('beisen', 'moka', 'feishu', 'workday', 'successfactors'):
+        entries = data.get(section)
+        if not isinstance(entries, dict):
+            continue
+        for entry in entries.values():
+            if not isinstance(entry, dict):
+                continue
+            name = str(entry.get('name') or '').strip()
+            raw = entry.get('scopes')
+            if not name or raw is None:
+                continue
+            if isinstance(raw, str):
+                raw = [raw]
+            if not isinstance(raw, list):
+                continue
+            enabled = {str(scope) for scope in raw if str(scope) in SCOPES}
+            if enabled:
+                opt_ins[name] = enabled
+    return opt_ins
+
+
+PLATFORM_SCOPE_OPT_INS = _load_scope_opt_ins()
+
+
+def _load_platform_slugs():
+    """``company name -> config slug`` for deterministic rotation hashing."""
+    mapping = {}
+    for module_name in ('p1_platform_beisen', 'p1_platform_moka', 'p1_feishu_public'):
+        try:
+            module = importlib.import_module('qiuzhao.collector.' + module_name)
+        except Exception:  # optional module may be absent in a minimal checkout
+            continue
+        mapping.update(getattr(module, 'NAME_TO_SLUG', {}) or {})
+    return mapping
+
+
+PLATFORM_SLUGS = _load_platform_slugs()
+
+
+def company_scopes(company, scopes=None):
+    """Effective scopes for one company, restricted to the requested list."""
+    requested = list(scopes) if scopes is not None else list(SCOPES)
+    if company in COMPANIES:
+        # The hardcoded 50 keep all three scopes even when a platform config line
+        # shadows their REGISTRY entry (三七互娱 / 金山办公 / 鹰角网络).
+        allowed = tuple(SCOPES)
+    elif REGISTRY.get(company) in PLATFORM_MODULES:
+        enabled = PLATFORM_SCOPE_OPT_INS.get(company)
+        allowed = (tuple(scope for scope in SCOPES if scope in enabled)
+                   if enabled else PLATFORM_DEFAULT_SCOPES)
+    else:
+        allowed = tuple(SCOPES)
+    return [scope for scope in requested if scope in allowed]
+
+
+def platform_group(company):
+    """Upstream host family used for the per-platform concurrency gate."""
+    module = REGISTRY.get(company)
+    return PLATFORM_HOST_GROUPS.get(module) or 'company:' + str(company)
+
+
+def platform_rotation_group(company, groups):
+    """Deterministic day bucket (0..groups-1) for a rotating platform company."""
+    groups = max(1, int(groups))
+    slug = PLATFORM_SLUGS.get(company, company)
+    digest = hashlib.sha256(str(slug).encode('utf-8')).digest()
+    return int.from_bytes(digest[:8], 'big') % groups
+
+
+def companies_for_day(companies, groups, day=None):
+    """Drop rotating platform companies outside today's bucket.
+
+    Every non-rotating company (hardcoded 50, banks, Ali/Tencent, Workday/SF) is
+    kept, so the daily chain always covers them.
+    """
+    groups = max(1, int(groups))
+    if groups == 1:
+        return list(companies)
+    day = day or dt.datetime.now(dt.timezone.utc).date()
+    bucket = day.toordinal() % groups
+    def rotating(company):
+        return company not in COMPANIES and REGISTRY.get(company) in ROTATING_MODULES
+    return [company for company in companies
+            if not rotating(company)
+            or platform_rotation_group(company, groups) == bucket]
+
+
+class PlatformGate:
+    """Per-platform concurrency cap plus spacing between same-host unit launches.
+
+    The pipeline cannot observe individual adapter HTTP calls, so the throttle
+    bounds what it does control: at most ``workers_per_platform`` units of one
+    upstream host run concurrently, and consecutive launches on that host are
+    spaced at least ``min_interval`` seconds apart. Adapters keep their own request
+    pacing; ``collect_process`` additionally injects
+    ``QIUZHAO_PLATFORM_REQUEST_INTERVAL`` for adapters that honour it.
+    """
+
+    def __init__(self, workers_per_platform=PLATFORM_WORKERS,
+                 min_interval=PLATFORM_MIN_INTERVAL):
+        self.workers_per_platform = max(1, int(workers_per_platform))
+        self.min_interval = max(0.0, float(min_interval))
+        self._guard = threading.Lock()
+        self._semaphores = {}
+        self._next_start = {}
+
+    def _semaphore(self, platform):
+        with self._guard:
+            semaphore = self._semaphores.get(platform)
+            if semaphore is None:
+                semaphore = threading.Semaphore(self.workers_per_platform)
+                self._semaphores[platform] = semaphore
+            return semaphore
+
+    def acquire(self, platform):
+        semaphore = self._semaphore(platform)
+        semaphore.acquire()
+        if self.min_interval <= 0:
+            return semaphore
+        while True:
+            with self._guard:
+                current = time.monotonic()
+                target = self._next_start.get(platform, 0.0)
+                if current >= target:
+                    self._next_start[platform] = current + self.min_interval
+                    return semaphore
+                wait = target - current
+            time.sleep(min(wait, 0.25))
+
+    def release(self, platform):
+        self._semaphore(platform).release()
+
 
 def now():
     return dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds')
@@ -583,41 +765,53 @@ def retry_tier(entry):
     return -1 if days < 3 else 1
 
 
-def plan_chains(companies, scopes, queue):
+def plan_chains(companies, scopes, queue, scopes_by_company=None):
     """Company chains keep same-company scopes serial while companies run concurrently.
 
     Retry-queue units lead their company and the global order; units that failed three
     consecutive days are demoted to the very end without dropping any company.
+    ``scopes_by_company`` carries the per-company effective scopes (platform
+    companies default to campus+intern); when omitted it is derived here.
     """
+    if scopes_by_company is None:
+        scopes_by_company = {company: company_scopes(company, scopes) for company in companies}
     position = {company: index for index, company in enumerate(companies)}
-    scope_position = {scope: index for index, scope in enumerate(scopes)}
     chains = {}
     for company in companies:
-        chains[company] = sorted(scopes, key=lambda scope: (
+        effective = scopes_by_company.get(company, [])
+        scope_position = {scope: index for index, scope in enumerate(effective)}
+        chains[company] = sorted(effective, key=lambda scope: (
             retry_tier(queue.get(f'{company}/{scope}')), scope_position[scope]))
     def company_key(company):
-        tiers = [retry_tier(queue.get(f'{company}/{scope}')) for scope in scopes]
+        tiers = [retry_tier(queue.get(f'{company}/{scope}'))
+                 for scope in scopes_by_company.get(company, [])]
         return (min(tiers) if tiers else 0, position[company])
     return [{'company': company, 'scopes': chains[company]}
             for company in sorted(companies, key=company_key)]
 
 
-def retry_summary(queue, companies, scopes):
+def retry_summary(queue, companies, scopes, scopes_by_company=None):
+    if scopes_by_company is None:
+        scopes_by_company = {company: list(scopes) for company in companies}
     priority, demoted = [], []
     for company in companies:
-        for scope in scopes:
+        for scope in scopes_by_company.get(company, []):
             entry = queue.get(f'{company}/{scope}')
             if entry:
                 (demoted if retry_tier(entry) > 0 else priority).append(f'{company}/{scope}')
     return priority, demoted
 
 
-def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=False, max_run_seconds=21600, workers=4):
+def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=False,
+        max_run_seconds=21600, workers=4, platform_workers=PLATFORM_WORKERS,
+        platform_min_interval=PLATFORM_MIN_INTERVAL):
     data_dir, run_dir = Path(data_dir), Path(run_dir)
     run_dir.mkdir(parents=True, exist_ok=True)
     status_path = run_dir / 'status.json'
     if status_path.exists() and not resume:
         raise ValueError('run directory already exists; use --resume or a new directory')
+    # Effective scopes: platform companies skip social unless their config opts in.
+    scopes_by_company = {company: company_scopes(company, scopes) for company in companies}
     fresh = {'started_at': now(), 'run_dir': str(run_dir), 'companies': list(companies),
              'scopes': list(scopes), 'results': {}, 'publications': []}
     if resume and status_path.exists():
@@ -641,7 +835,7 @@ def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=F
         atomic_json(checkpoint_path(data_dir, companies, scopes), status)
 
     def publish_retry_summary():
-        priority, demoted = retry_summary(retry_queue, companies, scopes)
+        priority, demoted = retry_summary(retry_queue, companies, scopes, scopes_by_company)
         status['retry'] = {'priority': priority, 'demoted': demoted,
                            'queue_path': str(retry_queue_path(data_dir))}
 
@@ -651,6 +845,11 @@ def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=F
     publication_dir = run_dir / 'batches' / str(time.time_ns())
     deadline = time.monotonic() + max_run_seconds
     workers = max(1, int(workers))
+    gate = PlatformGate(platform_workers, platform_min_interval)
+    # Politely space same-host requests for adapters that honour this env hook; an
+    # explicit caller value (e.g. the offline >=2s probe) is never lowered.
+    os.environ.setdefault('QIUZHAO_PLATFORM_REQUEST_INTERVAL',
+                          str(max(1.0, float(platform_min_interval))))
 
     def run_unit(company, scope):
         key = f'{company}/{scope}'
@@ -669,7 +868,14 @@ def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=F
         if saved and Path(saved['result_path']).exists():
             result = validate_result(json.loads(Path(saved['result_path']).read_text(encoding='utf-8')), company, scope, output)
         else:
-            result = collect_process(company, scope, output, min(timeout, max(1, deadline - time.monotonic())))
+            # Same-host platform units are capped and spaced; adapters keep their
+            # own internal request pacing.
+            platform = platform_group(company)
+            gate.acquire(platform)
+            try:
+                result = collect_process(company, scope, output, min(timeout, max(1, deadline - time.monotonic())))
+            finally:
+                gate.release(platform)
             atomic_json(output / 'validated.json', result)
         # publish() serializes on the p1-publish.lock file lock; the status append is
         # protected below so concurrent company chains cannot lose a checkpoint entry.
@@ -699,7 +905,7 @@ def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=F
 
     # One chain per company: same-company scopes stay serial, workers limit how many
     # companies (and therefore units) run at once.
-    chains = plan_chains(companies, scopes, retry_queue)
+    chains = plan_chains(companies, scopes, retry_queue, scopes_by_company)
     interrupted = False
     executor = concurrent.futures.ThreadPoolExecutor(max_workers=workers)
     try:
@@ -731,7 +937,8 @@ def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=F
         executor.shutdown(wait=not interrupted, cancel_futures=True)
 
     with state_lock:
-        remaining = [f'{company}/{scope}' for company in companies for scope in scopes
+        remaining = [f'{company}/{scope}' for company in companies
+                     for scope in scopes_by_company.get(company, [])
                      if f'{company}/{scope}' not in status['results']]
         publish_retry_summary()
         status['pending'] = remaining
@@ -775,6 +982,16 @@ def main():
     parser.add_argument('--resume', action='store_true')
     parser.add_argument('--resume-latest', action='store_true')
     parser.add_argument('--max-run-seconds', type=int, default=21600)
+    parser.add_argument('--platform-rotation', type=int, default=PLATFORM_ROTATION_DEFAULT,
+                        help='split the config-driven platform companies (beisen/moka/feishu) '
+                             'across N days and run one bucket per day; 1=off (default %d). '
+                             'Ignored when --companies is given.' % PLATFORM_ROTATION_DEFAULT)
+    parser.add_argument('--platform-workers', type=int, default=PLATFORM_WORKERS,
+                        help='max concurrent units per platform host, before the global '
+                             '--workers cap (default %d)' % PLATFORM_WORKERS)
+    parser.add_argument('--platform-interval', type=float, default=PLATFORM_MIN_INTERVAL,
+                        help='minimum seconds between same-host unit launches (default %.1f)'
+                             % PLATFORM_MIN_INTERVAL)
     args = parser.parse_args()
     if args.adapter:
         try:
@@ -788,7 +1005,12 @@ def main():
         parser.error('--workers must be between 1 and 6')
     scope_timeout = args.scope_timeout if args.scope_timeout is not None else (
         args.timeout if args.timeout is not None else 600)
-    companies = args.companies.split(',') if args.companies else DEFAULT_COMPANIES
+    if args.companies:
+        companies = args.companies.split(',')
+    else:
+        # Day rotation only applies to the default daily set; an explicit
+        # --companies selection is always run in full.
+        companies = companies_for_day(DEFAULT_COMPANIES, args.platform_rotation)
     scopes = args.scopes.split(',')
     if any(c not in REGISTRY for c in companies) or any(s not in SCOPES for s in scopes):
         parser.error('unknown company or scope')
@@ -825,10 +1047,14 @@ def main():
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
             select_checkpoint()
             return run(args.data_dir, run_dir, companies, scopes, scope_timeout,
-                       args.apply, args.resume, args.max_run_seconds, args.workers)
+                       args.apply, args.resume, args.max_run_seconds, args.workers,
+                       platform_workers=args.platform_workers,
+                       platform_min_interval=args.platform_interval)
     select_checkpoint()
     return run(args.data_dir, run_dir, companies, scopes, scope_timeout,
-               args.apply, args.resume, args.max_run_seconds, args.workers)
+               args.apply, args.resume, args.max_run_seconds, args.workers,
+               platform_workers=args.platform_workers,
+               platform_min_interval=args.platform_interval)
 
 
 if __name__ == '__main__':

@@ -397,6 +397,11 @@ def collect_platform(company, scope, output_dir):
     return collect_feishu(name, scope, sites, output_dir)
 
 
+# The pipeline invokes every REGISTRY module through ``collect(company, scope,
+# output_dir)``; expose the config-driven entrypoint under that name.
+collect = collect_platform
+
+
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
