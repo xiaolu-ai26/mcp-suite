@@ -1,0 +1,51 @@
+Jingling (精灵) production original-backup manifest for P0 hotfix bundle 20260919k
+Generated on the Mac worktree, 2026-09-19 (Asia/Shanghai), branch fix/p1-winlock
+(base feat/collector-next-4). This bundle only touches ONE runtime file:
+qiuzhao/collector/p1_pipeline.py.
+
+PURPOSE: record the byte-exact sha256 that the target file must have on jingling
+BEFORE this bundle is copied, for the two possible states of the machine, and state
+which premise this bundle is built for.
+
+  PREMISE K (recommended; matches the machine measured at 2026-09-19 23:2x):
+     jingling still runs 20260918k and 20260919g has NOT been deployed.
+     Copy this bundle directly: the bundled p1_pipeline.py = 20260918k + winlock fix.
+  PREMISE G (do NOT copy this bundle's p1_pipeline.py):
+     jingling already runs 20260919g. The bundled file lacks every g registration
+     block and the new adapters, so it must NOT overwrite a g deployment. Merge the
+     fix into g and re-cut, or deploy the fix/p1-winlock branch file
+     `qiuzhao/collector/p1_pipeline.py` (sha256 093b237e..., = g + winlock fix)
+     together with the already deployed g tree.
+
+Target path on jingling            PREMISE K pre-deploy sha256                PREMISE G pre-deploy sha256                bundled sha256 (20260919k)                 action
+---------------------------------  -----------------------------------------  -----------------------------------------  -----------------------------------------  ----------------------
+qiuzhao/collector/p1_pipeline.py   ff96be4d772847a0273003e2db0466d3ad698dc5cd719d968f40fb96abc8dc76  5852f4973e10d872736a7ca72550f6fb1a2889a9736ab8ee0bc0c08af93f856b  13a5ec53a2b934809482a44f683bec6c5b2774bf96964cf57fb1df2d4cddacda  overwrite (PREMISE K only)
+
+Notes:
+- PREMISE K hash ff96be4d... was read directly on jingling from
+  C:\mcp-suite-collector\qiuzhao\collector\p1_pipeline.py at 2026-09-19 ~23:2x and
+  equals the 20260918k SHA256SUMS entry, so the current deployment is provably k.
+- PREMISE G hash 5852f497... is the 20260919g bundle value (not deployed).
+- If the real pre-deploy hash differs from the value for the premise that matches the
+  machine, STOP: record the real hash, back the file up anyway and treat the
+  difference as drift. A pre-deploy backup of the whole k tree already exists at
+  C:\mcp-suite-backup-20260918-2020\ (deploy + qiuzhao), so rollback material is on
+  the machine regardless.
+
+Rollback:
+  PREMISE K: restore qiuzhao/collector/p1_pipeline.py from the pre-deploy backup
+             (C:\mcp-suite-backup-20260918-2020\qiuzhao\collector\p1_pipeline.py,
+             sha256 ff96be4d...), then verify the hash.
+  PREMISE G: restore qiuzhao/collector/p1_pipeline.py from the g copy,
+             sha256 5852f497...
+
+Bundle content hash (20260919k, one file):
+  p1_pipeline.py   13a5ec53a2b934809482a44f683bec6c5b2774bf96964cf57fb1df2d4cddacda
+
+Nothing else is replaced: no config, no windows_collector.py, no adapter, no test.
+windows_collector.py is deliberately NOT in this bundle, but its p1 step already
+passes `--workers 8`, which is exactly what exposed the bug.
+
+Run `shasum -a 256 -c SHA256SUMS.txt` (macOS) or
+`certutil -hashfile p1_pipeline.py SHA256` / `Get-FileHash -Algorithm SHA256`
+(jingling) inside this directory after copy: the line must print OK.

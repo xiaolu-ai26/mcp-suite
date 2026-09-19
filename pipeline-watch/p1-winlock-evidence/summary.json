@@ -1,0 +1,36 @@
+{
+  "exit": 2,
+  "companies": [
+    "OPPO",
+    "vivo",
+    "商汤科技",
+    "大华股份",
+    "中信建投",
+    "小天才"
+  ],
+  "cmd": [
+    "C:\\mcp-suite-collector\\.venv\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "-m",
+    "qiuzhao.collector.p1_pipeline",
+    "--data-dir",
+    "C:\\mcp-suite-winlock-test\\data",
+    "--run-dir",
+    "C:\\mcp-suite-winlock-test\\run-concurrent",
+    "--companies",
+    "OPPO,vivo,商汤科技,大华股份,中信建投,小天才",
+    "--scopes",
+    "campus",
+    "--workers",
+    "4",
+    "--apply",
+    "--scope-timeout",
+    "600",
+    "--max-run-seconds",
+    "2400"
+  ],
+  "python": "C:\\mcp-suite-collector\\.venv\\Scripts\\python.exe",
+  "data_dir": "C:\\mcp-suite-winlock-test\\data",
+  "run_dir": "C:\\mcp-suite-winlock-test\\run-concurrent"
+}

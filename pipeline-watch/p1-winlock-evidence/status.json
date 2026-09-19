@@ -1,0 +1,505 @@
+{
+  "started_at": "2026-09-19T15:30:17+00:00",
+  "run_dir": "C:\\mcp-suite-winlock-test\\run-concurrent",
+  "companies": [
+    "OPPO",
+    "vivo",
+    "商汤科技",
+    "大华股份",
+    "中信建投",
+    "小天才"
+  ],
+  "scopes": [
+    "campus"
+  ],
+  "results": {
+    "商汤科技/campus": {
+      "coverage": {
+        "status": "blocked",
+        "complete": false,
+        "expected_total": null,
+        "collected_jobs": 0,
+        "pages_scanned": 0,
+        "detail_complete": false,
+        "source_url": "https://hr-jobs.sensetime.com/exp/position/list",
+        "errors": [
+          "site https://hr-jobs.sensetime.com/exp/position/list: Page.goto: Timeout 45000ms exceeded.",
+          "site https://hr-jobs.sensetime.com/edu/: Page.goto: Timeout 45000ms exceeded."
+        ],
+        "evidence": [],
+        "evidence_files": [],
+        "scope_evidence": "Official anonymous Feishu SDK; recruit_type201=campus,202/301=intern,101/102/103=social; unknown enums are not guessed.",
+        "scope_request": {
+          "company": "商汤科技",
+          "scope": "campus",
+          "source_url": "https://hr-jobs.sensetime.com/exp/position/list",
+          "params": {
+            "sites": [
+              {
+                "url": "https://hr-jobs.sensetime.com/exp/position/list",
+                "tenant_names": [
+                  "商汤科技"
+                ],
+                "portal_type": 6
+              },
+              {
+                "url": "https://hr-jobs.sensetime.com/edu/",
+                "tenant_names": [
+                  "商汤科技"
+                ],
+                "portal_type": 6
+              }
+            ],
+            "anonymous": true
+          }
+        },
+        "source_coverage": [
+          {
+            "url": "https://hr-jobs.sensetime.com/exp/position/list",
+            "complete": false,
+            "list_total": null,
+            "listed": 0,
+            "pages": 0
+          },
+          {
+            "url": "https://hr-jobs.sensetime.com/edu/",
+            "complete": false,
+            "list_total": null,
+            "listed": 0,
+            "pages": 0
+          }
+        ],
+        "detail_missing_count": 0,
+        "pending_details": [],
+        "unique_source_ids": 0,
+        "request_budget": {
+          "limit": null,
+          "used": 2
+        },
+        "pending_count": 0,
+        "source_missing_field_counts": {
+          "description": 0,
+          "requirement": 0
+        },
+        "available_job_count": 0,
+        "checked_at": "2026-09-19T15:31:55+00:00"
+      },
+      "result_path": "C:\\mcp-suite-winlock-test\\run-concurrent\\03\\campus\\validated.json",
+      "published": true,
+      "attempted": true
+    },
+    "中信建投/campus": {
+      "coverage": {
+        "status": "success",
+        "complete": true,
+        "expected_total": 29,
+        "collected_jobs": 29,
+        "pages_scanned": 3,
+        "detail_complete": true,
+        "source_url": "https://csc108.zhiye.com",
+        "errors": [],
+        "evidence": [
+          "official-entry.html",
+          "list-0.json",
+          "list-1.json",
+          "list-2.json",
+          "detail-12965cf4-c7a6-4173-9db4-fdbbb5c3ce1c.json",
+          "detail-69ae3eb8-3565-4c80-8bf4-fbf6c7e0ad26.json",
+          "detail-7c4525ea-5fe5-486a-a7c9-1eb319905ffb.json",
+          "detail-8fdffbb6-1715-4312-97c7-7bfb05c16329.json",
+          "detail-cec9bc95-0ca3-4f39-8d01-f023a4439c15.json"
+        ],
+        "pagination_exhausted": true,
+        "last_page_evidence": "index=2;rows=0;prior_total=94;total=94",
+        "list_total": 94,
+        "unmapped_categories": {},
+        "detail_verified_count": 5,
+        "list_only_count": 24,
+        "evidence_files": [
+          "official-entry.html",
+          "list-0.json",
+          "list-1.json",
+          "list-2.json",
+          "detail-12965cf4-c7a6-4173-9db4-fdbbb5c3ce1c.json",
+          "detail-69ae3eb8-3565-4c80-8bf4-fbf6c7e0ad26.json",
+          "detail-7c4525ea-5fe5-486a-a7c9-1eb319905ffb.json",
+          "detail-8fdffbb6-1715-4312-97c7-7bfb05c16329.json",
+          "detail-cec9bc95-0ca3-4f39-8d01-f023a4439c15.json"
+        ],
+        "scope_evidence": "Official Beisen CategoryId=2; Category=校园招聘; tenant=csc108",
+        "scope_request": {
+          "company": "中信建投",
+          "scope": "campus",
+          "source_url": "https://csc108.zhiye.com",
+          "params": {
+            "PortalId": "f1f86fea-3b92-4111-b411-f3992e681f6b",
+            "Category": [],
+            "DisplayFields": [
+              "LocId",
+              "Degree",
+              "Kind",
+              "OrgId",
+              "Category",
+              "PostDate",
+              "HeadCount",
+              "EndTime",
+              "YearsOfWorking",
+              "Duty",
+              "Require"
+            ],
+            "tenant": "csc108"
+          }
+        },
+        "request_budget": {
+          "limit": null,
+          "used": 9
+        },
+        "unique_source_ids": 29,
+        "available_job_count": 29,
+        "pending_count": 0,
+        "checked_at": "2026-09-19T15:32:03+00:00"
+      },
+      "result_path": "C:\\mcp-suite-winlock-test\\run-concurrent\\05\\campus\\validated.json",
+      "published": true,
+      "attempted": true
+    },
+    "OPPO/campus": {
+      "coverage": {
+        "status": "success",
+        "complete": true,
+        "expected_total": 141,
+        "collected_jobs": 141,
+        "pages_scanned": 5,
+        "detail_complete": true,
+        "source_url": "https://careers.oppo.com/campus/post",
+        "errors": [],
+        "evidence": [
+          "list-1.json",
+          "list-2.json",
+          "list-3.json",
+          "list-4.json",
+          "list-5.json"
+        ],
+        "pagination_exhausted": true,
+        "last_page_evidence": "page=5;official_pages=5;unique=238;total=238",
+        "list_total": 238,
+        "scope_evidence": "Official recruitmentType=Graduate, project=2027届应届生校园招聘; Official recruitmentType=doctor, project=2027届博士生招聘",
+        "unique_source_ids": 141,
+        "evidence_files": [
+          "list-1.json",
+          "list-2.json",
+          "list-3.json",
+          "list-4.json",
+          "list-5.json"
+        ],
+        "scope_request": {
+          "company": "OPPO",
+          "scope": "campus",
+          "source_url": "https://careers.oppo.com/campus/post",
+          "params": {
+            "pageNum": 1,
+            "pageSize": 50,
+            "local_scope_filter": "campus"
+          }
+        },
+        "available_job_count": 141,
+        "pending_count": 0,
+        "checked_at": "2026-09-19T15:32:45+00:00"
+      },
+      "result_path": "C:\\mcp-suite-winlock-test\\run-concurrent\\01\\campus\\validated.json",
+      "published": true,
+      "attempted": true
+    },
+    "大华股份/campus": {
+      "coverage": {
+        "status": "success",
+        "complete": true,
+        "expected_total": 146,
+        "collected_jobs": 146,
+        "pages_scanned": 9,
+        "detail_complete": true,
+        "source_url": "https://dahua.zhiye.com",
+        "errors": [],
+        "evidence": [
+          "official-entry.html",
+          "list-0.json",
+          "list-1.json",
+          "list-2.json",
+          "list-3.json",
+          "list-4.json",
+          "list-5.json",
+          "list-6.json",
+          "list-7.json",
+          "list-8.json"
+        ],
+        "last_page_evidence": "index=8;rows=0;prior_total=369;terminal_count=369",
+        "list_total": 369,
+        "pagination_exhausted": true,
+        "evidence_files": [
+          "official-entry.html",
+          "list-0.json",
+          "list-1.json",
+          "list-2.json",
+          "list-3.json",
+          "list-4.json",
+          "list-5.json",
+          "list-6.json",
+          "list-7.json",
+          "list-8.json"
+        ],
+        "scope_evidence": "Official Beisen CategoryId=2; Category=校园招聘; verified mapping={'1': 'social', '2': 'campus', '3': 'intern'}",
+        "scope_request": {
+          "company": "大华股份",
+          "scope": "campus",
+          "source_url": "https://dahua.zhiye.com",
+          "params": {
+            "PortalId": "455a866e-2e06-4ff1-8c1f-8dd03749a267",
+            "PageIndex": 8,
+            "PageSize": 50,
+            "Category": [],
+            "KeyWords": "",
+            "SpecialType": 0,
+            "DisplayFields": [
+              "LocId",
+              "Degree",
+              "Kind",
+              "OrgId",
+              "Category",
+              "PostDate",
+              "HeadCount",
+              "EndTime",
+              "YearsOfWorking",
+              "Duty",
+              "Require"
+            ]
+          }
+        },
+        "unique_source_ids": 146,
+        "available_job_count": 146,
+        "pending_count": 0,
+        "checked_at": "2026-09-19T15:33:03+00:00"
+      },
+      "result_path": "C:\\mcp-suite-winlock-test\\run-concurrent\\04\\campus\\validated.json",
+      "published": true,
+      "attempted": true
+    },
+    "小天才/campus": {
+      "coverage": {
+        "status": "success",
+        "complete": true,
+        "expected_total": 12,
+        "collected_jobs": 12,
+        "pages_scanned": 2,
+        "detail_complete": true,
+        "source_url": "https://app.mokahr.com/campus-recruitment/eebbk/37594",
+        "errors": [],
+        "evidence": [
+          "37594-list-0.json",
+          "37594-list-50.json"
+        ],
+        "source_list_status_counts": {
+          "eebbk/37594": {
+            "open": 12
+          }
+        },
+        "last_page_evidence": "site=37594;offset=50;rows=0;prior_total=12;terminal_total=12",
+        "source_list_totals": {
+          "eebbk/37594": 12
+        },
+        "list_observed_ids": [
+          "0a9d49ef-3807-4fb4-a492-53aad308d928",
+          "34bb559c-0393-45f2-8f68-3c44e8fe6b10",
+          "4917edb3-b17f-4236-9fbe-98870e04ca48",
+          "7afbde0c-8f77-4af4-bc3e-a361cabd48a4",
+          "83505959-ec56-4d8a-bcb5-b3d562c98aad",
+          "84bfe8c6-36eb-4836-a17d-e4c17afa33c0",
+          "8be04f4e-2e43-491c-a5a5-356621d2e696",
+          "903ca17d-574c-4999-8f01-2843598e96f9",
+          "b731fa3d-7a81-4a0c-be1d-d289319393a8",
+          "becce017-ca60-47bf-8897-1f1be1292723",
+          "cab6626e-d2cc-4a8f-b53d-c8aeed144c89",
+          "e1c81352-144e-4289-a357-2c0e81f03c9d"
+        ],
+        "list_observed_titles": [
+          "2027届秋招-AI应用工程师（IT）",
+          "2027届秋招-AI应用工程师（穿戴）",
+          "2027届秋招-AI开发工程师（IT）",
+          "2027届秋招-RTOS开发工程师",
+          "2027届秋招-后台开发工程师（穿戴）",
+          "2027届秋招-基带工程师",
+          "2027届秋招-大模型算法工程师",
+          "2027届秋招-室内定位算法工程师",
+          "2027届秋招-平台驱动工程师",
+          "2027届秋招-材料与器件开发工程师",
+          "2027届秋招-网络工程师",
+          "2027届秋招-音频工程师"
+        ],
+        "source_status_counts": {
+          "open": 12
+        },
+        "active_jobs": 12,
+        "inactive_jobs": 0,
+        "pagination_exhausted": true,
+        "evidence_files": [
+          "37594-list-0.json",
+          "37594-list-50.json"
+        ],
+        "scope_evidence": "derived from configured key eebbk/37594; hireMode=2; commitment=; title=2027届秋招-大模型算法工程师; derived from configured key eebbk/37594; hireMode=2; commitment=; title=2027届秋招-室内定位算法工程师; derived from configured key eebbk/37594; hireMode=2; commitment=; title=2027届秋招-AI应用工程师（IT）; derived from configured key eebbk/37594; hireMode=2; commitment=; title=2027届秋招-AI应用工程师（穿戴）; derived from configured key eebbk/37594; hireMode=2; commitment=; title=2027届秋招-AI开发工程师（IT）; derived from configured key eebbk/37594; hireMode=2; commitment=; title=2027届秋招-后台开发工程师（穿戴）; derived from configured key eebbk/37594; hireMode=2; commitment=; title=2027届秋招-RTOS开发工程师; derived from configured key eebbk/37594; hireMode=2; commitment=; title=2027届秋招-平台驱动工程师; derived from configured key eebbk/37594; hireMode=2; commitment=; title=2027届秋招-网络工程师; derived from configured key eebbk/37594; hireMode=2; commitment=; title=2027届秋招-基带工程师; derived from configured key eebbk/37594; hireMode=2; commitment=; title=2027届秋招-音频工程师; derived from configured key eebbk/37594; hireMode=2; commitment=; title=2027届秋招-材料与器件开发工程师",
+        "scope_request": {
+          "company": "小天才",
+          "scope": "campus",
+          "source_url": "https://app.mokahr.com/campus-recruitment/eebbk/37594",
+          "params": {
+            "sites": [
+              "https://app.mokahr.com/campus-recruitment/eebbk/37594"
+            ],
+            "limit": 50,
+            "offset": 0,
+            "needStat": true,
+            "moka_key": "eebbk/37594"
+          }
+        },
+        "request_budget": {
+          "limit": null,
+          "used": 15
+        },
+        "unique_source_ids": 12,
+        "available_job_count": 12,
+        "pending_count": 0,
+        "checked_at": "2026-09-19T15:33:05+00:00"
+      },
+      "result_path": "C:\\mcp-suite-winlock-test\\run-concurrent\\06\\campus\\validated.json",
+      "published": true,
+      "attempted": true
+    },
+    "vivo/campus": {
+      "coverage": {
+        "status": "success",
+        "complete": true,
+        "expected_total": 166,
+        "collected_jobs": 166,
+        "pages_scanned": 7,
+        "detail_complete": true,
+        "source_url": "https://hr-campus.vivo.com",
+        "errors": [],
+        "evidence": [
+          "0-list-1.json",
+          "0-list-2.json",
+          "0-list-3.json",
+          "0-list-4.json",
+          "0-list-5.json",
+          "0-list-6.json",
+          "0-list-7.json"
+        ],
+        "last_page_evidence": "config=0;page=7;rows=0;prior_total=255;terminal_total=255",
+        "pagination_exhausted": true,
+        "scope_evidence": "Official CategoryId=2, Category=校园招聘",
+        "unique_source_ids": 166,
+        "evidence_files": [
+          "0-list-1.json",
+          "0-list-2.json",
+          "0-list-3.json",
+          "0-list-4.json",
+          "0-list-5.json",
+          "0-list-6.json",
+          "0-list-7.json"
+        ],
+        "scope_request": {
+          "company": "vivo",
+          "scope": "campus",
+          "source_url": "https://hr-campus.vivo.com",
+          "params": {
+            "PortalId": "903cbcbf-4898-46e1-817c-da522a9752b1",
+            "PageIndex": 0,
+            "PageSize": 50,
+            "local_scope_filter": "campus"
+          }
+        },
+        "available_job_count": 166,
+        "pending_count": 0,
+        "checked_at": "2026-09-19T15:33:40+00:00"
+      },
+      "result_path": "C:\\mcp-suite-winlock-test\\run-concurrent\\02\\campus\\validated.json",
+      "published": true,
+      "attempted": true
+    }
+  },
+  "publications": [
+    {
+      "company": "中信建投",
+      "scope": "campus",
+      "added": 29,
+      "updated": 0,
+      "removed": 0,
+      "before_sha256": "1da0252e84d0cab6b9bb85fb5e3456e31c56ffb1a194c443e583440714eac60e",
+      "after_sha256": "a43b925be4c6c99889f71382b9e97379cd4ca8e5a207b724bedf66892a406916",
+      "backup": "C:\\mcp-suite-winlock-test\\run-concurrent\\batches\\1789831817921164400\\jobs.before.json.gz",
+      "backup_sha256": "1da0252e84d0cab6b9bb85fb5e3456e31c56ffb1a194c443e583440714eac60e",
+      "total_jobs": 93548,
+      "published_at": "2026-09-19T15:32:24+00:00"
+    },
+    {
+      "company": "OPPO",
+      "scope": "campus",
+      "added": 0,
+      "updated": 0,
+      "removed": 0,
+      "before_sha256": "a43b925be4c6c99889f71382b9e97379cd4ca8e5a207b724bedf66892a406916",
+      "after_sha256": "e39417694d71ddf99975c1be3cab0d940a86c69040df981a9acef381a1030ce0",
+      "backup": "C:\\mcp-suite-winlock-test\\run-concurrent\\batches\\1789831817921164400\\jobs.before.json.gz",
+      "backup_sha256": "1da0252e84d0cab6b9bb85fb5e3456e31c56ffb1a194c443e583440714eac60e",
+      "total_jobs": 93548,
+      "published_at": "2026-09-19T15:33:02+00:00"
+    },
+    {
+      "company": "大华股份",
+      "scope": "campus",
+      "added": 0,
+      "updated": 1,
+      "removed": 0,
+      "before_sha256": "e39417694d71ddf99975c1be3cab0d940a86c69040df981a9acef381a1030ce0",
+      "after_sha256": "2dff1ef349345a6eb73bc189516d777dc5f5e1d1f2f14fb1a02783795ad61a13",
+      "backup": "C:\\mcp-suite-winlock-test\\run-concurrent\\batches\\1789831817921164400\\jobs.before.json.gz",
+      "backup_sha256": "1da0252e84d0cab6b9bb85fb5e3456e31c56ffb1a194c443e583440714eac60e",
+      "total_jobs": 93548,
+      "published_at": "2026-09-19T15:33:20+00:00"
+    },
+    {
+      "company": "小天才",
+      "scope": "campus",
+      "added": 12,
+      "updated": 0,
+      "removed": 0,
+      "before_sha256": "2dff1ef349345a6eb73bc189516d777dc5f5e1d1f2f14fb1a02783795ad61a13",
+      "after_sha256": "c27c3250de66ba773d384ab535572336f0c110334916d53d94e9f0e88410bb41",
+      "backup": "C:\\mcp-suite-winlock-test\\run-concurrent\\batches\\1789831817921164400\\jobs.before.json.gz",
+      "backup_sha256": "1da0252e84d0cab6b9bb85fb5e3456e31c56ffb1a194c443e583440714eac60e",
+      "total_jobs": 93560,
+      "published_at": "2026-09-19T15:33:38+00:00"
+    },
+    {
+      "company": "vivo",
+      "scope": "campus",
+      "added": 0,
+      "updated": 0,
+      "removed": 0,
+      "before_sha256": "c27c3250de66ba773d384ab535572336f0c110334916d53d94e9f0e88410bb41",
+      "after_sha256": "ffa2d64609bde7bb4d42687f5562180c2a423a4cbb9d0d286d0d167e6fb438cc",
+      "backup": "C:\\mcp-suite-winlock-test\\run-concurrent\\batches\\1789831817921164400\\jobs.before.json.gz",
+      "backup_sha256": "1da0252e84d0cab6b9bb85fb5e3456e31c56ffb1a194c443e583440714eac60e",
+      "total_jobs": 93560,
+      "published_at": "2026-09-19T15:33:57+00:00"
+    }
+  ],
+  "retry": {
+    "priority": [
+      "商汤科技/campus"
+    ],
+    "demoted": [],
+    "queue_path": "C:\\mcp-suite-winlock-test\\data\\p1-retry-queue.json"
+  },
+  "run_finished": true,
+  "success": false,
+  "pending": [],
+  "completed_at": "2026-09-19T15:33:57+00:00"
+}
