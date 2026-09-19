@@ -1,0 +1,60 @@
+{
+  "started_at": "2026-09-19T06:10:01.999001+08:00",
+  "steps": {
+    "basic": 2,
+    "tencent": 0,
+    "p1": 1,
+    "normalize": 0
+  },
+  "mode": "daily",
+  "stage": "partial-or-failed",
+  "before_sha256": "1da0252e84d0cab6b9bb85fb5e3456e31c56ffb1a194c443e583440714eac60e",
+  "step_changes": {
+    "basic": {
+      "exit": 2,
+      "result": "partial",
+      "added": 966,
+      "updated": 6681,
+      "marked_removed": 3,
+      "disappeared": 0
+    },
+    "tencent": {
+      "exit": 0,
+      "result": "ok",
+      "added": 1,
+      "updated": 5,
+      "marked_removed": 0,
+      "disappeared": 0
+    },
+    "p1": {
+      "exit": 1,
+      "result": "rolled_back"
+    },
+    "normalize": {
+      "exit": 0,
+      "result": "ok",
+      "added": 0,
+      "updated": 0,
+      "marked_removed": 0,
+      "disappeared": 0
+    }
+  },
+  "preserved_missing": 0,
+  "total_jobs": 94486,
+  "publication": {
+    "published": true,
+    "before_sha256": "1da0252e84d0cab6b9bb85fb5e3456e31c56ffb1a194c443e583440714eac60e",
+    "after_sha256": "59c445f21e1e649118d0943190930ac77914add55c96efc4a0aae4ee42338021",
+    "identities": 94486,
+    "backup": "/var/lib/mcp-suite/jobs.json.bak.windows.20260919T070239"
+  },
+  "publication_file": "C:\\mcp-suite-collector\\runs\\20260919\\data\\jobs.json",
+  "publication_source_sha256": "59c445f21e1e649118d0943190930ac77914add55c96efc4a0aae4ee42338021",
+  "rebase_receipt": "C:\\mcp-suite-collector\\runs\\20260919\\rebase\\20260919T070211363374\\receipt.json",
+  "collection_scope": "daily-pipeline",
+  "sync_requested": true,
+  "sync_exit": 0,
+  "finished": false,
+  "success": false,
+  "completed_at": "2026-09-19T07:53:43.312462+08:00"
+}

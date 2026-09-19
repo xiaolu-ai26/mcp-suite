@@ -1,13 +1,17 @@
 import copy
 import datetime as dt
+import errno
 import gzip
 import json
+import os
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import threading
 import time
 import unittest
+from concurrent.futures import ThreadPoolExecutor
 from unittest.mock import patch
 from qiuzhao.collector import p1_pipeline as p
 from qiuzhao.v4_fields import graduation_of, convert
@@ -595,3 +599,206 @@ class P1ConcurrencyTests(unittest.TestCase):
             self.assertTrue(all(entry['published'] for entry in status['results'].values()))
             backup = Path(status['publications'][0]['backup'])
             self.assertTrue(backup.is_file())
+
+
+class _WindowsStyleFcntl:
+    """Fake portable ``fcntl`` that reproduces ``msvcrt.locking`` re-entrancy.
+
+    On Windows ``portable_runtime.flock`` calls ``msvcrt.locking``; locking a
+    region the same process already holds raises
+    ``OSError [Errno 36] Resource deadlock avoided`` instead of blocking like
+    POSIX ``flock``. This fake keys the held region by file path and raises the
+    same error, so a missing in-process lock is observable on macOS. An explicit
+    ``LOCK_UN`` (which the real code now performs) releases the region.
+    """
+
+    LOCK_EX = 2
+    LOCK_NB = 4
+    LOCK_UN = 8
+
+    def __init__(self, hold_seconds=0.02):
+        self._held = set()
+        self._guard = threading.Lock()
+        self._hold_seconds = hold_seconds
+        self.active = 0
+        self.max_active = 0
+        self.lock_calls = 0
+
+    def flock(self, handle, flags):
+        name = os.fspath(getattr(handle, 'name', handle))
+        with self._guard:
+            if flags & self.LOCK_UN:
+                if name in self._held:
+                    self._held.discard(name)
+                    self.active -= 1
+                return
+            if name in self._held:
+                raise OSError(errno.EDEADLK, 'Resource deadlock avoided')
+            self._held.add(name)
+            self.active += 1
+            self.max_active = max(self.max_active, self.active)
+            self.lock_calls += 1
+        # Widen the hold window outside the guard so overlapping publishers would
+        # reliably collide if the in-process lock were removed.
+        if self._hold_seconds:
+            time.sleep(self._hold_seconds)
+
+
+class P1WindowsPublishLockTests(unittest.TestCase):
+    def test_fake_lock_reproduces_windows_same_process_reentry(self):
+        fake = _WindowsStyleFcntl(hold_seconds=0)
+        with tempfile.TemporaryDirectory() as d:
+            lock = Path(d) / 'p1-publish.lock'
+            with lock.open('a') as first, lock.open('a') as second:
+                fake.flock(first, fake.LOCK_EX)
+                with self.assertRaises(OSError) as raised:
+                    fake.flock(second, fake.LOCK_EX)
+                self.assertEqual(raised.exception.errno, errno.EDEADLK)
+                # Releasing the first holder lets the second acquire: the fake is
+                # only simulating same-process re-entry, not permanent failure.
+                fake.flock(first, fake.LOCK_UN)
+                fake.flock(second, fake.LOCK_EX)
+                fake.flock(second, fake.LOCK_UN)
+
+    def test_eight_threads_publish_all_succeed_and_serialize(self):
+        companies = ['大疆', '拼多多', '小米', '京东', '华为', '快手', 'OPPO', 'vivo']
+        fake = _WindowsStyleFcntl()
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / 'jobs.json').write_text('[]', encoding='utf-8')
+            errors = []
+
+            def worker(company):
+                try:
+                    p.publish(root, [(company, 'campus', validated_for(company, 'campus'))],
+                              root / 'publication')
+                except Exception as error:  # noqa: BLE001 - report, do not hide
+                    errors.append(f'{company}: {type(error).__name__}: {error}')
+
+            with patch.object(p, 'fcntl', fake):
+                with ThreadPoolExecutor(max_workers=8) as executor:
+                    list(executor.map(worker, companies))
+            self.assertEqual(errors, [], 'no publisher may hit the msvcrt re-entry error')
+            self.assertEqual(fake.max_active, 1, 'publishers must be serialized in-process')
+            self.assertEqual(fake.lock_calls, len(companies))
+            rows = json.loads((root / 'jobs.json').read_text(encoding='utf-8'))
+            self.assertEqual({row['p1_company'] for row in rows}, set(companies))
+
+    def test_concurrent_run_with_windows_style_lock_publishes_every_unit(self):
+        companies = ['大疆', '拼多多', '小米', '京东', '华为', '快手', 'OPPO', 'vivo']
+        fake = _WindowsStyleFcntl()
+
+        def fake_collect(company, scope, output, timeout):
+            return validated_for(company, scope)
+
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / 'jobs.json').write_text('[]', encoding='utf-8')
+            with patch.object(p, 'collect_process', side_effect=fake_collect), \
+                    patch.object(p, 'fcntl', fake):
+                self.assertEqual(p.run(root, root / 'run', companies, ['campus'],
+                                       apply=True, workers=8), 0)
+            self.assertEqual(fake.max_active, 1)
+            status = json.loads((root / 'run' / 'status.json').read_text(encoding='utf-8'))
+            self.assertEqual(len(status['publications']), len(companies))
+            self.assertTrue(all(entry['published'] for entry in status['results'].values()))
+            rows = json.loads((root / 'jobs.json').read_text(encoding='utf-8'))
+            self.assertEqual({row['p1_company'] for row in rows}, set(companies))
+
+    def test_single_publish_failure_keeps_other_units_and_returns_partial(self):
+        companies = ['大疆', '拼多多', '小米', '京东']
+        real_publish = p.publish
+
+        def flaky(data_dir, results, run_dir):
+            if results[0][0] == '小米':
+                raise OSError(errno.EDEADLK, 'Resource deadlock avoided')
+            return real_publish(data_dir, results, run_dir)
+
+        def fake_collect(company, scope, output, timeout):
+            return validated_for(company, scope)
+
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / 'jobs.json').write_text('[]', encoding='utf-8')
+            with patch.object(p, 'collect_process', side_effect=fake_collect), \
+                    patch.object(p, 'publish', side_effect=flaky):
+                self.assertEqual(p.run(root, root / 'run', companies, ['campus'],
+                                       apply=True, workers=2), 2)
+            status = json.loads((root / 'run' / 'status.json').read_text(encoding='utf-8'))
+            failed = status['results']['小米/campus']
+            self.assertIn('publish_error', failed)
+            self.assertIn('deadlock avoided', failed['publish_error'])
+            self.assertFalse(failed['published'])
+            for company in ('大疆', '拼多多', '京东'):
+                self.assertTrue(status['results'][f'{company}/campus']['published'], company)
+            self.assertEqual(len(status['publications']), 3)
+            self.assertEqual([row['p1_company'] for row in
+                              json.loads((root / 'jobs.json').read_text(encoding='utf-8'))].count('小米'), 0)
+            entries = json.loads(p.retry_queue_path(root).read_text(encoding='utf-8'))['entries']
+            self.assertEqual(entries['小米/campus']['reason'], 'publish')
+
+    def test_all_publish_failures_return_fatal_without_aborting(self):
+        companies = ['大疆', '拼多多']
+
+        def boom(data_dir, results, run_dir):
+            raise OSError(errno.EDEADLK, 'Resource deadlock avoided')
+
+        def fake_collect(company, scope, output, timeout):
+            return validated_for(company, scope)
+
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / 'jobs.json').write_text('[]', encoding='utf-8')
+            with patch.object(p, 'collect_process', side_effect=fake_collect), \
+                    patch.object(p, 'publish', side_effect=boom):
+                self.assertEqual(p.run(root, root / 'run', companies, ['campus'],
+                                       apply=True, workers=2), 1)
+            status = json.loads((root / 'run' / 'status.json').read_text(encoding='utf-8'))
+            self.assertEqual(set(status['results']),
+                             {f'{company}/campus' for company in companies})
+            self.assertTrue(all(entry.get('publish_error') for entry in status['results'].values()))
+            self.assertFalse(p.any_validated(status))
+
+    def test_publish_still_waits_for_another_process_file_lock(self):
+        """The in-process lock must not replace cross-process mutual exclusion."""
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / 'jobs.json').write_text('[]', encoding='utf-8')
+            lock_path = root / 'p1-publish.lock'
+            child_code = (
+                "import fcntl, sys, time\n"
+                "handle = open(sys.argv[1], 'a')\n"
+                "fcntl.flock(handle, fcntl.LOCK_EX)\n"
+                "print('locked', flush=True)\n"
+                "time.sleep(2.5)\n"
+                "fcntl.flock(handle, fcntl.LOCK_UN)\n"
+            )
+            child = subprocess.Popen([sys.executable, '-c', child_code, str(lock_path)],
+                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            outcome = {}
+
+            def do_publish():
+                outcome['receipt'] = p.publish(
+                    root, [('大疆', 'campus', validated_for('大疆', 'campus'))], root / 'publication')
+
+            thread = None
+            try:
+                self.assertEqual(child.stdout.readline().strip(), 'locked')
+                thread = threading.Thread(target=do_publish)
+                thread.start()
+                thread.join(timeout=0.6)
+                self.assertTrue(thread.is_alive(),
+                                'publish must block while another process holds the lock')
+                thread.join(timeout=10)
+                self.assertFalse(thread.is_alive())
+                self.assertEqual(outcome['receipt']['after_sha256'], p.sha(root / 'jobs.json'))
+            finally:
+                if thread is not None and thread.is_alive():
+                    thread.join(timeout=10)
+                child.terminate()
+                try:
+                    child.wait(timeout=5)
+                except subprocess.TimeoutExpired:  # pragma: no cover - safety only
+                    child.kill()
+                    child.wait(timeout=5)
+

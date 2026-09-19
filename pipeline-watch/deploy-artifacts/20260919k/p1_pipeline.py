@@ -138,56 +138,6 @@ try:
 except Exception:  # optional micro-site adapters may be absent in a minimal checkout
     pass
 
-# Foreign-company ATS adapters, batch A (20260919b). Eightfold AI public careers
-# tenants (惠普/微软/高通/应用材料/泛林) and Phenom People public careers tenants
-# (宝洁/玛氏/罗氏/波士顿咨询/ABB/飞利浦/默沙东/思科). Both read the JSON the
-# public careers page itself asks for; neither logs in, signs or solves anything.
-# Append-only independent registration block: it only adds names to REGISTRY, so
-# the hardcoded 50 ordinals and every earlier block stay byte-identical.
-try:
-    from .p1_platform_eightfold import merged_registry as _eightfold_registry
-    REGISTRY.update(_eightfold_registry())
-except Exception:  # optional Eightfold adapters may be absent in a minimal checkout
-    pass
-
-try:
-    from .p1_platform_phenom import merged_registry as _phenom_registry
-    REGISTRY.update(_phenom_registry())
-except Exception:  # optional Phenom adapters may be absent in a minimal checkout
-    pass
-
-# Foreign batch 3 (20260919c): Avature portals, iCIMS Career Portal and Oracle
-# Recruiting Cloud candidate-experience sites. Three more append-only registration
-# blocks placed after every existing block, so the hardcoded 50 ordinals and all
-# earlier registrations stay byte-identical and the merge stays conflict-free.
-try:
-    from .p1_platform_avature import merged_registry as _avature_registry
-    REGISTRY.update(_avature_registry())
-except Exception:  # optional platform adapters may be absent in a minimal checkout
-    pass
-try:
-    from .p1_platform_icims import merged_registry as _icims_registry
-    REGISTRY.update(_icims_registry())
-except Exception:  # optional platform adapters may be absent in a minimal checkout
-    pass
-try:
-    from .p1_platform_orc import merged_registry as _orc_registry
-    REGISTRY.update(_orc_registry())
-except Exception:  # optional platform adapters may be absent in a minimal checkout
-    pass
-
-# tupu360 (foreign batch C, 20260919f): multi-tenant recruitment sites used by
-# 雀巢 / 路易威登 / 强生 / 礼来 / 舍弗勒 / 宝马 / Google / IQVIA and others.
-# Append-only independent registration block, same contract as the blocks above.
-# setdefault, not update: 强生 already has an approved Workday entry (jj/wd5/JJ)
-# and an append-only block must never displace a company another adapter owns.
-try:
-    from .p1_platform_tupu360 import merged_registry as _tupu360_registry
-    for _tupu360_name, _tupu360_module in _tupu360_registry().items():
-        REGISTRY.setdefault(_tupu360_name, _tupu360_module)
-except Exception:  # optional tupu360 adapters may be absent in a minimal checkout
-    pass
-
 # The daily chain is invoked without --companies, so the default set must contain
 # every extra adapter company, not only the hardcoded 50. Hardcoded companies
 # keep their approved priority order; platform companies follow in config order
@@ -195,13 +145,10 @@ except Exception:  # optional tupu360 adapters may be absent in a minimal checko
 # 三七互娱 / 金山办公 / 鹰角网络 appear in both lists), then the bank block, then
 # the Ali/Tencent gap block, then the foreign Workday/SuccessFactors block, then
 # config-driven Feishu tenants (setdefault, so they never displace an earlier
-# adapter), then the 20260918i public-API daily adapters (字节跳动/美的集团), then
-# the 20260918j foreign batch-2 blocks (Dayee hotjob.cn, then the 51job
-# micro-sites), then the 20260919b foreign batch-A blocks (Eightfold AI, then
-# Phenom People), then the 20260919c foreign batch-3 platform blocks (Avature,
-# iCIMS, Oracle Recruiting Cloud), and finally the 20260919f tupu360 block
-# (setdefault, so the parked/duplicate names never displace an earlier adapter).
-# Every append-only block is kept verbatim, so no earlier company changes slot.
+# adapter), then the 20260918i public-API daily adapters (字节跳动/美的集团), and
+# finally the 20260918j foreign batch-2 blocks (Dayee hotjob.cn, then the 51job
+# micro-sites). The merge of 20260918i and 20260918j keeps both append-only
+# blocks verbatim, so no earlier company changes slot.
 PLATFORM_COMPANIES = [name for name in REGISTRY if name not in COMPANIES]
 DEFAULT_COMPANIES = [*COMPANIES, *PLATFORM_COMPANIES]
 
@@ -222,22 +169,6 @@ PLATFORM_MODULES = frozenset({
     # (same-host concurrency <= PLATFORM_WORKERS, >= PLATFORM_MIN_INTERVAL apart).
     'qiuzhao.collector.p1_foreign_01',
     'qiuzhao.collector.p1_platform_51job',
-    # Foreign batch A (20260919b): Eightfold AI and Phenom People are shared
-    # upstream platforms, so every tenant of each belongs to the platform gate
-    # (same-platform concurrency <= PLATFORM_WORKERS, >= PLATFORM_MIN_INTERVAL apart).
-    'qiuzhao.collector.p1_platform_eightfold',
-    'qiuzhao.collector.p1_platform_phenom',
-    # Foreign batch 3 (20260919c): Avature portals (shared *.avature.net / branded
-    # Avature hosts), iCIMS Career Portal and Oracle Recruiting Cloud all live on
-    # shared upstream hosts, so they belong to the platform gate as well.
-    'qiuzhao.collector.p1_platform_avature',
-    'qiuzhao.collector.p1_platform_icims',
-    'qiuzhao.collector.p1_platform_orc',
-    # Foreign batch C (20260919f): tupu360 is one shared upstream platform
-    # (careersite.tupu360.com + customer-hosted tenants), so it belongs to the
-    # platform gate (same-host concurrency <= PLATFORM_WORKERS, >=
-    # PLATFORM_MIN_INTERVAL apart).
-    'qiuzhao.collector.p1_platform_tupu360',
 })
 PLATFORM_DEFAULT_SCOPES = ('campus', 'intern', 'social')
 # Per-platform concurrency cap and minimum spacing between same-host unit launches.
@@ -262,14 +193,6 @@ PLATFORM_HOST_GROUPS = {
     'qiuzhao.collector.tencent_music': 'tencent_music',
     'qiuzhao.collector.p1_foreign_01': 'hotjob.cn',
     'qiuzhao.collector.p1_platform_51job': '51job.com',
-    'qiuzhao.collector.p1_platform_eightfold': 'eightfold',
-    'qiuzhao.collector.p1_platform_phenom': 'phenom',
-    # Foreign batch 3 (20260919c). Avature portals share the *.avature.net front end;
-    # iCIMS portals share the iCIMS Career Portal; ORC tenants share Oracle Cloud HCM.
-    'qiuzhao.collector.p1_platform_avature': 'avature',
-    'qiuzhao.collector.p1_platform_icims': 'icims',
-    'qiuzhao.collector.p1_platform_orc': 'oraclecloud',
-    'qiuzhao.collector.p1_platform_tupu360': 'tupu360.com',
 }
 
 
@@ -288,8 +211,7 @@ def _load_scope_opt_ins():
     except Exception:  # optional platform config may be absent in a minimal checkout
         return opt_ins
     for section in ('beisen', 'moka', 'feishu', 'workday', 'successfactors',
-                    'dayee', 'job51', 'eightfold', 'phenom', 'avature', 'icims',
-                    'orc', 'tupu360'):
+                    'dayee', 'job51'):
         entries = data.get(section)
         if not isinstance(entries, dict):
             continue
