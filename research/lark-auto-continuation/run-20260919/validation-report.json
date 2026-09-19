@@ -1,0 +1,163 @@
+{
+  "base": "ThAxbM3QAazvJLsJfKpcPKOwnyd",
+  "group": "互联网科技岗",
+  "run_dir": "research/lark-auto-continuation/run-20260919",
+  "cleaned_continuations": [
+    "互联网科技岗·续表1"
+  ],
+  "before": {
+    "template_table_id": "tbl4UFSltrBFE0Pp",
+    "records_count": 19500,
+    "free": 500,
+    "threshold": 1000
+  },
+  "create_seconds": 36.69,
+  "created": [
+    {
+      "name": "互联网科技岗·续表1",
+      "table_id": "tblSH4UL8HT5inJj",
+      "validated": true,
+      "status": "active",
+      "deleted": null,
+      "field_count": {
+        "template": 19,
+        "target": 19
+      },
+      "view_order": [
+        "job_id",
+        "岗位名称",
+        "公司名称",
+        "招聘单位",
+        "行业",
+        "岗位大类",
+        "招聘性质",
+        "状态",
+        "截止类型",
+        "专业",
+        "毕业届别",
+        "工作地点",
+        "投递截止",
+        "复核时间",
+        "来源",
+        "原链接",
+        "投递入口",
+        "备注",
+        "届别条件说明"
+      ],
+      "template_table_id": "tbl4UFSltrBFE0Pp"
+    }
+  ],
+  "diff": [],
+  "diff_fatal_count": 0,
+  "validation_ok": true,
+  "target_table_id": "tblSH4UL8HT5inJj",
+  "create_calls": {
+    "total": 28,
+    "by_command": {
+      "+table-list": {
+        "calls": 4,
+        "sec": 2.71
+      },
+      "+table-delete": {
+        "calls": 1,
+        "sec": 1.02
+      },
+      "+field-list": {
+        "calls": 5,
+        "sec": 2.75
+      },
+      "+field-search-options": {
+        "calls": 9,
+        "sec": 4.81
+      },
+      "+view-list": {
+        "calls": 3,
+        "sec": 1.58
+      },
+      "+view-get-visible-fields": {
+        "calls": 3,
+        "sec": 1.6
+      },
+      "+table-create": {
+        "calls": 1,
+        "sec": 2.39
+      },
+      "+field-create": {
+        "calls": 1,
+        "sec": 19.64
+      },
+      "+view-set-visible-fields": {
+        "calls": 1,
+        "sec": 0.86
+      }
+    }
+  },
+  "write": {
+    "requested": 5,
+    "created": 5,
+    "seconds": 1.75,
+    "record_ids": [
+      "recvvGkP9AKJSe",
+      "recvvGkP9AWjMa",
+      "recvvGkP9ACHU3",
+      "recvvGkP9Agqx1",
+      "recvvGkP9AyX6Y"
+    ]
+  },
+  "write_ok": true,
+  "idempotent_second_run": {
+    "created": 0,
+    "target_table_id": "tblSH4UL8HT5inJj",
+    "seconds": 0.63
+  },
+  "idempotent_ok": true,
+  "after": {
+    "互联网科技岗": 19500,
+    "互联网科技岗·续表1": 5
+  },
+  "calls": {
+    "total": 31,
+    "by_command": {
+      "+table-list": {
+        "calls": 6,
+        "sec": 3.95
+      },
+      "+table-delete": {
+        "calls": 1,
+        "sec": 1.02
+      },
+      "+field-list": {
+        "calls": 5,
+        "sec": 2.75
+      },
+      "+field-search-options": {
+        "calls": 9,
+        "sec": 4.81
+      },
+      "+view-list": {
+        "calls": 3,
+        "sec": 1.58
+      },
+      "+view-get-visible-fields": {
+        "calls": 3,
+        "sec": 1.6
+      },
+      "+table-create": {
+        "calls": 1,
+        "sec": 2.39
+      },
+      "+field-create": {
+        "calls": 1,
+        "sec": 19.64
+      },
+      "+view-set-visible-fields": {
+        "calls": 1,
+        "sec": 0.86
+      },
+      "+record-batch-create": {
+        "calls": 1,
+        "sec": 1.75
+      }
+    }
+  }
+}
