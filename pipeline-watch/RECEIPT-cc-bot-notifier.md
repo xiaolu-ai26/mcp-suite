@@ -118,6 +118,8 @@
   **失败清单逐条相同、无新增**（`test_core::test_role_cohort_and_campaign_title_bases`、
   `test_p1_pipeline::test_timeout_publishes_only_validated_partial_checkpoint`、
   `test_schema::test_enum_check_fails_when_data_drifts`），新增 28 条即本次单测。
+  两次运行的完整日志留档：`pipeline-watch/cc-bot-evidence/pytest-baseline-f652e087.log`
+  与 `pytest-final-cef1d86b.log`（可直接对比失败清单）。
 - 凭据泄漏扫描：`pipeline-watch/cc-bot-evidence/secret-leak-scan.py`
   → `{"ok": true, "files_scanned": 1804, "files_with_credentials": 0, "credential_values_checked": 2}`
   （只报数量，不回显值）。

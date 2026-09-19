@@ -1,0 +1,90 @@
+.............sssssssss.................................................. [  9%]
+..........................................................F............. [ 19%]
+........................................................................ [ 28%]
+........................................................................ [ 38%]
+........................................................................ [ 47%]
+..............................................................F......... [ 57%]
+........................................................................ [ 66%]
+........................................................................ [ 76%]
+.............................................s.sssFssss................. [ 85%]
+........................................................sss........s.... [ 95%]
+ssssssssssssssssssssssssssssssssss                                       [100%]
+=================================== FAILURES ===================================
+__________________ test_role_cohort_and_campaign_title_bases ___________________
+
+tmp_path = PosixPath('/private/var/folders/_6/ddpzt5tj2m10z3xjxzrrnw0c0000gn/T/pytest-of-maxzhl/pytest-460/test_role_cohort_and_campaign_0')
+
+    def test_role_cohort_and_campaign_title_bases(tmp_path):
+        # v3 let the role's own cohort override the campaign title. v4 (SPEC 6.3): years from the campaign
+        # title supplement the role text and are marked 活动标题写明; both count as explicit.
+        common = dict(source_url='https://example.org/official', application_url='https://example.org/apply',
+                      reviewed_at='2026-09-10T10:00:00+08:00', campaign_cohort_raw='2027届校园招聘',
+                      recruitment_type='校园招聘')
+        rows = [dict(common, id='explicit-2026', cohort_raw='2026届应届毕业生'),
+                dict(common, id='campaign-only', cohort_raw='')]
+        path = tmp_path / 'jobs.json'
+        path.write_text(json.dumps(rows))
+        jobs = Jobs(path)
+        r27 = jobs.search(graduation_year='2027届')
+>       assert {j['id']: j['match']['graduation_year'] for j in r27['jobs']} == {
+            'explicit-2026': '活动标题写明', 'campaign-only': '活动标题写明'}
+E       AssertionError: assert {'campaign-only': '活动标题写明'} == {'explicit-20...ly': '活动标题写明'}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Right contains 1 more item:
+E         {'explicit-2026': '活动标题写明'}
+E         Use -v to get more diff
+
+tests/test_core.py:131: AssertionError
+_______ P1Tests.test_timeout_publishes_only_validated_partial_checkpoint _______
+
+self = <test_p1_pipeline.P1Tests testMethod=test_timeout_publishes_only_validated_partial_checkpoint>
+
+    def test_timeout_publishes_only_validated_partial_checkpoint(self):
+        from unittest.mock import MagicMock
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            process=MagicMock(pid=1234)
+            process.wait.side_effect=[subprocess.TimeoutExpired('adapter',1),0]
+            def start(*args,**kwargs):
+                p.atomic_json(root/'result.json',result())
+                return process
+            with patch.object(p.subprocess,'Popen',side_effect=start), patch.object(p.os,'killpg'):
+                collected=p.collect_process('大疆','campus',root,timeout=1)
+>           self.assertEqual(len(collected['jobs']),1)
+E           AssertionError: 0 != 1
+
+tests/test_p1_pipeline.py:285: AssertionError
+____________________ test_enum_check_fails_when_data_drifts ____________________
+
+tmp_path = PosixPath('/private/var/folders/_6/ddpzt5tj2m10z3xjxzrrnw0c0000gn/T/pytest-of-maxzhl/pytest-460/test_enum_check_fails_when_dat0')
+
+    def test_enum_check_fails_when_data_drifts(tmp_path):
+        row = dict(id="x", source_url="https://example.org/s", application_url="https://example.org/a",
+                   cohort_raw="2029届", industry="航天", recruitment_type="校园招聘")
+        path = tmp_path / "jobs.json"
+        path.write_text(json.dumps([row], ensure_ascii=False))
+        out = subprocess.run([sys.executable, "-m", "qiuzhao.v4_fields", "check", str(path)],
+                             cwd=RELEASE, capture_output=True, text=True)
+        assert out.returncode == 1 and "RESULT FAIL" in out.stdout
+>       assert "2029届" in out.stdout and "航天" in out.stdout
+E       assert ('2029届' in '{\n "items": 1,\n "data_as_of": null,\n "problems": [\n  "job_category: 枚举里有、数据里没有 [\'产品\', \'制造/生产\', \'医疗/医药\', \'咨...类\', \'文科类\', \'机械制造类\', \'理科类\', \'电子信息类\', \'管理类\', \'计算机类\', \'设计艺术类\', \'金融经济类\']（选了必然 0 条）"\n ]\n}\nRESULT FAIL\n')
+E        +  where '{\n "items": 1,\n "data_as_of": null,\n "problems": [\n  "job_category: 枚举里有、数据里没有 [\'产品\', \'制造/生产\', \'医疗/医药\', \'咨...类\', \'文科类\', \'机械制造类\', \'理科类\', \'电子信息类\', \'管理类\', \'计算机类\', \'设计艺术类\', \'金融经济类\']（选了必然 0 条）"\n ]\n}\nRESULT FAIL\n' = CompletedProcess(args=['/Users/maxzhl/Projects/mcp-suite/.venv/bin/python', '-m', 'qiuzhao.v4_fields', 'check', '/priv..., \'机械制造类\', \'理科类\', \'电子信息类\', \'管理类\', \'计算机类\', \'设计艺术类\', \'金融经济类\']（选了必然 0 条）"\n ]\n}\nRESULT FAIL\n', stderr='').stdout
+
+tests/test_schema.py:97: AssertionError
+=============================== warnings summary ===============================
+tests/test_call_log.py::test_threaded_writes_keep_long_lines_whole
+  /Users/maxzhl/Projects/mcp-suite/.venv/lib/python3.12/site-packages/fastmcp/server/auth/providers/jwt.py:10: AuthlibDeprecationWarning: authlib.jose module is deprecated, please use joserfc instead.
+  It will be compatible before version 2.0.0.
+    from authlib.jose import JsonWebKey, JsonWebToken
+
+tests/test_call_log.py::test_threaded_writes_keep_long_lines_whole
+  /Users/maxzhl/Projects/mcp-suite/.venv/lib/python3.12/site-packages/authlib/integrations/httpx_client/assertion_client.py:5: AuthlibDeprecationWarning: The httpx module is deprecated; please use httpx2 instead.
+    from ._compat import httpx2
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_core.py::test_role_cohort_and_campaign_title_bases - Assert...
+FAILED tests/test_p1_pipeline.py::P1Tests::test_timeout_publishes_only_validated_partial_checkpoint
+FAILED tests/test_schema.py::test_enum_check_fails_when_data_drifts - assert ...
+3 failed, 696 passed, 55 skipped, 2 warnings in 17.38s
