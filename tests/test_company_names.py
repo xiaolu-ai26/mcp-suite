@@ -23,8 +23,6 @@ def row(rid, **fields):
     ("腾讯科技（深圳）有限公司", "腾讯"),          # 任务点名样例
     ("北京小桔科技有限公司", "滴滴"),              # 任务点名样例
     ("大疆创新", "大疆"),                          # 任务点名样例
-    ("网易互娱", "网易"),                          # 任务点名样例(并入,见 basis)
-    ("网易互联网", "网易"),
     ("达能（中国）", "达能"),
     ("中国邮政集团有限公司", "中国邮政"),
     ("国家能源投资集团有限责任公司", "国家能源集团"),
@@ -36,14 +34,32 @@ def test_alias_hits(raw, expected):
 
 
 @pytest.mark.parametrize("raw,expected", [
+    # 集团法人自己的法人后缀归一(精确别名)
     ("中国移动通信集团有限公司", "中国移动"),
-    ("中国移动通信集团北京有限公司", "中国移动"),
-    ("中国移动通信有限公司在线营销服务中心", "中国移动"),
     ("中国联合网络通信集团有限公司", "中国联通"),
-    ("中国联合网络通信有限公司湖北省分公司", "中国联通"),
 ])
-def test_prefix_hits_same_group_different_legal_entities(raw, expected):
+def test_group_legal_entity_itself_is_normalized(raw, expected):
     assert CN.canonical_of(raw)[0] == expected
+
+
+@pytest.mark.parametrize("raw", [
+    # 站长 2026-09-19:子品牌/子公司/省分公司/事业部一律不并入母公司,保留原名
+    "网易互娱",
+    "网易互联网",
+    "网易有道信息技术（北京）有限公司",
+    "中国移动通信集团北京有限公司",
+    "中国移动通信集团浙江有限公司",
+    "中国移动通信有限公司在线营销服务中心",
+    "中国移动通信集团设计院有限公司",
+    "中国联合网络通信有限公司湖北省分公司",
+    "中国联合网络通信有限公司软件研究院",
+    "中国联合网络通信有限公司北京网络运营事业部",
+    "中国邮政集团有限公司河北省分公司",
+])
+def test_group_and_subbrands_are_not_merged(raw):
+    canonical, basis = CN.canonical_of(raw)
+    assert canonical == raw, (raw, canonical)
+    assert basis == "keep"
 
 
 @pytest.mark.parametrize("raw,expected", [
@@ -77,8 +93,6 @@ def test_unknown_names_are_kept_verbatim(raw):
 
 def test_keep_is_the_default_when_tables_are_empty(monkeypatch):
     monkeypatch.setattr(CN, "_ALIASES", {})
-    monkeypatch.setattr(CN, "_PREFIXES", {})
-    monkeypatch.setattr(CN, "_PREFIX_KEYS", [])
     monkeypatch.setattr(CN, "_BRANDS", {})
     assert CN.canonical_of("腾讯科技（深圳）有限公司") == ("腾讯科技（深圳）有限公司", "keep")
 
@@ -181,7 +195,7 @@ def test_brand_counts_match_recruitment_unit_baseline():
 
 def test_alias_table_entries_all_carry_basis():
     payload = json.loads(CN.ALIASES_PATH.read_text(encoding="utf-8"))
-    for section in ("aliases", "prefixes", "brands"):
+    for section in ("aliases", "brands"):
         entries = payload.get(section) or {}
         assert entries, f"{section} 段为空"
         for key, spec in entries.items():
@@ -189,18 +203,26 @@ def test_alias_table_entries_all_carry_basis():
             assert basis.strip(), f"{section}.{key} 缺少 basis"
 
 
+def test_alias_table_has_no_group_prefix_merges():
+    """站长 2026-09-19:删除“集团化”前缀合并(原 prefixes 段),以后也不许再加回来。"""
+    payload = json.loads(CN.ALIASES_PATH.read_text(encoding="utf-8"))
+    assert not (payload.get("prefixes") or {}), payload.get("prefixes")
+    assert not hasattr(CN, "_PREFIXES")
+    assert not hasattr(CN, "_PREFIX_KEYS")
+
+
 def test_every_canonical_target_is_stable():
     payload = json.loads(CN.ALIASES_PATH.read_text(encoding="utf-8"))
     targets = [spec["canonical"] for spec in payload["aliases"].values()]
-    targets += [spec["canonical"] for spec in payload["prefixes"].values()]
+    targets += [spec["canonical"] for spec in (payload.get("prefixes") or {}).values()]
     for canonical in targets:
         assert CN.canonical_of(canonical)[0] == canonical
 
 
 def test_alias_table_actually_loaded():
     info = CN.table_info()
-    assert info["aliases"] >= 19
-    assert info["prefixes"] >= 3
+    assert info["aliases"] >= 17
+    assert "prefixes" not in info
     assert info["brands"] >= 50
     assert info["platform_names"] > 0
 
