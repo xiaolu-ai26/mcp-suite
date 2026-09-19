@@ -1,5 +1,8 @@
 # 收据 · 飞书续表自动创建（`feat/lark-auto-continuation`）
 
+**提交**：`be8efa33`（工作区 `/Users/maxzhl/Projects/mcp-suite-lark-autotable`；合并提交
+`c0c90dec` 先并入 `feat/lark-reload-mirror`，基线 `feat/collector-next-4` `82af4f72`）。
+
 **结论**：续表从「人工建表 + 人工改代码登记 id」变成真正自动。新增共享模块
 `qiuzhao/collector/lark_continuation.py`，增量同步（`sync_lark_multivalue` /
 `lark_sync_enrichment.append_p1` / `lark_sync_index.run_mirror` / `lark_sync_daemon`）与
