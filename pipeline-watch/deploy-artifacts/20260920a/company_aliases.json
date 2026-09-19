@@ -1,0 +1,155 @@
+{
+  "_README": [
+    "公司名规范化数据表：canonical_company（品牌层）的映射来源。",
+    "口径（站长 2026-09-19）：“集团和子公司不需要并入集团，直接写明公司名字就好，不要做太复杂。”",
+    "只做“同一实体的不同写法”归一：剥法人后缀、用该实体自己的通用品牌简称；",
+    "不做“把独立品牌/子品牌/子公司/省分公司并入母公司”的合并；拿不准就保留原名（代码里最后一步）。",
+    "规则按顺序使用：aliases（精确，忽略空白/全半角括号/大小写）→ brands（文本本身是品牌，或剥掉法人后缀后命中品牌）。",
+    "前缀式“集团化合并”已按同一口径删除（原 3 条 prefixes：中国移动通信 / 中国联合网络通信 / 中国邮政）：",
+    "集团法人自己的规范名改用精确别名（中国移动通信集团有限公司 → 中国移动）；省分公司/事业部/研究院一律保留原名。",
+    "写入原则：只收有依据的映射，每条带 basis；网易互娱、网易互联网等子品牌已按站长口径从 aliases 删除，保留原名。",
+    "basis 前缀含义：[数据]=现役库里能直接看到的一致写法；[任务]=派单时点名的样例；[通用简称]=该法人主体的通用品牌名（常识，非库内推论）。",
+    "平台配置 qiuzhao/collector/p1_platform_companies.json 里各租户的规范公司名由代码在加载时并入 brands，不在此表重复维护。"
+  ],
+  "version": "2026-09-19b",
+  "aliases": {
+    "腾讯科技（深圳）有限公司": {
+      "canonical": "腾讯",
+      "basis": "[数据] 库内 907 行三字段全空、recruitment_unit 恒为该法人全称，source_name=腾讯校园招聘官方网站；[任务] 派单点名样例；[通用简称] 腾讯"
+    },
+    "北京小桔科技有限公司": {
+      "canonical": "滴滴",
+      "basis": "[数据] 库内 16 行三字段全空，recruiting_unit_raw=滴滴、source_name=滴滴校园招聘官网；[任务] 派单点名样例"
+    },
+    "大疆创新": {
+      "canonical": "大疆",
+      "basis": "[数据] 库内 15 行三字段全空 recruitment_unit=大疆创新、source_name=大疆创新校园招聘官方网站，另有 660 行 company=大疆；[任务] 派单点名样例"
+    },
+    "达能（中国）": {
+      "canonical": "达能",
+      "basis": "[数据] 12 行三字段全空，recruiting_unit_raw=达能中国、source_name=达能中国校招官网；平台配置 danone 租户规范名=达能"
+    },
+    "杭州海康威视数字技术股份有限公司": {
+      "canonical": "海康威视",
+      "basis": "[数据] 库内 canonical_company=海康威视 2206 行的 recruiting_unit_raw 高频法人全称（438 次）"
+    },
+    "用友网络科技股份有限公司": {
+      "canonical": "用友网络",
+      "basis": "[数据] 库内 canonical_company=用友网络 375 行，法人全称只出现在 recruitment_unit/recruiting_unit_raw"
+    },
+    "科大讯飞股份有限公司": {
+      "canonical": "科大讯飞",
+      "basis": "[数据] 库内 canonical_company=科大讯飞 893 行，法人全称 14 次"
+    },
+    "宁德时代新能源科技股份有限公司": {
+      "canonical": "宁德时代",
+      "basis": "[数据] 库内 canonical_company=宁德时代 5204 行，法人全称 6 次"
+    },
+    "比亚迪股份有限公司": {
+      "canonical": "比亚迪",
+      "basis": "[数据] 库内 canonical_company=比亚迪 3885 行，法人全称 2 次"
+    },
+    "药明康德新药开发有限公司": {
+      "canonical": "药明康德",
+      "basis": "[数据] 库内 canonical_company=药明康德 417 行，法人全称 3 次"
+    },
+    "长城汽车股份有限公司": {
+      "canonical": "长城汽车",
+      "basis": "[数据] 库内 canonical_company=长城汽车 3467 行，法人全称 6 次"
+    },
+    "招商局仁和人寿保险股份有限公司": {
+      "canonical": "招商局仁和人寿",
+      "basis": "[数据] 国聘两个来源分别写作 招商局集团有限公司（专场）与 招商局仁和人寿保险股份有限公司（国聘行动/国聘网校园招聘）；保留子公司层，不做集团合并"
+    },
+    "国家能源投资集团有限责任公司": {
+      "canonical": "国家能源集团",
+      "basis": "[数据] 422 行三字段全空、source_name=国家能源集团官网校园招聘直招；[通用简称] 国家能源集团"
+    },
+    "北京石晶光电科技股份有限公司": {
+      "canonical": "石晶光电",
+      "basis": "[任务] 派单点名样例：同岗位另一来源 company=中国兵器装备集团有限公司 + recruiting_unit_raw=石晶光电；[数据] 库内 6 行含该法人全称"
+    },
+    "中国邮政集团有限公司": {
+      "canonical": "中国邮政",
+      "basis": "[数据] 2648 行三字段全空、source_name=中国邮政官网授权2027校招专场；[通用简称] 中国邮政"
+    },
+    "中国建设银行股份有限公司": {
+      "canonical": "中国建设银行",
+      "basis": "[数据] 39 行三字段全空、source_name=中国建设银行官方2027总部校园招聘；剥离“股份有限公司”"
+    },
+    "中国银行股份有限公司": {
+      "canonical": "中国银行",
+      "basis": "[数据] 14 行三字段全空、source_name=中国银行官网2027校招公告；剥离“股份有限公司”"
+    },
+    "中国移动通信集团有限公司": {
+      "canonical": "中国移动",
+      "basis": "[数据] 1797 行国聘专场 recruitment_unit=中国移动通信集团有限公司；[通用简称] 中国移动。只收敛集团法人自己的法人后缀：省分公司（如 中国移动通信集团北京有限公司）、在线营销服务中心、研究院、事业部一律保留原名，原“中国移动通信”前缀式集团合并已于 2026-09-19 按站长口径删除"
+    },
+    "中国联合网络通信集团有限公司": {
+      "canonical": "中国联通",
+      "basis": "[数据] 2584 行国聘专场 recruitment_unit=中国联合网络通信集团有限公司，同一来源（中国联通校园招聘官方网站(北森)）另有 recruitment_unit=中国联通 的行；[通用简称] 中国联通。只收敛集团法人自己：省分公司、研究院、软件研究院、事业部一律保留原名，原“中国联合网络通信”前缀式集团合并已于 2026-09-19 按站长口径删除"
+    }
+  },
+  "brands": {
+    "宁德时代": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "吉利汽车": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "比亚迪": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "小米": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "蔚来汽车": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "长城汽车": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "美团": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "快手": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "网易": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "百度": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "海康威视": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "京东": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "小鹏汽车": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "滴滴": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "理想汽车": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "蚂蚁集团": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "恒瑞医药": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "小红书": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "联想": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "安克创新": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "哔哩哔哩": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "米哈游": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "科大讯飞": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "拼多多": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "携程": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "得物": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "大疆": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "影石Insta360": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "荣耀": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "华为": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "鹰角网络": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "完美世界": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "药明康德": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "vivo": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "OPPO": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "汇川技术": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "用友网络": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "叠纸游戏": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "大华股份": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "金山办公": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "中兴通讯": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "迈瑞医疗": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "金蝶": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "商汤科技": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "莉莉丝游戏": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "TP-LINK普联": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "巨人网络": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "三七互娱": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "石头科技": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "科沃斯": {"basis": "[数据] 库内既有 canonical_company 取值（50 家硬编码公司之一）"},
+    "字节跳动": {"basis": "[数据] 4173 行三字段全空 recruitment_unit=字节跳动、source_name=字节跳动校园招聘官方网站"},
+    "阿里巴巴": {"basis": "[数据] 477 行三字段全空 recruitment_unit=阿里巴巴、source_name=阿里巴巴校园招聘官方网站"},
+    "中国电信": {"basis": "[数据] source_name=中国电信官方招聘网站校园招聘；剥离“集团有限公司”后命中；[通用简称] 中国电信"},
+    "中国航天科工集团": {"basis": "[数据] 1241 行三字段全空 recruitment_unit=中国航天科工集团有限公司，剥离“有限公司”后命中"},
+    "中国兵器工业集团": {"basis": "[数据] 406 行三字段全空 recruitment_unit=中国兵器工业集团有限公司，剥离“有限公司”后命中"},
+    "中国兵器装备集团": {"basis": "[数据] 167 行三字段全空 recruitment_unit=中国兵器装备集团有限公司，剥离“有限公司”后命中"},
+    "中国能源建设": {"basis": "[数据] 649 行三字段全空 recruitment_unit=中国能源建设股份有限公司，剥离“股份有限公司”后命中"},
+    "中国机械科学研究总院": {"basis": "[数据] 81 行三字段全空 recruitment_unit=中国机械科学研究总院集团有限公司，逐层剥离“有限公司/集团”后命中"},
+    "中国东方电气集团": {"basis": "[数据] 12 行三字段全空 recruitment_unit=中国东方电气集团有限公司，剥离“有限公司”后命中"},
+    "招商局集团": {"basis": "[数据] 库内 4 行 company=招商局集团、4 行 recruitment_unit=招商局集团有限公司（source_name 招商局校园招聘官方网站(北森)），剥离“有限公司”后命中"}
+  }
+}

@@ -1,0 +1,99 @@
+Jingling (精灵) production pre-deploy manifest — single cumulative bundle 20260920a
+Generated on the Mac worktree /Users/maxzhl/Projects/mcp-suite-next5, 2026-09-20 (Asia/Shanghai),
+branch feat/collector-next-5 (merges feat/multi-entrance + feat/normalize-adjust + fix/p1-winlock
+on top of feat/collector-next-4).
+
+PREMISE (one only, measured on jingling for real):
+  jingling runs bundle 20260918k (deployed 2026-09-18 20:27:41, verified 17/17) with the
+  20260919k P0 hotfix already applied on top (deployed 2026-09-20 00:40, path A):
+    qiuzhao\collector\p1_pipeline.py  ff96be4d…  ->  13a5ec53a2b934809482a44f683bec6c5b2774bf96964cf57fb1df2d4cddacda
+  Nothing else changed on 2026-09-20 (20260919g/h/i were NEVER deployed). The 17 file
+  hashes below are the 20260918k SHA256SUMS values except p1_pipeline.py, which is the
+  measured hotfix value.
+
+  If any real pre-deploy hash differs from the table below, STOP: record the real hash, back
+  the file up anyway and treat the difference as drift.
+
+  ABSENT means the file must not exist; if it does, back it up and note it.
+
+Contents: 18 runtime files = 10 to overwrite + 8 to add. 8 further k files must stay
+untouched and are listed as VERIFY ONLY (they are byte-identical to 20260918k and are NOT
+shipped in this bundle). Target paths touched: 18.
+
+  target path on jingling                          PRE-DEPLOY sha256 (measured state)                   action
+  -----------------------------------------------  --------------------------------------------------  ----------------
+  qiuzhao\collector\p1_pipeline.py                 13a5ec53a2b934809482a44f683bec6c5b2774bf96964cf57fb1df2d4cddacda  overwrite (bundle)
+  qiuzhao\collector\p1_platform_companies.json     bf592f62cd644a20d16e948027832763da268d236439be6dba1d95dc1980f843  overwrite (bundle)
+  qiuzhao\collector\p1_feishu_public.py            e9855205ad1cc9494855d1357ab93c68f6e6ead646e7441bd6032c7311a8ca4f  overwrite (bundle)
+  qiuzhao\collector\p1_platform_beisen.py          3faeb5686aa7bf05a7b6754b35a607c50a9666e8247dd5b46d430307b9eb33a5  overwrite (bundle)
+  qiuzhao\collector\p1_platform_moka.py            569e0865d96ba7f91a4803330975ac76f9f35277b9f1bf312092c598c636a777  overwrite (bundle)
+  qiuzhao\collector\p1_platform_successfactors.py  658c81c07bd4ebda62735662dfac54722dccc830517072e3a40d9329701f1216  overwrite (bundle)
+  qiuzhao\collector\p1_platform_workday.py         d95e11b29f30368a1f4657d22fdb1c10d88495bd1ccac03f8a15c613caeb706b  overwrite (bundle)
+  qiuzhao\collector\p1_foreign_01.py               549481bbe540a7633c080a519617bbe7e23dc4d95d5bb1f4ec127b771460a052  overwrite (bundle)
+  qiuzhao\collector\p1_platform_51job.py           f19201fe4340e802216f8fb1428cece2457aba611cdf798bd9cce42441bc32bb  overwrite (bundle)
+  qiuzhao\normalize.py                             VERIFY (not in 20260918k; see CAVEAT)               overwrite (bundle)
+  qiuzhao\collector\p1_platform_eightfold.py       ABSENT                                              add (bundle)
+  qiuzhao\collector\p1_platform_phenom.py          ABSENT                                              add (bundle)
+  qiuzhao\collector\p1_platform_avature.py         ABSENT                                              add (bundle)
+  qiuzhao\collector\p1_platform_icims.py           ABSENT                                              add (bundle)
+  qiuzhao\collector\p1_platform_orc.py             ABSENT                                              add (bundle)
+  qiuzhao\collector\p1_platform_tupu360.py         ABSENT                                              add (bundle)
+  qiuzhao\company_names.py                         ABSENT                                              add (bundle)
+  qiuzhao\data\company_aliases.json                ABSENT                                              add (bundle)
+
+VERIFY ONLY — must still equal 20260918k, do NOT copy, NOT in this bundle:
+  qiuzhao\collector\guopin.py                      add0d50c715e06eb968bb7671bc2e9787e81d9ad39be008e66731337f16b6c03
+  qiuzhao\collector\alibaba_headless.py            dab17686cf251f220950b8c8e13984d39dcbb07b8a3eeeea84bdea3ca3be7db2
+  qiuzhao\collector\p1_banks_01.py                 25e2399812f64ee1762b7686849bf7241c8e1353d7203347562f9794223ffb19
+  qiuzhao\collector\tencent_music.py               7d19cbc34b45dfc5e31c3d9b7ed41dd51c638c5adb6c62bf6e0330904f3d3787
+  qiuzhao\collector\bytedance.py                   07922a5111dd6356d97d289d472ae78bf177dd95bf8f401db6284e8e18140c8d
+  qiuzhao\collector\p1_bytedance_public.py         bc2926472037e24c212f47a0d62750ca9cd921a7b01df5af6dbe0f56d5c160e6
+  qiuzhao\collector\p1_midea_public.py             509b9a502d7e1010c478896fc1312ae380aa97a3847412bdef8cb48bc2c97186
+  deploy\windows_collector.py                      9eaf97cc5d4e968c062aaa65468ab34c584534a4ced5523d75c7c26229ec8312
+
+CAVEAT on qiuzhao\normalize.py: NOT part of the 20260918k bundle (k only carried
+qiuzhao\collector\* and deploy\windows_collector.py), so its live jingling hash is not
+recorded anywhere. The repo version that was live before the company-name work is commit
+850af325, sha256 a53adaf33c891b5d8d8dd5b7531c0799b57666d5a62e987dc92ac22b9eb51b31 — treat
+that as the EXPECTED value, not a verified one. Run Get-FileHash on the live file first,
+write the real value into the deploy record, and back the file up either way (rollback =
+restore it, never delete it). qiuzhao\normalize_tables.json is NOT in this bundle: unchanged
+since the port, already present on jingling, read by normalize.py.
+
+Bundle content hashes (20260920a, the source of truth after copy; full list in
+SHA256SUMS.txt, 18 files). Run `shasum -a 256 -c SHA256SUMS.txt` (macOS) or
+`Get-FileHash -Algorithm SHA256` (jingling) inside the staging directory after copy; every
+line must print OK, and the staging copy must be compared file-by-file with this list
+BEFORE overwriting the live tree.
+
+  p1_pipeline.py                   093b237e852ba1d15717e97adc6b7de66f412c84c4005b3a72e79b4a108de12d
+  p1_platform_companies.json       cd4c403bcff54274e0fbc741095f9d6ab8f520a80130c3deb35fc37c9123404a
+  p1_feishu_public.py              03f732d8824d973aab5b52e6a6ea5a2ff9c34fb62af5b725d10088f1ec9bba66
+  p1_platform_beisen.py            6885efb18e40f5fa83464a8a21a3e0ffa49af14c9e8a673016e6d640c4dea82f
+  p1_platform_moka.py              778a956d7d99832a47964743fac22fe08e0f1fce5c0325e2b3580b180a6077c0
+  p1_platform_successfactors.py    cdeaaa26beca6c0c2a93c77e14fc05c6247d9f15d631ecff98dad60f018250a5
+  p1_platform_workday.py           b576b94cde9ec2f12e075a23e8f3aed5e15c179238ec9fdd50cca3b246455650
+  p1_foreign_01.py                 29c62e6272e4429a567b4531a6ecfa053b84d59679e5fd2117e5b801df6191a6
+  p1_platform_51job.py             968193b3c5457f2ab1b9490decf48834b0d06dcfc3988193b9b143bd38810836
+  p1_platform_eightfold.py         10e87b96c34688797128db2719da310cf7a5e021d935a0688425b17e4b251b3f
+  p1_platform_phenom.py            f40eb834fe24fb176381b3d22e15e3f86d744a6ff3860c626542fe0f60a23eb3
+  p1_platform_avature.py           378e4f9f6e30782b47109aff47c4fa6eaaccb7e279a1c8ca34e0c46ee5422781
+  p1_platform_icims.py             132d6a046781c4455cd61cf8ca00a006a18af49fe1d09d4ccef8e3805293e4ea
+  p1_platform_orc.py               bd3528bcbc7c1c61a53f1cb4c339ae2ef32e9f391f62a1ab3a8ea28207eb58f2
+  p1_platform_tupu360.py           51a109901822ff7ea0359ab7974c80cf3a64f266a8f42aad8563fbb9b66207a5
+  company_names.py                 ee0943560d6ed0523b4bd70f6363b529e8190b60333fad2fc7a6678ec4198851
+  company_aliases.json             ae311e93b754b5f76372f7668aa1076fd6666e79c51ca45ff2113b7642539e6f
+  normalize.py                     52fb48f7287ba2f89f0c4dda075dc12ab9fa3880b4027396d9377f4c1c25b8ef
+
+Rollback (restore every overwritten file from the pre-deploy backup and delete the 8 added
+files): company_aliases.json, company_names.py, p1_platform_avature.py,
+p1_platform_eightfold.py, p1_platform_icims.py, p1_platform_orc.py, p1_platform_phenom.py,
+p1_platform_tupu360.py. qiuzhao/normalize.py and all qiuzhao/collector/*.py are RESTORED,
+never deleted. After restore, verify p1_pipeline.py is back to 13a5ec53… (the hotfix must
+survive any rollback of this bundle: the 20260920 06:10 run depends on it).
+
+New-backup command (do not skip, and never overwrite an existing backup directory):
+  robocopy C:\mcp-suite-collector\deploy  C:\mcp-suite-backup-<YYYYMMDD-HHmm>\deploy  /E /R:2 /W:5
+  robocopy C:\mcp-suite-collector\qiuzhao C:\mcp-suite-backup-<YYYYMMDD-HHmm>\qiuzhao /E /R:2 /W:5
+robocopy exit codes <= 7 mean success. Do NOT robocopy the whole collector directory
+(recovery/ is ~3.4 GB).
