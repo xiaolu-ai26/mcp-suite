@@ -7,8 +7,12 @@ private/
 .mcp.json
 qiuzhao/data/*
 # 公司名别名表是随代码发布的运行时数据(公司名规范化要用),必须入库;
+# 告警目标表(会话 id,不是凭据)同样随代码发布,缺了它告警会静默降级成写文件。
 # 其余 qiuzhao/data/ 仍然是本机/采集机的运行数据,不入库。
 !qiuzhao/data/company_aliases.json
+!qiuzhao/data/notify_targets.json
+# 告警通道发不出去时的降级告警文件(repo 根 data/,由 qiuzhao.notify 写)
+/data/
 bench/data/
 bench/sources/
 *.mcp.json

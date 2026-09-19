@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "updated_at": "2026-09-20",
+  "_comment": "cc 机器人(飞书自建应用)告警目标。三选一填入即可,chat_id 优先。值为空时告警降级写 notify-alerts.jsonl,不会发送。",
+  "chat_id": "",
+  "user_id": "ou_df8d53a7b56fd4519cf0a65746a7bb71",
+  "email": "",
+  "_how_to_fill": [
+    "chat_id: 把 cc 机器人拉进一个群后,在群里发任意消息,用 `python -m qiuzhao.notify --list-chats` 或 lark-cli 查 oc_ 开头的会话 id。",
+    "user_id: 站长的 open_id(ou_ 开头,**必须属于 cc 机器人这个应用**;别的应用拿到的 open_id 不通用)。",
+    "email: 站长在飞书租户内的邮箱;需要应用有通讯录读取权限,一般不用。"
+  ],
+  "_env_override": "QIUZHAO_NOTIFY_CHAT_ID / QIUZHAO_NOTIFY_USER_ID / QIUZHAO_NOTIFY_EMAIL 可临时覆盖本文件,便于单次测试。",
+  "_filled_by": "站长在 cc 应用下的 open_id,由 lark-cli whoami 读出(同一应用,open_id 通用);2026-09-20 真实发送验证通过"
+}

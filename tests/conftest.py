@@ -56,3 +56,18 @@ def jobs_inproc():
     jobs = Jobs(JOBS_PATH, today=date.fromisoformat(TODAY))
     jobs.dataset()
     return jobs
+
+
+@pytest.fixture(autouse=True)
+def no_live_alerts(monkeypatch):
+    """No test may ever send a real Feishu alert.
+
+    The alert channel (``qiuzhao.notify``) is enabled by default wherever
+    credentials exist, so a test that reaches an alert path would otherwise
+    message 站长 for real. ``QIUZHAO_NOTIFY_DISABLE`` makes the default notifier
+    a no-op; the notifier's own tests pass an explicit ``environ`` to exercise
+    the real code paths against fake transports.
+    """
+    monkeypatch.setenv('QIUZHAO_NOTIFY_DISABLE', '1')
+    monkeypatch.delenv('QIUZHAO_NOTIFY_CHAT_ID', raising=False)
+    monkeypatch.delenv('QIUZHAO_NOTIFY_USER_ID', raising=False)

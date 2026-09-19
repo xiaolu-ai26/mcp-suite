@@ -1,0 +1,53 @@
+PROD-BACKUP-MANIFEST for deploy bundle 20260920b (cc-bot alert channel)
+Generated on the Mac worktree /Users/maxzhl/Projects/mcp-suite-ccbot, 2026-09-20 (Asia/Shanghai),
+branch feat/cc-bot-notifier (base feat/lark-auto-continuation f652e087).
+
+Purpose: record what every touched target must look like on jingling (精灵,
+C:\mcp-suite-collector) and on the Mac checkout BEFORE this bundle is copied.
+This bundle is NOT deployed by its author: no SSH, no copy, no restart.
+
+Target path on jingling                             PREMISE                                              action
+--------------------------------------------------  ---------------------------------------------------  ---------------------------------
+qiuzhao/notify.py                                   ABSENT                                               new in 20260920b
+qiuzhao/data/notify_targets.json                    ABSENT                                               new in 20260920b
+qiuzhao/collector/lark_continuation.py              ABSENT, or VERIFY == 20260919m value (see below)     overwrite
+qiuzhao/collector/lark_sync_daemon.py               VERIFY (no recorded hash: shipped by an earlier      overwrite
+                                                    bundle, never listed in 20260919a/m manifests)
+
+Reference hashes (macOS shasum -a 256, from the branch sources):
+  20260919m/qiuzhao/collector/lark_continuation.py  23e88b18f799d5f91dbd006c76800d26b863294453878d1af864c3be5c2f3f93
+  20260919m/qiuzhao/collector/lark_sync_daemon.py   0da8ad2ce0690ded9e06889d076d03ac9a9ad1b39295a8db3c70ef4596d457ad
+  20260920b/qiuzhao/collector/lark_continuation.py  9dc9789119fc50e51c05313f9b005c2b753c20f7ac37f9ec61dfaa3cc6603da8
+  20260920b/qiuzhao/collector/lark_sync_daemon.py   1a49c1bf81cbb34a79da45334c7db040a7af7fdef9c2d5fad06feb055e13776b
+  20260920b/qiuzhao/notify.py                       7b2e95f940455369170112677ff34d2adade8ec6d9370cf71cbdcf4cff8e6866
+  20260920b/qiuzhao/data/notify_targets.json        d8796709186ad0667ebeeb5d2a19f772f57c694b6d4c083bcdf2f62a61a6f75e
+  20260920b/deploy/freshness_notify_mac.sh          6c318b52f0742725b9fda97f85e3f039f2ca01da2dfd7f2aaa45605289be5484
+
+ORDER OF OVERLAY (do not skip):  20260918k (+20260919k hotfix) -> [20260919g/h/i] -> 20260919a
+-> 20260919m -> 20260920b.  The two collector files in this bundle are 20260919m's version
+plus the alert hook only (verified by diff), so 20260919m must already be in place; m's
+sync_lark_multivalue.py is NOT part of this bundle.
+
+MINIMAL SAFE SUBSET (alert channel only, no sync-logic change): qiuzhao/notify.py +
+qiuzhao/data/notify_targets.json on the host, plus deploy/freshness_notify_mac.sh on the Mac
+checkout. The continuation alert and the sync-failure alert only fire once the m-version
+modules above are deployed.
+
+PRE-EXISTING FILES THIS BUNDLE DEPENDS ON BUT DOES NOT SHIP (verify, do not overwrite):
+  qiuzhao/collector/portable_runtime.py    imported by lark_continuation.py (present since 20260918k)
+  qiuzhao/collector/sync_lark_multivalue.py imported by lark_sync_daemon.py as S
+                                             (20260919a manifest value 5c77cde828bae6f6...)
+  lark-cli on PATH                          optional; only used when its bound app IS this bot
+                                             (jingling has none -> the REST API is used)
+
+CREDENTIALS (never part of this bundle, placed by 站长 only):
+  jingling  C:\Users\LZH-LZH-\.config\qiuzhao-cc-bot.env   (CC_BOT_APP_ID / CC_BOT_APP_SECRET)
+            or any path + QIUZHAO_CC_BOT_ENV_FILE for the task account
+  Mac       ~/.config/qiuzhao-cc-bot.env                   (already in place, mode 600)
+  server    not needed (freshness.json only; alerting happens on the Mac side)
+
+ROLLBACK: this bundle adds two new files and overwrites two collector files + one Mac shell
+script. Keep the pre-copy copies; restoring the pre-copy lark_continuation.py /
+lark_sync_daemon.py / freshness_notify_mac.sh and deleting qiuzhao/notify.py +
+qiuzhao/data/notify_targets.json returns the host to its previous behaviour (the notifier is
+imported lazily, so a missing qiuzhao/notify.py is a no-op, not an error).

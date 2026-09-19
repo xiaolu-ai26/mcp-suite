@@ -1,0 +1,39 @@
+/Library/Developer/CommandLineTools/usr/bin/python3: can't open file '/tmp/ccbot-dryrun.HTRXjQ/Projects/ai-board/post.py': [Errno 2] No such file or directory
+script_exit=0
+--- 降级告警文件(应为两条:新鲜度 + 精灵同步失败)
+{"at": "2026-09-20T01:18:25+08:00", "channel": "file", "error": null, "event": "freshness_multi_problem", "fields": {"checked_at": "2026-09-20T03:47:00+08:00", "data_age_hours": 40.2, "data_as_of": "2026-09-18T11:00:00+08:00", "problems": ["stale: data_as_of 2026-09-18 is 40.2h old (> 26h)", "lagging: lark synced sha deadbeef != jobs.json sha cafebabe, receipt 8.5h old (> 6h)"], "receipt_age_hours": 8.5, "status": "lagging+stale"}, "message": "【秋招告警】管线新鲜度多项异常\n时间: 2026-09-20T01:18:25+08:00\n事件: freshness_multi_problem\n关键数字: checked_at=2026-09-20T03:47:00+08:00; data_age_hours=40.2; data_as_of=2026-09-18T11:00:00+08:00; problems=stale: data_as_of 2026-09-18 is 40.2h old (> 26h); lagging: lark synced sha deadbeef != jobs.json sha cafebabe, receipt 8.5h old (> 6h); receipt_age_hours=8.5; status=lagging+stale\n详情: 【秋招】管线新鲜度告警:status=lagging+stale; stale: data_as_of 2026-09-18 is 40.2h old (> 26h); lagging: lark synced sha deadbeef != jobs.json sha cafebabe, receipt 8.5h old (> 6h)(checked_at=2026-09-20T03:47:00+08:00, 详情见服务器 /var/lib/mcp-suite/freshness.json)\n要站长做什么: 按详情逐项检查精灵与服务器", "reason": "no_target"}
+{"at": "2026-09-20T01:18:25+08:00", "channel": "file", "error": null, "event": "lark_sync_failed", "fields": {"error": "append failed, exit=1; see runs/20260920T061000/append.log", "last_success_at": "2026-09-19T07:40:00+08:00", "phase": "append", "status": "failed"}, "message": "【秋招告警】精灵飞书同步失败\n时间: 2026-09-20T01:18:25+08:00\n事件: lark_sync_failed\n关键数字: error=append failed, exit=1; see runs/20260920T061000/append.log; last_success_at=2026-09-19T07:40:00+08:00; phase=append; status=failed\n详情: 【秋招】精灵飞书同步告警:status=failed, last_success_at=2026-09-19T07:40:00+08:00, phase=append, error=append failed, exit=1; see runs/20260920T061000/append.log(详情见精灵 C:\\mcp-suite-collector\\data\\lark-sync\\status.json)\n要站长做什么: 看精灵 data\\lark-sync\\status.json 与 sync.log,处理后重跑同步", "reason": "no_target"}
+--- 通道日志
+WARNING feishu alert degraded to file (no_target): event=freshness_multi_problem alert_path=/tmp/ccbot-dryrun.HTRXjQ/state/notify-alerts.jsonl
+WARNING feishu alert degraded to file (no_target): event=lark_sync_failed alert_path=/tmp/ccbot-dryrun.HTRXjQ/state/notify-alerts.jsonl
+{
+  "ok": true,
+  "sent": 0,
+  "degraded": 2,
+  "results": [
+    {
+      "event": "freshness_multi_problem",
+      "at": "2026-09-20T01:18:25+08:00",
+      "sent": false,
+      "channel": "file",
+      "reason": "no_target",
+      "attempts": 0,
+      "transport": null,
+      "target": null,
+      "alert_path": "/tmp/ccbot-dryrun.HTRXjQ/state/notify-alerts.jsonl",
+      "message_id": null
+    },
+    {
+      "event": "lark_sync_failed",
+      "at": "2026-09-20T01:18:25+08:00",
+      "sent": false,
+      "channel": "file",
+      "reason": "no_target",
+      "attempts": 0,
+      "transport": null,
+      "target": null,
+      "alert_path": "/tmp/ccbot-dryrun.HTRXjQ/state/notify-alerts.jsonl",
+      "message_id": null
+    }
+  ]
+}
