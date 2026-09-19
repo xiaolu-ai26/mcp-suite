@@ -1,0 +1,74 @@
+{
+  "key": "bshg/140686",
+  "site_url": "https://app.mokahr.com/social-recruitment/bshg/140686",
+  "list_endpoint": "https://app.mokahr.com/api/outer/ats-apply/website/jobs/v2",
+  "portal_status": 200,
+  "aesIv_found": true,
+  "terminal_offset": 100,
+  "terminal_total": 58,
+  "total": 58,
+  "listed": 58,
+  "by_hireMode": {
+    "1": 58
+  },
+  "by_status": {
+    "open": 55,
+    "pause": 2,
+    "closed": 1
+  },
+  "by_commitment": {
+    "实习": 58
+  },
+  "by_scope": {
+    "intern": 58
+  },
+  "sample_titles": [
+    "物理AI与自主测试实习生",
+    "电机结构设计实习生",
+    "Data analysis intern数据分析实习生",
+    "财务数据分析实习生",
+    "Data Analysis Intern",
+    "采购流程管理实习生",
+    " 电商业务支持实习生",
+    "直播数据分析实习生",
+    " 派工与支持实习生-郑州",
+    " AI全栈开发实习生",
+    "仿真和数据分析实习生",
+    "培训视频运营实习生",
+    "CS-TCT实习生（日常运维）",
+    "商务管理实习生",
+    "西门子营销实习生-浙江",
+    "AI 数字化实习生-滁州",
+    "西门子营销实习生-浙江",
+    "电商主播实习生（博世/西门子官旗直播间）",
+    "创新&可持续法规项目实习生",
+    " 视觉运营实习生"
+  ],
+  "ledger": [
+    {
+      "url": "https://app.mokahr.com/social-recruitment/bshg/140686",
+      "status": 200,
+      "bytes": 118795,
+      "secs": 0.66
+    },
+    {
+      "url": "https://app.mokahr.com/api/outer/ats-apply/website/jobs/v2",
+      "offset": 0,
+      "status": 200,
+      "secs": 0.59
+    },
+    {
+      "url": "https://app.mokahr.com/api/outer/ats-apply/website/jobs/v2",
+      "offset": 50,
+      "status": 200,
+      "secs": 0.21
+    },
+    {
+      "url": "https://app.mokahr.com/api/outer/ats-apply/website/jobs/v2",
+      "offset": 100,
+      "status": 200,
+      "secs": 0.29
+    }
+  ],
+  "request_count": 4
+}

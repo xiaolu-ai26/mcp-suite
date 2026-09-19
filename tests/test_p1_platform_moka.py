@@ -121,3 +121,88 @@ def test_real_config_moka_entries_are_resolvable():
     assert moka.sites_for('wps/41436') == [
         ('https://join.wps.cn/campus-recruitment/wps/41436', 'configured Moka portal for wps/41436'),
         ('https://app.mokahr.com/social-recruitment/wps/3471', 'configured Moka portal for wps/41436')]
+
+
+def test_real_config_nestle_multi_entrance(monkeypatch):
+    """雀巢 2026-09-19: one config row merges three official Moka tenants."""
+    assert 'nestlezgc/91899' in moka.COMPANIES
+    assert moka.COMPANIES['nestlezgc/91899'] == '雀巢'
+    assert moka.sites_for('nestlezgc/91899') == [
+        ('https://app.mokahr.com/campus-recruitment/nestlezgc/91899',
+         'configured Moka portal for nestlezgc/91899'),
+        ('https://app.mokahr.com/social-recruitment/nestlezgc/91898',
+         'configured Moka portal for nestlezgc/91899'),
+        ('https://app.mokahr.com/social-recruitment/nestlezgc/124026',
+         'configured Moka portal for nestlezgc/91899'),
+    ]
+
+
+def test_multi_site_merge_dedups_shared_ids(tmp_path, monkeypatch):
+    """Two configured sites are scanned; a posting id seen on both is emitted once."""
+    sites = ['https://app.mokahr.com/campus-recruitment/merge/1',
+             'https://app.mokahr.com/social-recruitment/merge/2']
+    monkeypatch.setattr(moka, '_entry',
+                        lambda key: {'name': '多入口测试', 'sites': sites})
+    monkeypatch.setattr(moka, 'COMPANIES', {'merge/1': '多入口测试'})
+    monkeypatch.setattr(moka, 'NAME_TO_SLUG', {'多入口测试': 'merge/1'})
+
+    class Entry:
+        def __init__(self, text):
+            self.text = text
+
+        def raise_for_status(self):
+            return None
+
+    class Session:
+        def __init__(self):
+            self.headers = {}
+            self.visited = []
+
+        def get(self, url, **kwargs):
+            self.visited.append(url)
+            iv = 'A' * 16 if '/merge/1' in url else 'B' * 16
+            return Entry('{"aesIv":"%s"}' % iv)
+
+    rows = {
+        1: [{'id': 'c1', 'title': '校招A', 'hireMode': 2, 'status': 'open'},
+            {'id': 's1', 'title': '社招A', 'hireMode': 1, 'status': 'open'}],
+        2: [{'id': 'c1', 'title': '校招A', 'hireMode': 2, 'status': 'open'},
+            {'id': 'c2', 'title': '校招B', 'hireMode': 2, 'status': 'open'}],
+    }
+
+    def request_json(session, url, payload, iv=None):
+        site = int(payload['siteId'])
+        if int(payload.get('offset', 0)):
+            return {'jobs': [], 'jobStats': {'total': len(rows[site])}}
+        return {'jobs': rows[site], 'jobStats': {'total': len(rows[site])}}
+
+    def detail(company, scope, row, host, org, site, iv, output_dir):
+        return ({'id': row['id'], 'title': row['title'], 'hireMode': row['hireMode'],
+                 'commitment': row.get('commitment'), 'status': row.get('status'),
+                 'jobDescription': '<p>职责</p><p>要求</p>', 'locations': []},
+                '2026-09-19T00:00:00+00:00', False)
+
+    session = Session()
+    monkeypatch.setattr(moka, '_make_session', lambda: session)
+    monkeypatch.setattr(moka.shared, 'request_json', request_json)
+    monkeypatch.setattr(moka.shared, 'moka_detail_cached', detail)
+
+    campus = moka.collect('多入口测试', 'campus', tmp_path / 'c', max_requests=20)
+    social = moka.collect('多入口测试', 'social', tmp_path / 's', max_requests=20)
+
+    assert sorted(j['source_record_id'] for j in campus['jobs']) == ['c1', 'c2']
+    assert [j['source_record_id'] for j in social['jobs']] == ['s1']
+    # both sites were actually listed and their totals recorded
+    assert campus['coverage']['source_list_totals'] == {'merge/1': 2, 'merge/2': 2}
+    assert any('/merge/1' in url for url in session.visited)
+    assert any('/merge/2' in url for url in session.visited)
+
+
+def test_real_config_ey_merges_campus_and_social_tenants():
+    """安永 2026-09-19: official EY China page adds social tenant ey/102474."""
+    assert moka.sites_for('ey/166374') == [
+        ('https://app.mokahr.com/campus-recruitment/ey/166374',
+         'configured Moka portal for ey/166374'),
+        ('https://app.mokahr.com/social-recruitment/ey/102474',
+         'configured Moka portal for ey/166374'),
+    ]

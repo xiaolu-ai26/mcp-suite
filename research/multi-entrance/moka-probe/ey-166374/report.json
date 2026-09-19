@@ -1,0 +1,56 @@
+{
+  "key": "ey/166374",
+  "site_url": "https://app.mokahr.com/campus-recruitment/ey/166374",
+  "list_endpoint": "https://app.mokahr.com/api/outer/ats-apply/website/jobs/v2",
+  "portal_status": 200,
+  "aesIv_found": true,
+  "terminal_offset": 50,
+  "terminal_total": 8,
+  "total": 8,
+  "listed": 8,
+  "by_hireMode": {
+    "2": 8
+  },
+  "by_status": {
+    "open": 8
+  },
+  "by_commitment": {
+    "全职": 2,
+    "实习": 6
+  },
+  "by_scope": {
+    "campus": 2,
+    "intern": 6
+  },
+  "sample_titles": [
+    "2026-2027年安永秋季应届毕业生校园招聘项目",
+    "2026-2027安永审计寒假实习生招聘项目",
+    "安永风控与安全咨询服务实习生",
+    "安永大湾区税务毕业生招聘计划",
+    "安永人力资源部实习生",
+    "安永品牌、市场推广及传讯部实习生",
+    "安永IT部实习生",
+    "安永财务部实习生"
+  ],
+  "ledger": [
+    {
+      "url": "https://app.mokahr.com/campus-recruitment/ey/166374",
+      "status": 200,
+      "bytes": 106211,
+      "secs": 0.64
+    },
+    {
+      "url": "https://app.mokahr.com/api/outer/ats-apply/website/jobs/v2",
+      "offset": 0,
+      "status": 200,
+      "secs": 0.32
+    },
+    {
+      "url": "https://app.mokahr.com/api/outer/ats-apply/website/jobs/v2",
+      "offset": 50,
+      "status": 200,
+      "secs": 0.16
+    }
+  ],
+  "request_count": 3
+}

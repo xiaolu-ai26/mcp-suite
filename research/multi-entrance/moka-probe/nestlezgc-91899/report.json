@@ -1,0 +1,73 @@
+{
+  "key": "nestlezgc/91899",
+  "site_url": "https://app.mokahr.com/campus-recruitment/nestlezgc/91899",
+  "list_endpoint": "https://app.mokahr.com/api/outer/ats-apply/website/jobs/v2",
+  "portal_status": 200,
+  "aesIv_found": true,
+  "terminal_offset": 100,
+  "terminal_total": 68,
+  "total": 68,
+  "listed": 68,
+  "by_hireMode": {
+    "2": 68
+  },
+  "by_status": {
+    "open": 68
+  },
+  "by_commitment": {
+    "None": 68
+  },
+  "by_scope": {
+    "campus": 55,
+    "intern": 13
+  },
+  "sample_titles": [
+    "Commercial Management Trainee - Marketing - Shanghai - Totole",
+    "Factory Trainee-Supply Chain(仅限2025届-2026届)",
+    "泰州工厂管理培训生-工程方向（限2025/2026届）",
+    "东莞工厂管理培训生-工程方向（限2025/2026届）",
+    "广冻工厂管理培训生-HR/行政方向（限2025/2026届）",
+    "HR Management Trainee - Beijing",
+    "东莞 Technical Management Trainee",
+    "Sales Trainee - Wuhan - Nestlé Professional",
+    "Cross Border E-Commerce Management Trainee - Beijing - Nestlé Nutrition",
+    "Marketing Management Trainee - Shanghai - Nestlé Nutrition",
+    "Sales Trainee - Chengdu - Omni Grocery Retail & eBusiness",
+    "Sales Trainee - Xi'an - Omni Grocery Retail & eBusiness",
+    "Technical Trainee - Qingdao - 雀巢青岛工厂",
+    "Technical Trainee - Dongguan - 雀巢美极工厂",
+    "Technical Trainee - Tianjin - 雀巢普瑞纳天津工厂",
+    "Technical Trainee - Tianjin - 雀巢天津工厂",
+    "Technical Trainee - Shuangcheng - 雀巢双城工厂",
+    "Corporate Affairs Management Trainee - Beijing",
+    "Sales Trainee - Guangzhou - Nestlé Professional",
+    "Technical Trainee - Suzhou - 雀巢健康科学工厂"
+  ],
+  "ledger": [
+    {
+      "url": "https://app.mokahr.com/campus-recruitment/nestlezgc/91899",
+      "status": 200,
+      "bytes": 124318,
+      "secs": 0.56
+    },
+    {
+      "url": "https://app.mokahr.com/api/outer/ats-apply/website/jobs/v2",
+      "offset": 0,
+      "status": 200,
+      "secs": 0.35
+    },
+    {
+      "url": "https://app.mokahr.com/api/outer/ats-apply/website/jobs/v2",
+      "offset": 50,
+      "status": 200,
+      "secs": 0.34
+    },
+    {
+      "url": "https://app.mokahr.com/api/outer/ats-apply/website/jobs/v2",
+      "offset": 100,
+      "status": 200,
+      "secs": 0.26
+    }
+  ],
+  "request_count": 4
+}

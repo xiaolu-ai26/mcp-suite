@@ -1,0 +1,66 @@
+{
+  "key": "nestlezgc/124026",
+  "site_url": "https://app.mokahr.com/social-recruitment/nestlezgc/124026",
+  "list_endpoint": "https://app.mokahr.com/api/outer/ats-apply/website/jobs/v2",
+  "portal_status": 200,
+  "aesIv_found": true,
+  "terminal_offset": 50,
+  "terminal_total": 50,
+  "total": 50,
+  "listed": 50,
+  "by_hireMode": {
+    "1": 50
+  },
+  "by_status": {
+    "open": 50
+  },
+  "by_commitment": {
+    "None": 50
+  },
+  "by_scope": {
+    "social": 50
+  },
+  "sample_titles": [
+    "Senior E-Commerce E-Boutique Executive",
+    "eCommerce DTC Manager",
+    "Financial Planning & Analysis Manager",
+    "Assistant Procurement Manager",
+    "eCommerce Operation Executive-站内投放",
+    "销售主任-酒店餐饮渠道",
+    "Training Executive",
+    "e-Commerce KA Manager",
+    "Marketing Executive 營養行銷襄理",
+    "Assistant CRM Manager 會員經營副理",
+    "Coffee Specialist",
+    "雀巢健康科学-成人-西安-SR/SMR/ME（副本）",
+    "太太乐- 太太乐-OTO高级运营专员",
+    "太太乐- 电商运营经理",
+    "Product Executive (Medical Sales)",
+    "Project Engineer",
+    "HR Manager, HRBP",
+    "Marketing Executive / Assistant Brand Manager (Grocery)",
+    "(Assistant) Manager, SH&E",
+    "RSAQA Executive"
+  ],
+  "ledger": [
+    {
+      "url": "https://app.mokahr.com/social-recruitment/nestlezgc/124026",
+      "status": 200,
+      "bytes": 98873,
+      "secs": 0.62
+    },
+    {
+      "url": "https://app.mokahr.com/api/outer/ats-apply/website/jobs/v2",
+      "offset": 0,
+      "status": 200,
+      "secs": 0.29
+    },
+    {
+      "url": "https://app.mokahr.com/api/outer/ats-apply/website/jobs/v2",
+      "offset": 50,
+      "status": 200,
+      "secs": 0.13
+    }
+  ],
+  "request_count": 3
+}

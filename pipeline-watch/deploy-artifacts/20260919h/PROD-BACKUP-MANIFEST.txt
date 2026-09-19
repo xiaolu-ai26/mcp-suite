@@ -1,0 +1,7 @@
+20260919h 生产备份清单(以精灵现役 20260918k + 叠加 20260919g 为前提)
+目标机器:精灵 Windows 192.168.31.204,正式目录 C:\mcp-suite-collector
+本轮替换的运行时文件(1 个):
+  qiuzhao/collector/p1_platform_companies.json
+部署前请先 robocopy 备份 deploy + qiuzhao 到 C:\mcp-suite-backup-<日期>-<时刻>\
+回滚:用备份中的同名文件覆盖回目标路径,无需重启服务。
+注意:本源文件末尾无换行(与 g 一致),部署工具不要额外追加空行,否则 sha256 会变。

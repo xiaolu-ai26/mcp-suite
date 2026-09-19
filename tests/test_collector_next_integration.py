@@ -83,7 +83,11 @@ SAME_NAME_OWNERS = {
 # handling. Parking the whole tupu360 section (5 names, 强生 was already blocked by
 # setdefault) removes exactly those 5: 1061 - 5 = **1056**. 惠普/应用材料/飞利浦 and
 # 毕马威 keep their names through the winning adapter, so they are not subtracted.
-EXPECTED_DEFAULT_COMPANIES = 1056
+# multi-entrance recheck (2026-09-19): 雀巢/博西家电/北京环球度假区/昂际航电 (moka),
+# 上汽大众/光束汽车 (beisen), 杜邦/友邦保险/丹纳赫 (workday) and
+# 阿克苏诺贝尔/汇丰/阿迪达斯 (successfactors) were added after being wrongly parked;
+# 1056 + 13 = **1069** (12 + 通用磨坊 Workday).
+EXPECTED_DEFAULT_COMPANIES = 1069
 CONFIG_SECTION_MODULES = {
     'beisen': 'qiuzhao.collector.p1_platform_beisen',
     'moka': 'qiuzhao.collector.p1_platform_moka',
@@ -383,7 +387,8 @@ def test_deployable_windows_collector_uses_scope_timeout_and_workers():
 def test_default_set_is_h_baseline_plus_i_j_a_c_and_discovery_additions():
     # 站长口径的 924 家 (20260918h) + 字节跳动/美的集团 + 外企第二批 + 外企 ATS
     # 批 A(13 家)+ 批 3(17 家,含 3 家 workday/1 家 SF 修复行)+ 外企发现两轮
-    # (82 家,其中 4 家与批 A/B 同名)= 1061;tupu360 全段留档后再减 5 家 = 1056。
+    # (82 家,其中 4 家与批 A/B 同名)= 1061;tupu360 全段留档后再减 5 家 = 1056;
+    # multi-entrance 复核再接入 13 家 = 1069(12 家 + 通用磨坊 Workday 替代 iCIMS)。
     assert len(p.DEFAULT_COMPANIES) == EXPECTED_DEFAULT_COMPANIES
     for name in (*PUBLIC_API_ONLY, *DAYEE_ONLY, *JOB51_ONLY, *EIGHTFOLD_ONLY,
                 *PHENOM_ONLY, *AVATURE_ONLY, *ORC_ONLY, *WORKDAY_FIXED, *SF_FIXED):
