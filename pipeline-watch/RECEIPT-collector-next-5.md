@@ -255,3 +255,124 @@ added/updated，**不再是 `rolled_back`**；`p1.log` 0 次 `Errno 36` / `Resou
 未发任何外部网络请求（探针零网络、单测用夹具）、未 push、未合并 main、未用 `git stash`、
 未终止任何进程。部署件写在**本机** worktree；外接盘只用于读取交接文档与既有产物，未在其上建
 worktree、未写入大文件。
+
+## 11. 部署执行记录（2026-09-20 01:23–01:32，精灵本地时间）
+
+**结论：20260920a 已部署到精灵正式目录（拷贝部署），18/18 逐字节校验通过，未回滚，未重启服务、
+未改计划任务。** 批准：站长 2026-09-20 01:10「没什么问题的话你就可以部署上线了」（总控 01:25 独立核验后派发本执行任务）。
+
+### 11.1 空闲判定与时间窗（部署前，只读）
+- 精灵时间 **2026-09-20 01:23:34**，距 06:10 计划任务 4h46m；**未过 05:40**，也不在运行窗口内。
+- `runs\20260920\` **不存在**（当轮未开始；现存最近四轮 = 20260916–20260919）；
+  `runs\20260919\receipt.json` 已完成（`completed_at=2026-09-19T07:53:43+08:00`）。
+- `data\lark-sync\status.json` = **`success` / `phase=complete`**（不是 running）。
+- 采集进程匹配（`windows_collector|p1_pipeline|lark_sync`）**0 个**；唯一 python 进程是不相关的
+  `D:\python3.12.2\pythonw.exe`（PID 20956，09-16 02:26 启动，命令行与 `mcp-suite-collector` 无关）。
+- 计划任务 `Qiuzhao-Collector-Daily`：`State=Ready`、`NextRunTime=2026/9/20 6:10:00`（只读查询，未改）。
+
+### 11.2 部署前哈希核对（全部符合 `PROD-BACKUP-MANIFEST.txt` 唯一前提）
+9 个覆盖文件与前提值一致，`normalize.py` 标 VERIFY：
+
+| 文件 | 部署前实测 sha256 | 判定 |
+|---|---|---|
+| `p1_pipeline.py` | `13a5ec53a2b934809482a44f683bec6c5b2774bf96964cf57fb1df2d4cddacda`（62901 B）| OK（**必须是热修版**，已核）|
+| `p1_platform_companies.json` | `bf592f62…` | OK |
+| `p1_feishu_public.py` | `e9855205…` | OK |
+| `p1_platform_beisen.py` | `3faeb568…` | OK |
+| `p1_platform_moka.py` | `569e0865…` | OK |
+| `p1_platform_successfactors.py` | `658c81c0…` | OK |
+| `p1_platform_workday.py` | `d95e11b2…` | OK |
+| `p1_foreign_01.py` | `549481bb…` | OK |
+| `p1_platform_51job.py` | `f19201fe…` | OK |
+| `normalize.py`（VERIFY）| **`a53adaf33c891b5d8d8dd5b7531c0799b57666d5a62e987dc92ac22b9eb51b31`**（18665 B）| 与清单预期值**一致**（清单说"预期值、非已核"，实测等于预期）|
+
+8 个新增文件**全部 ABSENT**（eightfold / phenom / avature / icims / orc / tupu360 / `company_names.py` / `data\company_aliases.json`）。
+VERIFY ONLY 8 个（`guopin.py` / `alibaba_headless.py` / `p1_banks_01.py` / `tencent_music.py` / `bytedance.py` /
+`p1_bytedance_public.py` / `p1_midea_public.py` / `deploy\windows_collector.py`）**8/8 = 20260918k 值**，零漂移。
+
+### 11.3 ⚠️ 与 MANIFEST 正文不符的一处事实（**不阻断**，但 MANIFEST 那句话要更正）
+MANIFEST 的 CAVEAT 写 `qiuzhao\normalize_tables.json`「already present on jingling」。**实测：精灵上不存在**
+——`Test-Path C:\mcp-suite-collector\qiuzhao\normalize_tables.json` = False；在 `qiuzhao\`、`deploy\`、`data\`
+三个目录递归搜 `normalize_tables.json` **0 命中**。
+- **不阻断依据**：① 该文件不在本包 18 个文件里，不是部署目标；② 新旧 `normalize.py` 的 `_load_tables()` 走同一条
+  `Path(__file__).parent / "normalize_tables.json"`，同一段降级逻辑（缺失时 `return {}, 内置 value sets`），文件头
+  写明"表文件缺失时降级为只用内置规则 + 兜底值,不崩"；③ **上轮真实运行证据**：`runs\20260919\normalize.log` 里
+  `"tables_loaded": false`，同时 `step_changes.normalize={"exit":0,"result":"ok",…}` —— 现役状态本来就是"无对照表照跑"，
+  本次部署不改变这一点。
+- 影响面：只影响 `normalize_tables.json` 覆盖的那几个归一化字段的取值来源（内置规则 + 兜底值）；**不影响本包核心
+  目标**——公司名三层字段补空走 `company_names.py` + `data\company_aliases.json`，两者都在本包、已随覆盖上线并
+  import 成功。
+- 待更正：`PROD-BACKUP-MANIFEST.txt` / `DEPLOY-NOTES.md` 里这句断言应改成"该文件在精灵上**不存在**（已实测），
+  normalize 走降级路径"。
+
+### 11.4 备份
+- `robocopy C:\mcp-suite-collector\qiuzhao C:\mcp-suite-backup-20260920-0124\qiuzhao /E /R:2 /W:5` → 退出码 **1**
+- `robocopy C:\mcp-suite-collector\deploy  C:\mcp-suite-backup-20260920-0124\deploy  /E /R:2 /W:5` → 退出码 **1**
+  （≤7 = 成功；目标目录为新建、未覆盖任何既有备份；未全目录 robocopy，`recovery\` 未碰）
+- 备份内容：`qiuzhao` **102 文件 / 2,385,002 字节**、`deploy` **8 文件 / 96,941 字节**，与源树计数逐项相同。
+- 备份内 `p1_pipeline.py` = **`13a5ec53…`（62901 B）** ✓（回滚后必须回到这个值）；备份内 `normalize.py` =
+  `a53adaf3…`；备份内 `deploy\windows_collector.py` = `9eaf97cc…`；备份内无 `p1_platform_eightfold.py`（符合 ABSENT 前提）。
+
+### 11.5 传输与暂存区校验
+- 暂存目录 `C:\mcp-suite-deploy-20260920a\`（新建；分片放 `_b64\`）。
+- 方法：逐文件 base64、**每片 ≤1300 字符**、每片一次 `Add-Content -Encoding Ascii` 追加；18 个文件共 **577 片**，
+  纯传输+逐文件解码校验耗时 **342.0s**；所有 ssh 调用一律 `stdin=/dev/null` + `-EncodedCommand`，
+  **本次没有留下任何阻塞在 stdin 的 powershell 进程**。
+- 每个文件解码后 `Get-FileHash -Algorithm SHA256` 与 `SHA256SUMS.txt` 逐字节比对 → **`TRANSFER_ALL_OK 18/18`**。
+- 覆盖前另做一次**独立复核**（重新列 18 个暂存文件的 hash+size 回传本地与清单比对）→ **STAGE_OK=18 / MISMATCH=0**。
+
+### 11.6 覆盖与覆盖后校验
+- 覆盖 **18 个目标路径**：15 个 `qiuzhao\collector\` + 2 个 `qiuzhao\`（`normalize.py`、`company_names.py`）
+  + 1 个 `qiuzhao\data\company_aliases.json`。`qiuzhao\data\` 原先不存在，按 DEPLOY-NOTES 新建
+  （`CREATED_DATA_DIR`）。**未删除精灵任何目录/文件。**
+- 覆盖后逐个 sha256 复核 → **`POST_SUMMARY ok=18 bad=0`**（`p1_pipeline.py` = `093b237e852ba1d1…`、67350 B）。
+- **全树比对（现役 vs 本次备份）**：`ONLY_LIVE=8`（正是 8 个新增文件）、`ONLY_BACKUP=0`、`CHANGED=10`
+  （正是 10 个覆盖文件）→ 除字节码缓存外，「只动清单内路径」已由机器级证明。
+- `deploy\` 目录比对 = **0 改动**（`windows_collector.py` 仍 `9eaf97cc…`，`run.py` 未动、也不在包内）。
+
+### 11.7 编译与 import 闭包（正式 venv，cwd=`C:\mcp-suite-collector`）
+- `py_compile`：**`PY_COMPILE_OK 59` / `PY_COMPILE_FAIL 0`**（`qiuzhao\` + `deploy\` 全部 .py）。
+- **`IMPORT_OK 1069 1069`**（`DEFAULT_COMPANIES` = `REGISTRY` = **1069 家**）；`REGISTRY_EQ_DEFAULT True`；`DUP_NAMES 0`。
+- **`LOCK True`**（`_publish_thread_lock` 在 `p1_pipeline.py` 源码中 → P0 热修随包上线）。
+- `REGISTRY['雀巢']=p1_platform_moka`、`['惠普']=p1_platform_eightfold`、`['汇丰']=p1_platform_successfactors`；
+  另核 `['安永']=p1_platform_moka`（与 DEPLOY-NOTES §3 一致）。
+- 新增/改动模块逐个 import **14/14 `MOD_OK`**（6 个新适配器 + `company_names` + `51job` + `p1_feishu_public` + `workday`
+  + `moka` + `beisen` + `successfactors` + `foreign_01`），**无悬空 import**；`company_aliases.json` 随 `company_names`
+  载入成功（`table_info = {aliases:19, brands:1092, platform_names:1032}`）。
+- 收窄版规范化生效：`canonical_of('网易互娱') = ('网易互娱','keep')`、`canonical_of('腾讯科技（深圳）有限公司') =
+  ('腾讯','alias')`。
+- 配置口径：tupu360 **14 行 / 0 启用**、iCIMS **0 行**（首日不产生采集请求），与 DEPLOY-NOTES §3 一致。
+
+### 11.8 未做的事（硬约束遵守）
+未重启任何服务、未改计划任务（部署后复测 `State=Ready`、`NextRunTime=2026/9/20 6:10:00`）、**未手动补跑 p1**、
+未碰 `.venv` / `data\jobs.json` / `runs\`、未碰阿里云、未跑飞书同步、未读取或打印任何令牌、未删除精灵任何目录、
+未 push、未合并 main、未用 `git stash`、**未终止任何进程**。
+
+### 11.9 遗留：上一次留下的 powershell 进程仍在（如实报告，未终止）
+`PID 10896`（2026-09-20 00:32:59 启动、`-EncodedCommand`、阻塞在 stdin）**仍在**；另有更早的 PID 28780（09-18 01:01）、
+PID 8300（09-19 23:26）。本次传输**没有新增**此类进程（全部 `stdin=/dev/null`）。按"不终止任何进程"未处理，
+对正式目录零影响。暂存区多一个本次自建的探针文件 `_b64\lat.txt`（18 B，延迟测量用），无副作用。
+
+### 11.10 回滚状态
+**未触发回滚。** 如需回滚：从 `C:\mcp-suite-backup-20260920-0124\` 恢复 10 个覆盖文件、删除 8 个新增文件
+（`normalize.py` 是**恢复**不是删除），回滚后须复核 `p1_pipeline.py` 回到 **`13a5ec53…`**（热修不能丢，否则
+9-21 早上 p1 会再次整段回滚）。暂存区 `C:\mcp-suite-deploy-20260920a\`（含 `_b64\`）保留备查。
+
+### 11.11 次日（2026-09-20 06:10）观察项
+见 §7；本次实测基线：**1069 家**（上轮 948 → +121）、p1 预估 2–3.5h（上界 ≈4.5h）。
+- `runs\20260920\receipt.json`：`step_changes.p1` 应为 `exit:2`（或 0）且带 added/updated，**不再是 `rolled_back`**；
+- `p1.log` **0 次** `Errno 36` / `Resource deadlock`（热修 + 1069 家的首次真实检验）；
+- `data\p1-retry-queue.json` 与 `data\p1-last-attempt.json` 应生成；
+- 新平台/新公司 `coverage.status`：惠普/微软/高通/应用材料/泛林（Eightfold）、宝洁/玛氏/罗氏/BCG/ABB/飞利浦/默沙东/思科（Phenom）、
+  霍尼韦尔/摩根大通/康明斯/艾默生/洲际/万豪/宣伟/阿卡迈/百胜（ORC）、西门子/艺电/欧莱雅/贝恩（Avature）、
+  雀巢 3 租户 / 安永 2 租户 / 汇丰 / 阿迪达斯 / 博西家电 / 环球度假区 / 昂际航电 / 上汽大众 / 光束汽车 / 杜邦 / 友邦 /
+  丹纳赫 / 通用磨坊 / 阿克苏诺贝尔（h 新接）；**强生三 scope 若全 0 要升级**（Workday 猜测租户）；
+- `normalize` 后三个公司名字段空值应为 0、记录数与 id 集合不变（i 干跑：26258 → 0、改名 35 对 / 11296 行、
+  展示名去重 4016 → 4006）；**注意 `tables_loaded` 仍会是 false（见 §11.3）**；
+- 库总量、飞书同步耗时与 `changed`。
+
+### 11.12 本次用到的本地产物（可复现）
+`/tmp/transfer_20260920a.py`（分片传输 + 逐文件校验）、`/tmp/jl_idle_{a,b}.ps1`（空闲判定）、`/tmp/jl_pre{1,2}.ps1`
+（前提核对）、`/tmp/jl_backup.ps1`（备份）、`/tmp/jl_copy.ps1`（覆盖）、`/tmp/jl_post_hash.ps1`（覆盖后复核）、
+`/tmp/jl_treediff.ps1`（全树比对）、`/tmp/jl_pycompile.py` + `/tmp/jl_check.py`（编译/import 闭包）、
+`/tmp/jl_final.ps1`（收尾复核）。全部只经 ssh 传参或 stdin，未落盘任何凭据。
