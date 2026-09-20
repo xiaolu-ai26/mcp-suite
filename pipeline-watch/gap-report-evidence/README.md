@@ -33,10 +33,24 @@ gap.publish(json.load(open('status-20260920.json')), '<runs>/20260920')   # prev
 
 | 文件 | 说明 |
 |---|---|
+| `status-20260920-slim.json` | **原始输入快照**:当日 958 个单元(瘦身后的 status) |
+| `status-20260918-slim.json` | **原始输入快照**:前一日 118 个单元 |
 | `collection-gap-20260920.json` | 当日报告(958 个单元全量 + 汇总 + 对比) |
 | `collection-gap-20260920.md` | 同一报告的人类可读版(摘要 / 声称完整却少采 / partial TOP20 / 公司维度 / 与 9-18 对比 / 无总数的单元 / 全部单元) |
 | `collection-gap-20260918.json` | 前一日基线报告(仅用于对比) |
 | `collection-gap-alert-20260920.jsonl` | 阈值告警落盘(2 条) |
+
+输入快照留在仓库里,是为了让总控**不依赖精灵**就能独立复算:
+
+```python
+import json
+from qiuzhao.collector import collection_gap as gap
+gap.publish(json.load(open('status-20260918-slim.json')), '<tmp>/20260918', previous=None)
+out = gap.publish(json.load(open('status-20260920-slim.json')), '<tmp>/20260920')
+assert out['summary']['total_gap'] == 2636
+```
+
+(精灵上的 `runs\20260920\...` 会随 runs 目录清理消失;快照留着,证据链才完整。)
 
 ## 关键数字(与总控 09:40 实测逐条对照)
 
