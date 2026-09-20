@@ -135,3 +135,20 @@ def test_repeated_pagination_page_is_terminal_not_an_error(tmp_path):
     assert len(result['jobs']) == 2
     assert coverage['list_observed_ids'] == sorted(
         row['postId'] for row in page['data']['pageForm']['pageData'])
+
+
+def test_zero_total_page_next_to_real_rows_never_ends_the_scan(tmp_path):
+    """A ``totalPage`` of 0 next to real rows must not end the scan after page 1.
+
+    Regression: ``page >= total_page`` held on the first page, so the adapter stopped
+    there and still reported ``pagination_exhausted``.
+    """
+    first = fixture('dayee_list_campus_p1.json')
+    first['data']['pageForm']['totalPage'] = 0
+    calls = []
+    result = run('德勤', 'campus', tmp_path,
+                 pages={1: first, 2: fixture('dayee_list_campus_p2.json')}, calls=calls)
+    assert [c for c in calls if c[0] == 'list' and c[1] == 2], 'page 2 must be requested'
+    coverage = result['coverage']
+    assert coverage['pagination_exhausted'] is True
+    assert coverage['status'] == 'success' and coverage['complete'] is True

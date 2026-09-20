@@ -300,7 +300,9 @@ def collect(company, scope, output_dir, max_requests=None):
                 coverage['note'] = ('Dayee pagination repeated an already-listed page; '
                                     'listing completeness cannot be confirmed')
                 break
-            if isinstance(total_page, int) and page >= total_page:
+            # Only a positive totalPage ends the scan; 0 with real rows would end it
+            # after page 1 and still claim the listing was read to the end.
+            if isinstance(total_page, int) and total_page > 0 and page >= total_page:
                 list_complete = True
                 break
             page += 1

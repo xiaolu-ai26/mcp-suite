@@ -298,3 +298,47 @@ def test_no_cross_backend_fabricated_leihuo_fallback():
     assert row['detail_url']=='https://leihuo.163.com/campus/'
     assert row['application_link_type']=='list_entry' and '尚未核验' in row['application_instructions']
     assert m.extract_major('具备专业的数据分析能力')==''
+
+
+class MissingTotalTests(unittest.TestCase):
+    """A missing official total is not an empty channel (audit 2026-09-20)."""
+
+    def test_campus_without_a_total_keeps_rows_and_refuses_completeness(self):
+        # Regression: ``if not total`` also matched ``total is None``, so an answer that
+        # simply omitted the field discarded every row it had just read and reported a
+        # confirmed-empty channel.
+        session = ScriptedSession([
+            {'code': 200, 'data': {'pages': 1, 'list': [campus_row(1)]}},
+            {'code': 200, 'data': {'id': 1, 'projectName': 'p', 'publishTime': '2026-01-01'}},
+        ])
+        result = m.SystemResult()
+        with tempfile.TemporaryDirectory() as tmp:
+            m.fetch_campus_api_project(session, 103, 'campus', result, Path(tmp))
+        self.assertEqual(len(result.jobs), 1)                    # rows are kept
+        self.assertFalse(result.exhausted['campus103'])          # never called complete
+        self.assertTrue(any('official total' in e for e in result.errors))
+
+    def test_leihuo_without_a_total_keeps_rows_and_refuses_completeness(self):
+        session = ScriptedSession([
+            {'status': 200, 'data': {'last_page': True, 'apply_job_list': [
+                {'ehr_job_id': '1', 'job_name': 'a', 'job_description': 'd',
+                 'job_requirement': 'r', 'ehr_job_type': '1', 'type_name': '全职',
+                 'job_target': '2027届', 'work_place_name': '杭州'}]}},
+            {'status': 200, 'data': {'ehr_job_id': '1',
+                                     'job_detail_url': 'https://campus.163.com/app/detail/index?id=1'}},
+        ])
+        result = m.SystemResult()
+        with tempfile.TemporaryDirectory() as tmp:
+            m.fetch_leihuo_project(session, 77, 'campus', result, Path(tmp))
+        self.assertEqual([j['source_record_id'] for j in result.jobs], ['netease-leihuo77-1'])
+        self.assertFalse(result.exhausted['leihuo77'])
+        self.assertTrue(any('official total' in e for e in result.errors))
+
+    def test_confirmed_zero_still_completes(self):
+        session = ScriptedSession([campus_list_payload([], total=0, pages=0)])
+        result = m.SystemResult()
+        with tempfile.TemporaryDirectory() as tmp:
+            m.fetch_campus_api_project(session, 103, 'campus', result, Path(tmp))
+        self.assertEqual(result.jobs, [])
+        self.assertTrue(result.exhausted['campus103'])
+        self.assertEqual(result.errors, [])

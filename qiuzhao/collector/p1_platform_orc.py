@@ -425,7 +425,9 @@ def collect(company, scope, output_dir, max_requests=None):
                                  'country': row.get('PrimaryLocationCountry'),
                                  'scope': _scope_of(row.get('Title'), key, row)})
             offset += page_size
-            if coverage.get('site_total_china') is not None and offset >= coverage['site_total_china']:
+            # A positive site total is the only numeric terminator; total=0 with real
+            # rows means the site contradicts itself and must not end the scan.
+            if coverage.get('site_total_china') and offset >= int(coverage['site_total_china']):
                 list_complete = True
                 coverage['last_page_evidence'] = f'offset={offset};total={total}'
                 break

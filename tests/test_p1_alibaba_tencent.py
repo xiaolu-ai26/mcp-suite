@@ -318,3 +318,29 @@ def test_tme_dispatch_and_result_file(tmp_path):
 
 if __name__ == '__main__':
     pytest.main([__file__])
+
+
+def test_alibaba_missing_totalcount_is_unknown_not_zero(monkeypatch, tmp_path):
+    """A missing official ``totalCount`` must not cut the batch off after page 1.
+
+    Regression: ``int(content.get('totalCount') or 0)`` turned an absent field into the
+    target ``0``, and ``page * PAGE_SIZE >= batch_total`` then broke out of the batch
+    after its first page while still reporting ``pagination_exhausted``.
+    """
+    monkeypatch.setattr(ali, 'PAGE_SIZE', 3)
+    rows = fixture('ali_campus_page1.json')['content']['datas']     # a full page of 3
+    transport = FakeAliTransport(
+        batches=fixture('ali_batches.json'),
+        conditions=fixture('ali_conditions.json'),
+        pages={('100000760001', '', 1): ali_page(rows, None),
+               ('100000760001', '', 2): {'success': True,
+                                         'content': {'datas': [], 'totalCount': None}}})
+    result = ali.collect('阿里巴巴', 'campus', tmp_path, transport=transport)
+    coverage = result['coverage']
+    asked = [payload['pageIndex'] for path, payload in transport.requests
+             if path == '/position/search']
+    assert asked == [1, 2], 'the batch must not stop at page 1 on a missing totalCount'
+    assert len(result['jobs']) == 3                    # page 1 rows kept
+    assert coverage['expected_total'] is None          # unknown, never a made-up 0
+    assert coverage['complete'] is False               # nothing claims full coverage
+    assert coverage['pagination_exhausted'] is True    # the empty page 2 really did end it

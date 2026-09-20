@@ -422,11 +422,17 @@ def fetch_leihuo_project(session, project_id, scope, result, output_dir):
         page += 1
         time.sleep(0.15)
     result.raw_totals[key] = total
-    if not total:
+    if total == 0:
         if not had_error:
             result.notes.append(f'{key} currently has 0 open positions (checked live)')
             result.exhausted[key] = True  # confirmed-empty on page 1 is a full proof, not a gap
         return []
+    if total is None and not had_error:
+        # An answer without the official total is not an empty channel: every row already
+        # read is kept, and the branch below marks ``exhausted`` false and records why, so
+        # a missing field can never be reported as a finished (or empty) listing.
+        result.notes.append(f'{key} answered without an official total; rows are kept but '
+                            f'completeness cannot be confirmed')
     result.exhausted[key] = (not had_error and len(seen) == total)
     if not result.exhausted[key] and not had_error:
         result.errors.append(f'{key} pagination did not reach the official total ({len(seen)}/{total})')
@@ -543,11 +549,17 @@ def fetch_hr163_worktype(session, work_type, scope, result, output_dir):
         page += 1
         time.sleep(0.15)
     result.raw_totals[key] = total
-    if not total:
+    if total == 0:
         if not had_error:
             result.notes.append(f'{key} currently has 0 open positions (checked live)')
             result.exhausted[key] = True  # confirmed-empty on page 1 is a full proof, not a gap
         return []
+    if total is None and not had_error:
+        # An answer without the official total is not an empty channel: every row already
+        # read is kept, and the branch below marks ``exhausted`` false and records why, so
+        # a missing field can never be reported as a finished (or empty) listing.
+        result.notes.append(f'{key} answered without an official total; rows are kept but '
+                            f'completeness cannot be confirmed')
     result.unique_seen += len(seen)
     result.exhausted[key] = (not had_error and len(seen) == total)
     if not result.exhausted[key] and not had_error:

@@ -559,6 +559,10 @@ def validate_result(payload, company, scope, evidence_dir=None):
     complete = coverage.get('complete') is True
     if complete and any(row['detail_request_status']!='success' for row in pending):
         raise ValueError('failed detail request cannot have complete coverage')
+    if complete and coverage.get('page_cap_hit'):
+        # An adapter that records its own page safety cap being reached has, by its own
+        # evidence, not seen the end of the listing. No such scan may claim complete.
+        raise ValueError('a scan that hit its page safety cap cannot claim complete coverage')
     if complete:
         if (coverage.get('status') != 'success' or coverage.get('detail_complete') is not True
                 or coverage.get('errors')

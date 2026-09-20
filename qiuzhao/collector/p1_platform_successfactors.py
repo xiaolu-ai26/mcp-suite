@@ -519,6 +519,12 @@ def collect(company, scope, output_dir, max_requests=None):
             # ``POST /services/recruiting/v1/jobs``; that official contract is used as a
             # strict fallback so classic themes (SAP/ZF/Boehringer) keep their behaviour.
             coverage['list_endpoint'] = 'services/recruiting/v1/jobs'
+            # The classic page returned nothing, so nothing above proves anything about
+            # this endpoint: the unify scan has to prove its own end. Without this reset
+            # the classic branch's `list_complete` survived a capped/budget-stopped unify
+            # scan and the adapter claimed `pagination_exhausted` after silently stopping
+            # at `max_pages`.
+            list_complete = False
             page_number = 0
             unify_total = None
             while page_number < max_pages:
@@ -546,6 +552,20 @@ def collect(company, scope, output_dir, max_requests=None):
                 page_number += 1
                 if not _has_budget(budget):
                     break
+            if not list_complete:
+                # The unify scan stopped before the endpoint's own end (page safety cap
+                # or request budget). Record it explicitly so no caller can read
+                # `pagination_exhausted` as "the listing was read to the end", and point
+                # the evidence at the unify endpoint rather than at the empty classic page.
+                coverage['page_cap_hit'] = True
+                coverage['last_page_evidence'] = (f'unify pages={page_number} of at most '
+                                                  f'{max_pages};total={unify_total};'
+                                                  f'truncated=true')
+                coverage['note'] = (
+                    f'unify list stopped after {page_number} page(s) of at most '
+                    f'{max_pages} before the site-reported end'
+                    + (f' (total={unify_total})' if unify_total is not None else '')
+                    + '; completeness cannot be confirmed')
             coverage['expected_total_unify'] = unify_total
         coverage['list_observed_ids'] = sorted({o['href'] for o in observed})
         coverage['list_observed_titles'] = sorted({o['title'] for o in observed if o['title']})

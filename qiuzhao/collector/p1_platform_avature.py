@@ -610,12 +610,32 @@ def collect(company, scope, output_dir, max_requests=None):
                 coverage['degraded_page_retry'] = True
                 page_cards = parse_list(page_html)
                 first, last, total = parse_legend(page_html)
-            coverage['search_total'] = total
+            if total is not None:
+                coverage['search_total'] = total
             new_cards = [c for c in page_cards if c['ident'] not in seen]
             for card in new_cards:
                 seen.add(card['ident'])
             cards.extend(new_cards)
             if not page_cards or not new_cards:
+                # An empty or fully-repeated page is only the end of the list when the
+                # portal's own legend does not contradict it. When the legend still
+                # reports more postings than we have seen, nothing proves the listing
+                # ended: record the truncation and never let `pagination_exhausted`
+                # become true (a capped / degraded read must not be reported as a
+                # finished one).
+                known = coverage.get('search_total')
+                if known is not None and len(seen) < int(known):
+                    coverage['page_cap_hit'] = True
+                    coverage['list_truncated'] = True
+                    coverage['last_page_evidence'] = (
+                        f'page={pages};cards={len(page_cards)};new={len(new_cards)};'
+                        f'seen={len(seen)};legend_total={known};truncated=true')
+                    coverage['note'] = (
+                        f'Avature page {pages} of portal={key} returned '
+                        f'{len(page_cards)} card(s) with {len(new_cards)} new while the '
+                        f'portal legend still reports {known} results; the listing is '
+                        f'truncated and completeness cannot be confirmed')
+                    break
                 list_complete = True
                 coverage['last_page_evidence'] = (f'page={pages};cards={len(page_cards)};'
                                                   f'new={len(new_cards)};total={total}')

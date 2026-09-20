@@ -621,7 +621,9 @@ def collect(company, scope, output_dir, max_requests=None):
                     ' Phenom pagination repeated an already-listed page; '
                     'listing completeness cannot be confirmed')
                 break
-            if total is not None and offset >= int(total):
+            # Only a positive totalHits ends the scan; 0 with real rows is a site
+            # contradiction and must not be read as an exhausted listing.
+            if total and offset >= int(total):
                 listing_exhausted = True
                 last_page_evidence = (f'key={key};scope={scope};from={offset};'
                                       f'totalHits={total};rows_read={len(seen_ids)}')

@@ -52,6 +52,26 @@ class P1Tests(unittest.TestCase):
                                    unique_source_ids=1, last_page_evidence='last-page.json')
         self.assertTrue(p.validate_result(payload, '大疆', 'campus')['coverage']['complete'])
 
+    def test_page_cap_hit_can_never_validate_as_complete(self):
+        """An adapter that records its own page cap being reached must not claim complete.
+
+        Defence in depth for the 2026-09-20 pagination audit: whatever an adapter puts in
+        ``complete``/``expected_total``, a recorded cap hit is a self-declared truncation.
+        """
+        payload = result()
+        payload['coverage']['page_cap_hit'] = True
+        with self.assertRaises(ValueError) as caught:
+            p.validate_result(payload, '大疆', 'campus')
+        self.assertIn('page safety cap', str(caught.exception))
+        # The same payload without the flag still validates, so the guard is the only change.
+        payload['coverage'].pop('page_cap_hit')
+        self.assertTrue(p.validate_result(payload, '大疆', 'campus')['coverage']['complete'])
+        # A partial scan may carry the flag; only the complete claim is refused.
+        partial = result(complete=False)
+        partial['coverage']['page_cap_hit'] = True
+        checked = p.validate_result(partial, '大疆', 'campus')
+        self.assertFalse(checked['coverage']['complete'])
+
     def test_scope_and_detail_contract(self):
         for field in ('description_raw', 'source_record_id', 'recruitment_type'):
             payload = result()

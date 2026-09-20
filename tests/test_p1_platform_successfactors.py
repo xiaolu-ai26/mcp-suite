@@ -113,3 +113,78 @@ def test_scope_keyword_precedence():
     assert sf._scope_of('Graduate Intern - 2027', 'x') == 'intern'
     assert sf._scope_of('Student Rotation Program - 2028 Graduates', 'x') == 'campus'
     assert sf._scope_of('Solution Sales Expert', 'x') == 'social'
+
+
+# ------------------------------------------------- pagination honesty (audit)
+class UnifyResponse:
+    def __init__(self, payload):
+        self._payload = payload
+        self.text = json.dumps(payload)
+        self.status_code = 200
+        self.encoding = 'utf-8'
+
+    def raise_for_status(self):
+        return None
+
+    def json(self):
+        return self._payload
+
+
+class UnifySession:
+    """A newer "unify" CSB theme: the server-rendered list is empty, the JSON endpoint
+    carries every page.  ``total`` is what the endpoint reports, independent of how
+    many pages it will actually answer."""
+
+    def __init__(self, total, page_size=25):
+        self.total = total
+        self.page_size = page_size
+        self.headers = {}
+        self.posts = 0
+
+    def get(self, url, **kwargs):                       # classic list: renders nothing
+        return FakeResponse('')
+
+    def post(self, url, **kwargs):
+        page = int(kwargs['json']['pageNumber'])
+        self.posts += 1
+        rows = [{'id': str(page * self.page_size + index),
+                 'unifiedStandardTitle': 'Graduate Program %d' % (page * self.page_size + index),
+                 'jobLocationShort': ['Shanghai, China']}
+                for index in range(self.page_size)]
+        return UnifyResponse({'totalJobs': self.total,
+                              'jobSearchResult': [{'response': row} for row in rows]})
+
+
+def test_unify_fallback_capped_scan_never_claims_exhaustion(tmp_path):
+    """The classic empty page must not lend its proof to the unify fallback.
+
+    Regression: ``classic_empty`` set ``list_complete`` and the capped unify loop left it
+    standing, so a tenant with more pages than ``max_list_pages`` reported
+    ``pagination_exhausted`` after silently stopping at the cap.
+    """
+    session = UnifySession(total=25 * 40)               # 40 pages of 25, cap is 20
+    with patch.object(sf, '_make_session', return_value=session):
+        result = sf.collect('巴斯夫', 'campus', tmp_path, max_requests=None)
+    coverage = result['coverage']
+    assert coverage['list_endpoint'] == 'services/recruiting/v1/jobs'
+    assert session.posts == sf.DEFAULT_MAX_LIST_PAGES      # stopped at the safety cap
+    assert coverage['expected_total_unify'] == 1000        # the site still claims 40 pages
+    assert coverage['pagination_exhausted'] is False
+    assert coverage['page_cap_hit'] is True
+    assert 'completeness cannot be confirmed' in coverage['note']
+    assert coverage['complete'] is False
+    assert coverage['status'] != 'success'
+    # Without the reset this was the regression: the classic empty page's proof survived.
+    assert coverage['last_page_evidence'] == ('unify pages=20 of at most 20;total=1000;'
+                                              'truncated=true')
+
+
+def test_unify_fallback_that_reads_the_site_total_is_still_complete(tmp_path):
+    """Control: the fallback still proves exhaustion when it reaches the reported total."""
+    session = UnifySession(total=25 * 3)
+    with patch.object(sf, '_make_session', return_value=session):
+        result = sf.collect('巴斯夫', 'campus', tmp_path, max_requests=None)
+    coverage = result['coverage']
+    assert session.posts == 3                           # 3 unify pages reach totalJobs=75
+    assert coverage['pagination_exhausted'] is True
+    assert 'page_cap_hit' not in coverage

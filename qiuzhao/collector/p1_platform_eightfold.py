@@ -603,7 +603,9 @@ def collect(company, scope, output_dir, max_requests=None):
                     ' Eightfold pagination repeated an already-listed page; '
                     'listing completeness cannot be confirmed')
                 break
-            if total is not None and start >= int(total):
+            # Only a positive count ends the scan; 0 with real rows is a site
+            # contradiction and must not be read as an exhausted listing.
+            if total and start >= int(total):
                 listing_exhausted = True
                 last_page_evidence = (f'key={key};scope={scope};start={start};count={total};'
                                       f'rows_read={len(seen_ids)}')

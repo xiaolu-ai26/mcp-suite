@@ -513,6 +513,7 @@ def _collect_entity(transport, company, scope, output_dir):
     coverage['expected_total'] = 0
     coverage['pagination_exhausted'] = True
     seen_ids = set()
+    totals_reported = False
     for batch in batches:
         page = 1
         batch_total = None
@@ -542,10 +543,16 @@ def _collect_entity(transport, company, scope, output_dir):
                 break
             content = response.get('content') or {}
             rows = content.get('datas') or []
-            total = int(content.get('totalCount') or 0)
+            raw_total = content.get('totalCount')
+            # ``totalCount`` is the site's own count, never a target page number. When the
+            # field is absent it stays None: a missing count must not be read as "0 rows
+            # left" and must not cut the batch off after page 1.
+            total = int(raw_total) if str(raw_total if raw_total is not None else '').strip().isdigit() else None
             if page == 1:
                 batch_total = total
-                coverage['expected_total'] += total
+                if total is not None:
+                    totals_reported = True
+                    coverage['expected_total'] += total
             safe_rows = [{key: row.get(key) for key in
                           ('id', 'name', 'batchName', 'categoryName', 'status', 'workLocations')}
                          for row in rows]
@@ -565,8 +572,8 @@ def _collect_entity(transport, company, scope, output_dir):
                     continue
                 seen_ids.add(pid)
                 result['jobs'].append(_row_to_job(raw, cfg, scope, checked, batch, source_url))
-            if not rows or (batch_total is not None and len(rows) < PAGE_SIZE) or (
-                    batch_total is not None and page * PAGE_SIZE >= batch_total):
+            if not rows or (batch_total and len(rows) < PAGE_SIZE) or (
+                    batch_total and page * PAGE_SIZE >= batch_total):
                 break
             if page >= MAX_PAGES_PER_BATCH:
                 coverage['pagination_exhausted'] = False
@@ -574,6 +581,11 @@ def _collect_entity(transport, company, scope, output_dir):
                 break
             page += 1
 
+    if not totals_reported:
+        # The site never published a totalCount for any batch, so the accumulated 0 is
+        # not a count of anything. Keep it None: an unknown total can not make
+        # ``expected_total == len(jobs)`` and therefore can never validate as complete.
+        coverage['expected_total'] = None
     coverage['evidence_files'] = list(coverage['evidence'])
     coverage['scope_evidence'] = (
         f"Official {company} campus listing {source_url}; batches="

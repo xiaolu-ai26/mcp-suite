@@ -238,3 +238,20 @@ def test_evidence_files_are_the_files_actually_written(tmp_path):
     again, _ = run('宝洁', 'campus', tmp_path,
                    detail=detail_job('phenom_detail_pg_campus.json'))
     assert 'adapter.log' not in again['coverage']['evidence_files']
+
+
+def test_zero_total_hits_next_to_real_rows_never_ends_the_scan(tmp_path):
+    """A ``totalHits`` of 0 next to real rows is the site contradicting itself.
+
+    Regression: ``offset >= int(total)`` held on the first page, so the scan stopped there
+    and still reported ``pagination_exhausted``.
+    """
+    result, calls = run('宝洁', 'campus', tmp_path,
+                        pages=[envelope('phenom_search_pg.json', 0),
+                               envelope('phenom_search_empty.json', 0)])
+    searches = [call for call in calls if call['ddoKey'] == 'refineSearch']
+    assert len(searches) == 2, 'page 2 must still be requested'
+    coverage = result['coverage']
+    assert coverage['pagination_exhausted'] is True     # the empty page is the real end
+    assert coverage['last_page_evidence'].endswith('rows=0;totalHits=0')
+    assert coverage['list_observed_ids']

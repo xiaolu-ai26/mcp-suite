@@ -397,7 +397,11 @@ def collect(company, scope, output_dir, max_requests=None):
                         and _location_candidate(posting.get('locationsText'), country)):
                     selected.append(posting)
             offset += PAGE_SIZE
-            if total is not None and offset >= int(total or 0):
+            # Only a *positive* site total can end the scan: a total of 0 next to real
+            # rows is the site contradicting itself, and treating it as the end would
+            # report an exhausted listing after one page. The empty-page path below is
+            # the other (and only other) terminator.
+            if total and offset >= int(total):
                 list_complete = True
                 coverage['last_page_evidence'] = (f'offset={offset};reached_total={total};'
                                                   f'scanned={len(seen)}')

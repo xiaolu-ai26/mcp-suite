@@ -213,3 +213,66 @@ def test_detail_pages_are_cached_across_scopes(tmp_path):
             second = len([u for u in fake.calls if '/PipelineDetail/' in u]) - first
     assert first >= 1
     assert second == 0, 'the per-company page cache must serve the other scopes'
+
+
+# ------------------------------------------------- pagination honesty (audit)
+def test_a_truncated_avature_page_never_claims_the_list_was_read(tmp_path):
+    """A degraded/empty page is not the end of the list when the legend says otherwise.
+
+    Regression: ``if not page_cards or not new_cards`` set ``list_complete`` on its own, so
+    an empty answer (or a repeating pager) after page 1 was reported as an exhausted
+    listing even though the portal still counted 36 results.
+    """
+    page_one = html('avature_list_hsbc.html')            # legend "1-10 of 36 results"
+    page_two = '<html><body><div class="no-results">no results</div></body></html>'
+    following = av.next_page_url(page_one, 'fallback')
+    fake = FakeSession({'': page_one, following: page_two},
+                       {'288693': html('avature_detail_campus.html')},
+                       fallback=html('avature_detail_nonchina.html'))
+    with patch.object(av, 'CONFIG_PATH', patch_config(tmp_path)):
+        av.reload_config()
+        with patch.object(av, '_make_session', return_value=fake):
+            result = av.collect('西门子', 'campus', tmp_path / 'capped')
+    coverage = result['coverage']
+    assert coverage['search_total'] == 36                # the portal's own count survives
+    assert coverage['pagination_exhausted'] is False
+    assert coverage['page_cap_hit'] is True
+    assert coverage['list_truncated'] is True
+    assert coverage['complete'] is False
+    assert 'truncated' in coverage['last_page_evidence']
+    # Everything read before the truncation is kept.
+    assert len(result['jobs']) == 1
+
+
+def test_a_repeating_pager_that_contradicts_the_legend_is_truncation(tmp_path):
+    """The same rule covers a pager that repeats page 1 while the legend still counts more."""
+    page_one = html('avature_list_hsbc.html')
+    fake = FakeSession({'': page_one}, {'288693': html('avature_detail_campus.html')},
+                       fallback=html('avature_detail_nonchina.html'))
+    with patch.object(av, 'CONFIG_PATH', patch_config(tmp_path)):
+        av.reload_config()
+        with patch.object(av, '_make_session', return_value=fake):
+            result = av.collect('西门子', 'campus', tmp_path / 'repeat')
+    coverage = result['coverage']
+    assert coverage['pagination_exhausted'] is False
+    assert coverage['list_truncated'] is True
+    assert 'new=0;seen=10;legend_total=36' in coverage['last_page_evidence']
+
+
+def test_a_list_whose_legend_is_reached_is_still_complete(tmp_path):
+    """Control: an empty page after the legend is satisfied stays a proven end."""
+    listing = (
+        '<article class="article article--result">'
+        '<h3 class="t"><a href="https://jobs.siemens.com/en_US/externaljobs/JobDetail/521566">'
+        'Siemens Graduate Program - Digital Sales</a></h3>'
+        '<div class="list-controls__text__legend">1 - 1 of 1 results</div></article>')
+    fake = FakeSession({'': listing}, {'521566': html('avature_detail_campus.html')},
+                       fallback=html('avature_detail_nonchina.html'))
+    with patch.object(av, 'CONFIG_PATH', patch_config(tmp_path)):
+        av.reload_config()
+        with patch.object(av, '_make_session', return_value=fake):
+            result = av.collect('西门子', 'campus', tmp_path / 'complete')
+    coverage = result['coverage']
+    assert coverage['pagination_exhausted'] is True
+    assert 'list_truncated' not in coverage
+    assert coverage['complete'] is True
