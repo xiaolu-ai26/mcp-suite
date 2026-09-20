@@ -29,10 +29,9 @@ def page(name):
 def entry_override(monkeypatch):
     """Patch one config line in-memory (the module re-reads the file per call).
 
-    The whole tupu360 section ships parked (``enabled: false``) because the
-    platform robots.txt is a site-wide ``Disallow: /``, so the fixture enables
-    the row by default: a collection test states that it runs an explicitly
-    enabled line. Pass ``enabled=False`` to model a parked row.
+    Since 站长's 2026-09-20 decision the 60 careersite rows ship ``enabled: true``,
+    so the fixture's default (enable the row) is now a no-op for them and matters
+    only for the 8 parked rows. Pass ``enabled=False`` to model a parked row.
     """
     original = tupu._read_platform()
     original_reader = tupu._read_platform
@@ -58,48 +57,60 @@ def entry_override(monkeypatch):
 # --------------------------------------------------------------------------- #
 # config contract
 # --------------------------------------------------------------------------- #
-def test_every_configured_line_is_a_company_and_disabled_lines_stay_out():
-    # 2026-09-19 站长口径：tupu360 全站 robots.txt 是平台级 `Disallow: /`，整段默认留档。
-    # collector-next-6 把 20260919g 全站批次的 54 个公开 careersite 租户并进来（连同原先
-    # 实测可读的 6 个，共 60 个 careersite 行），但**一行都不启用**——所以本节 68 行
-    # （60 careersite + 8 个匿名侧拿不到的调查行）必须全部 enabled:false 且带 blocked_reason，
-    # REGISTRY 里一个都不出现。要启用某一家只需把该行 enabled 改成 true（见 _README）。
+def test_enablement_matches_the_20260920_decision_on_every_configured_line():
+    # 站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）：20260919g 全站批次
+    # 实测读到的 60 家 careersite 租户（含原先实测可读的 6 家）全部 enabled:true，
+    # 每行用 enabled_reason 留痕站长决定与平台级 robots `Disallow: /` 的事实。
+    # 其余 8 行匿名侧拿不到，保持 enabled:false 并写明 blocked_reason。
     declared = {key: entry for key, entry in CONFIG.items() if not str(key).startswith('_')}
     assert len(declared) == 68
-    enabled = [key for key, entry in declared.items() if entry.get('enabled') is not False]
+    enabled = [key for key, entry in declared.items() if entry.get('enabled') is True]
     disabled = [key for key, entry in declared.items() if entry.get('enabled') is False]
-    assert enabled == [] and len(disabled) == 68
-    for key, entry in declared.items():
+    assert len(enabled) == 60, sorted(set(declared) - set(enabled) - set(disabled))
+    assert len(disabled) == 8
+    assert set(disabled) == {'nestle', 'taitaile', 'autoliv', 'louisvuitton', 'jntl',
+                             'google', 'boschhuayu-steering', 'johnsonelectric'}
+    for key in enabled:
+        entry = declared[key]
         assert entry.get('name'), key
         assert entry.get('note'), key
-        assert entry.get('blocked_reason'), key
-    assert tupu.COMPANIES == {}
-    assert tupu.merged_registry() == {}
+        reason = str(entry.get('enabled_reason') or '')
+        assert '站长 2026-09-20' in reason, key
+        assert '接回来的60家都开' in reason, key
+        assert 'Disallow' in reason, key
+        assert not entry.get('blocked_reason'), key
+    for key in disabled:
+        assert declared[key].get('blocked_reason'), key
+    assert len(tupu.COMPANIES) == 60
+    assert len(tupu.merged_registry()) == 60
 
 
-def test_survey_tenants_stay_on_file_and_can_be_enabled_explicitly(entry_override):
-    # 六个实测可读的 careersite 租户仍然留在配置里（含入口 URL 与实测条数），
-    # 只有显式 enabled=True 才会重新进 REGISTRY。
+def test_survey_tenants_are_enabled_by_default_and_disable_is_a_single_flip(entry_override):
+    # 六个最早实测可读的 careersite 租户（含入口 URL 与实测条数）默认已随站长决定启用；
+    # 反向也只要一个字段：显式 enabled=False 即移出 COMPANIES（见 _README）。
     for key in ('iqvia', 'lilly', 'schaeffler', 'bmw', 'innomotics', 'jnj'):
-        assert CONFIG[key]['enabled'] is False, key
-        assert CONFIG[key].get('blocked_reason'), key
-    entry_override('schaeffler')
-    assert set(tupu.COMPANIES) == {'schaeffler'}
-    assert tupu.merged_registry() == {'舍弗勒': tupu.MODULE_PATH}
-    entry_override('iqvia')
+        assert CONFIG[key]['enabled'] is True, key
+        assert CONFIG[key].get('enabled_reason'), key
+        assert key in tupu.COMPANIES, key
+    assert tupu.merged_registry()['舍弗勒'] == tupu.MODULE_PATH
     assert tupu.resolve('IQVIA 艾昆纬') == 'iqvia'
     assert tupu.resolve('iqvia') == 'iqvia'
+    entry_override('schaeffler', enabled=False)
+    assert 'schaeffler' not in tupu.COMPANIES
+    assert '舍弗勒' not in tupu.merged_registry()
+    assert tupu.resolve('舍弗勒', include_disabled=True) == 'schaeffler'
 
 
-def test_fullsite_tenants_are_public_careersite_hosts_and_stay_parked(entry_override):
-    """The 20260919g full-site batch: 60 careersite rows, all shipped disabled.
+def test_fullsite_tenants_are_public_careersite_hosts_and_enabled(entry_override):
+    """The 20260919g full-site batch: 60 careersite rows, enabled by 站长 on 2026-09-20.
 
-    collector-next-6 imports the batch's *configuration* (60 real tenants, all with
-    real postings on their public pages) but not its enablement: the platform
-    robots.txt is a site-wide ``Disallow: /``, so every row is parked until 站长
-    decides.  What must still hold is that each parked careersite row is the public
-    careersite product -- a wxtemp ``<slug>.tupu360.com`` host must never sit in the
-    section as an enable-ready line.
+    collector-next-6 imported the batch's *configuration* (60 real tenants, all with
+    real postings on their public pages) but none of its enablement, pending the
+    robots.txt decision.  站长 decided on 2026-09-20 ("接回来的60家都开"), so all 60
+    rows now ship enabled while the 8 anonymously unreachable rows stay parked.
+    What must still hold is that each enabled careersite row is the public careersite
+    product -- a wxtemp ``<slug>.tupu360.com`` host must never sit in the section as
+    an enable-ready line.
     """
     declared = {key: entry for key, entry in CONFIG.items() if not str(key).startswith('_')}
     careersite = [key for key, entry in declared.items()
@@ -108,18 +119,24 @@ def test_fullsite_tenants_are_public_careersite_hosts_and_stay_parked(entry_over
     assert {'iqvia', 'lilly', 'schaeffler', 'bmw', 'innomotics'} <= set(careersite)
     assert 'pharmaron-bj' in careersite          # the 828-posting pagination case
     public = [key for key in declared if not tupu.is_wechat_only(key)]
-    assert set(public) == set(careersite) | {'jnj'}   # jnj = customer-hosted careersite
+    # 61 non-wxtemp rows = the 60 enabled careersite rows + johnsonelectric, which is a
+    # careersite tenant with zero public postings and therefore stays parked.
+    assert set(public) - {'johnsonelectric'} == (set(careersite) - {'johnsonelectric'}) | {'jnj'}
     for key in public:
-        assert declared[key].get('enabled') is False, key
+        if key == 'johnsonelectric':
+            assert declared[key].get('enabled') is False, key
+            continue
+        assert declared[key].get('enabled') is True, key
         host = tupu.tenant_host(key)
         # shared careersite host, or a customer-hosted careersite (jnj) -- never a
         # wxtemp <slug>.tupu360.com host.
         assert host == tupu.PUBLIC_HOST or not host.endswith('tupu360.com'), (key, host)
-    # Enabling is a single-field flip, and it takes effect on the next config load.
-    entry_override('pharmaron-bj')
-    assert set(tupu.COMPANIES) == {'pharmaron-bj'}
-    assert tupu.merged_registry() == {'康龙化成（北京）新药技术股份有限公司': tupu.MODULE_PATH}
+    # jnj (customer-hosted careersite) is in the daily set but never as a wxtemp host.
+    assert 'jnj' in tupu.COMPANIES
+    assert tupu.tenant_host('jnj') == 'chinacampus.jnj.com.cn'
+    # The 828-posting pagination tenant is registered through the same single line.
     assert tupu.resolve('康龙化成（北京）新药技术股份有限公司') == 'pharmaron-bj'
+    assert tupu.merged_registry()['康龙化成（北京）新药技术股份有限公司'] == tupu.MODULE_PATH
 
 
 def test_wechat_only_tenants_are_exactly_the_declared_wxtemp_hosts():

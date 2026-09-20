@@ -270,6 +270,39 @@ class P1Tests(unittest.TestCase):
         rows, _ = p.merge_records([legacy, dict(legacy, id='ambiguous')], [('大疆', 'campus', incoming)])
         self.assertEqual(len(rows), 3)
 
+    def test_run_writes_a_collection_gap_report_and_records_its_summary(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d) / '20260920' / 'data'
+            run_dir = root / 'p1-runs' / '20260920T064151'
+            with patch.object(p, 'collect_process', return_value=self.validated()):
+                self.assertEqual(p.run(root, run_dir, ['大疆'], ['campus'],
+                                       max_run_seconds=600), 0)
+            report_path = root.parent / 'collection-gap.json'
+            self.assertTrue(report_path.is_file())
+            report = json.loads(report_path.read_text(encoding='utf-8'))
+            # The report is dated by the runs/<date> directory, not by the UTC start.
+            self.assertEqual(report['date'], '20260920')
+            self.assertEqual(report['summary']['units_total'], 1)
+            self.assertEqual(report['summary']['units_matched'], 1)
+            self.assertEqual(report['summary']['total_gap'], 0)
+            self.assertTrue((root.parent / 'collection-gap.md').is_file())
+            status = json.loads((root / 'p1-status.json').read_text(encoding='utf-8'))
+            self.assertEqual(status['collection_gap']['summary']['units_total'], 1)
+            self.assertEqual(status['collection_gap']['date'], '20260920')
+
+    def test_a_failing_gap_report_never_changes_the_exit_contract(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d) / '20260920' / 'data'
+            run_dir = root / 'p1-runs' / '20260920T064151'
+            with patch.object(p, 'collect_process', return_value=self.validated()), \
+                 patch('qiuzhao.collector.collection_gap.publish',
+                       side_effect=RuntimeError('report boom')):
+                self.assertEqual(p.run(root, run_dir, ['大疆'], ['campus'],
+                                       max_run_seconds=600), 0)
+            status = json.loads((root / 'p1-status.json').read_text(encoding='utf-8'))
+            self.assertFalse(status['collection_gap']['available'])
+            self.assertIn('report boom', status['collection_gap']['error'])
+
     def test_subset_run_does_not_replace_another_selection_checkpoint(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)

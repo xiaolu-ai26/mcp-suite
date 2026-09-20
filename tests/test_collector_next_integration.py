@@ -55,13 +55,23 @@ ORC_ONLY = ('霍尼韦尔', '摩根大通', '康明斯', '艾默生', '洲际酒
 WORKDAY_FIXED = ('可口可乐', '耐克', 'GSK')
 SF_FIXED = ('巴斯夫',)
 # Foreign batch C (20260919f) + the 20260919g full-site batch: the tupu360
-# multi-tenant platform. Every row is parked (enabled:false) because the platform
-# robots.txt is a site-wide "Disallow: /" and this project does not crawl sources
-# that disallow us. collector-next-6 imports the full-site batch's configuration
-# (60 careersite tenants, 68 declared rows) but none of its enablement, so not one
-# tupu360 name may reach the daily set until 站长 decides.
+# multi-tenant platform. collector-next-6 imported the full-site batch's
+# configuration (60 careersite tenants, 68 declared rows) with every row parked.
+# 站长 decided on 2026-09-20 ("接回来的60家都开") to enable the 60 careersite rows
+# even though the platform robots.txt is a site-wide "Disallow: /"; the 8 rows whose
+# anonymous side has no public route stay parked. 5 of the 60 names already belong to
+# an earlier-registered adapter (ABB/康明斯/强生/斯堪尼亚/药明康德), so the daily set
+# grows by 55, not 60.
 TUPU360_MODULE = 'qiuzhao.collector.p1_platform_tupu360'
-TUPU360_PARKED = ('IQVIA 艾昆纬', '礼来', '舍弗勒', '宝马', '茵梦达')
+TUPU360_ENABLED = ('IQVIA 艾昆纬', '礼来', '舍弗勒', '宝马', '茵梦达')
+TUPU360_ENABLED_NET_NEW = 55
+TUPU360_SETDEFAULT_OWNERS = {
+    'ABB': 'qiuzhao.collector.p1_platform_phenom',
+    '康明斯': 'qiuzhao.collector.p1_platform_orc',
+    '强生': 'qiuzhao.collector.p1_platform_workday',
+    '斯堪尼亚': 'qiuzhao.collector.p1_platform_moka',
+    '药明康德': 'qiuzhao.collector.p1_sources_41_50',
+}
 # Same-name conflicts resolved by measurement (see RECEIPT-collector-next-4):
 # 惠普/应用材料 -> Eightfold, 飞利浦 -> Phenom (more measured China postings than
 # the discovery Workday rows, which are parked); 强生 stays on the pre-existing
@@ -88,7 +98,10 @@ SAME_NAME_OWNERS = {
 # 上汽大众/光束汽车 (beisen), 杜邦/友邦保险/丹纳赫 (workday) and
 # 阿克苏诺贝尔/汇丰/阿迪达斯 (successfactors) were added after being wrongly parked;
 # 1056 + 13 = **1069** (12 + 通用磨坊 Workday).
-EXPECTED_DEFAULT_COMPANIES = 1069
+# gap-report (feat/gap-report, 2026-09-20): 站长 enabled the 60 tupu360 careersite
+# tenants; 5 names keep an earlier adapter (TUPU360_SETDEFAULT_OWNERS), so
+# 1069 + (60 - 5) = **1124**.
+EXPECTED_DEFAULT_COMPANIES = 1124
 CONFIG_SECTION_MODULES = {
     'beisen': 'qiuzhao.collector.p1_platform_beisen',
     'moka': 'qiuzhao.collector.p1_platform_moka',
@@ -180,9 +193,14 @@ def test_platform_companies_are_appended_after_hardcoded_in_config_order():
     assert set(BANK_ONLY) <= set(bank_names)
     assert set(FOREIGN_ONLY) <= set(foreign_names)
     assert set(PUBLIC_API_ONLY) <= set(public_api_names)
-    # The whole tupu360 section is parked (site-wide robots Disallow), so the block
-    # registers no company even though the adapter module is wired in.
-    assert tupu360_names == [], 'parked tupu360 tenants must not register a company'
+    # 站长 enabled the 60 tupu360 careersite tenants on 2026-09-20 (platform robots is
+    # a site-wide Disallow, accepted knowingly). 5 names keep an earlier adapter, so
+    # the block contributes 55 net-new companies and stays the last contiguous block.
+    assert len(tupu360_names) == TUPU360_ENABLED_NET_NEW
+    assert set(TUPU360_ENABLED) <= set(tupu360_names)
+    for name, module in TUPU360_SETDEFAULT_OWNERS.items():
+        assert name not in tupu360_names, name
+        assert p.REGISTRY[name] == module, (name, p.REGISTRY[name])
     assert TUPU360_MODULE in p.PLATFORM_MODULES
     coverage_blocks = (set(beisen_names) | set(moka_names) | set(bank_names) | set(ali_names)
                        | set(tme_names) | set(foreign_names) | set(feishu_names)
@@ -389,7 +407,9 @@ def test_default_set_is_h_baseline_plus_i_j_a_c_and_discovery_additions():
     # 站长口径的 924 家 (20260918h) + 字节跳动/美的集团 + 外企第二批 + 外企 ATS
     # 批 A(13 家)+ 批 3(17 家,含 3 家 workday/1 家 SF 修复行)+ 外企发现两轮
     # (82 家,其中 4 家与批 A/B 同名)= 1061;tupu360 全段留档后再减 5 家 = 1056;
-    # multi-entrance 复核再接入 13 家 = 1069(12 家 + 通用磨坊 Workday 替代 iCIMS)。
+    # multi-entrance 复核再接入 13 家 = 1069(12 家 + 通用磨坊 Workday 替代 iCIMS);
+    # gap-report 按站长 2026-09-20 决定启用 tupu360 60 家,其中 5 家沿用更早注册的
+    # 适配器,故 +55 = 1124。
     assert len(p.DEFAULT_COMPANIES) == EXPECTED_DEFAULT_COMPANIES
     for name in (*PUBLIC_API_ONLY, *DAYEE_ONLY, *JOB51_ONLY, *EIGHTFOLD_ONLY,
                 *PHENOM_ONLY, *AVATURE_ONLY, *ORC_ONLY, *WORKDAY_FIXED, *SF_FIXED):
@@ -408,13 +428,15 @@ def test_default_set_is_h_baseline_plus_i_j_a_c_and_discovery_additions():
         assert p.REGISTRY[name] == AVATURE_MODULE, name
     for name in ORC_ONLY:
         assert p.REGISTRY[name] == ORC_MODULE, name
-    # Same-name conflicts: exactly one adapter owns each name, and the parked
-    # tupu360 tenants are out of the daily set entirely.
+    # Same-name conflicts: exactly one adapter owns each name; the 5 tupu360 names
+    # that collide keep the earlier adapter, the other 55 are tupu360's own.
     for name, module in SAME_NAME_OWNERS.items():
         assert p.REGISTRY[name] == module, (name, p.REGISTRY[name])
-    for name in TUPU360_PARKED:
-        assert name not in p.REGISTRY, name
-        assert name not in p.DEFAULT_COMPANIES, name
+    for name in TUPU360_ENABLED:
+        assert name in p.DEFAULT_COMPANIES, name
+    assert p.REGISTRY['IQVIA 艾昆纬'] == TUPU360_MODULE
+    for name, module in TUPU360_SETDEFAULT_OWNERS.items():
+        assert p.REGISTRY[name] == module, (name, p.REGISTRY[name])
     # Earlier blocks keep their owners after the merge.
     assert p.REGISTRY['中信建投'] == 'qiuzhao.collector.p1_platform_beisen'
     assert p.REGISTRY['英伟达'] == 'qiuzhao.collector.p1_platform_workday'
@@ -424,19 +446,30 @@ def test_default_set_is_h_baseline_plus_i_j_a_c_and_discovery_additions():
     assert p.REGISTRY['腾讯音乐'] == 'qiuzhao.collector.tencent_music'
 
 
-def test_icims_and_tupu360_register_no_company():
+def test_icims_registers_no_company_and_tupu360_registers_the_enabled_60():
     # iCIMS ships the adapter but no tenant: every China-relevant portal publishes
-    # "Disallow: /". tupu360 ships the whole survey record parked for the same
-    # robots reason, so neither module may contribute a company to the run.
+    # "Disallow: /". tupu360 also has a platform-wide Disallow, but 站长 decided on
+    # 2026-09-20 ("接回来的60家都开") to crawl the 60 careersite tenants anyway, so the
+    # module now contributes 55 net-new companies and keeps 8 rows parked with a
+    # recorded reason (7 WeChat-only + 1 tenant with zero public postings).
     from qiuzhao.collector import p1_platform_icims as icims
     from qiuzhao.collector import p1_platform_tupu360 as tupu360
     assert icims.merged_registry() == {}
-    assert tupu360.merged_registry() == {}
+    registry = tupu360.merged_registry()
+    assert len(registry) == 60
+    assert set(registry.values()) == {'qiuzhao.collector.p1_platform_tupu360'}
+    enabled = disabled = 0
     for key, entry in tupu360._read_platform().items():
         if str(key).startswith('_'):
             continue
-        assert entry.get('enabled') is False, key
-        assert entry.get('blocked_reason'), key
+        if entry.get('enabled') is False:
+            disabled += 1
+            assert entry.get('blocked_reason'), key
+        else:
+            enabled += 1
+            assert entry.get('enabled_reason'), key
+            assert '站长 2026-09-20' in entry['enabled_reason'], key
+    assert (enabled, disabled) == (60, 8)
 
 
 def test_parked_rows_are_inert_in_the_owning_adapter():
