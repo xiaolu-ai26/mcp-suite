@@ -161,11 +161,39 @@ def _list_page(session, host, org, site, iv, offset, budget):
          'needStat': True, 'locale': 'zh-CN'}, iv))
 
 
+def _cached_detail(output_dir, ident):
+    """Reuse a detail saved by an earlier bounded pass without spending budget."""
+    path = Path(output_dir) / f'detail-{ident}.json'
+    if not ident or not path.is_file():
+        return None
+    try:
+        detail = json.loads(path.read_text(encoding='utf-8'))
+    except (ValueError, OSError):
+        return None
+    if detail.get('id') != ident or not shared.text(detail.get('jobDescription')):
+        return None
+    checked = datetime.fromtimestamp(path.stat().st_mtime, timezone.utc).isoformat()
+    return detail, checked, True
+
+
 def _detail(company, scope, row, host, org, site, iv, output_dir, budget):
+    """Network detail fetch, budgeted; already-saved/shared-cache hits are free.
+
+    Budget counts real requests only, so repeated bounded passes resume where the
+    previous one stopped instead of re-spending the budget on cached rows.
+    """
+    ident = row.get('id')
+    reused = _cached_detail(output_dir, ident)
+    if reused is not None:
+        return reused
     if budget['limit'] is not None and budget['used'] >= budget['limit']:
         raise BudgetExhausted('per-tenant request budget reached')
     budget['used'] += 1
-    return shared.moka_detail_cached(company, scope, row, host, org, site, iv, output_dir)
+    detail, checked, cached = shared.moka_detail_cached(company, scope, row, host, org, site,
+                                                        iv, output_dir)
+    if cached and budget['limit'] is not None:
+        budget['used'] -= 1
+    return detail, checked, cached
 
 
 def _scope_of(row):
