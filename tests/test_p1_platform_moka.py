@@ -121,3 +121,35 @@ def test_real_config_moka_entries_are_resolvable():
     assert moka.sites_for('wps/41436') == [
         ('https://join.wps.cn/campus-recruitment/wps/41436', 'configured Moka portal for wps/41436'),
         ('https://app.mokahr.com/social-recruitment/wps/3471', 'configured Moka portal for wps/41436')]
+
+
+def test_second_bounded_pass_resumes_from_saved_details(tmp_path):
+    """A cache hit must not consume the per-run request budget."""
+    calls = []
+
+    def counting_lookup(company, scope, row, host, org, site, iv, output_dir):
+        calls.append(row['id'])
+        detail = dict(fixture('moka_detail.json'))
+        detail.update(id=row['id'], title=row.get('title'), hireMode=row.get('hireMode'),
+                      commitment=row.get('commitment'), status=row.get('status'),
+                      openedAt=row.get('openedAt'), updatedAt=row.get('updatedAt'),
+                      closedAt=row.get('closedAt'),
+                      jobDescription='<p>岗位职责：官方职责。</p><p>任职要求：官方要求。</p>')
+        return detail, 'checked', False
+
+    def run_pass(limit):
+        session = FakeSession(entry_html())
+        with patch.object(moka, '_make_session', return_value=session), \
+             patch.object(moka.shared, 'request_json', side_effect=make_request_json()), \
+             patch.object(moka.shared, 'moka_detail_cached', side_effect=counting_lookup):
+            return moka.collect('信也科技', 'campus', tmp_path, max_requests=limit)
+
+    first = run_pass(4)
+    assert first['coverage']['request_budget_exhausted'] is True
+    assert len(first['jobs']) == 1
+    assert calls == ['moka-campus-1']
+    second = run_pass(20)
+    assert second['coverage']['complete'] is True
+    assert len(second['jobs']) == 2
+    assert calls == ['moka-campus-1', 'moka-paused-1']   # nothing re-fetched
+    assert second['coverage']['request_budget']['used'] == 4   # 3 list + 1 new detail
