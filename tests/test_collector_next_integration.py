@@ -390,11 +390,18 @@ def test_platform_request_budget_defaults_to_unlimited(monkeypatch):
 def test_deployable_windows_collector_uses_scope_timeout_and_workers():
     from deploy import windows_collector as W
     source = Path(W.__file__).read_text(encoding='utf-8')
-    assert "'--scope-timeout','600'" in source
-    assert "'--workers','8'" in source
-    assert "'--platform-workers','3'" in source
-    assert "'--max-run-seconds','18000'" in source
-    assert "'--timeout','1200'" not in source
+    # Effective values, not source spellings: the p1 step limit is now derived from the
+    # deadline it passes to p1 (see steps_for/P1_STEP_LIMIT and the 2026-09-20 P0).
+    steps = {name: (args, limit) for name, args, limit in W.steps_for(Path('/stage'), False)}
+    p1_args, p1_limit = steps['p1']
+    assert p1_args[p1_args.index('--scope-timeout') + 1] == '600'
+    assert p1_args[p1_args.index('--workers') + 1] == '8'
+    assert p1_args[p1_args.index('--platform-workers') + 1] == '3'
+    assert p1_args[p1_args.index('--max-run-seconds') + 1] == '18000'
+    assert p1_limit > W.P1_MAX_RUN_SECONDS + 600, 'watchdog must outlast p1 finalisation'
+    assert '--timeout' not in p1_args
+    assert [name for name, _a, _l in W.steps_for(Path('/stage'), False)] == \
+        ['basic', 'tencent', 'p1', 'normalize']
     # The ported production tail (base-sync via lark_sync_daemon) must be intact.
     assert "state['stage']='base-sync'" in source
     assert 'lark_sync_daemon' in source

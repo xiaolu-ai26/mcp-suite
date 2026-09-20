@@ -342,6 +342,56 @@ def test_windows_collector_all_stages_failed_keeps_production(tmp_path, monkeypa
     assert receipt['step_changes']['basic']['result'] == 'rolled_back'
 
 
+def test_windows_collector_p1_watchdog_outlasts_p1_finalisation():
+    """P0 2026-09-20: the p1 step limit was deadline+100s and killed p1 mid-finalisation.
+
+    p1 only checks its own --max-run-seconds deadline between units, so it can still be
+    draining one in-flight unit (up to --scope-timeout) and writing its status, merged
+    rows and gap report after that deadline. The parent watchdog must leave that room.
+    """
+    steps = {name: (args, limit) for name, args, limit in W.steps_for(Path('/stage'), False)}
+    args, limit = steps['p1']
+    max_run = int(args[args.index('--max-run-seconds') + 1])
+    scope_timeout = int(args[args.index('--scope-timeout') + 1])
+    assert max_run == W.P1_MAX_RUN_SECONDS
+    assert scope_timeout == W.P1_SCOPE_TIMEOUT
+    assert limit - max_run >= scope_timeout + 600, 'no room to drain the in-flight unit'
+    assert limit == W.P1_STEP_LIMIT
+    assert 'p1' not in {name for name, _args, _limit in W.steps_for(Path('/stage'), True)}
+
+
+def test_windows_collector_publishes_when_p1_hits_its_deadline(tmp_path, monkeypatch):
+    """A deadline-capped p1 (exit 2) is partial: its collected rows must be published."""
+    code, receipt, run_dir = run_windows_collector(tmp_path, monkeypatch, {'p1': 2}, smoke=False)
+    assert code == 1  # not a fully clean day, but nothing was thrown away
+    assert receipt['steps']['p1'] == 2
+    assert receipt['step_changes']['p1']['result'] == 'partial'
+    assert receipt['step_changes']['p1']['added'] == 1
+    assert 'publication' in receipt
+    assert 'p1-new' in read_ids(tmp_path / 'data' / 'jobs.json')
+    # Resume material for a deadline-capped run stays on disk (rollback would drop it).
+    assert (run_dir / 'data' / 'p1-status.json').exists()
+    assert (run_dir / 'data' / 'p1-checkpoints' / 'marker.json').exists()
+    assert 'error' not in receipt
+
+
+def test_windows_collector_receipt_records_the_full_traceback(tmp_path, monkeypatch):
+    """The receipt must carry the raising line, not only the message (2026-09-20 P0)."""
+    def exploding_preserve(*_args, **_kwargs):
+        raise RuntimeError('preserve exploded')
+
+    monkeypatch.setattr(W, 'preserve', exploding_preserve)
+    code, receipt, _ = run_windows_collector(tmp_path, monkeypatch, {})
+    assert code == 1
+    assert receipt['error'].startswith('RuntimeError: preserve exploded')
+    assert receipt['error_step'] == 'validate-and-publish'
+    traceback_text = receipt['error_traceback']
+    assert traceback_text.startswith('Traceback (most recent call last)')
+    assert 'exploding_preserve' in traceback_text
+    assert 'RuntimeError: preserve exploded' in traceback_text
+    assert 'publication' not in receipt
+
+
 def load_ported_collector():
     """The jingling deploy artifact, loaded by path so it runs under the same harness."""
     path = (Path(__file__).resolve().parents[1] / 'pipeline-watch' / 'deploy-artifacts'
