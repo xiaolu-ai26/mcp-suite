@@ -208,6 +208,18 @@
   `step_changes` / `server_rows_before|after`）。
 * 整轮 450.1s、`exit_code=0`、`success=true`、无 error、无 TypeError。
 
+**同形态复现 G2 `segcert`**（同样 3 家 × campus、`--workers 1`、段长临时 20s，最终字节；
+这一轮由一条被本地中断的 ssh 命令启动，驱动自己的 stdout 丢了，下面数字直接读精灵上的
+`runs\segcert\receipt.json`，收据里含只有最终版才有的 `p1_seconds`，即自证跑的是最终字节）：
+
+| 段 | 退出码 | p1 耗时 | 段总耗时 | pending | run_finished | 推送 | 服务器条数 |
+|---|---|---|---|---|---|---|---|
+| 1 | 2 | 43.2s | 117.1s | 2 | False | `published`（direct） | 94,486 → 94,487 |
+| 2 | 2 | 42.7s | 161.1s | 1 | False | `published`（rebase 2 次） | 94,487 → 94,488 |
+| 3 | 0 | 43.8s | 161.3s | 0 | **True** | `published`（rebase 2 次） | 94,488 → 94,489 |
+
+`success=true / finished=true / error=null`，与 D 逐项一致 → 分段行为可复现。
+
 ### 5.4 实测 E / A：16 路并发 + 完整链
 
 * **E `segfinal-16`**（6 家×3 scope，`--workers 16`）：18 个单元全部 `success+complete`，
