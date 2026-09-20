@@ -1,6 +1,7 @@
 # RECEIPT — tupu360 60 家启用 + 美团少采修复 + 每日采集缺口报告
 
-分支 `feat/gap-report`(worktree `/Users/maxzhl/Projects/mcp-suite-gap`,起点 `feat/collector-next-6` f0694da7)
+分支 `feat/gap-report`(worktree `/Users/maxzhl/Projects/mcp-suite-gap`,起点 `feat/collector-next-6` f0694da7,
+提交 **`8b9a369a`** + 证据快照 **`a68bda0b`**)
 执行:DeepSeek(执行会话),2026-09-20。
 **未部署、未覆盖精灵正式目录、未碰阿里云、未写飞书生产 Base、未读取/打印任何令牌、未登录、未 push、未合并 main、未终止任何进程。**
 
@@ -264,6 +265,11 @@
 ```
 
 与前一日对比(9-18 → 9-20):新缺口 12、变大 3、收窄 2、消除 4。
+
+**证据可脱离精灵独立复算**:`pipeline-watch/gap-report-evidence/status-20260920-slim.json` 与
+`status-20260918-slim.json` 是当时的**输入快照**,从它们重跑 `collection_gap.publish()` 得到
+`total_gap=2636 / units_complete_but_short=2 / top3=[美团 2588, 米哈游 14, 金山办公 7] / 无总数 124`,
+与上表一致(验证后已执行,输出 `SNAPSHOT REPRODUCES OK`)。
 
 ### 3.5 兜底:报告不能在最该看的那天消失
 
