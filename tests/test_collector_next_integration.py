@@ -54,11 +54,12 @@ ORC_ONLY = ('霍尼韦尔', '摩根大通', '康明斯', '艾默生', '洲际酒
             '阿卡迈', '百胜餐饮')
 WORKDAY_FIXED = ('可口可乐', '耐克', 'GSK')
 SF_FIXED = ('巴斯夫',)
-# Foreign batch C (20260919f): the tupu360 multi-tenant platform. Every row is
-# parked (enabled:false) because the platform robots.txt is a site-wide
-# "Disallow: /" and this project does not crawl sources that disallow us, so the
-# five tenants that were readable during verification must stay out of the daily
-# set until 站长 decides.
+# Foreign batch C (20260919f) + the 20260919g full-site batch: the tupu360
+# multi-tenant platform. Every row is parked (enabled:false) because the platform
+# robots.txt is a site-wide "Disallow: /" and this project does not crawl sources
+# that disallow us. collector-next-6 imports the full-site batch's configuration
+# (60 careersite tenants, 68 declared rows) but none of its enablement, so not one
+# tupu360 name may reach the daily set until 站长 decides.
 TUPU360_MODULE = 'qiuzhao.collector.p1_platform_tupu360'
 TUPU360_PARKED = ('IQVIA 艾昆纬', '礼来', '舍弗勒', '宝马', '茵梦达')
 # Same-name conflicts resolved by measurement (see RECEIPT-collector-next-4):
@@ -524,9 +525,11 @@ def test_registry_names_are_unique_and_config_sections_never_hijack_a_module():
                     # 三七互娱/金山办公/鹰角网络 moka tenants.
                     assert section in ('beisen', 'moka'), (section, name, owner)
                 else:
-                    # feishu's setdefault must keep the hardcoded p1_sources_* slot.
-                    assert section == 'feishu' and owner.startswith('qiuzhao.collector.p1_sources_'), \
-                        (section, name, owner)
+                    # A setdefault section must keep the hardcoded p1_sources_* slot:
+                    # feishu portals, and tupu360's 药明康德 line (the tenant is real,
+                    # but the approved hardcoded adapter owns the name).
+                    assert section in ('feishu', 'tupu360') and \
+                        owner.startswith('qiuzhao.collector.p1_sources_'), (section, name, owner)
                 continue
             if owner == CONFIG_SECTION_MODULES[section] or section in SETDEFAULT_SECTIONS:
                 continue

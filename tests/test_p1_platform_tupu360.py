@@ -1,9 +1,12 @@
 """Fixture tests for the tupu360 multi-tenant platform adapter.
 
-Every fixture under ``tests/fixtures/tupu360`` is a trimmed copy of a public page
-recorded during the 2026-09-19 field survey (IQVIA / 礼来 / 舍弗勒 / 茵梦达 list
-fragments, two position/detail pages, the wxtemp WeChat QR gate and the
-careersite "site disabled" notice). No live page is fetched here.
+Every fixture under ``tests/fixtures/tupu360`` is a public page or fragment
+recorded on 2026-09-19: the 14-tenant field survey (IQVIA / 礼来 / 舍弗勒 / 茵梦达
+list fragments, two position/detail pages, the wxtemp WeChat QR gate and the
+careersite "site disabled" notice) plus, from the full-site run, the three
+康龙化成 social pages used by the pagination-depth tests
+(``pharmaron-bj-SOCIALRECRUITMENT-list-1.html``, ``pharmaron-bj-social-page-2.html``,
+``pharmaron-bj-social-page-56.html``). No live page is fetched here.
 """
 import json
 from pathlib import Path
@@ -56,13 +59,16 @@ def entry_override(monkeypatch):
 # config contract
 # --------------------------------------------------------------------------- #
 def test_every_configured_line_is_a_company_and_disabled_lines_stay_out():
-    # 2026-09-19 站长口径：tupu360 全站 robots.txt Disallow: /，整段默认留档，
-    # 所以每个租户行都必须 enabled:false 且带 blocked_reason，REGISTRY 里不出现。
+    # 2026-09-19 站长口径：tupu360 全站 robots.txt 是平台级 `Disallow: /`，整段默认留档。
+    # collector-next-6 把 20260919g 全站批次的 54 个公开 careersite 租户并进来（连同原先
+    # 实测可读的 6 个，共 60 个 careersite 行），但**一行都不启用**——所以本节 68 行
+    # （60 careersite + 8 个匿名侧拿不到的调查行）必须全部 enabled:false 且带 blocked_reason，
+    # REGISTRY 里一个都不出现。要启用某一家只需把该行 enabled 改成 true（见 _README）。
     declared = {key: entry for key, entry in CONFIG.items() if not str(key).startswith('_')}
-    assert len(declared) == 14
+    assert len(declared) == 68
     enabled = [key for key, entry in declared.items() if entry.get('enabled') is not False]
     disabled = [key for key, entry in declared.items() if entry.get('enabled') is False]
-    assert enabled == [] and len(disabled) == 14
+    assert enabled == [] and len(disabled) == 68
     for key, entry in declared.items():
         assert entry.get('name'), key
         assert entry.get('note'), key
@@ -83,6 +89,37 @@ def test_survey_tenants_stay_on_file_and_can_be_enabled_explicitly(entry_overrid
     entry_override('iqvia')
     assert tupu.resolve('IQVIA 艾昆纬') == 'iqvia'
     assert tupu.resolve('iqvia') == 'iqvia'
+
+
+def test_fullsite_tenants_are_public_careersite_hosts_and_stay_parked(entry_override):
+    """The 20260919g full-site batch: 60 careersite rows, all shipped disabled.
+
+    collector-next-6 imports the batch's *configuration* (60 real tenants, all with
+    real postings on their public pages) but not its enablement: the platform
+    robots.txt is a site-wide ``Disallow: /``, so every row is parked until 站长
+    decides.  What must still hold is that each parked careersite row is the public
+    careersite product -- a wxtemp ``<slug>.tupu360.com`` host must never sit in the
+    section as an enable-ready line.
+    """
+    declared = {key: entry for key, entry in CONFIG.items() if not str(key).startswith('_')}
+    careersite = [key for key, entry in declared.items()
+                  if 'careersite tenant' in str(entry.get('note'))]
+    assert len(careersite) == 60
+    assert {'iqvia', 'lilly', 'schaeffler', 'bmw', 'innomotics'} <= set(careersite)
+    assert 'pharmaron-bj' in careersite          # the 828-posting pagination case
+    public = [key for key in declared if not tupu.is_wechat_only(key)]
+    assert set(public) == set(careersite) | {'jnj'}   # jnj = customer-hosted careersite
+    for key in public:
+        assert declared[key].get('enabled') is False, key
+        host = tupu.tenant_host(key)
+        # shared careersite host, or a customer-hosted careersite (jnj) -- never a
+        # wxtemp <slug>.tupu360.com host.
+        assert host == tupu.PUBLIC_HOST or not host.endswith('tupu360.com'), (key, host)
+    # Enabling is a single-field flip, and it takes effect on the next config load.
+    entry_override('pharmaron-bj')
+    assert set(tupu.COMPANIES) == {'pharmaron-bj'}
+    assert tupu.merged_registry() == {'康龙化成（北京）新药技术股份有限公司': tupu.MODULE_PATH}
+    assert tupu.resolve('康龙化成（北京）新药技术股份有限公司') == 'pharmaron-bj'
 
 
 def test_wechat_only_tenants_are_exactly_the_declared_wxtemp_hosts():
@@ -572,3 +609,111 @@ def test_collecting_a_disabled_line_requires_an_explicit_audit_flag(tmp_path):
     result = tupu.collect('雀巢', 'campus', tmp_path, include_disabled=True)
     assert result['coverage']['status'] == 'blocked'
     assert result['coverage']['request_budget'] == {'limit': None, 'used': 0}
+
+# --------------------------------------------------------------------------- #
+# pagination depth: the site's own page count, not a fixed 40-page target
+# --------------------------------------------------------------------------- #
+PHARMARON_LIST = 'pharmaron-bj-SOCIALRECRUITMENT-list-1.html'
+PHARMARON_PAGE2 = 'pharmaron-bj-social-page-2.html'
+PHARMARON_PAGE56 = 'pharmaron-bj-social-page-56.html'
+
+
+def _pharmaron_pager(calls, page_two=None, page_last=None):
+    """A fake nextPageList that answers each offset with a distinct real page.
+
+    Page fragments are real recordings; only the posting ids are re-stamped so
+    every page carries its own ids (the real site does exactly that).
+    """
+    import re
+
+    def fake_post(session, url, data, budget, referer=None):
+        tupu._spend(budget)
+        offset = int(data['offset'])
+        page = offset // int(data['max']) + 1
+        calls.append(offset)
+        if page == 56:
+            return FakeResponse(page_last, url)
+        body = page_two
+        # keep the id shape, make it page-unique
+        body = re.sub(r'pid="([0-9a-zA-Z]+)"',
+                      lambda m: 'pid="p%03d%s"' % (page, m.group(1)[1:]), body)
+        return FakeResponse(body, url)
+
+    return fake_post
+
+
+def _pharmaron_get(list_body):
+    def fake_get(session, url, budget):
+        tupu._spend(budget)
+        return FakeResponse(list_body, url)
+
+    return fake_get
+
+
+def test_a_56_page_channel_is_not_truncated_at_the_old_40_page_target(tmp_path,
+                                                                    entry_override,
+                                                                    monkeypatch):
+    # 康龙化成's public social channel is 828 postings / 56 pages.  The list page
+    # states both numbers; the adapter must follow the site, not a 40-page target
+    # (40 x 15 = 600, which is exactly what the 20260919g run truncated to).
+    entry_override('pharmaron-bj', detail='list')
+    calls = []
+    saved = (tupu._get, tupu._post)
+    tupu._get = _pharmaron_get(page(PHARMARON_LIST))
+    tupu._post = _pharmaron_pager(calls, page(PHARMARON_PAGE2), page(PHARMARON_PAGE56))
+    try:
+        result = tupu.collect('康龙化成（北京）新药技术股份有限公司', 'social',
+                              tmp_path, include_disabled=True)
+    finally:
+        tupu._get, tupu._post = saved
+    coverage = result['coverage']
+    assert len(calls) == 55                     # pages 2..56, not pages 2..40
+    assert calls[-1] == 825                     # the real last page (3 postings)
+    assert coverage['collected_jobs'] == 828
+    assert coverage['expected_total'] == 828
+    assert coverage['pagination_exhausted'] is True
+    assert coverage['complete'] is True and coverage['status'] == 'success'
+    assert not coverage.get('page_cap_hit')
+
+
+def test_a_page_cap_hit_is_reported_as_truncated_and_never_as_exhausted(tmp_path,
+                                                                       entry_override,
+                                                                       monkeypatch):
+    # If the safety valve really is reached, the unit must degrade to `partial`
+    # with an explicit note instead of claiming it paginated to the end.
+    entry_override('pharmaron-bj', detail='list')
+    monkeypatch.setattr(tupu, 'PAGE_CAP', 3)
+    calls = []
+    saved = (tupu._get, tupu._post)
+    tupu._get = _pharmaron_get(page(PHARMARON_LIST))
+    tupu._post = _pharmaron_pager(calls, page(PHARMARON_PAGE2), page(PHARMARON_PAGE56))
+    try:
+        result = tupu.collect('康龙化成（北京）新药技术股份有限公司', 'social',
+                              tmp_path, include_disabled=True)
+    finally:
+        tupu._get, tupu._post = saved
+    coverage = result['coverage']
+    assert len(calls) == 2                      # pages 2 and 3 only
+    assert coverage['collected_jobs'] == 45     # 15 + 15 + 15
+    assert coverage['page_cap_hit'] is True
+    assert coverage['pagination_exhausted'] is False
+    assert coverage['complete'] is False
+    assert coverage['status'] == 'partial'
+    assert any('safety cap' in error for error in coverage['errors'])
+
+
+def test_direct_api_reports_a_cap_hit_instead_of_claiming_the_end(tmp_path):
+    # The api channel has the same honesty requirement: it only stops short when
+    # the site really has no further page.
+    calls = []
+    saved = tupu._post
+    tupu._post = _pharmaron_pager(calls, page(PHARMARON_PAGE2), page(PHARMARON_PAGE56))
+    try:
+        parsed = tupu._fetch_direct_api(None, 'pharmaron-bj', 'SOCIALRECRUITMENT', None,
+                                        [], 15, page_cap=3)
+    finally:
+        tupu._post = saved
+    assert len(calls) == 3
+    assert len(parsed['rows']) == 45
+    assert parsed['total_label'] == 828
+    assert parsed['page_cap_hit'] is True

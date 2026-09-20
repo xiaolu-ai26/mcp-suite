@@ -83,6 +83,11 @@ EXTRA_CHANNELS = {
     'social': (),
 }
 PAGE_SIZE = 15
+# Safety valve for the site's own nextPageList paging.  The *target* page count is the
+# one the site prints (共N页 / 共N个职位), never the cap: a channel with 828 postings is
+# 56 pages, and a cap used as a target silently truncates it.  120 pages = 1800 rows,
+# comfortably above the largest channel observed in the 2026-09-19 full-site census.
+PAGE_CAP = 120
 DEFAULT_REQUEST_BUDGET = None
 UA = ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 '
       '(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36')
@@ -629,15 +634,30 @@ def _fetch_list_html(session, key, channel, budget, evidence):
     return parsed
 
 
-def _fetch_next_pages(session, key, channel, parsed, budget, evidence, page_cap):
-    """Page 2..N through the site's own ``nextPageList`` endpoint."""
+def _fetch_next_pages(session, key, channel, parsed, budget, evidence, page_cap=PAGE_CAP):
+    """Page 2..N through the site's own ``nextPageList`` endpoint.
+
+    The page count is the site's own: ``共N页`` when the list template prints it,
+    otherwise ``ceil(共N个职位 / page size)``.  ``page_cap`` is a safety valve, not
+    a target -- a channel with 828 postings is 56 pages, and stopping at a
+    40-page target would silently truncate it to 600 rows.  When the cap really is
+    reached before the site's last page the scan stops and records
+    ``page_cap_hit`` so no caller can claim ``pagination_exhausted``.
+    """
     rows = list(parsed['rows'])
     seen = {row['pid'] for row in rows}
-    pages = parsed.get('pages') or 1
     size = parsed.get('page_size') or PAGE_SIZE
     expected = parsed.get('total_label')
+    pages = parsed.get('pages') or 0
+    if expected and size:
+        pages = max(pages, -(-int(expected) // int(size)))
+    pages = pages or 1
+    cap_hit = False
     page = 2
-    while page <= min(pages, page_cap):
+    while page <= pages:
+        if page > page_cap:
+            cap_hit = True
+            break
         offset = (page - 1) * size
         response = _post(session, next_page_url(key),
                          {'recruitmentType': channel, 'offset': str(offset),
@@ -655,6 +675,8 @@ def _fetch_next_pages(session, key, channel, parsed, budget, evidence, page_cap)
         page += 1
     parsed['rows'] = rows
     parsed['expected_total'] = expected
+    parsed['pages_target'] = pages
+    parsed['page_cap_hit'] = cap_hit
     return parsed
 
 
@@ -671,7 +693,9 @@ def _fetch_direct_api(session, key, channel, budget, evidence, size, page_cap=60
     template = ''
     first_raw = ''
     offset = 0
+    pages_done = 0
     for _ in range(max(1, page_cap)):
+        pages_done += 1
         response = _post(session, next_page_url(key),
                          {'recruitmentType': channel, 'offset': str(offset),
                           'max': str(size), 'currentLang': 'zh_CN'},
@@ -695,9 +719,10 @@ def _fetch_direct_api(session, key, channel, budget, evidence, size, page_cap=60
         offset += size
         if expected is not None and len(rows) >= expected:
             break
+    capped = pages_done >= max(1, page_cap) and (expected is None or len(rows) < expected)
     return {'rows': rows, 'template': template, 'sub_title': '', 'pages': None,
             'page_size': size, 'total_label': expected, 'columns': [],
-            'raw': first_raw, 'final_url': next_page_url(key)}
+            'raw': first_raw, 'final_url': next_page_url(key), 'page_cap_hit': capped}
 
 
 def _fetch_headless(key, channel, evidence):
@@ -747,7 +772,7 @@ def _direct_api_safe(session, key, channel_value, budget, evidence, coverage, si
         coverage['errors'].append(f'nextPageList channel miss: {type(error).__name__}: {error}')
         return {'rows': [], 'template': '', 'sub_title': '', 'pages': None,
                 'page_size': size, 'total_label': None, 'columns': [],
-                'raw': '', 'final_url': ''}
+                'raw': '', 'final_url': '', 'page_cap_hit': False}
 
 
 def _headless_safe(key, channel_value, evidence, coverage):
@@ -855,6 +880,7 @@ def collect(company, scope, output_dir, max_requests=None, fetch_channel=None,
     template = ''
     sub_title = ''
     pagination_exhausted = False
+    page_cap_hit = False
     if fetch_channel is not None:
         sequence = [channel_for(key, scope)]
     else:
@@ -879,7 +905,8 @@ def collect(company, scope, output_dir, max_requests=None, fetch_channel=None,
                 (output_dir / f'{key}-{channel_value}-list-1.html').write_text(parsed['raw'], encoding='utf-8')
             if not str(parsed.get('final_url') or '').endswith('nextPageList'):
                 parsed = _fetch_next_pages(session, key, channel_value, parsed, budget,
-                                           coverage['channel_evidence'], page_cap=40)
+                                           coverage['channel_evidence'], page_cap=PAGE_CAP)
+            page_cap_hit = page_cap_hit or bool(parsed.get('page_cap_hit'))
             pagination_exhausted = True
             seen = {row['pid'] for row in rows}
             for row in parsed['rows']:
@@ -912,6 +939,14 @@ def collect(company, scope, output_dir, max_requests=None, fetch_channel=None,
                         row['channel'] = channel_value
                         rows.append(row)
                 break
+        if page_cap_hit:
+            # A truncated scan is reported as truncated: `pagination_exhausted` stays
+            # false and `complete` (finish()) can never become true for this unit.
+            coverage['page_cap_hit'] = True
+            pagination_exhausted = False
+            coverage['errors'].append(
+                f'list pagination stopped at the {PAGE_CAP}-page safety cap before the '
+                f'site\'s own last page for tenant {host}/{key}')
         coverage['pages_scanned'] = sum(1 for item in coverage['channel_evidence']
                                         if item.get('channel') == 'html')
         coverage['list_observed_ids'] = sorted({row['pid'] for row in rows})

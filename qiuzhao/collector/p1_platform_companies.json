@@ -4028,7 +4028,7 @@
     "eczd.fa.us2.oraclecloud.com/CX_1": "百胜餐饮"
   },
   "tupu360": {
-    "_README": "tupu360 (图谱天下) multi-tenant recruitment sites. Key = tenant slug on careersite.tupu360.com (override with \"tenant\"). Value {name, host?, tenant?, channels?, extra_channels?, scope?, wechat_only?, url?, enabled?, note?}. Careersite tenants are public/server-rendered; wxtemp tenants (<slug>.tupu360.com) only answer behind WeChat OAuth. ROBOTS DECISION 2026-09-19: tupu360's robots.txt is a site-wide 'User-agent: * / Disallow: /', and this project does not crawl sources that disallow us, so EVERY row in this section ships enabled:false (including the six tenants whose public pages were readable during verification) until 站长 decides otherwise. Flip enabled to true only on an explicit decision; the adapter skips enabled:false rows at load time. Verified 2026-09-19.",
+    "_README": "tupu360 (图谱天下) multi-tenant recruitment sites. Key = tenant slug on careersite.tupu360.com (override with \"tenant\"). Value {name, host?, tenant?, channels?, extra_channels?, scope?, wechat_only?, url?, enabled?, note?, blocked_reason?}. Careersite tenants are public/server-rendered; wxtemp tenants (<slug>.tupu360.com) only answer behind WeChat OAuth. ROBOTS DECISION 2026-09-19: tupu360's robots.txt is a platform-wide 'User-agent: * / Disallow: /'. This project does not crawl sources that disallow us, so EVERY row in this section ships enabled:false -- including all 60 careersite tenants whose public pages were read during the 2026-09-19 full-site run (180 tenant x scope units, 5523 real postings) and the 8 tenants that were already unusable anonymously. TO ENABLE ONE COMPANY: flip its own \"enabled\" to true (and drop blocked_reason); nothing else is needed -- the adapter re-reads this file at import, p1_pipeline merges the section into REGISTRY through merged_registry(), and the daily run picks the tenant up on the next 06:10 cycle. Enabling is a 站长 decision because of the robots.txt above. The full-site evidence (xlsx/csv, 5523 rows) stays on branch feat/tupu360-fullsite under pipeline-watch/tupu360-fullsite/ and is NOT merged here. Verified 2026-09-19, parked 2026-09-20 (collector-next-6).",
     "iqvia": {
       "enabled": false,
       "name": "IQVIA 艾昆纬",
@@ -4142,6 +4142,330 @@
       "url": "https://boschhuayu-steering.tupu360.com/position/list?enter=menu&lang=zh_CN&type=CAMPUSRECRUITMENT&state=da73d1599efb780e7799e46266bc8ac1&code=0510C20w3ssfK73MlY3w3Yug1t10C20Q&_t=1789120541326",
       "note": "WeChat-only tenant; careersite slug boschhuayu-steering answers '抱歉，该网站已停用'.",
       "blocked_reason": "WeChat OAuth only; adapter does not log in"
+    },
+    "Viatris": {
+      "enabled": false,
+      "name": "晖致医药有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 13 / intern 15 / social 244 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "accentureats": {
+      "enabled": false,
+      "name": "埃森哲",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 10 / intern 12 / social 87 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "aexpec": {
+      "enabled": false,
+      "name": "连通（杭州）技术服务有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 6 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "andritz": {
+      "enabled": false,
+      "name": "安德里茨（中国）有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 1 / intern 6 / social 46 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "astrazeneca": {
+      "enabled": false,
+      "name": "阿斯利康",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 1 / social 267 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "bd": {
+      "enabled": false,
+      "name": "碧迪医疗器械(上海)有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 11 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "bmw-brilliance": {
+      "enabled": false,
+      "name": "华晨宝马汽车有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 4 / intern 5 / social 19 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "carrier": {
+      "enabled": false,
+      "name": "开利空调",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 25 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "chinadatagroup": {
+      "enabled": false,
+      "name": "华道数据处理有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 38 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "cn.abb": {
+      "enabled": false,
+      "name": "ABB",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 2 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "cummins": {
+      "enabled": false,
+      "name": "康明斯",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 27 / intern 5 / social 35 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "danfoss": {
+      "enabled": false,
+      "name": "丹佛斯(上海)自动控制有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 2 / intern 0 / social 0 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "dowstone.cn": {
+      "enabled": false,
+      "name": "道氏",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 24 / intern 0 / social 6 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "estee": {
+      "enabled": false,
+      "name": "雅诗兰黛（上海）商贸有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 26 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "evergrande": {
+      "enabled": false,
+      "name": "恒大集团有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 6 / intern 0 / social 0 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "fosunholiday": {
+      "enabled": false,
+      "name": "地中海度假集团",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 2 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "fuyao": {
+      "enabled": false,
+      "name": "福耀玻璃",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 121 / intern 4 / social 228 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "grgtest": {
+      "enabled": false,
+      "name": "广电计量检测集团股份有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 89 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "hbglobal": {
+      "enabled": false,
+      "name": "华宝集团",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 1 / intern 0 / social 0 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "healthineers": {
+      "enabled": false,
+      "name": "西门子医疗Siemens Healthineers",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 17 / intern 1 / social 218 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "hella": {
+      "enabled": false,
+      "name": "Hella",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 8 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "heraeus": {
+      "enabled": false,
+      "name": "贺利氏",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 2 / intern 0 / social 23 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "hfcFoods": {
+      "enabled": false,
+      "name": "东莞徐记食品有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 7 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "hitachi-helc.com": {
+      "enabled": false,
+      "name": "日立电梯（中国）有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 1 / intern 0 / social 5 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "ibmcampus": {
+      "enabled": false,
+      "name": "IBM校招",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 12 / intern 6 / social 0 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "ict.ac": {
+      "enabled": false,
+      "name": "中国科学院计算技术研究所",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 111 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "intel": {
+      "enabled": false,
+      "name": "Intel",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 15 / intern 3 / social 7 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "intelcampus": {
+      "enabled": false,
+      "name": "英特尔（校招）",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 1 / intern 1 / social 16 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "ioe.ac.cn": {
+      "enabled": false,
+      "name": "中国科学院光电技术研究所",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 48 / intern 0 / social 7 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "iscas": {
+      "enabled": false,
+      "name": "中科院软件所",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 89 / intern 0 / social 1 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "jiuniudianshang": {
+      "enabled": false,
+      "name": "九牛电商",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 1 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "joomet": {
+      "enabled": false,
+      "name": "荞麦咨询",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 2 / intern 1 / social 0 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "lvmh": {
+      "enabled": false,
+      "name": "LVMH",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 13 / intern 12 / social 104 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "pfizer": {
+      "enabled": false,
+      "name": "辉瑞",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 279 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "pfizercampus": {
+      "enabled": false,
+      "name": "辉瑞校招系统",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 13 / social 0 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "pharmaron-bj": {
+      "enabled": false,
+      "name": "康龙化成（北京）新药技术股份有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 144 / intern 41 / social 828 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "sanofi": {
+      "enabled": false,
+      "name": "赛诺菲（中国）投资有限公司上海分公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 20 / social 126 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "scania": {
+      "enabled": false,
+      "name": "斯堪尼亚",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 36 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "siemens": {
+      "enabled": false,
+      "name": "西门子中国",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 42 / intern 6 / social 167 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "siemens-energy": {
+      "enabled": false,
+      "name": "西门子能源",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 1 / intern 0 / social 98 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "simedarbyats.industrial": {
+      "enabled": false,
+      "name": "森达美信昌机器工程有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 2 / intern 0 / social 62 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "simemotors": {
+      "enabled": false,
+      "name": "森那美汽车",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 2 / social 51 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "skhynix": {
+      "enabled": false,
+      "name": "SK 海力士大连",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 8 / intern 2 / social 56 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "swireproperties": {
+      "enabled": false,
+      "name": "太古地产（中国）投资有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 9 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "tjyh2003": {
+      "enabled": false,
+      "name": "英华实验学校",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 2 / intern 0 / social 20 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "toyota": {
+      "enabled": false,
+      "name": "丰田汽车（中国）投资有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 11 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "tptest": {
+      "enabled": false,
+      "name": "中力迅科技",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 1 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "tsingyun": {
+      "enabled": false,
+      "name": "清云智通（北京）科技有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 8 / intern 0 / social 37 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "tuv": {
+      "enabled": false,
+      "name": "莱茵技术（上海）有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 1 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "wanji": {
+      "enabled": false,
+      "name": "万集科技",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 56 / intern 0 / social 15 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "weinview": {
+      "enabled": false,
+      "name": "威纶通",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 8 / intern 0 / social 33 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "wuxiapptec": {
+      "enabled": false,
+      "name": "药明康德",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 198 / intern 27 / social 397 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "xmhxgroup.com": {
+      "enabled": false,
+      "name": "厦门恒兴集团有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 63 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
+    },
+    "yumchina": {
+      "enabled": false,
+      "name": "百胜中国",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 1 postings.",
+      "blocked_reason": "platform robots.txt is a site-wide Disallow: / (站长 decision pending); collector-next-6 keeps the 2026-09-19 full-site evidence with enabled:false"
     }
   }
 }
