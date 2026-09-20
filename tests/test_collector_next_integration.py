@@ -390,15 +390,18 @@ def test_platform_request_budget_defaults_to_unlimited(monkeypatch):
 def test_deployable_windows_collector_uses_scope_timeout_and_workers():
     from deploy import windows_collector as W
     source = Path(W.__file__).read_text(encoding='utf-8')
-    # Effective values, not source spellings: the p1 step limit is now derived from the
-    # deadline it passes to p1 (see steps_for/P1_STEP_LIMIT and the 2026-09-20 P0).
+    # Effective values, not source spellings: the p1 watchdog is derived from the segment
+    # deadline it passes to p1 (see steps_for/P1_SEGMENT_STEP_LIMIT and the 2026-09-20 P0),
+    # and the day's length is bounded by the segment loop instead of one long deadline.
     steps = {name: (args, limit) for name, args, limit in W.steps_for(Path('/stage'), False)}
     p1_args, p1_limit = steps['p1']
     assert p1_args[p1_args.index('--scope-timeout') + 1] == '600'
-    assert p1_args[p1_args.index('--workers') + 1] == '8'
-    assert p1_args[p1_args.index('--platform-workers') + 1] == '3'
-    assert p1_args[p1_args.index('--max-run-seconds') + 1] == '18000'
-    assert p1_limit > W.P1_MAX_RUN_SECONDS + 600, 'watchdog must outlast p1 finalisation'
+    assert p1_args[p1_args.index('--workers') + 1] == '16'
+    assert p1_args[p1_args.index('--platform-workers') + 1] == '4'
+    assert p1_args[p1_args.index('--max-run-seconds') + 1] == str(W.P1_SEGMENT_SECONDS)
+    assert '--platform-interval' not in p1_args, 'PLATFORM_MIN_INTERVAL (1.0s) stays the default'
+    assert p1_limit == W.P1_SEGMENT_STEP_LIMIT
+    assert p1_limit > W.P1_SEGMENT_SECONDS + 600, 'watchdog must outlast p1 finalisation'
     assert '--timeout' not in p1_args
     assert [name for name, _a, _l in W.steps_for(Path('/stage'), False)] == \
         ['basic', 'tencent', 'p1', 'normalize']

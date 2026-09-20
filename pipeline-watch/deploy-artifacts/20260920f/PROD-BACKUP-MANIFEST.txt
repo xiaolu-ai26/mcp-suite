@@ -1,0 +1,125 @@
+Jingling (精灵) production pre-deploy manifest — incremental bundle 20260920f
+Generated on the Mac worktree /Users/maxzhl/Projects/mcp-suite-seg, 2026-09-20 (Asia/Shanghai),
+branch feat/segmented-publish (parent fix/p0-typeerror-20260920 37ac85f2, which already contains
+feat/collector-next-6 f0694da7 and feat/gap-report 3468074a).
+
+PREMISE (one only): jingling runs bundle 20260920a (deployed 2026-09-20 01:32).
+20260919g/h/i, 20260920c, 20260920d and 20260920e were NEVER deployed — **20260920f REPLACES
+20260920e** and is the cumulative "a -> f in one step" bundle: it carries all 21 runtime files
+of 20260920e (P0 fix included) plus the segmented-publication rewrite of
+deploy\windows_collector.py. Do not deploy c/d/e and f together; deploy f alone.
+
+Why 21 files for a feature that touches one file: 20260920a is the LIVE state, and
+collector-next-6 + gap-report + the P0 fix have never been deployed. `windows_collector.py`
+in this bundle is the 20260920e version PLUS the segment loop; the other 20 files are
+byte-for-byte the 20260920e content (verified with cmp against this branch's sources).
+
+Live-state check performed read-only on 2026-09-20 13:31-13:35 CST with the production venv
+python 3.12.2 (`ssh` read-only; no collection, no scheduled task triggered, production files
+only opened for reading). Every value in the PRE-DEPLOY column was MEASURED BY THIS TASK and
+then CROSS-CHECKED, never copied:
+  * 11 files cross-check against git show feat/collector-next-5:pipeline-watch/deploy-artifacts/20260920a/SHA256SUMS.txt;
+  * 10 files were never carried by 20260920a, so they cross-check against the
+    20260920e PROD-BACKUP-MANIFEST PRE-DEPLOY column (which was itself measured live on 9-20 12:2x);
+  * collection_gap.py is still ABSENT on jingling.
+All 21 cross-checks agree -> ZERO DRIFT since 20260920a was deployed.
+
+  Two temp-directory verification runs (C:\mcp-suite-seg-test, C:\mcp-suite-seg-test2) were
+  executing during that measurement window; they write only inside those temp roots and were
+  confirmed not to touch C:\mcp-suite-collector. The premise was re-measured after they
+  finished (see the RE-MEASURE note at the bottom).
+
+  If any real pre-deploy hash differs from the table below, STOP: record the real value, back
+  the file up anyway and treat the difference as drift. There is exactly ONE ABSENT row
+  (qiuzhao\collector\collection_gap.py, a new file); every other file already exists.
+
+Contents: 21 runtime files = 20 overwrites + 1 new file. Targets touched: 21 paths, nothing
+deleted, nothing outside qiuzhao\ and deploy\. `deploy\windows_collector.py` IS in this
+bundle; run.py is not deployed on jingling at all (measured ABSENT).
+
+  target path on jingling                    PRE-DEPLOY sha256 (live, measured)                        action           cross-check
+  -----------------------------------------  ------------------------------------------------------  ---------------  -----------------
+  deploy\windows_collector.py                      9eaf97cc5d4e968c062aaa65468ab34c584534a4ced5523d75c7c26229ec8312  overwrite        cross-checked:20260920e
+  qiuzhao\collector\alibaba_headless.py            dab17686cf251f220950b8c8e13984d39dcbb07b8a3eeeea84bdea3ca3be7db2  overwrite        cross-checked:20260920e
+  qiuzhao\collector\auto_collect.py                fa1e304ccf814ecb00d4b3d8390e7ef0ce445d50d0f96b02eefa16b6a4d31b2a  overwrite        cross-checked:20260920e
+  qiuzhao\collector\collection_gap.py              ABSENT                                                            add (NEW FILE)   cross-checked:20260920e
+  qiuzhao\collector\lark_sync_daemon.py            6a52a641fe53f1535a07c810a012557b53b6ad93ebba8d07623520870e09fdac  overwrite        cross-checked:20260920e
+  qiuzhao\collector\p1_foreign_01.py               29c62e6272e4429a567b4531a6ecfa053b84d59679e5fd2117e5b801df6191a6  overwrite        cross-checked:20260920a
+  qiuzhao\collector\p1_meituan_public.py           27dbb5b4c3bbc46d1a815a8d5ce448ee5eff90cf6006a89acf79f874f61d0527  overwrite        cross-checked:20260920e
+  qiuzhao\collector\p1_netease_public.py           e0b4534e32b1ad301b02806e1ed069e63df5326a23c1a0070da1a9852235a2b3  overwrite        cross-checked:20260920e
+  qiuzhao\collector\p1_pipeline.py                 093b237e852ba1d15717e97adc6b7de66f412c84c4005b3a72e79b4a108de12d  overwrite        cross-checked:20260920a
+  qiuzhao\collector\p1_platform_avature.py         378e4f9f6e30782b47109aff47c4fa6eaaccb7e279a1c8ca34e0c46ee5422781  overwrite        cross-checked:20260920a
+  qiuzhao\collector\p1_platform_companies.json     cd4c403bcff54274e0fbc741095f9d6ab8f520a80130c3deb35fc37c9123404a  overwrite        cross-checked:20260920a
+  qiuzhao\collector\p1_platform_eightfold.py       10e87b96c34688797128db2719da310cf7a5e021d935a0688425b17e4b251b3f  overwrite        cross-checked:20260920a
+  qiuzhao\collector\p1_platform_moka.py            778a956d7d99832a47964743fac22fe08e0f1fce5c0325e2b3580b180a6077c0  overwrite        cross-checked:20260920a
+  qiuzhao\collector\p1_platform_orc.py             bd3528bcbc7c1c61a53f1cb4c339ae2ef32e9f391f62a1ab3a8ea28207eb58f2  overwrite        cross-checked:20260920a
+  qiuzhao\collector\p1_platform_phenom.py          f40eb834fe24fb176381b3d22e15e3f86d744a6ff3860c626542fe0f60a23eb3  overwrite        cross-checked:20260920a
+  qiuzhao\collector\p1_platform_successfactors.py  cdeaaa26beca6c0c2a93c77e14fc05c6247d9f15d631ecff98dad60f018250a5  overwrite        cross-checked:20260920a
+  qiuzhao\collector\p1_platform_tupu360.py         51a109901822ff7ea0359ab7974c80cf3a64f266a8f42aad8563fbb9b66207a5  overwrite        cross-checked:20260920a
+  qiuzhao\collector\p1_platform_workday.py         b576b94cde9ec2f12e075a23e8f3aed5e15c179238ec9fdd50cca3b246455650  overwrite        cross-checked:20260920a
+  qiuzhao\collector\p1_sources_11_20.py            63af0978dcf164311b5df1027a10d82010e4d834ad2901706d82eac0b50c5fb1  overwrite        cross-checked:20260920e
+  qiuzhao\collector\portable_runtime.py            1e40c5c215b97f374b38a558c55ce2e9ca46bea0654399cec7f88b56afd69bda  overwrite        cross-checked:20260920e
+  qiuzhao\collector\sync_lark_multivalue.py        5c77cde828bae6f609684fe1c00606c85e50a69b0258dbab6bafc75ed3878ce0  overwrite        cross-checked:20260920e
+
+VERIFY ONLY — must still equal the 20260920a state, do NOT copy, NOT in this bundle (7 files;
+measured live by this task, all 7 match the 20260920e manifest byte-for-byte):
+  qiuzhao\collector\p1_feishu_public.py            03f732d8824d973aab5b52e6a6ea5a2ff9c34fb62af5b725d10088f1ec9bba66
+  qiuzhao\collector\p1_platform_beisen.py          6885efb18e40f5fa83464a8a21a3e0ffa49af14c9e8a673016e6d640c4dea82f
+  qiuzhao\collector\p1_platform_51job.py           968193b3c5457f2ab1b9490decf48834b0d06dcfc3988193b9b143bd38810836
+  qiuzhao\collector\p1_platform_icims.py           132d6a046781c4455cd61cf8ca00a006a18af49fe1d09d4ccef8e3805293e4ea
+  qiuzhao\normalize.py                             52fb48f7287ba2f89f0c4dda075dc12ab9fa3880b4027396d9377f4c1c25b8ef
+  qiuzhao\company_names.py                         ee0943560d6ed0523b4bd70f6363b529e8190b60333fad2fc7a6678ec4198851
+  qiuzhao\data\company_aliases.json                ae311e93b754b5f76372f7668aa1076fd6666e79c51ca45ff2113b7642539e6f
+
+VERIFY ONLY — unchanged since 20260918k (6 files; measured live by this task, all 6 match):
+  qiuzhao\collector\guopin.py                      add0d50c715e06eb968bb7671bc2e9787e81d9ad39be008e66731337f16b6c03
+  qiuzhao\collector\p1_banks_01.py                 25e2399812f64ee1762b7686849bf7241c8e1353d7203347562f9794223ffb19
+  qiuzhao\collector\tencent_music.py               7d19cbc34b45dfc5e31c3d9b7ed41dd51c638c5adb6c62bf6e0330904f3d3787
+  qiuzhao\collector\bytedance.py                   07922a5111dd6356d97d289d472ae78bf177dd95bf8f401db6284e8e18140c8d
+  qiuzhao\collector\p1_bytedance_public.py         bc2926472037e24c212f47a0d62750ca9cd921a7b01df5af6dbe0f56d5c160e6
+  qiuzhao\collector\p1_midea_public.py             509b9a502d7e1010c478896fc1312ae380aa97a3847412bdef8cb48bc2c97186
+
+VERIFY ONLY — pre-existing forks / not on the daily chain (measured live by this task):
+  deploy\windows_receiver.py                     046aa69890fcc8457e284c2ab4f46a800aec7e59eadffcae6e864bba436d49c8
+  deploy\windows_recover_run.py                  0cb339c252a0cab31bd86d46c40232686a2de3d3eeb2f4b51b0e65035018520e
+  qiuzhao\v4_fields.py                           f74e6ab3b0020a0b1a5514d8a5f199a4c024a834bc8c14dcdf3206e116b89c3d
+  run.py                                          ABSENT (not deployed on jingling)
+
+Bundle content hashes (20260920f, the source of truth after copy; full list in SHA256SUMS.txt,
+21 files). Run `shasum -a 256 -c SHA256SUMS.txt` (macOS) or `Get-FileHash -Algorithm SHA256`
+(jingling) inside the staging directory after copy; every line must print OK, and the staging
+copy must be compared file-by-file with this list BEFORE overwriting the live tree.
+  alibaba_headless.py                1b8eb2f7050a045994d6fb3ce0605d1c6ad5627723a0e503c0bf8edce947d227
+  auto_collect.py                    1111ba1fc02e005a68bae1b51579a812eb28da15179a26ad50e9fee8de3cf912
+  collection_gap.py                  34351a1cddc139428862985712922c20419410cec28b749e63fb352bc3fafd11
+  lark_sync_daemon.py                9c14fe486fe5c8a566e02b1c8ca8201d9dea09b989da9226178585c0fe8d3678
+  p1_foreign_01.py                   98b348af95f2a56fe64eebec2786346ec28e5e133d81d6565b8f859794f2b7e6
+  p1_meituan_public.py               422562c9424172687b6d412d04cb546ecf35e46027a28f623f842aa114c70d7f
+  p1_netease_public.py               2e71ffd6b96d4c32e356044be8dcdf7b2404810ae5f57e3522db1c60678a6399
+  p1_pipeline.py                     cd2d22c86e7b16161516209fd8e8899513939a6341c164b38db50ee504b003b8
+  p1_platform_avature.py             f2ebdd6f5eefe0702acf8407e081cb644f2afc5904778d67259d07e093ab29cd
+  p1_platform_companies.json         3b2dedf9e86c1af0557b7dbaf4919a62afca0aa8d1fc00402eef7f664c6078d1
+  p1_platform_eightfold.py           ca543048c6ab1b091f94bc245dbe4f41a28b1bafb301113e911b4bbaa7e94c6c
+  p1_platform_moka.py                5fd758ceb55eed0e6213a8ed4595c292c309a37a4ac41f5879ff27d63eaf1c6c
+  p1_platform_orc.py                 d15d3a8b29f2207bda2b949b0523e71f91d2be9b15d00db715bff63e06900422
+  p1_platform_phenom.py              533e721aec67b2792367d4a4b35bcdec655b6eae1c3efd7ddc203400db7563fc
+  p1_platform_successfactors.py      2f69a6e6470e34e66d25165790d5a2524c872d1346a5bc8c6dbdebc56803b2e4
+  p1_platform_tupu360.py             0130b3bbf00648d1a93d4f8a93917327d8c1155c29cd2e3559f5279994d9ebc7
+  p1_platform_workday.py             0943caf85cddd6d2e19033ae9954778b479f73fa75bc45183ba60f462005ea10
+  p1_sources_11_20.py                8670cb4accb19cc341da8f376a5d70d8e22626c390a7be528dd854b72697764f
+  portable_runtime.py                62afa7bdedb7ccd9821f3b6c483fafc76cb26d8e45c7b2318b7be189a9a6402f
+  sync_lark_multivalue.py            576f0c86397d96c97ac0aa0fbf9cccf5a54c7f5f8b54eb7f70350f8912bfaab2
+  windows_collector.py               4db95ba3a953adea0b9c79255080f706fdb10b0dd5197313416b4854076717c5
+
+Rollback (restore every overwritten file from the pre-deploy backup; delete exactly one file):
+20 files are RESTORED from C:\mcp-suite-backup-<YYYYMMDD-HHmm>\, and the single new file
+qiuzhao\collector\collection_gap.py is DELETED (it did not exist before). After the restore,
+verify p1_pipeline.py is back to 093b237e… (the 20260919k/20260920a Windows publish lock must
+survive any rollback of this bundle: the daily 06:10 run depends on it) and
+deploy\windows_collector.py is back to 9eaf97cc… (= 20260920e, no segment loop).
+
+New-backup command (do not skip, and never overwrite an existing backup directory):
+  robocopy C:\mcp-suite-collector\deploy  C:\mcp-suite-backup-<YYYYMMDD-HHmm>\deploy  /E /R:2 /W:5
+  robocopy C:\mcp-suite-collector\qiuzhao C:\mcp-suite-backup-<YYYYMMDD-HHmm>\qiuzhao /E /R:2 /W:5
+robocopy exit codes <= 7 mean success. Do NOT robocopy the whole collector directory
+(recovery/ is ~3.4 GB).

@@ -268,7 +268,7 @@ def run_windows_collector(tmp_path, monkeypatch, behavior, smoke=True, module=W)
                 return p if p.is_dir() else p.parent
         return Path(env['QIUZHAO_DATA_DIR'])  # auto_collect reads the stage dir from env
 
-    def fake_step(args, log, env, timeout):
+    def fake_step(args, log, env, timeout, *_extra, **_kwargs):
         module_name = args[args.index('-m') + 1]
         name = {'qiuzhao.collector.run': 'basic', 'qiuzhao.collector.auto_collect': 'tencent',
                 'qiuzhao.collector.p1_pipeline': 'p1', 'qiuzhao.normalize': 'normalize'}[module_name]
@@ -347,16 +347,17 @@ def test_windows_collector_p1_watchdog_outlasts_p1_finalisation():
 
     p1 only checks its own --max-run-seconds deadline between units, so it can still be
     draining one in-flight unit (up to --scope-timeout) and writing its status, merged
-    rows and gap report after that deadline. The parent watchdog must leave that room.
+    rows and gap report after that deadline. The watchdog now covers ONE segment and must
+    leave that room; the day itself is bounded by the segment loop, not by this limit.
     """
     steps = {name: (args, limit) for name, args, limit in W.steps_for(Path('/stage'), False)}
     args, limit = steps['p1']
     max_run = int(args[args.index('--max-run-seconds') + 1])
     scope_timeout = int(args[args.index('--scope-timeout') + 1])
-    assert max_run == W.P1_MAX_RUN_SECONDS
+    assert max_run == W.P1_SEGMENT_SECONDS
     assert scope_timeout == W.P1_SCOPE_TIMEOUT
-    assert limit - max_run >= scope_timeout + 600, 'no room to drain the in-flight unit'
-    assert limit == W.P1_STEP_LIMIT
+    assert limit - max_run >= scope_timeout + W.P1_SEGMENT_FINALIZE_BUDGET, 'no room to drain the in-flight unit'
+    assert limit == W.P1_SEGMENT_STEP_LIMIT
     assert 'p1' not in {name for name, _args, _limit in W.steps_for(Path('/stage'), True)}
 
 

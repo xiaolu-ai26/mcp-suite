@@ -1,0 +1,4471 @@
+{
+  "_README": "Platform-level recruit adapters config. One company = one line. Keys: beisen=<tenant> zhiye.com slug; moka=<org>/<siteId> (derived campus URL) or an object with explicit sites. Value is the canonical company name (string shorthand) or an object {name, host?, ignore_categories?, categories?, sites?}. Adding a line registers the company in qiuzhao.collector.p1_pipeline.REGISTRY via the platform module. Keys: feishu=<portal object> (config-driven Feishu jobs portal). Keys: workday=<tenant>/<region>/<site> (CXS); successfactors=<career-site host>; dayee=<SU hash> (Dayee hotjob.cn, value {name, host}). Workday value may be an object {name, search_text (string|{scope:str}), max_list_pages, campus_keywords, intern_keywords}; SuccessFactors value may be {name, query, country, page_size, max_list_pages, campus_keywords, intern_keywords}. Keys: avature=<host>/<locale>/<portal> (Avature search portal; optional search, offset_param, page_size_param); icims=<portal host> (iCIMS Career Portal; the adapter refuses hosts whose robots.txt disallows crawling); orc=<host>/<siteNumber> (Oracle Recruiting Cloud candidate experience).",
+  "beisen": {
+    "keyence": "基恩士",
+    "csc108": {
+      "name": "中信建投",
+      "ignore_categories": [
+        "4"
+      ]
+    },
+    "cicc": "中金公司",
+    "guosen": "国信证券",
+    "mintai": {
+      "name": "浙江民泰商业银行",
+      "ignore_categories": [
+        "4"
+      ]
+    },
+    "7sef": "七色纺商业连锁有限公司",
+    "acpl-cummins": "安徽康明斯",
+    "actionstech": "炬芯科技",
+    "actri": "中国航空工业集团公司西安航空计算技术研究所",
+    "adaps-ph": "灵明光子",
+    "ahxunying": "安徽巡鹰新能源集团有限公司",
+    "aimer": "爱慕集团",
+    "aimsphm": "安脉盛",
+    "ainuo": "艾诺仪器公司",
+    "aipower": "仪电智算",
+    "aispeech": "思必驰科技股份有限公司",
+    "aiva": "AIVA汽车",
+    "altobeam": "高拓讯达(北京)微电子股份有限公司",
+    "amies": "芯上微装",
+    "amlogicsh": "晶晨半导体",
+    "ankai": "安凯",
+    "anycubic": "纵维立方",
+    "aosom1": "遨森电商",
+    "asiacore": "亚中医疗",
+    "asustek": "华硕科技（苏州）有限公司",
+    "asymchem": "凯莱英",
+    "atazpower": "广州旭之源科技有限公司",
+    "avicasri": "强度所",
+    "avicbs": "航空工业宝胜",
+    "avicmti": "中国航空制造技术研究院",
+    "avicsz": "中航科创",
+    "aviczp": "哈尔滨飞机工业集团有限责任公司",
+    "awinic1": "艾为电子",
+    "babybus": "宝宝巴士",
+    "babycare": "Babycare",
+    "baictruck": "北汽重卡",
+    "bamatea": "八马茶业股份有限公司",
+    "bdstar": "北斗星通",
+    "befar": "滨化集团",
+    "bestsemi": "屹唐半导体",
+    "bfhc1": "华丞电子",
+    "bgechina1": "高能环境",
+    "bicheng": "碧橙数字",
+    "biwin1": "佰维存储",
+    "bj-tct": "交控科技股份有限公司",
+    "bjsubway": "北京地铁",
+    "blueswords": "兰剑智能",
+    "bmc-medical": "BMC瑞迈特",
+    "bodor": "济南邦德激光股份有限公司",
+    "bomc": "中山大洋电机股份有限公司",
+    "bpsemi": "晶丰明源",
+    "britesemi": "灿芯半导体",
+    "capchem": "深圳新宙邦科技股份有限公司",
+    "careerktc": "深圳市康冠科技股份有限公司",
+    "cas-space": "中科宇航",
+    "casco": "卡斯柯信号有限公司",
+    "cast": "航天五院遥感部",
+    "catic": "中航技",
+    "ccgrass": "共创草坪",
+    "cetc36": "中国电科三十六所",
+    "cfmee": "芯碁微装",
+    "chang-qiang": "长强系统",
+    "charleskeith": "桦洁商贸（上海）有限公司",
+    "chempartner": "睿智医药",
+    "chinacamel1": "骆驼集团股份有限公司",
+    "chinaecec": "中国化学东华公司",
+    "chipsea": "芯海科技",
+    "chjgroup": "潮宏基",
+    "cht-group3": "扬腾创新",
+    "cictmobile": "中信科移动",
+    "cimm": "航空工业计量所",
+    "cjzq3": "长江证券研究所暑期实习",
+    "cmcu": "中机中联工程有限公司",
+    "cmi": "招商船舶",
+    "cndi": "中国南山",
+    "colgate": "高露洁",
+    "coli688": "中海企业发展集团有限公司",
+    "comewonka": "卡旺卡",
+    "copm": "中海物业集团有限公司",
+    "cqpharm": "凯瑞斯德集团",
+    "crealights": "海光芯正集团",
+    "crscd": "中国通号研究设计院集团",
+    "crystal-optech1": "浙江水晶光电科技股份有限公司",
+    "csl-vacuum": "恒运昌",
+    "cssc712": "中国船舶集团有限公司第七一二研究所",
+    "csscsws": "外高桥造船",
+    "cxtc-jt2": "九江金鹭硬质合金有限公司",
+    "dalipal": "达力普石油专用管有限公司",
+    "darryring": "迪阿股份有限公司",
+    "dartrich": "大通宝富",
+    "daxincpa": "大信会计",
+    "dcits": "神州信息",
+    "dearsamsung": "中国三星",
+    "degson": "高松电子",
+    "delton": "广合科技",
+    "deye": "德业",
+    "dfdchem1": "多氟多",
+    "digitalchina": "神州数码集团",
+    "dioo": "帝奥微",
+    "dptech": "杭州迪普科技股份有限公司",
+    "duxact": "都正生物",
+    "dwywood1": "大王椰",
+    "dymind": "帝迈生物",
+    "dynanonic3": "德方纳米",
+    "echint": "成都奕成科技股份有限公司",
+    "ecmax": "苏州极易科技股份有限公司",
+    "ecosda": "东方算芯",
+    "egova": "数字政通",
+    "enn": "新奥集团",
+    "enpower": "英搏尔",
+    "envicool": "英维克",
+    "eoptolink": "成都新易盛通信技术股份有限公司",
+    "esign": "e签宝",
+    "esunny": "易盛信息",
+    "esunsoft": "亿星软件",
+    "eswin-si": "西安奕斯伟材料科技股份有限公司",
+    "farben": "法本信息",
+    "fast": "法士特",
+    "fedi": "中国电建福建院",
+    "feibo": "飞博共创",
+    "felicitysolar": "菲利斯太阳能",
+    "flyaitalent": "泛联新安",
+    "forlinx1": "飞凌嵌入式",
+    "foryouge": "华阳通用",
+    "founderpcb": "方科PCB",
+    "fox-ess": "麦田能源",
+    "frontagelab": "方达中国",
+    "frontop": "凡拓数字",
+    "frsh": "迅销（上海）企业管理咨询有限公司",
+    "fscut": "柏楚电子",
+    "fullsemi": "富芯半导体",
+    "fusion-materials": "聚和材料",
+    "fzzixun": "紫讯科技",
+    "galaxea": "星海图",
+    "gccloud": "科大国创云网",
+    "gdadri": "省建院",
+    "gdhw": "高德红外",
+    "geek3": "极客未来",
+    "gejian-semi": "格见半导体",
+    "gention": "格通智联",
+    "genxinyuecom": "亘芯悦",
+    "gesac": "厦门金鹭",
+    "gktx": "国科天迅",
+    "goke1": "湖南国科微电子股份有限公司",
+    "gongniu": "公牛集团",
+    "govee": "智岩科技",
+    "gravityxr": "万有引力（宁波）电子科技有限公司",
+    "gresgying": "绿能慧充",
+    "gwpst": "长城电源",
+    "gzlhjt": "贵州磷化集团",
+    "gzupdc": "市城规公司",
+    "h618": "航空工业自控所",
+    "haid1": "海大集团",
+    "haige": "海格通信",
+    "hailiang8": "海亮教育集团",
+    "hanyao": "邯药公司",
+    "hayao": "哈药集团股份有限公司",
+    "hcmicro": "江苏华创微系统有限公司",
+    "hdcq": "陕西汉德车桥有限公司",
+    "hec": "东阳光",
+    "hellobike": "上海哈啰普惠科技有限公司",
+    "hengan1": "恒安集团",
+    "hengdian": "横店集团控股有限公司",
+    "hengdian-ie": "浙江横店进出口有限公司",
+    "hengdian2": "英洛华科技股份有限公司",
+    "henlius": "复宏汉霖Henlius",
+    "hetao101": "核桃编程",
+    "hibr": "翰博高新材料（合肥）股份有限公司",
+    "highpowertech": "豪鹏科技",
+    "highstar": "江苏海四达电源有限公司",
+    "higold": "悍高集团",
+    "hillstonenet": "山石网科通信技术股份有限公司",
+    "himile": "豪迈",
+    "histudy": "快乐学习",
+    "hisunpharm": "海正药业",
+    "hitachienergy": "日立能源",
+    "hitrendtech1": "钜泉科技",
+    "hkaco": "虹科",
+    "holley": "华立科技股份有限公司",
+    "hollyland": "昊一源",
+    "homa-hr": "广东奥马冰箱有限公司",
+    "hongdu": "江西洪都航空工业集团有限责任公司",
+    "hopewind": "禾望电气",
+    "hrbbcf1": "哈银消费金融",
+    "hrnordkete": "诺德凯（苏州）智能装备有限公司",
+    "hsingchen": "湖北星辰技术有限公司",
+    "huace": "华测导航",
+    "hudong": "沪东中华造船集团",
+    "huitian1": "回天新材",
+    "hwatsing1": "华海清科-2027",
+    "hynitron": "海栎创",
+    "hyxipower": "华昱欣",
+    "hzgnj": "菇娘家",
+    "hzncc": "华中数控",
+    "ikingtec": "云圣智能",
+    "ingin": "恩井智控",
+    "injet-instrument": "英杰晨晖官方",
+    "inm": "一鸣",
+    "innosilicon": "芯动科技",
+    "insight-med": "北芯生命",
+    "intellif": "云天励飞",
+    "intelligents": "中国航空无线电电子研究所",
+    "intsig": "合合信息",
+    "irayple": "华睿科技",
+    "irootech": "树根科技",
+    "istar-group": "智慧星空(上海)工程技术有限公司",
+    "iwhalecloud1": "浩鲸科技",
+    "jd-energy": "西安奇点能源股份有限公司",
+    "jdbchina": "加多宝（中国）饮料有限公司",
+    "jftech": "杰峰物联",
+    "jieshun": "捷顺科技",
+    "jifengseat": "继峰座椅",
+    "jinbei": "金杯电工股份有限公司",
+    "jingpai": "劲牌有限公司",
+    "jingxinpharm1": "浙江京新药业股份有限公司",
+    "jmgroup-o": "JM华中华东区",
+    "jnzhaopin": "江南造船（集团）有限责任公司",
+    "joeone": "九牧王股份有限公司",
+    "joinsilicon": "中茵微电子",
+    "jouav": "纵横股份",
+    "jsboth": "柏诚系统科技股份有限公司",
+    "jsgian": "精研科技",
+    "jssoft": "金山云",
+    "jtxzspace": "苏州吉天星舟空间技术有限公司",
+    "jusha": "巨鲨医疗",
+    "jxepdipowerchina": "电建江西院",
+    "jxrt": "建信融通",
+    "jzfz": "基准方中",
+    "kaijin2": "凯金",
+    "kaiquanhr": "凯泉",
+    "kangni": "南京康尼机电股份有限公司",
+    "kdgcsoft": "科大国创股份有限公司",
+    "kemen": "陈克明食品股份有限公司",
+    "kengic": "科捷智能",
+    "kewell": "科威尔",
+    "king-eagle": "晶易医药",
+    "kingmed": "广州金域医学检验中心有限公司",
+    "kjgb": "高标",
+    "kkguan": "KK集团",
+    "kniulink": "牛芯半导体企业",
+    "kunlunxin1": "昆仑芯",
+    "kwmcareer": "金杜",
+    "lcgljt": "绿城房地产建设管理集团有限公司",
+    "ldrobot": "乐动机器人",
+    "leapsightech": "LST",
+    "lecarc": "希奥端",
+    "leedarson": "立达信物联科技",
+    "leetx": "砺星工业科技",
+    "leoking": "朗坤科技",
+    "lgmg": "临工重机",
+    "lianheguangdian": "中山联合光电科技股份有限公司",
+    "linkhou": "灵猴机器人",
+    "linshimuye": "LINSY 林氏",
+    "lisen": "深圳市李森智能有限公司",
+    "liteon": "光寶新創校園招募",
+    "liyi99": "礼意久久",
+    "liyuanheng": "利元亨",
+    "lngzl": "广之旅",
+    "lockin": "鹿客科技",
+    "longsys": "江波龙",
+    "lopal": "龙蟠科技",
+    "lsjyzp": "湖北绿色家园材料技术股份有限公司",
+    "luxpowertek": "鹏城新能",
+    "luxshare-tech": "立讯技术",
+    "lxjchina1": "安徽老乡鸡餐饮有限公司",
+    "maxio-tech1": "联芸科技",
+    "medcaptain": "麦科田医疗",
+    "mediatek": "联发科技",
+    "megarobo": "镁伽",
+    "metapwr": "沛塬电子",
+    "microsatehr": "卫星创新院人才",
+    "milesight": "厦门星纵物联",
+    "mingshiim": "鸣石私募基金",
+    "minospace": "微纳星空",
+    "molchip": "眸芯",
+    "morningfast": "雷特科技",
+    "mornsun": "广州金升阳科技有限公司",
+    "mova": "MOVA",
+    "mthreads": "摩尔线程",
+    "myfund": "明毅私募基金管理有限公司",
+    "nationalchip": "国芯微nationalchip",
+    "nawaa": "南华期货",
+    "newland": "新大陆科技集团",
+    "newlandpayment": "新大陆支付技术",
+    "nexchip": "合肥晶合集成电路股份有限公司",
+    "ninestar": "纳思达",
+    "nlscan": "新大陆自动识别",
+    "noposion": "诺普信",
+    "nrec1": "博瑞电力",
+    "nwh": "电建西北院",
+    "nyocor": "金开新能",
+    "obiosh": "和元生物",
+    "oetsky": "格蓝若",
+    "olight": "傲雷集团",
+    "olo-home": "南京我乐家居股份有限公司",
+    "orienspace": "东方空间",
+    "orientcable": "东方电缆",
+    "oseasy": "噢易云",
+    "ovt-omnivision": "豪威科技（上海）有限公司",
+    "paratera": "并行集团",
+    "pcgpower": "碧澄能源",
+    "peninsulalaser": "半岛医疗",
+    "piotech": "拓荆科技",
+    "pmish-tech": "上海精测半导体",
+    "polyton": "普力通",
+    "porton": "博腾制药",
+    "pret": "普利特",
+    "pudutech": "普渡机器人",
+    "pxjydl1": "大连科苑同芳",
+    "qiaodantiyu": "中乔体育股份有限公司",
+    "qiaqiafood": "洽洽食品股份有限公司",
+    "qingmutec": "青木科技",
+    "qleltd1": "渠梁电子有限公司",
+    "qwkj": "齐物科技",
+    "rayhoo": "瑞鹄股份",
+    "raytrontek": "睿创微纳",
+    "realhom": "永业行",
+    "renfu": "人福医药",
+    "richsys1": "无锡理奇",
+    "rifengdz": "日丰",
+    "ringpu1": "瑞普生物股份有限公司",
+    "risun": "旭阳集团",
+    "riyue": "日月股份",
+    "robotphoenix": "翼菲科技",
+    "roe": "雷迪奥ROE",
+    "ronbay": "容百集团",
+    "ruiinsurance": "瑞众人寿保险有限责任公司",
+    "ruyifilm": "儒意电影",
+    "rwdls": "瑞沃德",
+    "ryytn": "认养一头牛驿站",
+    "sacavic": "沈阳飞机工业",
+    "safeglp": "赛赋医药",
+    "saicmaxus": "上汽大通汽车有限公司",
+    "sailuntire": "赛轮集团",
+    "sanhome": "南京圣和药业股份有限公司",
+    "sansec": "三未信安",
+    "sansurehr": "圣湘生物科技股份有限公司",
+    "satlpec": "卫星集团",
+    "scc": "深南电路",
+    "sddmsh": "东明石化",
+    "seif1": "赛夫集团",
+    "semi": "赛美特集团",
+    "senci": "神驰机电",
+    "servotronix": "苏州高创运动控制技术有限公司",
+    "sf-auto": "北京四方继保自动化股份有限公司",
+    "sfcc": "日出集团",
+    "sgm": "上汽通用汽车有限公司",
+    "sgssemi": "盛吉盛",
+    "shangraoyinhang": "上饶银行",
+    "shengquan": "圣泉集团",
+    "shenlan1": "深蓝航天",
+    "shining3d": "先临三维",
+    "shrcb": "上海农村商业银行股份有限公司",
+    "shsus": "康恒环境",
+    "sifary": "赛乐医疗",
+    "siglent": "鼎阳科技",
+    "siic": "上实集团",
+    "sinder": "信得科技",
+    "sinocera1": "国瓷材料",
+    "sjphotons1": "仕佳光子",
+    "sklinter": "宁波赛柯国际贸易有限公司",
+    "smbccn": "三井住友银行（中国）有限公司",
+    "smee": "上海微电子装备有限公司",
+    "snowman": "福建雪人集团股份有限公司",
+    "snowvalleyfood": "雪川农业集团",
+    "sosen": "深圳市崧盛电子股份有限公司",
+    "southsurvey": "南方测绘集团",
+    "spacestar": "航天恒星",
+    "sph": "上海医药人才",
+    "spicqyxdl": "上海启源芯动力科技有限公司",
+    "spinq": "量旋科技",
+    "sprixin": "国能日新",
+    "srhino": "石犀科技",
+    "ss-smartech": "深圳市尚水智能股份有限公司",
+    "stonkam": "广州敏视",
+    "streamax": "锐明技术",
+    "stronglaser": "东莞市盛雄激光先进装备股份有限公司",
+    "suna-opto": "苏纳SUNA",
+    "sunrui": "双瑞环境",
+    "sunseed": "希夕智能",
+    "swaysure": "昇维旭",
+    "syamt": "富创精密",
+    "szgas": "深圳燃气",
+    "szly": "联友科技",
+    "sznari": "长园深瑞继保自动化有限公司",
+    "t-ray": "天锐星通",
+    "taoliweilai": "桃李未来",
+    "tdhx": "天地和兴",
+    "techen": "青岛乾程科技股份有限公司",
+    "tengen": "天正电气",
+    "tetelaser": "泰德激光",
+    "tfcsz": "天孚通信",
+    "tgood": "特锐德",
+    "thupdi": "北京清华同衡规划设计研究院有限公司",
+    "tianjushi": "天俱时工程科技集团有限公司",
+    "tianyupharm": "浙江天宇药业股份有限公司",
+    "tigermed": "杭州泰格医药科技股份有限公司",
+    "tingchaoge": "听潮阁",
+    "tjaemc": "航空工业津电",
+    "tkgroup": "东江控股",
+    "treatgut": "承葛医药集团",
+    "tsinghua-eiri": "清华四川能源互联网研究院",
+    "tsingmicro": "清微智能",
+    "tuniu": "途牛旅游网",
+    "twsc": "深圳市德明利技术股份有限公司",
+    "tzcpa": "天职国际",
+    "ubtrobot": "优必选科技",
+    "ugreen": "绿联",
+    "uniconn": "壹连科技",
+    "unigroup-gt": "格创通信（浙江）有限公司",
+    "unilumin": "洲明科技",
+    "unisemipower": "芯合电子",
+    "unitree": "宇树科技",
+    "unix-group": "优理奇",
+    "urovo": "优博讯科技",
+    "vistar": "辰显光电",
+    "viva": "维亚",
+    "vmax": "威迈斯",
+    "wago": "WAGO万可",
+    "warrant": "华纳大药厂",
+    "wasionelectric": "惟远能源",
+    "wayeal": "皖仪科技人才",
+    "weimeizi": "薇美姿",
+    "wenergy1": "安徽省能源集团",
+    "whxmc": "新芯股份",
+    "wika": "威卡中国",
+    "winline": "深圳市永联科技股份有限公司",
+    "winnermedical": "稳健医疗",
+    "winninggroup": "韦立国际",
+    "wlzq": "万联",
+    "wmmp": "武汉船机",
+    "woanhome": "卧安机器人-",
+    "wuzheng1": "山东五征集团有限公司",
+    "xadzgc": "西安电子工程研究所",
+    "xchengtech": "祥承科技",
+    "xiamen-honglu": "厦门虹鹭",
+    "xiangyu": "厦门象屿集团有限公司",
+    "xinghanmaterials": "星翰材料",
+    "xingqudao": "兴趣岛",
+    "xinhecheng1": "浙江新和成股份有限公司",
+    "xinje": "信捷电气",
+    "xintianhuakai1": "心田花开",
+    "xmgdjt": "厦门轨道建设发展集团有限公司",
+    "xmzoda": "中达集团",
+    "xnjz": "中国建筑西南设计研究院有限公司",
+    "xtc-xny1": "厦钨新能源",
+    "xynovatech": "曦诺未来",
+    "yarbo": "汉阳科技",
+    "yasc": "长飞先进半导体",
+    "yat-pro": "亚特电器",
+    "yckjgf": "元琛科技",
+    "yealink": "亿联网络",
+    "yeastar": "星纵数字",
+    "yeestor": "得一微电子",
+    "yfdyf1": "益丰集团",
+    "yfy": "一飞院",
+    "yhwins2": "赢合科技",
+    "yiconcept": "衣臻时装有限公司",
+    "ymtc": "长江存储",
+    "ynsnjt": "神农集团",
+    "yofc2": "长飞光纤光缆股份有限公司",
+    "yonda1": "永达集团【新】",
+    "yongxinbj": "永芯科技",
+    "youibot1": "优艾智合",
+    "youshan": "友山科技",
+    "yunzhangfang": "云帐房",
+    "zbom": "志邦家居",
+    "zgky": "藏格矿业股份有限公司",
+    "zhcpa": "中汇会计师事务所（特殊普通合伙）",
+    "zhenshigroup": "振石控股集团有限公司",
+    "zhihuiya": "智慧芽信息科技（苏州）有限公司",
+    "zhmag": "正海磁材-",
+    "zhonghongpulin": "中红医疗",
+    "zhxcn": "中迅农科",
+    "znvhr1": "深圳力维智联技术有限公司",
+    "zrpgroup": "中荣股份2027届",
+    "zzpxx": "平行线教育",
+    "zztrp1": "时代新材",
+    "founderic": "深圳方正微电子",
+    "csvw": {
+      "name": "上汽大众",
+      "host": "https://csvw.zhiye.com",
+      "note": "multi-entrance recheck 2026-09-19: official Beisen tenant https://csvw.zhiye.com is public/server-rendered; social 9 postings live (campus/intern 0 at check time). foreign-universe '当期中国0条' was measured on the mobile host."
+    },
+    "spotlight": {
+      "name": "光束汽车",
+      "host": "https://spotlight.zhiye.com",
+      "categories": {
+        "4": "social"
+      },
+      "note": "multi-entrance recheck 2026-09-19: public Beisen tenant https://spotlight.zhiye.com. Official category 4 生产招聘 mapped to social so the strict adapter no longer blocks; measured 1 live row (Production Apprentice 生产实习操作工)."
+    }
+  },
+  "moka": {
+    "ey/166374": {
+      "name": "安永",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/ey/166374",
+        "https://app.mokahr.com/social-recruitment/ey/102474"
+      ],
+      "note": "multi-entrance recheck 2026-09-19: the official EY China careers page (www.ey.com/zh_cn/careers) links social hiring to social-recruitment/ey/102474 (221 live social rows), while the previous config only carried the campus tenant ey/166374 (8 live: 2 campus + 6 intern). Both are public Moka tenants and the adapter merges/dedups them."
+    },
+    "pwc/148260": "普华永道",
+    "kpmg/74356": {
+      "name": "毕马威",
+      "enabled": false,
+      "note": "duplicate-name parking (collector-next-4, 2026-09-19): 毕马威 is already registered by the older moka tenant kpmg/76195, which the daily run has been using; a second row cannot own the same REGISTRY slot. Kept on file so the tenant id is not lost. To switch, enable this row and disable kpmg/76195."
+    },
+    "colpal/28788": {
+      "name": "高露洁棕榄",
+      "sites": [
+        "https://app.mokahr.com/apply/colpal/28788"
+      ]
+    },
+    "ti/142216": "德州仪器",
+    "bayer/148388": "拜耳",
+    "tesla/41460": "特斯拉",
+    "vwa/142785": "大众汽车集团(CARIAD)",
+    "danone/170511": "达能",
+    "REDACTED": "达美乐中国",
+    "eaton/166618": {
+      "name": "伊顿",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/eaton/166618"
+      ]
+    },
+    "atlascopcogroup/150203": {
+      "name": "阿特拉斯科普柯",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/atlascopcogroup/150203"
+      ]
+    },
+    "dfmc/170464": {
+      "name": "神龙汽车",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/dfmc/170464"
+      ]
+    },
+    "37/58016": "三七互娱",
+    "wps/41436": {
+      "name": "金山办公",
+      "sites": [
+        "https://join.wps.cn/campus-recruitment/wps/41436",
+        "https://app.mokahr.com/social-recruitment/wps/3471"
+      ]
+    },
+    "hypergryph/26326": "鹰角网络",
+    "antahr/142914": "安踏集团",
+    "eebbk/37594": "小天才",
+    "paipaidai/168312": "信也科技",
+    "3irobotics/147137": {
+      "name": "杉川集团",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/3irobotics/147137"
+      ]
+    },
+    "3peakic/67894": {
+      "name": "思瑞浦",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/3peakic/67894"
+      ]
+    },
+    "688037/144533": {
+      "name": "芯源微",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/688037/144533"
+      ]
+    },
+    "accelink/139973": {
+      "name": "光迅科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/accelink/139973"
+      ]
+    },
+    "advantest/144999": {
+      "name": "爱德万测试",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/advantest/144999"
+      ]
+    },
+    "ahjy/168235": {
+      "name": "巨一科技",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/ahjy/168235",
+        "https://app.mokahr.com/campus-recruitment/ahjy/168235"
+      ]
+    },
+    "akmmv/45089": {
+      "name": "安捷利美维",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/akmmv/45089"
+      ]
+    },
+    "alpha2fund/151124": {
+      "name": "平方和投资",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/alpha2fund/151124"
+      ]
+    },
+    "amec/4362": {
+      "name": "中微公司",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/amec/4362"
+      ]
+    },
+    "anhuirohgzhirixin/73950": {
+      "name": "容知日新",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/anhuirohgzhirixin/73950"
+      ]
+    },
+    "anlogic/46366": {
+      "name": "安路科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/anlogic/46366"
+      ]
+    },
+    "anyka/147131": {
+      "name": "安凯微电子",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/anyka/147131"
+      ]
+    },
+    "REDACTED": {
+      "name": "安谋科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/REDACTED"
+      ]
+    },
+    "arraycomm/70372": {
+      "name": "爱瑞无线",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/arraycomm/70372"
+      ]
+    },
+    "ascenpower/166280": {
+      "name": "芯粤能半导体",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/ascenpower/166280"
+      ]
+    },
+    "asrmicro/71887": {
+      "name": "翱捷科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/asrmicro/71887"
+      ]
+    },
+    "REDACTED": {
+      "name": "阿斯利康中国",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/REDACTED"
+      ]
+    },
+    "astribot/144862": {
+      "name": "星尘智能",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/astribot/144862"
+      ]
+    },
+    "astronstone/168327": {
+      "name": "宇石空间",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/astronstone/168327"
+      ]
+    },
+    "baai/42174": {
+      "name": "智源研究院",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/baai/42174"
+      ]
+    },
+    "baorong/25901": {
+      "name": "保融科技",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/baorong/25901"
+      ]
+    },
+    "batf/144997": {
+      "name": "巴德富集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/batf/144997"
+      ]
+    },
+    "berrygenomics/24086": {
+      "name": "贝瑞基因",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/berrygenomics/24086"
+      ]
+    },
+    "bestcomm/43337": {
+      "name": "百诺医药",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/bestcomm/43337"
+      ]
+    },
+    "bestqi/45208": {
+      "name": "倍思奇",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/bestqi/45208"
+      ]
+    },
+    "bgyfw/47073": {
+      "name": "碧桂园服务",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/bgyfw/47073"
+      ]
+    },
+    "bigo/1018": {
+      "name": "BIGO",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/bigo/1018"
+      ]
+    },
+    "bjwgby/118127": {
+      "name": "微观博易",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/bjwgby/118127"
+      ]
+    },
+    "blackhills/76097": {
+      "name": "道远咨询",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/blackhills/76097"
+      ]
+    },
+    "blovelight/45215": {
+      "name": "蓝光智能",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/blovelight/45215"
+      ]
+    },
+    "bonditech/143553": {
+      "name": "邦戴数科",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/bonditech/143553"
+      ]
+    },
+    "bosch/151492": {
+      "name": "博世中国•智行学院",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/bosch/151492"
+      ]
+    },
+    "bosch/168626": {
+      "name": "博世中国",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/bosch/168626"
+      ]
+    },
+    "boseq/140969": {
+      "name": "玻色量子",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/boseq/140969"
+      ]
+    },
+    "bosssoft/68370": {
+      "name": "博思软件",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/bosssoft/68370"
+      ]
+    },
+    "botanee/95426": {
+      "name": "贝泰妮集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/botanee/95426"
+      ]
+    },
+    "brother/150716": {
+      "name": "兄弟科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/brother/150716"
+      ]
+    },
+    "bsfit/1076": {
+      "name": "邦盛科技",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/bsfit/1076"
+      ]
+    },
+    "caih/6773": {
+      "name": "中国东信",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/caih/6773"
+      ]
+    },
+    "calterah/1109": {
+      "name": "加特兰微电子",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/calterah/1109"
+      ]
+    },
+    "canmax/140246": {
+      "name": "天华新能",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/canmax/140246"
+      ]
+    },
+    "canrui/42687": {
+      "name": "灿瑞科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/canrui/42687"
+      ]
+    },
+    "REDACTED": {
+      "name": "嘉士伯中国",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/REDACTED"
+      ]
+    },
+    "catlhr/142020": {
+      "name": "时代上汽",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/catlhr/142020"
+      ]
+    },
+    "catlhr/182326": {
+      "name": "时代天源",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/catlhr/182326"
+      ]
+    },
+    "centuryfrontier/24842": {
+      "name": "世纪前沿",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/centuryfrontier/24842"
+      ]
+    },
+    "cetc30/36270": {
+      "name": "中国网安/三十所",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/cetc30/36270"
+      ]
+    },
+    "cetcles/40889": {
+      "name": "中国电科28所",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/cetcles/40889"
+      ]
+    },
+    "cggc/145102": {
+      "name": "中国能建葛洲坝集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/cggc/145102"
+      ]
+    },
+    "chaocanshu/45562": {
+      "name": "寅成智能",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/chaocanshu/45562"
+      ]
+    },
+    "cobetterfilter/141059": {
+      "name": "科百特",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/cobetterfilter/141059"
+      ]
+    },
+    "cpicproperty/150956": {
+      "name": "太平洋产险安徽分公司",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/cpicproperty/150956"
+      ]
+    },
+    "cwisemicro/182011": {
+      "name": "芯慧微",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/cwisemicro/182011"
+      ]
+    },
+    "cxtwh/54032": {
+      "name": "武汉楚兴技术有限公司",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/cxtwh/54032"
+      ]
+    },
+    "cyagen/100175": {
+      "name": "赛业生物",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/cyagen/100175"
+      ]
+    },
+    "dameng/170579": {
+      "name": "达梦数据",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/dameng/170579"
+      ]
+    },
+    "dapustor/54046": {
+      "name": "DapuStor大普微",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/dapustor/54046"
+      ]
+    },
+    "dekangmuye/151636": {
+      "name": "德康集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/dekangmuye/151636"
+      ]
+    },
+    "dexforce/149228": {
+      "name": "跨维智能",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/dexforce/149228"
+      ]
+    },
+    "dfmc/164438": {
+      "name": "东风汽车集团有限公司",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/dfmc/164438"
+      ]
+    },
+    "dfmc/164558": {
+      "name": "智新科技股份有限公司",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/dfmc/164558"
+      ]
+    },
+    "dfmc/168424": {
+      "name": "东风汽车研发总院",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/dfmc/168424"
+      ]
+    },
+    "dfmc/168535": {
+      "name": "东风汽车-猛士汽车",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/dfmc/168535"
+      ]
+    },
+    "dianzhong/28122": {
+      "name": "点众科技",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/dianzhong/28122"
+      ]
+    },
+    "dicastal/140651": {
+      "name": "中信戴卡",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/dicastal/140651"
+      ]
+    },
+    "dkjc/142338": {
+      "name": "燕东微",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/dkjc/142338"
+      ]
+    },
+    "dolphindb/101962": {
+      "name": "DolphinDB",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/dolphindb/101962"
+      ]
+    },
+    "duowei/142740": {
+      "name": "多维联合集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/duowei/142740"
+      ]
+    },
+    "easpring/102152": {
+      "name": "当升科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/easpring/102152"
+      ]
+    },
+    "enflame/168420": {
+      "name": "燧原科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/enflame/168420"
+      ]
+    },
+    "enmotech/47098": {
+      "name": "云和恩墨",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/enmotech/47098"
+      ]
+    },
+    "eqhr/39786": {
+      "name": "易控智驾",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/eqhr/39786"
+      ]
+    },
+    "etek/170559": {
+      "name": "力芯微电子",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/etek/170559"
+      ]
+    },
+    "evtech/47503": {
+      "name": "富特科技",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/evtech/47503"
+      ]
+    },
+    "fabu/56114": {
+      "name": "飞步科技",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/fabu/56114"
+      ]
+    },
+    "fairlandgroup/75892": {
+      "name": "菲亚兰德集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/fairlandgroup/75892"
+      ]
+    },
+    "REDACTED": {
+      "name": "佛吉亚",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/REDACTED"
+      ]
+    },
+    "feiyu/142123": {
+      "name": "飞鱼科技",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/feiyu/142123",
+        "https://app.mokahr.com/campus-recruitment/feiyu/142123"
+      ]
+    },
+    "fftai/147078": {
+      "name": "傅利叶",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/fftai/147078"
+      ]
+    },
+    "fjdynamics/70012": {
+      "name": "丰疆智能",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/fjdynamics/70012"
+      ]
+    },
+    "fjlm/128157": {
+      "name": "福龙马集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/fjlm/128157"
+      ]
+    },
+    "flashhold/40527": {
+      "name": "快仓机器人",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/flashhold/40527"
+      ]
+    },
+    "fmsh/172387": {
+      "name": "复旦微电子集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/fmsh/172387"
+      ]
+    },
+    "ford/43706": {
+      "name": "福特中国",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/ford/43706"
+      ]
+    },
+    "fosunwealth/146703": {
+      "name": "复星财富控股",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/fosunwealth/146703"
+      ]
+    },
+    "galasports/98034": {
+      "name": "望尘科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/galasports/98034"
+      ]
+    },
+    "REDACTED": {
+      "name": "Garena",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/REDACTED"
+      ]
+    },
+    "REDACTED": {
+      "name": "极智嘉",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/REDACTED"
+      ]
+    },
+    "geely/94419": {
+      "name": "沃飞长空",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/geely/94419"
+      ]
+    },
+    "gehc/142250": {
+      "name": "GE医疗",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/gehc/142250"
+      ]
+    },
+    "genwealth/142156": {
+      "name": "华钧广汇",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/genwealth/142156"
+      ]
+    },
+    "giga-da/26752": {
+      "name": "鸿芯微纳",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/giga-da/26752"
+      ]
+    },
+    "gigadevice/92215": {
+      "name": "兆易创新",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/gigadevice/92215"
+      ]
+    },
+    "giikin/94708": {
+      "name": "吉客印",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/giikin/94708"
+      ]
+    },
+    "grgbanking/39448": {
+      "name": "广电运通集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/grgbanking/39448"
+      ]
+    },
+    "gshm/172184": {
+      "name": "格兰云天",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/gshm/172184"
+      ]
+    },
+    "gtjaqh/136276": {
+      "name": "国泰君安期货",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/gtjaqh/136276"
+      ]
+    },
+    "guming/39377": {
+      "name": "古茗茶饮",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/guming/39377"
+      ]
+    },
+    "haiyi/150699": {
+      "name": "海艺互娱",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/haiyi/150699"
+      ]
+    },
+    "handetouzi/46040": {
+      "name": "涵德投资",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/handetouzi/46040"
+      ]
+    },
+    "hanslaser/46383": {
+      "name": "大族激光",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/hanslaser/46383"
+      ]
+    },
+    "hdzn/151324": {
+      "name": "中科光电",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/hdzn/151324",
+        "https://app.mokahr.com/campus-recruitment/hdzn/151324"
+      ]
+    },
+    "heibaidiao/54126": {
+      "name": "黑白调集团",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/heibaidiao/54126"
+      ]
+    },
+    "het0000001/142804": {
+      "name": "和而泰",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/het0000001/142804",
+        "https://app.mokahr.com/campus-recruitment/het0000001/142804"
+      ]
+    },
+    "hfsp/37149": {
+      "name": "禾丰股份",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/hfsp/37149"
+      ]
+    },
+    "hjmicro/54317": {
+      "name": "鸿钧微电子",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/hjmicro/54317"
+      ]
+    },
+    "hkgyxxzx/148787": {
+      "name": "中国航空工业发展研究中心",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/hkgyxxzx/148787"
+      ]
+    },
+    "hnjxkjgf/168579": {
+      "name": "进芯科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/hnjxkjgf/168579"
+      ]
+    },
+    "honganrobots/150155": {
+      "name": "厨芯科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/honganrobots/150155"
+      ]
+    },
+    "hoymiles/70377": {
+      "name": "禾迈股份",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/hoymiles/70377"
+      ]
+    },
+    "hq/101896": {
+      "name": "华勤技术",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/hq/101896"
+      ]
+    },
+    "huahong/70000": {
+      "name": "上海华力",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/huahong/70000"
+      ]
+    },
+    "huahong/74036": {
+      "name": "华虹宏力",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/huahong/74036"
+      ]
+    },
+    "huahong/78009": {
+      "name": "华虹集团",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/huahong/78009"
+      ]
+    },
+    "huntkey/172055": {
+      "name": "航嘉集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/huntkey/172055"
+      ]
+    },
+    "huya/4112": {
+      "name": "虎牙",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/huya/4112"
+      ]
+    },
+    "hygon/169939": {
+      "name": "海光信息",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/hygon/169939"
+      ]
+    },
+    "REDACTED": {
+      "name": "海能达",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/REDACTED"
+      ]
+    },
+    "icrd/126587": {
+      "name": "ICRD上海集成电路研发中心",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/icrd/126587"
+      ]
+    },
+    "immomo/54299": {
+      "name": "挚文集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/immomo/54299"
+      ]
+    },
+    "imtebon/74049": {
+      "name": "德邦证券",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/imtebon/74049"
+      ]
+    },
+    "inforeenviro/182015": {
+      "name": "盈峰环境",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/inforeenviro/182015"
+      ]
+    },
+    "innoam/142310": {
+      "name": "因诺资产",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/innoam/142310"
+      ]
+    },
+    "isaber/187877": {
+      "name": "青禾晶元",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/isaber/187877"
+      ]
+    },
+    "ismartware/69961": {
+      "name": "智融科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/ismartware/69961"
+      ]
+    },
+    "isv-tech/170471": {
+      "name": "易思维",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/isv-tech/170471"
+      ]
+    },
+    "ixmetals/182262": {
+      "name": "IXM埃珂森",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/ixmetals/182262"
+      ]
+    },
+    "jianke-fangzhou/44310": {
+      "name": "方舟健客",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/jianke-fangzhou/44310"
+      ]
+    },
+    "jianshankeji/100134": {
+      "name": "见山科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/jianshankeji/100134"
+      ]
+    },
+    "jingling/125951": {
+      "name": "鲸灵",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/jingling/125951"
+      ]
+    },
+    "jingtai/2143": {
+      "name": "晶泰科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/jingtai/2143"
+      ]
+    },
+    "jingwang/170520": {
+      "name": "景旺电子",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/jingwang/170520"
+      ]
+    },
+    "jingweirunke/170057": {
+      "name": "北京润科",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/jingweirunke/170057"
+      ]
+    },
+    "jiuzhoupharma/74059": {
+      "name": "九洲药业",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/jiuzhoupharma/74059"
+      ]
+    },
+    "jjw/143541": {
+      "name": "景嘉微",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/jjw/143541"
+      ]
+    },
+    "jnby/94912": {
+      "name": "江南布衣",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/jnby/94912"
+      ]
+    },
+    "jomoo/142937": {
+      "name": "九牧集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/jomoo/142937"
+      ]
+    },
+    "joymedia/7674": {
+      "name": "无忧传媒",
+      "sites": [
+        "https://app.mokahr.com/m/campus_apply/joymedia/7674"
+      ]
+    },
+    "joyson/94311": {
+      "name": "均胜",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/joyson/94311"
+      ]
+    },
+    "joyson/94374": {
+      "name": "均胜安全",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/joyson/94374"
+      ]
+    },
+    "jsjd/118048": {
+      "name": "晶盛机电",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/jsjd/118048"
+      ]
+    },
+    "jsti/144121": {
+      "name": "苏交科",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/jsti/144121"
+      ]
+    },
+    "jxw/166492": {
+      "name": "聚芯微电子",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/jxw/166492"
+      ]
+    },
+    "kedachina/78371": {
+      "name": "科达制造",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/kedachina/78371"
+      ]
+    },
+    "kehua/92510": {
+      "name": "科华集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/kehua/92510"
+      ]
+    },
+    "kingagroot/56082": {
+      "name": "清原农冠",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/kingagroot/56082"
+      ]
+    },
+    "kingbase/47259": {
+      "name": "电科金仓",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/kingbase/47259"
+      ]
+    },
+    "kpmg/76195": {
+      "name": "毕马威",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/kpmg/76195"
+      ]
+    },
+    "kuka/172508": {
+      "name": "顾家家居",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/kuka/172508"
+      ]
+    },
+    "leagsoft/44599": {
+      "name": "联软科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/leagsoft/44599"
+      ]
+    },
+    "leisai/146886": {
+      "name": "雷赛智能",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/leisai/146886"
+      ]
+    },
+    "lesso/70303": {
+      "name": "中国联塑集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/lesso/70303"
+      ]
+    },
+    "leyuansu/2357": {
+      "name": "乐元素SH工作室",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/leyuansu/2357"
+      ]
+    },
+    "lingshi/144566": {
+      "name": "有道领世",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/lingshi/144566"
+      ]
+    },
+    "lingyiitech/172618": {
+      "name": "立敏达科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/lingyiitech/172618"
+      ]
+    },
+    "lingyiitech/182049": {
+      "name": "领益智造",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/lingyiitech/182049"
+      ]
+    },
+    "longcheer/166561": {
+      "name": "龙旗科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/longcheer/166561"
+      ]
+    },
+    "lowpowersemi/168412": {
+      "name": "微源半导体",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/lowpowersemi/168412"
+      ]
+    },
+    "lusterinc/44882": {
+      "name": "凌云光",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/lusterinc/44882"
+      ]
+    },
+    "lygend/72100": {
+      "name": "力勤资源",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/lygend/72100"
+      ]
+    },
+    "manon/94861": {
+      "name": "曼伦",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/manon/94861"
+      ]
+    },
+    "mbcloud/150116": {
+      "name": "招银云创",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/mbcloud/150116"
+      ]
+    },
+    "meidegroup/142830": {
+      "name": "玫德集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/meidegroup/142830"
+      ]
+    },
+    "memsensing/45045": {
+      "name": "敏芯股份",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/memsensing/45045"
+      ]
+    },
+    "messer/92849": {
+      "name": "梅塞尔中国",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/messer/92849"
+      ]
+    },
+    "metax-tech/58131": {
+      "name": "沐曦股份",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/metax-tech/58131"
+      ]
+    },
+    "mingyuan/168644": {
+      "name": "明源云",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/mingyuan/168644"
+      ]
+    },
+    "minieye/118571": {
+      "name": "佑驾创新",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/minieye/118571"
+      ]
+    },
+    "molimediagrouphr/171878": {
+      "name": "茉莉数科集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/molimediagrouphr/171878"
+      ]
+    },
+    "muyuan/145076": {
+      "name": "牧原",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/muyuan/145076"
+      ]
+    },
+    "nanfu/39842": {
+      "name": "南孚集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/nanfu/39842"
+      ]
+    },
+    "nbdeli/70019": {
+      "name": "得力集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/nbdeli/70019"
+      ]
+    },
+    "newgrand/151701": {
+      "name": "新中大科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/newgrand/151701"
+      ]
+    },
+    "newvisionox/24735": {
+      "name": "维信诺",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/newvisionox/24735"
+      ]
+    },
+    "niimbot/45368": {
+      "name": "精臣",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/niimbot/45368"
+      ]
+    },
+    "ninebot/45627": {
+      "name": "九号公司",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/ninebot/45627"
+      ]
+    },
+    "novasky/146544": {
+      "name": "华诺星空",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/novasky/146544"
+      ]
+    },
+    "novatek/182224": {
+      "name": "联咏科技",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/novatek/182224"
+      ]
+    },
+    "nsfocus/29118": {
+      "name": "绿盟科技",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/nsfocus/29118"
+      ]
+    },
+    "nuvoltatech/29077": {
+      "name": "伏达半导体",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/nuvoltatech/29077"
+      ]
+    },
+    "nvidia/47111": {
+      "name": "NVIDIA英伟达",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/nvidia/47111"
+      ]
+    },
+    "onlyedu/144926": {
+      "name": "昂立教育",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/onlyedu/144926"
+      ]
+    },
+    "openloong/164448": {
+      "name": "人形机器人",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/openloong/164448"
+      ]
+    },
+    "REDACTED": {
+      "name": "松下集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/REDACTED"
+      ]
+    },
+    "peacebird-women/172603": {
+      "name": "太平鸟",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/peacebird-women/172603"
+      ]
+    },
+    "peets/118888": {
+      "name": "Peet's皮爷咖啡",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/peets/118888"
+      ]
+    },
+    "phlexing/100123": {
+      "name": "行芯科技",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/phlexing/100123"
+      ]
+    },
+    "phoenixcontact/172581": {
+      "name": "菲尼克斯电气",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/phoenixcontact/172581"
+      ]
+    },
+    "pinsmedical/2726": {
+      "name": "品驰医疗",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/pinsmedical/2726"
+      ]
+    },
+    "REDACTED": {
+      "name": "奇瑞捷豹路虎-FREELANDER神行者",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/REDACTED"
+      ]
+    },
+    "qunhemail/2832": {
+      "name": "群核科技",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/qunhemail/2832"
+      ]
+    },
+    "raynen/115955": {
+      "name": "睿能科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/raynen/115955"
+      ]
+    },
+    "rjzn/144501": {
+      "name": "仁洁智能科技有限公司",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/rjzn/144501"
+      ]
+    },
+    "ruien/140574": {
+      "name": "睿恩新能源",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/ruien/140574"
+      ]
+    },
+    "ruijie/136206": {
+      "name": "锐捷网络",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/ruijie/136206"
+      ]
+    },
+    "ruili/43376": {
+      "name": "睿励",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/ruili/43376"
+      ]
+    },
+    "sanfu/46833": {
+      "name": "三福",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/sanfu/46833"
+      ]
+    },
+    "sangfor/27944": {
+      "name": "深信服",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/sangfor/27944",
+        "https://app.mokahr.com/campus_apply/sangfor/27944"
+      ]
+    },
+    "scania/168376": {
+      "name": "斯堪尼亚",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/scania/168376"
+      ]
+    },
+    "seichitech/140888": {
+      "name": "精智达",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/seichitech/140888"
+      ]
+    },
+    "semidrive/42941": {
+      "name": "芯驰科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/semidrive/42941"
+      ]
+    },
+    "semitronix/140043": {
+      "name": "广立微",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/semitronix/140043",
+        "https://app.mokahr.com/campus-recruitment/semitronix/140043"
+      ]
+    },
+    "sente/151238": {
+      "name": "森特股份",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/sente/151238"
+      ]
+    },
+    "sgs/74104": {
+      "name": "SGS",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/sgs/74104",
+        "https://app.mokahr.com/campus-recruitment/sgs/74104"
+      ]
+    },
+    "shanshu/57987": {
+      "name": "杉数科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/shanshu/57987"
+      ]
+    },
+    "shengqu/96336": {
+      "name": "盛趣游戏",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/shengqu/96336"
+      ]
+    },
+    "shenling/164368": {
+      "name": "申菱环境",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/shenling/164368"
+      ]
+    },
+    "shichuangyi/172086": {
+      "name": "时创意",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/shichuangyi/172086"
+      ]
+    },
+    "shinry/172541": {
+      "name": "欣锐科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/shinry/172541"
+      ]
+    },
+    "shopee/170008": {
+      "name": "Shopee（AI Star Program 顶尖技术人）",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/shopee/170008"
+      ]
+    },
+    "shopee/170435": {
+      "name": "Sea",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/shopee/170435"
+      ]
+    },
+    "shopee/2962": {
+      "name": "Monee",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/shopee/2962"
+      ]
+    },
+    "shuhua/68312": {
+      "name": "舒华体育",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/shuhua/68312"
+      ]
+    },
+    "shuixing/68039": {
+      "name": "水星家纺",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/shuixing/68039"
+      ]
+    },
+    "sicc/140187": {
+      "name": "天岳先进",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/sicc/140187"
+      ]
+    },
+    "sinexcel/74287": {
+      "name": "盛弘股份",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/sinexcel/74287",
+        "https://app.mokahr.com/campus_apply/sinexcel/74287"
+      ]
+    },
+    "sirio/166467": {
+      "name": "仙乐健康",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/sirio/166467"
+      ]
+    },
+    "sjsemi/144842": {
+      "name": "盛合晶微",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/sjsemi/144842"
+      ]
+    },
+    "smartcitysz/95466": {
+      "name": "深智城集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/smartcitysz/95466"
+      ]
+    },
+    "smartmore/40506": {
+      "name": "思谋科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/smartmore/40506"
+      ]
+    },
+    "smoore/150918": {
+      "name": "思摩尔国际",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/smoore/150918"
+      ]
+    },
+    "snto/100022": {
+      "name": "晟通集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/snto/100022"
+      ]
+    },
+    "sohu/28313": {
+      "name": "搜狐",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/sohu/28313"
+      ]
+    },
+    "solaxpower/151401": {
+      "name": "艾罗能源",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/solaxpower/151401"
+      ]
+    },
+    "REDACTED": {
+      "name": "开立医疗",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/REDACTED"
+      ]
+    },
+    "step/141903": {
+      "name": "阶跃星辰",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/step/141903"
+      ]
+    },
+    "sto/126265": {
+      "name": "申通快递",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/sto/126265"
+      ]
+    },
+    "sunlord/172521": {
+      "name": "顺络电子",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/sunlord/172521"
+      ]
+    },
+    "sunnyoptical/146167": {
+      "name": "舜宇-校园大使",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/sunnyoptical/146167"
+      ]
+    },
+    "sunnyoptical/45602": {
+      "name": "舜宇集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/sunnyoptical/45602"
+      ]
+    },
+    "sunyard/43203": {
+      "name": "信雅达",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/sunyard/43203"
+      ]
+    },
+    "swhysc-job/166086": {
+      "name": "申万宏源证券分支机构",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/swhysc-job/166086"
+      ]
+    },
+    "swy/172554": {
+      "name": "中国十五冶",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/swy/172554"
+      ]
+    },
+    "synland/43559": {
+      "name": "时代新安",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/synland/43559"
+      ]
+    },
+    "syntegon/42656": {
+      "name": "星德科",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/syntegon/42656"
+      ]
+    },
+    "tec-do/41717": {
+      "name": "钛动科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/tec-do/41717"
+      ]
+    },
+    "tengden/164567": {
+      "name": "腾盾科创",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/tengden/164567"
+      ]
+    },
+    "thfund/46219": {
+      "name": "天弘基金",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/thfund/46219"
+      ]
+    },
+    "threatbook/39679": {
+      "name": "微步在线",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/threatbook/39679"
+      ]
+    },
+    "REDACTED": {
+      "name": "天虹数科",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/REDACTED"
+      ]
+    },
+    "tianma/170490": {
+      "name": "天马微电子",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/tianma/170490"
+      ]
+    },
+    "tianyancapital/98902": {
+      "name": "天演资本",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/tianyancapital/98902"
+      ]
+    },
+    "tjsports/142880": {
+      "name": "腾竞体育",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/tjsports/142880"
+      ]
+    },
+    "totopcreatives/102100": {
+      "name": "途拓",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/totopcreatives/102100"
+      ]
+    },
+    "transwarp/3196": {
+      "name": "星环科技",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/transwarp/3196"
+      ]
+    },
+    "tsinghuaic/39656": {
+      "name": "紫光同芯",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/tsinghuaic/39656"
+      ]
+    },
+    "ubiquantrecruit/37031": {
+      "name": "九坤投资",
+      "sites": [
+        "https://app.mokahr.com/m/campus_apply/ubiquantrecruit/37031",
+        "https://app.mokahr.com/campus-recruitment/ubiquantrecruit/37031"
+      ]
+    },
+    "uwant/149092": {
+      "name": "UWANT友望",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/uwant/149092"
+      ]
+    },
+    "vanchip/47239": {
+      "name": "唯捷创芯",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/vanchip/47239"
+      ]
+    },
+    "vanke/147055": {
+      "name": "万物云",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/vanke/147055"
+      ]
+    },
+    "vertiv/118713": {
+      "name": "维谛技术(Vertiv)",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/vertiv/118713"
+      ]
+    },
+    "vipshophr/10039": {
+      "name": "唯品会",
+      "sites": [
+        "https://app-tc.mokahr.com/campus-recruitment/vipshophr/10039"
+      ]
+    },
+    "visinextek/41636": {
+      "name": "为旌科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/visinextek/41636"
+      ]
+    },
+    "REDACTED": {
+      "name": "沃尔沃汽车",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/REDACTED"
+      ]
+    },
+    "vwa/168597": {
+      "name": "大众汽车集团（中国）",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/vwa/168597"
+      ]
+    },
+    "wandacm/164049": {
+      "name": "新达盟-珠海万达商管|银翼投资",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/wandacm/164049"
+      ]
+    },
+    "wedobest/46167": {
+      "name": "多比特信息",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/wedobest/46167"
+      ]
+    },
+    "weilaiyishou/145029": {
+      "name": "未来一手",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/weilaiyishou/145029"
+      ]
+    },
+    "wens/92366": {
+      "name": "温氏股份",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/wens/92366"
+      ]
+    },
+    "whfhtx/73922": {
+      "name": "烽火通信",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/whfhtx/73922"
+      ]
+    },
+    "wt/182139": {
+      "name": "微泰医疗",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/wt/182139"
+      ]
+    },
+    "wuji/145173": {
+      "name": "舞肌科技",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/wuji/145173"
+      ]
+    },
+    "wuxixdc/164236": {
+      "name": "药明合联",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/wuxixdc/164236"
+      ]
+    },
+    "wxautowell/45558": {
+      "name": "奥特维集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/wxautowell/45558"
+      ]
+    },
+    "wynca/118027": {
+      "name": "传化智联",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/wynca/118027"
+      ]
+    },
+    "wynca/141115": {
+      "name": "传化集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/wynca/141115"
+      ]
+    },
+    "xingbang/67958": {
+      "name": "星邦智能",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/xingbang/67958"
+      ]
+    },
+    "xinhee/168514": {
+      "name": "欣贺股份",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/xinhee/168514"
+      ]
+    },
+    "xiwang/146380": {
+      "name": "希望学",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/xiwang/146380"
+      ]
+    },
+    "xquant/45053": {
+      "name": "衡泰技术",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/xquant/45053"
+      ]
+    },
+    "xunlei/26600": {
+      "name": "迅雷X-PEP产品星计划",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/xunlei/26600"
+      ]
+    },
+    "yadea/26985": {
+      "name": "天津雅迪",
+      "sites": [
+        "https://app.mokahr.com/m/campus_apply/yadea/26985",
+        "https://app.mokahr.com/campus-recruitment/yadea/26985"
+      ]
+    },
+    "yanfeng/45086": {
+      "name": "延锋",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/yanfeng/45086"
+      ]
+    },
+    "yanhun/24017": {
+      "name": "杭州炎魂网络",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/yanhun/24017"
+      ]
+    },
+    "yeswood/142521": {
+      "name": "源氏木语",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/yeswood/142521"
+      ]
+    },
+    "yhfund/143004": {
+      "name": "银华基金",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/yhfund/143004"
+      ]
+    },
+    "yinhetongyong/165930": {
+      "name": "银河通用机器人",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/yinhetongyong/165930"
+      ]
+    },
+    "yinlun/128571": {
+      "name": "银轮股份",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/yinlun/128571"
+      ]
+    },
+    "ylhdc/95551": {
+      "name": "雅砻江水电",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/ylhdc/95551"
+      ]
+    },
+    "youngy/166533": {
+      "name": "融捷能源",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/youngy/166533"
+      ]
+    },
+    "ypgj/164305": {
+      "name": "姚品国际",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/ypgj/164305"
+      ]
+    },
+    "yuchai/140075": {
+      "name": "玉柴集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/yuchai/140075"
+      ]
+    },
+    "yunhonggroup/140309": {
+      "name": "阿吉豆",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/yunhonggroup/140309"
+      ]
+    },
+    "yusen/73956": {
+      "name": "日邮物流",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/yusen/73956"
+      ]
+    },
+    "yushi/3773": {
+      "name": "驭势科技",
+      "sites": [
+        "https://app.mokahr.com/campus_apply/yushi/3773"
+      ]
+    },
+    "yutong/172567": {
+      "name": "宇通集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/yutong/172567"
+      ]
+    },
+    "yxws/168223": {
+      "name": "德佑",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/yxws/168223"
+      ]
+    },
+    "zczl/172433": {
+      "name": "中创智领集团",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/zczl/172433"
+      ]
+    },
+    "zding/117879": {
+      "name": "正定私募",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/zding/117879"
+      ]
+    },
+    "zhlx/146852": {
+      "name": "中环领先半导体",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/zhlx/146852"
+      ]
+    },
+    "zhongan/148589": {
+      "name": "众安",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/zhongan/148589"
+      ]
+    },
+    "zhongan/71908": {
+      "name": "众安保险",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/zhongan/71908"
+      ]
+    },
+    "zijinmining/117957": {
+      "name": "紫金矿业",
+      "sites": [
+        "https://app.mokahr.com/m/campus-recruitment/zijinmining/117957"
+      ]
+    },
+    "zijinmining/166497": {
+      "name": "紫金矿业-校园大使",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/zijinmining/166497"
+      ]
+    },
+    "zkxx/182327": {
+      "name": "中控信息",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/zkxx/182327"
+      ]
+    },
+    "zlongame/140110": {
+      "name": "紫龙游戏",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/zlongame/140110"
+      ]
+    },
+    "zphz/148984": {
+      "name": "智谱",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/zphz/148984"
+      ]
+    },
+    "zsquant/36544": {
+      "name": "卓识基金",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/zsquant/36544"
+      ]
+    },
+    "REDACTED": "溢达",
+    "ti/143986": "德州仪器-补招专场",
+    "REDACTED": "嘉实基金",
+    "wuxibiologics/98698": "药明生物",
+    "hfc-foods/102201": {
+      "name": "荷美尔",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/hfc-foods/102201"
+      ]
+    },
+    "santen/99365": {
+      "name": "参天制药",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/santen/99365"
+      ]
+    },
+    "chiesi/99166": {
+      "name": "凯西医药",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/chiesi/99166"
+      ]
+    },
+    "comau/98393": {
+      "name": "柯马",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/comau/98393"
+      ]
+    },
+    "desouttertools/126040": {
+      "name": "马头动力工具",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/desouttertools/126040"
+      ]
+    },
+    "glico/102428": {
+      "name": "格力高",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/glico/102428"
+      ]
+    },
+    "nexteer/72403": {
+      "name": "耐世特",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/nexteer/72403"
+      ]
+    },
+    "ef/94566": {
+      "name": "EF英孚教育",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/ef/94566"
+      ]
+    },
+    "REDACTED": {
+      "name": "道达尔能源",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/REDACTED"
+      ]
+    },
+    "nestlezgc/91899": {
+      "name": "雀巢",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/nestlezgc/91899",
+        "https://app.mokahr.com/social-recruitment/nestlezgc/91898",
+        "https://app.mokahr.com/social-recruitment/nestlezgc/124026"
+      ],
+      "note": "multi-entrance recheck 2026-09-19: the official China campus site stg.nestlecareers.cn (Drupal) links campus/intern to campus-recruitment/nestlezgc/91899 (68 live: 55 campus + 13 intern) and social to social-recruitment/nestlezgc/91898 (225 live: 218 social + 7 intern). The station chief also verified social-recruitment/nestlezgc/124026 (50 live social). All three are public Moka tenants; the adapter merges them and dedups by posting id. Replaces the earlier 'enabled:false / WeChat OAuth only' conclusion, which was based only on the wxtemp tenant nestle.tupu360.com."
+    },
+    "bshg/140686": {
+      "name": "博西家电",
+      "sites": [
+        "https://app.mokahr.com/social-recruitment/bshg/140686"
+      ],
+      "note": "multi-entrance recheck 2026-09-19: campus-recruitment URL 404s, but public social-recruitment/bshg/140686 carries 58 live rows all tagged commitment=实习 (intern)."
+    },
+    "ubr/117987": {
+      "name": "北京环球度假区",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/ubr/117987"
+      ],
+      "note": "multi-entrance recheck 2026-09-19: public Moka campus tenant carries 5 live internship-tagged rows (e.g. 入园管理营收运营运营员)."
+    },
+    "aviagesystems/144382": {
+      "name": "昂际航电",
+      "sites": [
+        "https://app.mokahr.com/campus-recruitment/aviagesystems/144382"
+      ],
+      "note": "multi-entrance recheck 2026-09-19: public Moka campus tenant carries 18 live intern-tagged rows (e.g. Flight Control Algorithm Engineer Intern, HR Intern)."
+    }
+  },
+  "feishu": {
+    "arashivision": {
+      "name": "影石Insta360",
+      "sites": [
+        {
+          "url": "https://arashivision.jobs.feishu.cn/campus/position/list",
+          "tenant_names": [
+            "影石创新科技股份有限公司"
+          ],
+          "portal_type": 6
+        },
+        {
+          "url": "https://arashivision.jobs.feishu.cn/social/position/list",
+          "tenant_names": [
+            "影石创新科技股份有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "lilithgames": {
+      "name": "莉莉丝游戏",
+      "sites": [
+        {
+          "url": "https://lilithgames.jobs.feishu.cn/campus/position/list",
+          "tenant_names": [
+            "莉莉丝"
+          ],
+          "portal_type": 6
+        },
+        {
+          "url": "https://lilithgames.jobs.feishu.cn/career/position/list",
+          "tenant_names": [
+            "莉莉丝"
+          ],
+          "portal_type": 6
+        },
+        {
+          "url": "https://lilithgames.jobs.feishu.cn/intern/position/list",
+          "tenant_names": [
+            "莉莉丝"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "xiaopeng": {
+      "name": "小鹏汽车",
+      "sites": [
+        {
+          "url": "https://xiaopeng.jobs.feishu.cn/campus",
+          "tenant_names": [
+            "小鹏集团"
+          ],
+          "portal_type": 6
+        },
+        {
+          "url": "https://xiaopeng.jobs.feishu.cn/index",
+          "tenant_names": [
+            "小鹏集团"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "nio": {
+      "name": "蔚来汽车",
+      "sites": [
+        {
+          "url": "https://nio.jobs.feishu.cn/campus",
+          "tenant_names": [
+            "NIO"
+          ],
+          "portal_type": 6
+        },
+        {
+          "url": "https://nio.jobs.feishu.cn/intern",
+          "tenant_names": [
+            "NIO"
+          ],
+          "portal_type": 6
+        },
+        {
+          "url": "https://nio.jobs.feishu.cn/index",
+          "tenant_names": [
+            "NIO"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "papergames": {
+      "name": "叠纸游戏",
+      "sites": [
+        {
+          "url": "https://career.papegames.com/campus/position/list",
+          "tenant_names": [
+            "Papergames"
+          ],
+          "portal_type": 6
+        },
+        {
+          "url": "https://career.papegames.com/social/position/list",
+          "tenant_names": [
+            "Papergames"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "sensetime": {
+      "name": "商汤科技",
+      "sites": [
+        {
+          "url": "https://hr-jobs.sensetime.com/exp/position/list",
+          "tenant_names": [
+            "商汤科技"
+          ],
+          "portal_type": 6
+        },
+        {
+          "url": "https://hr-jobs.sensetime.com/edu/",
+          "tenant_names": [
+            "商汤科技"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "thundersoft": {
+      "name": "中科创达",
+      "sites": [
+        {
+          "url": "https://thundersoft.jobs.feishu.cn/campus",
+          "tenant_names": [
+            "ThunderSoft"
+          ],
+          "portal_type": 6
+        },
+        {
+          "url": "https://thundersoft.jobs.feishu.cn/index",
+          "tenant_names": [
+            "ThunderSoft"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "asiainfo-sec": {
+      "name": "亚信",
+      "sites": [
+        {
+          "url": "https://asiainfo-sec.jobs.feishu.cn/campus/position/list",
+          "tenant_names": [
+            "亚信"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "bambulab": {
+      "name": "Bambulab",
+      "sites": [
+        {
+          "url": "https://bambulab.jobs.feishu.cn/campus",
+          "tenant_names": [
+            "Bambulab"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "banu": {
+      "name": "巴奴集团",
+      "sites": [
+        {
+          "url": "https://banu.jobs.feishu.cn/040175/m/position/7665993012761250099/detail",
+          "tenant_names": [
+            "巴奴集团"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "blacklake": {
+      "name": "黑湖科技",
+      "sites": [
+        {
+          "url": "https://blacklake.jobs.feishu.cn/404702/position/list",
+          "tenant_names": [
+            "黑湖科技"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "boke": {
+      "name": "波克科技集团",
+      "sites": [
+        {
+          "url": "https://boke.jobs.feishu.cn/581609",
+          "tenant_names": [
+            "波克科技集团"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "brightchip": {
+      "name": "智遨通（天津）信息技术股份有限公司",
+      "sites": [
+        {
+          "url": "https://brightchip.jobs.feishu.cn/428482/position/list",
+          "tenant_names": [
+            "智遨通（天津）信息技术股份有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "caz6yhvgk5z": {
+      "name": "北京电子数智科技有限责任公司",
+      "sites": [
+        {
+          "url": "https://caz6yhvgk5z.jobs.feishu.cn/bedi",
+          "tenant_names": [
+            "北京电子数智科技有限责任公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "chitu-ai": {
+      "name": "清程极智",
+      "sites": [
+        {
+          "url": "https://chitu-ai.jobs.feishu.cn/campus",
+          "tenant_names": [
+            "清程极智"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "dx3a2bminsq": {
+      "name": "深圳众擎机器人科技股份有限公司",
+      "sites": [
+        {
+          "url": "https://dx3a2bminsq.jobs.feishu.cn/934647/position/list",
+          "tenant_names": [
+            "深圳众擎机器人科技股份有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "ealklohoih0": {
+      "name": "湖北三宁化工股份有限公司",
+      "sites": [
+        {
+          "url": "https://ealklohoih0.jobs.feishu.cn/668247/position/7373832859825506571/detail",
+          "tenant_names": [
+            "湖北三宁化工股份有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "echotech": {
+      "name": "回响科技",
+      "sites": [
+        {
+          "url": "https://echotech.jobs.feishu.cn/xiaozhao",
+          "tenant_names": [
+            "回响科技"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "everrising": {
+      "name": "永卓控股有限公司",
+      "sites": [
+        {
+          "url": "https://everrising.jobs.feishu.cn/graduate/position/list",
+          "tenant_names": [
+            "永卓控股有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "fcn5hvc5qbfs": {
+      "name": "上海大裂谷智能科技有限公司",
+      "sites": [
+        {
+          "url": "https://fcn5hvc5qbfs.jobs.feishu.cn/668262",
+          "tenant_names": [
+            "上海大裂谷智能科技有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "flexivrobotics": {
+      "name": "Flexiv",
+      "sites": [
+        {
+          "url": "https://flexivrobotics.jobs.feishu.cn/971932",
+          "tenant_names": [
+            "Flexiv"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "gamealestudio": {
+      "name": "GameAle",
+      "sites": [
+        {
+          "url": "https://gamealestudio.jobs.feishu.cn/007955",
+          "tenant_names": [
+            "GameAle"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "gffunds": {
+      "name": "广发基金",
+      "sites": [
+        {
+          "url": "https://gffunds.jobs.feishu.cn/833056",
+          "tenant_names": [
+            "广发基金"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "govy": {
+      "name": "高域科技",
+      "sites": [
+        {
+          "url": "https://govy.jobs.feishu.cn/693065/position/list",
+          "tenant_names": [
+            "高域科技"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "guanghe": {
+      "name": "洋葱学园",
+      "sites": [
+        {
+          "url": "https://guanghe.jobs.feishu.cn/ycxz",
+          "tenant_names": [
+            "洋葱学园"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "gunuojituan": {
+      "name": "顾诺集团",
+      "sites": [
+        {
+          "url": "https://gunuojituan.jobs.feishu.cn/campus/position/list",
+          "tenant_names": [
+            "顾诺集团"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "hailiang": {
+      "name": "海亮集团有限公司",
+      "sites": [
+        {
+          "url": "https://hailiang.jobs.feishu.cn/583086/position/list",
+          "tenant_names": [
+            "海亮集团有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "herogames": {
+      "name": "英雄游戏",
+      "sites": [
+        {
+          "url": "https://herogames.jobs.feishu.cn/campus",
+          "tenant_names": [
+            "英雄游戏"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "heygears": {
+      "name": "黑格科技",
+      "sites": [
+        {
+          "url": "https://heygears.jobs.feishu.cn/campus/position/list",
+          "tenant_names": [
+            "黑格科技"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "hf7l9aiqzx": {
+      "name": "北京趣拿软件科技有限公司",
+      "sites": [
+        {
+          "url": "https://hf7l9aiqzx.jobs.feishu.cn/704852/position/list",
+          "tenant_names": [
+            "北京趣拿软件科技有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "huayugames": {
+      "name": "华娱网络",
+      "sites": [
+        {
+          "url": "https://huayugames.jobs.feishu.cn/210512/position/list",
+          "tenant_names": [
+            "华娱网络"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "infinigence": {
+      "name": "无问芯穹",
+      "sites": [
+        {
+          "url": "https://infinigence.jobs.feishu.cn/088717",
+          "tenant_names": [
+            "无问芯穹"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "intellicrane": {
+      "name": "Uni-MIND",
+      "sites": [
+        {
+          "url": "https://intellicrane.jobs.feishu.cn/mhdl",
+          "tenant_names": [
+            "Uni-MIND"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "is35svcbne": {
+      "name": "中邮消费金融有限公司",
+      "sites": [
+        {
+          "url": "https://is35svcbne.jobs.feishu.cn/youcash/position/list",
+          "tenant_names": [
+            "中邮消费金融有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "iwhih7is28": {
+      "name": "北京发那科机电有限公司",
+      "sites": [
+        {
+          "url": "https://iwhih7is28.jobs.feishu.cn/campus",
+          "tenant_names": [
+            "北京发那科机电有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "j1szxceol43": {
+      "name": "深圳艾麦供应链服务有限公司",
+      "sites": [
+        {
+          "url": "https://j1szxceol43.jobs.feishu.cn/652950/position/list",
+          "tenant_names": [
+            "深圳艾麦供应链服务有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "j8fq0c3gg7": {
+      "name": "梅花生物科技集团股份有限公司",
+      "sites": [
+        {
+          "url": "https://j8fq0c3gg7.jobs.feishu.cn/905946/position/list",
+          "tenant_names": [
+            "梅花生物科技集团股份有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "jijiapets": {
+      "name": "吉家宠物集团",
+      "sites": [
+        {
+          "url": "https://jijiapets.jobs.feishu.cn/campus/position/list",
+          "tenant_names": [
+            "吉家宠物集团"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "jvvyvrptdzz": {
+      "name": "江苏国泰汉帛实业发展有限公司",
+      "sites": [
+        {
+          "url": "https://jvvyvrptdzz.jobs.feishu.cn/972701/position/list",
+          "tenant_names": [
+            "江苏国泰汉帛实业发展有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "jzyxgames": {
+      "name": "厦门极致互动网络技术股份有限公司",
+      "sites": [
+        {
+          "url": "https://jzyxgames.jobs.feishu.cn/campus/m",
+          "tenant_names": [
+            "厦门极致互动网络技术股份有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "k13pqewe7i": {
+      "name": "歌尔丹拿",
+      "sites": [
+        {
+          "url": "https://k13pqewe7i.jobs.feishu.cn/641372",
+          "tenant_names": [
+            "歌尔丹拿"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "kargobot": {
+      "name": "卡尔动力",
+      "sites": [
+        {
+          "url": "https://kargobot.jobs.feishu.cn/267069",
+          "tenant_names": [
+            "卡尔动力"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "learnings": {
+      "name": "北京乐信圣文科技有限责任公司",
+      "sites": [
+        {
+          "url": "https://learnings.jobs.feishu.cn/948023",
+          "tenant_names": [
+            "北京乐信圣文科技有限责任公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "leoao-inc": {
+      "name": "乐刻运动",
+      "sites": [
+        {
+          "url": "https://leoao-inc.jobs.feishu.cn/787552",
+          "tenant_names": [
+            "乐刻运动"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "meiyijia": {
+      "name": "美宜佳控股有限公司",
+      "sites": [
+        {
+          "url": "https://meiyijia.jobs.feishu.cn/campus/position/list",
+          "tenant_names": [
+            "美宜佳控股有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "meta": {
+      "name": "MetaApp",
+      "sites": [
+        {
+          "url": "https://meta.jobs.feishu.cn/140297/position/list",
+          "tenant_names": [
+            "MetaApp"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "n8r2cr07gk": {
+      "name": "OBSBOT寻影",
+      "sites": [
+        {
+          "url": "https://n8r2cr07gk.jobs.feishu.cn/920634",
+          "tenant_names": [
+            "OBSBOT寻影"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "nsingtech": {
+      "name": "国民技术股份有限公司",
+      "sites": [
+        {
+          "url": "https://nsingtech.jobs.feishu.cn/campus/position/list",
+          "tenant_names": [
+            "国民技术股份有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "orinko-ht": {
+      "name": "会通新材料股份有限公司",
+      "sites": [
+        {
+          "url": "https://orinko-ht.jobs.feishu.cn/960112/position/list",
+          "tenant_names": [
+            "会通新材料股份有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "pecivkvtit": {
+      "name": "深圳市其域创新科技有限公司",
+      "sites": [
+        {
+          "url": "https://pecivkvtit.jobs.feishu.cn/252342",
+          "tenant_names": [
+            "深圳市其域创新科技有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "ponyai": {
+      "name": "小马智行",
+      "sites": [
+        {
+          "url": "https://ponyai.jobs.feishu.cn/ponycampus",
+          "tenant_names": [
+            "小马智行"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "primebot": {
+      "name": "启元业务部",
+      "sites": [
+        {
+          "url": "https://primebot.jobs.feishu.cn/campusrecruitment/m",
+          "tenant_names": [
+            "启元业务部"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "qcnhg4ksaiwt": {
+      "name": "鸿擎科技",
+      "sites": [
+        {
+          "url": "https://qcnhg4ksaiwt.jobs.feishu.cn/257870",
+          "tenant_names": [
+            "鸿擎科技"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "r3c0qt6yjw": {
+      "name": "新石器",
+      "sites": [
+        {
+          "url": "https://r3c0qt6yjw.jobs.feishu.cn/campus/position/list",
+          "tenant_names": [
+            "新石器"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "rcnrrgo8je7j": {
+      "name": "雷鸟科技",
+      "sites": [
+        {
+          "url": "https://rcnrrgo8je7j.jobs.feishu.cn/FFALCON",
+          "tenant_names": [
+            "雷鸟科技"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "seer-group": {
+      "name": "仙工智能",
+      "sites": [
+        {
+          "url": "https://seer-group.jobs.feishu.cn/campus",
+          "tenant_names": [
+            "仙工智能"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "sen-asic": {
+      "name": "琻捷电子科技（江苏）股份有限公司",
+      "sites": [
+        {
+          "url": "https://sen-asic.jobs.feishu.cn/referral/campus/position",
+          "tenant_names": [
+            "琻捷电子科技（江苏）股份有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "sii-czxy": {
+      "name": "上海创智学院",
+      "sites": [
+        {
+          "url": "https://sii-czxy.jobs.feishu.cn/campus",
+          "tenant_names": [
+            "上海创智学院"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "smartlogictech": {
+      "name": "思朗科技",
+      "sites": [
+        {
+          "url": "https://smartlogictech.jobs.feishu.cn/xiaozhao/position/list",
+          "tenant_names": [
+            "思朗科技"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "songmicshome": {
+      "name": "致欧家居",
+      "sites": [
+        {
+          "url": "https://songmicshome.jobs.feishu.cn/852372/position/list",
+          "tenant_names": [
+            "致欧家居"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "startorus": {
+      "name": "上海星环聚能科技有限公司",
+      "sites": [
+        {
+          "url": "https://startorus.jobs.feishu.cn/419527/position/list",
+          "tenant_names": [
+            "上海星环聚能科技有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "sunmmio1104": {
+      "name": "算苗科技（北京）有限公司",
+      "sites": [
+        {
+          "url": "https://sunmmio1104.jobs.feishu.cn/819271",
+          "tenant_names": [
+            "算苗科技（北京）有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "syounggroup": {
+      "name": "水羊",
+      "sites": [
+        {
+          "url": "https://syounggroup.jobs.feishu.cn/campus",
+          "tenant_names": [
+            "水羊"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "tianzhulingshan": {
+      "name": "天竺灵山",
+      "sites": [
+        {
+          "url": "https://tianzhulingshan.jobs.feishu.cn/267335",
+          "tenant_names": [
+            "天竺灵山"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "toa7dmu9bq": {
+      "name": "电子所",
+      "sites": [
+        {
+          "url": "https://toa7dmu9bq.jobs.feishu.cn/764595",
+          "tenant_names": [
+            "电子所"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "tranxmart": {
+      "name": "千曙科技",
+      "sites": [
+        {
+          "url": "https://tranxmart.jobs.feishu.cn/511078/position/7616253227473996042/detail",
+          "tenant_names": [
+            "千曙科技"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "tsingtengms": {
+      "name": "紫光青藤",
+      "sites": [
+        {
+          "url": "https://tsingtengms.jobs.feishu.cn/303508/position/list",
+          "tenant_names": [
+            "紫光青藤"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "ucn8mrbdnw7i": {
+      "name": "博瑞精芯",
+      "sites": [
+        {
+          "url": "https://ucn8mrbdnw7i.jobs.feishu.cn/338773",
+          "tenant_names": [
+            "博瑞精芯"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "varp4lp3dbc": {
+      "name": "记忆科技（深圳）有限公司",
+      "sites": [
+        {
+          "url": "https://varp4lp3dbc.jobs.feishu.cn/708509/m",
+          "tenant_names": [
+            "记忆科技（深圳）有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "vcnuqm4lv2uh": {
+      "name": "九方智投控股",
+      "sites": [
+        {
+          "url": "https://vcnuqm4lv2uh.jobs.feishu.cn/906832/position/list",
+          "tenant_names": [
+            "九方智投控股"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "vivix-ai": {
+      "name": "灵动时刻",
+      "sites": [
+        {
+          "url": "https://vivix-ai.jobs.feishu.cn/470370",
+          "tenant_names": [
+            "灵动时刻"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "wdh": {
+      "name": "水滴公司",
+      "sites": [
+        {
+          "url": "https://wdh.jobs.feishu.cn/345030",
+          "tenant_names": [
+            "水滴公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "wepie": {
+      "name": "微派网络",
+      "sites": [
+        {
+          "url": "https://wepie.jobs.feishu.cn/359597/position/list",
+          "tenant_names": [
+            "微派网络"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "xd-legacy": {
+      "name": "XD Inc.",
+      "sites": [
+        {
+          "url": "https://xd-legacy.jobs.feishu.cn/117745/position/list",
+          "tenant_names": [
+            "XD Inc."
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "yftech2012": {
+      "name": "远峰科技股份有限公司",
+      "sites": [
+        {
+          "url": "https://yftech2012.jobs.feishu.cn/659526/m",
+          "tenant_names": [
+            "远峰科技股份有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "yonghui": {
+      "name": "永辉超市",
+      "sites": [
+        {
+          "url": "https://yonghui.jobs.feishu.cn/900113/position/list",
+          "tenant_names": [
+            "永辉超市"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "z1zgmci7a8s": {
+      "name": "桂林啄木鸟医疗",
+      "sites": [
+        {
+          "url": "https://z1zgmci7a8s.jobs.feishu.cn/900011/position/list",
+          "tenant_names": [
+            "桂林啄木鸟医疗"
+          ],
+          "portal_type": 6
+        }
+      ]
+    },
+    "zj-innolight": {
+      "name": "苏州旭创科技有限公司",
+      "sites": [
+        {
+          "url": "https://zj-innolight.jobs.feishu.cn/300308",
+          "tenant_names": [
+            "苏州旭创科技有限公司"
+          ],
+          "portal_type": 6
+        }
+      ]
+    }
+  },
+  "dayee": {
+    "REDACTED": {
+      "name": "德勤",
+      "host": "wecruit.hotjob.cn",
+      "note": "Dayee multi-tenant portal; recruitType 1=campus 2=society 12=intern. Verified 2026-09-18."
+    },
+    "REDACTED": {
+      "name": "康师傅"
+    },
+    "REDACTED": {
+      "name": "ZARA"
+    },
+    "REDACTED": {
+      "name": "广汽集团"
+    },
+    "REDACTED": {
+      "name": "益海嘉里"
+    },
+    "REDACTED": {
+      "name": "迪卡侬"
+    },
+    "REDACTED": {
+      "name": "ZURU"
+    },
+    "REDACTED": {
+      "name": "一汽大众",
+      "host": "faw-zhaopin.hotjob.cn",
+      "note": "discovered 2026-09-19 (foreign discovery)"
+    },
+    "REDACTED": {
+      "name": "宝时得集团",
+      "host": "wecruit.hotjob.cn",
+      "note": "discovered 2026-09-19 from 闲鱼表 外企/合资 rows (read-only)"
+    },
+    "REDACTED": {
+      "name": "永赢基金",
+      "host": "wecruit.hotjob.cn",
+      "note": "discovered 2026-09-19 from 闲鱼表 外企/合资 rows (read-only)"
+    },
+    "REDACTED": {
+      "name": "德国西克SICK",
+      "host": "wecruit.hotjob.cn"
+    }
+  },
+  "job51": {
+    "pepsico2027": {
+      "name": "百事",
+      "url": "https://campus.51job.com/pepsico2027/",
+      "scope": "campus",
+      "note": "51job corporate campus micro-site, server-rendered posting list. Verified 2026-09-18."
+    },
+    "engel2027": {
+      "name": "ENGEL",
+      "url": "https://campus.51job.com/engel2027/introduction.html",
+      "scope": "campus",
+      "note": "discovered 2026-09-19 (foreign discovery, campus.51job.com micro-site)"
+    },
+    "nskchina": {
+      "name": "NSK",
+      "url": "https://campus.51job.com/nskchina/job.html",
+      "scope": "campus",
+      "note": "posting page located by foreign-51job-entry.py (index.html has no public anchor)"
+    },
+    "Doehler2027": {
+      "name": "德乐",
+      "url": "https://campus.51job.com/Doehler2027/job.html",
+      "scope": "campus",
+      "note": "discovered 2026-09-19 (foreign discovery, campus.51job.com micro-site)"
+    },
+    "Covestro2027": {
+      "name": "科思创",
+      "url": "http://campus.51job.com/Covestro2027/job.html",
+      "scope": "campus",
+      "note": "discovered 2026-09-19 (foreign discovery, campus.51job.com micro-site)"
+    },
+    "IR2027": {
+      "name": "英格索兰",
+      "url": "https://campus.51job.com/IR2027/job.html#top",
+      "scope": "campus",
+      "note": "discovered 2026-09-19 (foreign discovery, campus.51job.com micro-site)"
+    },
+    "te": {
+      "name": "泰科电子 (TE Connectivity）",
+      "url": "https://campus.51job.com/te/p2.html",
+      "scope": "campus",
+      "note": "discovered 2026-09-19 from 闲鱼表 外企/合资 rows (read-only)"
+    },
+    "DellEmc": {
+      "name": "易安信",
+      "url": "https://campus.51job.com/DellEmc/",
+      "scope": "campus",
+      "note": "discovered 2026-09-19 round2 (【易安信信息技术研发(上海)有限公司】易安信信息技术研发(上海)有限公司前程无忧)"
+    },
+    "marquardt": {
+      "name": "马夸特",
+      "url": "https://campus.51job.com/marquardt/",
+      "scope": "campus",
+      "note": "discovered 2026-09-19 round2 (马夸特上海2022校园招聘)"
+    }
+  },
+  "workday": {
+    "nvidia/wd5/NVIDIAExternalCareerSite": "英伟达",
+    "citi/wd5/2": "花旗银行",
+    "jj/wd5/JJ": {
+      "name": "强生",
+      "search_text": {
+        "campus": "应届",
+        "default": "China"
+      }
+    },
+    "shell/wd3/ShellCareers": "壳牌",
+    "REDACTED": "英国石油",
+    "REDACTED": "美敦力",
+    "mmc/wd1/MMC": "奥纬咨询",
+    "marvell/wd1/MarvellCareers": "美满电子",
+    "herbertsmithfreehills/wd3/External": "史密夫斐尔",
+    "intel/wd1/External": "英特尔",
+    "nike/wd1/nke": "耐克",
+    "gsk/wd5/GSKCareers": "GSK",
+    "mastercard/wd1/Campus": "万事达卡",
+    "trafigura/wd3/TrafiguraCareerSite": "托克",
+    "3m/wd1/Search": {
+      "name": "3M",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "aig/wd1/aig": {
+      "name": "AIG美国国际集团",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "blackstone/wd1/BX_External_Site": {
+      "name": "黑石集团",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "broadcom/wd1/External_Career": {
+      "name": "博通",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "amat/wd1/External": {
+      "name": "应用材料",
+      "enabled": false,
+      "search_text": "China",
+      "max_list_pages": 8,
+      "note": "duplicate-name parking (collector-next-4, 2026-09-19): the Eightfold tenant careers.appliedmaterials.com measured 131 China postings (campus 3 / intern 3 / social 125) versus 3 here, so the Eightfold adapter owns 应用材料. Row kept on file; flip enabled to true and disable the eightfold row to switch back."
+    },
+    "autodesk/wd1/Ext": {
+      "name": "欧特克",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "altera/wd1/Altera": {
+      "name": "Altera",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "analogdevices/wd1/External": {
+      "name": "亚德诺半导体",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "aampower/wd1/AAM-Career-Site": {
+      "name": "AAM",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "amgen/wd1/Careers": {
+      "name": "安进",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "arrow/wd1/ac": {
+      "name": "艾睿电子",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "baxter/wd1/baxter": {
+      "name": "百特医疗",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "blackrock/wd1/BlackRock_Professional": {
+      "name": "贝莱德",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "brunswick/wd1/search": {
+      "name": "Brunswick",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "caa/wd1/Careers": {
+      "name": "Creative Artists Agency",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "cadence/wd1/External_Careers": {
+      "name": "楷登电子",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "cardinalhealth/wd1/EXT": {
+      "name": "嘉德诺",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "brooksauto/wd1/Brooks_External_Site": {
+      "name": "布鲁克斯自动化",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "ascendperformancematerials/wd1/Ascend": {
+      "name": "Ascend Performance Materials",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "axalta/wd1/Axalta": {
+      "name": "艾仕得",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "capgroup/wd1/capitalgroupcareers": {
+      "name": "Capital Group",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "clarioclinical/wd1/clarioclinical_careers": {
+      "name": "Clario",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "cognex/wd1/External_Career_Site": {
+      "name": "康耐视",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "coke/wd1/coca-cola-careers": {
+      "name": "可口可乐",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "REDACTED": {
+      "name": "康维德",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "REDACTED": {
+      "name": "百时美施贵宝",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "dentsuaegis/wd3/DAN_GLOBAL": {
+      "name": "电通",
+      "search_text": "China",
+      "max_list_pages": 24
+    },
+    "flextronics/wd1/Careers": {
+      "name": "伟创力",
+      "search_text": "China",
+      "max_list_pages": 24
+    },
+    "heinz/wd1/KraftHeinz_Careers": {
+      "name": "卡夫亨氏",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "REDACTED": {
+      "name": "艾昆纬",
+      "search_text": "China",
+      "max_list_pages": 24
+    },
+    "REDACTED": {
+      "name": "迈图高新材料",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "paypal/wd1/jobs": {
+      "name": "贝宝",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "philips/wd3/jobs-and-careers": {
+      "name": "飞利浦",
+      "enabled": false,
+      "search_text": "China",
+      "max_list_pages": 24,
+      "note": "duplicate-name parking (collector-next-4, 2026-09-19): the Phenom tenant www.careers.philips.com measured 159 China postings (intern 14 / social 145) versus 8 here, so the Phenom adapter owns 飞利浦. Row kept on file; flip enabled to true and disable the phenom row to switch back."
+    },
+    "snapchat/wd1/snap": {
+      "name": "Snap",
+      "search_text": "China",
+      "max_list_pages": 8,
+      "host": "https://wd1.myworkdaysite.com"
+    },
+    "dow/wd1/ExternalCareers": {
+      "name": "陶氏",
+      "search_text": "China",
+      "max_list_pages": 24
+    },
+    "gilead/wd1/gileadcareers": {
+      "name": "吉利德",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "jll/wd1/jllcareers": {
+      "name": "仲量联行",
+      "search_text": "China",
+      "max_list_pages": 24
+    },
+    "magna/wd3/Magna": {
+      "name": "麦格纳",
+      "search_text": "China",
+      "max_list_pages": 8,
+      "host": "https://wd3.myworkdaysite.com"
+    },
+    "pvh/wd1/PVH_Careers": {
+      "name": "PVH集团",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "REDACTED": {
+      "name": "赛诺菲",
+      "search_text": "China",
+      "max_list_pages": 24
+    },
+    "bbh/wd5/BBH": {
+      "name": "布朗兄弟哈里曼",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "REDACTED": {
+      "name": "切迟杜威",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "clorox/wd1/Clorox": {
+      "name": "高乐氏",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "cw/wd1/External": {
+      "name": "戴德梁行",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "hp/wd5/ExternalCareerSite": {
+      "name": "惠普",
+      "enabled": false,
+      "search_text": "China",
+      "max_list_pages": 8,
+      "note": "duplicate-name parking (collector-next-4, 2026-09-19): the Eightfold tenant apply.hp.com measured 16 China postings (intern 1 / social 15) versus 1 here, so the Eightfold adapter owns 惠普. Row kept on file; flip enabled to true and disable the eightfold row to switch back."
+    },
+    "ebay/wd5/apply": {
+      "name": "eBay",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "albemarle/wd5/External": {
+      "name": "雅保",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "bb/wd3/QNX": {
+      "name": "BlackBerry QNX",
+      "search_text": "China",
+      "max_list_pages": 8
+    },
+    "REDACTED": {
+      "name": "慧与",
+      "search_text": "China",
+      "max_list_pages": 16
+    },
+    "huntsman/wd1/Huntsman": {
+      "name": "亨斯迈",
+      "search_text": "China",
+      "max_list_pages": 16
+    },
+    "illumina/wd1/illumina-careers": {
+      "name": "因美纳",
+      "search_text": "China",
+      "max_list_pages": 16
+    },
+    "ingredion/wd1/IngredionCareers": {
+      "name": "宜瑞安",
+      "search_text": "China",
+      "max_list_pages": 16
+    },
+    "integer/wd1/External": {
+      "name": "Integer",
+      "search_text": "China",
+      "max_list_pages": 16
+    },
+    "kidsii/wd1/KidsII_Career_Site": {
+      "name": "KidsII",
+      "search_text": "China",
+      "max_list_pages": 16
+    },
+    "REDACTED": {
+      "name": "杜邦",
+      "search_text": "China",
+      "max_list_pages": 8,
+      "note": "multi-entrance recheck 2026-09-19: public Workday CXS REDACTED returns 4 live China social rows."
+    },
+    "aia/wd3/External": {
+      "name": "友邦保险",
+      "search_text": "China",
+      "max_list_pages": 12,
+      "note": "multi-entrance recheck 2026-09-19: the official AIA China careers page (www.aia.com.cn/zh-cn/join-us/zhaopin) embeds aia.wd3.myworkdayjobs.com/zh-CN/External with a China locationCountry facet. CXS search_text=China measured 21 campus + 129 social live rows."
+    },
+    "danaher/wd1/DanaherJobs": {
+      "name": "丹纳赫",
+      "search_text": "China",
+      "max_list_pages": 12,
+      "note": "multi-entrance recheck 2026-09-19: the official Danaher jobs site jobs.danaher.com is Workday CXS danaher.wd1.myworkdayjobs.com/DanaherJobs; measured 1 intern + 115 social live China rows."
+    },
+    "genmills/wd1/GMI_External_Careers": {
+      "name": "通用磨坊",
+      "search_text": "China",
+      "max_list_pages": 8,
+      "note": "multi-entrance recheck 2026-09-19: General Mills was parked as 'iCIMS robots Disallow'; the official careers page also exposes Workday CXS genmills.wd1.myworkdayjobs.com/GMI_External_Careers, which returns 1 live China row. Non-iCIMS entrance replaces the blocked iCIMS portal."
+    }
+  },
+  "successfactors": {
+    "jobs.sap.com": "思爱普",
+    "jobs.zf.com": "采埃孚",
+    "jobs.boehringer-ingelheim.com": "勃林格殷格翰",
+    "basf.jobs": "巴斯夫",
+    "careers.akzonobel.com": "阿克苏诺贝尔",
+    "apply.careers.hsbc.com": "汇丰",
+    "jobs.adidas-group.com": "阿迪达斯"
+  },
+  "eightfold": {
+    "_note": "Eightfold AI public careers tenants. Key = the public careers host (shared hosts add /<domain>). 'domain' is the Eightfold tenant domain the page itself sends; 'hl' is the page locale. Contract read off the live pages 2026-09-19: /api/pcsx/search (start= cursor, 10 rows/page) and /api/pcsx/position_details. No login, no signature, no CAPTCHA.",
+    "apply.hp.com": {
+      "name": "惠普",
+      "host": "https://apply.hp.com",
+      "domain": "hp.com",
+      "hl": "zh-CN",
+      "location": "china",
+      "careers_path": "/careers"
+    },
+    "apply.careers.microsoft.com": {
+      "name": "微软",
+      "host": "https://apply.careers.microsoft.com",
+      "domain": "microsoft.com",
+      "hl": "en-US",
+      "location": "china",
+      "careers_path": "/careers"
+    },
+    "careers.qualcomm.com": {
+      "name": "高通",
+      "host": "https://careers.qualcomm.com",
+      "domain": "qualcomm.com",
+      "hl": "en-US",
+      "location": "china",
+      "careers_path": "/careers"
+    },
+    "careers.appliedmaterials.com": {
+      "name": "应用材料",
+      "host": "https://careers.appliedmaterials.com",
+      "domain": "appliedmaterials.com",
+      "hl": "en-US",
+      "location": "china",
+      "careers_path": "/careers"
+    },
+    "careers.lamresearch.com": {
+      "name": "泛林",
+      "host": "https://careers.lamresearch.com",
+      "domain": "lamresearch.com",
+      "hl": "en-US",
+      "location": "china",
+      "careers_path": "/careers"
+    }
+  },
+  "phenom": {
+    "_note": "Phenom People public careers tenants. Key = the tenant refNum the public page itself sends as refNum. Contract read off the live pages 2026-09-19: POST /widgets ddoKey=refineSearch (from= cursor, size capped at 500) and ddoKey=jobDetail. The search location/country filter fields are ignored by non-country-scoped tenants, so Greater China membership is decided on each posting's own official country/location text. No login, no signature, no CAPTCHA.",
+    "PGBPGCCN": {
+      "name": "宝洁",
+      "host": "https://careers.pg.com.cn",
+      "lang": "en_cn",
+      "country": "cn",
+      "ref": "PGBPGCCN",
+      "note": "China-only tenant; every posting is Greater China."
+    },
+    "MARSGLOBAL": {
+      "name": "玛氏",
+      "host": "https://careers.mars.com",
+      "lang": "zh_cn",
+      "country": "cn",
+      "ref": "MARSGLOBAL",
+      "note": "zh_cn locale scopes the listing to China."
+    },
+    "ROCHGLOBAL": {
+      "name": "罗氏",
+      "host": "https://careers.roche.com",
+      "lang": "en_global",
+      "country": "global",
+      "ref": "ROCHGLOBAL",
+      "scope_labels": {
+        "subCategory": {
+          "Internship": "intern",
+          "Development Program": "campus"
+        }
+      },
+      "note": "Roche 官方 subCategory 就是项目标签：Internship=实习；Development Program=StartUp China 毕业生项目（岗位正文原文 university graduates at the start of their careers）。核实于 2026-09-19。"
+    },
+    "BCG1US": {
+      "name": "波士顿咨询",
+      "host": "https://careers.bcg.com",
+      "lang": "en_global",
+      "country": "global",
+      "ref": "BCG1US"
+    },
+    "ABB1GLOBAL": {
+      "name": "ABB",
+      "host": "https://careers.abb",
+      "lang": "en_global",
+      "country": "global",
+      "ref": "ABB1GLOBAL"
+    },
+    "PHILUS": {
+      "name": "飞利浦",
+      "host": "https://www.careers.philips.com",
+      "lang": "en_global",
+      "country": "global",
+      "ref": "PHILUS"
+    },
+    "MSD1GB": {
+      "name": "默沙东",
+      "host": "https://jobs.msd.com",
+      "lang": "en_global",
+      "country": "global",
+      "ref": "MSD1GB"
+    },
+    "CISCISGLOBAL": {
+      "name": "思科",
+      "host": "https://careers.cisco.com",
+      "lang": "en_global",
+      "country": "global",
+      "ref": "CISCISGLOBAL"
+    }
+  },
+  "avature": {
+    "_note": "Foreign batch 3 (20260919c). Key = <host>/<locale>/<portal>. Optional: search (built-in keyword search; empty = list everything), offset_param/page_size_param (portals that page with pipelineOffset or folderOffset), max_list_pages, max_jobs, page_size. Verified read-only 2026-09-19: 西门子 portal 144 (search=China -> 215 postings, 41 campus / 5 intern / 153 social China rows), 欧莱雅 portal 170, 艺电 portal 4, 贝恩 portal 24. NOT registered although located: 汇丰 portal 88 (mycareer.hsbc.com/en_GB/external, pipelineOffset paging, search=\"\") - all 36 China-portal pipelines resolve to Poland on the official detail page, i.e. 0 China rows today; IBM careers.ibm.com/ibmglobal.avature.net - plain HTTP is answered with the AWS WAF 202 challenge (token.awswaf.com) and the browser-rendered search=China slice is 2 postings, both Malaysia-based; IKEA / TotalEnergies - robots.txt Disallow: /; CBRE / TSMC / IQVIA - WAF 202/403.",
+    "jobs.siemens.com/en_US/externaljobs": {
+      "name": "西门子",
+      "search": "China"
+    },
+    "careers.loreal.com/en_US/jobs": {
+      "name": "欧莱雅",
+      "search": "China"
+    },
+    "jobs.ea.com/en_US/careers": {
+      "name": "艺电",
+      "search": "China"
+    },
+    "careers.bain.com/en_US/jobs": {
+      "name": "贝恩",
+      "search": "China"
+    }
+  },
+  "icims": {
+    "_note": "Foreign batch 3 (20260919c). Key = <portal host>; optional: search_location, search_path, max_list_pages, max_jobs. The adapter reads /robots.txt first and refuses to crawl a host whose published policy disallows the search path. Every China-relevant iCIMS tenant verified on 2026-09-19 (AMD careers-amd.icims.com, Schneider careers-se.icims.com, PepsiCo, General Mills, Garmin, Keysight, Aon, ZS) publishes \"User-agent: * / Disallow: /\", so no company is configured here; see RECEIPT-foreign-ats-b.md section 6."
+  },
+  "orc": {
+    "_note": "Foreign batch 3 (20260919c). Key = <host>/<siteNumber>. Optional: page_size (<=200), detail_batch_size, max_list_pages. China is selected through the site-specific geography id discovered from the official recruitingHierarchyLocations finder. 德州仪器 (edbz.fa.us2.oraclecloud.com/CX_1, 95 China postings) is deliberately NOT registered: 德州仪器 already exists as the Moka campus tenant ti/142216, and a second name would overwrite that REGISTRY slot; add it under a distinct name if the global site is wanted.",
+    "ibqbjb.fa.ocs.oraclecloud.com/CX_1": "霍尼韦尔",
+    "jpmc.fa.oraclecloud.com/CX_1001": "摩根大通",
+    "fa-espx-saasfaprod1.fa.ocs.oraclecloud.com/CX_1": "康明斯",
+    "hdjq.fa.us2.oraclecloud.com/CX_1": "艾默生",
+    "fa-evax-saasfaprod1.fa.ocs.oraclecloud.com/CX_1": "洲际酒店",
+    "ejwl.fa.us2.oraclecloud.com/CX_2": "万豪",
+    "ejhp.fa.us6.oraclecloud.com/CX_1": "宣伟",
+    "fa-extu-saasfaprod1.fa.ocs.oraclecloud.com/CX_1": "阿卡迈",
+    "eczd.fa.us2.oraclecloud.com/CX_1": "百胜餐饮"
+  },
+  "tupu360": {
+    "_README": "tupu360 (图谱天下) multi-tenant recruitment sites. Key = tenant slug on careersite.tupu360.com (override with \"tenant\"). Value {name, host?, tenant?, channels?, extra_channels?, scope?, wechat_only?, url?, enabled?, enabled_reason?, note?, blocked_reason?}. Careersite tenants are public/server-rendered; wxtemp tenants (<slug>.tupu360.com) only answer behind WeChat OAuth. ROBOTS: tupu360's robots.txt is a platform-wide \"User-agent: * / Disallow: /\". 站长决定 2026-09-20（原话“接回来的60家都开”）：the 60 careersite tenants that the 2026-09-19 full-site run read anonymously (180 tenant x scope units, 5523 real postings) ship enabled:true with that decision recorded per row in enabled_reason; the platform robots.txt above was known and accepted by 站长. STILL DISABLED (8 rows, blocked_reason): 7 WeChat-only wxtemp tenants (nestle, taitaile, autoliv, louisvuitton, jntl, google, boschhuayu-steering) whose anonymous side has no public route, plus johnsonelectric whose official careersite tenant publishes 0 postings on every public channel -- enabling those would only add guaranteed-empty units, so they stay parked. TO ENABLE/DISABLE ONE COMPANY: flip its own \"enabled\" (and move the reason between enabled_reason/blocked_reason); nothing else is needed -- the adapter re-reads this file at import, p1_pipeline merges the section into REGISTRY through merged_registry(), and the daily run picks the tenant up on the next 06:10 cycle. Three names keep their existing first-registered adapter by setdefault (强生 -> Workday, 斯堪尼亚 -> Moka, 药明康德 -> p1_sources_41_50), so their tupu360 rows are enabled but do not take over the registry slot. The full-site evidence (xlsx/csv, 5523 rows) stays on branch feat/tupu360-fullsite under pipeline-watch/tupu360-fullsite/ and is NOT merged here. Verified 2026-09-19, enabled 2026-09-20 (feat/gap-report).",
+    "iqvia": {
+      "enabled": true,
+      "name": "IQVIA 艾昆纬",
+      "note": "careersite tenant; official list template A. campus 12 / intern 5 / social 12 postings on the public pages. Entry URL from foreign-discovery: careersite.tupu360.com/iqvia/position/index?recruitmentType=CAMPUSRECRUITMENT",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "lilly": {
+      "enabled": true,
+      "name": "礼来",
+      "note": "careersite tenant; template A. campus 2 pages (17 postings), intern/social channels exist but carry 0 postings. Entry URL from foreign-discovery: careersite.tupu360.com/lilly/home/index/#/index",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "schaeffler": {
+      "enabled": true,
+      "name": "舍弗勒",
+      "extra_channels": {
+        "intern": [
+          "TECHNOLOGYRUITMENT"
+        ]
+      },
+      "note": "careersite tenant; template B. campus 0, intern 2 (+2 on the tenant's own TECHNOLOGYRUITMENT channel, which the published entry URL used), social 70 across 5 pages.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "bmw": {
+      "enabled": true,
+      "name": "宝马",
+      "note": "careersite tenant; template A. campus 0 / intern 0, social 2 pages. Entry URL from foreign-discovery was the WeChat tenant bmw.tupu360.com; the same tenant also has this public careersite site.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "innomotics": {
+      "enabled": true,
+      "name": "茵梦达",
+      "note": "careersite tenant; template B. campus 3 / intern 5 / social 36 across 3 pages.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "jnj": {
+      "enabled": true,
+      "name": "强生",
+      "host": "chinacampus.jnj.com.cn",
+      "tenant": "jnj",
+      "detail": "list",
+      "note": "J&J China campus site on the same tupu360 careersite platform (custom domain). /jnj/position/index and /jnj/position/detail both redirect to a hash-route SPA, so the adapter uses the site's own POST /jnj/position/nextPageList, which returns all 18 official campus postings (template B) with title/city/function/发布日期/招聘人数; there is no public detail page, so description_raw is the official posting-list card text (detail=list). PARKED 2026-09-19 with the rest of the tupu360 section (platform robots.txt is a site-wide Disallow: /), so 强生 stays on the pre-existing workday entry jj/wd5/JJ. See RECEIPT-collector-next-4.md section 2 for the workday tenant's measurement.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "johnsonelectric": {
+      "enabled": false,
+      "name": "德昌电机",
+      "note": "careersite tenant exists but publishes 0 postings on every public channel (CAMPUS/INTERNSHIP/SOCIAL/校园大使, '共0个职位'); the published entry URL is the WeChat tenant johnsonelectric.tupu360.com. Blocked until the tenant publishes a public posting.",
+      "blocked_reason": "官方 careersite 租户在所有公开渠道（CAMPUS/INTERNSHIP/SOCIAL/校园大使）均为 0 个职位；公布的入口是微信租户 johnsonelectric.tupu360.com（微信 OAuth）。匿名侧启用必然零产出，故保持 enabled:false。"
+    },
+    "nestle": {
+      "enabled": false,
+      "name": "雀巢",
+      "host": "nestle.tupu360.com",
+      "wechat_only": true,
+      "url": "https://nestle.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9efb4c3a5c08973e7cdb78ed3ee6a5773c13d54c7bcc224f17a485ae87bb9960a22a508e2d0e4771cc6688d00e5fd190b2093982213c5572f0ff2bd32baa0a442df8adc93754da01e3a9b51490f1469f35aac964afdb486ca04",
+      "note": "WeChat-only (wxtemp) tenant. careersite slug nestle answers '抱歉，该网站已停用'. No anonymous public route.",
+      "blocked_reason": "微信专属（wxtemp）租户：匿名侧 `<slug>.tupu360.com` 只答“该网站已停用”/扫码页，careersite 侧无公开路由；适配器不登录，故保持 enabled:false（站长 2026-09-20 决定只开“接回来的 60 家”）。"
+    },
+    "taitaile": {
+      "enabled": false,
+      "name": "太太乐",
+      "host": "nestle.tupu360.com",
+      "tenant": "nestle",
+      "wechat_only": true,
+      "url": "https://nestle.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9efb4c3a5c08973e7cdb78ed3ee6a5773c13d54c7bcc224f17a485ae87bb9960a227090ce5cf4c921ca0f83eb75efe39d226ac6a1e1108649a2a92bdba26e3d30b5159d7a89761fc25cd8d0639defffe5e446aab9a291d8b7c1fac22a55c3dfe64df91c8c67c74c8fa69ddad99007541467",
+      "note": "Same tupu360 tenant as 雀巢 (nestle); the discovery row is the 太太乐 pageQrCode share link. WeChat-only.",
+      "blocked_reason": "微信专属（wxtemp）租户：匿名侧 `<slug>.tupu360.com` 只答“该网站已停用”/扫码页，careersite 侧无公开路由；适配器不登录，故保持 enabled:false（站长 2026-09-20 决定只开“接回来的 60 家”）。"
+    },
+    "autoliv": {
+      "enabled": false,
+      "name": "奥托立夫",
+      "host": "autoliv.tupu360.com",
+      "wechat_only": true,
+      "url": "https://autoliv.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9ef618684ab592ae01790783cd487f77eedfecb9b14b89cf00791768fb0265163ed5918b8d08362beb24212e4ecb4d671d3f071d745fff432632b9666c6542097ec0669d455753ed852",
+      "note": "WeChat-only tenant; careersite slug autoliv answers '抱歉，该网站已停用'.",
+      "blocked_reason": "微信专属（wxtemp）租户：匿名侧 `<slug>.tupu360.com` 只答“该网站已停用”/扫码页，careersite 侧无公开路由；适配器不登录，故保持 enabled:false（站长 2026-09-20 决定只开“接回来的 60 家”）。"
+    },
+    "louisvuitton": {
+      "enabled": false,
+      "name": "路易威登",
+      "host": "louisvuitton.tupu360.com",
+      "wechat_only": true,
+      "url": "https://louisvuitton.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9ef63d33216abc6a6b0df44b59ba121978b58491525617ecd6f1ba43730c4832cfc567150414ca20250bd7e802457730064c87420bd4a86623e2baef15bc55ba47a4e0da45bf071ad848ab3cd48e90144027f85a44f4631e632281f74fa3fedb47d97d920024cb24f82fa2f656f7e597a73",
+      "note": "WeChat-only tenant; careersite slug louisvuitton answers '抱歉，该网站已停用'. The unrelated LVMH slug lvmhfashion carries 0 postings.",
+      "blocked_reason": "微信专属（wxtemp）租户：匿名侧 `<slug>.tupu360.com` 只答“该网站已停用”/扫码页，careersite 侧无公开路由；适配器不登录，故保持 enabled:false（站长 2026-09-20 决定只开“接回来的 60 家”）。"
+    },
+    "jntl": {
+      "enabled": false,
+      "name": "科赴",
+      "host": "jntl.tupu360.com",
+      "wechat_only": true,
+      "url": "https://jntl.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9efcb7462b6f485e33058491525617ecd6f1ba43730c4832cfce8afafc011dbcc6086f6090b46e7a1ede670f8eef63ed11211edd8621e78944eecdd08eff1dc8266b2ebc00387c4026f",
+      "note": "WeChat-only tenant; the matching careersite slug kenvue answers '抱歉，该网站已停用'.",
+      "blocked_reason": "微信专属（wxtemp）租户：匿名侧 `<slug>.tupu360.com` 只答“该网站已停用”/扫码页，careersite 侧无公开路由；适配器不登录，故保持 enabled:false（站长 2026-09-20 决定只开“接回来的 60 家”）。"
+    },
+    "google": {
+      "enabled": false,
+      "name": "Google 谷歌",
+      "host": "google.tupu360.com",
+      "wechat_only": true,
+      "url": "https://google.tupu360.com/pageQrCode?targetUrl=a7f4739eb94ec9ef2945a3075fb4d2d0b78ed3ee6a5773c13d54c7bcc224f17a485ae87bb9960a22a508e2d0e4771cc6688d00e5fd190b2093982213c5572f0fdc3a62932fccf4b64778332d64b1c40c7ac964afdb486ca04",
+      "note": "WeChat-only tenant; careersite slug google answers '抱歉，该网站已停用'.",
+      "blocked_reason": "微信专属（wxtemp）租户：匿名侧 `<slug>.tupu360.com` 只答“该网站已停用”/扫码页，careersite 侧无公开路由；适配器不登录，故保持 enabled:false（站长 2026-09-20 决定只开“接回来的 60 家”）。"
+    },
+    "boschhuayu-steering": {
+      "enabled": false,
+      "name": "博世华域转向",
+      "host": "boschhuayu-steering.tupu360.com",
+      "wechat_only": true,
+      "url": "https://boschhuayu-steering.tupu360.com/position/list?enter=menu&lang=zh_CN&type=CAMPUSRECRUITMENT&state=da73d1599efb780e7799e46266bc8ac1&code=0510C20w3ssfK73MlY3w3Yug1t10C20Q&_t=1789120541326",
+      "note": "WeChat-only tenant; careersite slug boschhuayu-steering answers '抱歉，该网站已停用'.",
+      "blocked_reason": "微信专属（wxtemp）租户：匿名侧 `<slug>.tupu360.com` 只答“该网站已停用”/扫码页，careersite 侧无公开路由；适配器不登录，故保持 enabled:false（站长 2026-09-20 决定只开“接回来的 60 家”）。"
+    },
+    "Viatris": {
+      "enabled": true,
+      "name": "晖致医药有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 13 / intern 15 / social 244 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "accentureats": {
+      "enabled": true,
+      "name": "埃森哲",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 10 / intern 12 / social 87 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "aexpec": {
+      "enabled": true,
+      "name": "连通（杭州）技术服务有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 6 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "andritz": {
+      "enabled": true,
+      "name": "安德里茨（中国）有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 1 / intern 6 / social 46 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "astrazeneca": {
+      "enabled": true,
+      "name": "阿斯利康",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 1 / social 267 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "bd": {
+      "enabled": true,
+      "name": "碧迪医疗器械(上海)有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 11 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "bmw-brilliance": {
+      "enabled": true,
+      "name": "华晨宝马汽车有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 4 / intern 5 / social 19 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "carrier": {
+      "enabled": true,
+      "name": "开利空调",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 25 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "chinadatagroup": {
+      "enabled": true,
+      "name": "华道数据处理有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 38 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "cn.abb": {
+      "enabled": true,
+      "name": "ABB",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 2 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "cummins": {
+      "enabled": true,
+      "name": "康明斯",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 27 / intern 5 / social 35 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "danfoss": {
+      "enabled": true,
+      "name": "丹佛斯(上海)自动控制有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 2 / intern 0 / social 0 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "dowstone.cn": {
+      "enabled": true,
+      "name": "道氏",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 24 / intern 0 / social 6 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "estee": {
+      "enabled": true,
+      "name": "雅诗兰黛（上海）商贸有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 26 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "evergrande": {
+      "enabled": true,
+      "name": "恒大集团有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 6 / intern 0 / social 0 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "fosunholiday": {
+      "enabled": true,
+      "name": "地中海度假集团",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 2 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "fuyao": {
+      "enabled": true,
+      "name": "福耀玻璃",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 121 / intern 4 / social 228 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "grgtest": {
+      "enabled": true,
+      "name": "广电计量检测集团股份有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 89 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "hbglobal": {
+      "enabled": true,
+      "name": "华宝集团",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 1 / intern 0 / social 0 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "healthineers": {
+      "enabled": true,
+      "name": "西门子医疗Siemens Healthineers",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 17 / intern 1 / social 218 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "hella": {
+      "enabled": true,
+      "name": "Hella",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 8 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "heraeus": {
+      "enabled": true,
+      "name": "贺利氏",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 2 / intern 0 / social 23 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "hfcFoods": {
+      "enabled": true,
+      "name": "东莞徐记食品有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 7 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "hitachi-helc.com": {
+      "enabled": true,
+      "name": "日立电梯（中国）有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 1 / intern 0 / social 5 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "ibmcampus": {
+      "enabled": true,
+      "name": "IBM校招",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 12 / intern 6 / social 0 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "ict.ac": {
+      "enabled": true,
+      "name": "中国科学院计算技术研究所",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 111 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "intel": {
+      "enabled": true,
+      "name": "Intel",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 15 / intern 3 / social 7 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "intelcampus": {
+      "enabled": true,
+      "name": "英特尔（校招）",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 1 / intern 1 / social 16 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "ioe.ac.cn": {
+      "enabled": true,
+      "name": "中国科学院光电技术研究所",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 48 / intern 0 / social 7 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "iscas": {
+      "enabled": true,
+      "name": "中科院软件所",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 89 / intern 0 / social 1 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "jiuniudianshang": {
+      "enabled": true,
+      "name": "九牛电商",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 1 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "joomet": {
+      "enabled": true,
+      "name": "荞麦咨询",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 2 / intern 1 / social 0 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "lvmh": {
+      "enabled": true,
+      "name": "LVMH",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 13 / intern 12 / social 104 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "pfizer": {
+      "enabled": true,
+      "name": "辉瑞",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 279 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "pfizercampus": {
+      "enabled": true,
+      "name": "辉瑞校招系统",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 13 / social 0 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "pharmaron-bj": {
+      "enabled": true,
+      "name": "康龙化成（北京）新药技术股份有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 144 / intern 41 / social 828 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "sanofi": {
+      "enabled": true,
+      "name": "赛诺菲（中国）投资有限公司上海分公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 20 / social 126 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "scania": {
+      "enabled": true,
+      "name": "斯堪尼亚",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 36 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "siemens": {
+      "enabled": true,
+      "name": "西门子中国",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 42 / intern 6 / social 167 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "siemens-energy": {
+      "enabled": true,
+      "name": "西门子能源",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 1 / intern 0 / social 98 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "simedarbyats.industrial": {
+      "enabled": true,
+      "name": "森达美信昌机器工程有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 2 / intern 0 / social 62 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "simemotors": {
+      "enabled": true,
+      "name": "森那美汽车",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 2 / social 51 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "skhynix": {
+      "enabled": true,
+      "name": "SK 海力士大连",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 8 / intern 2 / social 56 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "swireproperties": {
+      "enabled": true,
+      "name": "太古地产（中国）投资有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 9 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "tjyh2003": {
+      "enabled": true,
+      "name": "英华实验学校",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 2 / intern 0 / social 20 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "toyota": {
+      "enabled": true,
+      "name": "丰田汽车（中国）投资有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 11 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "tptest": {
+      "enabled": true,
+      "name": "中力迅科技",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 1 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "tsingyun": {
+      "enabled": true,
+      "name": "清云智通（北京）科技有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 8 / intern 0 / social 37 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "tuv": {
+      "enabled": true,
+      "name": "莱茵技术（上海）有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 1 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "wanji": {
+      "enabled": true,
+      "name": "万集科技",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 56 / intern 0 / social 15 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "weinview": {
+      "enabled": true,
+      "name": "威纶通",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 8 / intern 0 / social 33 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "wuxiapptec": {
+      "enabled": true,
+      "name": "药明康德",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 198 / intern 27 / social 397 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "xmhxgroup.com": {
+      "enabled": true,
+      "name": "厦门恒兴集团有限公司",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 63 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    },
+    "yumchina": {
+      "enabled": true,
+      "name": "百胜中国",
+      "note": "careersite tenant; name from the public careersite.tupu360.com customer directory. Census 2026-09-19 (public list pages): campus 0 / intern 0 / social 1 postings.",
+      "enabled_reason": "站长 2026-09-20 明确决定启用（原话“接回来的60家都开”）；平台级 robots.txt 为 `User-agent: * / Disallow: /`，站长已知情并决定采集。"
+    }
+  }
+}
