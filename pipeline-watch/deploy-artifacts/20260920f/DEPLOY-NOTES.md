@@ -1,6 +1,6 @@
 # 20260920f 累积部署件（分段发布 + 去掉总时长上限 + 并发 16）
 
-生成：2026-09-20，分支 `feat/segmented-publish`
+生成：2026-09-20，分支 `feat/segmented-publish` 提交 **b17010b7**
 （worktree `/Users/maxzhl/Projects/mcp-suite-seg`；起点 `fix/p0-typeerror-20260920` 37ac85f2
 = `feat/collector-next-6` f0694da7 + `feat/gap-report` 3468074a + 9-20 的 P0 修复）。
 

@@ -123,3 +123,8 @@ New-backup command (do not skip, and never overwrite an existing backup director
   robocopy C:\mcp-suite-collector\qiuzhao C:\mcp-suite-backup-<YYYYMMDD-HHmm>\qiuzhao /E /R:2 /W:5
 robocopy exit codes <= 7 mean success. Do NOT robocopy the whole collector directory
 (recovery/ is ~3.4 GB).
+
+RE-MEASURE (2026-09-20 14:15 CST, after every temp-directory verification run had finished):
+all 21 PRE-DEPLOY hashes were measured on jingling a second time and are byte-identical to the
+table above -> 21/21 unchanged, the verification runs did not touch the production tree.
+Source commit of this bundle: feat/segmented-publish b17010b7.

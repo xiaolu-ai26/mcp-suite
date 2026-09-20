@@ -3,7 +3,7 @@
 任务：把「全跑完才推送服务器」的采集链改成分段发布；去掉 p1 全局时长上限（保留总预算兜底）；
 并发提到 16；给 P0 根因补第二道防线；精灵临时目录实测（不写正式目录、不推真实服务器）。
 
-分支 `feat/segmented-publish`，worktree `/Users/maxzhl/Projects/mcp-suite-seg`
+分支 `feat/segmented-publish`，提交 **b17010b7**，worktree `/Users/maxzhl/Projects/mcp-suite-seg`
 （起点 `fix/p0-typeerror-20260920` 37ac85f2，已含 `feat/collector-next-6` f0694da7 与
 `feat/gap-report` 3468074a）。
 
