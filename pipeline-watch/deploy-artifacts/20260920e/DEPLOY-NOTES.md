@@ -182,4 +182,11 @@ tupu360 注册 55 家  nestle=moka  hp=eightfold  hsbc=successfactors
   自 20260920a 起就未随任何包含进来;要同步请另开任务。
 - `qiuzhao\normalize_tables.json` 在精灵上不存在,`normalize.py` 走内置值集降级路径
   (20260920a 收据已记录,本包未改变该行为)。
+- **完整性审计**(本次对精灵 `qiuzhao\` + `deploy\` 全树 66 个文件逐个 sha256 比对):
+  除上面三处既有分叉与精灵上的 `*.bak-*`/`*.before-*` 备份文件外,分支与现役**唯一的差异
+  就是本包的 21 个文件**。分支里另有三个精灵上没有的文件,均**不需要**下发:
+  `lark_sync_index.py`(只被 `deploy\windows_recover_run.py` 引用,而现役 `windows_collector.py`
+  用 `lark_sync_daemon`,测试也断言 deployable 文件里不出现 `lark_sync_index`)、
+  `p1_company_names.py`(只被自己的单测与 `company_names.py` 的注释引用,不进每日链)、
+  `normalize_tables.json`(降级路径,见上条)。
 - 打捞 9-20 的 p1 数据是**独立决策**,不在本包范围。
