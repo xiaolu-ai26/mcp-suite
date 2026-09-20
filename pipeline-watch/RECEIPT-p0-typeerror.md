@@ -239,7 +239,8 @@ UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb4 in position 0: invalid 
 
 ## 6. 提交与产物
 
-- 分支 `fix/p0-typeerror-20260920`,worktree `/Users/maxzhl/Projects/mcp-suite-p0b`(本机盘)。
+- 分支 `fix/p0-typeerror-20260920`,worktree `/Users/maxzhl/Projects/mcp-suite-p0b`(本机盘);
+  提交 **`b505edf1`**(起点 `feat/gap-report` 3468074a)。
 - 改动文件:`qiuzhao/collector/{portable_runtime,p1_pipeline,auto_collect,lark_sync_daemon,sync_lark_multivalue,p1_sources_11_20}.py`、
   `deploy/windows_collector.py`、`tests/{test_p0_typeerror_20260920.py(新),test_collector_partial_keep.py,test_collector_next_integration.py}`、
   `pipeline-watch/deploy-artifacts/20260920e/`、本收据。

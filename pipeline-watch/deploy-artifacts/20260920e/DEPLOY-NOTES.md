@@ -151,7 +151,7 @@ p1 那 9 次被自己的 `except Exception` 收敛成「该单元失败」;外�
 IMPORT_OK 1124 1124
 REGISTRY_EQ_DEFAULT True
 LOCK True
-CHILD_TEXT {'text': True, 'encoding': 'replace'...}
+CHILD_TEXT {'text': True, 'encoding': 'utf-8', 'errors': 'replace'}
 P1_STEP_LIMIT 21600 P1_MAX_RUN_SECONDS 18000
 STEP_LIMITS {'basic': 7200, 'tencent': 1800, 'p1': 21600, 'normalize': 1800}
 tupu360 注册 55 家  nestle=moka  hp=eightfold  hsbc=successfactors
