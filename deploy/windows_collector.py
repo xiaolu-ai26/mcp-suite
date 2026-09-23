@@ -93,6 +93,38 @@ def pull(path,*,receipt=None):
         return before
     return _retry_transient('pull_snapshot',attempt,receipt=receipt)
 
+
+# 2026-09-23's "basic" step: the collector VM's C: drive fell to ~0.6GB free mid-run. One
+# source hit ENOSPC and logged it, then qiuzhao/collector/run.py's own write_json() hit a
+# bare MemoryError serialising jobs.json -- Windows could not grow the page file with the
+# disk that full, and no step-level try/except can make that safe after the fact. The
+# only reliable fix is to never start a step or a segment without headroom it is likely to
+# need, and fail closed with a clear reason before anything is written. This deliberately
+# does not touch qiuzhao/collector/run.py (the "basic" collector) or attempt to reclaim
+# space itself -- it only refuses to proceed when there plainly is not enough.
+CAPACITY_MIN_FREE_BYTES=5*1024**3    # flat floor; today's crash happened under 1GB free
+CAPACITY_SIZE_MULTIPLE=4             # candidate + gzip upload + pulled snapshot + merge
+
+def capacity_check(paths,*,free_override=None):
+    """``shutil.disk_usage(ROOT.anchor).free`` against a size-scaled reserve.
+
+    ``paths`` are references for "how big is the current working set"; a missing path
+    just contributes 0. Raises ``RuntimeError`` (the fail-closed signal) when free space
+    is short of the reserve; otherwise returns the numbers for the receipt. Never raises
+    for its own I/O reasons -- ``Path.stat()`` failures on a missing file are exactly what
+    ``if p.exists()`` already screens out.
+    """
+    reference=max((Path(p).stat().st_size for p in paths if Path(p).exists()),default=0)
+    required=max(CAPACITY_MIN_FREE_BYTES,CAPACITY_SIZE_MULTIPLE*reference)
+    free=shutil.disk_usage(ROOT.anchor).free if free_override is None else free_override
+    result={'free_bytes':free,'required_bytes':required,'reference_bytes':reference,
+            'drive':ROOT.anchor,'passed':free>=required}
+    if not result['passed']:
+        raise RuntimeError('capacity gate: {} bytes free on {}, need >= {} (reference {} '
+                           'bytes); blocked before collecting or publishing anything'.format(
+                               free,ROOT.anchor,required,reference))
+    return result
+
 def record_cleanup(receipt,name,child):
     """Kill a timed-out child tree; never raise, always leave evidence in the receipt.
 
@@ -469,6 +501,12 @@ def run_p1_segments(state,statepath,run,stage,baseline,env,steps,*,smoke,no_sync
                                 'detail':'no new segment started; finished segments are published'}
             stop='total budget reached at a segment boundary'
             break
+        try:
+            state['capacity']=capacity_check([stage/'jobs.json'])
+        except RuntimeError as error:
+            state['capacity']={'passed':False,'error':str(error)}
+            stop=str(error)
+            break
         record={'_started':time.monotonic(),'segment':len(segments)+1,
                 'started_at':dt.datetime.now().astimezone().isoformat(),
                 'budget_elapsed_seconds':round(elapsed,1),
@@ -587,6 +625,7 @@ def main():
         if state.get('finished'):return 0 if state.get('success') else 1
         try:
             baseline=run/'jobs.before.json'
+            state['capacity']=capacity_check([ROOT/'data/jobs.json',baseline])
             state['stage']='snapshot';atomic_json(statepath,state)
             if not baseline.exists() or not state.get('before_sha256'):
                 state['before_sha256']=pull(baseline,receipt=state)
