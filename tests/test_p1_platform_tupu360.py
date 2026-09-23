@@ -734,3 +734,91 @@ def test_direct_api_reports_a_cap_hit_instead_of_claiming_the_end(tmp_path):
     assert len(parsed['rows']) == 45
     assert parsed['total_label'] == 828
     assert parsed['page_cap_hit'] is True
+
+
+# --------------------------------------------------------------------------- #
+# 2026-09-24 first-five run: inline script tail and runner-owned evidence files
+# --------------------------------------------------------------------------- #
+# ``first5-*`` fixtures are real 2026-09-24 public pages from the 福耀玻璃 / 西门子中国 /
+# 埃森哲 / Intel / IBM校招 careersite tenants, trimmed to the hidden inputs, the
+# 职位概况 list and the position-description container through <footer>; the
+# site's inline <script> blocks inside that slice are kept on purpose.
+FIRST5_DETAILS = {
+    'first5-detail-fuyao-682a87fcf32127600e0c7c6e.html': ('工作职责', '任职要求'),
+    'first5-detail-siemens.html': ('你将从事哪些领域', 'Sales100'),
+    'first5-detail-accentureats.html': ('【工作内容】', '专业不限'),
+    'first5-detail-intel-javascript.html': ('The Role and Impact', 'HTML, JavaScript libraries'),
+    'first5-detail-ibmcampus.html': ('实习要求', '职位描述'),
+}
+FIRST5_FUYAO_INTERN = ('66715a9b5ed8cc5d859bc7f4', '682a87fcf32127600e0c7c6e',
+                       '682a885ef32127600e0c7c70', '682a8dd6f32127600e0c7c87')
+
+
+@pytest.mark.parametrize('name,kept', sorted(FIRST5_DETAILS.items()))
+def test_detail_drops_inline_script_nodes_but_keeps_the_posting_text(name, kept):
+    raw = page(name)
+    assert '<script' in raw[raw.find('position-description'):]   # the fixture really carries them
+    parsed = tupu.parse_detail(raw)
+    text = tupu._clean(parsed['description_html'])
+    for phrase in kept:
+        assert phrase in text
+    for leaked in ('$(function', 'recommendBtn', 'var applyBtn', 'getApplyStr'):
+        assert leaked not in text
+    assert '<script' not in parsed['description_html'].lower()
+    assert parsed['status_raw'] == 'PUBLISHING'
+
+
+def test_intel_outer_links_site_module_is_not_posting_text():
+    raw = page('first5-detail-intel-javascript.html')
+    assert 'global-module-outerlinks' in raw and '关注英特尔更多信息' in raw
+    text = tupu._clean(tupu.parse_detail(raw)['description_html'])
+    assert 'HTML, JavaScript libraries' in text
+    assert text.endswith('make a meaningful impact.')
+    assert '关注英特尔更多信息' not in text and '公众号' not in text
+
+
+def test_detail_keeps_script_words_and_escaped_tags_in_posting_prose():
+    raw = ('<input id="positionName" value="前端开发"><div class="position-description">'
+           '<p>熟悉 JavaScript / TypeScript，了解 &lt;script&gt; 与 &lt;style&gt; 标签。</p>'
+           '<style>.x{color:red}</style><script>var recommendBtn = "<a>推 荐</a>";</script>'
+           '<p>任职要求：本科。</p><script nonce="">$(function () { unfinished'
+           '</div><footer></footer>')
+    text = tupu._clean(tupu.parse_detail(raw)['description_html'])
+    assert '熟悉 JavaScript / TypeScript，了解 <script> 与 <style> 标签。' in text
+    assert '任职要求：本科。' in text
+    assert 'recommendBtn' not in text and 'color:red' not in text and 'unfinished' not in text
+
+
+def test_runner_log_and_result_files_are_not_evidence_and_the_unit_validates(tmp_path, entry_override):
+    """collect_process opens an empty adapter.log in the unit directory before the
+    adapter runs; a stale result.json may sit there too. Neither is a source page."""
+    entry_override('fuyao')
+    (tmp_path / 'adapter.log').write_text('', encoding='utf-8')
+    (tmp_path / 'result.json').write_text('', encoding='utf-8')
+    routes = {'/position/index': page('first5-list-fuyao-intern.html')}
+    for pid in FIRST5_FUYAO_INTERN:
+        routes['positionId=' + pid] = page(f'first5-detail-fuyao-{pid}.html')
+    result = run('福耀玻璃', 'intern', tmp_path, routes)
+    coverage = result['coverage']
+    assert coverage['status'] == 'success' and coverage['complete'] is True
+    assert coverage['expected_total'] == 4 and coverage['collected_jobs'] == 4
+    assert sorted(job['source_record_id'] for job in result['jobs']) == list(FIRST5_FUYAO_INTERN)
+    assert coverage['evidence_files'] == sorted(
+        ['fuyao-INTERNSHIPRECRUITMENT-list-1.html']
+        + [f'fuyao-detail-{pid}.html' for pid in FIRST5_FUYAO_INTERN])
+    assert 'adapter.log' not in coverage['evidence_files'] and 'result.json' not in coverage['evidence_files']
+    assert all('$(function' not in job['description_raw'] for job in result['jobs'])
+    validated = pipeline.validate_result(result, '福耀玻璃', 'intern', tmp_path)
+    assert validated['coverage']['complete'] is True and len(validated['jobs']) == 4
+
+
+def test_validator_still_rejects_an_empty_listed_evidence_file(tmp_path, entry_override):
+    entry_override('fuyao')
+    routes = {'/position/index': page('first5-list-fuyao-intern.html')}
+    for pid in FIRST5_FUYAO_INTERN:
+        routes['positionId=' + pid] = page(f'first5-detail-fuyao-{pid}.html')
+    result = run('福耀玻璃', 'intern', tmp_path, routes)
+    (tmp_path / 'adapter.log').write_text('', encoding='utf-8')
+    result['coverage']['evidence_files'] = result['coverage']['evidence_files'] + ['adapter.log']
+    with pytest.raises(ValueError, match='evidence'):
+        pipeline.validate_result(result, '福耀玻璃', 'intern', tmp_path)

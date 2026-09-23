@@ -1,0 +1,690 @@
+<html><body>
+<input type="hidden" id="positionName" value="z/OS开发/测试实习生-北京">
+<input type="hidden" id="sourcePid" value="1042399">
+<input type="hidden" id="recruitmentType" value="INTERNSHIPRECRUITMENT">
+<input type="hidden" id="positionStatus" value="PUBLISHING">
+<input type="hidden" id="positionId" value="619f4be0601d46435a012200">
+<div class="position-description mt-4 mb-4" >
+                <p><strong>实习要求：</strong></p><p>实习期3-6个月，每周工作三天以上</p><p><br></p><p><strong>职位描述：</strong></p><p><span style="background-color: rgb(248, 248, 248);">IBM Z大型主机你听说过吗？你一定用过，因为你银行账户的查询，存取款，转账都是通过它来完成的，国内许多银行都是IBM大型主机的忠实客户。它诞生于1964年，历经风霜，1971年就曾帮助阿姆斯特朗登上月球。全球500强的银行、保险、零售、航空公司，基本都在用主机，每一天在地球上，发生在IBM Z上的交易量次，超过谷歌一天的搜索量。业界一枝独秀，舍我其谁！</span></p><p><span style="background-color: rgb(248, 248, 248);">随着技术的发展，IBM Z依然保持的青春与活力，紧贴前沿技术潮流，和云紧密结合。安全性卓越，面向企业所有应用、云服务、数据库相关的全部数据，实现随时随地的、无处不在的数据加密。</span></p><p><span style="background-color: rgb(248, 248, 248);">IBM Z中国开发团队经验丰富，涉及前端，后端，AI，machine learning等前沿科技，定有适合你的职位，培训课程丰富多彩，站在巨人的肩膀上，让你迅速成长为业界大拿。我们期待每一个未来加入我们的你，一起并肩携手开创下一个历史高光时刻。</span></p><p><br></p><p><strong>职位职责：</strong></p><p>遵循软件开发流程来进行操作系统的开发,包含设计,编码,单元测试,功能测试,系统测试等</p><p><br></p><p><strong>基本技能：</strong></p><ul><li><span style="color: rgb(34, 34, 34);">C/C++或者Java</span></li><li><span style="color: rgb(34, 34, 34);">软件开发和测试</span></li><li><span style="color: rgb(34, 34, 34);">分析调试能力</span></li><li><span style="color: rgb(34, 34, 34);">操作系统知识</span></li></ul><p><strong> </strong></p><p><strong>期望技能：</strong></p><ul><li><span style="color: rgb(34, 34, 34);">类Linux/Unix操作系统知识</span></li><li><span style="color: rgb(34, 34, 34);">C/C++或者汇编语言</span></li><li><span style="color: rgb(34, 34, 34);">脚本语言perl, shell, python etc.</span></li><li><span style="color: rgb(34, 34, 34);">熟悉Dojo或Angular JS开发框架</span></li><li><span style="color: rgb(34, 34, 34);">熟悉软件开发流程</span></li><li><span style="color: rgb(34, 34, 34);">分析和解决问题的能力</span></li><li><span style="color: rgb(34, 34, 34);">良好的沟通和表达</span></li><li><span style="color: rgb(34, 34, 34);">团队合作</span></li></ul><p><br></p><p><strong>其它要求：</strong></p><ul><li><span style="color: rgb(34, 34, 34);">在读计算机或相关专业研究生</span></li><li><span style="color: rgb(34, 34, 34);">英语流利</span></li></ul><p><br></p><p><strong>  实习期间表现优秀的学生有可能获得转正机会！</strong></p>
+            </div>
+        </div>
+    </div>
+
+
+
+    
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    
+    <script nonce="">
+        $(function () {
+            var recommendBtn = '<a  id="recommend" pid="619f4be0601d46435a012200" class="btn btn-outline-secondary ml-3">推 荐</a>';
+            var applyBtn = '<a  class="btn btn-primary" id="application" style="display:none" pid="619f4be0601d46435a012200" pType ="INTERNSHIPRECRUITMENT">申请</a>';
+            var appliedBtn = '<a  class="btn btn-primary disabled" id="applicationed" pid="619f4be0601d46435a012200">已申请</a>';
+            var volApplyBtn = '<a  class="btn btn-outline-secondary ml-3 btn-vol-apply-black" id="application" pType ="INTERNSHIPRECRUITMENT" pid="619f4be0601d46435a012200"  style="display:none">选好了，去投递简历</a>';
+            var addVolBtn = '<a  class="btn btn-primary" id="volunteer" pid="619f4be0601d46435a012200" pType ="INTERNSHIPRECRUITMENT" style="display:none">添加到志愿</a>';
+            var collectBtn = '<span class="btn text-primary"  title="收藏" id="collection" pid="619f4be0601d46435a012200">收藏</span>';
+            var collectedBtn = '<span class="btn text-primary collection" title="取消收藏" id="collection" pid="619f4be0601d46435a012200">已收藏</span>';
+            var goPositionListBtn = '<a  class="btn btn-primary" id="goPositionList" data-action="positionList" data-projectid="" data-recruitmenttype="INTERNSHIPRECRUITMENT" style="display:none">返回列表</a>';
+
+            var isApplication = "false";
+            var isCollection = "false";
+            var content = '<div class="btn-group-toggle">';
+            var staffNotApply = "";
+            var currentPositionInRemoveVols = "";
+
+            if(true){
+                content += getApplyStr()
+            } else {
+                if(false){
+                    
+                    var tips = "<div class='deliver-notice'> <span class='txt'>您已认证为员工身份，请勿投递！</span> </div>";
+                    staffNotApply = tips
+                }
+            }
+
+            if (false) {
+                content += recommendBtn;
+                if(true){
+                    content += '<input type="hidden" name="fromRecommend" value="false" id="fromRecommend" />';
+                }
+            }
+
+            content += "</div>";
+            
+            if (isCollection === "false") {
+                content += collectBtn
+            } else {
+                content += collectedBtn
+            }
+            
+
+            if( false){
+                if ("false" === "true" && ("false" === "false" || "" === "true")) {
+                    $("#positionDetail").append('<div class="" id="volunteerPanel"></div>');
+                }
+            }
+
+            $("#positionDetail").append('<div class="btns text-center justify-content-between d-flex " id="buttonDiv">'+content+'</div>');
+
+            if( "false" === "true" && staffNotApply){
+                $("#buttonDiv").prepend(staffNotApply)
+            }
+
+
+            function getApplyStr() {
+                var applyHtml = "";
+                if (isApplication === "false" || currentPositionInRemoveVols==="true") {
+                    if (false && false && "" !=="N") {
+
+                        
+                        applyHtml += addVolBtn;
+                        applyHtml += goPositionListBtn;
+                        applyHtml +=volApplyBtn;
+                        
+
+                    } else {
+                        applyHtml += applyBtn
+                    }
+                } else {
+                    applyHtml += appliedBtn
+                }
+
+                return applyHtml
+            }
+        });
+    </script>
+
+    
+
+
+
+
+
+
+
+<script nonce="">
+    var addVolNode = null;
+    //    点击复制链接
+    function copyUrl() {
+        var Url = document.getElementById("input");
+        Url.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+    }
+
+    $('body').on('click', '.share-qr-float .btn', function(e) {
+        $(".share-qr-float input").select();
+        document.execCommand("Copy");
+        $(".share-qr-float input").blur();
+
+        // 显示复制提示
+        $(".share-qr-float .btn").popover('show');
+
+        // 定时清除提示
+        setTimeout(function () {
+            $(".share-qr-float .btn").popover('hide')
+        },2000);
+
+        // 弹层收起时，清除提示
+        $("#shareFloat").on('hide.bs.collapse',function () {
+            $(".share-qr-float .btn").popover('hide')
+        })
+    });
+
+    // 投递
+    $('body').on('click', '#application', function(e) {
+        if( true){
+            if (false && "" !=="N") {
+                var selectTotal = $(".volunteer-orders .volunteer-item").length
+                var maxPriorityCount = 0;
+                var notAllVolTips = "";
+                if(notAllVolTips && selectTotal<maxPriorityCount){
+                    v.showTips('提示', notAllVolTips, function () {
+                        toApplyPosition()
+                    }, true)
+
+                    return
+                }
+            }
+
+            if(false){
+                
+                
+                v.showTips('提示', $("#applyPopUpTips").html(), function () {
+                    toApplyPosition()
+                }, true)
+
+                return
+            }
+        }
+
+        toApplyPosition()
+
+    });
+
+    function toApplyPosition(){
+        v.showLoading();
+        var pid;
+        var recruitmentType;
+        if( true){
+            if (false && "" !=="N") {
+                pid = $(".volunteer-orders li:eq(" + 0 + ")").children(".position").attr("pid");
+                recruitmentType = $(".volunteer-orders li:eq(" + 0 + ")").attr("pType");
+            } else {
+                pid = $('#application').attr("pid");
+                recruitmentType = $('#application').attr("pType");
+            }
+        }else{
+            pid = $('#application').attr("pid");
+            recruitmentType = $('#application').attr("pType");
+        }
+        var prevPositionId = "619f4be0601d46435a012200";
+        console.log("toApplyPosition pid:",pid, "; recruitmentType:", recruitmentType)
+        commonRequest(null, function(){
+            $.getJSON("/ibmcampus/application/deliveryTotalByRecruitmentType",
+                {positionId: pid, recruitmentType:recruitmentType,projectId:""},
+                function (data) {
+                    if (data.success) {
+                        if(pid){
+                            var sourcePid = $("#sourcePid").val();
+                            //跳转申请页面
+                            var url = "/ibmcampus/resume/applicationView?positionId=" + pid;
+                            var projectId = "";
+                            if (projectId != "") {
+                                url = url+"&projectId="+projectId;
+                            }
+                            if(""){
+                                url = url+"&jobFairCode="+"";
+                            }
+                            if("INTERNSHIPRECRUITMENT"){
+                                url = url+"&prt="+"INTERNSHIPRECRUITMENT";
+                            }
+                            if(false){
+                                url +="&prevPositionId="+prevPositionId;
+                            }
+                            window.location.href = url;
+                        }else{
+                            v.hideLoading();
+                            v.showAlert('请先添加志愿！');
+                        }
+                    } else {
+                        v.hideLoading();
+                        v.showAlert(data.message);
+                    }
+                });
+        });
+    }
+
+
+    // 收藏/取消收藏
+    $('body').on('click', '#collection', function(e) {
+        v.showLoading();
+        var pid = $(this).attr("pid");
+        var flag = $(this).hasClass("collection");
+        console.log("flag:",flag)
+        if (flag === false) {
+            commonRequest(null, function() {
+                $.getJSON("/ibmcampus/position/favorite", {positionId: pid},
+                    function (res) {
+                        v.hideLoading();
+                        if (res.success) {
+                            v.showAlert('收藏成功！');
+                            if ($("#collection").is(':has(span)')) {
+                                $("#collection").html('<span class="icons i-been-heart p-1" style="font-size: 1.5em"></span><span class="txt">已收藏</span>');
+                                $("#collection").attr("title", '取消收藏');
+                            } else {
+                                $("#collection").text('已收藏');
+                                $("#collection").attr("title", '取消收藏');
+                            }
+
+                            $("#collection").addClass("collection");
+                        } else {
+                            v.showAlert('收藏失败！');
+                        }
+                    })
+            });
+        } else {
+            commonRequest(null, function() {
+                $.getJSON("/ibmcampus/position/cancelCollection", {positionId: pid},
+                    function (res) {
+                        v.hideLoading();
+                        if (res.success) {
+                            v.showAlert('取消收藏成功！');
+                            if ($("#collection").is(':has(span)')) {
+                                $("#collection").html('<span class="icons i-heart p-1"  style="font-size: 1.5em" ></span><span class="txt">收藏</span>');
+                                $("#collection").attr("title", '收藏');
+                            } else {
+                                $("#collection").text('收藏');
+                                $("#collection").attr("title", '收藏');
+                            }
+
+                            $("#collection").removeClass("collection");
+                        } else {
+                            v.showAlert('取消收藏失败！');
+                        }
+                    })
+            });
+        }
+
+    });
+
+    $('body').on('click', '#recommend', function(e) {
+        v.showLoading();
+        var pid = $(this).attr("pid");
+        //跳转推荐页面
+        var url = "/ibmcampus/resume/relatedPosition?type=recommend&positionId=" + pid;
+       // window.location.href = url;
+       // commonRequest(url, null);
+        $.ajax({
+            url: getVisitUrl("login", "userIsLogin"),
+            dataType: "json",
+            type: "post",
+            async:false,
+            success: function (data) {
+                if(data.login){
+                    if(data.isEmployee != "Y"){
+                        v.showAlert('企业仅接受内部员工推荐！');
+                    }else{
+                        if(thatIsWindows()){
+                            window.open(url);
+                        } else {
+                            window.location.href = url
+                        }
+                    }
+                } else {
+                    v.hideLoading();
+                    if($("#fromRecommend").length > 0){
+                        $("#fromRecommend").val("true");
+                    }
+                    showLoginFrom();
+                    $("#signInModule").modal();
+                }
+            }
+        });
+        v.hideLoading();
+    });
+
+    $('body').on('click', '#volunteer', function(e) {
+        if("true" !== "true" && $("#addVolTips").length > 0){
+            $("#addVolTips").modal('toggle');
+            addVolNode = this;
+        } else {
+            addVolToProject(this)
+        }
+    });
+
+    /* 志愿排序 */
+    var volunteerActions = {
+        'init': function () {
+            const $this = this;
+            const $doc = $(document);
+
+            $doc.on('click', '.volunteer-box .i-up', (e) => $this.up(e.currentTarget));
+            $doc.on('click', '.volunteer-box .i-down', (e) => $this.down(e.currentTarget));
+            $doc.on('click', '.volunteer-box .i-remove', (e) => revokeDelivery(e.currentTarget));
+
+            // $(".volunteer-box .i-up").each(function (i,w) {
+            //     $(w).on("click",function () {
+            //         $this.up(w)
+            //     })
+            // });
+            // $(".volunteer-box .i-down").each(function (i,w) {
+            //     $(w).on("click",function () {
+            //         $this.down(w)
+            //     })
+            // });
+            // $(".volunteer-box .i-remove").each(function (i,w) {
+            //     $(w).on("click",function () {
+            //         revokeDelivery(w, i)
+            //     })
+            // })
+        },
+        'remove': function (box) {
+            var $this = this;
+            var $father = $(box).parentsUntil('.volunteer-orders');
+            var $box = $father.eq($father.length-1);
+            $box.find('.position').empty()
+        },
+        'up': function (box) {
+            v.showLoading();
+            var $this = this;
+            var $father = $(box).parentsUntil('.volunteer-orders');
+            var $box = $father.eq($father.length-1);
+            var $prev = $box.prev();
+            $this.move($prev, $box)
+
+        },
+        'down': function (box) {
+            v.showLoading();
+            var $this = this;
+            var $father = $(box).parentsUntil('.volunteer-orders');
+            var $box = $father.eq($father.length-1);
+            var $next = $box.next();
+
+            $this.move($box, $next)
+        },
+        'move': function (down, up) {
+            $(".volunteer-box").addClass('running');
+            down.addClass('move-down');
+            up.addClass('move-up');
+            var $downPosition = up.find('.position');
+            var $upPosition = down.find('.position');
+            setTimeout(function () {
+                $($downPosition).remove(".actions");
+                $($upPosition).remove(".actions");
+                $($downPosition).appendTo(down);
+                $($upPosition).appendTo(up);
+                down.removeClass('move-down');
+                up.removeClass('move-up');
+                $(".volunteer-box").removeClass('running');
+                saveVolunteers()
+            },299)
+
+        }
+    };
+    // volunteerActions.init();
+
+    function saveVolunteers() {
+        var pId;
+        var volunteers = [];
+        var pType
+        $(".volunteer-item").each(function (i, e) {
+            var volunteerNo = $(e).attr("volunteerNo");
+            var positionId = $(e).find(".position").attr("pid");
+            var positionName = $(e).find(".position").attr("pName");
+            var recruitmentType = $(e).find(".position").attr("pType");
+            var deliverId = $(e).find(".position").attr("deliverId");
+            var applicationId = $(e).find(".position").attr("applicationId");
+            var uid = $(e).find(".position").attr("uid");
+            pType =  $(e).find(".position").attr("pType");
+            var volunteer = {};
+            volunteer.volunteerNo = parseInt(volunteerNo);
+            volunteer.positionName = positionName;
+            volunteer.positionId = positionId;
+            volunteer.recruitmentType = recruitmentType;
+            if(deliverId){
+                volunteer.deliverId = deliverId;
+            }
+            if(applicationId){
+                volunteer.applicationId = applicationId;
+            }
+            if(uid){
+                volunteer.uid = uid;
+            }
+            volunteers.push(volunteer);
+
+            if(volunteerNo === "1"){
+                pId = positionId
+            }
+        });
+        commonRequest(null, function() {
+            $.ajax({
+                url: "/ibmcampus/application/saveVolunteer",
+                data: {
+                    volunteers: JSON.stringify(volunteers),
+                    recruitmentType: pType,
+                    projectId: ""
+                },
+                success: function (res) {
+                    if (res.success) {
+                        v.showAlert('调整成功');
+                        $("#volunteerPanel").html(res.content);
+                        adjustBtnShow(res.volunteers)
+                    } else {
+                        v.showAlert('调整失败');
+                    }
+                }
+            });
+        });
+
+        v.hideLoading();
+    }
+
+    function adjustBtnShow(vols, appliedRemoveVol){
+        var maxPrioCount = 0;
+
+        var hasVol = false;
+        var hasNoApply = false;
+        var thatVolApplied = false;
+        for(var i =0; i < vols.length; i++){
+            var vol = vols[i];
+            if(vol.positionId === "619f4be0601d46435a012200" || (vol.sourcePid && vol.sourcePid === "1042399")){
+                hasVol = true;
+                if(vol.applicationId){
+                    thatVolApplied = true;
+                }
+            }
+
+            if(!vol.applicationId){
+                hasNoApply = true
+            }
+        }
+
+        if(vols.length < maxPrioCount && !hasVol){
+            $("#volunteer").show();
+        } else {
+            $("#volunteer").hide();
+        }
+
+        if(hasVol){
+            if(thatVolApplied){
+                $("#applicationed").show();
+                if(appliedRemoveVol){
+                    console.log("thatVolApplied appliedRemoveVol");
+                    $("#volunteerPanel").remove();
+                }
+            } else {
+                $("#applicationed").hide();
+                $("#addedVolunteer").show()
+            }
+        } else {
+            $("#applicationed").hide();
+            $("#addedVolunteer").hide();
+        }
+
+        if(hasVol && vols.length < maxPrioCount){
+            $("#goPositionList").show();
+        } else {
+            $("#goPositionList").hide();
+        }
+
+        if(vols.length < 1 || !hasNoApply){
+            $("#application").hide();
+        } else {
+            $("#application").show();
+        }
+    }
+
+
+    setTimeout(function () {
+        buttonShow();
+    }, 5);
+    function buttonShow(){
+        var positionStatus = $("#positionStatus").val();
+        if(positionStatus !== "PUBLISHING"){
+            $("#buttonDiv").removeClass("d-flex");
+            $("#buttonDiv").css('display', 'none');
+        }
+    }
+
+    var hasApplyShowApplyFunction = false
+
+    function isShowApplyBtn(callback) {
+        if(hasApplyShowApplyFunction){
+            return
+        } else {
+            hasApplyShowApplyFunction = true
+        }
+        if($("#application").length > 0) {
+            $.ajax({
+                url: "/ibmcampus/user/allowApply",
+                data: {},
+                success: function (res) {
+                    if (res.allowEdit != false) {
+                        $("#application").show()
+                    } else {
+                        $("#application").remove();
+                        if($("#goPositionList").length > 0){
+                            $("#goPositionList").remove()
+                        }
+                        if($("#volunteer").length > 0){
+                            $("#volunteer").remove()
+                        }
+                    }
+
+                    if(callback){
+                        callback.call();
+                    }
+                }
+            });
+        } else {
+            if(callback){
+                callback.call();
+            }
+        }
+    }
+
+    function revokeDelivery(box) {
+        v.showLoading();
+        //删除志愿
+        var pid = $(box).parents('li.volunteer-item').find(".position").attr("pid");
+        var pType = $(box).parents('li.volunteer-item').find(".position").attr("ptype");
+        var params = {positionId: pid, recruitmentType:pType};
+        var projectId = "";
+        if (projectId != "") {
+            params.projectId = projectId
+        }
+        $.getJSON("/ibmcampus/application/delVolunteer",params,
+            function (res) {
+                v.hideLoading();
+                if (res.success) {
+                    v.showAlert('删除志愿成功');
+                    $("#volunteerPanel").html(res.content);
+
+                    adjustBtnShow(res.volunteers);
+                } else {
+                    v.showAlert('删除志愿失败');
+                }
+            });
+    }
+
+    $("#addVolEnter").click(function () {
+        $("#addVolTips").modal('hide');
+        addVolToProject(addVolNode)
+    });
+
+    $("#addVolCancel").click(function () {
+        $("#addVolTips").modal('hide');
+        addVolNode = null
+    });
+
+    function addVolToProject(that){
+        v.showLoading();
+        var pid = $(that).attr("pid");
+        var recruitmentType = $(that).attr("pType");
+        var params = {positionId: pid, recruitmentType:recruitmentType};
+        var projectId = "";
+        if (projectId != "") {
+            params.projectId = projectId
+        }
+        commonRequest(null, function() {
+            $.getJSON("/ibmcampus/application/volunteerAndDeliverCount", params,
+                function (data) {
+                    if (data.success) {
+                        //保存志愿
+                        $.getJSON("/ibmcampus/application/addVolunteer", params,
+                            function (res) {
+                                v.hideLoading();
+                                if (res.success) {
+                                    v.showAlert(res.message);
+                                    $("#volunteerPanel").html(res.content);
+                                    adjustBtnShow(res.volunteers);
+
+                                    addVolNode = null;
+                                } else {
+                                    v.showAlert(res.message);
+                                }
+                            });
+                    } else {
+                        v.hideLoading();
+                        v.showAlert(data.message);
+                    }
+                });
+        });
+    }
+
+    $(function () {
+        
+            $("#application").show();
+        
+
+        if( false) {
+            if ("false" === "true" && ("false" === "false" || ""==="true") && "" !=="N") {
+                var _volunteer_params = {positionId: '619f4be0601d46435a012200',recruitmentType: 'INTERNSHIPRECRUITMENT'};
+                var projectId = "";
+                if (projectId !== "") {
+                    _volunteer_params.projectId = projectId;
+                }
+                $.get("/ibmcampus/application/detail",
+                    _volunteer_params,
+                    function (data) {
+                        $("#volunteerPanel").append(data);
+
+                        
+                        const vp = $("#volunteerPanel");
+                        if(vp.length > 0 && !vp.hasClass("card")){
+                            vp.addClass("volunteer-box card-normal card")
+                        }
+                        
+                        volunteerActions.init();
+                        volunteerInitBtnShow();
+                    });
+            }
+        }
+
+        function volunteerInitBtnShow() {
+            let vols = $("#volunteersJson").val();
+            if(!vols){
+                vols = []
+            } else {
+                vols = JSON.parse(vols);
+            }
+            isShowApplyBtn( function () {adjustBtnShow(vols, true)});
+        }
+
+    })
+</script>
+
+
+
+
+            
+                
+
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                
+                    <div class="footer-text">@版权所有 2008-2026 图谱天下(北京)科技有限责任公司 <a href="/ibmcampus/login/privacyDisclaimer" target="_blank">隐私政策</a></div>
+                    <div class="links">
+                        <div class="txt">
+                            <span class="t"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010102002014" target="_blank">京公安11010102002014号</a></span> |
+                            <span class="t"><a href="http://beian.miit.gov.cn" target="_blank">京ICP备11030964号-2</a></span>
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</footer>
+</body></html>
