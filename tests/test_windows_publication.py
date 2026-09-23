@@ -843,3 +843,75 @@ def test_recovery_artifact_that_fails_verification_is_not_consumed_and_adopts_on
     assert [r['source'] for r in receipt['accepted_publications']].count('recovery') == 1
     assert receipt['consumed_recoveries'] == [str(artifact.parents[2])]
     assert server.rows()['x']['job_title'] == 'C'
+
+
+# --- receiver lock held by the dataset activation (2026-09-24) -----------------------------
+
+BUSY_STDERR = (b'Traceback (most recent call last):\n  File "/opt/mcp-suite/deploy/windows_receiver.py", '
+               b'line 60, in main\n    fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)\n'
+               b'BlockingIOError: [Errno 11] Resource temporarily unavailable\n')
+
+
+def _fake_receiver(monkeypatch, tmp_path, outcomes):
+    """subprocess.run stand-in answering publish calls with the queued (code, stdout, stderr)."""
+    calls = []
+    sleeps = []
+
+    def run(argv, **kwargs):
+        calls.append(argv[-1])
+        code, out, err = outcomes.pop(0)
+        return type('Completed', (), {'returncode': code, 'stdout': out, 'stderr': err})()
+
+    monkeypatch.setattr(W.subprocess, 'run', run)
+    monkeypatch.setattr(W.time, 'sleep', sleeps.append)
+    candidate = tmp_path / 'candidate.json'
+    candidate.write_text('[{"id": "x", "job_title": "t"}]', encoding='utf-8')
+    return calls, sleeps, candidate
+
+
+def test_busy_receiver_lock_is_waited_out_not_fatal(tmp_path, monkeypatch):
+    outcomes = [(1, b'', BUSY_STDERR), (1, b'', BUSY_STDERR)]
+    calls, sleeps, candidate = _fake_receiver(monkeypatch, tmp_path, outcomes)
+    after = W.digest(candidate)
+    outcomes.append((0, json.dumps({'published': True, 'after_sha256': after}).encode(), b''))
+    receipt = {}
+    publication = W.publish_snapshot(candidate, 'e' * 64, tmp_path / 'work', receipt=receipt)
+    assert publication['after_sha256'] == after and len(calls) == 3
+    assert sleeps == [30, 60] and len(receipt['receiver_busy']) == 2
+
+
+def test_receiver_lock_busy_for_the_whole_window_defers_the_segment(tmp_path, monkeypatch):
+    outcomes = [(1, b'', BUSY_STDERR)] * (len(W.RECEIVER_BUSY_DELAYS) + 1)
+    calls, sleeps, candidate = _fake_receiver(monkeypatch, tmp_path, list(outcomes))
+    with pytest.raises(W.PublishUnavailable, match='receiver lock stayed busy'):
+        W.publish_snapshot(candidate, 'e' * 64, tmp_path / 'work', receipt={})
+    assert sleeps == list(W.RECEIVER_BUSY_DELAYS)
+    assert sum(W.RECEIVER_BUSY_DELAYS) > 90 + 120 + 10, 'must outlast a full activation lock hold'
+
+
+def test_real_receiver_rejection_is_still_not_retried(tmp_path, monkeypatch):
+    calls, sleeps, candidate = _fake_receiver(monkeypatch, tmp_path,
+                                              [(1, b'', b'ValueError: snapshot drops existing identities\n')])
+    with pytest.raises(RuntimeError, match='receiver rejected publication'):
+        W.publish_snapshot(candidate, 'e' * 64, tmp_path / 'work', receipt={})
+    assert len(calls) == 1 and sleeps == []
+
+
+def test_activation_lock_during_a_segment_defers_and_the_day_continues(tmp_path, monkeypatch):
+    """End to end: a busy receiver during segment 1 only defers it; segment 2 publishes both."""
+    server, clock, run_dir = harness(tmp_path, monkeypatch, [job('x', 'A')])
+    busy = {'left': 1}  # one exhausted busy window (publish_snapshot already waited 390 s)
+
+    def publish(candidate, expected, folder, receipt=None):
+        if busy['left']:
+            busy['left'] -= 1
+            raise W.PublishUnavailable('receiver lock stayed busy (dataset activation)')
+        return server.publish(candidate, expected, folder, receipt)
+
+    monkeypatch.setattr(W, 'publish_snapshot', publish)
+    plans = [{'mutate': set_title('x', 'B'), 'pending': ['p']},
+             {'mutate': add_row('z', 'Z'), 'run_finished': True, 'pending': []}]
+    code, receipt, calls = drive(tmp_path, monkeypatch, run_dir, clock, plans)
+    assert publications(receipt) == ['deferred', 'published']
+    assert server.rows()['x']['job_title'] == 'B' and 'z' in server.rows()
+    assert 'error' not in receipt and code == 0

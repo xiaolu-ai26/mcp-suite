@@ -33,6 +33,12 @@ SSH=['C:/Program Files/Git/usr/bin/ssh.exe','-i',str(ROOT/'keys/ecs_collector'),
 # semantics are exactly what they were.
 SSH_RETRY_ATTEMPTS=3
 SSH_RETRY_DELAYS=(10,30,90)
+# 2026-09-24: the server-side dataset activation (deploy/activate_qiuzhao_dataset.py) holds the
+# receiver's collector.lock for at most ~220 s (sample, stop, start, one <=120 s warm, re-sample).
+# The receiver's publish takes that lock non-blocking and dies with BlockingIOError; that is a
+# busy lock, not a rejection. Wait it out (390 s in total) and then defer the segment -- never
+# end the day for it.
+RECEIVER_BUSY_DELAYS=(30,60,120,180)
 
 class PublishUnavailable(RuntimeError):
     """A publish-related ssh call stayed unreachable through every bounded retry.
@@ -295,6 +301,10 @@ def diff_counts(before, after):
     changes['disappeared'] = sum(1 for key in old if key not in new)
     return changes
 
+def receiver_busy(completed):
+    """The receiver could not take collector.lock (LOCK_NB): someone else holds it right now."""
+    return completed.returncode not in (0,255) and b'BlockingIOError' in (completed.stderr or b'')
+
 def publish_snapshot(candidate,expected_base,workdir,*,receipt=None):
     """Invoke the existing receiver; only version conflicts permit a rebase retry."""
     workdir=Path(workdir);workdir.mkdir(parents=True,exist_ok=True)
@@ -308,7 +318,15 @@ def publish_snapshot(candidate,expected_base,workdir,*,receipt=None):
             raise _Transient('ssh transport failure (exit 255): '
                              +completed.stderr.decode('utf-8',errors='replace')[-500:])
         return completed
-    result=_retry_transient('publish_snapshot',attempt,receipt=receipt)
+    for busy in range(len(RECEIVER_BUSY_DELAYS)+1):
+        result=_retry_transient('publish_snapshot',attempt,receipt=receipt)
+        if not receiver_busy(result):break
+        if receipt is not None:
+            receipt.setdefault('receiver_busy',[]).append({'attempt':busy+1,'at':dt.datetime.now().astimezone().isoformat()})
+        if busy==len(RECEIVER_BUSY_DELAYS):
+            raise PublishUnavailable('receiver lock stayed busy (dataset activation) through %d waits; '
+                                     'segment deferred' % len(RECEIVER_BUSY_DELAYS))
+        time.sleep(RECEIVER_BUSY_DELAYS[busy])
     (workdir/'receiver.stdout').write_bytes(result.stdout)
     (workdir/'receiver.stderr').write_bytes(result.stderr)
     if result.returncode:

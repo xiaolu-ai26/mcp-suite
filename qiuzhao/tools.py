@@ -2,15 +2,19 @@
 
 Three operations share one filter set (SPEC 3.0–3.3): search (jobs + match basis), stats (the same
 filters, counted and grouped) and detail (by id). The dataset is parsed and converted to v4 fields
-(qiuzhao/v4_fields.py) once per jobs.json version: the cache key is the file's mtime and size, so
-an unchanged file is never re-read and a replaced file is picked up on the next call. Search
+(qiuzhao/v4_fields.py) once per process: the first successful load is served for the life of the
+process, so a replaced jobs.json never builds a second copy next to the first (the 1.87 GB host
+cannot hold two). A new accepted version goes live only through a controlled restart
+(deploy/activate_qiuzhao_dataset.py); until then health reports reload_pending. Search
 results are ordered by match tier, then by how specific the match is, then by the requested sort
 (Jobs.order).
 """
 from __future__ import annotations
 
 import gc
+import hashlib
 import json
+import os
 import re
 import threading
 import time
@@ -78,15 +82,25 @@ def nbytes(obj):
 iter_json_file = V.iter_json_file  # chunked reader: one raw row alive at a time
 
 
+class DatasetUnavailable(ValueError):
+    """The cold load failed for this file signature; not retried until the file changes."""
+
+
+def signature(st):
+    """Cheap identity of the file at a path: what health compares without hashing."""
+    return (st.st_mtime_ns, st.st_size)
+
+
 class Dataset:
     """One immutable, fully converted version of jobs.json."""
-    __slots__ = ("key", "items", "by_id", "keyword_text", "company_text", "data_as_of", "report",
-                 "build_seconds", "loaded_at")
+    __slots__ = ("key", "sha256", "items", "by_id", "keyword_text", "company_text", "data_as_of",
+                 "report", "build_seconds", "loaded_at")
 
-    def __init__(self, key, items, data_as_of, report, build_seconds):
+    def __init__(self, key, items, data_as_of, report, build_seconds, sha256=None):
         # Published date desc, then id desc: the default order, so filtering keeps it for free.
         items.sort(key=lambda it: (it["published_at"] or "", it["id"]), reverse=True)
         self.key = key
+        self.sha256 = sha256
         self.items = items
         self.by_id = {it["id"]: it for it in items}
         # Case-folded haystacks, built once instead of on every keyword/company query.
@@ -104,7 +118,7 @@ class Jobs:
         # Fixed "today" only for reproducible tests (MCP_TODAY); production follows the clock.
         self._today = date.fromisoformat(today) if isinstance(today, str) else today
         self._data = None
-        self._failed_key = None
+        self._failed = None
         self._lock = threading.Lock()
 
     # ------------------------------------------------------------ loading
@@ -113,41 +127,69 @@ class Jobs:
         return self._today or datetime.now(TZ).date()
 
     def dataset(self):
-        """The converted dataset for the current file; rebuilt only when mtime/size change.
+        """The dataset this process serves: loaded once, never replaced in-process.
 
-        A file that cannot be parsed (e.g. caught mid-write) never replaces a good cache: the last
-        good version keeps serving and the broken version is not retried until the file changes.
+        The file is opened once; its signature and sha256 come from that descriptor and the
+        rows are parsed from the same inode, so what health reports is exactly what is served
+        even if the path is replaced mid-load. A failed cold load is remembered for that
+        signature (exception type and message only -- no traceback, so no frame keeps a
+        half-built dataset alive) and is not rebuilt again until the file changes.
         """
-        try:
-            st = self.path.stat()
-        except FileNotFoundError:
-            raise FileNotFoundError("岗位数据尚未就绪") from None
-        key = (st.st_mtime_ns, st.st_size)
         data = self._data
-        if data is not None and (data.key == key or self._failed_key == key):
+        if data is not None:
             return data
         with self._lock:
-            data = self._data
-            if data is not None and (data.key == key or self._failed_key == key):
-                return data
-            started = time.perf_counter()
+            if self._data is not None:
+                return self._data
             try:
-                items, as_of, report = V.build(iter_json_file(self.path))
-            except (ValueError, OSError):
-                if data is None:
-                    raise
-                self._failed_key = key
-                return data
-            self._data = None  # let the previous version go before the new one is indexed
-            del data
-            self._data = Dataset(key, items, as_of, report, round(time.perf_counter() - started, 3))
-            self._failed_key = None
+                current = signature(self.path.stat())
+            except FileNotFoundError:
+                raise FileNotFoundError("岗位数据尚未就绪") from None
+            failed = self._failed
+            if failed is not None and failed["key"] == current:
+                raise DatasetUnavailable(f"{failed['error_type']}: {failed['error']}")
+            started = time.perf_counter()
+            error = None
+            try:
+                with self.path.open("rb") as fh:
+                    key = signature(os.fstat(fh.fileno()))
+                    digest = hashlib.sha256()
+                    for chunk in iter(lambda: fh.read(1 << 20), b""):
+                        digest.update(chunk)
+                    fh.seek(0)
+                    items, as_of, report = V.build(iter_json_file(f"/dev/fd/{fh.fileno()}"))
+                self._data = Dataset(key, items, as_of, report, round(time.perf_counter() - started, 3),
+                                     sha256=digest.hexdigest())
+                self._failed = None
+            except (ValueError, OSError) as exc:
+                error = {"key": current, "error_type": type(exc).__name__, "error": str(exc)[:300],
+                         "at": datetime.now(TZ).isoformat(timespec="seconds")}
+            if error is not None:
+                # Outside the except block: the exception, its traceback and every frame that
+                # referenced partial rows are gone before the next request arrives.
+                self._failed = error
+                gc.collect()
+                raise DatasetUnavailable(f"{error['error_type']}: {error['error']}")
             gc.collect()
             return self._data
 
     def health(self):
+        """What is served, what is on disk, and whether they differ. Never builds a second copy."""
         data = self.dataset()
-        return {"status": "ok", "jobs": len(data.items), "data_as_of": data.data_as_of}
+        try:
+            on_disk = signature(self.path.stat())
+        except OSError:
+            on_disk = None
+        pending = on_disk != data.key
+        out = {"status": "ok", "jobs": len(data.items), "data_as_of": data.data_as_of,
+               "served": {"sha256": data.sha256, "mtime_ns": data.key[0], "size": data.key[1],
+                          "loaded_at": data.loaded_at, "build_seconds": data.build_seconds},
+               "file": ({"mtime_ns": on_disk[0], "size": on_disk[1]} if on_disk else None),
+               "reload_pending": pending}
+        if pending:
+            out["note"] = ("jobs.json on disk differs from the served version; it goes live only after "
+                           "the controlled activation restart")
+        return out
 
     # ------------------------------------------------------------ arguments
 
