@@ -180,6 +180,11 @@ def collect(company:str,scope:str,output_dir:Path)->dict:
  elif slug=='iflytek':
   from qiuzhao.collector.p1_sources_31_40 import collect_beisen
   result=collect_beisen(company,scope,'https://iflytek.zhiye.com',out,category_mapping={'4':'campus','5':'campus','6':'intern','7':'intern'})
+  # collect_beisen names its saved responses relative to out (iflytek/<scope>); the pipeline
+  # resolves evidence against output_dir, so bare names there pointed at files that do not exist.
+  root=Path(output_dir).resolve()
+  for key in ['evidence_files','evidence']:
+   result['coverage'][key]=[p if Path(p).is_absolute() else (out/p).relative_to(root).as_posix() for p in result['coverage'].get(key,[])]
   scoped_rows=[]
   for row in result['jobs']:
    source=row.get('source_fields') or {}
