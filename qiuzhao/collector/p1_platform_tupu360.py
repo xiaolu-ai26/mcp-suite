@@ -119,6 +119,12 @@ DL_RE = re.compile(
 DEADLINE_RE = re.compile(
     r'(?:投递|申请|报名|简历)?截止(?:日期|时间)?\s*[:：]\s*([0-9]{4}[-/年][0-9]{1,2}[-/月][0-9]{1,2}日?)')
 TUPU_LIST_MARKERS = ('position-list', 'position-item event-vertical')
+# Real <script>/<style> elements, closed at the first end tag exactly as an HTML
+# parser does; escaped text such as ``&lt;script&gt;`` or the word JavaScript is
+# posting prose and is never touched.
+NON_TEXT_NODE_RE = re.compile(r'<(script|style)\b[^>]*>.*?</\1\s*>', re.I | re.S)
+UNCLOSED_NON_TEXT_RE = re.compile(r'<(?:script|style)\b.*\Z', re.I | re.S)
+SITE_MODULE_RE = re.compile(r'<div\b[^>]*\bclass="[^"]*\bglobal-module-outerlinks\b[^"]*"', re.I)
 
 
 class BudgetExhausted(RuntimeError):
@@ -591,6 +597,10 @@ def parse_detail(page_html):
         if end < 0:
             end = len(page_html)
         description = page_html[start:end]
+        # The site's own button/share JS sits inside this slice; drop the nodes, not
+        # any text that merely mentions a script language.
+        description = NON_TEXT_NODE_RE.sub(' ', description)
+        description = UNCLOSED_NON_TEXT_RE.sub(' ', description)
         # Trim everything that follows the description block: the share box, the
         # 职位概况 card and the apply button column are siblings, not posting text.
         for marker in ('<div class="card', 'id="shareFloat"', 'id="buttonDiv"',
@@ -599,6 +609,11 @@ def parse_detail(page_html):
             cut = description.find(marker)
             if cut > 0:
                 description = description[:cut]
+        # Tenant site modules rendered after the posting (Intel evp2022 "关注英特尔更多信息"
+        # outer-links block); cut at the module's own opening <div>.
+        module = SITE_MODULE_RE.search(description)
+        if module and module.start() > 0:
+            description = description[:module.start()]
     extra = {}
     for label, value in DL_RE.findall(page_html):
         extra[_clean(label)] = _clean(value)
@@ -616,6 +631,18 @@ def parse_detail(page_html):
 def _deadline_from_text(text):
     match = DEADLINE_RE.search(text or '')
     return match.group(1) if match else ''
+
+
+def _save_evidence(output_dir, name, body, saved):
+    """Write one official response body and remember it as evidence."""
+    (output_dir / name).write_text(body, encoding='utf-8')
+    saved.append(name)
+
+
+def _evidence_files(output_dir, saved):
+    """Only nonempty official responses this run saved; never runner logs/results."""
+    return sorted(name for name in dict.fromkeys(saved)
+                  if (output_dir / name).is_file() and (output_dir / name).stat().st_size)
 
 
 # --------------------------------------------------------------------------- #
@@ -856,6 +883,7 @@ def collect(company, scope, output_dir, max_requests=None, fetch_channel=None,
     coverage['channels_used'] = []
     coverage['channel_evidence'] = []
     jobs = []
+    saved = []
     session = _make_session()
 
     if is_wechat_only(key):
@@ -902,7 +930,7 @@ def collect(company, scope, output_dir, max_requests=None, fetch_channel=None,
                 expected_total = (parsed['total_label'] if expected_total is None
                                   else expected_total + parsed['total_label'])
             if parsed.get('raw'):
-                (output_dir / f'{key}-{channel_value}-list-1.html').write_text(parsed['raw'], encoding='utf-8')
+                _save_evidence(output_dir, f'{key}-{channel_value}-list-1.html', parsed['raw'], saved)
             if not str(parsed.get('final_url') or '').endswith('nextPageList'):
                 parsed = _fetch_next_pages(session, key, channel_value, parsed, budget,
                                            coverage['channel_evidence'], page_cap=PAGE_CAP)
@@ -930,8 +958,7 @@ def collect(company, scope, output_dir, max_requests=None, fetch_channel=None,
                     expected_total = (parsed['total_label'] if expected_total is None
                                       else expected_total + parsed['total_label'])
                 if parsed.get('raw'):
-                    (output_dir / f'{key}-{channel_value}-list-1.html').write_text(
-                        parsed['raw'], encoding='utf-8')
+                    _save_evidence(output_dir, f'{key}-{channel_value}-list-1.html', parsed['raw'], saved)
                 seen = {row['pid'] for row in rows}
                 for row in parsed['rows']:
                     if row['pid'] not in seen:
@@ -984,7 +1011,7 @@ def collect(company, scope, output_dir, max_requests=None, fetch_channel=None,
                 if budget['limit'] is not None:
                     remaining = budget['limit'] - budget['used']
                 parsed_detail = parse_detail(response.text)
-                (output_dir / f'{key}-detail-{row["pid"]}.html').write_text(response.text, encoding='utf-8')
+                _save_evidence(output_dir, f'{key}-detail-{row["pid"]}.html', response.text, saved)
                 description = _clean(parsed_detail['description_html'])
                 description_source = 'official tupu360 position/detail page'
                 if not description:
@@ -1042,7 +1069,9 @@ def collect(company, scope, output_dir, max_requests=None, fetch_channel=None,
     except Exception as error:
         coverage['errors'].append(f'{type(error).__name__}: {error}')
     coverage['request_budget'] = budget
-    coverage['evidence'] = sorted(path.name for path in output_dir.glob('*'))
+    # A runner-owned adapter.log / result.json in the same directory is not a source
+    # response; listing it (often still 0 bytes) made validate_result reject the unit.
+    coverage['evidence'] = _evidence_files(output_dir, saved)
     coverage['evidence_files'] = coverage['evidence']
     result = shared.finish(jobs, coverage)
     if coverage.get('request_budget_exhausted'):

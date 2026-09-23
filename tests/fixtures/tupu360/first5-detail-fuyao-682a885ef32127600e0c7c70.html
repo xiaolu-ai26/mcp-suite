@@ -1,0 +1,690 @@
+<html><body>
+<input type="hidden" id="positionName" value="产品开发-2026届实习生-上海公司">
+<input type="hidden" id="sourcePid" value="1611864">
+<input type="hidden" id="recruitmentType" value="INTERNSHIPRECRUITMENT">
+<input type="hidden" id="positionStatus" value="PUBLISHING">
+<input type="hidden" id="positionId" value="682a885ef32127600e0c7c70">
+<div class="position-description mt-4 mb-4" >
+                <p>工作职责：</p><p>协助负责与客户接口承担新产品开发，通过对新产品开发过程实施管理，确保新产品开发满足客户的技术要求、项目的进度要求和新产品低成本稳定量产要求。</p><p><br></p><p>任职要求：</p><p>①学历要求：本科/硕士；</p><p>②专业要求：机械、车辆工程等相关专业；</p><p>③语种要求：英语四级；</p><p>④擅长沟通表达；</p><p>⑤实习时间不少于1个月。</p>
+            </div>
+        </div>
+    </div>
+
+
+
+    
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    
+    <script nonce="">
+        $(function () {
+            var recommendBtn = '<a  id="recommend" pid="682a885ef32127600e0c7c70" class="btn btn-outline-secondary ml-3">推 荐</a>';
+            var applyBtn = '<a  class="btn btn-primary" id="application" style="display:none" pid="682a885ef32127600e0c7c70" pType ="INTERNSHIPRECRUITMENT">申请</a>';
+            var appliedBtn = '<a  class="btn btn-primary disabled" id="applicationed" pid="682a885ef32127600e0c7c70">已申请</a>';
+            var volApplyBtn = '<a  class="btn btn-outline-secondary ml-3 btn-vol-apply-black" id="application" pType ="INTERNSHIPRECRUITMENT" pid="682a885ef32127600e0c7c70"  style="display:none">选好了，去投递简历</a>';
+            var addVolBtn = '<a  class="btn btn-primary" id="volunteer" pid="682a885ef32127600e0c7c70" pType ="INTERNSHIPRECRUITMENT" style="display:none">添加到志愿</a>';
+            var collectBtn = '<span class="btn text-primary"  title="收藏" id="collection" pid="682a885ef32127600e0c7c70">收藏</span>';
+            var collectedBtn = '<span class="btn text-primary collection" title="取消收藏" id="collection" pid="682a885ef32127600e0c7c70">已收藏</span>';
+            var goPositionListBtn = '<a  class="btn btn-primary" id="goPositionList" data-action="positionList" data-projectid="6823fb2a1d77c972df335bd7" data-recruitmenttype="INTERNSHIPRECRUITMENT" style="display:none">返回列表</a>';
+
+            var isApplication = "false";
+            var isCollection = "false";
+            var content = '<div class="btn-group-toggle">';
+            var staffNotApply = "";
+            var currentPositionInRemoveVols = "";
+
+            if(true){
+                content += getApplyStr()
+            } else {
+                if(false){
+                    
+                    var tips = "<div class='deliver-notice'> <span class='txt'>您已认证为员工身份，请勿投递！</span> </div>";
+                    staffNotApply = tips
+                }
+            }
+
+            if (false) {
+                content += recommendBtn;
+                if(true){
+                    content += '<input type="hidden" name="fromRecommend" value="false" id="fromRecommend" />';
+                }
+            }
+
+            content += "</div>";
+            
+            if (isCollection === "false") {
+                content += collectBtn
+            } else {
+                content += collectedBtn
+            }
+            
+
+            if( false){
+                if ("true" === "true" && ("false" === "false" || "" === "true")) {
+                    $("#positionDetail").append('<div class="" id="volunteerPanel"></div>');
+                }
+            }
+
+            $("#positionDetail").append('<div class="btns text-center justify-content-between d-flex " id="buttonDiv">'+content+'</div>');
+
+            if( "false" === "true" && staffNotApply){
+                $("#buttonDiv").prepend(staffNotApply)
+            }
+
+
+            function getApplyStr() {
+                var applyHtml = "";
+                if (isApplication === "false" || currentPositionInRemoveVols==="true") {
+                    if (false && true && "" !=="N") {
+
+                        
+                        applyHtml += addVolBtn;
+                        applyHtml += goPositionListBtn;
+                        applyHtml +=volApplyBtn;
+                        
+
+                    } else {
+                        applyHtml += applyBtn
+                    }
+                } else {
+                    applyHtml += appliedBtn
+                }
+
+                return applyHtml
+            }
+        });
+    </script>
+
+    
+
+
+
+
+
+
+
+<script nonce="">
+    var addVolNode = null;
+    //    点击复制链接
+    function copyUrl() {
+        var Url = document.getElementById("input");
+        Url.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+    }
+
+    $('body').on('click', '.share-qr-float .btn', function(e) {
+        $(".share-qr-float input").select();
+        document.execCommand("Copy");
+        $(".share-qr-float input").blur();
+
+        // 显示复制提示
+        $(".share-qr-float .btn").popover('show');
+
+        // 定时清除提示
+        setTimeout(function () {
+            $(".share-qr-float .btn").popover('hide')
+        },2000);
+
+        // 弹层收起时，清除提示
+        $("#shareFloat").on('hide.bs.collapse',function () {
+            $(".share-qr-float .btn").popover('hide')
+        })
+    });
+
+    // 投递
+    $('body').on('click', '#application', function(e) {
+        if( true){
+            if (true && "" !=="N") {
+                var selectTotal = $(".volunteer-orders .volunteer-item").length
+                var maxPriorityCount = 2;
+                var notAllVolTips = "";
+                if(notAllVolTips && selectTotal<maxPriorityCount){
+                    v.showTips('提示', notAllVolTips, function () {
+                        toApplyPosition()
+                    }, true)
+
+                    return
+                }
+            }
+
+            if(false){
+                
+                
+                v.showTips('提示', $("#applyPopUpTips").html(), function () {
+                    toApplyPosition()
+                }, true)
+
+                return
+            }
+        }
+
+        toApplyPosition()
+
+    });
+
+    function toApplyPosition(){
+        v.showLoading();
+        var pid;
+        var recruitmentType;
+        if( true){
+            if (true && "" !=="N") {
+                pid = $(".volunteer-orders li:eq(" + 0 + ")").children(".position").attr("pid");
+                recruitmentType = $(".volunteer-orders li:eq(" + 0 + ")").attr("pType");
+            } else {
+                pid = $('#application').attr("pid");
+                recruitmentType = $('#application').attr("pType");
+            }
+        }else{
+            pid = $('#application').attr("pid");
+            recruitmentType = $('#application').attr("pType");
+        }
+        var prevPositionId = "682a885ef32127600e0c7c70";
+        console.log("toApplyPosition pid:",pid, "; recruitmentType:", recruitmentType)
+        commonRequest(null, function(){
+            $.getJSON("/fuyao/application/deliveryTotalByRecruitmentType",
+                {positionId: pid, recruitmentType:recruitmentType,projectId:"6823fb2a1d77c972df335bd7"},
+                function (data) {
+                    if (data.success) {
+                        if(pid){
+                            var sourcePid = $("#sourcePid").val();
+                            //跳转申请页面
+                            var url = "/fuyao/resume/applicationView?positionId=" + pid;
+                            var projectId = "";
+                            if (projectId != "") {
+                                url = url+"&projectId="+projectId;
+                            }
+                            if(""){
+                                url = url+"&jobFairCode="+"";
+                            }
+                            if("INTERNSHIPRECRUITMENT"){
+                                url = url+"&prt="+"INTERNSHIPRECRUITMENT";
+                            }
+                            if(true){
+                                url +="&prevPositionId="+prevPositionId;
+                            }
+                            window.location.href = url;
+                        }else{
+                            v.hideLoading();
+                            v.showAlert('请先添加志愿！');
+                        }
+                    } else {
+                        v.hideLoading();
+                        v.showAlert(data.message);
+                    }
+                });
+        });
+    }
+
+
+    // 收藏/取消收藏
+    $('body').on('click', '#collection', function(e) {
+        v.showLoading();
+        var pid = $(this).attr("pid");
+        var flag = $(this).hasClass("collection");
+        console.log("flag:",flag)
+        if (flag === false) {
+            commonRequest(null, function() {
+                $.getJSON("/fuyao/position/favorite", {positionId: pid},
+                    function (res) {
+                        v.hideLoading();
+                        if (res.success) {
+                            v.showAlert('收藏成功！');
+                            if ($("#collection").is(':has(span)')) {
+                                $("#collection").html('<span class="icons i-been-heart p-1" style="font-size: 1.5em"></span><span class="txt">已收藏</span>');
+                                $("#collection").attr("title", '取消收藏');
+                            } else {
+                                $("#collection").text('已收藏');
+                                $("#collection").attr("title", '取消收藏');
+                            }
+
+                            $("#collection").addClass("collection");
+                        } else {
+                            v.showAlert('收藏失败！');
+                        }
+                    })
+            });
+        } else {
+            commonRequest(null, function() {
+                $.getJSON("/fuyao/position/cancelCollection", {positionId: pid},
+                    function (res) {
+                        v.hideLoading();
+                        if (res.success) {
+                            v.showAlert('取消收藏成功！');
+                            if ($("#collection").is(':has(span)')) {
+                                $("#collection").html('<span class="icons i-heart p-1"  style="font-size: 1.5em" ></span><span class="txt">收藏</span>');
+                                $("#collection").attr("title", '收藏');
+                            } else {
+                                $("#collection").text('收藏');
+                                $("#collection").attr("title", '收藏');
+                            }
+
+                            $("#collection").removeClass("collection");
+                        } else {
+                            v.showAlert('取消收藏失败！');
+                        }
+                    })
+            });
+        }
+
+    });
+
+    $('body').on('click', '#recommend', function(e) {
+        v.showLoading();
+        var pid = $(this).attr("pid");
+        //跳转推荐页面
+        var url = "/fuyao/resume/relatedPosition?type=recommend&positionId=" + pid;
+       // window.location.href = url;
+       // commonRequest(url, null);
+        $.ajax({
+            url: getVisitUrl("login", "userIsLogin"),
+            dataType: "json",
+            type: "post",
+            async:false,
+            success: function (data) {
+                if(data.login){
+                    if(data.isEmployee != "Y"){
+                        v.showAlert('企业仅接受内部员工推荐！');
+                    }else{
+                        if(thatIsWindows()){
+                            window.open(url);
+                        } else {
+                            window.location.href = url
+                        }
+                    }
+                } else {
+                    v.hideLoading();
+                    if($("#fromRecommend").length > 0){
+                        $("#fromRecommend").val("true");
+                    }
+                    showLoginFrom();
+                    $("#signInModule").modal();
+                }
+            }
+        });
+        v.hideLoading();
+    });
+
+    $('body').on('click', '#volunteer', function(e) {
+        if("true" !== "true" && $("#addVolTips").length > 0){
+            $("#addVolTips").modal('toggle');
+            addVolNode = this;
+        } else {
+            addVolToProject(this)
+        }
+    });
+
+    /* 志愿排序 */
+    var volunteerActions = {
+        'init': function () {
+            const $this = this;
+            const $doc = $(document);
+
+            $doc.on('click', '.volunteer-box .i-up', (e) => $this.up(e.currentTarget));
+            $doc.on('click', '.volunteer-box .i-down', (e) => $this.down(e.currentTarget));
+            $doc.on('click', '.volunteer-box .i-remove', (e) => revokeDelivery(e.currentTarget));
+
+            // $(".volunteer-box .i-up").each(function (i,w) {
+            //     $(w).on("click",function () {
+            //         $this.up(w)
+            //     })
+            // });
+            // $(".volunteer-box .i-down").each(function (i,w) {
+            //     $(w).on("click",function () {
+            //         $this.down(w)
+            //     })
+            // });
+            // $(".volunteer-box .i-remove").each(function (i,w) {
+            //     $(w).on("click",function () {
+            //         revokeDelivery(w, i)
+            //     })
+            // })
+        },
+        'remove': function (box) {
+            var $this = this;
+            var $father = $(box).parentsUntil('.volunteer-orders');
+            var $box = $father.eq($father.length-1);
+            $box.find('.position').empty()
+        },
+        'up': function (box) {
+            v.showLoading();
+            var $this = this;
+            var $father = $(box).parentsUntil('.volunteer-orders');
+            var $box = $father.eq($father.length-1);
+            var $prev = $box.prev();
+            $this.move($prev, $box)
+
+        },
+        'down': function (box) {
+            v.showLoading();
+            var $this = this;
+            var $father = $(box).parentsUntil('.volunteer-orders');
+            var $box = $father.eq($father.length-1);
+            var $next = $box.next();
+
+            $this.move($box, $next)
+        },
+        'move': function (down, up) {
+            $(".volunteer-box").addClass('running');
+            down.addClass('move-down');
+            up.addClass('move-up');
+            var $downPosition = up.find('.position');
+            var $upPosition = down.find('.position');
+            setTimeout(function () {
+                $($downPosition).remove(".actions");
+                $($upPosition).remove(".actions");
+                $($downPosition).appendTo(down);
+                $($upPosition).appendTo(up);
+                down.removeClass('move-down');
+                up.removeClass('move-up');
+                $(".volunteer-box").removeClass('running');
+                saveVolunteers()
+            },299)
+
+        }
+    };
+    // volunteerActions.init();
+
+    function saveVolunteers() {
+        var pId;
+        var volunteers = [];
+        var pType
+        $(".volunteer-item").each(function (i, e) {
+            var volunteerNo = $(e).attr("volunteerNo");
+            var positionId = $(e).find(".position").attr("pid");
+            var positionName = $(e).find(".position").attr("pName");
+            var recruitmentType = $(e).find(".position").attr("pType");
+            var deliverId = $(e).find(".position").attr("deliverId");
+            var applicationId = $(e).find(".position").attr("applicationId");
+            var uid = $(e).find(".position").attr("uid");
+            pType =  $(e).find(".position").attr("pType");
+            var volunteer = {};
+            volunteer.volunteerNo = parseInt(volunteerNo);
+            volunteer.positionName = positionName;
+            volunteer.positionId = positionId;
+            volunteer.recruitmentType = recruitmentType;
+            if(deliverId){
+                volunteer.deliverId = deliverId;
+            }
+            if(applicationId){
+                volunteer.applicationId = applicationId;
+            }
+            if(uid){
+                volunteer.uid = uid;
+            }
+            volunteers.push(volunteer);
+
+            if(volunteerNo === "1"){
+                pId = positionId
+            }
+        });
+        commonRequest(null, function() {
+            $.ajax({
+                url: "/fuyao/application/saveVolunteer",
+                data: {
+                    volunteers: JSON.stringify(volunteers),
+                    recruitmentType: pType,
+                    projectId: "6823fb2a1d77c972df335bd7"
+                },
+                success: function (res) {
+                    if (res.success) {
+                        v.showAlert('调整成功');
+                        $("#volunteerPanel").html(res.content);
+                        adjustBtnShow(res.volunteers)
+                    } else {
+                        v.showAlert('调整失败');
+                    }
+                }
+            });
+        });
+
+        v.hideLoading();
+    }
+
+    function adjustBtnShow(vols, appliedRemoveVol){
+        var maxPrioCount = 2;
+
+        var hasVol = false;
+        var hasNoApply = false;
+        var thatVolApplied = false;
+        for(var i =0; i < vols.length; i++){
+            var vol = vols[i];
+            if(vol.positionId === "682a885ef32127600e0c7c70" || (vol.sourcePid && vol.sourcePid === "1611864")){
+                hasVol = true;
+                if(vol.applicationId){
+                    thatVolApplied = true;
+                }
+            }
+
+            if(!vol.applicationId){
+                hasNoApply = true
+            }
+        }
+
+        if(vols.length < maxPrioCount && !hasVol){
+            $("#volunteer").show();
+        } else {
+            $("#volunteer").hide();
+        }
+
+        if(hasVol){
+            if(thatVolApplied){
+                $("#applicationed").show();
+                if(appliedRemoveVol){
+                    console.log("thatVolApplied appliedRemoveVol");
+                    $("#volunteerPanel").remove();
+                }
+            } else {
+                $("#applicationed").hide();
+                $("#addedVolunteer").show()
+            }
+        } else {
+            $("#applicationed").hide();
+            $("#addedVolunteer").hide();
+        }
+
+        if(hasVol && vols.length < maxPrioCount){
+            $("#goPositionList").show();
+        } else {
+            $("#goPositionList").hide();
+        }
+
+        if(vols.length < 1 || !hasNoApply){
+            $("#application").hide();
+        } else {
+            $("#application").show();
+        }
+    }
+
+
+    setTimeout(function () {
+        buttonShow();
+    }, 5);
+    function buttonShow(){
+        var positionStatus = $("#positionStatus").val();
+        if(positionStatus !== "PUBLISHING"){
+            $("#buttonDiv").removeClass("d-flex");
+            $("#buttonDiv").css('display', 'none');
+        }
+    }
+
+    var hasApplyShowApplyFunction = false
+
+    function isShowApplyBtn(callback) {
+        if(hasApplyShowApplyFunction){
+            return
+        } else {
+            hasApplyShowApplyFunction = true
+        }
+        if($("#application").length > 0) {
+            $.ajax({
+                url: "/fuyao/user/allowApply",
+                data: {},
+                success: function (res) {
+                    if (res.allowEdit != false) {
+                        $("#application").show()
+                    } else {
+                        $("#application").remove();
+                        if($("#goPositionList").length > 0){
+                            $("#goPositionList").remove()
+                        }
+                        if($("#volunteer").length > 0){
+                            $("#volunteer").remove()
+                        }
+                    }
+
+                    if(callback){
+                        callback.call();
+                    }
+                }
+            });
+        } else {
+            if(callback){
+                callback.call();
+            }
+        }
+    }
+
+    function revokeDelivery(box) {
+        v.showLoading();
+        //删除志愿
+        var pid = $(box).parents('li.volunteer-item').find(".position").attr("pid");
+        var pType = $(box).parents('li.volunteer-item').find(".position").attr("ptype");
+        var params = {positionId: pid, recruitmentType:pType};
+        var projectId = "6823fb2a1d77c972df335bd7";
+        if (projectId != "") {
+            params.projectId = projectId
+        }
+        $.getJSON("/fuyao/application/delVolunteer",params,
+            function (res) {
+                v.hideLoading();
+                if (res.success) {
+                    v.showAlert('删除志愿成功');
+                    $("#volunteerPanel").html(res.content);
+
+                    adjustBtnShow(res.volunteers);
+                } else {
+                    v.showAlert('删除志愿失败');
+                }
+            });
+    }
+
+    $("#addVolEnter").click(function () {
+        $("#addVolTips").modal('hide');
+        addVolToProject(addVolNode)
+    });
+
+    $("#addVolCancel").click(function () {
+        $("#addVolTips").modal('hide');
+        addVolNode = null
+    });
+
+    function addVolToProject(that){
+        v.showLoading();
+        var pid = $(that).attr("pid");
+        var recruitmentType = $(that).attr("pType");
+        var params = {positionId: pid, recruitmentType:recruitmentType};
+        var projectId = "6823fb2a1d77c972df335bd7";
+        if (projectId != "") {
+            params.projectId = projectId
+        }
+        commonRequest(null, function() {
+            $.getJSON("/fuyao/application/volunteerAndDeliverCount", params,
+                function (data) {
+                    if (data.success) {
+                        //保存志愿
+                        $.getJSON("/fuyao/application/addVolunteer", params,
+                            function (res) {
+                                v.hideLoading();
+                                if (res.success) {
+                                    v.showAlert(res.message);
+                                    $("#volunteerPanel").html(res.content);
+                                    adjustBtnShow(res.volunteers);
+
+                                    addVolNode = null;
+                                } else {
+                                    v.showAlert(res.message);
+                                }
+                            });
+                    } else {
+                        v.hideLoading();
+                        v.showAlert(data.message);
+                    }
+                });
+        });
+    }
+
+    $(function () {
+        
+            $("#application").show();
+        
+
+        if( false) {
+            if ("true" === "true" && ("false" === "false" || ""==="true") && "" !=="N") {
+                var _volunteer_params = {positionId: '682a885ef32127600e0c7c70',recruitmentType: 'INTERNSHIPRECRUITMENT'};
+                var projectId = "6823fb2a1d77c972df335bd7";
+                if (projectId !== "") {
+                    _volunteer_params.projectId = projectId;
+                }
+                $.get("/fuyao/application/detail",
+                    _volunteer_params,
+                    function (data) {
+                        $("#volunteerPanel").append(data);
+
+                        
+                        const vp = $("#volunteerPanel");
+                        if(vp.length > 0 && !vp.hasClass("card")){
+                            vp.addClass("volunteer-box card-normal card")
+                        }
+                        
+                        volunteerActions.init();
+                        volunteerInitBtnShow();
+                    });
+            }
+        }
+
+        function volunteerInitBtnShow() {
+            let vols = $("#volunteersJson").val();
+            if(!vols){
+                vols = []
+            } else {
+                vols = JSON.parse(vols);
+            }
+            isShowApplyBtn( function () {adjustBtnShow(vols, true)});
+        }
+
+    })
+</script>
+
+
+
+
+            
+                
+
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                
+                    <div class="footer-text">@版权所有 2008-2026 图谱天下(北京)科技有限责任公司 <a href="/fuyao/login/privacyDisclaimer" target="_blank">隐私政策</a></div>
+                    <div class="links">
+                        <div class="txt">
+                            <span class="t"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010102002014" target="_blank">京公安11010102002014号</a></span> |
+                            <span class="t"><a href="http://beian.miit.gov.cn" target="_blank">京ICP备11030964号-2</a></span>
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</footer>
+</body></html>
