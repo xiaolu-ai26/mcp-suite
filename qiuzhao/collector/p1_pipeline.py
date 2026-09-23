@@ -695,6 +695,68 @@ def collect_process(company, scope, output_dir, timeout=3600):
         return blocked(f'adapter contract rejected: {error}')
 
 
+TUPU360_MODULE = 'qiuzhao.collector.p1_platform_tupu360'
+IDENTITY_QUARANTINE_PATH = Path(__file__).with_name('tupu360_identity_quarantine.json')
+IDENTITY_QUARANTINE_REASONS = frozenset({'same_posting_existing', 'pending_cross_source_title_only'})
+_IDENTITY_QUARANTINE_KEYS = ('module', 'tenant', 'company', 'scope', 'source_record_id', 'candidate_id', 'reason',
+                             'detail_url')
+
+
+def _source_host(url):
+    """Lowercase hostname plus an explicit port; exact comparison, never a suffix match."""
+    parts = urlsplit(str(url or ''))
+    host = (parts.hostname or '').lower()
+    try:
+        port = parts.port
+    except ValueError:
+        return ''
+    return f'{host}:{port}' if host and port else host
+
+
+def load_identity_quarantine(path=None):
+    """Static, individually approved tupu360 identities that must not be merged.
+
+    Only listed rows are held back; nothing is inferred from titles or other
+    sources. A missing or malformed file raises, so the tupu360 publication fails
+    loudly instead of letting listed rows through; other sources never load it.
+    """
+    data = json.loads(Path(path or IDENTITY_QUARANTINE_PATH).read_text(encoding='utf-8'))
+    entries = data.get('entries') if isinstance(data, dict) else None
+    if not isinstance(entries, list):
+        raise ValueError('identity quarantine: entries list missing')
+    table = {}
+    for entry in entries:
+        if not isinstance(entry, dict) or any(not str(entry.get(key) or '').strip()
+                                              for key in _IDENTITY_QUARANTINE_KEYS):
+            raise ValueError('identity quarantine: entry missing a required key')
+        if entry['module'] != TUPU360_MODULE or entry['scope'] not in SCOPES:
+            raise ValueError('identity quarantine: unsupported module or scope')
+        if entry['reason'] not in IDENTITY_QUARANTINE_REASONS:
+            raise ValueError('identity quarantine: unknown reason ' + str(entry['reason']))
+        expected = 'p1-' + hashlib.sha256(
+            f"{entry['company']}|{entry['scope']}|{entry['source_record_id']}".encode()).hexdigest()[:24]
+        if entry['candidate_id'] != expected or entry['candidate_id'] in table:
+            raise ValueError('identity quarantine: candidate_id mismatch or duplicate')
+        if not _source_host(entry['detail_url']):
+            raise ValueError('identity quarantine: detail_url has no host')
+        table[entry['candidate_id']] = entry
+    return table
+
+
+def quarantine_hit(table, company, scope, row):
+    """The listed entry when every identity field of ``row`` matches it exactly."""
+    entry = table.get(str(row.get('p1_identity') or ''))
+    if entry is None:
+        return None
+    url = str(row.get('detail_url') or '')
+    tenant = urlsplit(url).path.strip('/').split('/')[0]
+    if (entry['company'], entry['scope'], entry['source_record_id'], entry['tenant'],
+            _source_host(entry['detail_url'])) != (
+            company, scope, str(row.get('source_record_id') or ''), tenant, _source_host(url)):
+        return None
+    return entry
+
+
 def official_uuid(row):
     """Only UUID source identities can bridge verified legacy URL changes."""
     value = str(row.get('source_record_id') or '')
@@ -708,8 +770,14 @@ def merge_records(previous, results):
     """Update stable identities, retain failed-source rows, remove only proven absences."""
     merged = list(previous)
     changes = {'added': 0, 'updated': 0, 'removed': 0}
+    quarantine, quarantined = None, []
     for company, scope, result in results:
         rows, coverage = result['jobs'], result['coverage']
+        table = {}
+        if REGISTRY.get(company) == TUPU360_MODULE:
+            if quarantine is None:
+                quarantine = load_identity_quarantine()
+            table = quarantine
         pending=result.get('pending_index',[])
         if coverage['status'] == 'blocked' and not pending:
             continue
@@ -736,6 +804,18 @@ def merge_records(previous, results):
         for row in rows:
             incoming_url_counts[row['detail_url']] = incoming_url_counts.get(row['detail_url'], 0) + 1
         for incoming in rows:
+            hit = quarantine_hit(table, company, scope, incoming) if table else None
+            if hit is not None:
+                # Held back, never added or rewritten. Its identity stays in `seen`
+                # (presence_keys of the full official listing), so an existing row
+                # with the same id is not retired either.
+                quarantined.append({'candidate_id': hit['candidate_id'], 'company': company, 'scope': scope,
+                                    'source_record_id': hit['source_record_id'], 'tenant': hit['tenant'],
+                                    'host': _source_host(hit['detail_url']), 'reason': hit['reason'],
+                                    'basis': (hit.get('evidence') or {}).get('basis'),
+                                    'requisition_id': (hit.get('evidence') or {}).get('requisition_id'),
+                                    'list': str(IDENTITY_QUARANTINE_PATH.name)})
+                continue
             incoming = copy.deepcopy(incoming)
             canonical = incoming['p1_identity']
             normalize_records([incoming])
@@ -797,6 +877,9 @@ def merge_records(previous, results):
                                    'company':company, 'scope':scope, 'complete':True,
                                    'source_url':coverage.get('source_url'),
                                    'checked_at':reviewed})
+    if quarantined:
+        changes['quarantined'] = len(quarantined)
+        changes['quarantined_identities'] = quarantined
     return merged, changes
 
 

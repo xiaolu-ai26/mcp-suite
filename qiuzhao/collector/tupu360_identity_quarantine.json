@@ -1,0 +1,453 @@
+{
+  "_about": "Exact identity quarantine for the 2026-09-24 tupu360 first-five batch, approved for these 18 identities only. merge_records never adds or rewrites a listed candidate; every other row merges normally. Not a dedupe rule: entries are matched by module+tenant+company+scope+source_record_id+candidate_id.",
+  "_provenance": {
+    "approved": "2026-09-24 user approval: exact isolation of these 18 identities only",
+    "sources": {
+      "/Users/maxzhl/Projects/mcp-suite-recovery-20260921/expansion-first5-20260924/clean/excluded-same-posting.json": "0027664efde76e2a34d855c7ddbb8069588dc6500c68694ba99b2f5ca10d7600",
+      "/Users/maxzhl/Projects/mcp-suite-recovery-20260921/expansion-first5-20260924/clean/pending.json": "8fb84558c4842f71ad6448fcb2192d55ba0da5a5e124730a4b7f5151eeeb8e30"
+    },
+    "baseline_snapshot_sha256": "d516c351aab14ff7fde3ed1b42d8c563f1ce57f555b4e65ecacb34cc5867e4f7",
+    "counts": {
+      "same_posting_existing": 11,
+      "pending_cross_source_title_only": 7
+    }
+  },
+  "entries": [
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "intel",
+      "company": "Intel",
+      "scope": "intern",
+      "source_record_id": "6a9e22f3a960023b07c0b240",
+      "candidate_id": "p1-93e289debcad5d65a367f363",
+      "detail_url": "https://careersite.tupu360.com/intel/position/detail?positionId=6a9e22f3a960023b07c0b240&recruitmentType=INTERNSHIPRECRUITMENT&currentLang=zh_CN",
+      "job_title": "AI/ML Software App Development Intern",
+      "reason": "pending_cross_source_title_only",
+      "evidence": {
+        "basis": "same employer alias + recruitment_type + normalized title; no native ID or URL link in the official page",
+        "title_match_rows": [
+          {
+            "id": "p1-cd926d5952045da31dd7b61d",
+            "source_record_id": "1292bd033b1d10008f79b5d594470000",
+            "p1_company": "英特尔",
+            "recruitment_type": "实习招聘",
+            "detail_url": "https://intel.wd1.myworkdayjobs.com/External/job/PRC-Chengdu/AI-ML-Software-App-Development-Intern_JR0286946"
+          }
+        ]
+      }
+    },
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "siemens",
+      "company": "西门子中国",
+      "scope": "campus",
+      "source_record_id": "6a9efcc07280da28da0795ce",
+      "candidate_id": "p1-abffe6935419707f65f2d499",
+      "detail_url": "https://careersite.tupu360.com/siemens/position/detail?positionId=6a9efcc07280da28da0795ce&recruitmentType=CAMPUSRECRUITMENT&currentLang=zh_CN",
+      "job_title": "Siemens Graduate Program - Commercial Excellence 西门子管理培训生 - 卓越商务",
+      "reason": "pending_cross_source_title_only",
+      "evidence": {
+        "basis": "same employer alias + recruitment_type + normalized title; no native ID or URL link in the official page",
+        "title_match_rows": [
+          {
+            "id": "p1-ccdfd213d71f288bc07b52a0",
+            "source_record_id": "521560",
+            "p1_company": "西门子",
+            "recruitment_type": "校园招聘",
+            "detail_url": "https://jobs.siemens.com/en_US/externaljobs/JobDetail/521560"
+          }
+        ]
+      }
+    },
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "siemens",
+      "company": "西门子中国",
+      "scope": "campus",
+      "source_record_id": "6a9fde107280da28da0796c0",
+      "candidate_id": "p1-fa3c3463d484cd126c9be03a",
+      "detail_url": "https://careersite.tupu360.com/siemens/position/detail?positionId=6a9fde107280da28da0796c0&recruitmentType=CAMPUSRECRUITMENT&currentLang=zh_CN",
+      "job_title": "Siemens Graduate Program - Product Management 西门子管理培训生 - 产品管理方向  上海",
+      "reason": "pending_cross_source_title_only",
+      "evidence": {
+        "basis": "same employer alias + recruitment_type + normalized title; no native ID or URL link in the official page",
+        "title_match_rows": [
+          {
+            "id": "p1-ec0603b22a5b43f82e802cda",
+            "source_record_id": "521661",
+            "p1_company": "西门子",
+            "recruitment_type": "校园招聘",
+            "detail_url": "https://jobs.siemens.com/en_US/externaljobs/JobDetail/521661"
+          }
+        ]
+      }
+    },
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "siemens",
+      "company": "西门子中国",
+      "scope": "campus",
+      "source_record_id": "6aa0db147280da28da07979b",
+      "candidate_id": "p1-c15d6b515aa931cec677d089",
+      "detail_url": "https://careersite.tupu360.com/siemens/position/detail?positionId=6aa0db147280da28da07979b&recruitmentType=CAMPUSRECRUITMENT&currentLang=zh_CN",
+      "job_title": "数字化工业 Sales100培训生_解决方案工程师 青岛",
+      "reason": "pending_cross_source_title_only",
+      "evidence": {
+        "basis": "same employer alias + recruitment_type + normalized title; no native ID or URL link in the official page",
+        "title_match_rows": [
+          {
+            "id": "p1-8ba348a6010356130c62e632",
+            "source_record_id": "521827",
+            "p1_company": "西门子",
+            "recruitment_type": "校园招聘",
+            "detail_url": "https://jobs.siemens.com/en_US/externaljobs/JobDetail/521827"
+          }
+        ]
+      }
+    },
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "siemens",
+      "company": "西门子中国",
+      "scope": "campus",
+      "source_record_id": "6aa22cef7280da28da0798a8",
+      "candidate_id": "p1-d92dc95d1067d40df02b2e45",
+      "detail_url": "https://careersite.tupu360.com/siemens/position/detail?positionId=6aa22cef7280da28da0798a8&recruitmentType=CAMPUSRECRUITMENT&currentLang=zh_CN",
+      "job_title": "数字化工业Sales100 应用工程师&技术顾问 北京/上海",
+      "reason": "pending_cross_source_title_only",
+      "evidence": {
+        "basis": "same employer alias + recruitment_type + normalized title; no native ID or URL link in the official page",
+        "title_match_rows": [
+          {
+            "id": "p1-46e3d6bf2b45124cb577a1db",
+            "source_record_id": "522008",
+            "p1_company": "西门子",
+            "recruitment_type": "校园招聘",
+            "detail_url": "https://jobs.siemens.com/en_US/externaljobs/JobDetail/522008"
+          }
+        ]
+      }
+    },
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "siemens",
+      "company": "西门子中国",
+      "scope": "campus",
+      "source_record_id": "6aa22cf47280da28da0798ac",
+      "candidate_id": "p1-dfed126290a4dd2d9b58566a",
+      "detail_url": "https://careersite.tupu360.com/siemens/position/detail?positionId=6aa22cf47280da28da0798ac&recruitmentType=CAMPUSRECRUITMENT&currentLang=zh_CN",
+      "job_title": "Siemens Graduate Program – Vertical CoE Vertical Solution Architecture  西门子管理培训生_新兴行业解决方案架构师方向  上海",
+      "reason": "pending_cross_source_title_only",
+      "evidence": {
+        "basis": "same employer alias + recruitment_type + normalized title; no native ID or URL link in the official page",
+        "title_match_rows": [
+          {
+            "id": "p1-86d4b587174441b4b7afbd27",
+            "source_record_id": "522011",
+            "p1_company": "西门子",
+            "recruitment_type": "校园招聘",
+            "detail_url": "https://jobs.siemens.com/en_US/externaljobs/JobDetail/522011"
+          }
+        ]
+      }
+    },
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "siemens",
+      "company": "西门子中国",
+      "scope": "campus",
+      "source_record_id": "6aa361e87280da28da07995f",
+      "candidate_id": "p1-f8296340ba17c042296475d4",
+      "detail_url": "https://careersite.tupu360.com/siemens/position/detail?positionId=6aa361e87280da28da07995f&recruitmentType=CAMPUSRECRUITMENT&currentLang=zh_CN",
+      "job_title": "EP R&D 初级嵌入式软件工程师",
+      "reason": "pending_cross_source_title_only",
+      "evidence": {
+        "basis": "same employer alias + recruitment_type + normalized title; no native ID or URL link in the official page",
+        "title_match_rows": [
+          {
+            "id": "p1-e5f629ecaa8a7ae1b6c176bc",
+            "source_record_id": "521883",
+            "p1_company": "西门子",
+            "recruitment_type": "校园招聘",
+            "detail_url": "https://jobs.siemens.com/en_US/externaljobs/JobDetail/521883"
+          }
+        ]
+      }
+    },
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "intel",
+      "company": "Intel",
+      "scope": "campus",
+      "source_record_id": "6a7be308a960023b07c0ab03",
+      "candidate_id": "p1-954b71925d5e16ef9b0538cf",
+      "detail_url": "https://careersite.tupu360.com/intel/position/detail?positionId=6a7be308a960023b07c0ab03&recruitmentType=CAMPUSRECRUITMENT&currentLang=zh_CN",
+      "job_title": "JR0286405 AI Framework Software Engineer – SGlang & Kernels",
+      "reason": "same_posting_existing",
+      "evidence": {
+        "basis": "official tupu360 title begins with the Workday requisition id; d516 Intel/英特尔 Workday detail_url ends with the same id",
+        "requisition_id": "JR0286405",
+        "canonical_rows": [
+          {
+            "id": "p1-8c6d38dd86dcc45aaf4a52a7",
+            "source_record_id": "317c7fe7cbbf100184b9af4b3c0b0000",
+            "p1_company": "英特尔",
+            "recruitment_type": "社会招聘",
+            "detail_url": "https://intel.wd1.myworkdayjobs.com/External/job/PRC-Shanghai/AI-Framework-Software-Engineer---SGlang---Kernels_JR0286405"
+          }
+        ],
+        "recruitment_type_conflict": true
+      }
+    },
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "intel",
+      "company": "Intel",
+      "scope": "campus",
+      "source_record_id": "6a7c4abca960023b07c0ab38",
+      "candidate_id": "p1-91fdacdcce02c3495e7d88a5",
+      "detail_url": "https://careersite.tupu360.com/intel/position/detail?positionId=6a7c4abca960023b07c0ab38&recruitmentType=CAMPUSRECRUITMENT&currentLang=zh_CN",
+      "job_title": "JR0286403 Data center SW Engineering",
+      "reason": "same_posting_existing",
+      "evidence": {
+        "basis": "official tupu360 title begins with the Workday requisition id; d516 Intel/英特尔 Workday detail_url ends with the same id",
+        "requisition_id": "JR0286403",
+        "canonical_rows": [
+          {
+            "id": "p1-ee705951ae10fa77d6a117fb",
+            "source_record_id": "0ec62f7cfafc10013425a2a22c5c0000",
+            "p1_company": "英特尔",
+            "recruitment_type": "社会招聘",
+            "detail_url": "https://intel.wd1.myworkdayjobs.com/External/job/PRC-Shanghai/Data-center-SW-Engineering_JR0286403"
+          }
+        ],
+        "recruitment_type_conflict": true
+      }
+    },
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "intel",
+      "company": "Intel",
+      "scope": "campus",
+      "source_record_id": "6a7c4f30a960023b07c0ab3a",
+      "candidate_id": "p1-d5e4171d00e94c435d181fe0",
+      "detail_url": "https://careersite.tupu360.com/intel/position/detail?positionId=6a7c4f30a960023b07c0ab3a&recruitmentType=CAMPUSRECRUITMENT&currentLang=zh_CN",
+      "job_title": "JR0286408 Cloud and AI System Engineer",
+      "reason": "same_posting_existing",
+      "evidence": {
+        "basis": "official tupu360 title begins with the Workday requisition id; d516 Intel/英特尔 Workday detail_url ends with the same id",
+        "requisition_id": "JR0286408",
+        "canonical_rows": [
+          {
+            "id": "p1-d36d178e23252a7dd30e9076",
+            "source_record_id": "0ec62f7cfafc10013a65bed9516a0000",
+            "p1_company": "英特尔",
+            "recruitment_type": "社会招聘",
+            "detail_url": "https://intel.wd1.myworkdayjobs.com/External/job/PRC-Shanghai/Cloud-and-AI-System-Engineer_JR0286408"
+          }
+        ],
+        "recruitment_type_conflict": true
+      }
+    },
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "intel",
+      "company": "Intel",
+      "scope": "campus",
+      "source_record_id": "6a7c50c0a960023b07c0ab3c",
+      "candidate_id": "p1-e56f34dfb57544939e85e60a",
+      "detail_url": "https://careersite.tupu360.com/intel/position/detail?positionId=6a7c50c0a960023b07c0ab3c&recruitmentType=CAMPUSRECRUITMENT&currentLang=zh_CN",
+      "job_title": "JR0286410 Agentic AI Customer Co-Val CG",
+      "reason": "same_posting_existing",
+      "evidence": {
+        "basis": "official tupu360 title begins with the Workday requisition id; d516 Intel/英特尔 Workday detail_url ends with the same id",
+        "requisition_id": "JR0286410",
+        "canonical_rows": [
+          {
+            "id": "p1-f11cc95c817a130418f5757a",
+            "source_record_id": "808ccc28e0d810013614bf9696010000",
+            "p1_company": "英特尔",
+            "recruitment_type": "社会招聘",
+            "detail_url": "https://intel.wd1.myworkdayjobs.com/External/job/PRC-Shanghai/Agentic-AI--Customer-Co-Val-CG_JR0286410"
+          }
+        ],
+        "recruitment_type_conflict": true
+      }
+    },
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "intel",
+      "company": "Intel",
+      "scope": "campus",
+      "source_record_id": "6a7c58e0a960023b07c0ab41",
+      "candidate_id": "p1-7fc5a7d3c1672c0b49db72cf",
+      "detail_url": "https://careersite.tupu360.com/intel/position/detail?positionId=6a7c58e0a960023b07c0ab41&recruitmentType=CAMPUSRECRUITMENT&currentLang=zh_CN",
+      "job_title": "JR0286409 Platform Power Thermal Performance Engineer",
+      "reason": "same_posting_existing",
+      "evidence": {
+        "basis": "official tupu360 title begins with the Workday requisition id; d516 Intel/英特尔 Workday detail_url ends with the same id",
+        "requisition_id": "JR0286409",
+        "canonical_rows": [
+          {
+            "id": "p1-5747c6e2941bb6cd260bbd25",
+            "source_record_id": "317c7fe7cbbf1001393aa5bd18e10000",
+            "p1_company": "英特尔",
+            "recruitment_type": "社会招聘",
+            "detail_url": "https://intel.wd1.myworkdayjobs.com/External/job/PRC-Shanghai/Platform-Power-Thermal-Performance-Engineer_JR0286409"
+          }
+        ],
+        "recruitment_type_conflict": true
+      }
+    },
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "intel",
+      "company": "Intel",
+      "scope": "campus",
+      "source_record_id": "6a7d3f44a960023b07c0ab50",
+      "candidate_id": "p1-5fd32184ecca8bc82f95e555",
+      "detail_url": "https://careersite.tupu360.com/intel/position/detail?positionId=6a7d3f44a960023b07c0ab50&recruitmentType=CAMPUSRECRUITMENT&currentLang=zh_CN",
+      "job_title": "JR0286412 AI Framework Software Engineer – vLLM",
+      "reason": "same_posting_existing",
+      "evidence": {
+        "basis": "official tupu360 title begins with the Workday requisition id; d516 Intel/英特尔 Workday detail_url ends with the same id",
+        "requisition_id": "JR0286412",
+        "canonical_rows": [
+          {
+            "id": "p1-7d035c52d60087241e7c883f",
+            "source_record_id": "0ec62f7cfafc100184ef7f269d0e0000",
+            "p1_company": "英特尔",
+            "recruitment_type": "社会招聘",
+            "detail_url": "https://intel.wd1.myworkdayjobs.com/External/job/PRC-Shanghai/AI-Framework-Software-Engineer---vLLM_JR0286412"
+          }
+        ],
+        "recruitment_type_conflict": true
+      }
+    },
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "intel",
+      "company": "Intel",
+      "scope": "campus",
+      "source_record_id": "6a7d4250a960023b07c0ab56",
+      "candidate_id": "p1-cc91f57c1de1c9797ce99a7d",
+      "detail_url": "https://careersite.tupu360.com/intel/position/detail?positionId=6a7d4250a960023b07c0ab56&recruitmentType=CAMPUSRECRUITMENT&currentLang=zh_CN",
+      "job_title": "JR0286400 AI Frameworks Engineer - Model and Kernel Optimization",
+      "reason": "same_posting_existing",
+      "evidence": {
+        "basis": "official tupu360 title begins with the Workday requisition id; d516 Intel/英特尔 Workday detail_url ends with the same id",
+        "requisition_id": "JR0286400",
+        "canonical_rows": [
+          {
+            "id": "p1-2c52fab661402c960a729584",
+            "source_record_id": "808ccc28e0d810018525fb7899a30000",
+            "p1_company": "英特尔",
+            "recruitment_type": "社会招聘",
+            "detail_url": "https://intel.wd1.myworkdayjobs.com/External/job/PRC-Shanghai/AI-Frameworks-Engineer---Model-and-Kernel-Optimization_JR0286400"
+          }
+        ],
+        "recruitment_type_conflict": true
+      }
+    },
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "intel",
+      "company": "Intel",
+      "scope": "campus",
+      "source_record_id": "6a7d6d70a960023b07c0ab66",
+      "candidate_id": "p1-9796698d13f39b54d641ff44",
+      "detail_url": "https://careersite.tupu360.com/intel/position/detail?positionId=6a7d6d70a960023b07c0ab66&recruitmentType=CAMPUSRECRUITMENT&currentLang=zh_CN",
+      "job_title": "JR0286407 AI software application developers",
+      "reason": "same_posting_existing",
+      "evidence": {
+        "basis": "official tupu360 title begins with the Workday requisition id; d516 Intel/英特尔 Workday detail_url ends with the same id",
+        "requisition_id": "JR0286407",
+        "canonical_rows": [
+          {
+            "id": "p1-7d77dda28f847eab056fd908",
+            "source_record_id": "808ccc28e0d8100183badde402b10000",
+            "p1_company": "英特尔",
+            "recruitment_type": "社会招聘",
+            "detail_url": "https://intel.wd1.myworkdayjobs.com/External/job/PRC-Shanghai/AI-software-application-developers--CG-_JR0286407"
+          }
+        ],
+        "recruitment_type_conflict": true
+      }
+    },
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "intel",
+      "company": "Intel",
+      "scope": "campus",
+      "source_record_id": "6aacec5da960023b07c0b697",
+      "candidate_id": "p1-6b3042502ec492e2df2b1e86",
+      "detail_url": "https://careersite.tupu360.com/intel/position/detail?positionId=6aacec5da960023b07c0b697&recruitmentType=CAMPUSRECRUITMENT&currentLang=zh_CN",
+      "job_title": "JR0287325 Ecosystem Technical Enabling Engineer(SZ/SH)",
+      "reason": "same_posting_existing",
+      "evidence": {
+        "basis": "official tupu360 title begins with the Workday requisition id; d516 Intel/英特尔 Workday detail_url ends with the same id",
+        "requisition_id": "JR0287325",
+        "canonical_rows": [
+          {
+            "id": "p1-4e7f84740984d274500d7a15",
+            "source_record_id": "8296ddf219441001d8e6906f6be50000",
+            "p1_company": "英特尔",
+            "recruitment_type": "社会招聘",
+            "detail_url": "https://intel.wd1.myworkdayjobs.com/External/job/PRC-Shenzhen/Ecosystem-Technical-Enabling-Engineer-SZ-SH-_JR0287325"
+          }
+        ],
+        "recruitment_type_conflict": true
+      }
+    },
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "intel",
+      "company": "Intel",
+      "scope": "campus",
+      "source_record_id": "6aacf239a960023b07c0b69d",
+      "candidate_id": "p1-18fd70e1d4522722a2545124",
+      "detail_url": "https://careersite.tupu360.com/intel/position/detail?positionId=6aacf239a960023b07c0b69d&recruitmentType=CAMPUSRECRUITMENT&currentLang=zh_CN",
+      "job_title": "JR0287324 Ecosystem Technical Enabling Engineer (BJ/SH)",
+      "reason": "same_posting_existing",
+      "evidence": {
+        "basis": "official tupu360 title begins with the Workday requisition id; d516 Intel/英特尔 Workday detail_url ends with the same id",
+        "requisition_id": "JR0287324",
+        "canonical_rows": [
+          {
+            "id": "p1-1513d162fde61b5f86287bd6",
+            "source_record_id": "8296ddf219441001da5da3f469c70000",
+            "p1_company": "英特尔",
+            "recruitment_type": "社会招聘",
+            "detail_url": "https://intel.wd1.myworkdayjobs.com/External/job/PRC-Shanghai/Ecosystem-Technical-Enabling-Engineer-SH-BJ-_JR0287324"
+          }
+        ],
+        "recruitment_type_conflict": true
+      }
+    },
+    {
+      "module": "qiuzhao.collector.p1_platform_tupu360",
+      "tenant": "intel",
+      "company": "Intel",
+      "scope": "intern",
+      "source_record_id": "6aa2284ea960023b07c0b385",
+      "candidate_id": "p1-032a5f431dffefcb5bbb90bf",
+      "detail_url": "https://careersite.tupu360.com/intel/position/detail?positionId=6aa2284ea960023b07c0b385&recruitmentType=INTERNSHIPRECRUITMENT&currentLang=zh_CN",
+      "job_title": "JR0286945 Operations Research Engineer Intern",
+      "reason": "same_posting_existing",
+      "evidence": {
+        "basis": "official tupu360 title begins with the Workday requisition id; d516 Intel/英特尔 Workday detail_url ends with the same id",
+        "requisition_id": "JR0286945",
+        "canonical_rows": [
+          {
+            "id": "p1-bd330ccb752fa176fd05e6f5",
+            "source_record_id": "1292bd033b1d10017ed5ec7e5ce70000",
+            "p1_company": "英特尔",
+            "recruitment_type": "实习招聘",
+            "detail_url": "https://intel.wd1.myworkdayjobs.com/External/job/PRC-Shanghai/Operations-Research-Engineer-Intern_JR0286945"
+          }
+        ],
+        "recruitment_type_conflict": false
+      }
+    }
+  ]
+}
