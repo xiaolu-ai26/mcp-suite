@@ -180,15 +180,23 @@ P1_SEGMENT_STEP_LIMIT=P1_SEGMENT_SECONDS+P1_SCOPE_TIMEOUT+P1_SEGMENT_FINALIZE_BU
 P1_TOTAL_BUDGET_SECONDS=72000
 P1_SEGMENT_RETRY_LIMIT=1     # extra attempt after exit 1 (no scope produced usable output)
 P1_MAX_STALLED_SEGMENTS=2    # stop once ``pending`` has not shrunk for this many segments
-P1_WORKERS=8
+# workers/company-budget/--batch-publish below are exactly what the 2026-09-21/22
+# 796-company recovery ran through all 1069 companies to completion (proven in
+# mcp-suite-recovery-20260921/segment18-receipt.json: workers=16, platform_workers=1),
+# only never wired into this daily entry point before. p1_pipeline.py itself already
+# supports all three unmodified -- see the 2026-09-23 baseline-capture commit.
+P1_WORKERS=16
 P1_PLATFORM_WORKERS=1
 # --platform-interval is left at p1_pipeline's default (PLATFORM_MIN_INTERVAL = 1.0s).
-P1_MEMORY_NOTE='8 workers initially; same-platform concurrency 1; max 20 companies or 1800s per segment'
+P1_COMPANY_BUDGET=40          # QIUZHAO_P1_COMPANY_BUDGET; p1_pipeline.py default is 20
+P1_MEMORY_NOTE=('16 workers; same-platform concurrency 1; max 40 companies or 1800s per '
+                'segment; --batch-publish (segment writes stage/jobs.json once, not once '
+                'per scope)')
 
 def p1_segment_args(stage,seconds):
     """p1 argv for one segment; ``--resume-latest`` continues the previous checkpoint."""
     return ['-m','qiuzhao.collector.p1_pipeline','--data-dir',str(stage),'--apply','--resume-latest',
-            '--scope-timeout',str(P1_SCOPE_TIMEOUT),'--workers',str(P1_WORKERS),
+            '--batch-publish','--scope-timeout',str(P1_SCOPE_TIMEOUT),'--workers',str(P1_WORKERS),
             '--platform-workers',str(P1_PLATFORM_WORKERS),'--max-run-seconds',str(seconds)]
 
 def steps_for(stage,smoke):
@@ -438,6 +446,7 @@ def run_p1_segments(state,statepath,run,stage,baseline,env,steps,*,smoke,no_sync
     args,limit=steps['p1'];normalize_args,normalize_limit=steps['normalize']
     state['p1_concurrency']={'workers':P1_WORKERS,'platform_workers':P1_PLATFORM_WORKERS,
                              'platform_min_interval':1.0,'memory':P1_MEMORY_NOTE,
+                             'company_budget':P1_COMPANY_BUDGET,'batch_publish':True,
                              'segment_seconds':P1_SEGMENT_SECONDS,'segment_step_limit':limit,
                              'total_budget_seconds':P1_TOTAL_BUDGET_SECONDS}
     def close_segment(record):
@@ -636,7 +645,7 @@ def main():
                 state['server_rows']=row_count(baseline);atomic_json(statepath,state)
             if digest(baseline)!=state['before_sha256']:raise ValueError('baseline hash changed')
             if not (stage/'jobs.json').exists():shutil.copyfile(baseline,stage/'jobs.json')
-            env=dict(os.environ,PYTHONUTF8='1',PYTHONIOENCODING='utf-8',QIUZHAO_DATA_DIR=str(stage),QIUZHAO_SKIP_SERVICE_RESTART='1')
+            env=dict(os.environ,PYTHONUTF8='1',PYTHONIOENCODING='utf-8',QIUZHAO_DATA_DIR=str(stage),QIUZHAO_SKIP_SERVICE_RESTART='1',QIUZHAO_P1_COMPANY_BUDGET=str(P1_COMPANY_BUDGET))
             steps=steps_for(stage,a.smoke);by_name={name:(args,limit) for name,args,limit in steps}
             for stale in run.glob('*.before.json'):
                 if stale.name=='jobs.before.json':continue
