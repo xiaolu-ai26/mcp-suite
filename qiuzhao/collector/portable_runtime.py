@@ -1,4 +1,5 @@
 """Small cross-platform equivalents for collector process and file locks."""
+import errno
 import os
 import signal
 import subprocess
@@ -41,21 +42,54 @@ def child_output(command, timeout=30):
             'stderr': (result.stderr or '')[-1000:]}
 
 
+class WindowsLocks:
+    """flock() over msvcrt.locking with POSIX LOCK_NB semantics.
+
+    msvcrt.locking reports a region already locked by another handle through the CRT's
+    errno EACCES, and CPython raises it via PyErr_SetFromErrno as a bare
+    ``PermissionError: [Errno 13] Permission denied`` (no filename, winerror None). POSIX
+    flock(LOCK_NB) raises BlockingIOError for the same situation, and every caller waits or
+    defers on that. On 2026-09-24 the shared public-careers browser lock
+    (p1_feishu_public) was held by one Feishu unit while four others asked for it; their
+    ``except BlockingIOError`` wait never ran and 12 units failed within a second.
+
+    Only a non-blocking *lock* request maps EACCES to BlockingIOError: the file is already
+    open, so EACCES there means lock contention. Unlocking a region that is not locked also
+    reports EACCES and stays a PermissionError, as does every other errno (EDEADLK from a
+    blocking LK_LOCK that gave up, EBADF, ...). A real access problem with the lock file
+    surfaces earlier, at open(), and is never touched here.
+    """
+    LOCK_EX = 2
+    LOCK_NB = 4
+    LOCK_UN = 8
+
+    def __init__(self, crt):
+        self._crt = crt
+
+    def flock(self, handle, flags):
+        crt = self._crt
+        fd = handle if isinstance(handle, int) else handle.fileno()
+        os.lseek(fd, 0, os.SEEK_SET)
+        if os.fstat(fd).st_size == 0:
+            os.write(fd, b'0')
+            os.lseek(fd, 0, os.SEEK_SET)
+        if flags & self.LOCK_UN:
+            mode = crt.LK_UNLCK
+        elif flags & self.LOCK_NB:
+            mode = crt.LK_NBLCK
+        else:
+            mode = crt.LK_LOCK
+        try:
+            crt.locking(fd, mode, 1)
+        except OSError as error:
+            if mode == crt.LK_NBLCK and error.errno == errno.EACCES:
+                raise BlockingIOError(errno.EWOULDBLOCK, 'lock held by another handle') from error
+            raise
+
+
 if os.name == 'nt':
     import msvcrt
-    class _Locks:
-        LOCK_EX = 2
-        LOCK_NB = 4
-        LOCK_UN = 8
-        @staticmethod
-        def flock(handle, flags):
-            fd = handle if isinstance(handle, int) else handle.fileno()
-            os.lseek(fd, 0, os.SEEK_SET)
-            if os.fstat(fd).st_size == 0:
-                os.write(fd, b'0')
-                os.lseek(fd, 0, os.SEEK_SET)
-            msvcrt.locking(fd, msvcrt.LK_UNLCK if flags & 8 else (msvcrt.LK_NBLCK if flags & 4 else msvcrt.LK_LOCK), 1)
-    fcntl = _Locks()
+    fcntl = WindowsLocks(msvcrt)
 else:
     import fcntl
 
