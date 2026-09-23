@@ -503,7 +503,7 @@ def normalize_file(path, check: bool = False) -> dict:
 
 OBSERVATION_FIELDS = frozenset({
     'reviewed_at', 'checked_at', 'fetched_at', 'collected_at', 'retrieved_at',
-    'verified_at', 'list_checked_at', 'detail_checked_at',
+    'verified_at', 'list_checked_at', 'detail_checked_at', 'detail_cache_reused',
     'last_attempt_at', 'run_id', 'evidence_path', 'announcement_evidence_path',
     'list_evidence_path', 'detail_evidence_path', 'evidence_files', 'evidence',
 })
