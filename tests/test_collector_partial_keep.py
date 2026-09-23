@@ -257,7 +257,7 @@ def run_windows_collector(tmp_path, monkeypatch, behavior, smoke=True, module=W)
     run_dir.mkdir(parents=True)
     baseline_rows = ['old']
 
-    def fake_pull(target):
+    def fake_pull(target, receipt=None):
         write_jobs(Path(target), baseline_rows)
         return module.digest(Path(target))
 
