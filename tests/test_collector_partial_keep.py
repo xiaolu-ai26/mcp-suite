@@ -284,7 +284,7 @@ def run_windows_collector(tmp_path, monkeypatch, behavior, smoke=True, module=W)
             (stage / 'p1-status.json').write_text('{}')
         return code
 
-    def fake_publish(baseline, candidate, expected_base, work, pull, publish):
+    def fake_publish(baseline, candidate, expected_base, work, pull, publish, **_kwargs):
         return {'publication': {'published': True, 'after_sha256': module.digest(Path(candidate))},
                 'published_path': str(candidate)}
 

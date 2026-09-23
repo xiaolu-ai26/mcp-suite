@@ -1,8 +1,9 @@
 """Public official recruitment collectors; no production writes."""
 from __future__ import annotations
 import base64, html, json, re, time, os, hashlib
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from urllib.parse import urlsplit
 import requests
 
 def make_session():
@@ -143,34 +144,174 @@ def partial_checkpoint(jobs,c,company,scope,output_dir):
     cc['scope_request']={'company':COMPANIES.get(company,company),'scope':scope,'source_url':c.get('source_url'),'params':{'local_scope_filter':scope}}
     temp=output_dir/'result.checkpoint.tmp';temp.write_text(json.dumps({'jobs':jobs,'coverage':cc},ensure_ascii=False));temp.replace(output_dir/'result.json')
 
-def moka_detail_cached(company,scope,row,host,org,site,iv,output_dir):
-    ident=row['id'];updated=row.get('updatedAt')
-    fingerprint=hashlib.sha256(json.dumps(row,ensure_ascii=False,sort_keys=True).encode()).hexdigest()
+MOKA_LOGICAL_RUN_ENV='QIUZHAO_P1_LOGICAL_RUN_ID'
+MOKA_DETAIL_RECHECK_TTL_ENV='QIUZHAO_P1_DETAIL_RECHECK_TTL'
+MOKA_DETAIL_RECHECK_TTL_SECONDS=24*60*60
+MOKA_TIME_FUTURE_SKEW=timedelta(seconds=120)
+
+def moka_cache_root(output_dir):
+    """Persistent detail/list directory. An explicit env override wins."""
     configured=os.environ.get('QIUZHAO_P1_DETAIL_CACHE_ROOT')
-    cache_root=(Path(configured)/company/scope if configured else output_dir.parent/'shared'/scope);cache_root.mkdir(parents=True,exist_ok=True)
-    cache=cache_root/(hashlib.sha256((org+'|'+ident).encode()).hexdigest()+'.json')
-    if updated and cache.exists():
-        try:
-            old=json.loads(cache.read_text());detail=old['detail'];digest=hashlib.sha256(json.dumps(detail,ensure_ascii=False,sort_keys=True).encode()).hexdigest()
-            if old.get('source_updated_at')==updated and old.get('list_fingerprint')==fingerprint and old.get('detail_sha256')==digest and detail.get('id')==ident and detail.get('jobDescription'):
-                return detail,old['detail_checked_at'],True
-        except (ValueError,KeyError,TypeError):pass
-    existing=output_dir/f'detail-{ident}.json'
-    if updated and existing.exists():
-        try:
-            previous=json.loads(existing.read_text())
-            keys=tuple(row)
-            if previous.get('id')==ident and previous.get('jobDescription') and previous.get('updatedAt')==updated and all(k in previous and previous[k]==row[k] for k in keys):
-                checked=datetime.fromtimestamp(existing.stat().st_mtime,timezone.utc).isoformat()
-                return previous,checked,True
-        except (ValueError,KeyError,TypeError):pass
+    if configured:return Path(configured)
+    return Path(output_dir).parent/'shared'
+
+def moka_today():
+    return datetime.now(timezone.utc).date().isoformat()
+
+def current_logical_run():
+    """Explicit run id inherited from the pipeline. Blank and 'default' do not share."""
+    value=os.environ.get(MOKA_LOGICAL_RUN_ENV,'').strip()
+    if not value or value.lower()=='default':return ''
+    return value
+
+def moka_detail_recheck_ttl():
+    raw=os.environ.get(MOKA_DETAIL_RECHECK_TTL_ENV,'').strip()
+    if not raw:return MOKA_DETAIL_RECHECK_TTL_SECONDS
+    try:value=int(raw)
+    except ValueError:return MOKA_DETAIL_RECHECK_TTL_SECONDS
+    return value if value>0 else MOKA_DETAIL_RECHECK_TTL_SECONDS
+
+def moka_host_origin(host):
+    """scheme://lowercase-host:effective-port. Default ports are written out."""
+    raw=str(host or '').strip()
+    if not raw:return ''
+    if '://' not in raw:raw='https://'+raw
+    parts=urlsplit(raw)
+    scheme=parts.scheme.lower()
+    hostname=(parts.hostname or '').lower()
+    if scheme not in ('http','https') or not hostname:return ''
+    try:port=parts.port
+    except ValueError:return ''
+    if port is None:port=443 if scheme=='https' else 80
+    if ':' in hostname and not hostname.startswith('['):hostname='['+hostname+']'
+    return scheme+'://'+hostname+':'+str(port)
+
+def parse_moka_time(value):
+    """Aware UTC timestamp, or None when missing, naive, or not a datetime."""
+    if not isinstance(value,str):return None
+    token=value.strip()
+    if not token:return None
+    if token.endswith('Z'):token=token[:-1]+'+00:00'
+    try:stamp=datetime.fromisoformat(token)
+    except ValueError:return None
+    if stamp.tzinfo is None:return None
+    return stamp.astimezone(timezone.utc)
+
+def moka_time_is_reusable(value,ttl):
+    """False for illegal, future, or older-than-ttl verification times."""
+    stamp=parse_moka_time(value)
+    if stamp is None:return False
+    current=datetime.now(timezone.utc)
+    if stamp>current+MOKA_TIME_FUTURE_SKEW:return False
+    if (current-stamp).total_seconds()>ttl:return False
+    return True
+
+def reliable_moka_updated_at(value):
+    """A calendar timestamp from the list row. Empty, numeric and placeholder values are not reliable."""
+    if not isinstance(value,str):return ''
+    token=value.strip()
+    if re.fullmatch(r'\d{4}-\d{2}-\d{2}(?:[T ].*)?',token):return token
+    return ''
+
+def moka_list_fingerprint(row):
+    return hashlib.sha256(json.dumps(row,ensure_ascii=False,sort_keys=True).encode()).hexdigest()
+
+def moka_detail_digest(detail):
+    return hashlib.sha256(json.dumps(detail,ensure_ascii=False,sort_keys=True).encode()).hexdigest()
+
+def moka_detail_cache_path(company,scope,host,org,site,ident,output_dir):
+    origin=moka_host_origin(host)
+    key=hashlib.sha256((origin+'|'+str(org)+'|'+str(site)+'|'+str(ident)).encode()).hexdigest()
+    return moka_cache_root(output_dir)/company/scope/(key+'.json')
+
+def moka_list_cache_path(output_dir,host,org,site,run_id):
+    origin=moka_host_origin(host)
+    key=hashlib.sha256((origin+'|'+str(org)+'|'+str(site)+'|'+str(run_id)).encode()).hexdigest()
+    return moka_cache_root(output_dir)/'moka-lists'/(key+'.json')
+
+def _read_json(path):
+    try:return json.loads(Path(path).read_text(encoding='utf-8'))
+    except (OSError,ValueError,UnicodeError):return None
+
+def _write_json(path,payload):
+    path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
+    temp=path.with_suffix('.tmp');temp.write_text(json.dumps(payload,ensure_ascii=False),encoding='utf-8');temp.replace(path)
+
+def _moka_source_ok(payload,org,site,origin):
+    return isinstance(payload,dict) and str(payload.get('tenant'))==str(org) and payload.get('source')=='moka' and str(payload.get('site'))==str(site) and payload.get('host')==origin
+
+def peek_moka_detail_cache(company,scope,row,host,org,site,output_dir):
+    """Reuse one detail only when host/tenant/site/jobID, fingerprint and age agree.
+
+    A raw ``detail-<id>.json`` is ignored. An envelope with no host or no list
+    fingerprint is not reused. A hit returns the stored ``detail_checked_at``
+    and does not rewrite the envelope. Illegal, future, or older-than-ttl
+    verification times miss, with or without ``updatedAt``.
+    """
+    ident=row.get('id') if isinstance(row,dict) else None
+    origin=moka_host_origin(host)
+    if not ident or not origin:return None
+    payload=_read_json(moka_detail_cache_path(company,scope,host,org,site,ident,output_dir))
+    if not _moka_source_ok(payload,org,site,origin) or str(payload.get('job_id'))!=str(ident):return None
+    detail=payload.get('detail')
+    if not isinstance(detail,dict) or detail.get('id')!=ident or not text(detail.get('jobDescription')):return None
+    if payload.get('detail_sha256')!=moka_detail_digest(detail):return None
+    fingerprint=payload.get('list_fingerprint')
+    if not isinstance(fingerprint,str) or not fingerprint or fingerprint!=moka_list_fingerprint(row):return None
+    updated=reliable_moka_updated_at(row.get('updatedAt'));stored=reliable_moka_updated_at(payload.get('source_updated_at'))
+    if updated and stored and updated!=stored:return None
+    checked=payload.get('detail_checked_at')
+    if not moka_time_is_reusable(checked,moka_detail_recheck_ttl()):return None
+    return detail,checked
+
+def moka_detail_cached(company,scope,row,host,org,site,iv,output_dir):
+    ident=row['id']
+    hit=peek_moka_detail_cache(company,scope,row,host,org,site,output_dir)
+    if hit is not None:return hit[0],hit[1],True
     with make_session() as ss:detail=request_json(ss,host+'/api/outer/ats-apply/website/job',{'orgId':org,'siteId':int(site),'jobId':ident,'locale':'zh-CN'},iv)
     if detail.get('id')!=ident or not text(detail.get('jobDescription')):raise ValueError(f'Incomplete Moka detail {ident}')
     checked=datetime.now(timezone.utc).isoformat()
-    if updated:
-        payload={'source_updated_at':updated,'list_fingerprint':fingerprint,'detail':detail,'detail_checked_at':checked,'detail_sha256':hashlib.sha256(json.dumps(detail,ensure_ascii=False,sort_keys=True).encode()).hexdigest()}
-        temp=cache.with_suffix('.tmp');temp.write_text(json.dumps(payload,ensure_ascii=False));temp.replace(cache)
+    origin=moka_host_origin(host)
+    updated=reliable_moka_updated_at(row.get('updatedAt'))
+    if origin:
+        payload={'tenant':str(org),'source':'moka','site':str(site),'host':origin,'job_id':str(ident),'source_updated_at':updated,'list_fingerprint':moka_list_fingerprint(row),'detail':detail,'detail_checked_at':checked,'detail_sha256':moka_detail_digest(detail)}
+        _write_json(moka_detail_cache_path(company,scope,host,org,site,ident,output_dir),payload)
     return detail,checked,False
+
+def _list_snapshot_ok(payload,org,site,origin,run_id,today):
+    if not _moka_source_ok(payload,org,site,origin) or payload.get('complete') is not True:return False
+    if payload.get('run_id')!=run_id or payload.get('fetched_on')!=today:return False
+    fetched_at=parse_moka_time(payload.get('fetched_at'))
+    if fetched_at is None or fetched_at.date().isoformat()!=today:return False
+    if fetched_at>datetime.now(timezone.utc)+MOKA_TIME_FUTURE_SKEW:return False
+    rows=payload.get('rows');total=payload.get('total')
+    if not isinstance(rows,list) or isinstance(total,bool) or not isinstance(total,int) or total!=len(rows) or total<0:return False
+    if any(not isinstance(row,dict) or not row.get('id') for row in rows):return False
+    return True
+
+def load_same_day_moka_list(output_dir,host,org,site,today=None):
+    """Return this run's list only when it was collected earlier today.
+
+    No logical run id means no reuse, including the name ``default``. A new run
+    on the same calendar day misses. Resume of this run on a later day misses.
+    A miss is not an empty listing and must not decide that jobs were removed.
+    """
+    run_id=current_logical_run();origin=moka_host_origin(host)
+    if not run_id or not origin or not os.environ.get('QIUZHAO_P1_DETAIL_CACHE_ROOT'):return None
+    payload=_read_json(moka_list_cache_path(output_dir,host,org,site,run_id))
+    if not _list_snapshot_ok(payload,org,site,origin,run_id,today or moka_today()):return None
+    return payload
+
+def store_same_day_moka_list(output_dir,host,org,site,rows,total,fetched_at=None):
+    run_id=current_logical_run();origin=moka_host_origin(host)
+    if not run_id or not origin or not os.environ.get('QIUZHAO_P1_DETAIL_CACHE_ROOT'):return None
+    if isinstance(total,bool) or not isinstance(total,int) or total!=len(rows) or total<0:return None
+    recorded=fetched_at.strip() if isinstance(fetched_at,str) else ''
+    stamp=parse_moka_time(recorded) if recorded else datetime.now(timezone.utc)
+    if stamp is None or stamp>datetime.now(timezone.utc)+MOKA_TIME_FUTURE_SKEW:return None
+    if not recorded:recorded=stamp.isoformat()
+    payload={'tenant':str(org),'source':'moka','site':str(site),'host':origin,'run_id':run_id,'fetched_on':stamp.date().isoformat(),'complete':True,'total':total,'rows':rows,'fetched_at':recorded}
+    path=moka_list_cache_path(output_dir,host,org,site,run_id);_write_json(path,payload);return path
 
 def is_internship(commitment,title=''):
     if re.search(r'实习|\bintern(?:ship)?\b',str(commitment or ''),re.I):return True
@@ -187,30 +328,43 @@ def collect_moka_sites(company,scope,sites,output_dir):
             org,site=m.groups();host=site_url.split('/')[0]+'//'+site_url.split('/')[2]
             r=session.get(site_url,timeout=(10,45));r.raise_for_status();pagehtml=html.unescape(r.text)
             ivmatch=re.search(r'"aesIv"\s*:\s*"([^"]+)"',pagehtml);iv=ivmatch.group(1) if ivmatch else None
-            listed=set();total=None;terminal=False;selected=[]
+            listed=set();total=None;terminal=False;selected=[];fetched_rows=[];list_checked_stamp=None
             site_key=org+'/'+site;c.setdefault('source_list_status_counts',{})[site_key]={}
-            for offset in range(0,200000,50):
-                d=request_json(session,host+'/api/outer/ats-apply/website/jobs/v2',{'orgId':org,'siteId':int(site),'limit':50,'offset':offset,'needStat':True,'locale':'zh-CN'},iv)
-                (output_dir/f'{site}-list-{offset}.json').write_text(json.dumps(d,ensure_ascii=False));c['pages_scanned']+=1
-                rows=d['jobs'];n=d.get('jobStats',{}).get('total')
-                if not rows and total is not None and len(listed)==total:
-                    terminal=True;c['last_page_evidence']=f'site={site};offset={offset};rows=0;prior_total={total};terminal_total={n}';break
-                if total is not None and n!=total:raise ValueError('Moka total changed during scan')
-                total=n
-                if not rows:terminal=True;c['last_page_evidence']=f'site={site};offset={offset};rows=0;total={total}';break
-                for row in rows:
-                    ident=row['id']
-                    if ident in listed:raise ValueError(f'Repeated Moka ID {ident}')
-                    listed.add(ident);commitment=str(row.get('commitment',''));mode=row.get('hireMode')
-                    state=str(row.get('status'));counts=c['source_list_status_counts'][site_key];counts[state]=counts.get(state,0)+1
-                    if mode not in (1,2):raise ValueError(f'Unknown official hireMode={mode}; job={ident}')
-                    actual='intern' if is_internship(commitment,row.get('title','')) else 'campus' if mode==2 else 'social'
-                    if actual==scope and ident not in seen:selected.append(row);seen.add(ident)
-                time.sleep(.08)
-            if not terminal or total is not None and len(listed)!=total:raise ValueError(f'Incomplete list site={site}: observed={len(listed)}, total={total}')
+            def take(row):
+                ident=row['id']
+                if ident in listed:raise ValueError(f'Repeated Moka ID {ident}')
+                listed.add(ident);commitment=str(row.get('commitment',''));mode=row.get('hireMode')
+                state=str(row.get('status'));counts=c['source_list_status_counts'][site_key];counts[state]=counts.get(state,0)+1
+                if mode not in (1,2):raise ValueError(f'Unknown official hireMode={mode}; job={ident}')
+                actual='intern' if is_internship(commitment,row.get('title','')) else 'campus' if mode==2 else 'social'
+                if actual==scope and ident not in seen:selected.append(row);seen.add(ident)
+                fetched_rows.append(row)
+            cached_list=load_same_day_moka_list(output_dir,host,org,site)
+            if cached_list is not None:
+                total=cached_list['total'];list_checked_stamp=cached_list['fetched_at']
+                (output_dir/f'{site}-list-0.json').write_text(json.dumps({'jobs':cached_list['rows'],'jobStats':{'total':total},'list_cache_reused':True,'fetched_at':list_checked_stamp},ensure_ascii=False))
+                c['pages_scanned']+=1;c['list_cache_reused']=True
+                for row in cached_list['rows']:take(row)
+                if len(listed)!=total:raise ValueError(f'Incomplete cached list site={site}: observed={len(listed)}, total={total}')
+                terminal=True;c['last_page_evidence']=f'site={site};list_cache_reused=1;rows={len(listed)};total={total}'
+            else:
+                list_checked_stamp=datetime.now(timezone.utc).isoformat()
+                for offset in range(0,200000,50):
+                    d=request_json(session,host+'/api/outer/ats-apply/website/jobs/v2',{'orgId':org,'siteId':int(site),'limit':50,'offset':offset,'needStat':True,'locale':'zh-CN'},iv)
+                    (output_dir/f'{site}-list-{offset}.json').write_text(json.dumps(d,ensure_ascii=False));c['pages_scanned']+=1
+                    rows=d['jobs'];n=d.get('jobStats',{}).get('total')
+                    if not rows and total is not None and len(listed)==total:
+                        terminal=True;c['last_page_evidence']=f'site={site};offset={offset};rows=0;prior_total={total};terminal_total={n}';break
+                    if total is not None and n!=total:raise ValueError('Moka total changed during scan')
+                    total=n
+                    if not rows:terminal=True;c['last_page_evidence']=f'site={site};offset={offset};rows=0;total={total}';break
+                    for row in rows:take(row)
+                    time.sleep(.08)
+                if not terminal or total is not None and len(listed)!=total:raise ValueError(f'Incomplete list site={site}: observed={len(listed)}, total={total}')
+                if terminal and isinstance(total,int) and not isinstance(total,bool) and len(fetched_rows)==total:store_same_day_moka_list(output_dir,host,org,site,fetched_rows,total,fetched_at=list_checked_stamp)
             c.setdefault('source_list_totals',{})[site_key]=total
             c['evidence'].extend(p.name for p in output_dir.glob(f'{site}-list-*.json'))
-            def enrich(row):
+            def enrich(row, list_checked_at=list_checked_stamp):
                 ident=row['id']
                 detail,detail_checked,cached=moka_detail_cached(company,scope,row,host,org,site,iv,output_dir)
                 if detail.get('id')!=ident or not text(detail.get('jobDescription')):raise ValueError(f'Incomplete Moka detail {ident}')
@@ -221,7 +375,8 @@ def collect_moka_sites(company,scope,sites,output_dir):
                 j['scope_evidence']=f'{basis}; hireMode={row.get("hireMode")}; commitment={row.get("commitment","")}; title={row.get("title","")}'
                 j['recruitment_type_raw']={'hireMode':detail.get('hireMode'),'commitment':detail.get('commitment')}
                 apply_moka_status(j,row,detail)
-                j['list_checked_at']=datetime.now(timezone.utc).isoformat();j['detail_checked_at']=detail_checked;j['detail_cache_reused']=cached
+                j['list_checked_at']=list_checked_at;j['detail_checked_at']=detail_checked;j['detail_cache_reused']=cached
+                if cached:j['verified_at']=detail_checked
                 if '校园大使' in detail['title'] and scope=='social':j['recruitment_type_conflict']='Official hireMode=1 (social), title names campus ambassador; retain source classification for review'
                 project=detail.get('projectFolder') or {};settings=project.get('settings') or {}
                 j['cohort_raw']='';j['campaign_cohort_raw']=text(settings.get('graduateDateLimit') or project.get('name') or '');j['campaign_scope']='project';j['campaign_url']=site_url

@@ -140,9 +140,24 @@ def rebase_files(baseline, collected, latest, output):
 
 def publish_with_rebase(baseline, candidate, expected_base, workdir,
                         pull_snapshot, publish_snapshot, *, force_rebase=False,
-                        max_rebases=3):
-    """Keep the real original base immutable; every retry uses a fresh CAS snapshot."""
+                        max_rebases=3, aligned=None):
+    """Keep the real original base immutable; every retry uses a fresh CAS snapshot.
+
+    ``aligned`` maps the sha256 of an artifact this run sent earlier without a
+    confirmed receipt (ssh dropped after the receiver replaced jobs.json, or the
+    local state write was interrupted) to the local candidate that artifact was built
+    from. When the fresh snapshot turns out to be exactly such an artifact, the local
+    changes are replayed from that candidate instead of from ``baseline``: the server
+    already holds everything up to it, so diffing against the older base would turn
+    this run's own later edits of the same IDs into keep-online conflicts. Once one
+    attempt has seen such an artifact, later bounded retries keep replaying from that
+    candidate: a further external write on top of it (the reason the attempt lost its
+    CAS) does not make the server stop descending from our own accepted artifact.
+    Genuine external edits of the same IDs still resolve to the online version.
+    """
     baseline, candidate, workdir = Path(baseline), Path(candidate), Path(workdir)
+    aligned = dict(aligned or {})
+    confirmed = None  # (server sha256 that matched, local candidate it was built from)
     if digest(baseline) != expected_base:
         raise ValueError('original baseline does not match its recorded hash')
     workdir.mkdir(parents=True, exist_ok=True)
@@ -165,11 +180,21 @@ def publish_with_rebase(baseline, candidate, expected_base, workdir,
         latest_hash = pull_snapshot(latest)
         if digest(latest) != latest_hash:
             raise ValueError('latest snapshot hash mismatch')
-        report = rebase_files(baseline, candidate, latest, output)
+        alignment = aligned.get(latest_hash)
+        if alignment is not None:
+            confirmed = (latest_hash, Path(alignment))
+        base = confirmed[1] if confirmed else baseline
+        if confirmed and not base.is_file():
+            raise ValueError('aligned local base is missing: ' + str(base))
+        report = rebase_files(base, candidate, latest, output)
         if report['collected_sha256'] != candidate_hash:
             raise ValueError('collected candidate changed between attempts')
         attempt = {'phase': 'rebase', 'number': number,
                    'latest_sha256': latest_hash, 'report': str(output.with_suffix('.receipt.json'))}
+        if confirmed:
+            attempt['aligned_unconfirmed_publication'] = {'server_sha256': confirmed[0],
+                                                          'local_base': str(base),
+                                                          'matched_this_attempt': alignment is not None}
         attempts.append(attempt)
         try:
             publication = publish_snapshot(output, latest_hash, folder/'publish')
@@ -181,6 +206,8 @@ def publish_with_rebase(baseline, candidate, expected_base, workdir,
         result = {'publication': publication, 'published_path': str(output),
                   'source_candidate_sha256': candidate_hash, 'attempts': attempts,
                   'rebase_report': report}
+        if confirmed:
+            result['aligned_unconfirmed_publication'] = attempt['aligned_unconfirmed_publication']
         atomic_json(workdir/'receipt.json', result)
         return result
     raise CASConflict('production changed during all bounded rebase attempts; evidence retained')

@@ -161,31 +161,16 @@ def _list_page(session, host, org, site, iv, offset, budget):
          'needStat': True, 'locale': 'zh-CN'}, iv))
 
 
-def _cached_detail(output_dir, ident):
-    """Reuse a detail saved by an earlier bounded pass without spending budget."""
-    path = Path(output_dir) / f'detail-{ident}.json'
-    if not ident or not path.is_file():
-        return None
-    try:
-        detail = json.loads(path.read_text(encoding='utf-8'))
-    except (ValueError, OSError):
-        return None
-    if detail.get('id') != ident or not shared.text(detail.get('jobDescription')):
-        return None
-    checked = datetime.fromtimestamp(path.stat().st_mtime, timezone.utc).isoformat()
-    return detail, checked, True
-
-
 def _detail(company, scope, row, host, org, site, iv, output_dir, budget):
-    """Network detail fetch, budgeted; already-saved/shared-cache hits are free.
+    """Network detail fetch, budgeted; a strong cache hit is free.
 
-    Budget counts real requests only, so repeated bounded passes resume where the
-    previous one stopped instead of re-spending the budget on cached rows.
+    The hit has to match tenant/source/site/jobID and the list fingerprint.
+    A raw ``detail-<id>.json`` left by this run is not enough, so resume cannot
+    skip that check. The stored detail verification time is kept as-is.
     """
-    ident = row.get('id')
-    reused = _cached_detail(output_dir, ident)
-    if reused is not None:
-        return reused
+    hit = shared.peek_moka_detail_cache(company, scope, row, host, org, site, output_dir)
+    if hit is not None:
+        return hit[0], hit[1], True
     if budget['limit'] is not None and budget['used'] >= budget['limit']:
         raise BudgetExhausted('per-tenant request budget reached')
     budget['used'] += 1
@@ -204,7 +189,7 @@ def _scope_of(row):
     return 'intern' if shared.is_internship(commitment, row.get('title', '')) else ('campus' if mode == 2 else 'social')
 
 
-def _job(row, detail, detail_checked, cached, site_url, basis, name, scope):
+def _job(row, detail, detail_checked, cached, site_url, basis, name, scope, list_checked_at):
     ident = row['id']
     url = site_url.split('#')[0].rstrip('/') + '#/job/' + ident
     location = ' / '.join(x.get('cityName') or x.get('provinceName') or x.get('country', '')
@@ -215,9 +200,11 @@ def _job(row, detail, detail_checked, cached, site_url, basis, name, scope):
                              f'commitment={row.get("commitment", "")}; title={row.get("title", "")}')
     job['recruitment_type_raw'] = {'hireMode': detail.get('hireMode'), 'commitment': detail.get('commitment')}
     shared.apply_moka_status(job, row, detail)
-    job['list_checked_at'] = datetime.now(timezone.utc).isoformat()
+    job['list_checked_at'] = list_checked_at
     job['detail_checked_at'] = detail_checked
     job['detail_cache_reused'] = cached
+    if cached:
+        job['verified_at'] = detail_checked
     project = detail.get('projectFolder') or {}
     settings = project.get('settings') or {}
     job['cohort_raw'] = ''
@@ -275,44 +262,78 @@ def collect(company, scope, output_dir, max_requests=None):
             listed = set()
             total = None
             terminal = False
+            fetched_rows = []
+            list_checked_stamp = None
             site_key = org + '/' + site
             counts = coverage.setdefault('source_list_status_counts', {}).setdefault(site_key, {})
-            offset = 0
-            while True:
-                payload = _list_page(session, host, org, site, iv, offset, budget)
-                (output_dir / f'{site}-list-{offset}.json').write_text(json.dumps(payload, ensure_ascii=False))
+
+            def take(row):
+                ident = row.get('id')
+                if not ident or ident in listed:
+                    raise ValueError(f'Repeated Moka ID {ident}')
+                listed.add(ident)
+                status = str(row.get('status'))
+                counts[status] = counts.get(status, 0) + 1
+                actual = _scope_of(row)
+                observed.append({'id': ident, 'title': row.get('title'),
+                                 'hireMode': row.get('hireMode'),
+                                 'commitment': row.get('commitment'),
+                                 'status': status, 'scope': actual, 'site': site_key})
+                if actual == scope and ident not in seen:
+                    seen.add(ident)
+                    selected.append((row, site_url, basis, org, site, host, iv, list_checked_stamp))
+                fetched_rows.append(row)
+
+            cached_list = shared.load_same_day_moka_list(output_dir, host, org, site)
+            if cached_list is not None:
+                total = cached_list['total']
+                list_checked_stamp = cached_list['fetched_at']
+                (output_dir / f'{site}-list-0.json').write_text(json.dumps(
+                    {'jobs': cached_list['rows'], 'jobStats': {'total': total},
+                     'list_cache_reused': True, 'fetched_at': list_checked_stamp},
+                    ensure_ascii=False))
                 coverage['pages_scanned'] += 1
-                rows = payload.get('jobs') or []
-                count = (payload.get('jobStats') or {}).get('total')
-                if not rows:
-                    if total is not None and len(listed) == total:
-                        terminal = True
-                        coverage['last_page_evidence'] = (f'site={site};offset={offset};rows=0;'
-                                                          f'prior_total={total};terminal_total={count}')
-                    elif total is None:
-                        terminal = True
-                        coverage['last_page_evidence'] = f'site={site};offset={offset};rows=0;total=0'
-                    break
-                if total is not None and count != total:
-                    raise ValueError('Moka total changed during scan')
-                total = count
-                for row in rows:
-                    ident = row.get('id')
-                    if not ident or ident in listed:
-                        raise ValueError(f'Repeated Moka ID {ident}')
-                    listed.add(ident)
-                    status = str(row.get('status'))
-                    counts[status] = counts.get(status, 0) + 1
-                    actual = _scope_of(row)
-                    observed.append({'id': ident, 'title': row.get('title'),
-                                     'hireMode': row.get('hireMode'),
-                                     'commitment': row.get('commitment'),
-                                     'status': status, 'scope': actual, 'site': site_key})
-                    if actual == scope and ident not in seen:
-                        seen.add(ident)
-                        selected.append((row, site_url, basis, org, site, host, iv))
-                offset += 50
-                time.sleep(0.2)
+                coverage['list_cache_reused'] = True
+                for row in cached_list['rows']:
+                    take(row)
+                if len(listed) != total:
+                    raise ValueError(f'Incomplete cached list site={site}: observed={len(listed)}, total={total}')
+                terminal = True
+                coverage['last_page_evidence'] = (f'site={site};list_cache_reused=1;'
+                                                  f'rows={len(listed)};total={total}')
+            else:
+                list_checked_stamp = datetime.now(timezone.utc).isoformat()
+                offset = 0
+                while True:
+                    payload = _list_page(session, host, org, site, iv, offset, budget)
+                    (output_dir / f'{site}-list-{offset}.json').write_text(
+                        json.dumps(payload, ensure_ascii=False))
+                    coverage['pages_scanned'] += 1
+                    rows = payload.get('jobs') or []
+                    count = (payload.get('jobStats') or {}).get('total')
+                    if not rows:
+                        if total is not None and len(listed) == total:
+                            terminal = True
+                            coverage['last_page_evidence'] = (f'site={site};offset={offset};rows=0;'
+                                                              f'prior_total={total};terminal_total={count}')
+                        elif total is None:
+                            terminal = True
+                            coverage['last_page_evidence'] = f'site={site};offset={offset};rows=0;total=0'
+                        break
+                    if total is not None and count != total:
+                        raise ValueError('Moka total changed during scan')
+                    total = count
+                    for row in rows:
+                        take(row)
+                    offset += 50
+                    time.sleep(0.2)
+                if not terminal or (total is not None and len(listed) != total):
+                    list_complete = False
+                    raise ValueError(f'Incomplete list site={site}: observed={len(listed)}, total={total}')
+                if (terminal and isinstance(total, int) and not isinstance(total, bool)
+                        and len(fetched_rows) == total):
+                    shared.store_same_day_moka_list(output_dir, host, org, site, fetched_rows, total,
+                                                    fetched_at=list_checked_stamp)
             if not terminal or (total is not None and len(listed) != total):
                 list_complete = False
                 raise ValueError(f'Incomplete list site={site}: observed={len(listed)}, total={total}')
@@ -321,7 +342,7 @@ def collect(company, scope, output_dir, max_requests=None):
         coverage['list_observed_ids'] = sorted({o['id'] for o in observed if o['scope'] == scope})
         coverage['list_observed_titles'] = sorted({o['title'] for o in observed
                                                    if o['scope'] == scope and o['title']})
-        for row, site_url, basis, org, site, host, iv in selected:
+        for row, site_url, basis, org, site, host, iv, list_checked_at in selected:
             try:
                 detail, detail_checked, cached = _detail(name, scope, row, host, org, site,
                                                          iv, output_dir, budget)
@@ -336,7 +357,8 @@ def collect(company, scope, output_dir, max_requests=None):
                 coverage['errors'].append(f'Incomplete Moka detail {ident}')
                 continue
             (output_dir / f'detail-{ident}.json').write_text(json.dumps(detail, ensure_ascii=False))
-            jobs.append(_job(row, detail, detail_checked, cached, site_url, basis, name, scope))
+            jobs.append(_job(row, detail, detail_checked, cached, site_url, basis, name, scope,
+                              list_checked_at))
             if len(jobs) % 100 == 0:
                 shared.partial_checkpoint(jobs, coverage, name, scope, output_dir)
         coverage['source_status_counts'] = {

@@ -7,7 +7,17 @@ import json
 from pathlib import Path
 from unittest.mock import patch
 
+import pytest
+
 from qiuzhao.collector import p1_platform_moka as moka
+
+
+@pytest.fixture(autouse=True)
+def isolate_detail_cache_env(monkeypatch):
+    # A pipeline test may set the persistent cache root for the process.
+    # List reuse must not leak across these fixture runs.
+    monkeypatch.delenv('QIUZHAO_P1_DETAIL_CACHE_ROOT', raising=False)
+    monkeypatch.delenv('QIUZHAO_P1_LOGICAL_RUN_ID', raising=False)
 
 FIXTURES = Path(__file__).parent / 'fixtures' / 'platform'
 
@@ -208,8 +218,8 @@ def test_real_config_ey_merges_campus_and_social_tenants():
     ]
 
 
-def test_second_bounded_pass_resumes_from_saved_details(tmp_path):
-    """A cache hit must not consume the per-run request budget."""
+def test_second_bounded_pass_raw_detail_cannot_skip_fingerprint(tmp_path):
+    """A raw detail file is not a verified cache hit and must not skip the lookup."""
     calls = []
 
     def counting_lookup(company, scope, row, host, org, site, iv, output_dir):
@@ -233,8 +243,10 @@ def test_second_bounded_pass_resumes_from_saved_details(tmp_path):
     assert first['coverage']['request_budget_exhausted'] is True
     assert len(first['jobs']) == 1
     assert calls == ['moka-campus-1']
+    assert (tmp_path / 'detail-moka-campus-1.json').is_file()
     second = run_pass(20)
     assert second['coverage']['complete'] is True
     assert len(second['jobs']) == 2
-    assert calls == ['moka-campus-1', 'moka-paused-1']   # nothing re-fetched
-    assert second['coverage']['request_budget']['used'] == 4   # 3 list + 1 new detail
+    # The saved raw detail is not an envelope, so the first id is looked up again.
+    assert calls == ['moka-campus-1', 'moka-campus-1', 'moka-paused-1']
+    assert second['coverage']['request_budget']['used'] == 5   # 3 list + 2 details
