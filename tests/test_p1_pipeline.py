@@ -13,8 +13,19 @@ import time
 import unittest
 from concurrent.futures import ThreadPoolExecutor
 from unittest.mock import patch
+
+import pytest
+
 from qiuzhao.collector import p1_pipeline as p
 from qiuzhao.v4_fields import graduation_of, convert
+
+
+@pytest.fixture(autouse=True)
+def isolate_detail_cache_env(monkeypatch):
+    # main() points the Moka cache at the data dir. Restore it so later tests
+    # do not reuse that directory's list snapshot.
+    monkeypatch.delenv('QIUZHAO_P1_DETAIL_CACHE_ROOT', raising=False)
+    monkeypatch.delenv('QIUZHAO_P1_LOGICAL_RUN_ID', raising=False)
 
 
 def result(ids=('1',), complete=True, scope='campus'):

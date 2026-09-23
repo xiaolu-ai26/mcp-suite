@@ -427,6 +427,41 @@ class PlatformGate:
         self._semaphore(platform).release()
 
 
+DETAIL_CACHE_ROOT_ENV = 'QIUZHAO_P1_DETAIL_CACHE_ROOT'
+# Same name p1_sources_01_10.MOKA_LOGICAL_RUN_ENV reads. Adapter subprocesses
+# inherit the process environment; this is not a second retry/last-attempt store.
+LOGICAL_RUN_ENV = 'QIUZHAO_P1_LOGICAL_RUN_ID'
+
+
+def configure_detail_cache_root(data_dir):
+    """Point Moka's existing cache at this data dir unless the operator set one."""
+    os.environ.setdefault(DETAIL_CACHE_ROOT_ENV, str(Path(data_dir) / 'p1-detail-cache'))
+    return os.environ[DETAIL_CACHE_ROOT_ENV]
+
+
+def logical_run_id(run_dir):
+    """Stable id of one pipeline run directory. A new directory is a new run."""
+    return hashlib.sha256(str(Path(run_dir).resolve()).encode('utf-8')).hexdigest()
+
+
+def bind_logical_run(run_dir):
+    """Publish this run id for child adapters. The name 'default' is never used."""
+    run_id = logical_run_id(run_dir)
+    os.environ[LOGICAL_RUN_ENV] = run_id
+    return run_id
+
+
+def persistent_collector_state(data_dir):
+    """The only cross-run collector state. No parallel retry or attempt file."""
+    data_dir = Path(data_dir)
+    return {
+        'retry_queue': str(retry_queue_path(data_dir)),
+        'last_attempt': str(last_attempt_path(data_dir)),
+        'detail_cache_root_env': DETAIL_CACHE_ROOT_ENV,
+        'logical_run_env': LOGICAL_RUN_ENV,
+    }
+
+
 def now():
     return dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds')
 
@@ -1083,11 +1118,41 @@ def retry_summary(queue, companies, scopes, scopes_by_company=None):
     return priority, demoted
 
 
+def interleave_platform_chains(chains):
+    """Round-robin the executor queue across upstream hosts.
+
+    Order inside one host stays the fairness order, and the fairness leader stays
+    first. Company input indexes, ids and the resume checkpoint hash are computed
+    from the input company list, not from this queue.
+    """
+    groups = {}
+    platforms = []
+    for chain in chains:
+        platform = platform_group(chain['company'])
+        bucket = groups.get(platform)
+        if bucket is None:
+            bucket = []
+            groups[platform] = bucket
+            platforms.append(platform)
+        bucket.append(chain)
+    interleaved = []
+    while True:
+        progressed = False
+        for platform in platforms:
+            bucket = groups[platform]
+            if bucket:
+                interleaved.append(bucket.pop(0))
+                progressed = True
+        if not progressed:
+            return interleaved
+
+
 def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=False,
         max_run_seconds=21600, workers=4, platform_workers=PLATFORM_WORKERS,
         platform_min_interval=PLATFORM_MIN_INTERVAL, batch_publish=False):
     data_dir, run_dir = Path(data_dir), Path(run_dir)
     run_dir.mkdir(parents=True, exist_ok=True)
+    bind_logical_run(run_dir)
     status_path = run_dir / 'status.json'
     if status_path.exists() and not resume:
         raise ValueError('run directory already exists; use --resume or a new directory')
@@ -1316,6 +1381,12 @@ def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=F
         not (status['results'].get(f"{chain['company']}/{scope}",{}).get('attempted',False)
              and (not apply or status['results'].get(f"{chain['company']}/{scope}",{}).get('published')))
         for scope in chain['scopes'])]
+    # Interleave the full fairness queue before the segment cap. A long run of one
+    # host (Beisen, then Moka) would otherwise fill the whole budget by itself.
+    # The fairness leader stays first; input order, ordinals and the checkpoint
+    # hash are not taken from this queue. Never-attempted companies still lead
+    # the next plan, so a host is not starved by the round-robin.
+    chains=interleave_platform_chains(chains)
     company_budget=max(1,int(os.environ.get('QIUZHAO_P1_COMPANY_BUDGET','20')))
     chains=chains[:company_budget]
     status['segment_company_budget']=company_budget
@@ -1468,7 +1539,7 @@ def main():
             if (checkpoint.get('companies') == companies and checkpoint.get('scopes') == scopes
                     and not checkpoint.get('run_finished', True) and checkpoint.get('run_dir')):
                 run_dir, args.resume = Path(checkpoint['run_dir']), True
-    os.environ.setdefault('QIUZHAO_P1_DETAIL_CACHE_ROOT', str(args.data_dir / 'p1-detail-cache'))
+    configure_detail_cache_root(args.data_dir)
     if args.apply:
         args.data_dir.mkdir(parents=True, exist_ok=True)
         lock_path = args.data_dir / 'collector.lock'

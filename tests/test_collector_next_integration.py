@@ -395,9 +395,9 @@ def test_deployable_windows_collector_uses_scope_timeout_and_workers():
     # and the day's length is bounded by the segment loop instead of one long deadline.
     steps = {name: (args, limit) for name, args, limit in W.steps_for(Path('/stage'), False)}
     p1_args, p1_limit = steps['p1']
-    assert p1_args[p1_args.index('--scope-timeout') + 1] == '600'
-    assert p1_args[p1_args.index('--workers') + 1] == '16'
-    assert p1_args[p1_args.index('--platform-workers') + 1] == '4'
+    assert p1_args[p1_args.index('--scope-timeout') + 1] == str(W.P1_SCOPE_TIMEOUT)
+    assert p1_args[p1_args.index('--workers') + 1] == str(W.P1_WORKERS)
+    assert p1_args[p1_args.index('--platform-workers') + 1] == str(W.P1_PLATFORM_WORKERS)
     assert p1_args[p1_args.index('--max-run-seconds') + 1] == str(W.P1_SEGMENT_SECONDS)
     assert '--platform-interval' not in p1_args, 'PLATFORM_MIN_INTERVAL (1.0s) stays the default'
     assert p1_limit == W.P1_SEGMENT_STEP_LIMIT
@@ -405,9 +405,10 @@ def test_deployable_windows_collector_uses_scope_timeout_and_workers():
     assert '--timeout' not in p1_args
     assert [name for name, _a, _l in W.steps_for(Path('/stage'), False)] == \
         ['basic', 'tencent', 'p1', 'normalize']
-    # The ported production tail (base-sync via lark_sync_daemon) must be intact.
-    assert "state['stage']='base-sync'" in source
-    assert 'lark_sync_daemon' in source
+    # 2026-09-23: the row-level lark_sync_daemon tail is retired from the runner; Feishu is
+    # delivered by Excel import from a server-accepted version (windows_excel_delivery).
+    assert "state['stage']='base-sync'" not in source
+    assert "'-m','qiuzhao.collector.lark_sync_daemon'" not in source
     assert 'lark_sync_index' not in source
 
 

@@ -7,9 +7,10 @@ collected units (19,619 new rows) never reached the server.
 
 Two independent guarantees are pinned here:
 
-1. **A cleanup failure is not a pipeline failure.** ``step()`` records whatever
-   ``stop_tree`` did (report, or exception + traceback) in ``state['cleanup_errors']`` and
-   still returns 124.
+1. **A cleanup failure never escapes ``step()``.** It records whatever ``stop_tree`` did
+   (report, or exception + traceback) in ``state['cleanup_errors']`` and returns 125 --
+   termination unconfirmed -- which the caller turns into ``unsafe_writer``: nothing is
+   rolled back, normalized or published while a writer may still be alive.
 2. **Segments publish.** p1 runs with a per-segment deadline and ``--resume-latest``; after
    every segment the same ``normalize`` + ``preserve`` + ``publish_with_rebase`` chain
    runs, and a segment whose staging did not change is not uploaded again.
@@ -87,13 +88,13 @@ def test_gbk_taskkill_output_does_not_make_stop_tree_raise(tmp_path, monkeypatch
     assert child.poll() is not None
 
 
-def test_step_records_a_failed_taskkill_and_still_returns_124(tmp_path, monkeypatch):
-    """GBK + a non-zero taskkill: the report carries the cleanup error, step() says 124."""
+def test_step_records_a_failed_taskkill_and_returns_125(tmp_path, monkeypatch):
+    """GBK + a non-zero taskkill: the report carries the cleanup error, step() says 125."""
     monkeypatch.setattr(W, 'PYTHON', Path(sys.executable))
     monkeypatch.setattr(RT, 'WINDOWS', True)
     monkeypatch.setattr(RT, 'taskkill_command', lambda pid: gbk_script(tmp_path, GBK_FAILURE, 3))
     state = {}
-    assert W.step(SLEEP, tmp_path / 'child.log', dict(os.environ), 0.3, state, 'p1') == 124
+    assert W.step(SLEEP, tmp_path / 'child.log', dict(os.environ), 0.3, state, 'p1') == 125
     entry = state['cleanup_errors'][0]
     assert entry['step'] == 'p1' and entry['pid'] > 0
     assert 'cleanup_error' in entry and 'process cleanup incomplete' in entry['cleanup_error']
@@ -101,8 +102,8 @@ def test_step_records_a_failed_taskkill_and_still_returns_124(tmp_path, monkeypa
     assert 'taskkill_stderr' in entry['cleanup_error'] and '\ufffd' in entry['cleanup_error']
 
 
-def test_step_absorbs_any_stop_tree_exception_and_still_returns_124(tmp_path, monkeypatch):
-    """A future cleanup bug must stay a recorded 124, never the whole day's fate."""
+def test_step_absorbs_any_stop_tree_exception_and_returns_125(tmp_path, monkeypatch):
+    """A future cleanup bug must stay a recorded 125 (unconfirmed), never an escaping exception."""
     def exploding_stop_tree(*_args, **_kwargs):
         raise TypeError("'NoneType' object is not subscriptable")
 
@@ -110,14 +111,14 @@ def test_step_absorbs_any_stop_tree_exception_and_still_returns_124(tmp_path, mo
     monkeypatch.setattr(W, 'stop_tree', exploding_stop_tree)
     monkeypatch.setattr(W.subprocess, 'Popen', lambda *a, **k: TimingOutChild())
     state = {}
-    assert W.step(['-m', 'whatever'], tmp_path / 'child.log', {}, 1, state, 'basic') == 124
+    assert W.step(['-m', 'whatever'], tmp_path / 'child.log', {}, 1, state, 'basic') == 125
     entry = state['cleanup_errors'][0]
     assert entry['step'] == 'basic' and entry['pid'] == 24680
     assert 'TypeError' in entry['cleanup_error'] and 'NoneType' in entry['cleanup_error']
     assert entry['cleanup_traceback'].startswith('Traceback (most recent call last)')
     assert 'exploding_stop_tree' in entry['cleanup_traceback']
     # The base-sync call site passes no receipt; that must not raise either.
-    assert W.step(['-m', 'whatever'], tmp_path / 'child.log', {}, 1) == 124
+    assert W.step(['-m', 'whatever'], tmp_path / 'child.log', {}, 1) == 125
 
 
 # --- 2. segment loop -------------------------------------------------------
@@ -130,6 +131,12 @@ class Clock:
 
     def monotonic(self):
         return self.value
+
+    def time(self):
+        return self.value
+
+    def sleep(self, seconds):
+        self.value += seconds
 
 
 def build_collector(tmp_path, monkeypatch, plans, *, step_seconds=60.0, budget=None,
@@ -181,7 +188,7 @@ def build_collector(tmp_path, monkeypatch, plans, *, step_seconds=60.0, budget=N
             calls['normalize'] += 1
         return 0
 
-    def fake_publish_with_rebase(baseline, candidate, expected_base, work, pull, publish):
+    def fake_publish_with_rebase(baseline, candidate, expected_base, work, pull, publish, **_kwargs):
         calls['publish'].append({'candidate': str(candidate),
                                  'sha256': W.digest(Path(candidate))})
         if publish_error:
@@ -229,12 +236,17 @@ def test_every_unfinished_segment_is_published(tmp_path, monkeypatch):
     assert receipt['p1_segments'][2]['publication']['server_rows_after'] == 4
     assert receipt['p1_segments'][0]['step_changes']['p1']['exit'] == 2
     assert receipt['p1_finished'] is True
-    assert receipt['p1_concurrency'] == {'workers': 16, 'platform_workers': 4,
+    assert receipt['p1_concurrency'] == {'workers': W.P1_WORKERS,
+                                         'platform_workers': W.P1_PLATFORM_WORKERS,
                                          'platform_min_interval': 1.0,
                                          'memory': W.P1_MEMORY_NOTE,
+                                         'company_budget': W.P1_COMPANY_BUDGET,
+                                         'batch_publish': True,
                                          'segment_seconds': W.P1_SEGMENT_SECONDS,
                                          'segment_step_limit': W.P1_SEGMENT_STEP_LIMIT,
-                                         'total_budget_seconds': W.P1_TOTAL_BUDGET_SECONDS}
+                                         'total_budget_seconds': W.P1_TOTAL_BUDGET_SECONDS,
+                                         'detail_cache_root': str(tmp_path / 'data' / 'p1-detail-cache'),
+                                         'persistent_state_root': str(tmp_path / 'data' / 'p1-state')}
     assert receipt['steps']['p1'] == 2 and code == 1  # partial units, never a crash
 
 
@@ -274,8 +286,9 @@ def test_resume_run_skips_finished_segments_and_does_not_republish(tmp_path, mon
     code, receipt, calls = build_collector(tmp_path, monkeypatch, plans)
     assert calls['p1'] == 0, 'a finished p1 must not be re-collected'
     assert calls['publish'] == [], 'a finished p1 must not be re-uploaded'
-    assert receipt['p1_segments'][-1]['note'].startswith('p1 already reported run_finished')
-    assert receipt['p1_segments'][-1]['publication']['action'] == 'unchanged'
+    assert receipt['resume_mode'] == 'publication-only'
+    assert receipt['publication_retry']['action'] == 'unchanged'
+    assert receipt['delivery']['publication'] == 'accepted'
     assert row_ids(tmp_path / 'data' / 'jobs.json') == ['old', 'seg1-0']
     # A second re-entry after the run is complete is a complete no-op.
     code, receipt, calls = build_collector(tmp_path, monkeypatch, plans)
@@ -339,16 +352,15 @@ def test_missing_p1_status_stops_instead_of_looping_forever(tmp_path, monkeypatc
 def test_segment_budget_covers_drain_finalisation_and_publishing():
     assert W.P1_SEGMENT_STEP_LIMIT == (W.P1_SEGMENT_SECONDS + W.P1_SCOPE_TIMEOUT
                                        + W.P1_SEGMENT_FINALIZE_BUDGET)
-    assert W.P1_SEGMENT_SECONDS == 5400 and W.P1_SCOPE_TIMEOUT == 600
-    assert W.P1_SEGMENT_FINALIZE_BUDGET == 600 and W.P1_SEGMENT_STEP_LIMIT == 6600
-    assert W.P1_TOTAL_BUDGET_SECONDS == 72000
+    # The argv must carry the configured values; the values themselves are configuration
+    # (2026-09-23: 1800s segments, 16 workers, 1 per platform) and are not pinned here.
     args, limit = {name: (a, l) for name, a, l in W.steps_for(Path('/stage'), False)}['p1']
-    assert args[args.index('--max-run-seconds') + 1] == '5400'
-    assert args[args.index('--workers') + 1] == '16'
-    assert args[args.index('--platform-workers') + 1] == '4'
-    assert args[args.index('--scope-timeout') + 1] == '600'
-    assert '--resume-latest' in args and '--apply' in args
-    assert limit == 6600
+    assert args[args.index('--max-run-seconds') + 1] == str(W.P1_SEGMENT_SECONDS)
+    assert args[args.index('--workers') + 1] == str(W.P1_WORKERS)
+    assert args[args.index('--platform-workers') + 1] == str(W.P1_PLATFORM_WORKERS)
+    assert args[args.index('--scope-timeout') + 1] == str(W.P1_SCOPE_TIMEOUT)
+    assert '--resume-latest' in args and '--apply' in args and '--batch-publish' in args
+    assert limit == W.P1_SEGMENT_STEP_LIMIT
 
 
 def test_total_budget_stops_at_a_segment_boundary_with_everything_published(tmp_path, monkeypatch):
@@ -376,25 +388,26 @@ def test_pending_that_stops_shrinking_stops_the_loop(tmp_path, monkeypatch):
 
 # --- 4. cleanup failure inside a full run ----------------------------------
 
-def test_cleanup_failure_is_recorded_and_the_day_still_publishes(tmp_path, monkeypatch):
-    """A timed-out basic whose cleanup explodes: recorded, rolled back, p1 still publishes."""
+def test_unconfirmed_cleanup_blocks_the_day_as_an_unsafe_writer(tmp_path, monkeypatch):
+    """A timed-out basic whose cleanup explodes: recorded, and nothing else touches staging."""
     plans = [{'exit': 2, 'add': 1, 'run_finished': True, 'pending': []}]
     code, receipt, calls = build_collector(tmp_path, monkeypatch, plans, basic_times_out=True)
-    assert code == 1  # basic timed out and was rolled back, so the day is not "clean" ...
-    assert receipt['steps']['basic'] == 124
-    assert receipt['step_changes']['basic'] == {'exit': 124, 'result': 'rolled_back'}
-    assert receipt['cleanup_errors'][0]['step'] == 'basic'
+    assert code == 1
+    assert receipt['steps']['basic'] == 125
+    assert receipt['unsafe_writer']['step'] == 'basic'
     assert receipt['cleanup_errors'][0]['cleanup_error'].startswith('RuntimeError: cleanup exploded')
     assert receipt['cleanup_errors'][0]['cleanup_traceback'].startswith('Traceback')
-    # ... but p1's segment was still collected and published, and the receipt kept going.
-    assert calls['p1'] == 1 and len(calls['publish']) == 1
-    assert 'publication' in receipt
-    assert row_ids(tmp_path / 'data' / 'jobs.json') == ['old', 'seg1-0']
-    assert 'basic-new' not in row_ids(tmp_path / 'data' / 'jobs.json')
-    # The old failure mode: no steps entry for the stage at all, and a TypeError as the
-    # day's error. The cleanup failure must stay a diagnostic.
-    assert 'basic' in receipt['steps']
-    assert 'error' not in receipt and 'TypeError' not in json.dumps(receipt)
+    # A writer that may still be alive: no p1, no normalize, no publication, no rollback.
+    assert calls['p1'] == 0 and calls['normalize'] == 0 and calls['publish'] == []
+    assert receipt['finished'] is False and receipt['success'] is False
+    # ... and a resume refuses until termination is confirmed by hand.
+    monkeypatch.setattr('sys.argv', ['windows_collector', '--resume-run', str(tmp_path / 'runs' / 'day')])
+    try:
+        W.main()
+    except RuntimeError as error:
+        assert 'unsafe writer' in str(error)
+    else:
+        raise AssertionError('resume ignored unsafe_writer')
 
 
 # --- 5. overlapping daily runs ---------------------------------------------
