@@ -1,0 +1,7 @@
+# /etc/cron.d/qiuzhao-dataset-activation -- installed by the mcp-suite deploy, qiuzhao only.
+# Top of every hour: activate a newly accepted /var/lib/mcp-suite/jobs.json with one controlled
+# restart of mcp-suite.service (deploy/activate_qiuzhao_dataset.py). Unchanged file -> no restart;
+# a version that failed once waits for an operator (--retry-failed); a busy receiver lock defers.
+SHELL=/bin/sh
+PATH=/usr/sbin:/usr/bin:/sbin:/bin
+0 * * * * root /opt/mcp-suite/.venv/bin/python /opt/mcp-suite/deploy/activate_qiuzhao_dataset.py --hourly >> /var/lib/mcp-suite/dataset-activation.log 2>&1

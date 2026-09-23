@@ -323,3 +323,80 @@ def test_inferred_year_is_unspecified_for_other_years(qz, jobs_inproc):
     none, _ = jobs_inproc.evaluate(data, jobs_inproc.check_filters({"graduation_year": "未注明"}, []), today)
     assert structured(qz.call("jobs_stats", {"graduation_year": "未注明"}))["total"] == len(none)
     assert not set(other) & {it["id"] for it, _, _ in none}
+
+
+# --- one served copy per process (2026-09-24) -----------------------------------------------
+
+import hashlib as _hashlib
+import os as _os
+
+
+def _counting_build(monkeypatch, fail=False):
+    """V.build stand-in that still drains the real reader, so the bytes read are the bytes served."""
+    calls = []
+
+    def build(rows):
+        rows = list(rows)
+        calls.append(len(rows))
+        if fail:
+            raise ValueError("broken snapshot")
+        items = [{"id": r["id"], "published_at": "2026-09-01"} for r in rows]
+        return items, "2026-09-24T00:00:00+08:00", {"rows": len(rows)}
+
+    monkeypatch.setattr(T.V, "build", build)
+    return calls
+
+
+def _write(path, ids):
+    path.write_text(json.dumps([{"id": i, "job_title": "t"} for i in ids]), encoding="utf-8")
+    return _hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def test_replaced_file_never_builds_a_second_copy_and_health_says_pending(tmp_path, monkeypatch):
+    calls = _counting_build(monkeypatch)
+    path = tmp_path / "jobs.json"
+    first = _write(path, ["a", "b"])
+    jobs = T.Jobs(path)
+    health = jobs.health()
+    assert health["served"]["sha256"] == first and health["jobs"] == 2
+    assert health["reload_pending"] is False and calls == [2]
+    tmp = tmp_path / "jobs.json.new"
+    _write(tmp, ["a", "b", "c"])
+    _os.replace(tmp, path)  # what the receiver does on an accepted publication
+    health = jobs.health()
+    assert calls == [2], "a second dataset was built in the same process"
+    assert health["jobs"] == 2 and health["served"]["sha256"] == first
+    assert health["reload_pending"] is True and "controlled activation" in health["note"]
+    assert health["file"]["size"] == path.stat().st_size != health["served"]["size"]
+    # A fresh process (the controlled restart) serves the new version.
+    fresh = T.Jobs(path).health()
+    assert fresh["jobs"] == 3 and fresh["reload_pending"] is False
+    assert fresh["served"]["sha256"] == _hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def test_cold_load_failure_is_not_rebuilt_on_every_health_until_the_file_changes(tmp_path, monkeypatch):
+    calls = _counting_build(monkeypatch, fail=True)
+    path = tmp_path / "jobs.json"
+    _write(path, ["a"])
+    jobs = T.Jobs(path)
+    for _ in range(3):
+        with pytest.raises(T.DatasetUnavailable, match="ValueError: broken snapshot"):
+            jobs.health()
+    assert calls == [1], "the expensive build ran again for the same signature"
+    # Only plain strings are kept: no exception object, traceback or partial rows.
+    assert set(jobs._failed) == {"key", "error_type", "error", "at"}
+    assert all(isinstance(v, (str, tuple)) for v in jobs._failed.values())
+    _counting_build(monkeypatch)
+    with pytest.raises(T.DatasetUnavailable):
+        jobs.health()  # same signature: still the cached failure, even though build would work now
+    stat = path.stat()
+    _os.utime(path, ns=(stat.st_atime_ns, stat.st_mtime_ns + 1_000_000))
+    assert jobs.health()["jobs"] == 1  # signature changed: one new attempt, which succeeds
+
+
+def test_health_error_is_a_value_error_so_the_http_handler_answers_503(tmp_path, monkeypatch):
+    _counting_build(monkeypatch, fail=True)
+    path = tmp_path / "jobs.json"
+    _write(path, ["a"])
+    with pytest.raises(ValueError):
+        T.Jobs(path).health()
