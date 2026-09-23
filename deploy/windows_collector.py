@@ -21,6 +21,48 @@ from deploy.windows_rebase import CASConflict, publish_with_rebase
 PYTHON=ROOT/'.venv/Scripts/python.exe'
 SSH=['C:/Program Files/Git/usr/bin/ssh.exe','-i',str(ROOT/'keys/ecs_collector'),'-o','IdentitiesOnly=yes','-o','BatchMode=yes','-o','StrictHostKeyChecking=yes','-o','UserKnownHostsFile='+str(ROOT/'keys/known_hosts'),'-o','ConnectTimeout=15','-o','ServerAliveInterval=15','-o','ServerAliveCountMax=3','root@114.215.188.109']
 
+# 2026-09-23: segment 2's publish called pull_snapshot -> ssh ... snapshot, which returned
+# exit 255 (ssh's own "could not establish/keep the connection" code, never the remote
+# command's exit status -- the receiver always forwards 0/1) with no retry, and that
+# CalledProcessError climbed all the way out of run_p1_segments into main()'s catch-all.
+# The day stopped there: 3,256 already-collected scopes stayed pending and no further
+# segment ever ran, even though 67,700+ budget seconds were left. ssh's own transport
+# failures (exit 255), a timeout, or a plain OSError are the only things retried here --
+# a CAS conflict or a receiver-side rejection is not transient (retrying cannot change the
+# answer and would blur what actually happened), so it is raised straight through and CAS
+# semantics are exactly what they were.
+SSH_RETRY_ATTEMPTS=3
+SSH_RETRY_DELAYS=(10,30,90)
+
+class PublishUnavailable(RuntimeError):
+    """A publish-related ssh call stayed unreachable through every bounded retry.
+
+    The caller must fail *this segment* closed: keep whatever was already verified
+    locally (nothing rolled back), skip the publish, and let a later segment retry --
+    never let one transient network drop abort the rest of the day's segments.
+    """
+
+class _Transient(Exception):
+    """Internal signal: this attempt failed in a way retrying might fix."""
+
+def _retry_transient(op_name,attempt_fn,*,receipt=None):
+    errors=[]
+    for attempt in range(1,SSH_RETRY_ATTEMPTS+1):
+        try:
+            return attempt_fn()
+        except _Transient as error:
+            errors.append(str(error))
+        except (subprocess.TimeoutExpired,OSError) as error:
+            errors.append(f'{type(error).__name__}: {error}')
+        if receipt is not None:
+            receipt.setdefault('ssh_retries',[]).append(
+                {'op':op_name,'attempt':attempt,'error':errors[-1],
+                 'at':dt.datetime.now().astimezone().isoformat()})
+        if attempt==SSH_RETRY_ATTEMPTS:
+            raise PublishUnavailable(
+                f'{op_name} unreachable after {SSH_RETRY_ATTEMPTS} attempts: {errors[-1]}')
+        time.sleep(SSH_RETRY_DELAYS[min(attempt-1,len(SSH_RETRY_DELAYS)-1)])
+
 def sync_owner_ready(path=None):
     try:
         value=json.loads(Path(path or ROOT/'data/sync-owner-ready.json').read_text(encoding='utf-8'))
@@ -35,15 +77,53 @@ def digest(path):
         for b in iter(lambda:f.read(1048576),b''):h.update(b)
     return h.hexdigest()
 
-def pull(path):
-    with path.with_suffix('.transfer').open('wb') as out:
-        subprocess.run(SSH+['snapshot'],stdout=out,check=True,timeout=600)
-    with path.with_suffix('.transfer').open('rb') as source:
-        before=source.readline().decode().strip()
-        with gzip.GzipFile(fileobj=source,mode='rb') as compressed,path.open('wb') as out:shutil.copyfileobj(compressed,out,1048576)
-    path.with_suffix('.transfer').unlink()
-    if digest(path)!=before:raise ValueError('snapshot download hash mismatch')
-    return before
+def pull(path,*,receipt=None):
+    def attempt():
+        try:
+            with path.with_suffix('.transfer').open('wb') as out:
+                subprocess.run(SSH+['snapshot'],stdout=out,check=True,timeout=600)
+        except subprocess.CalledProcessError as error:
+            if error.returncode==255:raise _Transient(str(error)) from error
+            raise  # the remote side ran and failed; not a transport problem, do not retry
+        with path.with_suffix('.transfer').open('rb') as source:
+            before=source.readline().decode().strip()
+            with gzip.GzipFile(fileobj=source,mode='rb') as compressed,path.open('wb') as out:shutil.copyfileobj(compressed,out,1048576)
+        path.with_suffix('.transfer').unlink()
+        if digest(path)!=before:raise ValueError('snapshot download hash mismatch')
+        return before
+    return _retry_transient('pull_snapshot',attempt,receipt=receipt)
+
+
+# 2026-09-23's "basic" step: the collector VM's C: drive fell to ~0.6GB free mid-run. One
+# source hit ENOSPC and logged it, then qiuzhao/collector/run.py's own write_json() hit a
+# bare MemoryError serialising jobs.json -- Windows could not grow the page file with the
+# disk that full, and no step-level try/except can make that safe after the fact. The
+# only reliable fix is to never start a step or a segment without headroom it is likely to
+# need, and fail closed with a clear reason before anything is written. This deliberately
+# does not touch qiuzhao/collector/run.py (the "basic" collector) or attempt to reclaim
+# space itself -- it only refuses to proceed when there plainly is not enough.
+CAPACITY_MIN_FREE_BYTES=5*1024**3    # flat floor; today's crash happened under 1GB free
+CAPACITY_SIZE_MULTIPLE=4             # candidate + gzip upload + pulled snapshot + merge
+
+def capacity_check(paths,*,free_override=None):
+    """``shutil.disk_usage(ROOT.anchor).free`` against a size-scaled reserve.
+
+    ``paths`` are references for "how big is the current working set"; a missing path
+    just contributes 0. Raises ``RuntimeError`` (the fail-closed signal) when free space
+    is short of the reserve; otherwise returns the numbers for the receipt. Never raises
+    for its own I/O reasons -- ``Path.stat()`` failures on a missing file are exactly what
+    ``if p.exists()`` already screens out.
+    """
+    reference=max((Path(p).stat().st_size for p in paths if Path(p).exists()),default=0)
+    required=max(CAPACITY_MIN_FREE_BYTES,CAPACITY_SIZE_MULTIPLE*reference)
+    free=shutil.disk_usage(ROOT.anchor).free if free_override is None else free_override
+    result={'free_bytes':free,'required_bytes':required,'reference_bytes':reference,
+            'drive':ROOT.anchor,'passed':free>=required}
+    if not result['passed']:
+        raise RuntimeError('capacity gate: {} bytes free on {}, need >= {} (reference {} '
+                           'bytes); blocked before collecting or publishing anything'.format(
+                               free,ROOT.anchor,required,reference))
+    return result
 
 def record_cleanup(receipt,name,child):
     """Kill a timed-out child tree; never raise, always leave evidence in the receipt.
@@ -100,15 +180,23 @@ P1_SEGMENT_STEP_LIMIT=P1_SEGMENT_SECONDS+P1_SCOPE_TIMEOUT+P1_SEGMENT_FINALIZE_BU
 P1_TOTAL_BUDGET_SECONDS=72000
 P1_SEGMENT_RETRY_LIMIT=1     # extra attempt after exit 1 (no scope produced usable output)
 P1_MAX_STALLED_SEGMENTS=2    # stop once ``pending`` has not shrunk for this many segments
-P1_WORKERS=8
+# workers/company-budget/--batch-publish below are exactly what the 2026-09-21/22
+# 796-company recovery ran through all 1069 companies to completion (proven in
+# mcp-suite-recovery-20260921/segment18-receipt.json: workers=16, platform_workers=1),
+# only never wired into this daily entry point before. p1_pipeline.py itself already
+# supports all three unmodified -- see the 2026-09-23 baseline-capture commit.
+P1_WORKERS=16
 P1_PLATFORM_WORKERS=1
 # --platform-interval is left at p1_pipeline's default (PLATFORM_MIN_INTERVAL = 1.0s).
-P1_MEMORY_NOTE='8 workers initially; same-platform concurrency 1; max 20 companies or 1800s per segment'
+P1_COMPANY_BUDGET=40          # QIUZHAO_P1_COMPANY_BUDGET; p1_pipeline.py default is 20
+P1_MEMORY_NOTE=('16 workers; same-platform concurrency 1; max 40 companies or 1800s per '
+                'segment; --batch-publish (segment writes stage/jobs.json once, not once '
+                'per scope)')
 
 def p1_segment_args(stage,seconds):
     """p1 argv for one segment; ``--resume-latest`` continues the previous checkpoint."""
     return ['-m','qiuzhao.collector.p1_pipeline','--data-dir',str(stage),'--apply','--resume-latest',
-            '--scope-timeout',str(P1_SCOPE_TIMEOUT),'--workers',str(P1_WORKERS),
+            '--batch-publish','--scope-timeout',str(P1_SCOPE_TIMEOUT),'--workers',str(P1_WORKERS),
             '--platform-workers',str(P1_PLATFORM_WORKERS),'--max-run-seconds',str(seconds)]
 
 def steps_for(stage,smoke):
@@ -203,14 +291,20 @@ def diff_counts(before, after):
     changes['disappeared'] = sum(1 for key in old if key not in new)
     return changes
 
-def publish_snapshot(candidate,expected_base,workdir):
+def publish_snapshot(candidate,expected_base,workdir,*,receipt=None):
     """Invoke the existing receiver; only version conflicts permit a rebase retry."""
     workdir=Path(workdir);workdir.mkdir(parents=True,exist_ok=True)
     after=digest(candidate);upload=workdir/'jobs.upload.gz'
     with gzip.open(upload,'wb',compresslevel=3) as out,Path(candidate).open('rb') as source:
         shutil.copyfileobj(source,out,1048576)
-    with upload.open('rb') as source:
-        result=subprocess.run(SSH+['publish '+expected_base+' '+after],stdin=source,capture_output=True,timeout=600)
+    def attempt():
+        with upload.open('rb') as source:
+            completed=subprocess.run(SSH+['publish '+expected_base+' '+after],stdin=source,capture_output=True,timeout=600)
+        if completed.returncode==255:
+            raise _Transient('ssh transport failure (exit 255): '
+                             +completed.stderr.decode('utf-8',errors='replace')[-500:])
+        return completed
+    result=_retry_transient('publish_snapshot',attempt,receipt=receipt)
     (workdir/'receiver.stdout').write_bytes(result.stdout)
     (workdir/'receiver.stderr').write_bytes(result.stderr)
     if result.returncode:
@@ -319,8 +413,9 @@ def publish_stage(state,statepath,run,stage,baseline,*,smoke,no_sync):
             reference=folder.parent/'latest.jobs.json' if (folder.parent/'latest.jobs.json').exists() else baseline
             if digest(reference)!=expected:raise ValueError('publication lifecycle reference hash mismatch')
             freeze_new_removed(reference,candidate,write=False)
-            return publish_snapshot(candidate,expected,folder)
-        result=publish_with_rebase(baseline,stage/'jobs.json',state['before_sha256'],work,pull,guarded_publish)
+            return publish_snapshot(candidate,expected,folder,receipt=state)
+        result=publish_with_rebase(baseline,stage/'jobs.json',state['before_sha256'],work,
+                                   lambda path:pull(path,receipt=state),guarded_publish)
         state['publication']=result['publication'];published=Path(result['published_path'])
         state['publication_file']=str(published);state['publication_source_sha256']=after
         state['rebase_receipt']=str(work/'receipt.json')
@@ -351,6 +446,7 @@ def run_p1_segments(state,statepath,run,stage,baseline,env,steps,*,smoke,no_sync
     args,limit=steps['p1'];normalize_args,normalize_limit=steps['normalize']
     state['p1_concurrency']={'workers':P1_WORKERS,'platform_workers':P1_PLATFORM_WORKERS,
                              'platform_min_interval':1.0,'memory':P1_MEMORY_NOTE,
+                             'company_budget':P1_COMPANY_BUDGET,'batch_publish':True,
                              'segment_seconds':P1_SEGMENT_SECONDS,'segment_step_limit':limit,
                              'total_budget_seconds':P1_TOTAL_BUDGET_SECONDS}
     def close_segment(record):
@@ -359,6 +455,14 @@ def run_p1_segments(state,statepath,run,stage,baseline,env,steps,*,smoke,no_sync
         The record is appended to ``state['p1_segments']`` *before* publication, so a failing
         upload still leaves that segment's exit code, ``step_changes`` and ``pending`` count in
         receipt.json -- the 2026-09-20 lesson was that evidence written last is evidence lost.
+
+        A publish-related ssh call that stays unreachable through every bounded retry
+        (``PublishUnavailable``, see ``_retry_transient``) fails *this segment* closed
+        instead of the day: staging keeps exactly what was normalized (nothing rolled
+        back, CAS semantics untouched -- the next successful publish carries this
+        segment's changes forward too), and the loop below keeps starting further
+        segments. 2026-09-23 lost 3,256 pending scopes to one such call aborting the
+        whole remaining day; this is what stops that from happening again.
         """
         record['normalize_exit']=run_stage_step(state,statepath,run,stage,'normalize',
                                                 normalize_args,normalize_limit,env)
@@ -371,8 +475,14 @@ def run_p1_segments(state,statepath,run,stage,baseline,env,steps,*,smoke,no_sync
         try:
             if record['normalize_exit'] in (0,2):
                 # Publishing un-normalized rows would be worse than publishing nothing.
-                record['publication']=publish_stage(state,statepath,run,stage,baseline,
-                                                    smoke=smoke,no_sync=no_sync)
+                try:
+                    record['publication']=publish_stage(state,statepath,run,stage,baseline,
+                                                        smoke=smoke,no_sync=no_sync)
+                except PublishUnavailable as error:
+                    record['publication']={'action':'deferred','reason':str(error)[:800]}
+                    state.setdefault('publish_deferrals',[]).append(
+                        {'segment':record['segment'],'reason':str(error)[:800],
+                         'at':dt.datetime.now().astimezone().isoformat()})
             else:
                 record['publication']={'action':'blocked','reason':'normalize failed; staging kept but not published'}
         finally:
@@ -399,6 +509,12 @@ def run_p1_segments(state,statepath,run,stage,baseline,env,steps,*,smoke,no_sync
                                 'elapsed_seconds':round(elapsed,1),'stopped_at':'segment-boundary',
                                 'detail':'no new segment started; finished segments are published'}
             stop='total budget reached at a segment boundary'
+            break
+        try:
+            state['capacity']=capacity_check([stage/'jobs.json'])
+        except RuntimeError as error:
+            state['capacity']={'passed':False,'error':str(error)}
+            stop=str(error)
             break
         record={'_started':time.monotonic(),'segment':len(segments)+1,
                 'started_at':dt.datetime.now().astimezone().isoformat(),
@@ -518,9 +634,10 @@ def main():
         if state.get('finished'):return 0 if state.get('success') else 1
         try:
             baseline=run/'jobs.before.json'
+            state['capacity']=capacity_check([ROOT/'data/jobs.json',baseline])
             state['stage']='snapshot';atomic_json(statepath,state)
             if not baseline.exists() or not state.get('before_sha256'):
-                state['before_sha256']=pull(baseline)
+                state['before_sha256']=pull(baseline,receipt=state)
                 atomic_json(statepath,state)
             # Server row count at run start, so every segment can report before/after. A
             # receipt persisted by an older bundle has no such field; fill it in on resume.
@@ -528,7 +645,7 @@ def main():
                 state['server_rows']=row_count(baseline);atomic_json(statepath,state)
             if digest(baseline)!=state['before_sha256']:raise ValueError('baseline hash changed')
             if not (stage/'jobs.json').exists():shutil.copyfile(baseline,stage/'jobs.json')
-            env=dict(os.environ,PYTHONUTF8='1',PYTHONIOENCODING='utf-8',QIUZHAO_DATA_DIR=str(stage),QIUZHAO_SKIP_SERVICE_RESTART='1')
+            env=dict(os.environ,PYTHONUTF8='1',PYTHONIOENCODING='utf-8',QIUZHAO_DATA_DIR=str(stage),QIUZHAO_SKIP_SERVICE_RESTART='1',QIUZHAO_P1_COMPANY_BUDGET=str(P1_COMPANY_BUDGET))
             steps=steps_for(stage,a.smoke);by_name={name:(args,limit) for name,args,limit in steps}
             for stale in run.glob('*.before.json'):
                 if stale.name=='jobs.before.json':continue

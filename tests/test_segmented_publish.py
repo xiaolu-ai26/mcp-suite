@@ -152,7 +152,7 @@ def build_collector(tmp_path, monkeypatch, plans, *, step_seconds=60.0, budget=N
     run_dir.mkdir(parents=True, exist_ok=True)
     calls = {'publish': [], 'p1': 0, 'normalize': 0}
 
-    def fake_pull(target):
+    def fake_pull(target, receipt=None):
         Path(target).write_text(json.dumps([{'id': 'old', 'job_title': 't', 'status': 'open'}]),
                                 encoding='utf-8')
         return W.digest(Path(target))
