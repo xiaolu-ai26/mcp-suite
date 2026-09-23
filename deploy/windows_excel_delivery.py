@@ -358,14 +358,29 @@ def checked_policy(policy):
     return policy
 
 
+def archive_suffix(template, since, outgoing_sha):
+    """Archive name for the tables being replaced, unique per outgoing version.
+
+    The date alone collides as soon as two versions become official on the same day
+    (2026-09-24: d516 and 1244 both did, and the 1244 -> bd4f switch was refused with
+    "table name already exists"). The outgoing accepted hash prefix makes the name
+    identify the version it archives, so a retry of the same batch reuses the same name.
+    """
+    if not outgoing_sha:
+        return template.format(version_date=since)
+    return template.format(version_date=f'{since}-{outgoing_sha[:8]}')
+
+
 def layout_from_policy(policy, ledger):
     """This version's R1 inputs: approved policy + the tables the ledger knows are official."""
     policy = checked_policy(policy)
     official = ledger.get('official_tables') or policy['initial_official_tables']
     since = ledger.get('official_since_date') or policy['initial_official_date']
+    outgoing = ledger.get('last_delivered') or (policy.get('bootstrap') or {}).get('official_sha256')
     return {'approved': True, 'base_token': BASE_TOKEN, 'legacy_tables': official,
             'schema_source_tables': official, 'pre_archived': [],
-            'legacy_suffix': policy['legacy_suffix_template'].format(version_date=since),
+            'legacy_suffix': archive_suffix(policy['legacy_suffix_template'], since, outgoing),
+            'outgoing_sha256': outgoing,
             'folder_name': policy['folder_name'],
             'existing_table_ids': sorted(set(policy['protected_table_ids'])
                                          | set(ledger.get('archived_table_ids') or [])),
@@ -560,6 +575,23 @@ class ScriptRunner:
         else:
             raise DeliveryError('not a local stage: ' + stage)
 
+    def live_blocks(self):
+        """Read-only listing of the Base's tables and folders (lark-cli base +base-block-list)."""
+        if not self.apply:
+            raise DeliveryError('reading the live Base requires --apply')
+        completed = subprocess.run(['lark-cli', 'base', '+base-block-list', '--base-token', BASE_TOKEN,
+                                    '--as', 'user'], capture_output=True, text=True, timeout=180)
+        body = {}
+        for stream in (completed.stdout, completed.stderr):
+            try:
+                body = json.loads(stream)
+                break
+            except ValueError:
+                continue
+        if completed.returncode or not body.get('ok'):
+            raise DeliveryError('cannot read the live Base blocks: ' + (completed.stdout or completed.stderr)[-300:])
+        return body['data']['blocks']
+
     def external(self, stage, work, overrides, log):
         if not self.apply:
             raise DeliveryError('external stage requires --apply')
@@ -672,6 +704,69 @@ def switch_result(work):
     return official_tables_from(receipt)
 
 
+def migrate_switch_layout(state, frozen, wanted, work, ledger, sha, runner):
+    """Allow a switch that failed under an older archive name to resume under the new one.
+
+    Only the archive suffix may differ, and only if the Base provably still looks exactly
+    as it did before the switch: the R1 switch recorded no successful action and no
+    folder, every outgoing official table carries its original name at the Base root
+    (none has the old suffix), every imported temporary table still has its import-time
+    id and temporary name, and source, verify gate and ledger all name this version and
+    these outgoing tables. Anything else means a partial switch; this refuses, and the
+    batch must be resumed with its original layout.
+    """
+    problems = []
+    if [list(x) for x in frozen.get('legacy_tables') or []] != wanted['legacy_tables']:
+        problems.append('outgoing tables differ from the frozen layout')
+    if frozen.get('folder_name') != wanted['folder_name']:
+        problems.append('archive folder differs from the frozen layout')
+    if state['source']['sha256'] != sha:
+        problems.append('state belongs to another source version')
+    if state['stages']['verify']['status'] != 'completed':
+        problems.append('verify gate has not passed for this version')
+    if ledger.get('active') != sha:
+        problems.append('ledger does not hold this version as the active delivery')
+    if (ledger.get('official_tables') or []) != wanted['legacy_tables']:
+        problems.append('ledger official tables are not the frozen outgoing tables')
+    switch_state = load_json(Path(work) / 'switch-state.json', {}) or {}
+    done = [key for key, value in (switch_state.get('actions') or {}).items() if (value or {}).get('ok')]
+    if done:
+        problems.append('switch already applied actions: ' + ', '.join(sorted(done)[:5]))
+    if switch_state.get('folder_id'):
+        problems.append('switch already created or chose an archive folder')
+    batch = switch_state.get('batch') or {}
+    if batch and [list(x) for x in batch.get('legacy') or []] != wanted['legacy_tables']:
+        problems.append('switch state names other outgoing tables')
+    imported = (load_json(Path(work) / 'import-state.json', {}) or {}).get('targets') or {}
+    temporary = sorted([entry.get('table_id'), name] for name, entry in imported.items())
+    if not temporary:
+        problems.append('no import state to identify the temporary tables')
+    if batch and sorted(list(x) for x in batch.get('new_tables') or []) != temporary:
+        problems.append('switch state names other temporary tables than the import')
+    blocks = runner.live_blocks()
+    live = {block.get('id'): block for block in blocks}
+    for tid, name in wanted['legacy_tables'] + temporary:
+        block = live.get(tid)
+        if not block or block.get('name') != name or block.get('parent_id'):
+            problems.append(f'table {tid} is not at the Base root as {name!r} '
+                            f'(live: {block and block.get("name")!r})')
+    if problems:
+        raise DeliveryError('refusing archive-name migration; resume with the original layout: '
+                            + '; '.join(problems[:6]))
+    return {'at': now(), 'from_suffix': frozen.get('legacy_suffix'), 'to_suffix': wanted['legacy_suffix'],
+            'source_sha256': sha, 'ledger_active': ledger.get('active'),
+            'ledger_last_delivered': ledger.get('last_delivered'),
+            'state_sha256_before': digest(Path(work).parent / 'state.json'),
+            'switch_state_sha256': (digest(Path(work) / 'switch-state.json')
+                                    if (Path(work) / 'switch-state.json').exists() else None),
+            'import_state_sha256': digest(Path(work) / 'import-state.json'),
+            'live_blocks_sha256': hashlib.sha256(json.dumps(
+                sorted([b.get('id'), b.get('name'), b.get('parent_id')] for b in blocks),
+                ensure_ascii=False).encode()).hexdigest(),
+            'checked_outgoing_tables': len(wanted['legacy_tables']),
+            'checked_temporary_tables': len(temporary)}
+
+
 def resolve_layout(layout, policy, ledger):
     if layout is not None:
         return layout
@@ -748,9 +843,14 @@ def deliver(root, source, runner, *, layout=None, policy=None):
             if stage == 'switch':
                 # Re-read under the lock right before anything becomes official.
                 check_forward(ledger, sha)
-                state['switch_layout'] = {'legacy_tables': checked['legacy_tables'],
-                                          'legacy_suffix': checked['legacy_suffix'],
-                                          'folder_name': checked['folder_name']}
+                wanted = {'legacy_tables': [list(x) for x in checked['legacy_tables']],
+                          'legacy_suffix': checked['legacy_suffix'],
+                          'folder_name': checked['folder_name']}
+                frozen = state.get('switch_layout')
+                if frozen is not None and frozen != wanted:
+                    state.setdefault('switch_layout_migrations', []).append(
+                        migrate_switch_layout(state, frozen, wanted, work, ledger, sha, runner))
+                state['switch_layout'] = wanted
             state.pop('blocked', None)
             entry.update(status='running', attempts=entry['attempts'] + 1, started_at=now())
             entry.pop('error', None)

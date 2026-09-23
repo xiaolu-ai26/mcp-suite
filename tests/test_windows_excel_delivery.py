@@ -37,11 +37,20 @@ def layout(**extra):
 class FakeRunner:
     """Stands in for the R1 scripts: local stages write manifests, external ones log calls."""
 
-    def __init__(self, *, apply=True, fail=None, crash=None):
+    def __init__(self, *, apply=True, fail=None, crash=None, switch_state=None, blocks=None):
         self.apply = apply
         self.calls = []
         self.fail = dict(fail or {})
         self.crash = set(crash or ())
+        self.switch_state = switch_state
+        self.blocks = blocks
+        self.block_reads = 0
+
+    def live_blocks(self):
+        self.block_reads += 1
+        if self.blocks is None:
+            raise AssertionError('the live Base was read although no migration was expected')
+        return self.blocks
 
     def local(self, stage, work, source):
         self.calls.append(stage)
@@ -69,7 +78,8 @@ class FakeRunner:
             (work / 'import-state.json').write_text(json.dumps(
                 {'targets': {'t1': {'status': 'completed', 'table_id': 'tblNEW1'}}}))
         if stage == 'switch':
-            (work / 'switch-state.json').write_text('{"actions": {}}')
+            (work / 'switch-state.json').write_text(json.dumps(self.switch_state or {'actions': {}},
+                                                               ensure_ascii=False))
         code = self.fail.pop(stage, 0)
         if stage == 'switch' and code == 0:
             # What run_step4_switch_r1.py writes next to its verify receipt.
@@ -300,12 +310,12 @@ def test_descendant_version_is_delivered_against_the_tables_the_last_switch_made
     first = FakeRunner()
     assert X.deliver(tmp_path / 'root', b, first, policy=policy)['outcome'] == 'delivered'
     assert first.last_overrides['LEGACY_TABLES'] == [['tblR1', '互联网科技岗']]
-    assert first.last_overrides['LEGACY_SUFFIX'] == '（20260923版）'
+    assert first.last_overrides['LEGACY_SUFFIX'] == '（20260923-%s版）' % a['sha256'][:8]
     ledger = json.loads((tmp_path / 'root' / 'ledger.json').read_text())
     second = FakeRunner()
     assert X.deliver(tmp_path / 'root', c, second, policy=policy)['outcome'] == 'delivered'
     assert second.last_overrides['LEGACY_TABLES'] == ledger['official_tables']
-    assert second.last_overrides['LEGACY_SUFFIX'] == '（%s版）' % ledger['official_since_date']
+    assert second.last_overrides['LEGACY_SUFFIX'] == '（%s-%s版）' % (ledger['official_since_date'], b['sha256'][:8])
     assert {'tblR1', 'tblARCH'} <= set(second.last_overrides['LEGACY_IDS'])
     # An explicit layout that disagrees with what is actually official is refused.
     d = lineage_source(tmp_path, 'd.json', [{'id': 'd'}], parent=c['sha256'])
@@ -610,3 +620,163 @@ def test_bootstrap_verification_itself_rejects_a_switch_of_another_base(tmp_path
                      switch_receipt={'path': str(switch), 'sha256': X.digest(switch)}))
     with pytest.raises(X.DeliveryError, match='not a completed switch of this Base'):
         X.verify_bootstrap(bootstrap, good['initial_official_tables'])
+
+
+# --- archive names unique per outgoing version (2026-09-24 bd4f switch collision) ----------
+
+def chain(tmp_path, count):
+    sources, lineage = [], {}
+    for i in range(count):
+        parent = sources[-1]['sha256'] if sources else None
+        sources.append(lineage_source(tmp_path, f'v{i}.json', [{'id': f'v{i}'}], parent=parent, lineage=lineage))
+        if parent:
+            lineage[sources[-1]['sha256']] = parent
+    return sources
+
+
+def test_same_day_deliveries_archive_under_distinct_stable_names(tmp_path):
+    a, b, c, d = chain(tmp_path, 4)
+    policy = approved_policy(tmp_path, a['sha256'])
+    suffixes = []
+    for source in (b, c, d):
+        runner = FakeRunner()
+        assert X.deliver(tmp_path / 'root', source, runner, policy=policy)['outcome'] == 'delivered'
+        suffixes.append(runner.last_overrides['LEGACY_SUFFIX'])
+    # c and d both replace tables that became official today; the old date-only name collided.
+    today = json.loads((tmp_path / 'root' / 'ledger.json').read_text())['official_since_date']
+    assert suffixes == ['（20260923-%s版）' % a['sha256'][:8], '（%s-%s版）' % (today, b['sha256'][:8]),
+                        '（%s-%s版）' % (today, c['sha256'][:8])]
+    assert len(set(suffixes)) == 3
+
+
+def test_a_retried_switch_keeps_its_archive_name_without_reading_the_base(tmp_path):
+    a, b = chain(tmp_path, 2)
+    policy = approved_policy(tmp_path, a['sha256'])
+    first = FakeRunner(fail={'switch': 1})
+    assert X.deliver(tmp_path / 'root', b, first, policy=policy)['outcome'] == 'failed'
+    retry = FakeRunner()
+    assert X.deliver(tmp_path / 'root', b, retry, policy=policy)['outcome'] == 'delivered'
+    assert retry.last_overrides['LEGACY_SUFFIX'] == first.last_overrides['LEGACY_SUFFIX']
+    assert retry.calls == ['switch'] and retry.block_reads == 0
+    state = json.loads((X.version_dir(tmp_path / 'root', b['sha256']) / 'state.json').read_text())
+    assert 'switch_layout_migrations' not in state
+
+
+OLD_SUFFIX = '（20260923版）'
+
+
+def failed_under_old_layout(tmp_path, monkeypatch, actions=None, folder_id=None):
+    """b's switch failed on its first legacy rename while the date-only name was in use."""
+    a, b = chain(tmp_path, 2)
+    policy = approved_policy(tmp_path, a['sha256'])
+    with monkeypatch.context() as patched:
+        patched.setattr(X, 'archive_suffix', lambda template, since, outgoing: template.format(version_date=since))
+        switch_state = {'actions': actions or {'rename_legacy:tblR1': {'ok': False}}, 'folder_id': folder_id,
+                        'critical_failure': 'legacy rename failed for tblR1',
+                        'batch': {'legacy': [['tblR1', '互联网科技岗']], 'pre_archived': [],
+                                  'new_tables': [['tblNEW1', 't1']]}}
+        runner = FakeRunner(fail={'switch': 1}, switch_state=switch_state)
+        state = X.deliver(tmp_path / 'root', b, runner, policy=policy)
+    assert state['outcome'] == 'failed' and state['switch_layout']['legacy_suffix'] == OLD_SUFFIX
+    assert runner.last_overrides['LEGACY_SUFFIX'] == OLD_SUFFIX
+    return a, b, policy, switch_state
+
+
+UNTOUCHED_BASE = [{'id': 'tblR1', 'name': '互联网科技岗', 'parent_id': None},
+                  {'id': 'tblNEW1', 'name': 't1', 'parent_id': None},
+                  {'id': 'tblD516', 'name': '互联网科技岗' + OLD_SUFFIX, 'parent_id': 'fldOLD'}]
+
+
+def state_of(tmp_path, source):
+    return json.loads((X.version_dir(tmp_path / 'root', source['sha256']) / 'state.json').read_text())
+
+
+def test_switch_that_failed_before_any_rename_resumes_under_the_new_name_without_reimport(tmp_path, monkeypatch):
+    a, b, policy, switch_state = failed_under_old_layout(tmp_path, monkeypatch)
+    retry = FakeRunner(switch_state=switch_state, blocks=UNTOUCHED_BASE)
+    state = X.deliver(tmp_path / 'root', b, retry, policy=policy)
+    assert state['outcome'] == 'delivered' and state['feishu_accepted_sha256'] == b['sha256']
+    assert retry.calls == ['switch'], 'nothing before the switch may run again'
+    new = '（20260923-%s版）' % a['sha256'][:8]
+    assert retry.last_overrides['LEGACY_SUFFIX'] == new and state['switch_layout']['legacy_suffix'] == new
+    [migration] = state['switch_layout_migrations']
+    assert (migration['from_suffix'], migration['to_suffix']) == (OLD_SUFFIX, new)
+    assert migration['source_sha256'] == migration['ledger_active'] == b['sha256']
+    assert migration['ledger_last_delivered'] == a['sha256']
+    assert migration['checked_outgoing_tables'] == migration['checked_temporary_tables'] == 1
+    assert all(len(migration[k]) == 64 for k in ('state_sha256_before', 'switch_state_sha256',
+                                                 'import_state_sha256', 'live_blocks_sha256'))
+    # Anti-regression still holds once delivered.
+    older = lineage_source(tmp_path, 'older.json', [{'id': 'older'}])
+    known = dict(older, lineage={a['sha256']: older['sha256']})
+    with pytest.raises(X.DeliveryError, match='older than the delivered'):
+        X.deliver(tmp_path / 'root', known, FakeRunner(), policy=policy)
+
+
+@pytest.mark.parametrize('actions, folder_id, blocks, message', [
+    ({'rename_legacy:tblR1': {'ok': True}}, None,
+     [{'id': 'tblR1', 'name': '互联网科技岗' + OLD_SUFFIX, 'parent_id': None},
+      {'id': 'tblNEW1', 'name': 't1', 'parent_id': None}], 'switch already applied actions'),
+    (None, 'fldNEW', UNTOUCHED_BASE, 'archive folder'),
+    # Nothing recorded, but the Base shows a rename or a move happened anyway.
+    (None, None, [{'id': 'tblR1', 'name': '互联网科技岗' + OLD_SUFFIX, 'parent_id': None},
+                  {'id': 'tblNEW1', 'name': 't1', 'parent_id': None}], 'table tblR1 is not at the Base root'),
+    (None, None, [{'id': 'tblR1', 'name': '互联网科技岗', 'parent_id': 'fldX'},
+                  {'id': 'tblNEW1', 'name': 't1', 'parent_id': None}], 'table tblR1 is not at the Base root'),
+    (None, None, [{'id': 'tblR1', 'name': '互联网科技岗', 'parent_id': None},
+                  {'id': 'tblNEW1', 'name': '互联网科技岗', 'parent_id': None}], 'table tblNEW1 is not'),
+    (None, None, [{'id': 'tblR1', 'name': '互联网科技岗', 'parent_id': None}], 'table tblNEW1 is not'),
+])
+def test_any_partial_switch_refuses_the_migration(tmp_path, monkeypatch, actions, folder_id, blocks, message):
+    a, b, policy, _ = failed_under_old_layout(tmp_path, monkeypatch, actions=actions, folder_id=folder_id)
+    before = state_of(tmp_path, b)
+    retry = FakeRunner(blocks=blocks)
+    with pytest.raises(X.DeliveryError, match='resume with the original layout') as refused:
+        X.deliver(tmp_path / 'root', b, retry, policy=policy)
+    assert message in str(refused.value)
+    assert retry.calls == [], 'no switch may run under a migrated layout'
+    after = state_of(tmp_path, b)
+    assert after['switch_layout'] == before['switch_layout'] and after['stages'] == before['stages']
+    assert after['switch_layout']['legacy_suffix'] == OLD_SUFFIX and 'switch_layout_migrations' not in after
+    # The started switch still cannot be abandoned; the old layout remains resumable.
+    with pytest.raises(X.DeliveryError, match='switch already started'):
+        X.abandon(tmp_path / 'root', b['sha256'], 'give up')
+
+
+def test_identity_mismatches_refuse_the_migration(tmp_path, monkeypatch):
+    a, b, policy, switch_state = failed_under_old_layout(tmp_path, monkeypatch)
+    path = X.version_dir(tmp_path / 'root', b['sha256']) / 'state.json'
+    work = path.parent / 'work'
+    state = json.loads(path.read_text())
+    ledger = json.loads((tmp_path / 'root' / 'ledger.json').read_text())
+    frozen = state['switch_layout']
+    wanted = dict(frozen, legacy_suffix='（20260923-%s版）' % a['sha256'][:8])
+    runner = FakeRunner(blocks=UNTOUCHED_BASE)
+    assert X.migrate_switch_layout(state, frozen, wanted, work, ledger, b['sha256'], runner)['to_suffix'] == \
+        wanted['legacy_suffix']
+    cases = {
+        'another source version': dict(sha=a['sha256']),
+        'active delivery': dict(ledger=dict(ledger, active=a['sha256'])),
+        'ledger official tables': dict(ledger=dict(ledger, official_tables=[['tblOTHER', '互联网科技岗']])),
+        'outgoing tables differ': dict(wanted=dict(wanted, legacy_tables=[['tblOTHER', '互联网科技岗']])),
+        'archive folder differs': dict(wanted=dict(wanted, folder_name='别的文件夹')),
+        'verify gate': dict(state=dict(state, stages=dict(state['stages'], verify={'status': 'failed'}))),
+    }
+    for message, change in cases.items():
+        with pytest.raises(X.DeliveryError, match=message):
+            X.migrate_switch_layout(change.get('state', state), frozen, change.get('wanted', wanted), work,
+                                    change.get('ledger', ledger), change.get('sha', b['sha256']), runner)
+    for key, value, message in [('new_tables', [['tblNEW9', 't1']], 'other temporary tables'),
+                                ('legacy', [['tblOTHER', '互联网科技岗']], 'other outgoing tables')]:
+        tampered = dict(switch_state, batch=dict(switch_state['batch'], **{key: value}))
+        (work / 'switch-state.json').write_text(json.dumps(tampered, ensure_ascii=False))
+        with pytest.raises(X.DeliveryError, match=message):
+            X.migrate_switch_layout(state, frozen, wanted, work, ledger, b['sha256'], runner)
+    # Through deliver: a ledger naming another outgoing version is refused before any switch.
+    (work / 'switch-state.json').write_text(json.dumps(switch_state, ensure_ascii=False))
+    ledger_path = tmp_path / 'root' / 'ledger.json'
+    ledger_path.write_text(json.dumps(dict(ledger, last_delivered='f' * 64), ensure_ascii=False))
+    retry = FakeRunner(blocks=UNTOUCHED_BASE)
+    with pytest.raises(X.DeliveryError):
+        X.deliver(tmp_path / 'root', b, retry, policy=policy)
+    assert retry.calls == [] and state_of(tmp_path, b)['switch_layout']['legacy_suffix'] == OLD_SUFFIX
