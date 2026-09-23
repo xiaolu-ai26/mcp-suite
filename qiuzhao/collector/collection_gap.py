@@ -63,12 +63,117 @@ def _split_key(key: str) -> Tuple[str, str]:
     return (company or str(key)), scope
 
 
-def unit_records(status: Dict[str, Any]) -> List[Dict[str, Any]]:
+def _unit_key(item: Any) -> Optional[Tuple[str, str]]:
+    if isinstance(item, str):
+        company, scope = _split_key(item)
+    elif isinstance(item, (list, tuple)) and len(item) == 2:
+        company, scope = str(item[0]), str(item[1])
+    else:
+        return None
+    return (company, scope) if company and scope else None
+
+
+def _unit_list(items: Iterable[Any]) -> List[Tuple[str, str]]:
+    keys: List[Tuple[str, str]] = []
+    for item in items:
+        key = _unit_key(item)
+        if key is not None and key not in keys:
+            keys.append(key)
+    return keys
+
+
+def plan_scope(status: Dict[str, Any], plan: Any = None) -> Dict[str, Any]:
+    """Which units this round planned, and whether that list is a full denominator.
+
+    Only real plan fields are used: an explicit ``plan`` argument, p1's
+    ``batch_plan``, or p1's ``pending`` list together with the results. Scopes a
+    company does not use never appear in those fields, so they are never counted
+    as missing, and no target is ever invented from ``companies`` x ``scopes``.
+
+    ``complete`` is True only with a trustworthy full plan:
+
+    * ``argument``: the caller's plan, as given;
+    * ``batch_plan``: every company in ``status['companies']`` (when present) has a
+      planned unit -- a resume that added companies and died before the plan was
+      extended would otherwise pass for a full denominator;
+    * ``pending``: only after ``run_finished`` is True *and* ``status['companies']``
+      is exactly the set of companies seen in pending + results. A stale pending
+      from an earlier segment, or a bare ``run_finished`` flag, proves nothing.
+
+    Any result outside a known plan is listed in ``out_of_plan`` and the plan is
+    not complete either. Without a plan field the report covers results only.
+    """
+    status = status or {}
+    results = status.get('results') or {}
+    result_keys = _unit_list(results)
+    targets = status.get('companies')
+    target_set = ({str(item) for item in targets}
+                  if isinstance(targets, list) else None)
+    if plan is not None:
+        source, keys = 'argument', _unit_list(plan)
+    elif isinstance(status.get('batch_plan'), list):
+        source, keys = 'batch_plan', _unit_list(status['batch_plan'])
+    elif isinstance(status.get('pending'), list):
+        source, keys = 'pending', _unit_list(status['pending'])
+    else:
+        return {'keys': None, 'source': None, 'complete': False, 'issue': None,
+                'out_of_plan': [], 'targets_missing': []}
+    issue = None
+    targets_missing: List[str] = []
+    if source == 'pending':
+        keys = keys + [key for key in result_keys if key not in keys]
+        seen_companies = {company for company, _ in keys}
+        if target_set is None:
+            issue = 'no_target_list'
+        else:
+            targets_missing = sorted(target_set - seen_companies)
+            if targets_missing:
+                issue = 'targets_missing_from_plan'
+            elif seen_companies - target_set:
+                issue = 'units_outside_targets'
+            elif status.get('run_finished') is not True:
+                issue = 'run_not_finished'
+    elif source == 'batch_plan' and target_set is not None:
+        targets_missing = sorted(target_set - {company for company, _ in keys})
+        if targets_missing:
+            issue = 'targets_missing_from_plan'
+    if source == 'pending':
+        # Pending already absorbs every result; what falls outside is a result for
+        # a company that is not a target of this run.
+        out_of_plan = [key for key in result_keys
+                       if target_set is not None and key[0] not in target_set]
+    else:
+        out_of_plan = [key for key in result_keys if key not in keys]
+    if out_of_plan and issue is None:
+        issue = 'results_outside_plan'
+    return {'keys': keys, 'source': source, 'complete': issue is None, 'issue': issue,
+            'out_of_plan': out_of_plan, 'targets_missing': targets_missing}
+
+
+def planned_units(status: Dict[str, Any], plan: Any = None
+                  ) -> Tuple[Optional[List[Tuple[str, str]]], Optional[str]]:
+    """The known planned units and their source (see ``plan_scope`` for trust)."""
+    scope = plan_scope(status, plan)
+    return scope['keys'], scope['source']
+
+
+def _not_started_row(company: str, scope: str) -> Dict[str, Any]:
+    return {
+        'company': company, 'scope': scope, 'status': 'not_started', 'complete': False,
+        'expected_total': None, 'collected_jobs': None, 'gap': None,
+        'pages_scanned': None, 'pagination_exhausted': None, 'retries': None,
+        'error_count': 0, 'error_preview': [], 'published': False, 'publish_error': None,
+        'not_started': True,
+    }
+
+
+def unit_records(status: Dict[str, Any], plan: Any = None) -> List[Dict[str, Any]]:
     """One report row per unit, in a stable order.
 
     ``expected_total`` may legitimately be absent (124 units on 2026-09-20): the
     source never states a total, so no gap can be computed and the unit is listed
-    separately instead of being counted as a match or as a gap.
+    separately instead of being counted as a match or as a gap. Planned units with
+    no result are added as ``not_started`` rows whose gap stays unknown.
     """
     results = (status or {}).get('results') or {}
     rows: List[Dict[str, Any]] = []
@@ -95,6 +200,11 @@ def unit_records(status: Dict[str, Any]) -> List[Dict[str, Any]]:
             'published': bool((entry or {}).get('published')),
             'publish_error': (entry or {}).get('publish_error'),
         })
+    keys, _ = planned_units(status, plan)
+    seen = {_split_key(key) for key in results} | {(row['company'], row['scope']) for row in rows}
+    for company, scope in keys or []:
+        if (company, scope) not in seen:
+            rows.append(_not_started_row(company, scope))
     rows.sort(key=lambda row: (-(row['gap'] or 0), row['company'], row['scope']))
     return rows
 
@@ -118,30 +228,85 @@ def _index(units: Iterable[Dict[str, Any]]) -> Dict[Tuple[str, str], Dict[str, A
     return {(unit['company'], unit['scope']): unit for unit in units}
 
 
+def _known_gap(unit: Optional[Dict[str, Any]]) -> Optional[int]:
+    """A real integer gap. None stays unknown and is never coerced to 0."""
+    if not isinstance(unit, dict):
+        return None
+    gap = unit.get('gap')
+    if isinstance(gap, bool) or not isinstance(gap, int):
+        return None
+    return gap
+
+
+def _reliable_complete_zero(unit: Dict[str, Any]) -> bool:
+    """True only when this round finished cleanly and the source total was met."""
+    if unit.get('not_started') or unit.get('started') is False:
+        return False
+    if unit.get('publish_error'):
+        return False
+    if unit.get('status') != 'success' or unit.get('complete') is not True:
+        return False
+    if _known_gap(unit) != 0:
+        return False
+    return unit.get('expected_total') is not None and unit.get('collected_jobs') is not None
+
+
+def _unknown_reason(unit: Dict[str, Any]) -> str:
+    if unit.get('not_started'):
+        return 'not_started'
+    if unit.get('expected_total') is None:
+        return 'no_expected_total'
+    if unit.get('collected_jobs') is None:
+        return 'no_collected_jobs'
+    return 'not_reliable_complete'
+
+
 def compare_to_previous(units: List[Dict[str, Any]],
                         previous: Optional[Dict[str, Any]]) -> Dict[str, Any]:
-    """New gaps and grown gaps against the previous day's report (if any)."""
+    """New, grown, narrowed and resolved gaps against the previous report.
+
+    An unknown gap stays unknown. A previous positive gap is resolved only when
+    this round has a reliable complete result whose gap is really 0; a failed,
+    unknown, not-started or missing unit goes to ``unknown_gaps`` instead.
+    """
     current = _index(units)
     previous_units = (previous or {}).get('units') or []
     before = _index(previous_units)
-    new_gaps, wider_gaps, narrowed, resolved = [], [], [], []
+    new_gaps, wider_gaps, narrowed, resolved, unknown = [], [], [], [], []
     for key, unit in sorted(current.items()):
-        gap = unit['gap'] or 0
+        gap = _known_gap(unit)
         old = before.get(key)
-        old_gap = (old or {}).get('gap') or 0
-        if gap > 0 and old_gap == 0:
+        old_gap = _known_gap(old)
+        if gap is None:
+            # Only a real previous gap can be lost from view; an old 0 or unknown
+            # that is still unknown is already in units_gap_unknown / the units table.
+            if old_gap:
+                unknown.append({'company': key[0], 'scope': key[1], 'gap': None,
+                                'previous_gap': old_gap, 'reason': _unknown_reason(unit)})
+            continue
+        if gap > 0 and (old_gap is None or old_gap == 0):
             new_gaps.append({'company': key[0], 'scope': key[1], 'gap': gap,
-                             'previous_gap': old_gap if old else None,
-                             'first_seen': old is None})
+                             'previous_gap': old_gap, 'first_seen': old is None})
+        elif old_gap is None:
+            continue
         elif gap > old_gap:
             wider_gaps.append({'company': key[0], 'scope': key[1], 'gap': gap,
                                'previous_gap': old_gap, 'delta': gap - old_gap})
-        elif gap < old_gap and gap > 0:
+        elif 0 < gap < old_gap:
             narrowed.append({'company': key[0], 'scope': key[1], 'gap': gap,
                              'previous_gap': old_gap, 'delta': gap - old_gap})
         elif old_gap > 0 and gap == 0:
-            resolved.append({'company': key[0], 'scope': key[1],
-                             'previous_gap': old_gap})
+            if _reliable_complete_zero(unit):
+                resolved.append({'company': key[0], 'scope': key[1],
+                                 'previous_gap': old_gap})
+            else:
+                unknown.append({'company': key[0], 'scope': key[1], 'gap': gap,
+                                'previous_gap': old_gap, 'reason': _unknown_reason(unit)})
+    for key, old in sorted(before.items()):
+        old_gap = _known_gap(old)
+        if key not in current and old_gap:
+            unknown.append({'company': key[0], 'scope': key[1], 'gap': None,
+                            'previous_gap': old_gap, 'reason': 'not_in_this_round'})
     return {
         'previous_date': (previous or {}).get('date'),
         'previous_report': bool(previous),
@@ -149,14 +314,29 @@ def compare_to_previous(units: List[Dict[str, Any]],
         'wider_gaps': sorted(wider_gaps, key=lambda item: -item['delta']),
         'narrowed_gaps': sorted(narrowed, key=lambda item: item['delta']),
         'resolved_gaps': resolved,
+        'unknown_gaps': unknown,
     }
 
 
 def build_report(status: Dict[str, Any], *, date: Optional[str] = None,
-                 previous: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-    units = unit_records(status)
-    with_total = [unit for unit in units if unit['expected_total'] is not None]
-    without_total = [unit for unit in units if unit['expected_total'] is None]
+                 previous: Optional[Dict[str, Any]] = None, plan: Any = None) -> Dict[str, Any]:
+    units = unit_records(status, plan)
+    scope = plan_scope(status, plan)
+    plan_keys, plan_source = scope['keys'], scope['source']
+    if plan_keys is None:
+        report_scope = 'results_only'
+    elif scope['complete']:
+        report_scope = 'planned'
+    elif scope['out_of_plan']:
+        report_scope = 'out_of_plan'
+    else:
+        report_scope = 'incomplete'
+    out_of_plan = [{'company': company, 'scope': unit_scope}
+                   for company, unit_scope in scope['out_of_plan']]
+    not_started = [unit for unit in units if unit.get('not_started')]
+    started = [unit for unit in units if not unit.get('not_started')]
+    with_total = [unit for unit in started if unit['expected_total'] is not None]
+    without_total = [unit for unit in started if unit['expected_total'] is None]
     complete_but_short = [unit for unit in with_total if unit['complete'] and unit['gap']]
     partial_gaps = [unit for unit in with_total if not unit['complete'] and unit['gap']]
     matched = [unit for unit in with_total if not unit['gap']]
@@ -169,6 +349,19 @@ def build_report(status: Dict[str, Any], *, date: Optional[str] = None,
         'units_complete_but_short': len(complete_but_short),
         'units_partial_with_gap': len(partial_gaps),
         'units_without_expected_total': len(without_total),
+        # The plan's size only when the plan itself is trustworthy; an explicit plan
+        # keeps its size even when results fall outside it (see units_out_of_plan).
+        'units_planned': (len(plan_keys) if plan_keys is not None and (
+            scope['complete'] or scope['issue'] == 'results_outside_plan') else None),
+        'units_known_planned': len(plan_keys) if plan_keys is not None else None,
+        'units_out_of_plan': len(out_of_plan),
+        'plan_complete': bool(scope['complete']),
+        'plan_issue': scope['issue'],
+        'targets_missing_from_plan': list(scope['targets_missing']),
+        'units_not_started': len(not_started),
+        'units_gap_unknown': sum(1 for unit in units if unit['gap'] is None),
+        'report_scope': report_scope,
+        'plan_source': plan_source,
         'total_gap': sum(unit['gap'] for unit in with_total if unit['gap']),
         'complete_but_short_gap': sum(unit['gap'] for unit in complete_but_short),
         'partial_gap': sum(unit['gap'] for unit in partial_gaps),
@@ -185,6 +378,8 @@ def build_report(status: Dict[str, Any], *, date: Optional[str] = None,
         'partial_gap_top': partial_gaps[:TOP_N],
         'per_company': per_company,
         'units_without_expected_total': without_total,
+        'units_not_started': not_started,
+        'units_out_of_plan': out_of_plan,
         'comparison': compare_to_previous(units, previous),
     }
 
@@ -218,6 +413,9 @@ def render_markdown(report: Dict[str, Any]) -> str:
     lines.append('| 声称 complete 却少采 | **%d** |' % summary['units_complete_but_short'])
     lines.append('| partial 且有缺口 | %d |' % summary['units_partial_with_gap'])
     lines.append('| 站点不报总数 | %d |' % summary['units_without_expected_total'])
+    lines.append('| 计划内未启动 | %d |' % summary.get('units_not_started', 0))
+    lines.append('| 缺口未知 | %d |' % summary.get('units_gap_unknown', 0))
+    lines.append('| 统计范围 | %s |' % _scope_text(summary))
     lines.append('| 总缺口 | **%d** |' % summary['total_gap'])
     lines.append('')
     lines.append('## 最严重:声称 complete 却少采')
@@ -271,6 +469,7 @@ def render_markdown(report: Dict[str, Any]) -> str:
         lines.append('- 缺口变大的单元:%d 个' % len(comparison['wider_gaps']))
         lines.append('- 缺口收窄:%d 个' % len(comparison['narrowed_gaps']))
         lines.append('- 已消除:%d 个' % len(comparison['resolved_gaps']))
+        lines.append('- 状态未知(不算消除):%d 个' % len(comparison.get('unknown_gaps') or []))
         if comparison['new_gaps']:
             lines.append('')
             lines.append('| 新缺口公司 | scope | gap | 备注 |')
@@ -304,6 +503,16 @@ def render_markdown(report: Dict[str, Any]) -> str:
                          % (unit['company'], unit['scope'], unit['status'],
                             _fmt_gap(unit['collected_jobs'])))
     lines.append('')
+    if report.get('units_not_started'):
+        lines.append('## 计划内未启动的单元(%d 个)' % len(report['units_not_started']))
+        lines.append('')
+        lines.append('本轮计划内但没有结果,缺口未知,不计为 0。')
+        lines.append('')
+        lines.append('| 公司 | scope |')
+        lines.append('| --- | --- |')
+        for unit in report['units_not_started']:
+            lines.append('| %s | %s |' % (unit['company'], unit['scope']))
+        lines.append('')
     lines.append('## 附:全部单元')
     lines.append('')
     lines.append('| 公司 | scope | status | complete | expected_total | collected_jobs | gap |')
@@ -316,6 +525,22 @@ def render_markdown(report: Dict[str, Any]) -> str:
                         _fmt_gap(unit['gap'])))
     lines.append('')
     return '\n'.join(lines)
+
+
+def _scope_text(summary: Dict[str, Any]) -> str:
+    scope = summary.get('report_scope')
+    if scope == 'planned':
+        return '本轮计划 %d 个单元(来源 %s)' % (summary['units_planned'], summary['plan_source'])
+    if scope in ('incomplete', 'out_of_plan'):
+        text = '计划不完整(来源 %s,原因 %s),已知计划 %s 个单元,分母未知' % (
+            summary.get('plan_source'), summary.get('plan_issue'),
+            _fmt_gap(summary.get('units_known_planned')))
+        if summary.get('units_out_of_plan'):
+            text += ';计划外结果 %d 个' % summary['units_out_of_plan']
+        if summary.get('targets_missing_from_plan'):
+            text += ';目标公司未进计划:%s' % '、'.join(summary['targets_missing_from_plan'])
+        return text.replace('|', '\\|')
+    return '仅已产出结果的单元(上游未给计划,未启动单元不在分母内)'
 
 
 def _escape(text: str) -> str:
@@ -456,7 +681,8 @@ def run_date(run_root: Path, status: Optional[Dict[str, Any]] = None) -> str:
 
 
 def publish(status: Dict[str, Any], run_root: Path, *, date: Optional[str] = None,
-            previous: Any = 'auto', notify_module: Any = None) -> Dict[str, Any]:
+            previous: Any = 'auto', notify_module: Any = None,
+            plan: Any = None) -> Dict[str, Any]:
     """Write the JSON + Markdown report, then fire the threshold alerts."""
     run_root = Path(run_root)
     run_root.mkdir(parents=True, exist_ok=True)
@@ -464,7 +690,7 @@ def publish(status: Dict[str, Any], run_root: Path, *, date: Optional[str] = Non
         date = run_date(run_root, status)
     if previous == 'auto':
         previous = find_previous_report(run_root, date)
-    report = build_report(status, date=date, previous=previous)
+    report = build_report(status, date=date, previous=previous, plan=plan)
     json_path = run_root / REPORT_JSON
     md_path = run_root / REPORT_MD
     tmp = json_path.with_suffix('.json.tmp')

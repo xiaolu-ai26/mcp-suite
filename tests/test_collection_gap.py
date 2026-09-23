@@ -437,3 +437,212 @@ def test_gap_summary_reports_a_broken_report_instead_of_raising(tmp_path):
     summary = wc.collection_gap_summary(run, stage)
     assert summary['available'] is False
     assert 'JSONDecodeError' in summary['error']
+
+
+# --- 8. unknown is never 0; planned-but-not-started units ------------------- #
+
+def _previous_gap_10():
+    return gap.build_report(status(
+        unit('甲公司', 'campus', expected=20, collected=10, status='partial', complete=False)),
+        date='20260922')
+
+
+def test_previous_gap_is_not_resolved_by_an_unknown_or_failed_round():
+    previous = _previous_gap_10()
+    for current_unit in (
+            unit('甲公司', 'campus', expected=None, collected=0, status='failed', complete=False),
+            unit('甲公司', 'campus', expected=None, collected=None, status='blocked', complete=False),
+            # Numbers match but the round was not a clean complete success.
+            unit('甲公司', 'campus', expected=20, collected=20, status='partial', complete=False),
+    ):
+        comparison = gap.build_report(status(current_unit), date='20260923',
+                                      previous=previous)['comparison']
+        assert comparison['resolved_gaps'] == []
+        assert [(item['company'], item['previous_gap']) for item in comparison['unknown_gaps']] \
+            == [('甲公司', 10)]
+
+
+def test_previous_gap_is_resolved_only_by_a_reliable_complete_zero():
+    comparison = gap.build_report(status(unit('甲公司', 'campus', expected=20, collected=20)),
+                                  date='20260923', previous=_previous_gap_10())['comparison']
+    assert comparison['resolved_gaps'] == [
+        {'company': '甲公司', 'scope': 'campus', 'previous_gap': 10}]
+    assert comparison['unknown_gaps'] == []
+
+
+def test_previous_gap_missing_from_this_round_stays_unknown():
+    comparison = gap.build_report(status(unit('乙公司', 'campus', expected=5, collected=5)),
+                                  date='20260923', previous=_previous_gap_10())['comparison']
+    assert comparison['resolved_gaps'] == []
+    assert comparison['unknown_gaps'][0]['reason'] == 'not_in_this_round'
+
+
+def test_known_gap_after_unknown_or_first_seen_zero_does_not_crash():
+    previous = gap.build_report(status(
+        unit('甲公司', 'campus', expected=None, collected=3, status='partial', complete=False)),
+        date='20260922')
+    comparison = gap.build_report(status(
+        unit('甲公司', 'campus', expected=10, collected=4, status='partial', complete=False),
+        unit('新公司', 'campus', expected=10, collected=10)),
+        date='20260923', previous=previous)['comparison']
+    assert [(item['company'], item['previous_gap'], item['first_seen'])
+            for item in comparison['new_gaps']] == [('甲公司', None, False)]
+    assert comparison['resolved_gaps'] == [] and comparison['wider_gaps'] == []
+
+
+def test_pending_plan_adds_not_started_units_with_unknown_gap():
+    payload = status(unit('甲公司', 'campus', expected=10, collected=10))
+    payload['pending'] = ['乙公司/intern', '甲公司/intern']
+    report = gap.build_report(payload, date='20260923', previous=_previous_gap_10())
+    summary = report['summary']
+    rows = by_key(report['units'])
+    # A paused pending lists real targets, but it is not proof of the whole plan.
+    assert summary['report_scope'] == 'incomplete' and summary['plan_source'] == 'pending'
+    assert summary['plan_issue'] == 'no_target_list' and summary['plan_complete'] is False
+    assert summary['units_planned'] is None and summary['units_known_planned'] == 3
+    assert summary['units_total'] == 3
+    assert summary['units_not_started'] == 2
+    assert summary['units_gap_unknown'] == 2
+    assert rows[('乙公司', 'intern')]['gap'] is None
+    assert rows[('乙公司', 'intern')]['status'] == 'not_started'
+    # Not started is neither a match, a gap, nor a "site gives no total" unit.
+    assert summary['units_matched'] == 1 and summary['units_with_gap'] == 0
+    assert summary['units_without_expected_total'] == 0 and summary['total_gap'] == 0
+    # Only planned scopes appear: 乙公司 social was never planned, so it is not a gap.
+    assert ('乙公司', 'social') not in rows and ('甲公司', 'social') not in rows
+
+
+def test_explicit_plan_wins_and_not_started_previous_gap_is_unknown():
+    payload = status(unit('乙公司', 'campus', expected=5, collected=5))
+    payload['batch_plan'] = [['乙公司', 'campus']]
+    report = gap.build_report(payload, date='20260923', previous=_previous_gap_10(),
+                              plan=[('乙公司', 'campus'), ('甲公司', 'campus')])
+    assert report['summary']['plan_source'] == 'argument'
+    assert report['summary']['units_planned'] == 2
+    unknown = report['comparison']['unknown_gaps']
+    assert [(item['company'], item['reason']) for item in unknown] == [('甲公司', 'not_started')]
+    assert report['comparison']['resolved_gaps'] == []
+
+
+def test_without_a_plan_the_report_says_it_covers_results_only(tmp_path):
+    payload = status(unit('甲公司', 'campus', expected=10, collected=10))
+    outcome = gap.publish(payload, tmp_path / '20260923', previous=None)
+    assert outcome['summary']['report_scope'] == 'results_only'
+    assert outcome['summary']['units_planned'] is None
+    assert outcome['summary']['units_not_started'] == 0
+    markdown = (tmp_path / '20260923' / gap.REPORT_MD).read_text(encoding='utf-8')
+    assert '仅已产出结果的单元' in markdown
+
+
+# --- 9. review fixes: comparison noise, stale pending, out-of-plan results --- #
+
+def test_unknown_gaps_only_track_a_previous_positive_gap():
+    previous = gap.build_report(status(
+        unit('零公司', 'campus', expected=5, collected=5),
+        unit('未知公司', 'campus', expected=None, collected=3, status='partial', complete=False),
+        unit('甲公司', 'campus', expected=20, collected=10, status='partial', complete=False),
+        unit('收窄公司', 'campus', expected=20, collected=10, status='partial', complete=False)),
+        date='20260922')
+    current = gap.build_report(status(
+        unit('零公司', 'campus', expected=None, collected=0, status='failed', complete=False),
+        unit('未知公司', 'campus', expected=None, collected=0, status='failed', complete=False),
+        unit('甲公司', 'campus', expected=None, collected=0, status='failed', complete=False),
+        unit('收窄公司', 'campus', expected=20, collected=15, status='failed', complete=False)),
+        date='20260923', previous=previous)
+    comparison = current['comparison']
+    assert [(item['company'], item['previous_gap']) for item in comparison['unknown_gaps']] \
+        == [('甲公司', 10)]
+    assert [item['company'] for item in comparison['narrowed_gaps']] == ['收窄公司']
+    assert comparison['resolved_gaps'] == []
+    # The old 0 / old unknown units are still visible as unknown in the summary.
+    assert current['summary']['units_gap_unknown'] == 3
+
+
+def _resumed_status(run_finished):
+    # Resume added 丙公司 and died before pending was rewritten.
+    payload = status(unit('甲公司', 'campus', expected=10, collected=10),
+                     unit('乙公司', 'campus', expected=5, collected=5))
+    payload['companies'] = ['甲公司', '乙公司', '丙公司']
+    payload['pending'] = ['乙公司/intern']
+    if run_finished is not None:
+        payload['run_finished'] = run_finished
+    return payload
+
+
+@pytest.mark.parametrize('run_finished', [None, False, True])
+def test_stale_pending_after_resume_added_a_company_is_not_a_full_plan(run_finished):
+    report = gap.build_report(_resumed_status(run_finished), date='20260923')
+    summary = report['summary']
+    assert summary['report_scope'] == 'incomplete' and summary['plan_complete'] is False
+    assert summary['plan_issue'] == 'targets_missing_from_plan'
+    assert summary['targets_missing_from_plan'] == ['丙公司']
+    assert summary['units_planned'] is None
+    # No target is invented for 丙公司; the real pending unit is still shown.
+    rows = by_key(report['units'])
+    assert not any(company == '丙公司' for company, _ in rows)
+    assert rows[('乙公司', 'intern')]['status'] == 'not_started'
+    assert '分母未知' in gap.render_markdown(report)
+
+
+def test_pending_is_a_plan_only_after_a_finished_run_covering_every_target():
+    payload = status(unit('甲公司', 'campus', expected=10, collected=10),
+                     unit('乙公司', 'intern', expected=5, collected=5))
+    payload.update(companies=['甲公司', '乙公司'], pending=['乙公司/campus'], run_finished=False)
+    summary = gap.build_report(payload, date='20260923')['summary']
+    assert summary['report_scope'] == 'incomplete' and summary['plan_issue'] == 'run_not_finished'
+
+    payload.update(pending=[], run_finished=True)
+    summary = gap.build_report(payload, date='20260923')['summary']
+    assert summary['report_scope'] == 'planned' and summary['plan_complete'] is True
+    assert summary['units_planned'] == 2 and summary['units_out_of_plan'] == 0
+
+
+def test_batch_plan_missing_a_target_company_is_incomplete():
+    payload = status(unit('甲公司', 'campus', expected=10, collected=10))
+    payload.update(companies=['甲公司', '乙公司'], batch_plan=[['甲公司', 'campus']])
+    summary = gap.build_report(payload, date='20260923')['summary']
+    assert summary['report_scope'] == 'incomplete'
+    assert summary['targets_missing_from_plan'] == ['乙公司']
+
+
+@pytest.mark.parametrize('field', ['plan', 'batch_plan'])
+def test_empty_plan_with_real_results_is_out_of_plan(field):
+    payload = status(unit('甲公司', 'campus', expected=10, collected=8,
+                          status='partial', complete=False))
+    kwargs = {}
+    if field == 'plan':
+        kwargs['plan'] = []
+    else:
+        payload['batch_plan'] = []
+    report = gap.build_report(payload, date='20260923', **kwargs)
+    summary = report['summary']
+    assert summary['report_scope'] == 'out_of_plan' and summary['plan_complete'] is False
+    assert summary['units_planned'] == 0 and summary['units_total'] == 1
+    assert summary['units_out_of_plan'] == 1
+    assert report['units_out_of_plan'] == [{'company': '甲公司', 'scope': 'campus'}]
+    # The real result is kept and counted.
+    assert summary['total_gap'] == 2
+    assert '计划外结果 1 个' in gap.render_markdown(report)
+
+
+def test_result_outside_a_real_plan_is_flagged_and_kept():
+    payload = status(unit('甲公司', 'campus', expected=10, collected=10),
+                     unit('外公司', 'campus', expected=4, collected=4))
+    report = gap.build_report(payload, date='20260923', plan=[('甲公司', 'campus'),
+                                                               ('甲公司', 'intern')])
+    summary = report['summary']
+    assert summary['report_scope'] == 'out_of_plan'
+    assert summary['units_out_of_plan'] == 1 and summary['units_total'] == 3
+    assert ('外公司', 'campus') in by_key(report['units'])
+
+
+def test_real_full_plan_stays_planned():
+    payload = status(unit('甲公司', 'campus', expected=10, collected=10))
+    payload.update(companies=['甲公司', '乙公司'],
+                   batch_plan=[['甲公司', 'campus'], ['乙公司', 'intern']])
+    report = gap.build_report(payload, date='20260923')
+    summary = report['summary']
+    assert summary['report_scope'] == 'planned' and summary['plan_complete'] is True
+    assert summary['units_planned'] == 2 and summary['units_not_started'] == 1
+    assert summary['units_out_of_plan'] == 0 and summary['plan_issue'] is None
+    assert '本轮计划 2 个单元' in gap.render_markdown(report)
