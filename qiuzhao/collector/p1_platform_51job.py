@@ -183,21 +183,54 @@ BUTTON_TEXT = re.compile(
     r'apply(?: now)?|submit)$', re.I)
 
 
-def parse_postings(page_html, page_url):
+# Complete link texts that the saved official pages of 2026-09-24 use for one campaign-wide
+# application button rather than for a posting (run 20260924, unit dirs under p1-runs/20260924T013005):
+#   投递申请          ENGEL   engel2027-list-1.html: div.about_info button under a free-form programme text
+#   网申投递点击此处  NSK     nskchina-list-1.html: "无法参加宣讲会的，可网申投递简历" + this link
+#   点击申请          德乐    Doehler2027-list-1.html: button after a free-form 客户经理 description (twice)
+# Exact matches only: a real title that merely contains 申请/投递 is kept.
+GENERIC_APPLY_LABELS = frozenset({'投递申请', '网申投递点击此处', '点击申请'})
+
+
+# Configured sources whose saved official page (run 20260924, p1-runs/20260924T013005) the
+# parser reads into a wrong title, pinned by config key AND configured URL so a changed or
+# different site is not affected. Their page is still fetched and kept as evidence, but no
+# row is produced and the unit reports blocked/incomplete (independent review 2026-09-24).
+QUARANTINED_TEMPLATES = {
+    'DellEmc': ('https://campus.51job.com/DellEmc/',
+                'titles are the last line of each requirement text (9 links, one CtmID 2969027)'),
+    'te': ('https://campus.51job.com/te/p2.html',
+           'links are city buttons such as 投递苏州/投递上海 (8 links, one CtmID 7027894)'),
+    'Covestro2027': ('http://campus.51job.com/Covestro2027/job.html',
+                     'links are 立即申请 + city buttons (6 links, one CtmID 7079562)'),
+    'IR2027': ('https://campus.51job.com/IR2027/job.html#top',
+               'title is requirement/city text; real posting names sit in a separate 招聘岗位 paragraph '
+               '(2 links, one CtmID 9519383)'),
+}
+
+
+def quarantine_reason(key, url):
+    pinned = QUARANTINED_TEMPLATES.get(key)
+    return pinned[1] if pinned and pinned[0] == url else None
+
+
+def parse_postings(page_html, page_url, problems=None):
     """[(posting_name, apply_url, block_text)] from one public micro-site page.
 
     The application anchor (``Apply.aspx?CtmID=...``) is the official per-posting
     identity. The posting name is the item block's own text *before* that anchor,
     so a "点击投递" button label is never mistaken for a job title. Nothing is
     invented: a page with no application anchor yields zero postings and the
-    caller reports that instead of guessing.
+    caller reports that instead of guessing. ``problems`` (when given) receives the
+    links that stop the page from proving a complete listing: a known generic
+    application button, and a CtmID shared by postings with different titles (only
+    the first is kept, as before, so the others are missing).
     """
     postings = []
     seen = set()
+    titles = {}
     for match in APPLY_RE.finditer(page_html or ''):
         ctm_id = match.group(1)
-        if ctm_id in seen:
-            continue
         item_html, anchor_off = _item_block(page_html, match)
         before = item_html[:anchor_off] if item_html else ''
         anchor_end = item_html.find('</a>', max(anchor_off, 0)) if item_html else -1
@@ -208,11 +241,24 @@ def parse_postings(page_html, page_url):
         if not name or BUTTON_TEXT.match(name):
             name = re.sub(r'\s*(点击投递|立即投递|立即申请|申请职位|投递简历|查看详情|点此投递)$', '',
                           anchor_text).strip()
+        if name in GENERIC_APPLY_LABELS:
+            if problems is not None:
+                problems.append({'ctm_id': ctm_id, 'text': name,
+                                 'reason': 'generic application button, not a posting title'})
+            continue
         if not name or BUTTON_TEXT.match(name):
+            continue
+        titles.setdefault(ctm_id, []).append(name)
+        if ctm_id in seen:
             continue
         seen.add(ctm_id)
         apply_url = f'https://xyz.51job.com/External/Apply.aspx?CtmID={ctm_id}'
         postings.append((name, apply_url, _clean(item_html) or _clean(before)))
+    for ctm_id, names in titles.items():
+        if len(set(names)) > 1 and problems is not None:
+            problems.append({'ctm_id': ctm_id, 'titles': list(dict.fromkeys(names)),
+                             'reason': 'one application form behind several different titles; '
+                                       'only the first is kept'})
     return postings
 
 
@@ -229,6 +275,8 @@ def collect(company, scope, output_dir, max_requests=None):
     budget = {'limit': _budget_limit(max_requests), 'used': 0}
     coverage = shared.coverage(url)
     jobs = []
+    saved = []  # official responses written by this call; the only evidence it may claim
+    problems = []  # links that keep the listing from being proven complete
     session = _make_session()
     try:
         if scope != configured_scope:
@@ -241,15 +289,18 @@ def collect(company, scope, output_dir, max_requests=None):
             return {'jobs': [], 'coverage': coverage}
         page_html = _get(session, url, budget)
         (output_dir / f'{key}-list-1.html').write_text(page_html, encoding='utf-8')
+        saved.append(f'{key}-list-1.html')
         coverage['pages_scanned'] = 1
         title = announcement_title(page_html, name + '校园招聘')
-        postings = parse_postings(page_html, url)
-        if not postings and entry.get('mobile_path'):
+        quarantine = quarantine_reason(key, url)
+        postings = [] if quarantine else parse_postings(page_html, url, problems)
+        if not postings and not quarantine and entry.get('mobile_path'):
             mobile_url = url.rstrip('/') + '/' + str(entry['mobile_path']).lstrip('/')
             mobile_html = _get(session, mobile_url, budget)
             (output_dir / f'{key}-list-mobile.html').write_text(mobile_html, encoding='utf-8')
+            saved.append(f'{key}-list-mobile.html')
             coverage['pages_scanned'] += 1
-            postings = parse_postings(mobile_html, mobile_url)
+            postings = parse_postings(mobile_html, mobile_url, problems)
         seen = set()
         for posting_name, apply_url, block in postings:
             ident = apply_url.rsplit('=', 1)[-1]
@@ -276,11 +327,22 @@ def collect(company, scope, output_dir, max_requests=None):
         coverage['list_observed_titles'] = sorted(j['job_title'] for j in jobs)
         coverage['pagination_exhausted'] = True
         coverage['detail_complete'] = True
-        coverage['evidence'] = sorted(p.name for p in output_dir.glob('*'))
+        # Not the directory listing: the pipeline's adapter.log and files of earlier attempts
+        # live here too and are not official responses.
+        coverage['evidence'] = list(saved)
         coverage['evidence_files'] = coverage['evidence']
         coverage['scope_request'] = {'company': name, 'scope': scope, 'source_url': url,
                                      'params': {'configured_scope': configured_scope}}
-        if not jobs:
+        if quarantine:
+            coverage['detail_complete'] = False
+            coverage['template_quarantine'] = {'key': key, 'url': url, 'reason': quarantine}
+            coverage['errors'].append(f'known-bad page template {key} quarantined: {quarantine}')
+        elif problems:
+            coverage['application_link_problems'] = problems
+            coverage['errors'].append(
+                'listing not proven complete: ' + '; '.join(
+                    f'CtmID {p["ctm_id"]}: {p["reason"]}' for p in problems))
+        elif not jobs:
             coverage['errors'].append(
                 'No public application anchor (CtmID) found on the micro-site landing page')
     except BudgetExhausted:
