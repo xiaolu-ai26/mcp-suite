@@ -68,8 +68,8 @@ def step(args,log,env,timeout,receipt=None,name=None):
         child=subprocess.Popen([str(PYTHON),'-X','utf8',*args],cwd=ROOT,env=env,stdout=out,stderr=subprocess.STDOUT,start_new_session=True)
         try:return child.wait(timeout=timeout)
         except subprocess.TimeoutExpired:
-            record_cleanup(receipt,name,child)
-            return 124
+            report=record_cleanup(receipt,name,child)
+            return 124 if report.get('tree_termination_confirmed') is True else 125
 
 def reset_p1(stage):
     shutil.rmtree(stage/'p1-checkpoints',ignore_errors=True)
@@ -86,7 +86,7 @@ def reset_p1(stage):
 # units, drains the unit in flight, writes ``pending`` and exits 2), followed by the same
 # ``normalize`` + ``preserve`` + ``publish_with_rebase`` pair the chain always ran at the
 # end, with ``same_publication`` suppressing the upload when staging did not change.
-P1_SEGMENT_SECONDS=5400      # 90 min of collection per segment
+P1_SEGMENT_SECONDS=1800      # 90 min of collection per segment
 P1_SCOPE_TIMEOUT=600         # unchanged per-scope subprocess timeout
 # p1 only checks its deadline between units, so one unit in flight may still be draining
 # (up to --scope-timeout) and the run then has to merge, publish locally, write its
@@ -100,10 +100,10 @@ P1_SEGMENT_STEP_LIMIT=P1_SEGMENT_SECONDS+P1_SCOPE_TIMEOUT+P1_SEGMENT_FINALIZE_BU
 P1_TOTAL_BUDGET_SECONDS=72000
 P1_SEGMENT_RETRY_LIMIT=1     # extra attempt after exit 1 (no scope produced usable output)
 P1_MAX_STALLED_SEGMENTS=2    # stop once ``pending`` has not shrunk for this many segments
-P1_WORKERS=16
-P1_PLATFORM_WORKERS=4
+P1_WORKERS=8
+P1_PLATFORM_WORKERS=1
 # --platform-interval is left at p1_pipeline's default (PLATFORM_MIN_INTERVAL = 1.0s).
-P1_MEMORY_NOTE='16 workers x ~160MB peak RSS ~= 2.6GB of the jingling box 16GB'
+P1_MEMORY_NOTE='8 workers initially; same-platform concurrency 1; max 20 companies or 1800s per segment'
 
 def p1_segment_args(stage,seconds):
     """p1 argv for one segment; ``--resume-latest`` continues the previous checkpoint."""
@@ -259,6 +259,10 @@ def run_stage_step(state,statepath,run,stage,name,args,limit,env,*,force=False,k
     # cleanup_errors (a child tree that would not die) must be durable immediately: the
     # 2026-09-20 receipt had no p1 entry at all because the write happened too late.
     atomic_json(statepath,state)
+    if state['steps'][name]==125:
+        state['unsafe_writer']={'step':name,'reason':'process tree termination unconfirmed; no rollback, normalize, publish or next segment'}
+        atomic_json(statepath,state)
+        raise RuntimeError(state['unsafe_writer']['reason'])
     if name!='normalize':state['steps'].pop('normalize',None)
     entries=state.setdefault('step_changes',{})
     if state['steps'][name] not in (0,2):
@@ -279,6 +283,18 @@ def run_stage_step(state,statepath,run,stage,name,args,limit,env,*,force=False,k
     pre_step.unlink();atomic_json(statepath,state)
     return state['steps'][name]
 
+def freeze_new_removed(baseline,candidate,*,write=True):
+    old={str(row['id']):row for row in iter_json_file(baseline,strict=True) if row.get('id')}
+    rows=list(iter_json_file(candidate,strict=True));changed=[]
+    for i,row in enumerate(rows):
+        prior=old.get(str(row.get('id') or ''))
+        if prior is not None and prior.get('status')!='removed' and row.get('status')=='removed':
+            changed.append(str(row['id']))
+            if write:rows[i]=prior
+    if write and changed:atomic_json(candidate,rows)
+    if not write and changed:raise ValueError('new removed lifecycle change rejected at publication boundary')
+    return changed
+
 def publish_stage(state,statepath,run,stage,baseline,*,smoke,no_sync):
     """``preserve()`` + ``publish_with_rebase()`` for the rows currently in staging.
 
@@ -287,6 +303,7 @@ def publish_stage(state,statepath,run,stage,baseline,*,smoke,no_sync):
     collected nothing new never re-transfers the ~358MB library.
     """
     state['stage']='validate-and-publish';atomic_json(statepath,state)
+    state['removed_frozen']=freeze_new_removed(baseline,stage/'jobs.json')
     state['preserved_missing'],state['total_jobs']=preserve(baseline,stage/'jobs.json')
     after=digest(stage/'jobs.json')
     published=Path(state.get('publication_file') or stage/'jobs.json')
@@ -298,7 +315,12 @@ def publish_stage(state,statepath,run,stage,baseline,*,smoke,no_sync):
              'reason':'staging and published bytes are identical (same_publication)'}
     if not same_publication:
         work=run/'rebase'/dt.datetime.now().strftime('%Y%m%dT%H%M%S%f')
-        result=publish_with_rebase(baseline,stage/'jobs.json',state['before_sha256'],work,pull,publish_snapshot)
+        def guarded_publish(candidate,expected,folder):
+            reference=folder.parent/'latest.jobs.json' if (folder.parent/'latest.jobs.json').exists() else baseline
+            if digest(reference)!=expected:raise ValueError('publication lifecycle reference hash mismatch')
+            freeze_new_removed(reference,candidate,write=False)
+            return publish_snapshot(candidate,expected,folder)
+        result=publish_with_rebase(baseline,stage/'jobs.json',state['before_sha256'],work,pull,guarded_publish)
         state['publication']=result['publication'];published=Path(result['published_path'])
         state['publication_file']=str(published);state['publication_source_sha256']=after
         state['rebase_receipt']=str(work/'receipt.json')
@@ -469,7 +491,7 @@ def runner_skipped_alert(smoke):
     return record
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--smoke',action='store_true');parser.add_argument('--no-sync',action='store_true');parser.add_argument('--preflight',action='store_true');parser.add_argument('--resume-run',type=Path);a=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--smoke',action='store_true');parser.add_argument('--no-sync',action='store_true',default=True);parser.add_argument('--preflight',action='store_true');parser.add_argument('--resume-run',type=Path);a=parser.parse_args()
     if a.preflight:
         import getpass
         result=subprocess.run(SSH+['status'],capture_output=True,check=True,timeout=60)
@@ -489,6 +511,7 @@ def main():
         statepath=run/'receipt.json';state=json.loads(statepath.read_text(encoding='utf-8')) if statepath.exists() else {'started_at':dt.datetime.now().astimezone().isoformat(),'steps':{}}
         if state.get('mode', 'smoke' if run.name.endswith('-smoke') else 'daily')!=('smoke' if a.smoke else 'daily'):raise ValueError('persisted collection scope mismatch')
         state['mode']='smoke' if a.smoke else 'daily'
+        if state.get('unsafe_writer'):raise RuntimeError('unsafe writer requires confirmed termination before resume')
         if state.get('error'):
             state.setdefault('previous_errors',[]).append(state.pop('error'))
             atomic_json(statepath,state)

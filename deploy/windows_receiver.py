@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Forced-command SSH endpoint: export jobs or CAS-publish a bounded full snapshot."""
-from collections import Counter
 import datetime as dt
 import fcntl
 import gzip
@@ -25,20 +24,16 @@ def digest(path):
     return h.hexdigest()
 
 def identities(path):
-    ids=Counter()
+    ids=set()
     for row in iter_json_file(path,chunk_bytes=65536,strict=True):
-        if not isinstance(row,dict) or not row.get('job_title'):
+        if not isinstance(row,dict) or not row.get('id') or not row.get('job_title'):
             raise ValueError('invalid record')
-        key=('id:'+str(row['id'])) if row.get('id') else 'legacy:'+hashlib.sha256(json.dumps(row,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
-        if row.get('id'):ids[key]=1
-        else:ids[key]+=1
+        ids.add(str(row['id']))
     if not ids:raise ValueError('empty snapshot')
     return ids
 
 def main():
     command=os.environ.get('SSH_ORIGINAL_COMMAND','')
-    if command=='status':
-        print(json.dumps(dict(sha256=digest(JOBS),bytes=JOBS.stat().st_size)));return
     if command=='snapshot':
         # The lock covers the entire stream and its accompanying hash receipt.
         with open(ROOT/'collector.lock','a') as lock:

@@ -760,26 +760,8 @@ def convert(r):
     return {k: v for k, v in it.items() if k in CORE or v not in ("", [], {}, None)}, grad_rule
 
 
-BEIJING = dt.timezone(dt.timedelta(hours=8))
-
-
-def _reviewed_time(value):
-    """Compare source review instants; legacy naive values use Beijing time."""
-    if not isinstance(value, str) or not value.strip():
-        return None
-    try:
-        parsed = dt.datetime.fromisoformat(value.strip().replace("Z", "+00:00"))
-    except ValueError:
-        return None
-    if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=BEIJING)
-    return parsed.astimezone(BEIJING)
-
-
 def data_as_of(rows):
-    latest = max((stamp for r in rows if (stamp := _reviewed_time(r.get("reviewed_at")))
-                  is not None), default=None)
-    return latest.isoformat() if latest is not None else None
+    return max((str(r.get("reviewed_at") or "") for r in rows), default="") or None
 
 
 def build(rows):
@@ -793,7 +775,7 @@ def build(rows):
     if isinstance(rows, (dict, str, bytes)) or rows is None:
         raise ValueError("岗位库格式异常，请稍后重试")
     report = Counter()
-    seen, items, as_of = set(), [], None
+    seen, items, as_of = set(), [], ""
     for r in rows:
         report["rows_total"] += 1
         if not (isinstance(r, dict) and r.get("source_url") and r.get("application_url")):
@@ -811,9 +793,7 @@ def build(rows):
             continue
         seen.add(rid)
         report["rows_deduped"] += 1
-        reviewed = _reviewed_time(r.get("reviewed_at"))
-        if reviewed is not None and (as_of is None or reviewed > as_of):
-            as_of = reviewed
+        as_of = max(as_of, str(r.get("reviewed_at") or ""))
         if rule:
             report["dropped_test_record"] += 1
             report[f"test_rule:{rule}"] += 1
@@ -825,7 +805,7 @@ def build(rows):
         items.append(it)
         _count(report, r, it, grad_rule)
     report["items"] = len(items)
-    return items, as_of.isoformat() if as_of is not None else None, dict(report)
+    return items, as_of or None, dict(report)
 
 
 def _count(report, r, it, rule):

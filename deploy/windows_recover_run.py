@@ -82,7 +82,7 @@ def recover(run,workdir,state, sync=False):
     if sync:
         if digest(published_path) != result['publication']['after_sha256']:
             raise ValueError('published sync input hash mismatch')
-        # Publication and Base mirror are separate. Even a reused successful publication
+        # Publication and Base sync are separate. Even a reused successful publication
         # must not roll Base back when another publisher has since advanced production.
         sync_attempt=Path(tempfile.mkdtemp(prefix='sync-',dir=attempt))
         current_online=sync_attempt/'latest-online.jobs.json'
@@ -96,27 +96,15 @@ def recover(run,workdir,state, sync=False):
         temporary=canonical.with_suffix('.lifecycle.tmp')
         shutil.copyfile(current_online,temporary)
         os.replace(temporary,canonical)
-        # The website delta is already published at this point. Mirror the newest
-        # online snapshot incrementally; a mirror failure keeps the publication
-        # handoff intact and leaves the durable intent/journal for resumption
-        # instead of failing the recovery or replaying the publication.
-        from qiuzhao.collector import lark_sync_index as mirror_index
-        mirror_index.enqueue_intent(ROOT/'data/mirror-queue',published_path=current_online,
-                                    sha256=online_sha,published_receipt=result['publication'])
-        command=[str(ROOT/'.venv/Scripts/python.exe'),'-X','utf8','-m','qiuzhao.collector.lark_sync_index',
-                 '--source',str(current_online),'--sha256',online_sha,
-                 '--index',str(ROOT/'data/lark-sync/mirror-index.json'),
-                 '--journal',str(ROOT/'data/lark-sync/mirror-journal.json'),
-                 '--run-dir',str(sync_attempt/'mirror'),'--scope','complete']
+        command=[str(ROOT/'.venv/Scripts/python.exe'),'-X','utf8','-m','qiuzhao.collector.lark_sync_daemon',
+                 '--source-path',str(canonical),'--state-dir',str(ROOT/'data/lark-sync'),
+                 '--runs-dir',str(ROOT/'data/lark-sync/runs'),'--apply']
         with (sync_attempt/'lark-sync.log').open('ab') as log:
-            completed=subprocess.run(command,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,timeout=7200)
-        receipt_file=sync_attempt/'mirror'/'mirror-receipt.json'
-        mirror_receipt=(json.loads(receipt_file.read_text(encoding='utf-8')) if receipt_file.exists()
-                        else {'status':'mirror_failed_no_receipt'})
+            completed=subprocess.run(command,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,timeout=21600)
         sync_result={'exit_code':completed.returncode,'log':str(sync_attempt/'lark-sync.log'),
-                     'source_sha256':online_sha,'source_snapshot':str(current_online),
-                     'mirror_receipt':mirror_receipt,'publication_preserved':True}
+                     'source_sha256':online_sha,'source_snapshot':str(current_online)}
         atomic_json(sync_attempt/'lark-sync-receipt.json',sync_result)
+        if completed.returncode:raise RuntimeError('rebase published but Base sync failed; see '+str(sync_attempt/'lark-sync-receipt.json'))
     return {'state':'recovered_and_published','source_run':str(run),
             'attempt_dir':str(attempt),
             'source_run_before_sha256':before_hash,'source_candidate_sha256':candidate_hash,

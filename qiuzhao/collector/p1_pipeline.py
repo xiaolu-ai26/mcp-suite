@@ -775,7 +775,7 @@ def merge_records(previous, results):
 _publish_thread_lock = threading.Lock()
 
 
-def publish(data_dir, results, run_dir):
+def publish(data_dir, results, run_dir, batch_binding=None):
     """Use current bytes, true pre-write backup, CAS recheck and atomic replacement."""
     data_dir, run_dir = Path(data_dir), Path(run_dir)
     jobs_path = data_dir / 'jobs.json'
@@ -784,6 +784,25 @@ def publish(data_dir, results, run_dir):
             fcntl.flock(lock, fcntl.LOCK_EX)
             try:
                 before_hash = sha(jobs_path)
+                journal = run_dir / 'batch-publication.json'
+                candidate = run_dir / 'jobs.candidate.json'
+                if batch_binding is not None and journal.exists():
+                    saved = json.loads(journal.read_text(encoding='utf-8'))
+                    if saved['binding'] != batch_binding:
+                        raise ValueError('batch publication binding drift')
+                    accepted = saved['publication']
+                    if before_hash == accepted['after_sha256']:
+                        return accepted
+                    if before_hash != accepted['before_sha256']:
+                        raise ValueError('batch publication jobs drift')
+                    if not candidate.is_file() or sha(candidate) != accepted['after_sha256']:
+                        raise ValueError('prepared batch candidate missing or changed')
+                    if sha(jobs_path) != before_hash:
+                        raise ValueError('batch CAS changed during recovery')
+                    os.replace(candidate, jobs_path)
+                    return accepted
+                if batch_binding is not None and before_hash != batch_binding['before_sha256']:
+                    raise ValueError('batch baseline drift before preparation')
                 previous = list(iter_json_file(jobs_path,strict=True))
                 if not isinstance(previous, list):
                     raise ValueError('production jobs must be a list')
@@ -809,6 +828,18 @@ def publish(data_dir, results, run_dir):
                             raise RuntimeError('existing batch backup hash mismatch; refusing publish')
                 if sha(jobs_path) != before_hash:
                     raise RuntimeError('jobs changed concurrently; refusing overwrite')
+                if batch_binding is not None:
+                    # One full jobs write. Persist its exact intent before replacing
+                    # current jobs so a crash before status commit can be recovered.
+                    atomic_json(candidate, merged)
+                    publication = dict(changes, before_sha256=before_hash, after_sha256=sha(candidate),
+                                       backup=str(backup), backup_sha256=backup_hash,
+                                       total_jobs=len(merged), published_at=now())
+                    atomic_json(journal, {'binding': batch_binding, 'publication': publication})
+                    if sha(jobs_path) != before_hash:
+                        raise ValueError('batch CAS changed before replacement')
+                    os.replace(candidate, jobs_path)
+                    return publication
                 atomic_json(jobs_path, merged)
                 return dict(changes, before_sha256=before_hash, after_sha256=sha(jobs_path),
                             backup=str(backup), backup_sha256=backup_hash, total_jobs=len(merged), published_at=now())
@@ -848,6 +879,8 @@ def any_validated(status):
     checkpoint records ``publish_error``), so it must not count as validated."""
     for entry in status.get('results', {}).values():
         if not isinstance(entry, dict) or entry.get('publish_error'):
+            continue
+        if status.get('batch_publish') and entry.get('published') is not True:
             continue
         coverage = entry.get('coverage') or {}
         if coverage.get('status') == 'success':
@@ -1052,7 +1085,7 @@ def retry_summary(queue, companies, scopes, scopes_by_company=None):
 
 def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=False,
         max_run_seconds=21600, workers=4, platform_workers=PLATFORM_WORKERS,
-        platform_min_interval=PLATFORM_MIN_INTERVAL):
+        platform_min_interval=PLATFORM_MIN_INTERVAL, batch_publish=False):
     data_dir, run_dir = Path(data_dir), Path(run_dir)
     run_dir.mkdir(parents=True, exist_ok=True)
     status_path = run_dir / 'status.json'
@@ -1090,8 +1123,88 @@ def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=F
 
     publish_retry_summary()
     status.update(run_finished=False, success=False)
+    if batch_publish:
+        status['batch_publish'] = True
+        status.setdefault('batch_plan', [[c, sc] for c in companies for sc in scopes_by_company[c]])
+    elif status.get('batch_publish'):
+        raise ValueError('batch checkpoint requires --batch-publish')
     save_status()
     publication_dir = run_dir / 'batches' / str(time.time_ns())
+    def flush_batch():
+        """Resolve an active publication before extending its input set on resume."""
+        try:
+            active = status.get('active_batch')
+            if active is None:
+                bindings = []
+                for company, scope in status['batch_plan']:
+                    entry = status['results'].get(f'{company}/{scope}')
+                    if not entry or entry.get('published') is True:
+                        continue
+                    path = run_dir / f'{companies.index(company) + 1:02d}' / scope / 'validated.json'
+                    if Path(entry['result_path']) != path or not path.is_file():
+                        raise ValueError('batch validated artifact unavailable or path drift')
+                    # Readability is checked before persisting the input binding.
+                    json.loads(path.read_text(encoding='utf-8'))
+                    bindings.append({'company': company, 'scope': scope, 'validated_sha256': sha(path)})
+                if not bindings:
+                    return True
+                binding = {'units': bindings, 'before_sha256': sha(data_dir / 'jobs.json')}
+                batch_id = hashlib.sha256(json.dumps(binding, sort_keys=True).encode()).hexdigest()
+                active = {'id': batch_id, 'binding': binding}
+                status['active_batch'] = active
+                save_status()
+            binding = active['binding']
+            batch_id = hashlib.sha256(json.dumps(binding, sort_keys=True).encode()).hexdigest()
+            if active['id'] != batch_id:
+                raise ValueError('active batch identity drift')
+            pending = []
+            for unit in binding['units']:
+                company, scope = unit['company'], unit['scope']
+                if [company, scope] not in status['batch_plan']:
+                    raise ValueError('active batch outside stable plan')
+                entry = status['results'][f'{company}/{scope}']
+                path = run_dir / f'{companies.index(company) + 1:02d}' / scope / 'validated.json'
+                if Path(entry['result_path']) != path or sha(path) != unit['validated_sha256']:
+                    raise ValueError('active batch validated artifact drift')
+                pending.append((company, scope, json.loads(path.read_text(encoding='utf-8'))))
+            publication = publish(data_dir, pending, run_dir / 'batches' / ('batch-' + batch_id),
+                                  batch_binding=binding)
+            for company, scope, result in pending:
+                entry = status['results'][f'{company}/{scope}']
+                entry.update(published=True, batch_id=batch_id)
+                entry.pop('publish_error', None)
+                entry.pop('publish_failed_at', None)
+                if is_full_success(result.get('coverage')):
+                    record_retry_success(retry_queue, company, scope)
+            if not any(p.get('batch_id') == batch_id for p in status['publications']):
+                status['publications'].append(dict(batch_id=batch_id, batch=True, units=binding['units'],
+                                                   aggregate={k: publication[k] for k in ('added', 'updated', 'removed')},
+                                                   **publication))
+            status.pop('batch_publish_error', None)
+            status.pop('active_batch', None)
+            save_status()
+            save_retry_queue(data_dir, retry_queue)
+            return True
+        except Exception as error:
+            message = f'{type(error).__name__}: {error}'
+            status['batch_publish_error'] = message
+            status.update(run_finished=False, success=False)
+            for key, entry in status['results'].items():
+                if entry.get('attempted', True) and entry.get('published') is not True:
+                    entry.update(published=False, publish_error=message, publish_failed_at=now())
+                    company, scope = key.rsplit('/', 1)
+                    record_retry_failure(retry_queue, company, scope,
+                                         {'status': 'blocked', 'errors': [message], 'publish_error': message})
+            save_status()
+            save_retry_queue(data_dir, retry_queue)
+            return False
+
+    if batch_publish and apply and (status.get('active_batch') or any(
+            e.get('attempted', True) and e.get('published') is not True
+            for e in status['results'].values())):
+        if not flush_batch():
+            return 2 if any_validated(status) else 1
+
     deadline = time.monotonic() + max_run_seconds
     workers = max(1, int(workers))
     gate = PlatformGate(platform_workers, platform_min_interval)
@@ -1110,11 +1223,17 @@ def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=F
         output = run_dir / f'{ordinal:02d}' / scope
         with state_lock:
             saved = status['results'].get(key)
+        validated_path = output / 'validated.json'
+        if batch_publish and saved and saved.get('attempted', True) and validated_path.is_file():
+            return 'skipped'
         if saved and saved.get('attempted', True) and (not apply or saved.get('published')):
             return 'skipped'
-        if time.monotonic() >= deadline:
+        if batch_publish and validated_path.is_file():
+            result = validate_result(json.loads(validated_path.read_text(encoding='utf-8')), company, scope, output)
+            attempted_now = False
+        elif time.monotonic() >= deadline:
             return 'deadline'
-        if saved and Path(saved['result_path']).exists():
+        elif saved and Path(saved['result_path']).exists():
             result = validate_result(json.loads(Path(saved['result_path']).read_text(encoding='utf-8')), company, scope, output)
             attempted_now = False
         else:
@@ -1123,6 +1242,8 @@ def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=F
             platform = platform_group(company)
             gate.acquire(platform)
             try:
+                if time.monotonic() >= deadline:
+                    return 'deadline'
                 result = collect_process(company, scope, output, min(timeout, max(1, deadline - time.monotonic())))
             finally:
                 gate.release(platform)
@@ -1135,7 +1256,7 @@ def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=F
         # swallowed here (the exit code falls to 2/1 instead of aborting the run).
         publication = None
         publish_error = None
-        if apply and (result['jobs'] or result.get('pending_index') or result['coverage'].get('complete')):
+        if apply and not batch_publish and (result['jobs'] or result.get('pending_index') or result['coverage'].get('complete')):
             try:
                 publication = publish(data_dir, [(company, scope, result)], publication_dir)
             except Exception as error:
@@ -1143,7 +1264,7 @@ def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=F
         with state_lock:
             entry = {'coverage': result['coverage'],
                      'result_path': str(output / 'validated.json'),
-                     'published': bool(apply) and publish_error is None, 'attempted': True}
+                     'published': bool(apply) and not batch_publish and publish_error is None, 'attempted': True}
             if publish_error is not None:
                 entry['publish_error'] = publish_error
                 entry['publish_failed_at'] = now()
@@ -1160,10 +1281,10 @@ def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=F
                 record_retry_success(retry_queue, company, scope)
             else:
                 record_retry_failure(retry_queue, company, scope, result['coverage'])
-            if attempted_now:
+            if attempted_now or (batch_publish and key not in last_attempt):
                 # Real attempt (success or failure) feeds the next-day fairness
                 # ordering; resumed/skipped units deliberately keep their old stamp.
-                last_attempt[key] = time.time()
+                last_attempt[key] = time.time() if attempted_now else validated_path.stat().st_mtime
                 save_last_attempt(data_dir, last_attempt)
             save_status()
             save_retry_queue(data_dir, retry_queue)
@@ -1183,6 +1304,22 @@ def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=F
     # companies (and therefore units) run at once. last_attempt drives the next-day
     # fairness ordering for units the hard cap cut off.
     chains = plan_chains(companies, scopes, retry_queue, scopes_by_company, last_attempt)
+    if batch_publish:
+        planned = [[chain['company'], scope] for chain in chains for scope in chain['scopes']]
+        prior_plan = status.get('batch_plan', [])
+        if any(unit not in planned for unit in prior_plan):
+            raise ValueError('batch plan drift')
+        status['batch_plan'] = prior_plan + [unit for unit in planned if unit not in prior_plan]
+        save_status()
+    # Bound actual unfinished company chains, not already-completed resume entries.
+    chains=[chain for chain in chains if any(
+        not (status['results'].get(f"{chain['company']}/{scope}",{}).get('attempted',False)
+             and (not apply or status['results'].get(f"{chain['company']}/{scope}",{}).get('published')))
+        for scope in chain['scopes'])]
+    company_budget=max(1,int(os.environ.get('QIUZHAO_P1_COMPANY_BUDGET','20')))
+    chains=chains[:company_budget]
+    status['segment_company_budget']=company_budget
+    status['segment_selected_companies']=[chain['company'] for chain in chains]
     interrupted = False
     executor = concurrent.futures.ThreadPoolExecutor(max_workers=workers)
     try:
@@ -1213,10 +1350,14 @@ def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=F
     finally:
         executor.shutdown(wait=not interrupted, cancel_futures=True)
 
+    if batch_publish and apply:
+        flush_batch()
+
     with state_lock:
         remaining = [f'{company}/{scope}' for company in companies
                      for scope in scopes_by_company.get(company, [])
-                     if f'{company}/{scope}' not in status['results']]
+                     if f'{company}/{scope}' not in status['results'] or
+                     (batch_publish and apply and not status['results'][f'{company}/{scope}'].get('published'))]
         publish_retry_summary()
         status['pending'] = remaining
         if remaining:
@@ -1272,6 +1413,8 @@ def main():
                         help='max concurrent units/companies, 1-64 (default 4; the '
                              'jingling daily chain passes 8)')
     parser.add_argument('--apply', action='store_true')
+    parser.add_argument('--batch-publish', action='store_true',
+                        help='publish validated units once at segment end; default per-scope')
     parser.add_argument('--resume', action='store_true')
     parser.add_argument('--resume-latest', action='store_true')
     parser.add_argument('--max-run-seconds', type=int, default=21600)
@@ -1339,16 +1482,28 @@ def main():
         lock = os.fdopen(os.dup(9), 'a') if inherited else open(lock_path, 'a')
         with lock:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            if os.name == 'nt' and args.data_dir.resolve() == Path(r'C:\mcp-suite-collector\runs\20260921-remaining796\data').resolve():
+                # Isolated continuation only: fail closed before a new segment.
+                try:
+                    from importlib import util as import_util
+                    helper = Path(r'C:\mcp-recovery-20260921\snapshot_rotation.py')
+                    spec = import_util.spec_from_file_location('continuation_snapshot_rotation', helper)
+                    maintenance = import_util.module_from_spec(spec)
+                    spec.loader.exec_module(maintenance)
+                    maintenance.maintain()
+                except Exception as error:
+                    print(f'continuation snapshot maintenance blocked: {type(error).__name__}: {error}', file=sys.stderr)
+                    raise SystemExit(125)
             select_checkpoint()
             return run(args.data_dir, run_dir, companies, scopes, scope_timeout,
                        args.apply, args.resume, args.max_run_seconds, args.workers,
                        platform_workers=args.platform_workers,
-                       platform_min_interval=args.platform_interval)
+                       platform_min_interval=args.platform_interval, batch_publish=args.batch_publish)
     select_checkpoint()
     return run(args.data_dir, run_dir, companies, scopes, scope_timeout,
                args.apply, args.resume, args.max_run_seconds, args.workers,
                platform_workers=args.platform_workers,
-               platform_min_interval=args.platform_interval)
+               platform_min_interval=args.platform_interval, batch_publish=args.batch_publish)
 
 
 if __name__ == '__main__':
