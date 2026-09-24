@@ -96,7 +96,7 @@ MCP_PUBLIC_BASE_URL=https://savegems.top/qiuzhao \
 .venv/bin/uvicorn core.server:app --host 127.0.0.1 --port 8768 --no-access-log
 ```
 
-服务器代码在 `/opt/mcp-suite`，持久数据和私密数据库在 `/var/lib/mcp-suite`。专属服务为 `mcp-suite.service`。首发时每日任务为服务器北京时间 06:10 运行 `deploy/collector-daily.sh`（历史）；按当前设计，秋招日更由 Windows 采集机计划任务采集并经 receiver 发布，服务器每小时受控激活已接受版本，飞书以 Excel 导入交付（已配置；长期自动运行和无人值守飞书交付尚未验收），详见[维护文档](docs/qiuzhao-daily-delivery.md)。采集失败保留旧快照并写报警；国聘按各专场成功且完整的结果更新下架状态，失败专场保留既有记录。所有源码更新应先审查，只重启本服务，不覆盖持久数据库，不改其他站点。
+服务器代码在 `/opt/mcp-suite`，持久数据和私密数据库在 `/var/lib/mcp-suite`。专属服务为 `mcp-suite.service`。首发时每日任务为服务器北京时间 06:10 运行 `deploy/collector-daily.sh`（历史）；按当前设计，秋招日更由 Windows 采集机计划任务采集并经 receiver 发布，服务器每小时受控激活已接受版本，飞书由另行启动的 Excel 导入交付（尚未接入采集流程自动调用；采集与激活已配置，但长期自动运行未验收），详见[维护文档](docs/qiuzhao-daily-delivery.md)。采集失败保留旧快照并写报警；国聘按各专场成功且完整的结果更新下架状态，失败专场保留既有记录。所有源码更新应先审查，只重启本服务，不覆盖持久数据库，不改其他站点。
 
 关键业务路径：`core/server.py`、`core/store.py`、`qiuzhao/tools.py`、`qiuzhao/collector/run.py`、`ccb.py`、`guopin.py`。采集低频访问公开官方渠道；建行只兼容旧 TLS 握手，仍校验证书，不调用需要登录的岗位详情接口。
 
