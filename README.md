@@ -7,13 +7,13 @@
 
 ## 开发工作方式（2026-09-23 起）
 
-本地只保留两个入口：`/Users/maxzhl/Projects/mcp-suite`（`main`，与线上生产代码一致）和 `/Users/maxzhl/Projects/mcp-suite-dev`（`dev` worktree，日常改动）。私有 GitHub 仓库 `xiaolu-ai26/mcp-suite` 是唯一远端，不再用一次性 worktree 堆积本地目录。
+本地只保留两个入口：主检出目录 `mcp-suite`（`main`，发布基线；线上按文件逐个部署，对应关系见 [维护文档](docs/qiuzhao-daily-delivery.md)）和 `mcp-suite-dev` worktree（`dev`，日常改动）。GitHub 仓库 `xiaolu-ai26/mcp-suite`（公开仓库）是唯一远端，不再用一次性 worktree 堆积本地目录。
 
-流程：在 `mcp-suite-dev` 改代码 → 跑 `pytest`（见下方“运行与维护”）→ 确认无误后把改动合回 `main` → 部署到采集机/服务器 → 部署验证通过后再把 `dev` 已上线的提交视为“可以在 `main` 上长期保留”。`main` 任何时候都应等于当前线上生产代码，未部署的改动只留在 `dev`，不提前合入 `main`。
+流程：在 `mcp-suite-dev` 改代码 → 跑 `pytest`（见下方“运行与维护”）→ 确认无误后把改动合回 `main` → 部署到采集机/服务器 → 部署验证通过后再把 `dev` 已上线的提交视为“可以在 `main` 上长期保留”。`main` 任何时候都应等于当前线上生产代码，未部署的改动只留在 `dev`，不提前合入 `main`。线上按文件逐个部署，已核对范围见维护文档 §6。
 
 ## 秋招岗位库 MCP
 
-已部署至 HTTPS 线上服务。2026-09-10 最终增量复核后，库中有 **9,191 条唯一岗位记录，覆盖 11 个集团/机构体系、567 个招聘单位名称标签**。其中 9,089 条标为 `open`，102 条为 `unverified`；后者没有被计作已确认可投。来源包含 5 组企业官方公告/招聘渠道及 6 个国聘官方企业专场，不能表述为“11 家集团官网全部直采”。
+已部署至 HTTPS 线上服务。截至 **2026-09-24 19:41（北京时间）**：服务器接受版本 `07205aef` 有 171,976 条原始记录；在线服务与飞书原 Base 为同一版本的投影 170,038 行（Base 11 张子表），其中校招 64,593、实习 22,126、社招 83,319；状态 unverified 145,454、open 23,975、expired 609，`unverified` 不计作已确认可投。招聘单位 6,642 个、公司名称 4,682 个均为名称标签数，不是集团数。当日首轮 3,372 个采集单位全部尝试，成功 2,856、partial 188、blocked 328，另有 74 个单位的定向补采单独统计；来源成功率未到 100%，每日无人值守的飞书交付尚未验收。日更链路、交付时序、PR 与部署证据、遗留风险和待审批优化见 [秋招日更交付维护文档](docs/qiuzhao-daily-delivery.md)。
 
 | 入口 | URL |
 |---|---|
@@ -22,9 +22,9 @@
 | 四客户端接入教程 | https://savegems.top/qiuzhao/guide |
 | 只读数据健康状态 | https://savegems.top/qiuzhao/health |
 
-## 数据、覆盖范围与截至时间
+## 历史：2026-09-10 首发快照（非当前数据）
 
-以下为 `deploy/final-online/jobs.json` 对应的线上最终快照，复核日期均为 **2026-09-10，北京时间**。整体返回的 `data_as_of / 数据截至时间` 是全库最新一条的复核时间 **10:32:38**，不是所有岗位在同一时刻都更新；每条保留独立 `reviewed_at`。
+以下为首发时 `deploy/final-online/jobs.json` 对应的线上快照（9,191 条），仅作历史记录，复核日期均为 **2026-09-10，北京时间**。整体返回的 `data_as_of / 数据截至时间` 是全库最新一条的复核时间 **10:32:38**，不是所有岗位在同一时刻都更新；每条保留独立 `reviewed_at`。
 
 | 集团/机构体系 | 岗位记录 | 本组最新复核时间 | 本次覆盖范围 |
 |---|---:|---|---|
@@ -65,7 +65,7 @@ cd /opt/mcp-suite && sudo -u mcp-suite .venv/bin/python -m core.admin generate-c
 
 API key 在兑换响应中只展示一次；丢失后可凭原兑换码调用 `POST /recover`（`core/server.py`）校验并轮换出新 key，按客户端 IP 哈希限流，不是找回原 key 明文。数据库只存兑换码/key 摘要；用量日志只记匿名 key ID、产品、工具和时间，不记录查询参数或简历。
 
-## 实际验收
+## 首发验收（2026-09-10，历史）
 
 | 检查 | 结果与证据 |
 |---|---|
@@ -96,7 +96,7 @@ MCP_PUBLIC_BASE_URL=https://savegems.top/qiuzhao \
 .venv/bin/uvicorn core.server:app --host 127.0.0.1 --port 8768 --no-access-log
 ```
 
-服务器代码在 `/opt/mcp-suite`，持久数据和私密数据库在 `/var/lib/mcp-suite`。专属服务为 `mcp-suite.service`，每日任务为 **北京时间 06:10** 运行 `deploy/collector-daily.sh`，使用 `flock` 避免重叠。采集失败保留旧快照并写报警；国聘按各专场成功且完整的结果更新下架状态，失败专场保留既有记录。所有源码更新应先审查，只重启本服务，不覆盖持久数据库，不改其他站点。
+服务器代码在 `/opt/mcp-suite`，持久数据和私密数据库在 `/var/lib/mcp-suite`。专属服务为 `mcp-suite.service`。首发时每日任务为服务器北京时间 06:10 运行 `deploy/collector-daily.sh`（历史）；按当前设计，秋招日更由 Windows 采集机计划任务采集并经 receiver 发布，服务器每小时受控激活已接受版本，飞书以 Excel 导入交付（已配置；长期自动运行和无人值守飞书交付尚未验收），详见[维护文档](docs/qiuzhao-daily-delivery.md)。采集失败保留旧快照并写报警；国聘按各专场成功且完整的结果更新下架状态，失败专场保留既有记录。所有源码更新应先审查，只重启本服务，不覆盖持久数据库，不改其他站点。
 
 关键业务路径：`core/server.py`、`core/store.py`、`qiuzhao/tools.py`、`qiuzhao/collector/run.py`、`ccb.py`、`guopin.py`。采集低频访问公开官方渠道；建行只兼容旧 TLS 握手，仍校验证书，不调用需要登录的岗位详情接口。
 
