@@ -1150,6 +1150,10 @@ def run_settlement(receipt, manifest):
         return False, 'run is a %s run' % receipt.get('mode')
     if receipt.get('stage') not in SETTLED_STAGES or not receipt.get('completed_at'):
         return False, 'run still in stage %s' % receipt.get('stage')
+    # A failed runner also writes partial-or-failed/completed_at when P1 can still
+    # resume. Only its explicit collection settlement may open an automatic Base batch.
+    if (receipt.get('collection') or {}).get('state') != 'complete':
+        return False, 'run collection can still resume: %s' % (receipt.get('collection') or {}).get('state')
     ended_on = (receipt.get('working_baseline') or {}).get('sha256')
     if ended_on != manifest.get('sha256'):
         return False, 'run ended on accepted %s, not the latest %s' % ((ended_on or '-')[:12], manifest['sha256'][:12])

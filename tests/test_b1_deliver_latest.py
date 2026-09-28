@@ -33,6 +33,7 @@ def receipt_file(tmp_path, source, stage, ended_on=None):
     path.write_text(json.dumps({'run': RUN, 'mode': 'daily', 'stage': stage,
                                 'completed_at': '2030-01-10T09:00:00+08:00' if terminal else None,
                                 'finished': stage == 'completed', 'success': stage == 'completed',
+                                'collection': {'state': 'complete' if terminal else 'running'},
                                 'working_baseline': {'sha256': ended_on or source['sha256']}}))
     return path
 
@@ -357,6 +358,35 @@ def test_a_partial_run_that_ended_delivers_its_accepted_version(tmp_path, delive
     status = X.deliver_latest(root, FakeRunner(blocks=live_blocks(root)), policy=policy,
                               **commands(tmp_path, d, stage='partial-or-failed'))
     assert status['outcome'] == 'delivered' and status['schedule']['trigger'] == 'run_settled'
+
+
+def test_a_partial_receipt_with_resumable_collection_waits_until_fallback(tmp_path, delivered_b):
+    root, policy, (a, b, c, d, e) = delivered_b
+    cmd = commands(tmp_path, d, stage='partial-or-failed')
+    receipt_path = Path(cmd['run_receipt_command'][1])
+    receipt = json.loads(receipt_path.read_text())
+    receipt['collection'] = {'state': 'stopped', 'reason': 'retryable P1 failure'}
+    receipt_path.write_text(json.dumps(receipt))
+    runner = FakeRunner(blocks=live_blocks(root))
+    early = X.deliver_latest(root, runner, policy=policy, **cmd)
+    assert early['outcome'] == 'waiting' and early['schedule']['trigger'] is None
+    assert 'can still resume' in early['schedule']['reason']
+    assert runner.calls == [] and runner.block_reads == 0
+    late = X.deliver_latest(root, FakeRunner(blocks=live_blocks(root)), policy=policy,
+                            **dict(cmd, clock=lambda: dt.datetime.fromisoformat('2030-01-10T22:20:00+08:00')))
+    assert late['outcome'] == 'delivered' and late['schedule']['trigger'] == 'daily_fallback'
+
+
+def test_example_receipt_projection_preserves_collection_settlement(tmp_path, delivered_b):
+    root, policy, (a, b, c, d, e) = delivered_b
+    example = json.loads((Path(X.__file__).parent / 'launchd' /
+                          'qiuzhao-deliver-latest.config.example.json').read_text())
+    assert "'collection'" in example['run_receipt_command'][-1]
+    receipt = json.loads(receipt_file(tmp_path, d, 'partial-or-failed').read_text())
+    names = ('mode', 'stage', 'completed_at', 'finished', 'success', 'collection', 'working_baseline')
+    projected = dict(run=RUN, **{key: receipt.get(key) for key in names})
+    settled, reason = X.run_settlement(projected, {'run': RUN, 'sha256': d['sha256']})
+    assert settled and 'partial-or-failed' in reason
 
 
 def test_the_daily_fallback_delivers_a_run_that_never_ends(tmp_path, delivered_b):
