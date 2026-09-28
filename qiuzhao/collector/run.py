@@ -8,7 +8,7 @@ from urllib.request import Request, urlopen
 from urllib.error import HTTPError
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
-from qiuzhao.normalize import NORMALIZED_FIELDS, normalize_records
+from qiuzhao.normalize import NORMALIZED_FIELDS, carry_forward_location, normalize_records
 
 UA = 'QiuzhaoOfficialJobs/1.0 (public recruitment index; daily low-frequency review)'
 TZ = dt.timezone(dt.timedelta(hours=8))
@@ -250,9 +250,12 @@ class Collector:
                 for row in rows:
                     old=merged.get(row['id'])
                     if old:
+                        # Location fields are not in NORMALIZED_FIELDS: normalize_records recomputes
+                        # them from the raw place, so an old 未披露/中国 placeholder never masks new raw.
                         for field in NORMALIZED_FIELDS:
                             value=old.get(field)
                             if not row.get(field) and value is not None and value!='' and value!=[]:row[field]=value
+                        carry_forward_location(row,old)
                     merged[row['id']]=row
                 write_json(self.out/'jobs.json',list(merged.values()))
                 succeeded.append(name)

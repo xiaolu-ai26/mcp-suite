@@ -1,0 +1,16 @@
+{
+  "_note": "Example only. Copy outside the repo and fill the <...> values. Commands are argv lists; no shell. With no active version a new one starts only when the run behind the latest accepted version has ended (run_receipt_command: read-only, prints that run's receipt.json fields) or after daily_fallback in timezone (22:20 Asia/Shanghai: after the collector's 21:35 budget, before the next day's 01:00 run), at most one automatic start per local day. A one-off catch-up or migration uses the manual --force-new-batch flag, which does not use that daily slot; there is deliberately no force key here. With an active version, timezone/daily_fallback/run_receipt_command are not required: it resumes from its frozen material.",
+  "root": "<local delivery state dir (ledger.json, manifests/, artifacts/, versions/)>",
+  "policy": "<approved delivery policy.json>",
+  "scripts_dir": null,
+  "timezone": "Asia/Shanghai",
+  "daily_fallback": "22:20",
+  "manifest_command": ["ssh", "-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=yes", "<collector ssh target>",
+                       "<collector python> -c \"import sys;sys.stdout.write(open(r'<collector root>\\data\\accepted-versions\\latest.json',encoding='utf-8').read())\""],
+  "run_receipt_command": ["ssh", "-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=yes", "<collector ssh target>",
+                          "<collector python> -c \"import json,pathlib;m=json.load(open(r'<collector root>\\data\\accepted-versions\\latest.json',encoding='utf-8'));r=json.load(open(pathlib.Path(m['run'])/'receipt.json',encoding='utf-8'));print(json.dumps(dict(run=m['run'],**{k:r.get(k) for k in ('mode','stage','completed_at','finished','success','working_baseline')})))\""],
+  "fetch_command": ["ssh", "-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=yes", "<server ssh target>",
+                    "gzip -1 -c /var/lib/mcp-suite/jobs.json"],
+  "served_command": ["ssh", "-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=yes", "<server ssh target>",
+                     "cat /var/lib/mcp-suite/dataset-activation.json"]
+}
