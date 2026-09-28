@@ -33,11 +33,16 @@ TOP_DEFAULT, TOP_MAX = 20, 100
 DETAIL_MAX = 10
 DEADLINE_DAYS_MAX = 366
 SORTS = ["published_desc", "deadline_asc"]
-GROUP_BY = {"company": "company", "city": "city", "job_category": "job_category",
+GROUP_BY = {"company": "company", "city": "city", "country": "country", "state": "state", "work_mode": "work_mode",
+            "job_category": "job_category",
             "graduation_year": "graduation_year", "education": "education", "major_category": "major",
             "industry": "industry", "recruitment_type": "recruitment_type"}
-MULTI_VALUED = {"city", "graduation_year"}
-TEXT_LIMITS = {"keyword": 100, "company": 100, "city": 100, "major": 50}
+MULTI_VALUED = {"city", "country", "state", "work_mode", "graduation_year"}
+TEXT_LIMITS = {"keyword": 100, "company": 100, "city": 100, "country": 100, "state": 100, "major": 50}
+WORK_MODE_SYNONYMS = {"remote": "远程", "远程办公": "远程", "居家办公": "远程", "hybrid": "混合", "混合办公": "混合",
+                      "onsite": "现场", "on-site": "现场", "现场办公": "现场", "坐班": "现场"}
+COUNTRY_SYNONYMS = {"国内": "中国", "境内": "中国", "国外": "海外", "境外": "海外",
+                    "香港": "中国香港", "澳门": "中国澳门", "台湾": "中国台湾"}
 GRADUATION_YEAR_CHOICES = V.GRADUATION_YEARS + [V.UNSPECIFIED]
 
 # Spoken forms -> schema values; applied before validation (SPEC 3.0).
@@ -60,7 +65,8 @@ SYNONYMS = {
     "graduation_year": {"未披露": V.UNSPECIFIED},
 }
 CATEGORY_HINT = "找具体岗位名（如游戏策划、UI设计）请用 keyword。"
-FILTER_DEFAULTS = {"keyword": "", "company": "", "city": "", "job_category": "", "graduation_year": "",
+FILTER_DEFAULTS = {"keyword": "", "company": "", "city": "", "country": "", "state": "", "work_mode": "",
+                   "job_category": "", "graduation_year": "",
                    "major": "", "education": "", "recruitment_type": "", "industry": "",
                    "deadline_within_days": 0, "explicit_only": False, "include_expired": False}
 EMPTY_SUGGESTION = ("没有符合条件的岗位。可去掉 explicit_only、放宽城市/专业/届别，"
@@ -249,8 +255,46 @@ class Jobs:
         normalized = [V.norm_city(c) for c in cities]
         if normalized != cities:
             notices.append(f"参数 city 的值「{f['city']}」已按「{','.join(normalized)}」处理。")
+        # 远程 is a work mode and 美国 a country, not cities: move them to their own conditions.
+        modes = split_multi(f["work_mode"])
+        countries = split_multi(f["country"])
+        for c in list(normalized):
+            mode = WORK_MODE_SYNONYMS.get(c.lower(), c)
+            if mode in V.WORK_MODES:
+                normalized.remove(c)
+                modes.append(mode)
+                notices.append(f"「{c}」是办公方式不是城市，已改用 work_mode={mode}。")
+            elif V.is_country_only(c):
+                normalized.remove(c)
+                countries.append(c)
+                notices.append(f"「{c}」是国家/地区不是城市，已改用 country 条件。")
         f["city"] = ",".join(normalized)
-        if f["explicit_only"] and V.UNSPECIFIED in (f["graduation_year"], f["education"], f["major"], *normalized):
+        country_q = []
+        for c in countries:
+            v = COUNTRY_SYNONYMS.get(c, V.country_name(c) or c)
+            if v not in country_q:
+                country_q.append(v)
+        if country_q != countries:
+            notices.append(f"参数 country 已按「{','.join(country_q)}」处理。")
+        f["country"] = ",".join(country_q)
+        mode_q = []
+        for m in modes:
+            v = WORK_MODE_SYNONYMS.get(m.lower(), m)
+            if v not in (*V.WORK_MODES, V.UNSPECIFIED):
+                raise ParamError(f"参数 work_mode 的值「{m}」不在可选范围。可选：{'、'.join(V.WORK_MODES)}、{V.UNSPECIFIED}。")
+            if v not in mode_q:
+                mode_q.append(v)
+        f["work_mode"] = ",".join(mode_q)
+        state_q = []
+        for st in split_multi(f["state"]):
+            v = st if st == V.UNSPECIFIED else V._state_value(st)
+            if not v:
+                raise ParamError(f"参数 state 的值「{st}」不是州/省名。")
+            if v not in state_q:
+                state_q.append(v)
+        f["state"] = ",".join(state_q)
+        if f["explicit_only"] and V.UNSPECIFIED in (f["graduation_year"], f["education"], f["major"], *normalized,
+                                                    *country_q, *mode_q, *state_q):
             raise ParamError("explicit_only=true 与取值「未注明」矛盾：只看明确匹配时不能再筛未注明。"
                              "请去掉其中一个再调用。")
         return f
@@ -264,16 +308,79 @@ class Jobs:
     # ------------------------------------------------------------ matching
 
     @staticmethod
-    def _m_city(it, qs):
-        cities = it["cities"]
+    def _state_key(value):
+        return re.sub(r"\s+", "", V._state_value(value)).casefold()
+
+    @classmethod
+    def _m_place(cls, it, cities, countries, states):
+        """City, country and state must hold for the SAME (country, state, city) triple, so
+        country=美国 + state=广东 never matches a job in 美国 and 广东 separately.
+
+        Returns {dimension: basis} or None. An unknown part of the triple is 未注明 (tier 2);
+        a query of just 未注明 asks for rows that state nothing in that dimension.
+        """
+        basis = {}
+        dims = {"city": cities, "country": countries, "state": states}
+        row_values = {"city": it["cities"], "country": [c for c in (it.get("country") or "").split("、") if c],
+                      "state": [s for s in (it.get("state") or "").split("、") if s]}
+        for dim, qs in list(dims.items()):
+            if qs == [V.UNSPECIFIED]:
+                if row_values[dim]:
+                    return None
+                basis[dim] = V.UNSPECIFIED
+                dims[dim] = []
+        active = {d: qs for d, qs in dims.items() if qs}
+        if not active:
+            return basis
+        state_qs = active.get("state", [])
+
+        def one(loc, dim, qs):
+            city, country, state = loc["city"], loc["country"], loc["state"]
+            if dim == "city":
+                if city in qs:
+                    return "岗位写明"
+                # 全国 = mainland China: counts for a mainland city query, never for 新加坡/香港.
+                if city == "全国" and any(q not in ("全国", V.UNSPECIFIED) and V.city_region(q) == "中国大陆" for q in qs):
+                    return "全国"
+                return V.UNSPECIFIED if not city else None
+            if dim == "country":
+                region = V._region(country, city)
+                if country in qs or ("海外" in qs and region == "海外"):
+                    # an old value no source field backs is served as uncertain (推断匹配)
+                    return "旧数据记录" if loc.get("basis") == "legacy" else "岗位写明"
+                if country:
+                    return None
+                if not region:
+                    return V.UNSPECIFIED
+                ok = any(("中国大陆" == region) if q == "中国" else ("港澳台" == region) if q.startswith("中国")
+                         else region == "海外" for q in qs)
+                return V.UNSPECIFIED if ok else None
+            # a code in the query is read in this location's own country (NC + 美国 = North Carolina)
+            if cls._state_key(state) in {cls._state_key(V.state_in_country(q, country)) for q in state_qs}:
+                return "岗位写明"
+            return V.UNSPECIFIED if not state else None
+
+        best = None
+        for loc in it.get("_locs") or [{"country": "", "state": "", "city": ""}]:
+            got = {d: one(loc, d, qs) for d, qs in active.items()}
+            if None in got.values():
+                continue
+            key = (max(V.BASIS_TIER[b] for b in got.values()), sum(V.BASIS_RANK[b] for b in got.values()))
+            if best is None or key < best[0]:
+                best = (key, got)
+        if best is None:
+            return None
+        basis.update(best[1])
+        return basis
+
+    @staticmethod
+    def _m_work_mode(it, qs):
+        modes = [m for m in (it.get("work_mode") or "").split("、") if m]
         if qs == [V.UNSPECIFIED]:
-            return V.UNSPECIFIED if not cities else None
-        if any(q in cities for q in qs):
+            return V.UNSPECIFIED if not modes else None
+        if any(q in modes for q in qs):
             return "岗位写明"
-        # 全国 = mainland China: counts for a mainland city query, never for 新加坡/香港.
-        if "全国" in cities and any(q not in ("全国", V.UNSPECIFIED) and V.city_region(q) == "中国大陆" for q in qs):
-            return "全国"
-        return V.UNSPECIFIED if not cities else None
+        return V.UNSPECIFIED if not modes else None
 
     @staticmethod
     def _m_major(it, q):
@@ -335,6 +442,8 @@ class Jobs:
         today_s = today.isoformat()
         end = (today + timedelta(days=f["deadline_within_days"])).isoformat() if f["deadline_within_days"] else None
         cities = split_multi(f["city"])
+        countries, modes = split_multi(f["country"]), split_multi(f["work_mode"])
+        states = split_multi(f["state"])
         companies = [c.casefold() for c in split_multi(f["company"])]
         keyword = f["keyword"].casefold()
         major, edu, grad = f["major"], f["education"], f["graduation_year"]
@@ -359,11 +468,16 @@ class Jobs:
             if keyword and keyword not in kw_text[i]:
                 continue
             basis = {}
-            if cities:
-                b = self._m_city(it, cities)
+            if cities or countries or states:
+                b = self._m_place(it, cities, countries, states)
                 if b is None:
                     continue
-                basis["city"] = b
+                basis.update(b)
+            if modes:
+                b = self._m_work_mode(it, modes)
+                if b is None:
+                    continue
+                basis["work_mode"] = b
             if major:
                 b = self._m_major(it, major)
                 if b is None:
@@ -399,7 +513,7 @@ class Jobs:
         out = {"id": it["id"]}
         if basis:
             out["match"] = {"level": V.LEVELS[tier], **basis}
-        out.update((k, v) for k, v in it.items() if k != "id")
+        out.update((k, v) for k, v in it.items() if k != "id" and not k.startswith("_"))
         out["status"] = V.status_on(it, today)
         return out
 
@@ -489,6 +603,8 @@ class Jobs:
     def group_values(it, group_by):
         if group_by == "city":
             return it["cities"] or [V.UNSPECIFIED]
+        if group_by in ("country", "state", "work_mode"):
+            return [v for v in (it.get(group_by) or "").split("、") if v] or [V.UNSPECIFIED]
         if group_by == "graduation_year":
             return it["graduation_years"] or [it.get("graduation_year_note") or V.UNSPECIFIED]
         return [it[group_by] or V.UNSPECIFIED]
@@ -499,6 +615,11 @@ class Jobs:
         is as firm as the row's basis for that year (按招聘季推断 → inferred)."""
         if value == V.UNSPECIFIED:
             return 2
+        if group_by == "country" and it.get("country_basis"):
+            # an old country no source field backs is inferred here exactly as in search (旧数据记录)
+            countries = [c for c in (it.get("country") or "").split("、") if c]
+            if value in countries and it["country_basis"][countries.index(value)] == "legacy":
+                return 1
         if group_by == "graduation_year":
             basis = it["graduation_year_basis"].get(value)
             return V.BASIS_TIER[basis] if basis else V.BASIS_TIER.get(value, 0)

@@ -43,14 +43,14 @@ LEVELS = ["明确匹配", "推断匹配", "含未注明"]
 INFERRED_OTHER = "推断为其他届别"
 # basis -> tier (0 explicit, 1 inferred, 2 unspecified)
 BASIS_TIER = {"岗位写明": 0, "活动标题写明": 0, "全国": 0, "专业不限": 0, "学历不限": 0,
-              "按招聘季推断": 1, "来源专场注明": 1, "实习未写届别": 1, "社招不限届别": 1,
+              "按招聘季推断": 1, "来源专场注明": 1, "实习未写届别": 1, "社招不限届别": 1, "旧数据记录": 1,
               UNSPECIFIED: 2, INFERRED_OTHER: 2}
 # Order inside a tier (Max, 2026-09-12): per dimension the role's own words first, then the blanket
 # forms (全国 / 专业不限 / 学历不限 / 活动标题写明), then inferred bases, then unspecified; dimensions
 # are compared in RANK_DIMENSIONS order, so within a tier every 成都 row precedes every 全国 row.
 RANK_DIMENSIONS = ("city", "major", "education", "graduation_year")
 BASIS_RANK = {"岗位写明": 0, "全国": 1, "专业不限": 1, "学历不限": 1, "活动标题写明": 1,
-              "按招聘季推断": 2, "来源专场注明": 2, "实习未写届别": 2, "社招不限届别": 2,
+              "按招聘季推断": 2, "来源专场注明": 2, "实习未写届别": 2, "社招不限届别": 2, "旧数据记录": 2,
               UNSPECIFIED: 3, INFERRED_OTHER: 3}
 NOTE_SOCIAL, NOTE_INTERN = "社招不限届别", "实习未写届别"
 
@@ -478,95 +478,647 @@ def major_categories_of(r):
     return found
 
 
-# ---------------------------------------------------------------- 城市 / 地区
+# ---------------------------------------------------------------- 地点：国家 / 州省 / 城市 / 办公方式
+#
+# One source of truth for every location field (normalize.py persists what location_of returns;
+# convert() serves it). Only what the posting states counts: the raw cities/country/state the
+# collector saved, curated place knowledge below (Chinese script alone
+# is not China), then a trustworthy existing country (see _legacy_country). A remote,
+# Global, HQ, customer or travel mention never yields a country, and an unknown place stays
+# unknown ("" / 未注明) instead of defaulting to 中国; the old normalizer's known defaults (unknown
+# city -> 中国/mainland, 海外) are recognised and not kept.
 
 AREA_CN = re.compile(r"'area_cn':\s*'([^']+)'")
-CITY_UNKNOWN = {"", "未披露", "未知", "多地"}
+CITY_UNKNOWN = {"", "未披露", "未知", "多地", "不限", "null", "None", "none", "-", "—", "N/A", "n/a", "TBD", "待定"}
 NON_CITY = {"Hybrid", "智能制造", "销售"}
 CITY_ALIASES = {"中国": ["全国"], "中国大陆": ["全国"], "中国香港": ["香港"], "香港特别行政区": ["香港"],
                 "Hongkong": ["香港"], "Shanghai": ["上海"], "SanFrancisco": ["旧金山"], "SanJose": ["圣何塞"],
                 "Seattle": ["西雅图"], "London": ["伦敦"], "Paris": ["巴黎"], "NewYork": ["纽约"],
                 "NewYorkCity": ["纽约"], "Toronto": ["多伦多"], "Montreal": ["蒙特利尔"], "Clearwater": ["克利尔沃特"],
-                "United States": ["美国"], "Remote": ["远程"], "RemoteIreland;Remote": ["远程"],
                 "SanFranciscoBayAreaorNewYork": ["旧金山", "纽约"]}
-# Every overseas value in the 2026-09-11 data (hand-curated, SPEC 6.8).
+# Every overseas value in the 2026-09-11 data (hand-curated, SPEC 6.8). 远程 is a work mode, not a
+# place, and 美国/英国/印尼/埃及/墨西哥 are countries (see _COUNTRY_WORDS), so they are not here.
 OVERSEAS_CITIES = {"圣何塞", "新加坡", "西雅图", "迪拜", "利雅得", "东京", "塔吉格", "科威特城", "圣地亚哥", "纽约",
-                   "伦敦", "墨西哥", "墨西哥城", "首尔", "洛杉矶", "曼谷", "开罗", "英国", "圣保罗", "印尼", "埃及",
-                   "胡志明", "吉隆坡", "古来", "古尔冈", "巴黎", "莫斯科", "约翰内斯堡", "阿拉木图", "海外", "旧金山",
-                   "多伦多", "蒙特利尔", "克利尔沃特", "美国", "远程"}
-HMT = ("香港", "澳门", "台湾", "台北")
+                   "伦敦", "墨西哥城", "首尔", "洛杉矶", "曼谷", "开罗", "圣保罗", "胡志明", "吉隆坡", "古来",
+                   "古尔冈", "巴黎", "莫斯科", "约翰内斯堡", "阿拉木图", "海外", "旧金山", "多伦多", "蒙特利尔",
+                   "克利尔沃特"}
+HMT = ("香港", "澳门", "台湾", "台北", "高雄", "台中", "新竹")
+HMT_COUNTRIES = {"香港": "中国香港", "澳门": "中国澳门", "台湾": "中国台湾", "台北": "中国台湾", "高雄": "中国台湾",
+                 "台中": "中国台湾", "新竹": "中国台湾"}
 REGION_ORDER = ["中国大陆", "港澳台", "海外"]
+WORK_MODES = ["远程", "混合", "现场"]
+
+# Country spellings -> one Chinese name. Keys are _ckey() forms (lower case, no spaces/dots/dashes).
+_COUNTRY_WORDS = {}
+for _name, _spellings in {
+    "中国": "china 中国 中国大陆 大陆 中华人民共和国 peoplesrepublicofchina chinasmainland mainlandchina chinamainland",
+    "中国香港": "hongkong hongkongsar 中国香港 香港特别行政区",
+    "中国澳门": "macau macao 中国澳门",
+    "中国台湾": "taiwan 中国台湾 台湾地区",
+    "美国": "unitedstatesofamerica unitedstates 美国",
+    "英国": "unitedkingdom greatbritain england scotland wales 英国",
+    "爱尔兰": "ireland 爱尔兰", "德国": "germany deutschland 德国", "法国": "france 法国",
+    "西班牙": "spain 西班牙", "意大利": "italy 意大利", "荷兰": "netherlands thenetherlands 荷兰",
+    "比利时": "belgium 比利时", "瑞士": "switzerland 瑞士", "奥地利": "austria 奥地利",
+    "捷克": "czechrepublic czechia 捷克", "波兰": "poland 波兰", "罗马尼亚": "romania 罗马尼亚",
+    "斯洛伐克": "slovakia 斯洛伐克", "匈牙利": "hungary 匈牙利", "保加利亚": "bulgaria 保加利亚",
+    "瑞典": "sweden 瑞典", "丹麦": "denmark 丹麦", "挪威": "norway 挪威", "芬兰": "finland 芬兰",
+    "葡萄牙": "portugal 葡萄牙", "希腊": "greece 希腊", "塞浦路斯": "cyprus 塞浦路斯",
+    "北马其顿": "northmacedonia 北马其顿", "冰岛": "iceland 冰岛", "俄罗斯": "russia russianfederation 俄罗斯",
+    "土耳其": "turkey türkiye turkiye 土耳其", "以色列": "israel 以色列",
+    "日本": "japan 日本", "韩国": "southkorea korea republicofkorea 韩国", "新加坡": "singapore 新加坡",
+    "马来西亚": "malaysia 马来西亚", "印度": "india 印度", "印度尼西亚": "indonesia 印度尼西亚 印尼",
+    "泰国": "thailand 泰国", "越南": "vietnam vietnam 越南", "菲律宾": "philippines 菲律宾",
+    "巴基斯坦": "pakistan 巴基斯坦", "孟加拉国": "bangladesh 孟加拉国", "哈萨克斯坦": "kazakhstan 哈萨克斯坦",
+    "乌兹别克斯坦": "uzbekistan 乌兹别克斯坦", "澳大利亚": "australia 澳大利亚", "新西兰": "newzealand 新西兰",
+    "加拿大": "canada 加拿大", "墨西哥": "mexico 墨西哥", "巴西": "brazil 巴西", "阿根廷": "argentina 阿根廷",
+    "智利": "chile 智利", "哥伦比亚": "colombia 哥伦比亚", "秘鲁": "peru 秘鲁",
+    "沙特阿拉伯": "saudiarabia ksa 沙特阿拉伯 沙特", "阿联酋": "unitedarabemirates uae 阿联酋",
+    "卡塔尔": "qatar 卡塔尔", "科威特": "kuwait 科威特", "埃及": "egypt 埃及", "南非": "southafrica 南非",
+    "尼日利亚": "nigeria 尼日利亚", "肯尼亚": "kenya 肯尼亚", "摩洛哥": "morocco 摩洛哥",
+}.items():
+    for _s in _spellings.split():
+        _COUNTRY_WORDS[_s] = _name
+# City-states: the one token is both the city and the country.
+_CITY_STATES = {"新加坡": ("新加坡", "新加坡"), "singapore": ("Singapore", "新加坡"),
+                "香港": ("香港", "中国香港"), "hongkong": ("香港", "中国香港"), "hongkongsar": ("香港", "中国香港"),
+                "中国香港": ("香港", "中国香港"), "香港特别行政区": ("香港", "中国香港"),
+                "澳门": ("澳门", "中国澳门"), "macau": ("澳门", "中国澳门"), "macao": ("澳门", "中国澳门"),
+                "中国澳门": ("澳门", "中国澳门"), "澳门特别行政区": ("澳门", "中国澳门")}
+# Mainland city spellings in Latin letters -> the Chinese name (country 中国).
+_CN_CITY_EN = {k: v for v, ks in {
+    "北京": "beijing peking", "上海": "shanghai", "深圳": "shenzhen", "广州": "guangzhou canton",
+    "杭州": "hangzhou", "成都": "chengdu", "武汉": "wuhan", "天津": "tianjin", "南京": "nanjing",
+    "西安": "xian xi'an", "苏州": "suzhou", "合肥": "hefei", "重庆": "chongqing", "厦门": "xiamen",
+    "大连": "dalian", "青岛": "qingdao", "长沙": "changsha", "郑州": "zhengzhou", "沈阳": "shenyang",
+    "济南": "jinan", "宁波": "ningbo", "无锡": "wuxi", "珠海": "zhuhai", "东莞": "dongguan",
+    "佛山": "foshan", "惠州": "huizhou", "中山": "zhongshan", "昆山": "kunshan", "常州": "changzhou",
+    "福州": "fuzhou", "昆明": "kunming", "哈尔滨": "harbin", "长春": "changchun", "南昌": "nanchang",
+    "贵阳": "guiyang", "南宁": "nanning", "太原": "taiyuan", "石家庄": "shijiazhuang", "兰州": "lanzhou",
+    "乌鲁木齐": "urumqi", "海口": "haikou", "三亚": "sanya", "榆林": "yulin",
+}.items() for k in ks.split()}
+_HMT_EN = {"taipei": "台北", "kaohsiung": "高雄", "hsinchu": "新竹", "taichung": "台中"}
+# Latin-script Chinese province names: a state, never a city.
+_CN_PROVINCES_EN = {"fujian": "福建", "jiangsu": "江苏", "zhejiang": "浙江", "guangdong": "广东", "sichuan": "四川",
+                    "hubei": "湖北", "hunan": "湖南", "shandong": "山东", "henan": "河南", "hebei": "河北",
+                    "anhui": "安徽", "jiangxi": "江西", "shaanxi": "陕西", "shanxi": "山西", "liaoning": "辽宁",
+                    "jilin": "吉林", "heilongjiang": "黑龙江", "yunnan": "云南", "guizhou": "贵州",
+                    "guangxi": "广西", "hainan": "海南", "gansu": "甘肃"}
+# Chinese-script names of places outside China (country known).
+_OVERSEAS_CJK_COUNTRY = {
+    "圣何塞": "美国", "西雅图": "美国", "纽约": "美国", "洛杉矶": "美国", "旧金山": "美国", "克利尔沃特": "美国",
+    "波士顿": "美国", "芝加哥": "美国", "休斯顿": "美国", "达拉斯": "美国", "奥斯汀": "美国", "硅谷": "美国",
+    "圣克拉拉": "美国", "山景城": "美国", "帕洛阿尔托": "美国", "雷德蒙德": "美国", "迈阿密": "美国",
+    "新加坡": "新加坡", "迪拜": "阿联酋", "阿布扎比": "阿联酋", "利雅得": "沙特阿拉伯", "吉达": "沙特阿拉伯", "东京": "日本",
+    "大阪": "日本", "名古屋": "日本", "横滨": "日本", "塔吉格": "菲律宾", "马尼拉": "菲律宾", "科威特城": "科威特",
+    "伦敦": "英国", "曼彻斯特": "英国", "爱丁堡": "英国", "墨西哥城": "墨西哥", "蒙特雷": "墨西哥",
+    "瓜达拉哈拉": "墨西哥", "首尔": "韩国", "釜山": "韩国", "曼谷": "泰国", "开罗": "埃及", "圣保罗": "巴西",
+    "里约热内卢": "巴西", "胡志明": "越南", "河内": "越南", "吉隆坡": "马来西亚", "古来": "马来西亚",
+    "槟城": "马来西亚", "新山": "马来西亚", "古尔冈": "印度", "孟买": "印度", "班加罗尔": "印度",
+    "巴黎": "法国", "莫斯科": "俄罗斯", "约翰内斯堡": "南非", "阿拉木图": "哈萨克斯坦", "多伦多": "加拿大",
+    "蒙特利尔": "加拿大", "温哥华": "加拿大", "悉尼": "澳大利亚", "墨尔本": "澳大利亚", "慕尼黑": "德国",
+    "柏林": "德国", "法兰克福": "德国", "斯图加特": "德国", "阿姆斯特丹": "荷兰", "米兰": "意大利",
+    "马德里": "西班牙", "巴塞罗那": "西班牙", "雅加达": "印度尼西亚", "布拉格": "捷克", "华沙": "波兰",
+    "布达佩斯": "匈牙利", "苏黎世": "瑞士", "日内瓦": "瑞士", "都柏林": "爱尔兰", "伊斯坦布尔": "土耳其",
+    "多哈": "卡塔尔", "塔什干": "乌兹别克斯坦", "布宜诺斯艾利斯": "阿根廷", "比尼亚德尔马": "智利",
+}
+# No place at all: a scope word, a head-office mention or a region bigger than one country.
+_NO_GEO = {"global", "worldwide", "anywhere", "international", "multiplelocations", "variouslocations",
+           "various", "hq", "headquarters", "总部", "集团总部", "emea", "apac", "asiapacific", "americas",
+           "latam", "europe", "northamerica", "全球", "不限地点", "多个地点"}
+_REMOTE_TOKEN = re.compile(r"(?i)remote|远程|居家办公|在家办公|work\s*from\s*home|\bwfh\b")
+_HYBRID_TOKEN = re.compile(r"(?i)hybrid|混合办公")
+_ONSITE_TOKEN = re.compile(r"(?i)\bon-?site\b|\bin-?office\b|现场办公|坐班")
+# Work mode stated in the posting text. Deliberately narrow: "remote sensing", "travel to customer
+# sites" or "work with remote teams" are not a work mode.
+_MODE_TEXT = [
+    ("远程", re.compile(r"(?i)\bthis\s+(?:is\s+an?|role\s+is|position\s+is|job\s+is)\s+(?:fully\s+|100%\s+)?remote\b"
+                      r"|\b(?:fully|100%)\s+remote\b|\bremote\s*[-–]\s*first\b|远程办公|远程工作|居家办公")),
+    ("混合", re.compile(r"(?i)\bthis\s+(?:is\s+an?|role\s+is|position\s+is|job\s+is)\s+hybrid\b"
+                      r"|\bhybrid\s+(?:role|position|work(?:ing)?\s+(?:model|arrangement|schedule))\b|混合办公")),
+    ("现场", re.compile(r"(?i)\bthis\s+(?:is\s+an?|role\s+is|position\s+is|job\s+is)\s+(?:fully\s+|100%\s+)?"
+                      r"(?:on-?site|in-?office)\b|\bon-?site\s+(?:role|position)\b")),
+]
+# Domestic place names (mainland provinces, prefecture-level cities, municipalities and a few
+# well-known county-level cities). Chinese script alone never means China; only these do.
+_CN_PROVINCES = {"北京", "天津", "上海", "重庆", "河北", "山西", "辽宁", "吉林", "黑龙江", "江苏", "浙江", "安徽",
+                 "福建", "江西", "山东", "河南", "湖北", "湖南", "广东", "海南", "四川", "贵州", "云南", "陕西",
+                 "甘肃", "青海", "内蒙古", "广西", "西藏", "宁夏", "新疆"}
+_CN_PLACES = set("""
+北京 天津 上海 重庆 雄安新区 浦东新区
+石家庄 唐山 秦皇岛 邯郸 邢台 保定 张家口 承德 沧州 廊坊 衡水
+太原 大同 阳泉 长治 晋城 朔州 晋中 运城 忻州 临汾 吕梁
+呼和浩特 包头 乌海 赤峰 通辽 鄂尔多斯 呼伦贝尔 巴彦淖尔 乌兰察布 兴安 锡林郭勒 阿拉善
+沈阳 大连 鞍山 抚顺 本溪 丹东 锦州 营口 阜新 辽阳 盘锦 铁岭 朝阳 葫芦岛
+长春 吉林 四平 辽源 通化 白山 松原 白城 延边
+哈尔滨 齐齐哈尔 鸡西 鹤岗 双鸭山 大庆 伊春 佳木斯 七台河 牡丹江 黑河 绥化 大兴安岭
+南京 无锡 徐州 常州 苏州 南通 连云港 淮安 盐城 扬州 镇江 泰州 宿迁 昆山 江阴 张家港 常熟 溧阳 宜兴
+杭州 宁波 温州 嘉兴 湖州 绍兴 金华 衢州 舟山 台州 丽水 义乌 慈溪 余姚 桐庐 海宁
+合肥 芜湖 蚌埠 淮南 马鞍山 淮北 铜陵 安庆 黄山 滁州 阜阳 宿州 六安 亳州 池州 宣城
+福州 厦门 莆田 三明 泉州 漳州 南平 龙岩 宁德 晋江 南安 福清
+南昌 景德镇 萍乡 九江 新余 鹰潭 赣州 吉安 宜春 抚州 上饶
+济南 青岛 淄博 枣庄 东营 烟台 潍坊 济宁 泰安 威海 日照 临沂 德州 聊城 滨州 菏泽
+郑州 开封 洛阳 平顶山 安阳 鹤壁 新乡 焦作 濮阳 许昌 漯河 三门峡 南阳 商丘 信阳 周口 驻马店 济源
+武汉 黄石 十堰 宜昌 襄阳 鄂州 荆门 孝感 荆州 黄冈 咸宁 随州 恩施 仙桃 潜江 天门
+长沙 株洲 湘潭 衡阳 邵阳 岳阳 常德 张家界 益阳 郴州 永州 怀化 娄底 湘西
+广州 韶关 深圳 珠海 汕头 佛山 江门 湛江 茂名 肇庆 惠州 梅州 汕尾 河源 阳江 清远 东莞 中山 潮州 揭阳 云浮
+南宁 柳州 桂林 梧州 北海 防城港 钦州 贵港 玉林 百色 贺州 河池 来宾 崇左
+海口 三亚 三沙 儋州 万宁 五指山 琼海 文昌 东方 乐东 保亭
+成都 自贡 攀枝花 泸州 德阳 绵阳 广元 遂宁 内江 乐山 南充 眉山 宜宾 广安 达州 雅安 巴中 资阳 阿坝 甘孜 凉山
+贵阳 六盘水 遵义 安顺 毕节 铜仁 黔西南 黔东南 黔南
+昆明 曲靖 玉溪 保山 昭通 丽江 普洱 临沧 楚雄 红河 文山 西双版纳 大理 德宏 怒江 迪庆
+拉萨 日喀则 昌都 林芝 山南 那曲 阿里
+西安 铜川 宝鸡 咸阳 渭南 延安 汉中 榆林 安康 商洛
+兰州 嘉峪关 金昌 白银 天水 武威 张掖 平凉 酒泉 庆阳 定西 陇南 临夏 甘南
+西宁 海东 海北 黄南 海南州 果洛 玉树 海西
+银川 石嘴山 吴忠 固原 中卫
+乌鲁木齐 克拉玛依 吐鲁番 哈密 昌吉 博尔塔拉 巴音郭楞 阿克苏 克孜勒苏 喀什 和田 伊犁 塔城 阿勒泰 石河子
+""".split()) | _CN_PROVINCES
+# Latin-script city names outside China whose country is unambiguous (ambiguous ones such as
+# Dublin, Morrisville, Clermont or Middletown are deliberately absent).
+_EN_OVERSEAS_CITY = {k: v for v, ks in {
+    "美国": "sanfrancisco sanmateo chicago newyork newyorkcity seattle austin dallas denver atlanta losangeles "
+            "sanjose mountainview fostercity anchorage boston houston miami sunnyvale santaclara paloalto redmond",
+    "英国": "london edinburgh cardiff manchester farnborough maidenhead glasgow",
+    "法国": "paris rueilmalmaison lyon", "德国": "berlin munich stuttgart frankfurt essen hamburg",
+    "西班牙": "madrid barcelona", "捷克": "prague", "波兰": "warsaw krakow", "罗马尼亚": "bucharest",
+    "斯洛伐克": "bratislava", "匈牙利": "budapest", "荷兰": "amsterdam rotterdam", "瑞典": "stockholm",
+    "葡萄牙": "lisbon", "北马其顿": "skopje", "意大利": "milan rome", "瑞士": "zurich geneva",
+    "日本": "tokyo yokohama yokohamashi chiyodaku osaka nagoya", "韩国": "seoul busan",
+    "印度": "bangalore bengaluru mumbai pune hyderabad gurgaon gurugram chennai", "沙特阿拉伯": "riyadh jeddah",
+    "阿联酋": "dubai abudhabi", "马来西亚": "kualalumpur petalingjaya penang", "巴西": "saopaulo riodejaneiro indaiatuba",
+    "墨西哥": "mexicocity monterrey guadalajara", "加拿大": "toronto markham montreal vancouver",
+    "澳大利亚": "sydney", "菲律宾": "manila taguig", "泰国": "bangkok", "印度尼西亚": "jakarta",
+    "越南": "hochiminhcity hanoi", "埃及": "cairo", "阿根廷": "buenosaires", "土耳其": "istanbul",
+}.items() for k in ks.split()}
+# Exact upper-case codes only ("IN"/"CA" as words are never read as India/Canada; CA is ambiguous).
+_COUNTRY_CODES = {"US": "美国", "USA": "美国", "UK": "英国", "GB": "英国", "CN": "中国", "PRC": "中国", "JP": "日本",
+                  "KR": "韩国", "SG": "新加坡", "FR": "法国", "ES": "西班牙", "IT": "意大利",
+                  "NL": "荷兰", "IE": "爱尔兰", "MY": "马来西亚", "TH": "泰国", "VN": "越南",
+                  "PH": "菲律宾", "AU": "澳大利亚", "BR": "巴西", "MX": "墨西哥", "AE": "阿联酋", "SA": "沙特阿拉伯",
+                  "HK": "中国香港", "TW": "中国台湾", "CH": "瑞士", "CZ": "捷克", "PL": "波兰"}
+# DE / IN / MO (and every other US state code) are never read as countries: "Kansas City, MO" is Missouri.
+_US_STATES = dict(zip(
+    "AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH "
+    "OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY DC".split(),
+    ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida",
+     "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine",
+     "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska",
+     "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
+     "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas",
+     "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", "District of Columbia"]))
+_US_STATE_NAMES = {_n.replace(" ", "").lower(): _n for _n in _US_STATES.values()}
+_CA_PROVINCES = {"ON": "Ontario", "QC": "Quebec", "BC": "British Columbia", "AB": "Alberta", "MB": "Manitoba",
+                 "NS": "Nova Scotia", "NB": "New Brunswick", "SK": "Saskatchewan", "NL": "Newfoundland and Labrador"}
+# Tokens a generic "state" field may hold that are recruitment statuses, not provinces/states.
+_STATE_STATUS = {"open", "opened", "closed", "close", "active", "inactive", "draft", "published", "online",
+                 "offline", "true", "false", "yes", "no", "null", "none", "enabled", "disabled", "pending",
+                 "招聘中", "已关闭", "已下线", "已发布", "在招", "停招", "有效", "无效", "正常"}
+# Negated work-mode statements are removed before the positive patterns run.
+_CN_PLACES_LONGEST_FIRST = sorted((p for p in _CN_PLACES if len(p) >= 2), key=len, reverse=True)
+_MODE_NEGATION = re.compile(
+    r"(?i)\b(?:not|isn['’]t|is\s+not|no|non)[\s-]+(?:an?\s+|a\s+fully\s+|fully\s+|100%\s+)?"
+    r"(?:remote|hybrid)(?:\s+(?:position|role|job|work(?:ing)?|opportunity|option|eligible))?\b"
+    r"|\bremote\s+work\s+is\s+not\s+(?:available|possible|permitted|offered)\b"
+    r"|不(?:支持|接受|提供|可以?|能)\s*(?:远程|居家|混合)(?:办公|工作)?|非远程(?:办公|岗位|工作)?|无法远程(?:办公|工作)?")
+_CJK = re.compile(r"[一-鿿]")
+_PROVINCE_PREFIX = re.compile(r"^[一-鿿]{2,3}?(?:省|自治区)")
 
 
-def _city_fallback(city):
-    """normalize_fields_v2.normalize_city, used only when cities_normalized is absent."""
-    city = str(city or "").strip()
-    if city in ("未披露", "未知", "", "null", "None", "不限"):
-        return ""
-    if city in ("全国", "中国", "全国各地", "全国多地", "全国各省市"):
+def _ckey(s):
+    return re.sub(r"[\s.\-_'’,()（）]", "", str(s or "").replace("﻿", "")).lower()
+
+
+def country_name(text):
+    """A country the text names, as one Chinese name; None when it names no known country.
+
+    Codes count only as exact upper-case tokens (US, CN, UK); "in"/"ca" as words never do.
+    """
+    t = re.sub(r"[.\s]", "", str(text or ""))
+    if t in _COUNTRY_CODES:
+        return _COUNTRY_CODES[t]
+    return _COUNTRY_WORDS.get(_ckey(text))
+
+
+def _alias(city):
+    key = str(city).replace(" ", "")
+    return CITY_ALIASES.get(key, [city])
+
+
+def clean_city(raw):
+    """One raw city token -> the display city, or None when it is no city (placeholder etc.).
+
+    Keeps any real place the source wrote (Morrisville, 翠屏区) instead of discarding what a lookup
+    table does not know; only trims the administrative wrapping around it.
+    """
+    s = re.sub(r"\s+", " ", str(raw or "").replace("﻿", "")).strip().strip(",;，；")
+    m = AREA_CN.search(s)
+    if m:
+        s = m.group(1)
+    if not s or s in CITY_UNKNOWN or s in NON_CITY or s.startswith("-") or "area_code" in s:
+        return None
+    if s in ("全国", "中国", "中国大陆", "全国多地", "全国各省市", "全国各地"):
         return "全国"
-    if city in ("海外", "国外", "境外", "海外及其他"):
+    if s in ("海外", "国外", "境外", "海外及其他"):
         return "海外"
-    if "-" in city:
-        city = city.split("-")[0].strip()
-    city = city[:-1] if city.endswith("市") else city
-    city = city.replace(" ", "")
-    for sep in (",", "，", "/", "、", ";", "；"):
-        if sep in city:
-            city = city.split(sep)[0].strip()
-            break
-    return re.sub(r"[（(].*?[）)]", "", city).strip()
+    if _CJK.search(s):
+        s = re.sub(r"[（(][^）)]*[）)]", "", s).strip()          # 北京（Beijing） -> 北京
+        parts = [p for p in re.split(r"[·\-－]", s) if p.strip()]
+        if len(parts) > 1 and re.search(r"(?:省|自治区)$", parts[0]):
+            parts = parts[1:]                                     # 广东省·深圳市 -> 深圳市
+        s = parts[0].strip() if parts else s
+        s = _PROVINCE_PREFIX.sub("", s) or s                      # 浙江省杭州市 -> 杭州市
+        m = re.match(r"^(.{2,}?)市.+[区县镇]$", s)                  # 杭州市桐庐县 -> 杭州
+        if m:
+            s = m.group(1)
+        if s.endswith("市") and len(s) > 2:
+            s = s[:-1]
+        for p in _CN_PLACES_LONGEST_FIRST:                        # 北京顺义区 -> 北京
+            if len(p) >= 2 and s.startswith(p) and re.fullmatch(r".{0,6}(?:区|县|旗|镇|新区|开发区)", s[len(p):]) \
+                    and len(s) > len(p):
+                return p
+        return s or None
+    if s.isupper() and len(s) > 4:
+        s = s.title()                                             # SINGAPORE -> Singapore
+    return s
+
+
+_NATIONWIDE = {"全国", "中国", "中国大陆", "全国多地", "全国各省市", "全国各地"}
+
+
+def _split_one(s, mode):
+    """One place text (work-mode words already removed) -> [(country, state, city)]."""
+    s = re.sub(r"[（(]\s*[)）]", " ", s).strip(" :|;,/-–")
+    if not s or s in CITY_UNKNOWN or _ckey(s) in _NO_GEO:
+        return []
+    if s in _NATIONWIDE:
+        return [("中国", "", "全国")]
+    if _ckey(s) in _CITY_STATES:
+        city, country = _CITY_STATES[_ckey(s)]
+        return [(country, "", city)]
+    if country_name(s):
+        return [(country_name(s), "", "")]
+    if mode:
+        # "Remote US", "Remote: India", "Germany (Remote) ; Ireland (Remote)" bound the country;
+        # anything else in a remote token (EMEA, "San Mateo area", "CA") names no place we can use.
+        parts = [p for p in re.split(r"[:|;,/()（）\-]|\s+", s) if p]
+        cities = [_CN_CITY_EN[_ckey(p)] for p in parts if _ckey(p) in _CN_CITY_EN]   # CN-Wuhan-Remote
+        bound = [(country_name(p), "", "") for p in parts if country_name(p)]
+        if cities:
+            return [("中国", "", c) for c in cities]
+        if bound:
+            return bound
+        # "San Francisco Bay Area or New York (Remote)": keep only places we can name for sure.
+        key = s.replace(" ", "")
+        if key in CITY_ALIASES:
+            return [("", "", c) for c in CITY_ALIASES[key]]
+        if _ckey(s) in _CN_CITY_EN:
+            return [("中国", "", _CN_CITY_EN[_ckey(s)])]
+        return []
+    # "Sao Paulo - Brazil", "Hong Kong, China", "United States of America - North Carolina - Morrisville"
+    parts = [p.strip() for p in re.split(r"\s+[-–]\s+|,\s*", s) if p.strip()]
+    us = _us_city_state(parts)
+    if us:
+        return [us]
+    if len(parts) > 1:
+        head = _ckey(parts[0])
+        if head in _CITY_STATES:
+            city, country = _CITY_STATES[head]
+            return [(country, "", city)]
+        if country_name(parts[0]):
+            rest = parts[1:]
+            state = rest[0] if len(rest) > 1 else ""
+            city = clean_city(" - ".join(rest[1:] if len(rest) > 1 else rest)) or ""
+            return [(country_name(parts[0]), state, "" if country_name(city) else city)]
+        if country_name(parts[-1]):
+            return [(country_name(parts[-1]), " ".join(parts[1:-1]), clean_city(parts[0]) or "")]
+    if _ckey(s) in _CN_PROVINCES_EN:
+        return [("中国", _CN_PROVINCES_EN[_ckey(s)], "")]
+    if len(parts) > 1 and not _CJK.search(s):
+        # "Foo, Bar" with no country we know: the first part is the city, the rest may be a state;
+        # a comma never stays inside a city (it would split a Feishu multi-select cell).
+        city = clean_city(parts[0])
+        return [("", _state_value(" ".join(parts[1:])), city)] if city else []
+    province = _province_prefix(s)
+    city = clean_city(s)
+    if not city:
+        return [("中国", province, "")] if province else []
+    if province:
+        return [("中国", province, city)]              # 广东省·深圳市: the stated province is kept
+    if _ckey(city) in _CN_CITY_EN:
+        return [("中国", "", _CN_CITY_EN[_ckey(city)])]
+    if _ckey(city) in _HMT_EN:
+        return [("中国台湾", "", _HMT_EN[_ckey(city)])]
+    return [("", "", city)]
+
+
+def _us_city_state(parts):
+    """(country, state, city) for "City, ST" only when the country is explicit or already known.
+
+    The country must come from an explicit third part (Austin, TX, USA) or from a city the curated
+    tables already place in that country (San Francisco, CA; Toronto, ON). A state code or name
+    alone never decides the country: "Kansas City, MO" and "Tbilisi, Georgia" keep their city and
+    state, country unknown (see the "Foo, Bar" branch of _split_one).
+    """
+    if len(parts) not in (2, 3):
+        return None
+    city = clean_city(parts[0]) or ""
+    if len(parts) == 3:
+        country = country_name(parts[2])
+    else:
+        country = _city_country(city) or _city_country(_alias(city)[0])
+    code = parts[1].strip()
+    if country == "美国":
+        state = _US_STATES.get(code) if code.isupper() else _US_STATE_NAMES.get(code.replace(" ", "").lower())
+        return ("美国", state, city) if state else None
+    if country == "加拿大" and code in _CA_PROVINCES:
+        return ("加拿大", _CA_PROVINCES[code], city)
+    return None
+
+
+def state_in_country(state, country):
+    """A US state / Canadian province code read in its own country's context (NC -> North Carolina
+    only when the country is 美国); anything else unchanged. Never a country: MO here is Missouri."""
+    code = str(state or "").strip()
+    if country == "美国" and code.upper() in _US_STATES and len(code) == 2:
+        return _US_STATES[code.upper()]
+    if country == "加拿大" and code.upper() in _CA_PROVINCES and len(code) == 2:
+        return _CA_PROVINCES[code.upper()]
+    return state
+
+
+def _province_prefix(s):
+    """The province an explicit '…省/自治区' prefix names (广东省·深圳市 -> 广东); '' otherwise."""
+    m = re.match(r"^([\u4e00-\u9fff]{2,3}?)(?:省|壮族自治区|回族自治区|维吾尔自治区|自治区)", s.strip())
+    return m.group(1) if m and m.group(1) in _CN_PROVINCES and len(s.strip()) > m.end() else ""
+
+
+def _state_value(raw):
+    """A geographic state/province the source named, or '' (status words, numbers, placeholders)."""
+    s = re.sub(r"\s+", " ", str(raw or "").replace("﻿", "")).strip(" ,;，；")
+    if (not s or s in CITY_UNKNOWN or _ckey(s) in _STATE_STATUS or s.lower() in _STATE_STATUS
+            or re.fullmatch(r"[\d\s.\-_/:]+", s) or len(s) > 40):
+        return ""
+    if _CJK.search(s):
+        short = re.sub(r"(?:省|市|壮族自治区|回族自治区|维吾尔自治区|自治区|特别行政区)$", "", s)
+        return short or s
+    key = _ckey(re.sub(r"(?i)\s*province$", "", s))
+    if key in _CN_PROVINCES_EN:
+        return _CN_PROVINCES_EN[key]                   # Guangdong / Guangdong Province -> 广东
+    return s
+
+
+def _split_raw(token):
+    """One raw location token -> [(country, state, city, work_mode)]; parts may be ''."""
+    text = re.sub(r"\s+", " ", str(token or "").replace("﻿", "")).strip()
+    out = []
+    if text in CITY_UNKNOWN:
+        return []
+    pieces = [text] if AREA_CN.search(text) else re.split(r"[;；|、/]", text)
+    for piece in pieces:
+        mode = ""
+        piece = _MODE_NEGATION.sub(" ", piece)
+        for name, pat in (("远程", _REMOTE_TOKEN), ("混合", _HYBRID_TOKEN), ("现场", _ONSITE_TOKEN)):
+            if pat.search(piece):
+                mode, piece = name, pat.sub(" ", piece)
+                break
+        places = _split_one(piece, mode)
+        out += [(*p, mode) for p in places] or ([("", "", "", mode)] if mode else [])
+    return out
+
+
+def _domestic(city):
+    if city in _CN_PLACES:
+        return True
+    return any(city.startswith(p) and re.fullmatch(r".{0,6}(?:区|县|旗|镇|新区|开发区)", city[len(p):])
+               for p in _CN_PLACES_LONGEST_FIRST if len(city) > len(p))
+
+
+def _city_country(city):
+    """The country a place name alone determines, from curated knowledge only; '' otherwise.
+
+    Chinese script is not evidence of China: 翠屏区 or an unlisted 悉尼-like name stays unknown.
+    """
+    if not city or city == "海外":
+        return ""
+    if city == "全国":
+        return "中国"
+    if city in _OVERSEAS_CJK_COUNTRY:
+        return _OVERSEAS_CJK_COUNTRY[city]
+    for prefix, country in HMT_COUNTRIES.items():
+        if city.startswith(prefix):
+            return country
+    if _domestic(city):
+        return "中国"
+    return _EN_OVERSEAS_CITY.get(_ckey(city), "")
+
+
+def _region(country, city):
+    if country == "中国":
+        return "港澳台" if city.startswith(HMT) else "中国大陆"
+    if country in ("中国香港", "中国澳门", "中国台湾"):
+        return "港澳台"
+    if country:
+        return "海外"
+    if city in OVERSEAS_CITIES:
+        return "海外"
+    return ""
+
+
+def _raw_tokens(r):
+    raw = r.get("cities")
+    raw = [raw] if isinstance(raw, str) else (raw or [])
+    tokens = [t for t in raw if isinstance(t, str) and t.strip()]
+    if not tokens:
+        for field in ("location", "city"):
+            if isinstance(r.get(field), str) and r[field].strip():
+                tokens = [r[field]]
+                break
+    return tokens
+
+
+def _triples(r):
+    """Structured (country, state, city) triples the collector saved from the source page."""
+    return [x for x in r.get("locations_raw") or [] if isinstance(x, dict)], "source"
+
+
+def _legacy_country(r):
+    """An existing country value worth keeping, or ''.
+
+    Values this module wrote carry country_basis and are recomputed, except ones kept as legacy.
+    Older values have no provenance and are kept as legacy (uncertain; served with that basis)
+    unless source fields or place knowledge say otherwise. Not kept: 海外 (a region, not a country)
+    and the old normalizer's demonstrable default -- 中国 when its own city_normalized/
+    cities_normalized was ""/未披露/未知 (callers only reach this without raw source country). Correcting a wrong old value needs actual source fields (a new collection or a
+    scoped migration that saves them), never a special case here.
+    """
+    v = str(r.get("country") or "").strip()
+    if not v or "、" in v:
+        return ""
+    if "country_basis" in r:
+        return country_name(v) or "" if r.get("country_basis") == ["legacy"] else ""
+    if v in ("海外", "overseas") or not country_name(v):
+        return ""
+    names = r.get("cities_normalized")
+    names = [*(names if isinstance(names, list) else [names]), r.get("city_normalized")]
+    if country_name(v) == "中国" and not any(str(n or "").strip() not in ("", "未披露", "未知") for n in names):
+        # The old normalizer's own default (city ""/未披露/未知 -> 中国), not something a source said.
+        return ""
+    return country_name(v)
+
+
+def has_raw_location(r):
+    """Whether the record carries any source-stated place (placeholders/status words do not count)."""
+    triples, _ = _triples(r)
+    if any(str(x.get("country") or "").strip() or _state_value(x.get("state")) or str(x.get("city") or "").strip()
+           for x in triples):
+        return True
+    if str(r.get("location_country_raw") or r.get("country_raw") or "").strip():
+        return True
+    if _state_value(r.get("location_state_raw") or r.get("province_raw")):
+        return True
+    return any(any(x[:3]) for t in _raw_tokens(r) for x in _split_raw(t))
+
+
+def location_of(r):
+    """Every location field of one record.
+
+    Evidence order: structured source fields (locations_raw, location/country/state raw, tokens that
+    name a country) > curated place knowledge > a trustworthy existing
+    country (see _legacy_country) > unknown. A country is attached to a city only when it belongs to
+    that city (the city's own triple, or the job's single city); one country is never spread over
+    several cities. Returns {"locations": [{"country", "state", "city"}], "country_basis": [...]
+    aligned with "countries", "cities", "countries", "states", "region", "work_modes"}.
+    """
+    locs, modes = [], []
+
+    def add(country, state, city, basis):
+        country = country or ""
+        state = _state_value(state)
+        for c in (_alias(city) if city else [""]):
+            if c in CITY_UNKNOWN - {""} or c in NON_CITY:
+                c = ""
+            b = basis if country else ""
+            if not country:
+                country = _city_country(c) or (_city_country(state) if not c else "")
+                b = "place" if country else ""
+            state = state_in_country(state, country)         # source-typed "NC" + 美国 -> North Carolina
+            if not (country or state or c):
+                continue
+            item = {"country": country, "state": state, "city": c, "basis": b}
+            if not any(l["country"] == country and l["state"] == state and l["city"] == c for l in locs):
+                locs.append(item)
+
+    triples, tbasis = _triples(r)
+    for x in triples:
+        cc = str(x.get("country") or "").strip()
+        country = country_name(cc) or cc
+        parsed = _split_raw(x.get("city") or "") or [("", "", "", "")]
+        for country_t, _, city, mode in parsed:
+            if mode:
+                modes.append(mode)
+            add(country or country_t, x.get("state"), city, tbasis)
+
+    tokens = _raw_tokens(r)
+    if not tokens and not locs:
+        tokens = [c for c in (r.get("cities_normalized") or []) if isinstance(c, str)]
+    parsed = [x for t in tokens for x in _split_raw(t)]
+    modes += [p[3] for p in parsed if p[3]]
+    if locs:
+        parsed = []                             # the triples already tie each city to its place
+    bare, city_rows = [], []                    # bare: country-only tokens such as ["Shanghai", "China"]
+    for country, state, city, _ in parsed:
+        if city or (state and not country):
+            city_rows.append([country, state, city])
+        elif country and (country, state) not in bare:
+            bare.append((country, state))
+    src_country = str(r.get("location_country_raw") or r.get("country_raw") or "").strip()
+    src_country = country_name(src_country) or src_country
+    src_state = _state_value(r.get("location_state_raw") or r.get("province_raw") or r.get("state"))
+    if not src_country and len(bare) == 1 and len(city_rows) == 1:
+        src_country, src_state = bare[0][0], src_state or bare[0][1]
+        bare = []
+    one = len(city_rows) == 1
+    for row in city_rows:
+        country = row[0] or (src_country if one and not (row[2] and _city_country(row[2])
+                                                          and _city_country(row[2]) != src_country) else "")
+        state = row[1] or (src_state if one else "")
+        known = _city_country(row[2]) or ("中国" if _ckey(row[2]) in _CN_CITY_EN else "")
+        from_field = not row[0] and bool(country)            # the record-level country field
+        add(country, state, row[2], "place" if country == known and not from_field else "source")
+    if not triples:                             # structured triples replace record-level fields
+        for country, state in ([(src_country, src_state if not city_rows else "")] if src_country else []) + bare:
+            if not any(l["country"] == country for l in locs):
+                add(country, state, "", "source")   # stated, but not tied to one of several cities
+        if not locs and src_state:
+            add("", src_state, "", "source")        # state-only record
+    legacy = _legacy_country(r)
+    if legacy and not any(l["country"] for l in locs):
+        if len(locs) == 1:
+            locs[0]["country"], locs[0]["basis"] = legacy, "legacy"
+        else:
+            add(legacy, "", "", "legacy")           # kept, but never assigned to one of several cities
+
+    text = _MODE_NEGATION.sub(" ", str(r.get("work_mode_raw") or ""))
+    for mode, pat in (("远程", _REMOTE_TOKEN), ("混合", _HYBRID_TOKEN), ("现场", _ONSITE_TOKEN)):
+        if text.strip() and pat.search(text):
+            modes.append(mode)
+    desc = _MODE_NEGATION.sub(" ", str(r.get("description_raw") or ""))
+    for mode, pat in _MODE_TEXT:
+        if pat.search(desc):
+            modes.append(mode)
+
+    def uniq(values):
+        return [v for i, v in enumerate(values) if v and v not in values[:i]]
+
+    countries = uniq([l["country"] for l in locs])
+    regions = {_region(l["country"], l["city"]) for l in locs}
+    return {
+        "locations": [{k: l[k] for k in ("country", "state", "city")} for l in locs],
+        "location_basis": [l["basis"] for l in locs],
+        "country_basis": [next(l["basis"] for l in locs if l["country"] == c) for c in countries],
+        "cities": uniq([l["city"] for l in locs]),
+        "countries": countries,
+        "states": uniq([l["state"] for l in locs]),
+        "region": "、".join(g for g in REGION_ORDER if g in regions),
+        "work_modes": [m for m in WORK_MODES if m in modes],
+    }
 
 
 def cities_of(r):
-    out = []
-    raw = r.get("cities") or []
-    raw = [raw] if isinstance(raw, str) else raw
-    for c in raw:
-        m = AREA_CN.search(str(c))
-        if m:
-            out.append(m.group(1).split("-")[0])
-    normalized = r.get("cities_normalized")
-    if normalized is None:
-        normalized = [_city_fallback(c) for c in raw if "area_code" not in str(c)]
-    for c in normalized or []:
-        s = str(c).strip()
-        if "area_code" not in s:
-            out.append(s)
-    result = []
-    for c in out:
-        for v in CITY_ALIASES.get(c, [c]):
-            if v not in CITY_UNKNOWN and v not in NON_CITY and v not in result:
-                result.append(v)
-    return result
+    return location_of(r)["cities"]
+
+
+def is_country_only(q):
+    """A query word that names a country rather than a city (美国, USA); 新加坡/香港 are both."""
+    return bool(country_name(q)) and _ckey(q) not in _CITY_STATES and q not in ("中国", "中国大陆", "全国")
 
 
 def city_region(c):
-    if c in OVERSEAS_CITIES:
+    """Region of a city name alone (used for query cities); '' when the name does not tell."""
+    if c in OVERSEAS_CITIES or c in _OVERSEAS_CJK_COUNTRY:
         return "海外"
     if c.startswith(HMT):
         return "港澳台"
-    return "中国大陆"
+    country = "中国" if _ckey(c) in _CN_CITY_EN else _city_country(c)
+    return _region(country, c) if country else ""
 
 
 OVERSEAS_REGION = {"overseas", "海外"}
 
 
-def region_of(r, cities):
-    """From the cities; only without a city fall back to overseas_flag/region/country."""
-    if cities:
-        regs = {city_region(c) for c in cities}
-        return "、".join(g for g in REGION_ORDER if g in regs)
-    if r.get("overseas_flag") or (r.get("region") or "") in OVERSEAS_REGION or (r.get("country") or "中国") != "中国":
-        return "海外"
-    return "中国大陆"
+def region_of(r, cities=None):
+    """中国大陆/港澳台/海外 joined in that order; '' when nothing states where the job is."""
+    return location_of(r)["region"]
 
 
 def norm_city(q):
     q = q.strip()
     q = q[:-1] if q.endswith("市") and len(q) > 2 else q
-    alias = CITY_ALIASES.get(q)
-    return alias[0] if alias else q
+    alias = CITY_ALIASES.get(q.replace(" ", ""))
+    if alias:
+        return alias[0]
+    return _CN_CITY_EN.get(_ckey(q), q)
 
 # ---------------------------------------------------------------- 岗位大类
 
@@ -697,7 +1249,8 @@ def to_item(r):
 def convert(r):
     """(v4 record, graduation rule name)."""
     d, kind = deadline_of(r)
-    cities = cities_of(r)
+    loc = location_of(r)
+    cities = loc["cities"]
     years, basis, note, grad_rule = graduation_of(r)
     edu_raw = _text(r.get("education_raw"))
     tags = r.get("major_tags") or []
@@ -715,8 +1268,15 @@ def convert(r):
         "industry": _text(r.get("industry")),
         "industry_tags": r.get("industry_tags") or [],
         "cities": cities,
-        "region": region_of(r, cities),
-        "country": _text(r.get("country")),
+        "region": loc["region"],
+        "country": "、".join(loc["countries"]),
+        "country_basis": loc["country_basis"] if "legacy" in loc["country_basis"] else [],
+        "state": "、".join(loc["states"]),
+        "work_mode": "、".join(loc["work_modes"]),
+        # Which city belongs to which country/state; only worth sending when there are several.
+        "locations": loc["locations"] if len(loc["locations"]) > 1 else [],
+        # Every (country, state, city) triple for paired filtering; tools.public() never sends it.
+        "_locs": [dict(l, basis=b) for l, b in zip(loc["locations"], loc["location_basis"])],
         "graduation_years": years,
         "graduation_year_basis": basis,
         "graduation_year_note": note,
@@ -823,6 +1383,12 @@ def _count(report, r, it, rule):
         report["city_unspecified"] += 1
     if "海外" in it["region"] and not r.get("overseas_flag"):
         report["overseas_flag_was_false"] += 1
+    if not it["region"]:
+        report["region_unknown"] += 1
+    if not it.get("country"):
+        report["country_unknown"] += 1
+    if it.get("work_mode"):
+        report[f"work_mode:{it['work_mode']}"] += 1
     if is_edu_garbage(r.get("education_raw")):
         report["education_garbage"] += 1
     report[f"education:{it['education']}"] += 1

@@ -36,6 +36,7 @@ artifact at the manifest's path, ``--artifact-root`` (a mount of the collector r
 """
 import argparse
 import ast
+import contextlib
 import datetime as dt
 import gzip
 import hashlib
@@ -43,8 +44,10 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
+import zlib
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -52,7 +55,9 @@ from qiuzhao.collector.p1_pipeline import atomic_json
 from qiuzhao.collector.portable_runtime import fcntl
 
 BASE_TOKEN = 'KaJIbYuIPacWersWD4jcO1AjnGh'  # the one Base total link; never another
-DEFAULT_SCRIPTS = Path('/Users/maxzhl/Projects/mcp-suite-recovery-20260921/feishu-20260923/scripts')
+# The six R1 scripts are versioned in deploy/feishu_r1 (2026-09-28); QIUZHAO_R1_SCRIPTS or
+# --scripts-dir points elsewhere explicitly (e.g. an older external copy), never implicitly.
+DEFAULT_SCRIPTS = Path(os.environ.get('QIUZHAO_R1_SCRIPTS') or Path(__file__).resolve().parent / 'feishu_r1')
 SCRIPT = {'projection': 'sprite_build_projection_r1.py', 'xlsx': 'build_xlsx_r1.py',
           'schema_snapshot': 'build_prod_schema_snapshot.py', 'import': 'run_step2_import_r1.py',
           'schema_fix': 'run_step3_schema_verify_r1.py', 'clean_blank': 'run_step3_schema_verify_r1.py',
@@ -71,6 +76,10 @@ GENERIC_WHITELIST = '__generic_excel_text_whitelist__'
 
 class DeliveryError(RuntimeError):
     pass
+
+
+class Blocked(DeliveryError):
+    """Required local material for the active version is gone; nothing else may replace it."""
 
 
 def digest(path):
@@ -556,10 +565,16 @@ def generic_excel_text_whitelist(module):
 class ScriptRunner:
     """Runs the R1 scripts. Local stages in-process, external ones in a child process."""
 
-    def __init__(self, scripts_dir=DEFAULT_SCRIPTS, *, apply=False, python=sys.executable):
+    def __init__(self, scripts_dir=DEFAULT_SCRIPTS, *, apply=False, python=sys.executable, frozen_check=None):
         self.scripts = Path(scripts_dir)
         self.apply = apply
         self.python = python
+        self.frozen_check = frozen_check  # the CLI passes frozen_failures; checked before every Base action
+
+    def require_frozen(self):
+        failures = self.frozen_check() if self.frozen_check else []
+        if failures:
+            raise DeliveryError('delivery code is not the frozen deploy manifest: ' + '; '.join(failures[:6]))
 
     def local(self, stage, work, source):
         if stage == 'projection':
@@ -579,6 +594,7 @@ class ScriptRunner:
         """Read-only listing of the Base's tables and folders (lark-cli base +base-block-list)."""
         if not self.apply:
             raise DeliveryError('reading the live Base requires --apply')
+        self.require_frozen()
         completed = subprocess.run(['lark-cli', 'base', '+base-block-list', '--base-token', BASE_TOKEN,
                                     '--as', 'user'], capture_output=True, text=True, timeout=180)
         body = {}
@@ -595,6 +611,7 @@ class ScriptRunner:
     def external(self, stage, work, overrides, log):
         if not self.apply:
             raise DeliveryError('external stage requires --apply')
+        self.require_frozen()
         spec = work / f'.exec-{stage}.json'
         atomic_json(spec, {'script': str(self.scripts / SCRIPT[stage]), 'overrides': overrides,
                            'argv': SCRIPT_ARGS.get(stage, [])})
@@ -656,6 +673,17 @@ def choose_samples(work, layout, sha):
 
 def version_dir(root, sha):
     return Path(root) / 'versions' / sha
+
+
+@contextlib.contextmanager
+def delivery_lock(root):
+    """The one lock for every read-modify-write of the ledger (deliver, abandon, reconcile)."""
+    with (Path(root) / 'delivery.lock').open('a+') as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError:
+            raise DeliveryError('another delivery holds the lock')
+        yield
 
 
 def load_state(root, source):
@@ -779,11 +807,7 @@ def deliver(root, source, runner, *, layout=None, policy=None):
     """Advance this version's delivery as far as allowed; returns the version state."""
     root = Path(root)
     root.mkdir(parents=True, exist_ok=True)
-    with (root / 'delivery.lock').open('a+') as lock:
-        try:
-            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except OSError:
-            raise DeliveryError('another delivery holds the lock')
+    with delivery_lock(root):
         ledger_path = root / 'ledger.json'
         ledger = load_json(ledger_path, {'delivered': {}, 'active': None})
         sha = source['sha256']
@@ -811,7 +835,12 @@ def deliver(root, source, runner, *, layout=None, policy=None):
         ledger['active'] = sha
         atomic_json(ledger_path, ledger)
         save(path, state)
-        verified_source(source['path'], sha, origin=source.get('origin', 'recheck'))
+        if all(state['stages'][name]['status'] == 'completed' for name in ('projection', 'xlsx')):
+            # The recorded projection pins this version; a resume may no longer hold its source bytes.
+            if local_outputs(work) != state.get('local_outputs'):
+                raise DeliveryError('projection/xlsx changed on disk after they were recorded')
+        else:
+            verified_source(source['path'], sha, origin=source.get('origin', 'recheck'))
         try:
             layout = resolve_layout(layout, policy, ledger)
         except DeliveryError as error:
@@ -912,11 +941,7 @@ def abandon(root, sha, reason):
     and only finishing this same version is safe.
     """
     root = Path(root)
-    with (root / 'delivery.lock').open('a+') as lock:
-        try:
-            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except OSError:
-            raise DeliveryError('another delivery holds the lock')
+    with delivery_lock(root):
         ledger = load_json(root / 'ledger.json', {'delivered': {}, 'active': None})
         if ledger.get('active') != sha:
             raise DeliveryError('not the active version')
@@ -934,6 +959,459 @@ def abandon(root, sha, reason):
         ledger.setdefault('abandoned', {})[sha] = {'at': state['abandoned_at'], 'reason': reason}
         atomic_json(root / 'ledger.json', ledger)
         return state
+
+
+# --- deliver-latest: the scheduled entry point (batch 1, 2026-09-28) ------------------
+# The collector only publishes; nothing on the Windows side writes Feishu. This entry
+# point runs serially on the delivery machine: resume the version the ledger has in
+# progress, otherwise -- through the settlement gate below -- deliver only the newest
+# accepted version when its lineage proves it follows the last delivery (intermediate
+# accepted versions are not imported one by one).
+
+def _command_output(argv, timeout=600):
+    done = subprocess.run(list(argv), capture_output=True, timeout=timeout)
+    if done.returncode:
+        raise DeliveryError('command failed (%s): %s' % (done.returncode,
+                            done.stderr.decode('utf-8', 'replace')[-400:]))
+    return done.stdout
+
+
+def fetch_latest_manifest(root, command):
+    """The collector's latest accepted-version manifest, copied under root/manifests."""
+    try:
+        manifest = json.loads(_command_output(command))
+    except ValueError as error:
+        raise DeliveryError('latest manifest is not JSON: %s' % error)
+    sha = manifest.get('sha256') if isinstance(manifest, dict) else None
+    if not sha or len(sha) != 64 or not isinstance(manifest.get('lineage') or {}, dict):
+        raise DeliveryError('latest manifest has no sha256/lineage')
+    path = Path(root) / 'manifests' / (sha[:8] + '.json')
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.exists():
+        if load_json(path).get('sha256') != sha:
+            raise DeliveryError('manifest name collision for ' + sha[:8])
+    else:
+        atomic_json(path, manifest)
+    return path, manifest
+
+
+def fetch_gzip_artifact(root, sha, command):
+    """Artifact for ``sha`` in root/artifacts, streamed as gzip by ``command`` and hash-checked."""
+    cached = Path(root) / 'artifacts' / (sha + '.jobs.json')
+    if cached.is_file() and digest(cached) == sha:
+        return cached
+    cached.parent.mkdir(parents=True, exist_ok=True)
+    partial = cached.with_suffix('.json.partial')
+    try:
+        with subprocess.Popen(list(command), stdout=subprocess.PIPE, stderr=subprocess.PIPE) as proc:
+            try:
+                with gzip.GzipFile(fileobj=proc.stdout, mode='rb') as source, partial.open('wb') as out:
+                    for chunk in iter(lambda: source.read(1 << 20), b''):
+                        out.write(chunk)
+                err = proc.stderr.read()
+            except BaseException:
+                proc.kill()
+                raise
+    except (EOFError, OSError, zlib.error) as error:
+        # A cut ssh stream ends in EOFError (not an OSError), a corrupt one in BadGzipFile/zlib.error.
+        partial.unlink(missing_ok=True)
+        raise DeliveryError('artifact stream for %s broke (%s: %s); nothing kept, retry later'
+                            % (sha[:12], type(error).__name__, str(error)[:200])) from error
+    if proc.returncode:
+        partial.unlink(missing_ok=True)
+        raise DeliveryError('artifact fetch failed (%s): %s' % (proc.returncode, err.decode('utf-8', 'replace')[-300:]))
+    if digest(partial) != sha:
+        partial.unlink(missing_ok=True)
+        raise DeliveryError('fetched artifact is not %s (the server moved on or the stream broke); retry later' % sha[:12])
+    os.replace(partial, cached)
+    return cached
+
+
+def select_version(ledger, manifest):
+    """('resume', sha) | ('deliver', sha) | ('up_to_date', sha); refuses a non-successor."""
+    active = ledger.get('active')
+    if active:
+        return 'resume', active
+    sha = manifest['sha256']
+    if sha in (ledger.get('delivered') or {}):
+        return 'up_to_date', sha
+    last = ledger.get('last_delivered')
+    edges = dict(ledger.get('lineage') or {})
+    edges.update(manifest.get('lineage') or {})
+    if last and not descends(sha, last, edges):
+        raise DeliveryError('latest accepted %s does not descend from the delivered %s' % (sha[:12], last[:12]))
+    return 'deliver', sha
+
+
+def resume_source(root, sha, fetch_command):
+    """The active version's own source, from what its first run froze in ``state.json``.
+
+    Order: the recorded source path, the local artifact cache, the recorded projection/xlsx
+    (still byte-identical to ``local_outputs``) and only then a hash-checked fetch. No
+    manifest or collector is consulted, and another version never stands in: without this
+    version's material the resume is ``Blocked`` (not abandoned, not re-imported).
+    """
+    state = load_json(version_dir(root, sha) / 'state.json')
+    recorded = (state or {}).get('source') if isinstance(state, dict) else None
+    if not isinstance(recorded, dict) or recorded.get('sha256') != sha:
+        raise Blocked('active version %s has no readable state.json naming it; resume needs its '
+                      'recorded source (not abandoned, no other version used)' % sha[:12])
+    origin = 'resume of ' + sha[:12]
+    lineage = recorded.get('lineage') or {}
+    for option in (recorded.get('path'), Path(root) / 'artifacts' / (sha + '.jobs.json')):
+        if option and Path(option).is_file() and digest(option) == sha:
+            return verified_source(option, sha, origin=origin, lineage=lineage)
+    stages = state.get('stages') or {}
+    frozen = state.get('local_outputs')
+    if (all((stages.get(name) or {}).get('status') == 'completed' for name in ('projection', 'xlsx'))
+            and frozen and frozen.get('projection_manifest_source_sha256') == sha
+            and local_outputs(version_dir(root, sha) / 'work') == frozen):
+        return dict(recorded, origin=origin + ' (recorded projection; source bytes not local)')
+    reason = ('active version %s: recorded source %s and the local cache are missing or changed, and '
+              'its projection/xlsx are not complete and intact' % (sha[:12], recorded.get('path')))
+    if not fetch_command:
+        raise Blocked(reason + '; no fetch command configured')
+    try:
+        artifact = fetch_gzip_artifact(root, sha, fetch_command)
+    except DeliveryError as error:
+        raise Blocked(reason + '; fetch did not return this version: ' + str(error)[:300])
+    return verified_source(artifact, sha, origin=origin + ' (fetched)', lineage=lineage)
+
+
+def reconcile_live_base(root, runner):
+    """Before a new version: official tables must be exactly the ledger's; archived ids that no
+    longer exist move to ``deleted_outside_delivery`` with the live listing as evidence."""
+    with delivery_lock(root):
+        return _reconcile_live_base(root, runner)
+
+
+def _reconcile_live_base(root, runner):
+    ledger_path = Path(root) / 'ledger.json'
+    ledger = load_json(ledger_path, {})
+    blocks = runner.live_blocks()
+    tables = {b['id']: b for b in blocks if b.get('type') == 'table'}
+    evidence = Path(root) / 'live-base' / (dt.datetime.now().strftime('%Y%m%dT%H%M%S') + '.json')
+    evidence.parent.mkdir(parents=True, exist_ok=True)
+    atomic_json(evidence, {'read_at': now(), 'base_token': BASE_TOKEN, 'blocks': blocks})
+    problems = []
+    for tid, name in ledger.get('official_tables') or []:
+        live = tables.get(tid)
+        if live is None:
+            problems.append('official table %s (%s) is missing' % (tid, name))
+        elif live.get('name') != name:
+            problems.append('official table %s is named %r, ledger says %r' % (tid, live.get('name'), name))
+    if problems:
+        raise DeliveryError('live Base differs from the ledger: ' + '; '.join(problems)
+                            + ' (evidence %s); nothing imported' % evidence)
+    archived = list(ledger.get('archived_table_ids') or [])
+    gone = [tid for tid in archived if tid not in tables]
+    if gone:
+        ledger['archived_table_ids'] = [tid for tid in archived if tid in tables]
+        ledger.setdefault('deleted_outside_delivery', {})[now()] = {'table_ids': gone, 'evidence': str(evidence)}
+        atomic_json(ledger_path, ledger)
+    return {'evidence': str(evidence), 'official_ok': True, 'archived_absent_moved': gone}
+
+
+def _read_layer(command, key, fields):
+    """One remote status read; a failure is recorded as ``error`` (unknown), never as agreement."""
+    try:
+        body = json.loads(_command_output(command))
+        record = body.get(key) if key else body
+        if not isinstance(record, dict) or (fields is not None and not record.get('sha256')):
+            raise DeliveryError('no sha256 in the %s record' % (key or 'returned'))
+        return dict(record) if fields is None else {name: record.get(name) for name in fields}
+    except Exception as error:
+        return {'error': type(error).__name__ + ': ' + str(error)[:300]}
+
+
+# --- when a new version may start (2026-09-28) ------------------------------------------
+# The collector accepts a version after every published segment, many times a day. The
+# hourly job must not import each of them: with no active version, a new one starts only
+# when the collector run that produced the latest accepted version has ended (completed or
+# partial-or-failed -- its receipt, not the manifest's accepted_at), or when the configured
+# daily fallback time has passed, and at most once per local day. Only automatic starts
+# (run_settled / daily_fallback) use that daily slot: ``force`` (a manual CLI flag for
+# one-off catch-ups or migrations) and manual ``deliver`` runs are recorded apart and never
+# consume it, so a daytime catch-up cannot hold back the evening's real run end. Force never
+# overtakes an active version or the lineage rule.
+
+SETTLED_STAGES = ('completed', 'partial-or-failed')
+AUTO_BATCHES = 'auto-batches.json'
+AUTOMATIC_TRIGGERS = ('run_settled', 'daily_fallback')
+
+
+def run_settlement(receipt, manifest):
+    """(settled, reason) for the collector run behind ``manifest``; unknown is never settled."""
+    if not isinstance(receipt, dict) or 'error' in receipt:
+        return False, 'run receipt unknown: %s' % ((receipt or {}).get('error') if isinstance(receipt, dict) else 'none')
+    if receipt.get('run') and manifest.get('run') and receipt['run'] != manifest['run']:
+        return False, 'receipt is of run %s, the latest accepted came from %s' % (receipt['run'], manifest['run'])
+    if receipt.get('mode', 'daily') != 'daily':
+        return False, 'run is a %s run' % receipt.get('mode')
+    if receipt.get('stage') not in SETTLED_STAGES or not receipt.get('completed_at'):
+        return False, 'run still in stage %s' % receipt.get('stage')
+    ended_on = (receipt.get('working_baseline') or {}).get('sha256')
+    if ended_on != manifest.get('sha256'):
+        return False, 'run ended on accepted %s, not the latest %s' % ((ended_on or '-')[:12], manifest['sha256'][:12])
+    return True, 'run ended %s at %s' % (receipt['stage'], receipt['completed_at'])
+
+
+def day_closed(root, today):
+    """Why no automatic start may happen today, or None; forced/manual starts do not count."""
+    for batch in (load_json(Path(root) / AUTO_BATCHES, {}) or {}).get('batches') or []:
+        if batch.get('date') == today.isoformat() and batch.get('trigger') in AUTOMATIC_TRIGGERS:
+            return 'automatic start of %s already made today (%s, run %s)' % (
+                batch.get('sha256', '-')[:12], batch.get('trigger'), batch.get('run'))
+    return None
+
+
+def record_batch_start(root, sha, schedule):
+    """Close the day once ``deliver()`` has really taken ``sha`` (it is active or delivered)."""
+    path = Path(root) / AUTO_BATCHES
+    record = load_json(path, {}) or {}
+    batches = (record.get('batches') or [])[-59:]
+    started = dt.datetime.fromisoformat(schedule['now'])
+    batches.append({'sha256': sha, 'date': started.date().isoformat(), 'at': schedule['now'],
+                    'trigger': schedule['trigger'], 'run': schedule.get('run')})
+    atomic_json(path, {'batches': batches})
+
+
+def cached_tip(root, ledger):
+    """Newest locally cached accepted manifest descending from the delivery (collector offline)."""
+    manifests = [m for m in (load_json(p) for p in sorted((Path(root) / 'manifests').glob('*.json')))
+                 if isinstance(m, dict) and m.get('sha256')]
+    edges = dict(ledger.get('lineage') or {})
+    for manifest in manifests:
+        edges.update(manifest.get('lineage') or {})
+    last = ledger.get('last_delivered')
+    candidates = [m for m in manifests if m['sha256'] not in (ledger.get('delivered') or {})
+                  and (not last or descends(m['sha256'], last, edges))]
+    tips = [m for m in candidates if all(descends(m['sha256'], o['sha256'], edges) for o in candidates)]
+    return tips[0] if len(tips) == 1 else None
+
+
+def parse_schedule(timezone, daily_fallback):
+    from zoneinfo import ZoneInfo
+    zone = ZoneInfo(timezone)
+    hour, minute = (int(part) for part in str(daily_fallback).split(':'))
+    return zone, dt.time(hour, minute)
+
+
+def start_new_version(root, runner, status, ledger, *, force, clock, manifest_command, fetch_command,
+                      run_receipt_command, timezone, daily_fallback):
+    """The source of a new version to start now, or None (status says why)."""
+    zone, fallback_at = parse_schedule(timezone, daily_fallback)
+    now_local = (clock() if clock else dt.datetime.now(dt.timezone.utc)).astimezone(zone)
+    schedule = status['schedule'] = {'now': now_local.isoformat(), 'timezone': timezone,
+                                     'daily_fallback': daily_fallback, 'force': bool(force)}
+    manifest = None
+    try:
+        path, manifest = fetch_latest_manifest(root, manifest_command)
+        status['layers']['accepted'] = {'sha256': manifest['sha256'], 'accepted_at': manifest.get('accepted_at')}
+    except Exception as error:
+        status['layers']['accepted'] = {'error': type(error).__name__ + ': ' + str(error)[:300]}
+    if manifest is not None:
+        action, sha = select_version(ledger, manifest)
+        status.update(action=action, target_sha256=sha)
+        if action == 'up_to_date':
+            status['outcome'] = 'up_to_date'
+            return None
+    schedule['run'] = (manifest or {}).get('run')
+    closed = None if force else day_closed(root, now_local.date())
+    if force:
+        trigger = 'force'
+    elif closed:
+        trigger, schedule['reason'] = None, closed
+    else:
+        settled, reason = False, 'latest accepted unknown'
+        if manifest is not None:
+            receipt = (_read_layer(run_receipt_command, None, None) if run_receipt_command
+                       else {'error': 'no run_receipt_command configured'})
+            status['layers']['run'] = receipt
+            settled, reason = run_settlement(receipt, manifest)
+        if settled:
+            trigger = 'run_settled'
+        elif now_local.time() >= fallback_at:
+            trigger = 'daily_fallback'
+        else:
+            trigger = None
+        schedule['reason'] = reason
+    schedule['trigger'] = trigger
+    if trigger is None:
+        status['outcome'] = 'waiting'
+        return None
+    if manifest is None:
+        manifest = cached_tip(root, ledger)
+        if manifest is None:
+            raise Blocked('%s due but the latest accepted manifest is unreachable and no cached accepted '
+                          'version newer than the delivered one exists' % trigger)
+        action, sha = select_version(ledger, manifest)
+        status.update(action=action, target_sha256=sha, manifest_source='cached (collector unreachable)')
+        schedule['run'] = manifest.get('run')
+    status['reconcile'] = reconcile_live_base(root, runner)
+    artifact = fetch_gzip_artifact(root, manifest['sha256'], fetch_command)
+    source = verified_source(artifact, manifest['sha256'], origin='deliver-latest manifest ' + manifest['sha256'][:12],
+                             lineage=manifest.get('lineage') or {})
+    return source
+
+
+def deliver_latest(root, runner, *, policy, manifest_command, fetch_command, served_command=None,
+                   preflight=None, run_receipt_command=None, timezone=None, daily_fallback=None,
+                   force=False, clock=None):
+    """One scheduled run. An active version is resumed from its own recorded material first,
+    without asking the collector; only with no active version is the latest accepted
+    manifest fetched, and its successor starts only through the settlement gate above.
+    Every run that gets the lock rewrites the status file and appends its alerts."""
+    root = Path(root)
+    root.mkdir(parents=True, exist_ok=True)
+    status = {'at': now(), 'layers': {}}
+    with (root / 'deliver-latest.lock').open('a+') as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError:
+            return {'outcome': 'busy', 'at': now()}
+        try:
+            ledger = load_json(root / 'ledger.json', {'delivered': {}, 'active': None})
+            active = ledger.get('active')
+            problems = preflight(new_batch=not active) if preflight else []
+            if problems:
+                status.update(outcome='preflight_failed', error='; '.join(problems)[:1500])
+            else:
+                if active:
+                    status.update(action='resume', target_sha256=active)
+                    if force:
+                        status['force'] = 'ignored: the active version is resumed first'
+                    source = resume_source(root, active, fetch_command)
+                else:
+                    source = start_new_version(root, runner, status, ledger, force=force, clock=clock,
+                                               manifest_command=manifest_command, fetch_command=fetch_command,
+                                               run_receipt_command=run_receipt_command,
+                                               timezone=timezone, daily_fallback=daily_fallback)
+                if source is not None:
+                    state = deliver(root, source, runner, policy=policy)
+                    if (status.get('schedule') or {}).get('trigger'):
+                        record_batch_start(root, source['sha256'], status['schedule'])
+                    status['outcome'] = state.get('outcome')
+                    status['failed_stage'] = state.get('failed_stage')
+                    status['blocked'] = state.get('blocked')
+        except Blocked as error:
+            status.update(outcome='blocked', blocked={'reason': str(error)[:800]})
+        except Exception as error:
+            # Recorded as a failure, never as success; an unknown Base write is left to the R1
+            # scripts' own tickets on the next resume, nothing is re-sent here.
+            status['outcome'] = 'error'
+            status['error'] = type(error).__name__ + ': ' + str(error)[:800]
+        if status.get('action') == 'resume':  # informational only; the resume never waited for it
+            status['layers']['accepted'] = _read_layer(manifest_command, None, ('sha256', 'accepted_at'))
+        if served_command:
+            status['layers']['served'] = _read_layer(served_command, 'active', ('sha256', 'activated_at'))
+        ledger = load_json(root / 'ledger.json', {})
+        status['layers']['base'] = {'sha256': ledger.get('last_delivered'), 'active': ledger.get('active'),
+                                    'delivered_at': ((ledger.get('delivered') or {}).get(ledger.get('last_delivered') or '') or {}).get('delivered_at')}
+        accepted = status['layers'].get('accepted', {}).get('sha256')
+        served = status['layers'].get('served', {}).get('sha256')
+        alerts = []
+        if status['outcome'] not in ('delivered', 'already_delivered', 'up_to_date', 'waiting'):
+            alerts.append('base delivery outcome: %s' % status['outcome'])
+        if 'error' in status['layers'].get('run', {}):
+            alerts.append('run receipt unknown: %s' % status['layers']['run']['error'][:200])
+        for layer in ('accepted', 'served'):
+            if 'error' in status['layers'].get(layer, {}):
+                alerts.append('%s version unknown: %s' % (layer, status['layers'][layer]['error'][:200]))
+        if accepted and ledger.get('last_delivered') != accepted and status['outcome'] != 'waiting':
+            alerts.append('Base %s behind accepted %s' % ((ledger.get('last_delivered') or '-')[:12], accepted[:12]))
+        if accepted and served and served != accepted:
+            alerts.append('served %s differs from accepted %s' % (served[:12], accepted[:12]))
+        status['alerts'] = alerts
+        atomic_json(root / 'deliver-latest-status.json', status)
+        if alerts:
+            with (root / 'alerts.jsonl').open('a', encoding='utf-8') as out:
+                out.write(json.dumps({'at': status['at'], 'alerts': alerts, 'outcome': status['outcome']},
+                                     ensure_ascii=False) + '\n')
+        return status
+
+
+# --- before any Base action: frozen code and a usable runtime ------------------------
+# The repo files a delivery run executes or reads (the wrapper, the R1 scripts and the
+# modules/resources the projection imports). Each must be listed under ``delivery_mac`` in
+# deploy/qiuzhao-deploy-manifest.json with a recorded sha256 that still matches; a pending
+# or drifted entry refuses every --apply action.
+DELIVERY_ENVIRONMENT = 'delivery_mac'
+DELIVERY_RUNTIME_FILES = (
+    'deploy/windows_excel_delivery.py', 'deploy/deploy_manifest.py',
+    *('deploy/feishu_r1/' + name for name in sorted(set(SCRIPT.values()))),
+    'qiuzhao/__init__.py', 'qiuzhao/collector/__init__.py',
+    'qiuzhao/collector/p1_pipeline.py', 'qiuzhao/collector/portable_runtime.py',
+    'qiuzhao/v4_fields.py', 'qiuzhao/collector/lark_sync_enrichment.py',
+    'qiuzhao/collector/sync_lark_multivalue.py', 'qiuzhao/normalize.py', 'qiuzhao/company_names.py',
+    'qiuzhao/normalize_tables.json',
+    'qiuzhao/data/company_aliases.json', 'qiuzhao/collector/p1_platform_companies.json')
+
+
+def frozen_failures(scripts_dir=DEFAULT_SCRIPTS, *, manifest=None, repo=ROOT):
+    """Why this checkout may not act on the Base; empty when every runtime file is frozen."""
+    from deploy import deploy_manifest as M
+    if manifest is None:
+        try:
+            manifest = json.loads(M.MANIFEST.read_text(encoding='utf-8'))
+        except (OSError, ValueError) as error:
+            return ['deploy manifest unreadable: %s' % error]
+    _, failures = M.check(manifest, repo=repo, require_frozen=True, environments=(DELIVERY_ENVIRONMENT,))
+    listed = {entry['repo']: entry.get('sha256') for env, entry in M.entries(manifest)
+              if env == DELIVERY_ENVIRONMENT}
+    failures += ['%s: runtime dependency not in %s' % (name, DELIVERY_ENVIRONMENT)
+                 for name in DELIVERY_RUNTIME_FILES if name not in listed]
+    for name in sorted(set(SCRIPT.values())):
+        recorded = listed.get('deploy/feishu_r1/' + name)
+        actual = Path(scripts_dir) / name
+        if recorded and (not actual.is_file() or digest(actual) != recorded):
+            failures.append('%s: the R1 script run is not the frozen deploy/feishu_r1/%s' % (actual, name))
+    return failures
+
+
+def preflight(config, *, apply, scripts_dir, frozen_check=frozen_failures, new_batch=True):
+    """What the scheduled run needs before it may start; a list of problems, empty when ready.
+    Configured is not working: the interpreter, openpyxl, lark-cli and the commands are probed.
+    The rules only for starting a new version (timezone, daily_fallback, run_receipt_command)
+    are skipped when ``new_batch`` is false, so an active version still resumes from its
+    frozen material; everything a resume itself needs is always checked."""
+    problems = []
+    if importlib.util.find_spec('openpyxl') is None:
+        problems.append('openpyxl is not importable by ' + sys.executable)
+    if not isinstance(load_json(config.get('policy') or '', None), dict):
+        problems.append('policy unreadable: %s' % config.get('policy'))
+    if new_batch:
+        try:
+            parse_schedule(config.get('timezone'), config.get('daily_fallback'))
+        except Exception as error:
+            problems.append('config timezone/daily_fallback invalid (%r, %r): %s'
+                            % (config.get('timezone'), config.get('daily_fallback'), error))
+    if 'force' in config:
+        problems.append('force is a manual --force-new-batch flag, never a config key')
+    for key in ('manifest_command', 'fetch_command', 'run_receipt_command', 'served_command'):
+        argv = config.get(key)
+        if (argv is None and key == 'served_command') or (key == 'run_receipt_command' and not new_batch):
+            continue
+        if not isinstance(argv, list) or not argv:
+            problems.append('config %s is not an argv list' % key)
+        elif shutil.which(argv[0]) is None:
+            problems.append('%s: %s not found on PATH' % (key, argv[0]))
+    missing = [name for name in sorted(set(SCRIPT.values())) if not (Path(scripts_dir) / name).is_file()]
+    if missing:
+        problems.append('R1 scripts missing in %s: %s' % (scripts_dir, ', '.join(missing)))
+    if apply:
+        lark = shutil.which('lark-cli')
+        if lark is None:
+            problems.append('lark-cli not found on PATH=%s' % os.environ.get('PATH'))
+        else:
+            try:
+                probe = subprocess.run([lark, '--version'], capture_output=True, timeout=60)
+                if probe.returncode:
+                    problems.append('lark-cli --version exited %s' % probe.returncode)
+            except (OSError, subprocess.SubprocessError) as error:
+                problems.append('lark-cli --version failed: %s' % error)
+        problems += frozen_check(scripts_dir)
+    return problems
 
 
 def main(argv=None):
@@ -961,6 +1439,14 @@ def main(argv=None):
     drop.add_argument('--root', type=Path, required=True)
     drop.add_argument('--sha256', required=True)
     drop.add_argument('--reason', required=True)
+    latest = sub.add_parser('deliver-latest', help='scheduled: resume the active version or deliver the newest accepted successor')
+    latest.add_argument('--config', type=Path, required=True,
+                        help='JSON: root, policy, timezone, daily_fallback (HH:MM), manifest_command, '
+                             'run_receipt_command, fetch_command[, served_command, scripts_dir]')
+    latest.add_argument('--apply', action='store_true', help='allow the lark-cli stages')
+    latest.add_argument('--force-new-batch', action='store_true',
+                        help='manual only: start the latest successor now, skipping the settlement/once-a-day '
+                             'gate (never overtakes an active version or the lineage rule)')
     child = sub.add_parser('exec-script')
     child.add_argument('spec', type=Path)
     a = parser.parse_args(argv)
@@ -971,6 +1457,23 @@ def main(argv=None):
             raise SystemExit('refusing to overwrite an existing policy: ' + str(a.out))
         atomic_json(a.out, draft_policy(a.switch_receipt))
         return 0
+    if a.command == 'deliver-latest':
+        config = load_json(a.config)
+        if not isinstance(config, dict) or not config.get('root'):
+            raise SystemExit('deliver-latest config unreadable or without root: ' + str(a.config))
+        scripts = Path(config.get('scripts_dir') or DEFAULT_SCRIPTS)
+        frozen = (lambda: frozen_failures(scripts)) if a.apply else None
+        status = deliver_latest(Path(config['root']), ScriptRunner(scripts, apply=a.apply, frozen_check=frozen),
+                                policy=load_json(config.get('policy') or '', None),
+                                manifest_command=config.get('manifest_command'),
+                                fetch_command=config.get('fetch_command'), served_command=config.get('served_command'),
+                                run_receipt_command=config.get('run_receipt_command'),
+                                timezone=config.get('timezone'), daily_fallback=config.get('daily_fallback'),
+                                force=a.force_new_batch,
+                                preflight=lambda new_batch: preflight(config, apply=a.apply, scripts_dir=scripts,
+                                                                      new_batch=new_batch))
+        print(json.dumps(status, ensure_ascii=False))
+        return 0 if status.get('outcome') in ('delivered', 'already_delivered', 'up_to_date', 'waiting', 'busy') else 1
     if a.command == 'abandon':
         print(json.dumps(abandon(a.root, a.sha256, a.reason), ensure_ascii=False))
         return 0
@@ -983,7 +1486,11 @@ def main(argv=None):
         if not a.sha256:
             raise SystemExit('--snapshot needs --sha256 (the hash the receiver acknowledged)')
         source = verified_source(a.snapshot, a.sha256, origin='explicit snapshot')
-    state = deliver(a.root, source, ScriptRunner(a.scripts_dir, apply=a.apply),
+    frozen = (lambda: frozen_failures(a.scripts_dir)) if a.apply else None
+    refused = frozen() if frozen else []
+    if refused:
+        raise SystemExit('refusing --apply: ' + '; '.join(refused))
+    state = deliver(a.root, source, ScriptRunner(a.scripts_dir, apply=a.apply, frozen_check=frozen),
                     layout=load_json(a.layout) if a.layout else None,
                     policy=load_json(a.policy) if a.policy else None)
     print(json.dumps({k: state.get(k) for k in ('outcome', 'blocked', 'failed_stage',

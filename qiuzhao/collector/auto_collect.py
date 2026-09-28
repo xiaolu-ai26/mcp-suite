@@ -23,10 +23,10 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 try:
-    from qiuzhao.normalize import normalize_records
+    from qiuzhao.normalize import LOCATION_RAW_FIELDS, carry_forward_location, normalize_records, sync_location
 except ImportError:
     sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-    from qiuzhao.normalize import normalize_records
+    from qiuzhao.normalize import LOCATION_RAW_FIELDS, carry_forward_location, normalize_records, sync_location
 
 TZ = timezone(timedelta(hours=8))
 DATA_DIR = Path(os.environ.get("QIUZHAO_DATA_DIR", "/var/lib/mcp-suite"))
@@ -207,14 +207,26 @@ def merge_tencent_jobs(tencent_jobs):
             incoming['collector_identity_aliases'] = sorted(aliases)
         # Preserve fields this adapter does not supply, but refresh supplied
         # business values. Observation timestamps alone must not rewrite jobs.
+        # Geography: a detail without its place keeps only the old raw place evidence; old raw place
+        # fields the new detail does not supply never sit next to a new place; then only the
+        # location fields are recomputed from the merged raw values.
+        carry_forward_location(incoming, old)
         refreshed = dict(old)
+        for field in LOCATION_RAW_FIELDS:
+            if field not in incoming:
+                refreshed.pop(field, None)
         refreshed.update(incoming)
+        sync_location(refreshed)
         if old.get('source_is_active') is False and incoming.get('source_is_active') is not True:
             for field in ('status', 'status_note', 'source_is_active', 'source_status_raw',
                           'source_list_status_raw', 'source_detail_status_raw', 'source_status_evidence'):
                 if field in old:
                     refreshed[field] = old[field]
-        if ({k: v for k, v in old.items() if k not in volatile}
+        # Compare against the old row with its location recomputed the same way, so a
+        # timestamp-only refresh still never rewrites a row just to restate its location.
+        old_view = dict(old)
+        sync_location(old_view)
+        if ({k: v for k, v in old_view.items() if k not in volatile}
                 == {k: v for k, v in refreshed.items() if k not in volatile}):
             continue
         if old.get('detail_url') != refreshed.get('detail_url'):

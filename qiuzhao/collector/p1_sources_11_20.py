@@ -433,6 +433,27 @@ def _didi(company,scope,f,cov):
 
  return jobs
 
+def _lenovo_location(soup):
+ """Official General Information fields: Country/Region, State, City and the Additional Locations
+ list ("* Country - State - City"), kept as the source wrote them so each city keeps its own
+ country/state. Anything the page does not state stays ''."""
+ fields={}
+ for box in soup.select('.article__content__view__field'):
+  label=box.select_one('.article__content__view__field__label');value=box.select_one('.article__content__view__field__value')
+  if label and value:fields[label.get_text(' ',strip=True).rstrip(':').strip()]=value.get_text(' ',strip=True)
+ place={'country':fields.get('Country/Region',''),'state':fields.get('State',''),'city':fields.get('City',''),'locations_raw':[]}
+ for strong in soup.find_all('strong'):
+  if strong.get_text(' ',strip=True).startswith('Additional Locations'):
+   for line in strong.parent.get_text('\n',strip=True).split('\n'):
+    line=line.strip().lstrip('*').strip()
+    if not line or line.startswith('Additional Locations') or line in (':',):continue
+    parts=[x.strip() for x in re.split(r'\s+-\s+',line)]
+    loc={'country':parts[0],'state':parts[1] if len(parts)>2 else '','city':' - '.join(parts[2:] if len(parts)>2 else parts[1:])}
+    if loc not in place['locations_raw']:place['locations_raw'].append(loc)
+   break
+ if not place['locations_raw'] and (place['country'] or place['city']):
+  place['locations_raw']=[{'country':place['country'],'state':place['state'],'city':place['city']}]
+ return place
 def _lenovo(company,scope,f,cov):
  def listing(kind):
   url='https://jobs.lenovo.com/en_US/careers/'+kind;seen={};visited=set();official_total=None
@@ -477,7 +498,9 @@ def _lenovo(company,scope,f,cov):
   if not desc:raise ValueError('Lenovo empty job description '+ident)
   title_el=soup.select_one('.banner__text__title');title=title_el.get_text(' ',strip=True) if title_el else title
   plain=soup.get_text(' ',strip=True);city=re.search(r'City:\s*(.+?)\s*Date:',plain)
-  return job(company,'lenovo',ident,title,url,desc,scope,path,cities=[city.group(1)] if city else [],cohort_raw='',cohort_scope='official_job_description')
+  place=_lenovo_location(soup)
+  cities=[x['city'] for x in place['locations_raw'] if x['city']] or ([place['city']] if place['city'] else [city.group(1)] if city else [])
+  return job(company,'lenovo',ident,title,url,desc,scope,path,cities=list(dict.fromkeys(cities)),location_country_raw=place['country'],location_state_raw=place['state'],locations_raw=place['locations_raw'],cohort_raw='',cohort_scope='official_job_description')
  jobs=[]
  with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
   for result in [pool.submit(detail,x) for x in rows.items()]:

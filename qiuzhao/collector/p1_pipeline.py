@@ -852,6 +852,11 @@ def merge_records(previous, results):
                                       'source_detail_status_raw','source_status_evidence','source_status_dates','source_status_conflict'):
                             if field in incoming:retained[field]=incoming[field]
                     incoming=retained
+                # A current detail without its place never erases the verified old one: only the
+                # raw location evidence is carried, then every location field is recomputed.
+                from qiuzhao.normalize import carry_forward_location
+                if carry_forward_location(incoming, old):
+                    normalize_records([incoming])
                 # Preserve existing identical-ID multiplicity without leaving stale twin rows.
                 for twin in twin_indices.get(old['id'], [index]):
                     prior = merged[twin]

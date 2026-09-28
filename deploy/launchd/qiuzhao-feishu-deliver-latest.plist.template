@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Template, not installed. Fill the @...@ placeholders on the delivery Mac, save as
+  ~/Library/LaunchAgents/<label>.plist and `launchctl bootstrap gui/$(id -u) <file>`.
+  Runs as the logged-in user (the lark-cli login lives there). launchd's default PATH is
+  /usr/bin:/bin:/usr/sbin:/sbin, so @PATH@ must name the directories of lark-cli and ssh
+  (with Homebrew on Apple silicon: /opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin), and
+  @PYTHON@ is an absolute interpreter that has openpyxl. Each run probes the interpreter,
+  openpyxl, lark-cli, the configured commands and the frozen deploy manifest first and
+  records preflight_failed (exit 1, alert) instead of acting when any is missing.
+  Hourly at :20, after the server's hourly activation at :00. One run at a time is
+  enforced by deliver-latest's own lock; a busy run exits 0 and waits for the next hour.
+-->
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>@LABEL@</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>@PYTHON@</string>
+		<string>-X</string>
+		<string>utf8</string>
+		<string>@REPO@/deploy/windows_excel_delivery.py</string>
+		<string>deliver-latest</string>
+		<string>--config</string>
+		<string>@CONFIG@</string>
+		<string>--apply</string>
+	</array>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>PATH</key>
+		<string>@PATH@</string>
+		<key>HOME</key>
+		<string>@HOME@</string>
+	</dict>
+	<key>WorkingDirectory</key>
+	<string>@REPO@</string>
+	<key>StartCalendarInterval</key>
+	<dict>
+		<key>Minute</key>
+		<integer>20</integer>
+	</dict>
+	<key>RunAtLoad</key>
+	<false/>
+	<key>ProcessType</key>
+	<string>Background</string>
+	<key>StandardOutPath</key>
+	<string>@LOG_DIR@/qiuzhao-deliver-latest.stdout.log</string>
+	<key>StandardErrorPath</key>
+	<string>@LOG_DIR@/qiuzhao-deliver-latest.stderr.log</string>
+</dict>
+</plist>

@@ -8,7 +8,8 @@ CLI:
     python -m qiuzhao.normalize --path <jobs.json> [--check]
 
 行为:
-- 旧归一化字段只补缺失值；graduation_years/basis/note 每次依据 v4 真源重算，避免单值缓存丢失多届。
+- 旧归一化字段只补缺失值；graduation_years/basis/note 与地点字段(LOCATION_FIELDS)每次依据 v4 真源重算，
+  避免单值缓存丢失多届、旧占位地点盖住新原始地点。
 - 补值优先级:对照表(复合键优先) -> 关键词规则 -> 兜底值。
 - 公司名三层字段(canonical_company/company/company_name)走 `qiuzhao.company_names`:
   展示名一律对齐到规范名,recruitment_unit/recruiting_unit_raw 只单向补齐。
@@ -32,8 +33,25 @@ from qiuzhao import company_names as CN
 NORMALIZED_FIELDS = [
     "graduation_years", "graduation_year_basis", "graduation_year_note", "graduation_year_constraints", "major_categories",
     "job_category_normalized", "graduation_year_normalized", "major_normalized",
-    "city_normalized", "cities_normalized", "industry", "country",
-    "overseas_flag", "region", "recruitment_type",
+    "industry", "recruitment_type",
+]
+
+# 地点字段:每次依据原始地点(cities / locations_raw / location_country_raw ...)经
+# v4_fields.location_of 重算,不只补空值,也**不**并入 NORMALIZED_FIELDS——collector/run.py
+# 会把 NORMALIZED_FIELDS 的上一轮取值带进刷新行,旧的"未披露/中国/mainland"占位就会盖住新原始值。
+# 国家未知时 country 为空串、region 为空串、overseas_flag 为 None,不默认中国。
+# country_basis 与 countries 一一对应:source(来源字段)/place(地名知识)/legacy(旧值:没有来源
+# 字段支持也未被推翻,属不确定值)。州省与多地点存为 location_state / locations_normalized,不占用原始
+# 字段名(state 在别处可能是招聘状态)。
+LOCATION_FIELDS = [
+    "cities_normalized", "city_normalized", "country", "country_basis", "location_state", "work_mode",
+    "locations_normalized", "region", "overseas_flag",
+]
+
+# 采集器写下的原始地点证据。新一轮缺这些字段时,只有它们从旧记录带过来(见 carry_forward_location)。
+LOCATION_RAW_FIELDS = [
+    "cities", "locations_raw", "location_country_raw", "location_state_raw",
+    "country_raw", "province_raw", "work_mode_raw", "location_raw_provenance",
 ]
 
 # 公司名三层字段:由 qiuzhao.company_names 规范化(展示名对齐 canonical,用人单位层单向补齐)。
@@ -45,7 +63,7 @@ COMPANY_FIELDS = [
 ]
 
 # 统计与"会改动已有非空值"自检覆盖的字段全集。
-REPORTED_FIELDS = [*NORMALIZED_FIELDS, *COMPANY_FIELDS]
+REPORTED_FIELDS = [*NORMALIZED_FIELDS, *LOCATION_FIELDS, *COMPANY_FIELDS]
 
 KEY_SEP = "\x1f"
 
@@ -85,7 +103,7 @@ def _load_tables():
         payload = json.load(f)
     tables = payload.get("tables", {})
     raw_sets = payload.get("value_sets") or _EMBEDDED_VALUE_SETS
-    value_sets = {f: set(raw_sets.get(f, _EMBEDDED_VALUE_SETS.get(f, []))) for f in NORMALIZED_FIELDS}
+    value_sets = {f: set(raw_sets.get(f, _EMBEDDED_VALUE_SETS.get(f, []))) for f in [*NORMALIZED_FIELDS, *LOCATION_FIELDS]}
     return tables, value_sets
 
 
@@ -128,117 +146,76 @@ def _set(record, field, value, stats) -> bool:
     return True
 
 
-# ---------------------------------------------------------------- 城市
+# ---------------------------------------------------------------- 地点
 
-_CJK_RE = re.compile(r"[一-鿿]")
+def _sync_location(record, stats):
+    """地点字段 = v4_fields.location_of(原始地点);未知保持未知(空串/None),不默认中国。
 
-
-def _clean_city_element(raw):
-    """单个原始城市写法 -> 归一化城市;无法识别返回 None(丢弃)。"""
-    if not isinstance(raw, str):
-        return None
-    s = raw.strip()
-    if not s or s.startswith("-"):
-        return None
-    v = _lookup("city_element", s)
-    if v is not None:
-        return v
-    known = _known("cities_normalized")
-    cand = s[:-1] if s.endswith("市") else s
-    if cand in known:
-        return cand
-    if "-" in cand:
-        head = cand.split("-", 1)[0]
-        if head.endswith("市"):
-            head = head[:-1]
-        if head in known:
-            return head
-    if cand in ("中国", "全国"):
-        return "全国"
-    if cand in ("未知", "未披露"):
-        return "未披露"
-    return "未披露"
+    不读 normalize_tables.json 的 city_* 表:那几张表来自旧库,含 未披露->mainland、
+    未披露->海外 这类默认值,而且采集机上缺表时整批城市会退化成"未披露"。
+    """
+    from qiuzhao.v4_fields import location_of
+    loc = location_of(record)
+    cities = loc["cities"]
+    region = loc["region"]
+    values = {
+        "cities_normalized": cities or ["未披露"],
+        "city_normalized": cities[0] if cities else "未披露",
+        "country": "、".join(loc["countries"]),
+        "country_basis": loc["country_basis"],
+        "location_state": "、".join(loc["states"]),
+        "work_mode": "、".join(loc["work_modes"]),
+        "locations_normalized": loc["locations"],
+        "region": region,
+        "overseas_flag": ("海外" in region) if region else None,
+    }
+    for field, value in values.items():
+        if record.get(field) != value or field not in record:
+            record[field] = value
+            stats[field] += 1
 
 
-def _fill_cities(record, stats):
-    # cities_normalized
-    if _is_empty(record.get("cities_normalized")):
-        raw = record.get("cities")
-        cleaned = []
-        if isinstance(raw, list):
-            for e in raw:
-                v = _clean_city_element(e)
-                if v is not None and v not in cleaned:
-                    cleaned.append(v)
-        if cleaned:
-            _set(record, "cities_normalized", cleaned, stats)
-        else:
-            _set(record, "cities_normalized", ["未披露"], stats)
-    # city_normalized
-    if _is_empty(record.get("city_normalized")):
-        v = None
-        raw = record.get("cities")
-        if isinstance(raw, list) and raw:
-            v = _lookup("cities_tuple_to_city", raw)
-        if v is None:
-            cn = record.get("cities_normalized")
-            if isinstance(cn, list) and cn:
-                v = cn[0]
-        if v is None:
-            v = "未披露"
-        _set(record, "city_normalized", v, stats)
+def sync_location(record) -> None:
+    """Recompute only the location fields of one record (merge paths that must not re-run the
+    other normalizers)."""
+    _sync_location(record, {f: 0 for f in LOCATION_FIELDS})
 
 
-# ---------------------------------------------------------------- country / region / overseas_flag
+def carry_forward_location(new, old) -> bool:
+    """新一轮缺原始地点时,只把旧记录的原始地点证据带过来;不复活旧整行,也不改任何时间戳。
 
-def _fill_country(record, stats):
-    if not _is_empty(record.get("country")):
-        return
-    city = _s(record.get("city_normalized"))
-    v = _lookup("city_source_to_country", city, record.get("source_name"))
-    if v is None:
-        v = _lookup("city_to_country", city)
-    if v is None:
-        if city in ("", "全国", "未披露"):
-            v = "中国"
-        elif _CJK_RE.search(city):
-            v = "中国"
-        elif city:
-            v = "海外"
-        else:
-            v = "中国"
-    _set(record, "country", v, stats)
-
-
-def _fill_region(record, stats):
-    if not _is_empty(record.get("region")):
-        return
-    city = _s(record.get("city_normalized"))
-    country = _s(record.get("country"))
-    v = _lookup("city_to_region", city)
-    if v is None:
-        if country and country != "中国":
-            # 数据中中文海外城市用 "overseas",英文写法用 "海外"
-            v = "overseas" if _CJK_RE.search(city) else "海外"
-        else:
-            v = "mainland"
-    _set(record, "region", v, stats)
-
-
-def _fill_overseas_flag(record, stats):
-    if record.get("overseas_flag") is not None:
-        return
-    region = _s(record.get("region"))
-    country = _s(record.get("country"))
-    if region in ("overseas", "海外"):
-        v = True
-    elif region:
-        v = False
-    elif country and country != "中国":
-        v = True
+    - 新行完全没有原始地点(cities 为空或只有 未知/未披露 这类占位):整组 LOCATION_RAW_FIELDS 带过来。
+    - 新行有同一组城市、只是缺国家/州/多地点关联:只补缺的那几个字段。
+    返回是否带了值;带值时记 location_carried_from_reviewed_at(旧证据的复核时间)。
+    """
+    from qiuzhao.v4_fields import has_raw_location, location_of
+    if not isinstance(old, dict):
+        return False
+    old_loc = location_of(old)
+    if not has_raw_location(old) and not old_loc["countries"]:
+        return False
+    if not has_raw_location(new):
+        fields = [f for f in LOCATION_RAW_FIELDS if not _is_empty(old.get(f))]
     else:
-        v = False
-    _set(record, "overseas_flag", v, stats)
+        new_loc = location_of(new)
+        if set(new_loc["cities"]) != set(old_loc["cities"]):
+            return False                      # a different place: the new evidence stands alone
+        record_level = () if new.get("locations_raw") else (   # new triples: old record fields stay out
+            "location_country_raw", "location_state_raw", "country_raw", "province_raw")
+        fields = [f for f in ("locations_raw", *record_level, "location_raw_provenance")
+                  if _is_empty(new.get(f)) and not _is_empty(old.get(f))]
+    legacy = [c for c, b in zip(old_loc["countries"], old_loc["country_basis"]) if b == "legacy"]
+    carry_legacy = len(legacy) == 1 and not new.get("locations_raw") and not any(
+        f in ("locations_raw", "location_country_raw", "country_raw") for f in fields)
+    if not fields and not carry_legacy:
+        return False
+    for f in fields:
+        new[f] = json.loads(json.dumps(old[f], ensure_ascii=False))
+    if carry_legacy and not location_of(new)["countries"]:
+        new["country"], new["country_basis"] = legacy[0], ["legacy"]
+    new["location_carried_from_reviewed_at"] = (old.get("location_carried_from_reviewed_at")
+                                                or old.get("reviewed_at"))
+    return True
 
 
 # ---------------------------------------------------------------- 毕业年份
@@ -422,10 +399,7 @@ def _sync_company(record, stats):
 
 def _normalize_one(record, stats):
     _sync_company(record, stats)
-    _fill_cities(record, stats)
-    _fill_country(record, stats)
-    _fill_region(record, stats)
-    _fill_overseas_flag(record, stats)
+    _sync_location(record, stats)
     _fill_graduation_year(record, stats)
     _fill_job_category(record, stats)
     _fill_major(record, stats)

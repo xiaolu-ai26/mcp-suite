@@ -1,0 +1,68 @@
+{
+  "_note": "What each environment runs for the qiuzhao daily chain, and where it comes from. `sha256` is filled only when a reviewed version is frozen for deployment (deploy/deploy_manifest.py --check compares it with the repo file); `pending` entries are still being changed and must not be deployed from this manifest. Deployment targets are installed files, not the whole tree.",
+  "environments": {
+    "windows_collector": {
+      "interpreter": "collector venv python (Windows), same one the scheduled task runs",
+      "files": [
+        {"repo": "deploy/windows_collector.py", "target": "<collector root>/deploy/windows_collector.py", "owner": "delivery", "sha256": "fdb4565e4130020856f75cc24273f1d46bae4ee97000a655bdfeeeb22c955194", "status": "live since 2026-09-28 14:56 (PR #12, capacity deferral)"},
+        {"repo": "deploy/windows_rebase.py", "target": "<collector root>/deploy/windows_rebase.py", "owner": "delivery", "sha256": null, "status": "unchanged since main"},
+        {"repo": "qiuzhao/normalize.py", "target": "<collector root>/qiuzhao/normalize.py", "owner": "location", "sha256": "8590fd48eab7f84126866a31486286c8c72f680ad86292f51ae7bbaa43c4e02b", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
+        {"repo": "qiuzhao/v4_fields.py", "target": "<collector root>/qiuzhao/v4_fields.py", "owner": "location", "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
+        {"repo": "qiuzhao/collector/run.py", "target": "<collector root>/qiuzhao/collector/run.py", "owner": "location", "sha256": "14961256980c23cb91d8e6cb54dc13364da49e1b0cc3b3708b3b5df5d4855ae2", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
+        {"repo": "qiuzhao/collector/auto_collect.py", "target": "<collector root>/qiuzhao/collector/auto_collect.py", "owner": "location", "sha256": "caf752a66308f840242ce80e962dd937c973a37acf7d94f41c558128a1caa639", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
+        {"repo": "qiuzhao/collector/p1_pipeline.py", "target": "<collector root>/qiuzhao/collector/p1_pipeline.py", "owner": "location", "sha256": "fff52389c4aad220183c77db6c29e63186afe1736c0f340e535a2d0a04cda0aa", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
+        {"repo": "qiuzhao/collector/p1_sources_11_20.py", "target": "<collector root>/qiuzhao/collector/p1_sources_11_20.py", "owner": "location", "sha256": "daf48cd94b6e27a22c0e8783f2bc679c655d89ff06ab81a2fb21f7b6560c4031", "status": "frozen 2026-09-28: location review PASS (batch 2)"}
+      ],
+      "resources": [
+        {"repo": "qiuzhao/normalize_tables.json", "target": "<collector root>/qiuzhao/normalize_tables.json", "owner": "location", "sha256": null, "status": "pending: absent on the collector (measured 2026-09-25 00:16:51); its 未披露 defaults must be fixed and tested with the location rules before it is installed. The collector reports it in receipt.resources.missing until then."}
+      ]
+    },
+    "server": {
+      "interpreter": "/opt/mcp-suite/.venv/bin/python (receiver, activation); python3 for the rotation module",
+      "files": [
+        {"repo": "deploy/windows_receiver.py", "target": "/opt/mcp-suite/deploy/windows_receiver.py", "owner": "delivery", "sha256": "3ade75a0dc40c0e713560f8eb19595b50e48baef1b55dc562ae77d5bf0800213", "status": "live since 2026-09-28 14:53 (PR #12, capacity marker); live before: 95890f03"},
+        {"repo": "deploy/windows_receiver_rotation.py", "target": "/var/lib/mcp-suite/jobs.json.bak.windows.rotation.py", "owner": "delivery", "sha256": "95911ed44db62253c0225a3d32841a039ac0b734570cb529bfcb1b7f3500bff3", "status": "identical to live"},
+        {"repo": "deploy/activate_qiuzhao_dataset.py", "target": "/opt/mcp-suite/deploy/activate_qiuzhao_dataset.py", "owner": "delivery", "sha256": null, "status": "unchanged since main"},
+        {"repo": "deploy/qiuzhao-dataset-activation.cron", "target": "/etc/cron.d/qiuzhao-dataset-activation", "owner": "delivery", "sha256": null, "status": "unchanged since main"},
+        {"repo": "core/server.py", "target": "/opt/mcp-suite/core/server.py", "owner": "location", "sha256": "686555f2c959b472b31505c5741a48c406894128a5119cd36f727daa8ae3b675", "status": "frozen 2026-09-28: location review PASS (batch 2); restart mcp-suite.service only"},
+        {"repo": "qiuzhao/tools.py", "target": "/opt/mcp-suite/qiuzhao/tools.py", "owner": "location", "sha256": "8d4c7fa0f8714c639f8fee11327b085157e2523ac2b2634e16d4278d66695b43", "status": "frozen 2026-09-28: location review PASS (batch 2); restart mcp-suite.service only"},
+        {"repo": "qiuzhao/v4_fields.py", "target": "/opt/mcp-suite/qiuzhao/v4_fields.py", "owner": "location", "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860", "status": "frozen 2026-09-28: location review PASS (batch 2); restart mcp-suite.service only"}
+      ]
+    },
+    "delivery_mac": {
+      "interpreter": "the explicit @PYTHON@ of the launchd job, with openpyxl; lark-cli on the job's PATH, logged in as the Base owner. Measured 2026-09-28 on the delivery Mac: system python 3.13.5, openpyxl 3.1.5, lark-cli 1.0.89. deliver-latest probes both before each run.",
+      "_runtime": "Every file windows_excel_delivery.py executes or reads (DELIVERY_RUNTIME_FILES). Before any --apply action it requires each to be listed here with a matching sha256 and no pending status; one pending or drifted entry refuses the run. Frozen 2026-09-28 after the delivery (batch 1) and location (batch 2) reviews both passed. p1_pipeline.py also imports the collector modules at import time; they do not shape the projection and are not listed. This manifest is not listed: it cannot carry its own hash.",
+      "files": [
+        {"repo": "deploy/windows_excel_delivery.py", "target": "run from the repo checkout", "owner": "delivery", "sha256": "09e0b327774719ea854c914e06890746fc874659085c10daf285f203394aabe6", "status": "frozen 2026-09-28: delivery review PASS (batch 1: deliver-latest, settlement gate, manual quota)"},
+        {"repo": "deploy/deploy_manifest.py", "target": "run from the repo checkout (frozen check)", "owner": "delivery", "sha256": "babeca2b6c80fb059af4960ab66328db85c96107213a2e7420e08a0b3378c8fc", "status": "frozen 2026-09-28: delivery review PASS (batch 1: deliver-latest, settlement gate, manual quota)"},
+        {"repo": "deploy/feishu_r1/run_step2_import_r1.py", "target": "loaded by windows_excel_delivery.py", "owner": "delivery", "sha256": "6bca3515838deeb6924105cb82f7e75c64f653003d7106d23a81bc88c1779da1", "status": "frozen 2026-09-28: byte-identical to the external R1 script used for the 2026-09-24 deliveries"},
+        {"repo": "deploy/feishu_r1/run_step4_switch_r1.py", "target": "loaded by windows_excel_delivery.py", "owner": "delivery", "sha256": "b71a34fc914c01eb9ff02a9162f18db9aacc2ce1e3920b4a54e13cda5e35e033", "status": "frozen 2026-09-28: byte-identical to the external R1 script used for the 2026-09-24 deliveries"},
+        {"repo": "deploy/feishu_r1/sprite_build_projection_r1.py", "target": "loaded by windows_excel_delivery.py", "owner": "location", "sha256": "7e0bb5bf0d77c28d2b508fda0e1465cc0ffff83178c812c5e3a20e432301f41d", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
+        {"repo": "deploy/feishu_r1/build_xlsx_r1.py", "target": "loaded by windows_excel_delivery.py", "owner": "location", "sha256": "b8d21682add3ba751aa062d943ea2977eace0f6ee988af05dce6fea7c4bfa9b4", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
+        {"repo": "deploy/feishu_r1/build_prod_schema_snapshot.py", "target": "loaded by windows_excel_delivery.py", "owner": "location", "sha256": "f8abaa47111f42b35cb6532b858578cc6d28e44bfebb625e1749293d66f1fb2b", "status": "frozen 2026-09-28: byte-identical to the external R1 script used for the 2026-09-24 deliveries"},
+        {"repo": "deploy/feishu_r1/run_step3_schema_verify_r1.py", "target": "loaded by windows_excel_delivery.py", "owner": "location", "sha256": "4de6e53671ecab0c3e4e022b9eb5d52cc4c3be229fbf7614c949681491734fc8", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
+        {"repo": "qiuzhao/__init__.py", "target": "imported from the repo checkout", "owner": "delivery", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "status": "frozen 2026-09-28: unchanged since main b9c5971"},
+        {"repo": "qiuzhao/collector/__init__.py", "target": "imported from the repo checkout", "owner": "delivery", "sha256": "9e1b7b607744bcca9719afdc61ab22490adc9357d6d436981e0e459cf466b04d", "status": "frozen 2026-09-28: unchanged since main b9c5971"},
+        {"repo": "qiuzhao/collector/p1_pipeline.py", "target": "imported by windows_excel_delivery.py (atomic_json)", "owner": "collector", "sha256": "fff52389c4aad220183c77db6c29e63186afe1736c0f340e535a2d0a04cda0aa", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
+        {"repo": "qiuzhao/collector/portable_runtime.py", "target": "imported by windows_excel_delivery.py (fcntl)", "owner": "collector", "sha256": "0975506c4a1b4732ca39f240b9c2f4546fe26d4d008b991fd376f0aef1450b19", "status": "frozen 2026-09-28: unchanged since main b9c5971"},
+        {"repo": "qiuzhao/v4_fields.py", "target": "imported by the R1 projection", "owner": "location", "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
+        {"repo": "qiuzhao/collector/lark_sync_enrichment.py", "target": "imported by the R1 projection", "owner": "location", "sha256": "6e1256ec35afa125ac073a079341de2057bc7435c07d9c7d72aea072e2d7c746", "status": "frozen 2026-09-28: unchanged since main b9c5971"},
+        {"repo": "qiuzhao/collector/sync_lark_multivalue.py", "target": "imported by the R1 projection", "owner": "location", "sha256": "8fa3d2b7690467ffabafe632c0e635bed38bfa5dfe5239e97b139b6426d8e0cc", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
+        {"repo": "qiuzhao/normalize.py", "target": "imported by the R1 projection (via sync_lark_multivalue)", "owner": "location", "sha256": "8590fd48eab7f84126866a31486286c8c72f680ad86292f51ae7bbaa43c4e02b", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
+        {"repo": "qiuzhao/company_names.py", "target": "imported by normalize.py", "owner": "location", "sha256": "ee0943560d6ed0523b4bd70f6363b529e8190b60333fad2fc7a6678ec4198851", "status": "frozen 2026-09-28: unchanged since main b9c5971"}
+      ],
+      "resources": [
+        {"repo": "qiuzhao/normalize_tables.json", "target": "read by normalize.py", "owner": "location", "sha256": "a936edefd0ca3ace46dadf41237774e91c55cf428e77c8bee9d267554c5443ef", "status": "frozen 2026-09-28: unchanged since main b9c5971"},
+        {"repo": "qiuzhao/data/company_aliases.json", "target": "read by company_names.py", "owner": "location", "sha256": "ae311e93b754b5f76372f7668aa1076fd6666e79c51ca45ff2113b7642539e6f", "status": "frozen 2026-09-28: unchanged since main b9c5971"},
+        {"repo": "qiuzhao/collector/p1_platform_companies.json", "target": "read by company_names.py", "owner": "location", "sha256": "df65b10b6c4aaed81170df035b1fc9412654282fc1bc965367735b1b9dc54ca4", "status": "frozen 2026-09-28: unchanged since main b9c5971"}
+      ]
+    },
+    "delivery_mac_ops": {
+      "interpreter": "not loaded by windows_excel_delivery.py; frozen and deployed on their own",
+      "files": [
+        {"repo": "deploy/server_backup_retention.py", "target": "run from the repo checkout", "owner": "delivery", "sha256": null, "status": "on main since b0f71da (PR #13); run by the operator, not by the delivery job"},
+        {"repo": "deploy/launchd/qiuzhao-feishu-deliver-latest.plist.template", "target": "~/Library/LaunchAgents (filled copy)", "owner": "delivery", "sha256": "515e112ebb7d891ddcc9c157e9e32376f52fc56bb93479b69d633206a7d26c47", "status": "frozen 2026-09-28: delivery review PASS (batch 1); template, not installed"}
+      ]
+    }
+  }
+}

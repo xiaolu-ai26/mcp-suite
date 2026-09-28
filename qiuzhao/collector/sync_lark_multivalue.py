@@ -253,9 +253,40 @@ def snapshot(out):
 def values_for(raw):
     years, _, note, _ = V.graduation_of(raw)
     majors = V.major_categories_of(raw)
+    loc = V.location_of(raw)
+    # 工作地点 = the stated cities; with no city, a source-stated country (Remote US -> 美国) is still
+    # the place. An old legacy country is not a stated place, a work mode (远程) is never one, and
+    # nothing stated stays 未注明.
+    stated = [c for c, b in zip(loc['countries'], loc['country_basis']) if b != 'legacy']
     return {'毕业届别': years or [note or '未注明'],
-            '工作地点': V.cities_of(raw) or ['未注明'],
+            '工作地点': loc['cities'] or stated or ['未注明'],
             '专业': majors or [V.major_state(raw)]}
+
+
+LOCATION_COLUMNS = ['国家/地区', '州/省', '办公方式', '地点明细']
+LEGACY_MARK = '（旧数据推断，未确认）'
+
+
+def location_values_for(raw):
+    """The location columns next to 工作地点 (R1 projection / Excel / schema verify).
+
+    国家/地区 and 办公方式 are multi-selects holding only standard values (美国/中国/…/未注明):
+    an old country no source field backs is not a confirmed value, so it never becomes an option
+    there. 州/省 is text. 地点明细 keeps which city belongs to which country/state as
+    "国家/州省/城市" joined by "；" when there are several places, and also carries the provenance
+    of an old unconfirmed country (LEGACY_MARK). Not in TARGETS: the live multi-value sync does
+    not own these columns.
+    """
+    loc = V.location_of(raw)
+    confirmed = [c for c, b in zip(loc['countries'], loc['country_basis']) if b != 'legacy']
+    pairs = list(zip(loc['locations'], loc['location_basis']))
+    if len(pairs) < 2 and 'legacy' not in loc['location_basis']:
+        pairs = []
+    return {'国家/地区': confirmed or ['未注明'],
+            '州/省': '、'.join(loc['states']),
+            '办公方式': loc['work_modes'] or ['未注明'],
+            '地点明细': '；'.join('/'.join((l['country'] + (LEGACY_MARK if b == 'legacy' else ''), l['state'], l['city']))
+                              for l, b in pairs)}
 
 
 def make_plan(out, jobs_path):
