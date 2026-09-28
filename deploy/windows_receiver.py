@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Forced-command SSH endpoint: export jobs or CAS-publish a bounded full snapshot."""
+from collections import Counter
 import datetime as dt
 import fcntl
 import gzip
@@ -13,9 +14,25 @@ import sys
 import tempfile
 sys.path.insert(0, '/opt/mcp-suite')
 from qiuzhao.v4_fields import iter_json_file
+import importlib.util,subprocess
+sys.dont_write_bytecode=True
+# The live module is installed next to the backups; the repo copy is deploy/windows_receiver_rotation.py.
+ROTATION_MODULE=os.environ.get('QIUZHAO_ROTATION_MODULE','/var/lib/mcp-suite/jobs.json.bak.windows.rotation.py')
+_rotation_spec=importlib.util.spec_from_file_location('backup_rotation',ROTATION_MODULE)
+_rotation=importlib.util.module_from_spec(_rotation_spec)
+_rotation_spec.loader.exec_module(_rotation)
 ROOT=Path('/var/lib/mcp-suite')
 JOBS=ROOT/'jobs.json'
 LIMIT=1024*1024*1024
+# Exit status and stderr marker of a refusal that happened before any upload byte was read.
+# Emitted only by the ensure_capacity check below (before mkstemp/stdin), never after an
+# acceptance. The publisher treats only this complete marker as "definitely not accepted".
+REFUSED_EXIT=75
+
+def refuse(reason,**detail):
+    sys.stderr.write('RECEIVER_REFUSED '+json.dumps(dict(reason=reason,before_upload=True,**detail),sort_keys=True)+'\n')
+    sys.stderr.flush()
+    raise SystemExit(REFUSED_EXIT)
 
 def digest(path):
     h=hashlib.sha256()
@@ -24,16 +41,20 @@ def digest(path):
     return h.hexdigest()
 
 def identities(path):
-    ids=set()
+    ids=Counter()
     for row in iter_json_file(path,chunk_bytes=65536,strict=True):
-        if not isinstance(row,dict) or not row.get('id') or not row.get('job_title'):
+        if not isinstance(row,dict) or not row.get('job_title'):
             raise ValueError('invalid record')
-        ids.add(str(row['id']))
+        key=('id:'+str(row['id'])) if row.get('id') else 'legacy:'+hashlib.sha256(json.dumps(row,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
+        if row.get('id'):ids[key]=1
+        else:ids[key]+=1
     if not ids:raise ValueError('empty snapshot')
     return ids
 
 def main():
     command=os.environ.get('SSH_ORIGINAL_COMMAND','')
+    if command=='status':
+        print(json.dumps(dict(sha256=digest(JOBS),bytes=JOBS.stat().st_size)));return
     if command=='snapshot':
         # The lock covers the entire stream and its accompanying hash receipt.
         with open(ROOT/'collector.lock','a') as lock:
@@ -51,6 +72,11 @@ def main():
         if digest(JOBS)==after:
             print(json.dumps(dict(published=True,already_published=True,after_sha256=after)));return
         if digest(JOBS)!=expected:raise ValueError('production changed: pull and recollect')
+        try:
+            _rotation.ensure_capacity(ROOT,JOBS.stat().st_size)
+        except ValueError as gate:
+            refuse('capacity_gate',accepted=False,stage='pre_receive',expected_sha256=expected,
+                   candidate_sha256=after,error=str(gate))
         fd,name=tempfile.mkstemp(prefix='.windows-jobs.',dir=ROOT)
         incoming=Path(name)
         try:
@@ -72,6 +98,10 @@ def main():
             if digest(backup)!=expected:raise ValueError('backup mismatch')
             st=JOBS.stat();os.chmod(incoming,st.st_mode&0o777);os.chown(incoming,st.st_uid,st.st_gid)
             os.replace(incoming,JOBS)
+            try:subprocess.Popen([sys.executable,ROTATION_MODULE,'--apply','--deferred'],stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,start_new_session=True,close_fds=True)
+            except Exception as rotation_error:
+                # The data was already accepted. Keep its truthful success receipt.
+                sys.stderr.write('backup rotation deferred: '+str(rotation_error)+'\n')
             print(json.dumps(dict(published=True,before_sha256=expected,after_sha256=after,identities=len(new_ids),backup=str(backup))))
         finally:
             incoming.unlink(missing_ok=True)

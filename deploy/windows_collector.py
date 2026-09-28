@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -47,6 +48,39 @@ class PublishUnavailable(RuntimeError):
     locally (nothing rolled back), skip the publish, and let a later segment retry --
     never let one transient network drop abort the rest of the day's segments.
     """
+
+class CapacityRefused(PublishUnavailable):
+    """The receiver refused before reading any upload byte because the server lacks space.
+
+    Definitely not accepted, so it is filed as refused (not unconfirmed) and the segment is
+    deferred like any other ``PublishUnavailable``; the day keeps collecting. Only the
+    receiver's explicit marker, or the exact legacy capacity-gate text, qualifies.
+    """
+
+# Receiver refusal contract (deploy/windows_receiver.py, 2026-09-28): exit 75 and exactly one
+# RECEIVER_REFUSED json line with reason=capacity_gate, before_upload=true, accepted=false,
+# stage=pre_receive and this call's expected base and candidate hashes. The receiver emits it
+# only when ensure_capacity refuses before mkstemp/stdin. Anything else -- including the
+# pre-marker receivers' plain "capacity gate" traceback -- is an unknown outcome.
+RECEIVER_REFUSED_EXIT=75
+
+def capacity_refusal(completed,expected_base,candidate_sha):
+    """Detail dict when ``completed`` is this call's structured pre-upload capacity refusal, else None."""
+    if completed.returncode!=RECEIVER_REFUSED_EXIT:
+        return None
+    text=(completed.stderr or b'').decode('utf-8',errors='replace')
+    markers=[line for line in text.splitlines() if line.startswith('RECEIVER_REFUSED ')]
+    if len(markers)!=1:
+        return None
+    try:
+        detail=json.loads(markers[0][len('RECEIVER_REFUSED '):])
+    except ValueError:
+        return None
+    if (isinstance(detail,dict) and detail.get('reason')=='capacity_gate' and detail.get('before_upload') is True
+            and detail.get('accepted') is False and detail.get('stage')=='pre_receive'
+            and detail.get('expected_sha256')==expected_base and detail.get('candidate_sha256')==candidate_sha):
+        return detail
+    return None
 
 class _Transient(Exception):
     """Internal signal: this attempt failed in a way retrying might fix."""
@@ -331,6 +365,10 @@ def publish_snapshot(candidate,expected_base,workdir,*,receipt=None):
     (workdir/'receiver.stderr').write_bytes(result.stderr)
     if result.returncode:
         error=result.stderr.decode('utf-8',errors='replace')
+        refused=capacity_refusal(result,expected_base,after)
+        if refused:
+            raise CapacityRefused('receiver capacity gate refused before upload: '
+                                  +json.dumps(refused,sort_keys=True)[:600])
         if 'production changed: pull and recollect' in error or 'CAS mismatch' in error:
             raise CASConflict(error[-1200:])
         raise RuntimeError('receiver rejected publication: '+error[-1200:])
@@ -856,6 +894,13 @@ def publish_stage(state,statepath,run,stage,baseline,*,smoke):
         result=publish_with_rebase(reference,candidate,reference_sha,work,
                                    lambda path:pull(path,receipt=state),
                                    guarded_publish_snapshot(reference,receipt=state),aligned=aligned)
+    except CapacityRefused as error:
+        # Refused before upload: the receiver holds nothing of this candidate.
+        refused=state.pop('publication_intent')
+        refused.update(refused_at=dt.datetime.now().astimezone().isoformat(),reason=str(error)[:800])
+        state.setdefault('refused_publications',[]).append(refused)
+        atomic_json(statepath,state)
+        raise
     except Exception:
         # Whatever happened, the receiver may or may not hold this candidate.
         state.setdefault('unconfirmed_publications',[]).append(state.pop('publication_intent'))
@@ -1185,6 +1230,16 @@ def runner_skipped_alert(smoke):
         record['record_error']=type(failure).__name__+': '+str(failure)[:200]
     return record
 
+# Resources the pipeline needs beyond code; a missing one is reported, never silently skipped.
+# (normalize.py falls back to built-in value sets when its table is absent; that fallback
+# turns known cities into "未披露", so its absence must be visible in every receipt.)
+REQUIRED_RESOURCES=('qiuzhao/normalize_tables.json',)
+
+def resource_check(root=None):
+    root=Path(root or ROOT)
+    return {'missing':[rel for rel in REQUIRED_RESOURCES if not (root/rel).is_file()],
+            'checked':list(REQUIRED_RESOURCES)}
+
 def delivery_summary(state,stage,*,requested_feishu=False):
     """Four separate states; none of them is inferred from another.
 
@@ -1203,6 +1258,8 @@ def delivery_summary(state,stage,*,requested_feishu=False):
     return {'collection':collection,'publication':publication,
             'server_accepted_sha256':accepted,
             'unconfirmed_publications':len(state.get('unconfirmed_publications') or []),
+            'refused_publications':len(state.get('refused_publications') or []),
+            'resources_missing':(state.get('resources') or {}).get('missing'),
             'feishu':'requested_separately' if requested_feishu else 'not_requested',
             'feishu_route':'excel-import (deploy/windows_excel_delivery.py); the old row-level '
                            'lark_sync_daemon is retired from this runner'}
@@ -1244,6 +1301,7 @@ def main():
         try:
             baseline=run/'jobs.before.json'
             state['capacity']=capacity_check([ROOT/'data/jobs.json',baseline])
+            state['resources']=resource_check()
             state['stage']='snapshot';atomic_json(statepath,state)
             if not baseline.exists() or not state.get('before_sha256'):
                 state['before_sha256']=pull(baseline,receipt=state)
