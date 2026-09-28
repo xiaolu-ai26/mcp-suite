@@ -8,7 +8,7 @@
   "manifest_command": ["ssh", "-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=yes", "<collector ssh target>",
                        "<collector python> -c \"import sys;sys.stdout.write(open(r'<collector root>\\data\\accepted-versions\\latest.json',encoding='utf-8').read())\""],
   "run_receipt_command": ["ssh", "-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=yes", "<collector ssh target>",
-                          "<collector python> -c \"import json,pathlib;m=json.load(open(r'<collector root>\\data\\accepted-versions\\latest.json',encoding='utf-8'));r=json.load(open(pathlib.Path(m['run'])/'receipt.json',encoding='utf-8'));print(json.dumps(dict(run=m['run'],**{k:r.get(k) for k in ('mode','stage','completed_at','finished','success','working_baseline')})))\""],
+                          "<collector python> -c \"import json,pathlib;m=json.load(open(r'<collector root>\\data\\accepted-versions\\latest.json',encoding='utf-8'));r=json.load(open(pathlib.Path(m['run'])/'receipt.json',encoding='utf-8'));print(json.dumps(dict(run=m['run'],**{k:r.get(k) for k in ('mode','stage','completed_at','finished','success','collection','working_baseline')})))\""],
   "fetch_command": ["ssh", "-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=yes", "<server ssh target>",
                     "gzip -1 -c /var/lib/mcp-suite/jobs.json"],
   "served_command": ["ssh", "-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=yes", "<server ssh target>",
