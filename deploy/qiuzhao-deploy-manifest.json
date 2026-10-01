@@ -4,7 +4,7 @@
     "windows_collector": {
       "interpreter": "collector venv python (Windows), same one the scheduled task runs",
       "files": [
-        {"repo": "deploy/windows_collector.py", "target": "<collector root>/deploy/windows_collector.py", "owner": "delivery", "sha256": "fdb4565e4130020856f75cc24273f1d46bae4ee97000a655bdfeeeb22c955194", "status": "live since 2026-09-28 14:56 (PR #12, capacity deferral)"},
+        {"repo": "deploy/windows_collector.py", "target": "<collector root>/deploy/windows_collector.py", "owner": "delivery", "sha256": "1b5468413cabc9863cd7eab07f4da5a2d93e2b7b89257e86770397e3f6ef05f5", "status": "reviewed 2026-10-01: zero-P1-segment recovery guard; deploy pending"},
         {"repo": "deploy/windows_rebase.py", "target": "<collector root>/deploy/windows_rebase.py", "owner": "delivery", "sha256": null, "status": "unchanged since main"},
         {"repo": "qiuzhao/normalize.py", "target": "<collector root>/qiuzhao/normalize.py", "owner": "location", "sha256": "8590fd48eab7f84126866a31486286c8c72f680ad86292f51ae7bbaa43c4e02b", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
         {"repo": "qiuzhao/v4_fields.py", "target": "<collector root>/qiuzhao/v4_fields.py", "owner": "location", "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
