@@ -279,8 +279,9 @@ def load_new_tables():
         tid, name = r.get('table_id'), r.get('table_name')
         binding = (state.get('targets') or {}).get(name) or {}
         if (name not in expected or not tid or tid in protected or tid in seen
-                or r.get('status') != 'imported'
-                or r.get('table_name_actual') != name
+                or r.get('status') not in ('imported', 'already_completed')
+                or (r.get('status') == 'imported' and r.get('table_name_actual') != name)
+                or (r.get('status') == 'already_completed' and r.get('table_name_actual') not in (None, name))
                 or binding.get('status') != 'completed' or binding.get('table_id') != tid
                 or (receipt.get('targets_bound') or {}).get(name) != tid):
             raise SystemExit('staging allowlist exact table binding violated')
