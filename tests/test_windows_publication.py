@@ -9,12 +9,15 @@ Only p1 and normalize are faked.
 import json
 from pathlib import Path
 import shutil
+import subprocess
+import sys
 
 import pytest
 
 from deploy import windows_collector as W
 from deploy import windows_recover_run as R
 from deploy.windows_rebase import CASConflict
+from qiuzhao.normalize import REPORTED_FIELDS
 
 
 def job(ident, title, status='open'):
@@ -110,7 +113,8 @@ def harness(tmp_path, monkeypatch, initial):
     return server, clock, run_dir
 
 
-def drive(tmp_path, monkeypatch, run_dir, clock, plans, *, calls=None, step_seconds=60.0, module=W):
+def drive(tmp_path, monkeypatch, run_dir, clock, plans, *, calls=None, step_seconds=60.0,
+          module=W, normalize_mutate=None):
     """One ``main()`` invocation. plans[i]: mutate(rows), before(), run_finished, pending, exit."""
     calls = calls if calls is not None else {'p1': 0, 'normalize': 0}
 
@@ -135,6 +139,8 @@ def drive(tmp_path, monkeypatch, run_dir, clock, plans, *, calls=None, step_seco
             return plan.get('exit', 0)
         if module == 'qiuzhao.normalize':
             calls['normalize'] += 1
+            if normalize_mutate:
+                normalize_mutate(stage)
         return 0
 
     monkeypatch.setattr(module, 'step', fake_step)
@@ -372,6 +378,141 @@ def test_resume_after_the_wall_clock_deadline_starts_no_segment(tmp_path, monkey
     code, receipt, calls = drive(tmp_path, monkeypatch, run_dir, clock, plans, calls=calls)
     assert calls['p1'] == 1
     assert receipt['p1_stopped']['reason'].startswith('total budget reached')
+
+
+@pytest.mark.parametrize('collection_state', ['stopped', 'complete'])
+@pytest.mark.parametrize('check_mode', ['valid', 'filled', 'failed', 'mutated',
+                                        'normalize_mutates', 'module_drift',
+                                        'prepared_mismatch', 'cas_conflict',
+                                        'guard_pending', 'guard_missing',
+                                        'deferred_resume'])
+def test_zero_p1_segment_budget_normalizes_and_publishes_basic_staging(
+        tmp_path, monkeypatch, collection_state, check_mode):
+    """An expired persisted budget must not strand already collected basic rows."""
+    server, clock, run_dir = harness(tmp_path, monkeypatch, [job('x', 'A')])
+    monkeypatch.setattr(W, 'capacity_check', lambda paths: {'passed': True})
+    baseline = run_dir / 'jobs.before.json'
+    shutil.copyfile(server.path, baseline)
+    stage = run_dir / 'data'
+    stage.mkdir()
+    stage.joinpath('jobs.json').write_text(json.dumps([job('x', 'B'), job('new', 'N')]),
+                                           encoding='utf-8')
+    dependency_dir = tmp_path / 'qiuzhao'
+    dependency_dir.mkdir()
+    (dependency_dir / 'normalize.py').write_text('reviewed normalize', encoding='utf-8')
+    (dependency_dir / 'v4_fields.py').write_text('reviewed v4', encoding='utf-8')
+    prepared = tmp_path / 'prepared.jobs.json'
+    shutil.copyfile(stage / 'jobs.json', prepared)
+    W.prepare_candidate(baseline, prepared)
+    monkeypatch.setattr(W, 'PYTHON', Path(sys.executable))
+    monkeypatch.setattr(W, 'ZERO_SEGMENT_RECOVERY', {
+        'run': run_dir.name, 'working_sha256': server.sha(),
+        'source_sha256': W.digest(stage / 'jobs.json'),
+        'prepared_sha256': W.digest(prepared), 'rows': 2,
+        'normalize_sha256': W.digest(dependency_dir / 'normalize.py'),
+        'v4_fields_sha256': W.digest(dependency_dir / 'v4_fields.py'),
+    })
+    if check_mode == 'module_drift':
+        (dependency_dir / 'normalize.py').write_text('unexpected edit', encoding='utf-8')
+    if check_mode == 'prepared_mismatch':
+        W.ZERO_SEGMENT_RECOVERY['prepared_sha256'] = '0' * 64
+    if check_mode == 'cas_conflict':
+        server.inject[1] = lambda: server.write([job('x', 'EXTERNAL')])
+    if check_mode == 'deferred_resume':
+        server.unreachable = True
+    def fake_check(argv, **kwargs):
+        assert argv[-1] == '--check' and kwargs['cwd'] == tmp_path
+        result = {'check': True, 'written': False, 'records': 2,
+                  'filled': {name: 0 for name in REPORTED_FIELDS},
+                  'filled_total': 0, 'would_change_existing': 0,
+                  'tables_loaded': False}
+        if check_mode == 'failed':
+            return subprocess.CompletedProcess(argv, 1, '', 'probe failed')
+        if check_mode == 'filled':
+            result['filled']['country'] = result['filled_total'] = 1
+        if check_mode == 'mutated':
+            with (stage / 'jobs.json').open('a') as stream:
+                stream.write(' ')
+        return subprocess.CompletedProcess(argv, 0, json.dumps(result), '')
+    monkeypatch.setattr(W.subprocess, 'run', fake_check)
+    deadline = clock.value - 1
+    receipt = {
+        'started_at': '2026-10-01T01:00:00+08:00', 'mode': 'daily',
+        'steps': {'basic': 2, 'tencent': 0}, 'before_sha256': server.sha(),
+        'publication_ledger': W.PUBLICATION_LEDGER_VERSION,
+        'server_rows': 1, 'p1_segments': [],
+        'p1_budget': {'exhausted': True, 'deadline_epoch': deadline},
+        'p1_budget_ledger': {'budget_seconds': W.P1_TOTAL_BUDGET_SECONDS,
+                             'used_seconds': 0.0, 'started_epoch': deadline - W.P1_TOTAL_BUDGET_SECONDS,
+                             'deadline_epoch': deadline},
+        'collection': {'state': collection_state, 'reason': 'p1 budget exhausted'},
+        'resources': {'missing': ['qiuzhao/normalize_tables.json']},
+    }
+    if check_mode in ('guard_pending', 'guard_missing'):
+        receipt['steps']['normalize'] = 0
+        receipt['collection']['state'] = 'complete'
+        if check_mode == 'guard_pending':
+            receipt['zero_segment_guard'] = {'approved': False}
+    (run_dir / 'receipt.json').write_text(json.dumps(receipt), encoding='utf-8')
+    calls = {'p1': 0, 'normalize': 0}
+    def mutate_on_normalize(path):
+        rows = json.loads((path / 'jobs.json').read_text(encoding='utf-8'))
+        rows[0]['city_normalized'] = '未披露'
+        (path / 'jobs.json').write_text(json.dumps(rows), encoding='utf-8')
+    code, after, calls = drive(tmp_path, monkeypatch, run_dir, clock,
+                               [{'run_finished': False, 'pending': []}], calls=calls,
+                               normalize_mutate=(mutate_on_normalize
+                                                 if check_mode == 'normalize_mutates' else None))
+    if check_mode == 'deferred_resume':
+        assert code == 1 and calls == {'p1': 0, 'normalize': 1}
+        assert after['delivery']['publication'] == 'pending'
+        assert W.digest(stage / 'jobs.json') == W.ZERO_SEGMENT_RECOVERY['source_sha256']
+        assert after['zero_segment_guard']['approved'] is True
+        server.unreachable = False
+        code, after, calls = drive(tmp_path, monkeypatch, run_dir, clock,
+                                   [{'run_finished': False, 'pending': []}], calls=calls)
+        assert calls == {'p1': 0, 'normalize': 1}
+        assert after['publication_retry']['action'] == 'published'
+        assert after['delivery']['publication'] == 'accepted'
+        assert server.rows()['x']['job_title'] == 'B' and 'new' in server.rows()
+        return
+    if check_mode != 'valid':
+        assert calls == {'p1': 0, 'normalize':
+                         0 if check_mode in ('filled', 'failed', 'mutated',
+                                             'module_drift', 'guard_pending',
+                                             'guard_missing') else 1}
+        assert code == 1 and after['delivery']['publication'] == 'pending'
+        assert 'new' not in server.rows()
+        if check_mode == 'cas_conflict':
+            assert server.rows()['x']['job_title'] == 'EXTERNAL'
+            assert server.cas_conflicts == 1
+            code, retried, calls = drive(tmp_path, monkeypatch, run_dir, clock,
+                                         [{'run_finished': False, 'pending': []}], calls=calls)
+            assert code == 1 and calls == {'p1': 0, 'normalize': 1}
+            assert server.rows()['x']['job_title'] == 'EXTERNAL'
+            assert 'new' not in server.rows()
+            assert retried['delivery']['publication'] == 'pending'
+        else:
+            assert server.rows() == {'x': job('x', 'A')}
+            assert 'zero-segment' in after['error']
+        return
+    assert calls == {'p1': 0, 'normalize': 1}
+    assert after['p1_budget_ledger']['deadline_epoch'] == deadline
+    assert after['steps']['normalize'] == 0
+    assert after['delivery']['publication'] == 'accepted'
+    assert after['delivery']['server_accepted_sha256'] == server.sha()
+    assert server.rows()['x']['job_title'] == 'B' and 'new' in server.rows()
+    assert code in (0,1)
+    assert after['stage'] in ('completed','partial-or-failed')
+    if collection_state == 'complete':
+        assert code == 1 and after['steps']['basic'] == 2
+        accepted_once = len(server.accepted)
+        code, retried, calls = drive(tmp_path, monkeypatch, run_dir, clock,
+                                     [{'run_finished': False, 'pending': []}], calls=calls)
+        assert code == 1 and calls == {'p1': 0, 'normalize': 1}
+        assert len(server.accepted) == accepted_once
+        assert retried['publication_retry']['action'] == 'unchanged'
+        assert retried['delivery']['publication'] == 'accepted'
 
 
 # --- 7. cross-day p1 state + stable cache root ------------------------------------

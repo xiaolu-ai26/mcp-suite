@@ -22,6 +22,18 @@ from deploy.windows_rebase import CASConflict, publish_with_rebase, rebase_files
 PYTHON=ROOT/'.venv/Scripts/python.exe'
 SSH=['C:/Program Files/Git/usr/bin/ssh.exe','-i',str(ROOT/'keys/ecs_collector'),'-o','IdentitiesOnly=yes','-o','BatchMode=yes','-o','StrictHostKeyChecking=yes','-o','UserKnownHostsFile='+str(ROOT/'keys/known_hosts'),'-o','ConnectTimeout=15','-o','ServerAliveInterval=15','-o','ServerAliveCountMax=3','root@114.215.188.109']
 
+# One reviewed-data recovery when basic finished after the original P1 deadline. An
+# unrecognized zero-segment run fails closed; this is not a general bypass of normalize.
+ZERO_SEGMENT_RECOVERY={
+    'run':'20261001',
+    'working_sha256':'8abfa95df1eaa1cfdc5c8cfdf462f586089e90c7f5a7d9acbe912f8843f560a0',
+    'source_sha256':'54fdd1413d66fd6e90d8d98bc43f5e0ed34ecc5f783c1fa81a6b74f42a0c9b2d',
+    'prepared_sha256':'3e784ce5765b655a7a1af9ab320e74b01958844f570db0d49436184a635a0537',
+    'rows':177299,
+    'normalize_sha256':'8590fd48eab7f84126866a31486286c8c72f680ad86292f51ae7bbaa43c4e02b',
+    'v4_fields_sha256':'cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860',
+}
+
 # 2026-09-23: segment 2's publish called pull_snapshot -> ssh ... snapshot, which returned
 # exit 255 (ssh's own "could not establish/keep the connection" code, never the remote
 # command's exit status -- the receiver always forwards 0/1) with no retry, and that
@@ -847,7 +859,8 @@ def publication_pending(state,stage):
     if not jobs.is_file():return False
     return digest(jobs)!=state.get('publication_source_sha256')
 
-def publish_stage(state,statepath,run,stage,baseline,*,smoke):
+def publish_stage(state,statepath,run,stage,baseline,*,smoke,max_rebases=3,
+                  expected_prepared_sha=None):
     """Freeze staging, publish it against the working baseline, then advance to what was accepted.
 
     Returns a receipt fragment with ``action`` ``published``, ``unchanged`` or
@@ -871,20 +884,42 @@ def publish_stage(state,statepath,run,stage,baseline,*,smoke):
         return {'action':'deferred','server_rows_before':before_rows,'server_rows_after':before_rows,
                 'reason':'p1 batch publication unresolved (active_batch); staging not frozen'}
     reference,reference_sha=working_baseline(state,run)
-    frozen,preserved,total=prepare_candidate(reference,stage/'jobs.json')
+    guard=None
+    work=None
+    if expected_prepared_sha:
+        guard=state.get('zero_segment_guard') or {}
+        if (guard.get('approved') is not True or reference_sha!=ZERO_SEGMENT_RECOVERY['working_sha256']
+                or digest(stage/'jobs.json')!=guard.get('post_normalize_sha256')):
+            raise ValueError('zero-segment reviewed input or working baseline drifted')
+        # Prepare a private frozen copy. A deferred/unknown CAS must leave the approved
+        # raw staging hash intact so publication-only resume can run the same gates.
+        work=run/'rebase'/dt.datetime.now().strftime('%Y%m%dT%H%M%S%f')
+        work.mkdir(parents=True)
+        candidate=work/'candidate.jobs.json'
+        shutil.copyfile(stage/'jobs.json',candidate)
+        frozen,preserved,total=prepare_candidate(reference,candidate)
+        after=digest(candidate)
+    else:
+        frozen,preserved,total=prepare_candidate(reference,stage/'jobs.json')
+        after=digest(stage/'jobs.json')
     state['removed_frozen']=frozen;state['preserved_missing'],state['total_jobs']=preserved,total
-    after=digest(stage/'jobs.json')
-    if after==state.get('publication_source_sha256') or after==reference_sha:
+    if expected_prepared_sha and after!=expected_prepared_sha:
+        raise ValueError('zero-segment prepared candidate differs from reviewed SHA')
+    if expected_prepared_sha and after==reference_sha:
+        raise ValueError('zero-segment prepared candidate unexpectedly equals baseline')
+    if not expected_prepared_sha and (after==state.get('publication_source_sha256') or after==reference_sha):
         state['publication_source_sha256']=after
         shutil.copyfile(reference,ROOT/'data/jobs.json')
         atomic_json(statepath,state)
         return {'action':'unchanged','source_sha256':after,'server_rows_before':before_rows,
                 'server_rows_after':before_rows,'server_sha256':reference_sha,
                 'reason':'staging equals the last accepted publication'}
-    work=run/'rebase'/dt.datetime.now().strftime('%Y%m%dT%H%M%S%f');work.mkdir(parents=True)
-    candidate=work/'candidate.jobs.json'
-    shutil.copyfile(stage/'jobs.json',candidate)
-    if digest(candidate)!=after or digest(stage/'jobs.json')!=after:
+    if work is None:
+        work=run/'rebase'/dt.datetime.now().strftime('%Y%m%dT%H%M%S%f')
+        work.mkdir(parents=True)
+        candidate=work/'candidate.jobs.json'
+        shutil.copyfile(stage/'jobs.json',candidate)
+    if digest(candidate)!=after or digest(stage/'jobs.json')!=(guard['post_normalize_sha256'] if guard else after):
         raise ValueError('staging changed while freezing the publication candidate')
     intent={'workdir':str(work),'candidate':str(candidate),'candidate_sha256':after,
             'working_sha256':reference_sha,'started_at':dt.datetime.now().astimezone().isoformat()}
@@ -893,7 +928,8 @@ def publish_stage(state,statepath,run,stage,baseline,*,smoke):
     try:
         result=publish_with_rebase(reference,candidate,reference_sha,work,
                                    lambda path:pull(path,receipt=state),
-                                   guarded_publish_snapshot(reference,receipt=state),aligned=aligned)
+                                   guarded_publish_snapshot(reference,receipt=state),
+                                   max_rebases=max_rebases,aligned=aligned)
     except CapacityRefused as error:
         # Refused before upload: the receiver holds nothing of this candidate.
         refused=state.pop('publication_intent')
@@ -906,7 +942,8 @@ def publish_stage(state,statepath,run,stage,baseline,*,smoke):
         state.setdefault('unconfirmed_publications',[]).append(state.pop('publication_intent'))
         atomic_json(statepath,state)
         raise
-    record=accept_publication(state,statepath,stage,intent,result)
+    record=accept_publication(state,statepath,stage,intent,result,
+                              stage_from=guard['post_normalize_sha256'] if guard else None)
     state['rebase_receipt']=str(work/'receipt.json')
     state['collection_scope']='single-source-boc-smoke' if smoke else 'daily-pipeline'
     report=result.get('rebase_report') or {}
@@ -1187,6 +1224,121 @@ def run_p1_segments(state,statepath,run,stage,baseline,env,steps,*,smoke):
                              'pending':list(current.get('pending') or [])[:200]}
     atomic_json(statepath,state)
 
+def normalize_zero_segment_budget_run(state,statepath,run,stage,env,steps):
+    """Normalize basic/Tencent staging when the original P1 deadline precludes every segment.
+
+    A segment normally owns the normalize+publish pair. If the persisted budget expires
+    while basic is running, no segment exists to run normalization. This narrow recovery
+    keeps the original deadline and lets the caller use the usual guarded publisher.
+    """
+    if (not state.get('p1_budget',{}).get('exhausted') or state.get('p1_segments')
+            or 'normalize' in state['steps']):
+        return False
+    if not any(state['steps'].get(name) in (0,2) for name in ('basic','tencent')):
+        raise ValueError('no trustworthy basic or Tencent output to normalize')
+    reviewed=ZERO_SEGMENT_RECOVERY
+    if run.name!=reviewed['run']:
+        raise ValueError('zero-segment run has no independently reviewed data candidate')
+    reference,reference_sha=working_baseline(state,run)
+    source=stage/'jobs.json'
+    before_sha=digest(source)
+    if reference_sha!=reviewed['working_sha256'] or before_sha!=reviewed['source_sha256']:
+        raise ValueError('zero-segment source or accepted baseline differs from reviewed data')
+    tables=ROOT/'qiuzhao/normalize_tables.json'
+    if (tables.exists() or 'qiuzhao/normalize_tables.json' not in
+            (state.get('resources') or {}).get('missing',[])):
+        raise ValueError('zero-segment normalization resource state differs from review')
+    dependencies={'normalize_sha256':digest(ROOT/'qiuzhao/normalize.py'),
+                  'v4_fields_sha256':digest(ROOT/'qiuzhao/v4_fields.py')}
+    if any(dependencies[key]!=reviewed[key] for key in dependencies):
+        raise ValueError('zero-segment normalization dependency differs from reviewed code')
+    # Missing normalize_tables.json is allowed only for this exact source if the actual
+    # target module proves normalization would be a semantic no-op. No output is written.
+    probe=subprocess.run([str(PYTHON),'-X','utf8','-m','qiuzhao.normalize',
+                          '--path',str(source),'--check'],cwd=ROOT,env=env,
+                         capture_output=True,text=True,timeout=1800)
+    if probe.returncode:
+        raise ValueError('zero-segment normalize check failed: '+probe.stderr[-500:])
+    try:
+        check=json.loads(probe.stdout)
+    except ValueError as error:
+        raise ValueError('zero-segment normalize check was not JSON') from error
+    from qiuzhao.normalize import REPORTED_FIELDS
+    filled=check.get('filled')
+    if (check.get('check') is not True or check.get('written') is not False
+            or check.get('records')!=reviewed['rows'] or not isinstance(filled,dict)
+            or set(filled)!=set(REPORTED_FIELDS) or check.get('tables_loaded') is not False
+            or any(not isinstance(value,int) or value!=0 for value in filled.values())
+            or check.get('filled_total')!=0 or check.get('would_change_existing')!=0
+            or digest(source)!=before_sha):
+        raise ValueError('zero-segment normalize check would change reviewed staging')
+    def semantic_digest(path):
+        h=hashlib.sha256()
+        for row in iter_json_file(path,strict=True):
+            h.update(json.dumps(row,sort_keys=True,ensure_ascii=False,
+                                separators=(',',':')).encode('utf-8'))
+            h.update(b'\n')
+        return h.hexdigest()
+    before_semantic=semantic_digest(source)
+    state['zero_segment_guard']={'approved':False,'source_sha256':before_sha,
+                                 'working_sha256':reference_sha,'dependencies':dependencies,
+                                 'check':{'records':check['records'],'filled_total':0,
+                                          'would_change_existing':0,'written':False},
+                                 'before_semantic_sha256':before_semantic}
+    atomic_json(statepath,state)
+    args,limit=steps['normalize']
+    code=run_stage_step(state,statepath,run,stage,'normalize',args,limit,env)
+    if code!=0 or semantic_digest(source)!=before_semantic:
+        raise ValueError('zero-segment normalization failed or changed reviewed fields')
+    if any(digest(ROOT/'qiuzhao'/name)!=reviewed[key] for name,key in
+           (('normalize.py','normalize_sha256'),('v4_fields.py','v4_fields_sha256'))):
+        raise ValueError('zero-segment normalization dependency drifted during check')
+    if tables.exists():
+        raise ValueError('zero-segment normalization resource changed during check')
+    state['zero_segment_guard'].update(approved=True,
+                                       post_normalize_sha256=digest(source),
+                                       post_semantic_sha256=before_semantic)
+    atomic_json(statepath,state)
+    return True
+
+def zero_segment_publish_options(state):
+    if not state.get('p1_budget',{}).get('exhausted') or state.get('p1_segments'):
+        return {}
+    # run_stage_step persists normalize=0 before the semantic and dependency checks
+    # finish. A crash in that interval must never restore the ordinary publisher.
+    guard=state.get('zero_segment_guard') or {}
+    reviewed=ZERO_SEGMENT_RECOVERY
+    if (guard.get('approved') is not True
+            or guard.get('source_sha256')!=reviewed['source_sha256']
+            or guard.get('working_sha256')!=reviewed['working_sha256']
+            or guard.get('dependencies')!={
+                'normalize_sha256':reviewed['normalize_sha256'],
+                'v4_fields_sha256':reviewed['v4_fields_sha256']}
+            or not guard.get('post_normalize_sha256')
+            or guard.get('post_semantic_sha256')!=guard.get('before_semantic_sha256')):
+        raise ValueError('zero-segment publish guard missing, unapproved or drifted')
+    # A CAS conflict cannot silently create a different unreviewed rebase candidate.
+    return {'max_rebases':0,
+            'expected_prepared_sha':reviewed['prepared_sha256']}
+
+def zero_segment_already_accepted(state,run,stage):
+    """Recognize only this reviewed candidate after its receipt advanced staging."""
+    if (not state.get('p1_budget',{}).get('exhausted') or state.get('p1_segments')
+            or run.name!=ZERO_SEGMENT_RECOVERY['run']):
+        return False
+    reviewed=ZERO_SEGMENT_RECOVERY['prepared_sha256']
+    history=state.get('accepted_publications') or []
+    if (state['steps'].get('normalize')!=0 or not history
+            or history[-1].get('sha256')!=reviewed
+            or history[-1].get('candidate_sha256')!=reviewed
+            or state.get('publication_source_sha256')!=reviewed
+            or state.get('publication_intent')
+            or state.get('unconfirmed_publications')):
+        return False
+    zero_segment_publish_options(state)  # Reject an unapproved accepted-looking receipt.
+    reference,reference_sha=working_baseline(state,run)
+    return reference_sha==reviewed and digest(stage/'jobs.json')==reviewed
+
 def runner_skipped_alert(smoke):
     """Record that a second daily run was skipped because the runner lock is held (exit 75).
 
@@ -1330,11 +1482,20 @@ def main():
             if (state.get('collection') or {}).get('state')=='complete':
                 # Collection for this logical run is over; only its publication is owed.
                 state['resume_mode']='publication-only'
-                if state['steps'].get('normalize')!=0:raise ValueError('normalization failed; production retained')
-                try:
-                    state['publication_retry']=publish_stage(state,statepath,run,stage,baseline,smoke=a.smoke)
-                except PublishUnavailable as error:
-                    state['publication_retry']={'action':'deferred','reason':str(error)[:800]}
+                if not a.smoke and zero_segment_already_accepted(state,run,stage):
+                    state['publication_retry']={'action':'unchanged',
+                        'server_sha256':ZERO_SEGMENT_RECOVERY['prepared_sha256'],
+                        'reason':'reviewed zero-segment candidate already accepted'}
+                else:
+                    if not a.smoke:
+                        normalize_zero_segment_budget_run(state,statepath,run,stage,env,by_name)
+                    if state['steps'].get('normalize')!=0:raise ValueError('normalization failed; production retained')
+                    try:
+                        state['publication_retry']=publish_stage(state,statepath,run,stage,baseline,
+                                                                  smoke=a.smoke,
+                                                                  **zero_segment_publish_options(state))
+                    except PublishUnavailable as error:
+                        state['publication_retry']={'action':'deferred','reason':str(error)[:800]}
             else:
                 # basic/tencent run once; p1 runs as a loop of segments, each of which
                 # normalizes and publishes on its own (run_p1_segments). Smoke mode is the
@@ -1347,12 +1508,15 @@ def main():
                 # guards below, so a failed smoke run still leaves production untouched.
                 if not a.smoke:
                     run_p1_segments(state,statepath,run,stage,baseline,env,by_name,smoke=False)
+                    normalize_zero_segment_budget_run(state,statepath,run,stage,env,by_name)
                     # Rows that are still not on the server when collection stops (a
                     # deferred last segment, or a budget already spent on entry) get one
                     # more bounded publication attempt now instead of waiting for a resume.
                     if publication_pending(state,stage) and state['steps'].get('normalize')==0:
                         try:
-                            state['final_publication']=publish_stage(state,statepath,run,stage,baseline,smoke=False)
+                            state['final_publication']=publish_stage(state,statepath,run,stage,baseline,
+                                                                      smoke=False,
+                                                                      **zero_segment_publish_options(state))
                         except PublishUnavailable as error:
                             state['final_publication']={'action':'deferred','reason':str(error)[:800]}
                 # Daily collection-gap report: the p1 stage writes runs/<date>/collection-gap.json
