@@ -64,7 +64,7 @@ def cli(args, cwd=None, timeout=300):
     except ValueError:
         body = {'ok': False, 'raw_stdout': proc.stdout[-2000:], 'raw_stderr': proc.stderr[-2000:]}
     return {'argv': args, 'exit_code': proc.returncode, 'seconds': round(time.time() - started, 2),
-            'body': body}
+            'body': body, 'stderr_tail': proc.stderr[-2000:]}
 
 
 def sha256_file(path):
@@ -79,7 +79,67 @@ def field_list(table_id):
     out = cli(['base', '+field-list', '--base-token', BASE, '--table-id', table_id])
     if not out['body'].get('ok'):
         raise SystemExit(f'field-list failed for {table_id}: {json.dumps(out)[:500]}')
-    return {f.get('field_name') or f['name']: f for f in out['body']['data']['fields']}
+    fields = {}
+    ids = set()
+    for field in out['body']['data']['fields']:
+        name = field.get('field_name') or field['name']
+        if name in fields or field['id'] in ids:
+            raise SystemExit(f'duplicate field name or id in {table_id}: {name!r}')
+        fields[name] = field
+        ids.add(field['id'])
+    return fields
+
+
+def resolve_imported_fields(fields, table_id):
+    """Map the two Excel slash-to-pipe imports for fixing, without hiding them from verify."""
+    resolved = dict(fields)
+    for name in LIVE_ORDER:
+        if '/' not in name:
+            continue
+        alias = name.replace('/', '|')
+        if alias not in fields:
+            continue
+        if name in fields:
+            raise SystemExit(f'ambiguous imported field in {table_id}: {name!r} and {alias!r}')
+        resolved[name] = fields[alias]
+    return resolved
+
+
+def complete_option_objects(table_id, field):
+    """Read all select options before a full field PUT, retaining existing colors."""
+    options = field.get('options') or []
+    remaining = field.get('remaining_options_count') or 0
+    if not remaining:
+        complete = options
+    else:
+        complete, offset = [], 0
+        expected = len(options) + remaining
+        while offset < expected + 200:
+            out = cli(['base', '+field-search-options', '--base-token', BASE, '--table-id', table_id,
+                       '--field-id', field['id'], '--limit', '200', '--offset', str(offset)])
+            if out['exit_code'] or not out['body'].get('ok'):
+                raise SystemExit(f'field-search-options failed: {json.dumps(out)[:500]}')
+            batch = out['body']['data'].get('options') or out['body']['data'].get('items') or []
+            if not batch:
+                break
+            complete.extend(batch)
+            offset += len(batch)
+            if len(batch) < 200:
+                break
+        if len(complete) != expected:
+            raise SystemExit(f'incomplete options for {table_id}/{field["id"]}: '
+                             f'{len(complete)} != {expected}')
+    names = [item.get('name') for item in complete if isinstance(item, dict)]
+    if len(names) != len(complete) or any(not name for name in names) or len(names) != len(set(names)):
+        raise SystemExit(f'bad or duplicate options for {table_id}/{field["id"]}')
+    fetched = {item['name']: item for item in complete}
+    for original in options:
+        actual = fetched.get(original['name'])
+        if actual is None or any(actual.get(key) != value for key, value in original.items()
+                                 if key in ('hue', 'lightness')):
+            raise SystemExit(f'option metadata changed for {table_id}/{field["id"]}: '
+                             f'{original["name"]!r}')
+    return [dict(item) for item in complete]
 
 
 def full_options(table_id, field_id, total):
@@ -128,13 +188,26 @@ def build_target():
     return target
 
 
-def field_body(name, want):
+def field_body(name, want, current, table_id):
     body = {'name': name, 'type': want['type']}
+    if 'description' in current:
+        body['description'] = current['description']
+    if current.get('type') == want['type'] and 'default_value' in current:
+        body['default_value'] = current['default_value']
     if want['type'] == 'select':
         body['multiple'] = want['multiple']
-        body['options'] = [{'name': o} for o in want['options']]
+        existing = (complete_option_objects(table_id, current)
+                    if current.get('type') == 'select' else [])
+        by_name = {option['name']: option for option in existing}
+        extra = set(by_name) - set(want['options'])
+        if extra:
+            raise SystemExit(f'refusing to remove existing options in {table_id}/{name}: '
+                             f'{sorted(extra)[:8]}')
+        body['options'] = existing + [{'name': option} for option in want['options']
+                                      if option not in by_name]
     else:
-        body['style'] = {'type': want['style']}
+        body['style'] = dict(current.get('style') or {}) if current.get('type') == 'text' else {}
+        body['style']['type'] = want['style']
     return body
 
 
@@ -184,16 +257,37 @@ def load_new_tables():
     if not runs:
         raise SystemExit('no import receipt found')
     receipt = json.loads(runs[-1].read_text(encoding='utf-8'))
-    if receipt.get('outcome') != 'completed':
-        raise SystemExit(f"import receipt outcome is {receipt.get('outcome')}, not completed")
-    out = []
+    manifest = json.loads((WORK / 'xlsx-manifest.json').read_text(encoding='utf-8'))
+    state = json.loads((WORK / 'import-state.json').read_text(encoding='utf-8'))
+    expected = {item['table_name']: item['sha256'] for item in manifest['files']}
+    identity = {'source_projection_sha256_gz': manifest['source_projection_sha256_gz'],
+                'xlsx': expected}
+    if (not expected or len(expected) != len(manifest['files'])
+            or any(not name.startswith('待切换-') for name in expected)
+            or receipt.get('outcome') != 'completed'
+            or receipt.get('base_token') != BASE or state.get('base_token') != BASE
+            or receipt.get('batch_identity') != identity
+            or state.get('batch_identity') != identity
+            or state.get('run_dir_name') != runs[-1].parent.name
+            or set(receipt.get('expected_target_names') or []) != set(expected)):
+        raise SystemExit('staging allowlist batch identity mismatch')
+    protected = LEGACY_IDS | set(state.get('batch_pre_ids') or [])
+    if not state.get('batch_pre_ids'):
+        raise SystemExit('staging allowlist missing pre-import protection')
+    out, seen = [], set()
     for r in receipt['results']:
-        tid = r.get('table_id')
-        if not tid:
-            raise SystemExit(f"import result without table_id: {r['table_name']}")
-        if tid in LEGACY_IDS:
-            raise SystemExit('new-table allowlist violated: legacy table id in the new set')
-        out.append((tid, r['table_name']))
+        tid, name = r.get('table_id'), r.get('table_name')
+        binding = (state.get('targets') or {}).get(name) or {}
+        if (name not in expected or not tid or tid in protected or tid in seen
+                or r.get('status') != 'imported'
+                or r.get('table_name_actual') != name
+                or binding.get('status') != 'completed' or binding.get('table_id') != tid
+                or (receipt.get('targets_bound') or {}).get(name) != tid):
+            raise SystemExit('staging allowlist exact table binding violated')
+        out.append((tid, name))
+        seen.add(tid)
+    if len(out) != len(expected) or {name for _, name in out} != set(expected):
+        raise SystemExit('staging allowlist table coverage mismatch')
     return out, runs[-1].parent
 
 
@@ -204,10 +298,13 @@ def phase_fix(new_tables, run_dir):
     path = run_dir / 'schema-fix-receipt.json'
     for table_id, table_name in new_tables:
         entry = {'table_id': table_id, 'table_name': table_name, 'updates': [], 'plan': []}
-        cur = field_list(table_id)
+        cur = resolve_imported_fields(field_list(table_id), table_id)
         for name in LIVE_ORDER:
             want = target[name]
             need, problems = diff_field(cur.get(name), want, table_id)
+            if name in cur and cur[name].get('name') != name:
+                need = True
+                problems.insert(0, f'name {cur[name].get("name")!r} != {name!r}')
             entry['plan'].append({'field': name, 'need': need, 'problems': problems,
                                   'current': describe(cur[name]) if name in cur else None,
                                   'target': describe_field_body(want)})
@@ -215,17 +312,20 @@ def phase_fix(new_tables, run_dir):
             if not item['need']:
                 continue
             fid = cur[item['field']]['id']
-            body = field_body(item['field'], target[item['field']])
+            body = field_body(item['field'], target[item['field']], cur[item['field']], table_id)
             tmp = WORK / f'.field-{fid}.json'
             tmp.write_text(json.dumps(body, ensure_ascii=False), encoding='utf-8')
             out = cli(['base', '+field-update', '--base-token', BASE, '--table-id', table_id,
                        '--field-id', fid, '--json', '@' + tmp.name, '--yes'], cwd=str(WORK))
             tmp.unlink()
+            ok = out['exit_code'] == 0 and bool(out['body'].get('ok'))
             entry['updates'].append({'field': item['field'], 'field_id': fid,
-                                     'ok': bool(out['body'].get('ok')), 'seconds': out['seconds'],
-                                     'error': None if out['body'].get('ok') else out['body'].get('error')})
+                                     'ok': ok, 'seconds': out['seconds'],
+                                     'error': None if ok else (out['body'].get('error')
+                                                               or out['stderr_tail']
+                                                               or out['body'].get('message'))})
             print(json.dumps({'table': table_name, 'field': item['field'],
-                              'ok': bool(out['body'].get('ok'))}, ensure_ascii=False), flush=True)
+                              'ok': ok}, ensure_ascii=False), flush=True)
         receipt['tables'].append(entry)
         path.write_text(json.dumps(receipt, ensure_ascii=False, indent=1), encoding='utf-8')
     receipt['finished_at'] = dt.datetime.now().isoformat()
