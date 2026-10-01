@@ -126,6 +126,18 @@ def load_state(manifest, ident):
             'created_at': dt.datetime.now().isoformat(), 'targets': {}}
 
 
+def import_succeeded(result):
+    body = result.get('body') or {}
+    data = body.get('data') or {}
+    status = data.get('job_status')
+    return (result.get('exit_code') == 0 and body.get('ok') is True
+            and data.get('ready') is True and data.get('failed') is not True
+            and status == 0 and not isinstance(status, bool)
+            and str(data.get('job_status_label') or '').lower() == 'success'
+            and str(data.get('job_error_msg') or '').strip().lower() in ('', 'success')
+            and data.get('type') == 'bitable' and data.get('token') == BASE)
+
+
 def poll_ticket(ticket, record, state, receipt_path, receipt):
     polls = []
     for rounds in range(1, POLL_ROUNDS + 1):
@@ -138,9 +150,7 @@ def poll_ticket(ticket, record, state, receipt_path, receipt):
             record['import_status'] = {k: pdata.get(k) for k in
                                        ('ready', 'job_status', 'job_status_label',
                                         'job_error_msg', 'type', 'token')}
-            ready_ok = str(pdata.get('job_status_label') or '').lower() in ('success', '') \
-                and not pdata.get('job_error_msg') and not pdata.get('job_status')
-            record['import_ok'] = bool(ready_ok)
+            record['import_ok'] = import_succeeded(poll)
             return 'ready'
         if poll['body'].get('ok') is False:
             break
@@ -292,8 +302,7 @@ def main():
                                        ('ready', 'timed_out', 'job_status', 'job_status_label',
                                         'job_error_msg', 'type', 'token', 'ticket')}
             if result['body'].get('ok') and data.get('ready'):
-                record['import_ok'] = str(data.get('job_status_label') or '').lower() in ('success', '') \
-                    and not data.get('job_error_msg') and not data.get('job_status')
+                record['import_ok'] = import_succeeded(result)
             elif ticket:
                 verdict = poll_ticket(ticket, record, state, receipt_path, receipt)
                 if verdict != 'ready':
