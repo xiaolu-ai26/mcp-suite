@@ -63,6 +63,13 @@ def cli(args, cwd=None, timeout=300):
         body = json.loads(proc.stdout)
     except ValueError:
         body = {'ok': False, 'raw_stdout': proc.stdout[-2000:], 'raw_stderr': proc.stderr[-2000:]}
+        try:
+            stderr_body = json.loads(proc.stderr)
+        except ValueError:
+            stderr_body = None
+        if (isinstance(stderr_body, dict) and stderr_body.get('ok') is False
+                and isinstance(stderr_body.get('error'), dict)):
+            body = stderr_body
     return {'argv': args, 'exit_code': proc.returncode, 'seconds': round(time.time() - started, 2),
             'body': body, 'stderr_tail': proc.stderr[-2000:]}
 
@@ -73,6 +80,39 @@ def sha256_file(path):
         for blk in iter(lambda: fh.read(1 << 22), b''):
             h.update(blk)
     return h.hexdigest()
+
+
+_cli_once = cli
+_last_field_update = 0.0
+
+
+def cli(args, cwd=None, timeout=300):
+    """Pace full field PUTs; retry only the explicit supplier method-limit rejection."""
+    global _last_field_update
+    if args[:2] != ['base', '+field-update']:
+        return _cli_once(args, cwd, timeout)
+    started = time.monotonic()
+    for attempt in range(4):
+        pause = max(0.0, 3.0 - (time.monotonic() - _last_field_update))
+        if pause:
+            time.sleep(pause)
+        out = _cli_once(args, cwd, timeout)
+        _last_field_update = time.monotonic()
+        error = out['body'].get('error') or {}
+        limited = (out.get('exit_code') != 0 and out['body'].get('ok') is False
+                   and isinstance(error, dict) and str(error.get('code')) == '800004135')
+        if not limited:
+            out['rate_limit_retries'] = attempt
+            out['seconds'] = round(time.monotonic() - started, 2)
+            return out
+        if attempt < 3:
+            delay = 5 * (2 ** attempt)
+            print(json.dumps({'field_update_rate_limited': True, 'attempt': attempt + 1,
+                              'retry_after_seconds': delay}), flush=True)
+            time.sleep(delay)
+    out['rate_limit_retries'] = 3
+    out['seconds'] = round(time.monotonic() - started, 2)
+    return out
 
 
 def field_list(table_id):
