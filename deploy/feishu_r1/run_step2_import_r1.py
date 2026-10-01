@@ -80,11 +80,30 @@ def check_identity(manifest):
 
 
 def table_map():
-    out = cli(['base', '+table-list', '--base-token', BASE])
-    if not out['body'].get('ok'):
-        raise SystemExit(f'table-list failed: {json.dumps(out)[:600]}')
-    tables = out['body']['data']['tables']
-    return {t['name']: t for t in tables}, tables
+    tables, seen, total = [], set(), None
+    for offset in range(0, 10000, 100):
+        out = cli(['base', '+table-list', '--base-token', BASE,
+                   '--limit', '100', '--offset', str(offset)])
+        if out.get('exit_code') != 0 or not out['body'].get('ok'):
+            raise SystemExit(f'table-list failed: {json.dumps(out)[:600]}')
+        data = out['body'].get('data') or {}
+        rows, reported = data.get('tables'), data.get('total')
+        if (not isinstance(rows, list) or not isinstance(reported, int)
+                or isinstance(reported, bool) or reported < 0
+                or (total is not None and total != reported)):
+            raise SystemExit('table-list pagination total missing or changed')
+        total = reported
+        for row in rows:
+            tid = row.get('id')
+            if not tid or tid in seen:
+                raise SystemExit('table-list pagination duplicate or missing id')
+            seen.add(tid)
+            tables.append(row)
+        if len(tables) == total:
+            return {t['name']: t for t in tables}, tables
+        if len(rows) != 100 or len(tables) > total:
+            raise SystemExit('table-list pagination incomplete or inconsistent')
+    raise SystemExit('table-list pagination exceeded bounded table limit')
 
 
 def save_state(state):
