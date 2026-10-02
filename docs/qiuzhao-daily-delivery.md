@@ -4,6 +4,20 @@
 
 记录的事件发生在 **2026-09-24（北京时间）**，文中时间均为该日，除非另行注明。
 
+## 2026-10-02 Pro 修复候选：尚未部署
+
+本轮依据 Max 的最新明确授权由网页端 Pro 实现；不改写历史模型与独审归属。源码基线为 `bcae6e546a025a3a84c5bfe4aa9d619a38db9c79`。**独立审查待完成；不是生产恢复成功回执。** 历史 automation、版本、容量和 Base 状态均不代表现在的状态，本轮没有启动或修改任何生产调度。
+
+交接材料报告 2026-10-02 05:42:11（北京时间）`collection.state=stopped`、normalize 失败、publication pending。已读取任务书、README、准备审查摘要和源码；未取得 Release 压缩包内的该次 normalize.log、原始 staging 与完整运行收据，因此该事故的具体异常根因仍未证实。缺 `normalize_tables.json` 在本基线会使用 fallback，本身不是必然异常；不能用补旧表或 10/1 特例绕过。
+
+本轮实现 `normalize_file` 的流式原子 I/O，业务字段函数不变；任一记录、JSON 尾部、写入或校验失败不提交候选。新增 `deploy/windows_normalize_retry.py`：默认只检查，apply 在同一 runner 锁、Scheduler 安全状态、代码/资产审查绑定和原容量门下只重试 normalize；不调用采集、发布、Base，不重置预算/截止，不改计划分母。中断后未完成校验的 retry 保持现有 unsafe_writer 门关闭。正常 collector、10/1 零段 guard、CAS、飞书导入和容量公式均未改。
+
+可复核的本地证据：聚焦 Python 测试与 Linux 合成内存探针，详见 [验证报告](normalization-recovery-verification-20261002.md)。12 万行、127688890 字节样本在隔离 Python 进程、128 MiB 地址空间限制下，旧入口 MemoryError，新入口通过且样本 SHA 不变；字段回调为 no-op，这不是生产故障归因或全字段验收。
+
+[精灵操作手册](normalization-recovery-runbook-20261002.md)给出应用、审查、真实依赖回归、保全证据、受控部署、normalize-only 与后续发布边界。[方法 R3](collection-methods/streaming-normalization-recovery.md)记录适用条件、完整性、失败反例和未验证边界。原部署清单保持冻结，代码漂移会继续阻断交付，独审之前不得刷新成 PASS 或关闭该检查。
+
+尚未完成：10/2 样本重放、Windows/实际账号锁与进程测试、完整字段/原回归套件、独审、最终字节冻结、accepted/served/Base 实测；逐来源分页、详情、类型枚举、新鲜度、每计划 key 证据与长期容量缺口没有因本次 I/O 修复被宣称解决。恢复成果不等于补齐未开始的采集。
+
 ## 1. 交付目标与口径
 
 每天让用户查到已成功采集的新岗位和内容更新；服务器与飞书各有确认回执；遗漏和失败清楚可见。先可靠交付已采内容，再减少重复采集，随后小批扩大覆盖。
