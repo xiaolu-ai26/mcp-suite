@@ -214,3 +214,32 @@ def test_actual_normalize_file_entry_delegates_without_loading_whole_file(tmp_pa
     monkeypatch.setattr(json, 'load', lambda *a,**k: (_ for _ in ()).throw(AssertionError('whole-file json.load')))
     result = namespace['normalize_file'](path)
     assert result['records'] == 2 and result['filled_total'] == 2 and result['written']
+
+
+def test_long_record_is_decoded_once_after_incremental_boundary_scan(monkeypatch):
+    text = ('前缀\\\\\"中文😀' * 200000) + ('\\\\\\\\尾部' * 100000)
+    row = {'id': 'long', 'payload': text,
+           'nested': {'items': [{'quoted': 'a}b]c\\\\\"d', 'n': [1, 2, {'x': True}]}]}}
+    payload = '[' + json.dumps(row, ensure_ascii=False) + ']'
+    calls = []
+    original = json.JSONDecoder.raw_decode
+    def counted(self, value, *args, **kwargs):
+        calls.append(len(value))
+        return original(self, value, *args, **kwargs)
+    monkeypatch.setattr(json.JSONDecoder, 'raw_decode', counted)
+    assert list(nio.iter_records(io.StringIO(payload), chunk_chars=4096,
+                                 max_record_chars=len(payload) + 1)) == [row]
+    assert calls == [len(payload) - 2]
+
+
+def test_long_record_bad_tail_fails_after_complete_record_without_salvage(tmp_path):
+    path = tmp_path / 'jobs.json'
+    long_text = '合法内容} ] \\\\\" 😀' * 120000
+    valid = json.dumps({'id': 'long', 'payload': long_text}, ensure_ascii=False)
+    payload = '[' + valid + ', {"id":"broken","nested":[1,2,3}'
+    path.write_text(payload, encoding='utf-8')
+    original = path.read_bytes()
+    with pytest.raises(nio.NormalizationInputError, match='record index 1'):
+        run(path)
+    assert path.read_bytes() == original
+    assert list(tmp_path.glob('*.tmp')) == []

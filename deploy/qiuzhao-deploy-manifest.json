@@ -17,6 +17,25 @@
         {"repo": "qiuzhao/normalize_tables.json", "target": "<collector root>/qiuzhao/normalize_tables.json", "owner": "location", "sha256": null, "status": "pending: absent on the collector (measured 2026-09-25 00:16:51); its 未披露 defaults must be fixed and tested with the location rules before it is installed. The collector reports it in receipt.resources.missing until then."}
       ]
     },
+    "windows_normalize_retry": {
+      "interpreter": "collector venv python (Windows); normalize-only recovery; independent re-review required",
+      "_runtime": "PR27 second-round safety boundary. Deliberately pending: --apply must fail until final bytes are independently reviewed and exact runtime hashes are frozen. normalize_tables.json is not installed by this recovery; the target review manifest binds its observed absence/presence.",
+      "files": [
+        {"repo": "qiuzhao/normalize.py", "target": "<collector root>/qiuzhao/normalize.py", "owner": "collector-recovery", "sha256": null, "status": "pending: PR27 second-round bytes require independent review; do not deploy"},
+        {"repo": "qiuzhao/normalization_io.py", "target": "<collector root>/qiuzhao/normalization_io.py", "owner": "collector-recovery", "sha256": null, "status": "pending: PR27 second-round bytes require independent review; do not deploy"},
+        {"repo": "qiuzhao/company_names.py", "target": "<collector root>/qiuzhao/company_names.py", "owner": "collector-recovery", "sha256": null, "status": "pending: PR27 second-round bytes require independent review; do not deploy"},
+        {"repo": "qiuzhao/v4_fields.py", "target": "<collector root>/qiuzhao/v4_fields.py", "owner": "collector-recovery", "sha256": null, "status": "pending: PR27 second-round bytes require independent review; do not deploy"},
+        {"repo": "qiuzhao/collector/portable_runtime.py", "target": "<collector root>/qiuzhao/collector/portable_runtime.py", "owner": "collector-recovery", "sha256": null, "status": "pending: PR27 second-round bytes require independent review; do not deploy"},
+        {"repo": "qiuzhao/collector/p1_pipeline.py", "target": "<collector root>/qiuzhao/collector/p1_pipeline.py", "owner": "collector-recovery", "sha256": null, "status": "pending: PR27 second-round bytes require independent review; do not deploy"},
+        {"repo": "deploy/deploy_manifest.py", "target": "<collector root>/deploy/deploy_manifest.py", "owner": "collector-recovery", "sha256": null, "status": "pending: PR27 second-round bytes require independent review; do not deploy"},
+        {"repo": "deploy/windows_collector.py", "target": "<collector root>/deploy/windows_collector.py", "owner": "collector-recovery", "sha256": null, "status": "pending: PR27 second-round bytes require independent review; do not deploy"},
+        {"repo": "deploy/windows_rebase.py", "target": "<collector root>/deploy/windows_rebase.py", "owner": "collector-recovery", "sha256": null, "status": "pending: PR27 second-round bytes require independent review; do not deploy"},
+        {"repo": "deploy/windows_recover_run.py", "target": "<collector root>/deploy/windows_recover_run.py", "owner": "collector-recovery", "sha256": null, "status": "pending: PR27 second-round bytes require independent review; do not deploy"},
+        {"repo": "deploy/windows_normalize_retry.py", "target": "<collector root>/deploy/windows_normalize_retry.py", "owner": "collector-recovery", "sha256": null, "status": "pending: PR27 second-round bytes require independent review; do not deploy"},
+        {"repo": "qiuzhao/data/company_aliases.json", "target": "<collector root>/qiuzhao/data/company_aliases.json", "owner": "collector-recovery", "sha256": null, "status": "pending: PR27 second-round bytes require independent review; do not deploy"},
+        {"repo": "qiuzhao/collector/p1_platform_companies.json", "target": "<collector root>/qiuzhao/collector/p1_platform_companies.json", "owner": "collector-recovery", "sha256": null, "status": "pending: PR27 second-round bytes require independent review; do not deploy"}
+      ]
+    },
     "server": {
       "interpreter": "/opt/mcp-suite/.venv/bin/python (receiver, activation); python3 for the rotation module",
       "files": [

@@ -44,3 +44,11 @@
 - 回滚：删除前已核验归档可恢复；保留最新备份与当前/在途版本。
 - 是否复发：双端已复发，长期有界策略仍待实测。
 - 收据：`retention-apply-20261001.json`、`windows-capacity-projection-20260930T1117.json`、`windows-cold-930-compress-summary-20261001.json`。
+
+
+## 4. 2026-10-02 normalize 整文件 UTF-8 解码 MemoryError
+
+- 现象：第7段 P1 后 normalize 退出1；生产 traceback 为 `normalize.py:424 json.load(f)` → `fp.read()` → UTF-8 decode → `MemoryError`。receipt 为 collection stopped、publication pending；第7段 P1 成果保留但 normalize 回滚。
+- 根因：直接失败点已证实为约800MB级 jobs.json 的整文件读取/文本解码内存分配失败。历史 RAM/pagefile 压力未知；20:54 的 806,915,187-byte staging 是回滚后版本，不证明与失败瞬间输入相同。
+- 最小修复：PR #27 流式逐对象处理；第二轮把长对象改为增量边界扫描、完整对象只严格解码一次，并补齐安全依赖冻结门。normalize-only 恢复仍不采集、不发布、不改预算/截止/Base。
+- 验证：第二轮网页沙盒聚焦84 passed；新字节仍待独审和 Windows 锁/Scheduler/NTFS/timeout/staging 重放。前6次成功 normalize 均 `tables_loaded=false`，不盲补历史 normalize_tables.json。

@@ -30,7 +30,11 @@ def setup(tmp_path):
     run = root/'runs/20261002'; (run/'data').mkdir(parents=True)
     for rel in retry.CORE_FILES:
         p = root/rel; p.parent.mkdir(parents=True, exist_ok=True); p.write_text('# synthetic reviewed fixture\n')
-    # Assets are intentionally missing; no old production data is copied here.
+    for rel in retry.ASSET_FILES:
+        if rel == 'qiuzhao/normalize_tables.json':
+            continue
+        p = root/rel; p.parent.mkdir(parents=True, exist_ok=True); p.write_text('{}\n')
+    # normalize_tables is intentionally missing, matching the observed collector.
     state = {'stage':'partial-or-failed', 'completed_at':'2026-10-02T05:42:11+08:00',
              'steps':{'basic':0,'tencent':0,'p1':2,'normalize':1},
              'collection':{'state':'stopped','reason':'normalize failed; later segments would repeat it'},
@@ -58,6 +62,11 @@ def setup(tmp_path):
         run_stage_step=stage_step,atomic_json=save)
     manifest=tmp_path/'review.json'
     save(manifest,{'decision':'PASS','reviewer':'SYNTHETIC TEST ONLY','files':retry.identities(root)})
+    deploy_entries=[]
+    for name in retry.FROZEN_RUNTIME_FILES:
+        deploy_entries.append({'repo':name,'sha256':retry.digest(root/name),'status':'frozen (test)'})
+    save(root/'deploy/qiuzhao-deploy-manifest.json',
+         {'environments':{retry.SAFETY_ENVIRONMENT:{'files':deploy_entries}}})
     return SimpleNamespace(root=root,run=run,state=state,runner=runner,calls=calls,manifest=manifest)
 
 
@@ -213,3 +222,30 @@ def test_success_commits_without_validation_barrier(setup):
     s=setup
     invoke(s,apply=True,review_manifest=s.manifest)
     assert 'unsafe_writer' not in json.loads((s.run/'receipt.json').read_text())
+
+
+def test_scheduler_safety_dependency_is_bound(setup):
+    assert 'deploy/windows_recover_run.py' in retry.CORE_FILES
+    assert 'deploy/windows_recover_run.py' in retry.FROZEN_RUNTIME_FILES
+    setup.root.joinpath('deploy/windows_recover_run.py').write_text('# drifted scheduler safety check\n')
+    with pytest.raises(ValueError, match='identity mismatch'):
+        invoke(setup, apply=True, review_manifest=setup.manifest)
+    assert setup.calls == []
+
+
+def test_old_deploy_manifest_without_retry_environment_is_refused(setup):
+    s = setup
+    save(s.root/'deploy/qiuzhao-deploy-manifest.json', {'environments': {'windows_collector': {'files': []}}})
+    with pytest.raises(ValueError, match='deploy freeze is incomplete'):
+        invoke(s, apply=True, review_manifest=s.manifest)
+    assert s.calls == []
+
+
+def test_changed_safety_dependency_is_refused_by_frozen_deploy_manifest(setup):
+    s = setup
+    target = s.root/'deploy/windows_recover_run.py'
+    target.write_text('# changed after deployment freeze\n')
+    save(s.manifest, {'decision':'PASS','reviewer':'SYNTHETIC TEST ONLY','files':retry.identities(s.root)})
+    with pytest.raises(ValueError, match='deploy freeze refuses.*differs from the recorded sha256'):
+        invoke(s, apply=True, review_manifest=s.manifest)
+    assert s.calls == []

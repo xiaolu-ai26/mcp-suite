@@ -274,3 +274,10 @@
 ## 11. 变更流程
 
 执行分支 → 实际 diff 与针对性测试 → 独立代码审查 → 解决发现 → 合入 main → 部署明确 commit → 回读与小批运行回执。部署前确认当前生产版本及仍在运行的采集任务；未取得服务器、飞书真实回执时只报“代码实现/模拟通过”，不报“已上线”。
+
+
+### 3.7 2026-10-02 normalize 故障证据补充
+
+10/2 第7个 P1 段后 normalize 的生产日志确认 `json.load → fp.read → UTF-8 decode → MemoryError`；05:42:11 receipt 为 partial-or-failed、collection stopped、publication pending。第6段最后 accepted 记录为 `c808646a...`，这里只作历史收据，不冒充当前 served/Base。前6次 normalize 均成功且 tables_loaded=false，因此缺 normalize_tables.json 不是该 MemoryError 的直接证据。20:54 回滚后 staging 为 806,915,187 bytes / SHA256 `372f47f3...`，不是失败瞬间输入的位级副本；历史 RAM/pagefile、当前三层状态本证据未查询。
+
+PR #27 第二轮针对该真实失败路径修复长记录重复解析并补安全冻结门，仍为 draft、未部署；新字节须重新独审及 Windows 完整 checkout/目标环境验证。恢复边界不变：不重采、不重置预算、不延截止、不发布、不调用 Base。

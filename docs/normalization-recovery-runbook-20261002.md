@@ -247,3 +247,33 @@ if ($LASTEXITCODE) { throw '回滚未确认成功，保留现场，不启动采�
 ```
 
 生产已经接受的版本绝不通过恢复旧 jobs 文件倒退。必要数据纠错另按最新 accepted、字段差异、独审和 CAS 处理。容量归档另核保护对象/锁，验证副本后才精确删除；本补丁未修改容量门或实现长期容量闭环。
+
+
+## 9. 第二轮目标机验收补充
+
+第二轮后，`--apply` 除独立 review manifest 外还强制检查生产 checkout 的 `deploy/qiuzhao-deploy-manifest.json`，要求 `windows_normalize_retry` 环境完整且 frozen。当前 PR 故意保持 pending；**新独审冻结最终 SHA 前，真实 apply 应失败。** 不得删除冻结检查、改成 `require_frozen=False` 或只更新 review JSON 绕过仓库门。
+
+独审后冻结集合至少包括 normalize/normalization_io/company_names/v4_fields、portable_runtime/p1_pipeline、deploy_manifest/windows_collector/windows_rebase/windows_recover_run/windows_normalize_retry，以及 company_aliases 与 p1_platform_companies。10/2 目标机实测缺 `normalize_tables.json`；本恢复继续在独立目标 manifest 中绑定其缺失，不为满足冻结门安装历史地点表。
+
+在精灵**完整真实 checkout**补跑：
+
+```powershell
+Set-Location 'D:\qiuzhao-mcp-work\repo'
+$Py = '.\.venv\Scripts\python.exe'
+& $Py -m pytest -q tests/test_normalization_io.py tests/test_windows_normalize_retry.py
+& $Py -m pytest -q tests/test_company_names.py tests/test_normalize_business_value.py tests/test_portable_runtime_locks.py
+& $Py -m pytest -q tests/test_graduation_multivalue.py tests/test_location_chain.py
+& $Py -m pytest -q tests/test_collector_partial_keep.py tests/test_segmented_publish.py tests/test_windows_publication.py
+if ($LASTEXITCODE) { throw '完整 checkout 回归失败；保留输出，不部署' }
+```
+
+不得复制假的 `export_csv.py` 或 `tools.py` 让测试收集通过；必须导入仓库真实模块。目标 Windows 还要逐项验证：①真实 runner 锁竞争时任何写入前拒绝；②Scheduler COM 查询失败或 unknown/queued/running 均拒绝；③同盘同 ACL 隔离副本验证 fsync/close + `os.replace`、权限与失败回滚；④沿用1800秒 watchdog，termination 未确认保留 unsafe_writer；⑤先证明 pending/旧 manifest 拒绝，再安装新独审冻结 manifest，并修改任一安全依赖证明旧 manifest 再次拒绝；⑥只在保全的隔离副本重放当前回滚后 staging，记录输入/输出 SHA、行数、字段统计、峰值内存和耗时，并注明它不是失败瞬间输入；⑦任何失败只回滚本轮代码/保留 staging，不重采、不重置预算、不延截止、不发布、不调用 Base。
+
+第5节安装在第二轮应视为四个受审文件：`qiuzhao/normalization_io.py`、`deploy/windows_normalize_retry.py`、`qiuzhao/normalize.py` 与**独审后冻结的** `deploy/qiuzhao-deploy-manifest.json`。manifest 最后安装，安装前后运行：
+
+```powershell
+& $ProdPy deploy/deploy_manifest.py --require-frozen --environment windows_normalize_retry
+if ($LASTEXITCODE) { throw 'normalize recovery frozen manifest 未通过，禁止 apply' }
+```
+
+当前 PR 的 pending manifest 只能证明门关闭，不能作为生产授权。真实 NTFS、Scheduler、锁和 timeout 本网页环境未执行，必须由精灵留回执。

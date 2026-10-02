@@ -42,12 +42,13 @@ def _reject_constant(value: str):
 
 def iter_records(stream: TextIO, *, chunk_chars: int = CHUNK_CHARS,
                  max_record_chars: int = MAX_RECORD_CHARS) -> Iterator[dict]:
-    """Read one strict top-level array of objects, including its closing delimiter.
+    """Read one strict top-level JSON array of objects with linear record scanning.
 
-    Whitespace, escapes and multibyte Unicode may straddle any input chunk. A
-    trailing comma, trailing document, scalar row, or truncated final record fails.
-    No success is inferred from a valid prefix. The limit is explicit and errors
-    retain the input; this is not an arbitrary-row salvage reader.
+    Object boundaries are located incrementally while tracking JSON strings, escapes
+    and nested delimiters. Each complete record is passed to the strict JSON decoder
+    exactly once, avoiding repeated raw_decode from the object start for long records.
+    Boundary scanning is not validation: complete candidates still use the strict
+    JSONDecoder, and malformed/oversized/trailing input fails closed.
     """
     if chunk_chars <= 0 or max_record_chars <= 0:
         raise ValueError('chunk and record limits must be positive')
@@ -64,13 +65,71 @@ def iter_records(stream: TextIO, *, chunk_chars: int = CHUNK_CHARS,
     def peek() -> str:
         nonlocal position
         while True:
-            while position < len(buffer) and buffer[position] in ' \t\r\n':
+            while position < len(buffer) and buffer[position] in ' \\t\\r\\n':
                 position += 1
             if position < len(buffer):
                 return buffer[position]
             if eof:
                 return ''
             refill()
+
+    def read_object() -> dict:
+        nonlocal buffer, position, eof
+        parts = []
+        record_chars = 0
+        depth = 0
+        in_string = False
+        escaped = False
+        while True:
+            if position >= len(buffer):
+                if eof:
+                    raise NormalizationInputError(
+                        f'record index {index}: invalid or truncated JSON (unterminated object)')
+                refill()
+                continue
+            segment_start = position
+            completed = False
+            while position < len(buffer):
+                ch = buffer[position]
+                position += 1
+                if in_string:
+                    if escaped:
+                        escaped = False
+                    elif ch == '\\':
+                        escaped = True
+                    elif ch == '"':
+                        in_string = False
+                    continue
+                if ch == '"':
+                    in_string = True
+                elif ch in '{[':
+                    depth += 1
+                elif ch in '}]':
+                    depth -= 1
+                    if depth < 0 or depth == 0:
+                        completed = True
+                        break
+            piece = buffer[segment_start:position]
+            record_chars += len(piece)
+            if record_chars > max_record_chars:
+                raise NormalizationInputError(
+                    f'record index {index}: record exceeds limit={max_record_chars} chars')
+            parts.append(piece)
+            if completed:
+                break
+            if eof:
+                raise NormalizationInputError(
+                    f'record index {index}: invalid or truncated JSON (unterminated object)')
+        candidate = ''.join(parts)
+        try:
+            record, end = decoder.raw_decode(candidate)
+        except (json.JSONDecodeError, NormalizationInputError) as error:
+            detail = error.msg if isinstance(error, json.JSONDecodeError) else str(error)
+            raise NormalizationInputError(
+                f'record index {index}: invalid JSON ({detail})') from error
+        if end != len(candidate) or not isinstance(record, dict):
+            raise NormalizationInputError(f'record index {index}: expected exactly one object')
+        return record
 
     if peek() != '[':
         raise NormalizationInputError('expected a top-level JSON array')
@@ -81,24 +140,7 @@ def iter_records(stream: TextIO, *, chunk_chars: int = CHUNK_CHARS,
         while True:
             if peek() != '{':
                 raise NormalizationInputError(f'record index {index}: expected an object')
-            while True:
-                try:
-                    record, end = decoder.raw_decode(buffer, position)
-                except json.JSONDecodeError as error:
-                    if eof:
-                        raise NormalizationInputError(
-                            f'record index {index}: invalid or truncated JSON ({error.msg})') from error
-                    if len(buffer) - position > max_record_chars:
-                        raise NormalizationInputError(
-                            f'record index {index}: incomplete/over-limit record; limit={max_record_chars} chars') from error
-                    refill()
-                    continue
-                if end - position > max_record_chars:
-                    raise NormalizationInputError(
-                        f'record index {index}: record exceeds {max_record_chars} chars')
-                position = end
-                break
-            yield record
+            yield read_object()
             index += 1
             delimiter = peek()
             if delimiter == ']':
@@ -107,6 +149,8 @@ def iter_records(stream: TextIO, *, chunk_chars: int = CHUNK_CHARS,
             if delimiter != ',':
                 raise NormalizationInputError(f'after record index {index - 1}: expected comma or closing bracket')
             position += 1
+            if peek() == ']':
+                raise NormalizationInputError(f'after record index {index - 1}: trailing comma')
     if peek():
         raise NormalizationInputError('trailing content after JSON array')
 

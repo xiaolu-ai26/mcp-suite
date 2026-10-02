@@ -54,3 +54,20 @@ python -S tests/probes/normalization_memory_probe.py --module qiuzhao/normalize.
 ## 独立审查清单
 
 审查者需针对最终提交/补丁与 SHA 确认：逐条转换语义与原业务函数一致；严格输入变化可接受；坏尾部不提交；源/候选身份、并发和 Windows 句柄约束；新重试中 exit 0 与校验屏障的中断顺序；不改变原预算和计划；缺资产状态如实保留；新依赖部署冻结；真实故障重放及必要目标回归。审查结论只签对应最终字节，修改后重新审核。
+
+
+## 第二轮：真实故障证据与独审整改
+
+证据提交 `qiuzhao-lzh-handoff@59f110f0940562bed92d55d52b9396f7f4388afa` 已读取 README、独审、完整 normalize.log、receipt、依赖/staging 观测、资产指纹与 manifest。该证据更新了上文“生产根因未归因”的旧状态。
+
+**直接失败已确认。** 第7段 traceback 为 `normalize.py:424 json.load(f)` → `json/__init__.py:293 fp.read()` → UTF-8 codecs decode → `MemoryError`。直接失败点是旧实现整文件读取/文本解码时的内存分配，不是字段规则异常。receipt 显示第7段 P1 partial，normalize=1 后 staging 回滚、publication blocked、collection stopped；前6次 normalize 均成功且 `tables_loaded=false`。因此缺 `normalize_tables.json` 不是该 MemoryError 的直接证据，本轮不安装历史表。
+
+20:54 只读观测的回滚后 staging 为 806,915,187 bytes，SHA256 `372f47f330645d92aa37d1b96cd3c94700333c72297aacb04b86275d5a2024fa`，size/mtime 前后稳定且未观察到匹配 collector Python 进程；它**不证明与失败瞬间输入逐字节相同**。历史 RAM/pagefile 压力没有收据，所以只确认“整文件 read/decode 时内存分配失败”，不推断当时为什么内存不足。
+
+独审 Medium 1 已整改：长对象改为增量扫描字符串、转义和嵌套 `{}`/`[]` 边界，完整对象只交给严格 JSON decoder 一次；记录上限、严格 JSON、坏尾部、源漂移和原子提交保护保留。新增多 MB 中文/emoji/引号/反斜杠/嵌套记录，直接断言 `raw_decode` 每条只调用一次；另测长合法首记录 + 截断坏尾部整批不提交。
+
+独审 Medium 2 已整改：安全身份集合新增 `deploy/windows_recover_run.py`，并绑定 `deploy/deploy_manifest.py`、`deploy/windows_rebase.py`、`qiuzhao/collector/p1_pipeline.py` 等实际安全依赖。新增 `windows_normalize_retry` 部署环境，但当前条目故意全部 pending/null；`--apply` 必须同时通过独立目标字节 manifest 与仓库 frozen manifest 的 `require_frozen=True`。测试证明旧 manifest 缺该环境会拒绝；即使独立目标 manifest 更新，修改安全依赖后旧 frozen manifest 仍拒绝。没有自动刷新 PASS。
+
+第二轮网页沙盒聚焦测试为 **84 passed**。旧 head 的独立 GPT-6.1 Sol low 审查记录仍是：新测试79 PASS；company/business_value/portable-lock 60 PASS + 1 skip；graduation/location 因受限目录缺真实 `export_csv/tools` 未收集。仓库已确认这些真实模块存在，但当前网页容器 GitHub clone 因 DNS 失败，无法物化完整 checkout，因此缺失组和完整既有回归仍必须在精灵真实 checkout 执行；不使用占位 stub 冒充通过。第二轮是新字节，旧独审不覆盖。
+
+仍待目标验证：真实 Windows 锁竞争、Scheduler unknown/queued/running、NTFS ACL/replace、子进程 timeout/termination、当前 staging 隔离重放及峰值内存。normalize-only 边界不变：不重采、不重置预算、不延截止、不发布、不调用 Base。

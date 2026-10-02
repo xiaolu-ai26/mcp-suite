@@ -18,11 +18,15 @@ import sys
 CORE_FILES = (
     'qiuzhao/normalize.py', 'qiuzhao/normalization_io.py',
     'qiuzhao/company_names.py', 'qiuzhao/v4_fields.py',
-    'qiuzhao/collector/portable_runtime.py',
-    'deploy/windows_collector.py', 'deploy/windows_normalize_retry.py',
+    'qiuzhao/collector/portable_runtime.py', 'qiuzhao/collector/p1_pipeline.py',
+    'deploy/deploy_manifest.py', 'deploy/windows_collector.py', 'deploy/windows_rebase.py',
+    'deploy/windows_recover_run.py', 'deploy/windows_normalize_retry.py',
 )
 ASSET_FILES = ('qiuzhao/normalize_tables.json', 'qiuzhao/data/company_aliases.json',
                'qiuzhao/collector/p1_platform_companies.json')
+SAFETY_ENVIRONMENT = 'windows_normalize_retry'
+FROZEN_RUNTIME_FILES = tuple(name for name in (*CORE_FILES, *ASSET_FILES)
+                             if name != 'qiuzhao/normalize_tables.json')
 
 
 def digest(path):
@@ -53,6 +57,27 @@ def validate_manifest(path, actual):
         raise ValueError('independent byte review is required; no PASS/reviewer in manifest')
     if manifest.get('files') != actual or any(actual.get(name) is None for name in CORE_FILES):
         raise ValueError('reviewed code/asset identity mismatch or required code missing')
+
+
+def validate_deploy_freeze(root):
+    """Require every executable/safety dependency to be frozen by the repo manifest.
+
+    normalize_tables.json is intentionally excluded: the observed collector does
+    not have it, and installing the historical table is not part of this recovery.
+    Its absence/presence is bound by the independent target review manifest.
+    """
+    root = Path(root)
+    from deploy import deploy_manifest as deployment
+    manifest = read_object(root / 'deploy/qiuzhao-deploy-manifest.json')
+    listed = {entry['repo'] for env, entry in deployment.entries(manifest)
+              if env == SAFETY_ENVIRONMENT}
+    missing = sorted(set(FROZEN_RUNTIME_FILES) - listed)
+    if missing:
+        raise ValueError('deploy freeze is incomplete for normalize retry: ' + ', '.join(missing))
+    _, failures = deployment.check(manifest, repo=root, require_frozen=True,
+                                   environments=(SAFETY_ENVIRONMENT,))
+    if failures:
+        raise ValueError('deploy freeze refuses normalize retry: ' + '; '.join(failures))
 
 
 def retry_normalization(runner, run, *, expected_source, expected_receipt,
@@ -104,6 +129,7 @@ def retry_normalization(runner, run, *, expected_source, expected_receipt,
             if review_manifest is None:
                 raise ValueError('--apply requires --review-manifest')
             validate_manifest(review_manifest, dependencies)
+            validate_deploy_freeze(root)
             # The unchanged capacity gate, unchanged timeout and same step implementation.
             runner.capacity_check([jobs])
             steps = {name: (args, limit) for name, args, limit in runner.steps_for(stage, False)}
