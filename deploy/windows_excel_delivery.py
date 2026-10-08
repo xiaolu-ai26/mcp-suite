@@ -1347,7 +1347,7 @@ DELIVERY_RUNTIME_FILES = (
     'qiuzhao/__init__.py', 'qiuzhao/collector/__init__.py',
     'qiuzhao/collector/p1_pipeline.py', 'qiuzhao/collector/portable_runtime.py',
     'qiuzhao/v4_fields.py', 'qiuzhao/collector/lark_sync_enrichment.py',
-    'qiuzhao/collector/sync_lark_multivalue.py', 'qiuzhao/normalize.py', 'qiuzhao/company_names.py',
+    'qiuzhao/collector/sync_lark_multivalue.py', 'qiuzhao/normalize.py', 'qiuzhao/normalization_io.py', 'qiuzhao/company_names.py',
     'qiuzhao/normalize_tables.json',
     'qiuzhao/data/company_aliases.json', 'qiuzhao/collector/p1_platform_companies.json')
 
