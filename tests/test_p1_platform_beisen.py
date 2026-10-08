@@ -215,7 +215,7 @@ def test_cache_identity_changes_miss(tmp_path, monkeypatch):
     with patch.object(beisen, 'FIELDS', beisen.FIELDS + ['AnotherField']):
         assert len(cached_collect(tmp_path / 'fields', 'social')[1].posts) == 2
     config = tmp_path / 'config.json'
-    config.write_text(beisen.CONFIG_PATH.read_text() + '\n', encoding='utf-8')
+    config.write_text(beisen.CONFIG_PATH.read_text(encoding='utf-8') + '\n', encoding='utf-8')
     with patch.object(beisen, 'CONFIG_PATH', config):
         assert len(cached_collect(tmp_path / 'config', 'social')[1].posts) == 2
     body = {'PortalId': 'p', 'PageIndex': 0, 'PageSize': 50, 'Category': [],
