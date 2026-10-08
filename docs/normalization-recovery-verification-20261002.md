@@ -81,3 +81,21 @@ python -S tests/probes/normalization_memory_probe.py --module qiuzhao/normalize.
 实际命令：`PYTHONDONTWRITEBYTECODE=1 /Users/maxzhl/Projects/mcp-suite/.venv/bin/python -m pytest -q -p no:cacheprovider tests/test_normalization_io.py tests/test_windows_normalize_retry.py`。结果 **101 passed / 0 failed / 0 skipped**，0.53s；私有 `phase-20261008/pr27-whitespace-focused.log` 与 exit=0收据。`git diff --check`通过。该结果证明本机聚焦范围，Scheduler/runner测试stub边界仍沿原说明。
 
 待核仍包括：修复后最终字节独审、完整checkout既有回归与冻结清单两个新增漂移问题、真实Windows隔离重放/NTFS/锁/Scheduler/超时/峰值内存。部署环境pending/null仍原样拒绝，不机械刷新PASS；本轮未安装、采集、重试--apply、发布或改服务。生产额外35来源的真实配置须保留，不能用main占位配置全树覆盖。
+
+## 2026-10-08 目标环境实测与最终字节
+
+已有生产1124名称/3372scope配置已纳管，源配置SHA `3b2dedf9e86c1af0557b7dbaf4919a62afca0aa8d1fc00402eef7f664c6078d1` 与运行机原件一致，独立配置审查通过；此为现状范围，不是新增来源。collector/retry/delivery的归一化依赖已协调冻结，delivery强制包含新增normalization_io，缺依赖负测通过；合法缺失的normalize_tables继续缺失，未安装历史表。
+
+真实精灵D隔离输入来自最新10/8 run，一次流式稳定复制：814080217字节，SHA `107859a9e4331fe720d2e43167f3a32346601c2cf23c8010fef170e8992b5b8a`，178833条。真实业务check229.782秒/峰值工作集31535104字节；完整归一化258.485秒/30138368字节，输出SHA `f6f9ada9879cd377d6ccde2dc1ea62bf3b3eb4f1ee0e8a4e354491ba5b43039b`。两者tables_loaded=false，填充3240、既有字段变化567；这些计数不表示新增岗位。
+
+原位流式黄金对照：ID/记录顺序保持，297条无ID历史记录保留，重复ID余量0；非归一化字段原位不变，全部变化记录的完整dict与捕获旧normalize_records真实函数一致。变化297条，不用ID相等单独证明匿名语义；发布仍须沿原受审匿名/重复ID保护。
+
+真实msvcrt跨进程争锁拒绝/解锁后成功，NTFS共享句柄导致替换WinError5时原件SHA不变且候选清理，关闭句柄后替换成功；实际无害父子进程timeout返回124、完整进程树终止。Daily仅只读确认COM state3；unknown/queued/running/error由实际解析函数、模拟COM返回的9个新增回归覆盖，未改生产任务。
+
+D原锁/真实子进程/最终冻结门下normalize-only inspect0/apply0，真实终态normalized-not-published，输出仍f6f9ada；原basic/tencent/P1、预算、deadline、completed_at、collection stopped、delivery pending及P1status字节保持。D-only审查manifest仅用于D，不得用于C。
+
+最终本机IO/retry/冻结门/Scheduler为124 passed、0 skipped；Windows同组123 passed、1 skipped，唯一POSIX mode bits不适用，NTFS实测另列。完整Git历史同D扩展：head22 failed/326 passed/39 skipped，base22 failed/325 passed/39 skipped，新增失败0。安全类旧用例分别留失败原因：Linux receiver fcntl不适用于Win；P1 timeout/跨进程锁未被本次normalize-only路径调用，C阶段仍需按真实源链收口，不笼统称全部安全门通过。
+
+MCP正式执行环境是Linux。Win本地HTTP因既有/dev/fd不支持而失败，不为跨平台绿灯改MCP层；同100条当前真实代表数据在Mac POSIX真实uvicorn/MCP七调用与in-process逻辑完全一致，服务已停止。旧9/11历史fixture仍未取得；已找到的9/10 9191条不是该fixture，未冒充。该小样HTTP不是全库或旧验收替代。
+
+最终代码/目标环境独审已允许限定五文件C安装及normalize-only，仍需实时原锁、writer/Scheduler、真备份、前后身份条件。此文是安装前验证回执，不是生产安装或三层交付完成；后续实际终态仅维护唯一日更正文。
