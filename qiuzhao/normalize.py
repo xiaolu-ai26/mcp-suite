@@ -418,61 +418,13 @@ def normalize_records(records: list[dict]) -> dict:
 
 
 def normalize_file(path, check: bool = False) -> dict:
-    """读文件 -> normalize_records -> 写回(check=True 时只统计不写)。返回统计。"""
-    p = Path(path)
-    with p.open("r", encoding="utf-8") as f:
-        records = json.load(f)
-
-    # 快照已有非空值,用于验证"已有非空值将被改动的数量"
-    before = [
-        {f: r.get(f) for f in REPORTED_FIELDS if not _is_empty(r.get(f))}
-        if isinstance(r, dict) else {}
-        for r in records
-    ]
-
-    stats = normalize_records(records)
-
-    would_change_existing = 0
-    for r, snap in zip(records, before):
-        if not isinstance(r, dict):
-            continue
-        for f, old in snap.items():
-            if r.get(f) != old:
-                would_change_existing += 1
-
-    result = {
-        "path": str(p),
-        "check": bool(check),
-        "records": len(records),
-        "filled": stats,
-        "filled_total": sum(stats.values()),
-        "would_change_existing": would_change_existing,
-        "tables_loaded": bool(_TABLES),
-        "company_tables": CN.table_info(),
-    }
-
-    if not check:
-        st = os.stat(p)
-        fd, tmp = tempfile.mkstemp(dir=str(p.parent), prefix=p.name + ".", suffix=".tmp")
-        try:
-            with os.fdopen(fd, "w", encoding="utf-8") as f:
-                json.dump(records, f, ensure_ascii=False)
-            os.chmod(tmp, stat_mod.S_IMODE(st.st_mode))
-            try:
-                os.chown(tmp, st.st_uid, st.st_gid)
-            except (PermissionError, AttributeError):
-                pass
-            os.replace(tmp, p)
-        except BaseException:
-            try:
-                os.unlink(tmp)
-            except OSError:
-                pass
-            raise
-        result["written"] = True
-    else:
-        result["written"] = False
-    return result
+    """流式逐行归一化；全部通过后原子替换，任何失败保留已采原文件。"""
+    from qiuzhao.normalization_io import normalize_path
+    return normalize_path(
+        path, check=check, normalize_one=_normalize_one, fields=REPORTED_FIELDS,
+        is_empty=_is_empty,
+        metadata={"tables_loaded": bool(_TABLES), "company_tables": CN.table_info()},
+    )
 
 
 OBSERVATION_FIELDS = frozenset({
