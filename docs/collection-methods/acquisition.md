@@ -61,3 +61,19 @@
 **失败反例**：REGISTRY.update 静默覆盖原适配器；平台相同就当租户相同；第二入口重复记录按新主体宣传；无公开范围仍靠标题猜分类。
 
 **验收**：每入口有独立证据；主体不冲突；合并后 ID 去重可解释；未支持与确证为空分开。**费用/登录**：入口数量增加请求和浏览器预算；登录、签名、WAF 入口不自动采用。新租户的 robots 决策遵循项目既有准入政策。
+
+## 2026-10-08 平台 SOP 绑定（代表样本，不是全来源验收）
+
+以下三条复用现有 A1/A2/A3，不增加每家公司流程。正式调用仍通过 `deploy/windows_collector.py::steps_for → p1_segment_args → p1_pipeline.main → adapter.collect`；新增公司只提供同平台租户参数。当前部署的三模块与 main bcae 对应源码逐字节一致，逐件 SHA、配置参数、静态字段表达式与测试路径在私有 `phase-20261008/method-bindings.generated.json` 中。9/29 原始小样本从 Windows 只读复制，样本及官方响应共约 92 KiB；历史执行时的全依赖字节关联尚未补齐，不能把当前 SHA 倒填成历史版本。
+
+| 方法与平台 | 参数与代表实证 | 字段来源与边界 | 回归 |
+|---|---|---|---|
+| A1 Workday CXS | 配置节 workday，key=`3m/wd1/Search`，search_text=China，max_list_pages=8；9/29 3M/intern：1 条，coverage success/complete/detail_complete | `_job` 的 info.id/externalPath→身份、title→标题、jobDescription→正文、location/additionalLocations→城市；startDate/endDate→发布日期/截止；cohort_raw留空。教育/专业来自共用原文提取，不补猜届别 | [test_p1_platform_workday.py](../../tests/test_p1_platform_workday.py)，已核 workday_list_offset0/20、detail_campus/intern JSON 夹具 |
+| A2 51job 微站 | 配置节 job51，key=pepsico2027，url为配置内官方 campus 微站，scope=campus；9/29 百事/campus：3 条，coverage success/complete/detail_complete | `parse_postings` 的 CtmID→身份/投递链接，投递锚点前条目文字→标题，公告+条目块→description_raw。代码的 detail_complete 表示微站文本契约，**不能证明有独立岗位详情全文**；发布时间/截止/届别不推断，详情语义是否足够列入阶段C | [test_p1_platform_51job.py](../../tests/test_p1_platform_51job.py)，已核51job_pepsico.html与无列表反例 |
+| A3 飞书公开站 | 配置节 feishu，key=intellicrane，site为配置内 /mhdl，tenant_names=[Uni-MIND]，portal_type=6；9/29 Uni-MIND/intern：1 条，coverage success/complete/detail_complete | `collect_feishu` 核website租户、detail.id/recruit_type匹配；title→标题，description+requirement→正文，city_list/required_degree/target_major_list→城市/教育/专业；缺失字段显式记录。支持多入口不等于每公司已完成A5绑定 | [test_p1_feishu_public.py](../../tests/test_p1_feishu_public.py)，内置假SDK/响应回归，详情空值、失败与跨站冲突反例 |
+
+执行 SOP：先核官方入口、租户与scope配置；依上述平台同入口获取列表并保留 total/末页/唯一ID证据；逐岗位取详情或明确微站文本限制；由 `p1_pipeline.validate_result` 校验身份/来源/分类/完整性，再进入统一归一化与发布链。临时只读预览可使用 `python -m qiuzhao.collector.p1_pipeline --adapter <真实模块路径> --company <已登记名称> --scope <配置范围> --output-dir <隔离目录>`；此入口仍访问上游，不属于离线测试，退出0也不能替代coverage验收，本阶段没有执行。
+
+失败恢复：保留result、pending_index、scope请求和原始响应，预算截断记partial；未知分类/租户不符/异常空页保持blocked或隔离；列表不完整不得下架。修复先回归对应样本，再从原run/checkpoint恢复，遵守[恢复与发布](recovery-and-publication.md)的单writer、原截止与CAS规则；不得新预算冒充旧日成功，不用历史success_flag替代服务器接受回执。
+
+本轮在 bcae 上真实运行上述三个测试文件：**46 passed，0 skipped**（0.44s，私有 platform-regression.log）。这证明现有离线回归，未运行新网络采集；三份代表样本、三个SOP及当前代码指针已固定，完整成功方法标准中的历史正式版本关联、每公司字段语义及当前完整性仍待B/C补证。每日数量只维护日更正文。

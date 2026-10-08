@@ -2,6 +2,73 @@
 
 本文件是秋招岗位库日更链路的唯一维护正文：交付口径、当前基线、已实现的计划、真实交付时序、代码与一次性工具的边界、遗留风险和待审批的优化都在这里维护。`README.md` 只保留摘要和链接。私有证据（运行收据、状态文件、账本、审查记录、数据快照）不进本仓库，下文以“本地恢复证据目录”加相对文件名引用。
 
+## 0. 2026-10-08 实施方案与阶段状态（入口）
+
+**目标：固定的已批准公司官网岗位，每日完整获取列表和详情、统一字段进入一个权威库，并同版交付原飞书 Base 与 MCP。** 全部固定来源成功且三层回执通过才完成；部分交付如实保留。
+
+**阶段状态：0方案/A盘点完成；B真实Windows隔离与最终字节独审已通过，进入受限安装和已采补交；C/D未开始。** 阶段0当时仅盘点与文档；现goal已active且B获完整执行授权，后续实际动作按本节阶段收据记录。下列10/8生产事实来自总控本轮只读核验；后面的9/24–10/1章节是历史，尤其3.6的automation ACTIVE不代表当前：automation-4现为PAUSED，不启动旧heartbeat。
+
+### 0.1 当前事实与固定范围
+
+源码基线 `main=bcae6e546a025a3a84c5bfe4aa9d619a38db9c79`。正式入口 [windows_collector.steps_for](../deploy/windows_collector.py) 顺序是basic、tencent、分段P1、normalize，再按受控发布/交付链处理。basic的 [run.py](../qiuzhao/collector/run.py) 声明6个源：postal/chnenergy/telecom/boc/ccb/guopin；tencent由 [auto_collect.py](../qiuzhao/collector/auto_collect.py) 单独运行。
+
+P1权威代码入口为 [p1_pipeline.py](../qiuzhao/collector/p1_pipeline.py) 的COMPANIES/REGISTRY/DEFAULT_COMPANIES；固定优先名单50项，平台参数主要来自 [p1_platform_companies.json](../qiuzhao/collector/p1_platform_companies.json)，其13个平台节合计注册前配置条目含禁用项，不可直接当公司数。本轮完整qiuzhao/deploy检出离线导入得到REGISTRY和DEFAULT_COMPANIES **1089个名称键**、21个实际adapter模块；不是集团或实体去重数。默认rotation=1，正式P1入口不传公司子集；新增范围须审批。
+
+历史10/8计划3372单元、3252未开始；3372÷3仅推算1124，不能证明公司名单，因为适用scope、禁用配置、名称冲突和运行版本可能不同。阶段A须把Windows实际registry、已批准名单/历史计划每key与本地1089逐项对齐，保留所有差异，**不得用较小本地名单删除原分母**。交接清单及5275映射/7111可见记录非固定范围证明。Windows配置差异及固定实体数仍未知。
+
+PR #27 draft/open head=`b8b0bd991cf549f3d8fc7b33a022919626c703ec`；作者记录84聚焦测试，最新版独审与完整Windows回归未完成，旧8fa审查不覆盖新字节。生产normalize SHA仍`8590fd48eab7f84126866a31486286c8c72f680ad86292f51ae7bbaa43c4e02b`，normalization_io.py/windows_normalize_retry.py缺失。10/8 01:00:03–01:31:58在json.load/fp.read/UTF8 MemoryError停：collection stopped/publication pending/feishu not_requested；10/6–7也normalize失败，但10/7已有accepted f770…，不能说数日完全无成果。10/2 after-rollback staging 806915187字节/372f47…是恢复后样本，非故障瞬间原样本；故障证据沿用私有pr27-evidence-20261002，勿重搬2GB。
+
+### 0.2 阶段目标、方法与验收
+
+| 阶段 | 执行与产物 | 放行条件 |
+|---|---|---|
+| A 固定范围→方法绑定 | 逐key冻结已批准公司/租户/官方入口/适用scope/adapter/配置路径/方法ID/字段映射/样本/受审版本；未知保留。绑定存现有配置与可生成清单，方法索引只导航 | 全清单都有已验证方法或明确缺口；覆盖清单不等于全采成功，分母及差异可复算 |
+| B 恢复归一化与已采补交 | 只审PR27最新字节；完整checkout与真实Windows隔离重放，验证长记录/内存/依赖冻结/数据保持；通过后按备份与回滚合同合并部署，先normalize-only，再补交已采成果 | 独审、Windows终态、版本SHA及差异真实可核；不重置旧预算、不补造历史采集success；accepted/served/Base分别核验 |
+| C 补齐固定来源日更 | 按源原因修列表分页/详情、真实字段/稳定ID、内容更新与保守下架；失败隔离、有界重试、域名/租户并发、时间/内存/存储预算；预览共用正式解析与校验入口 | 每源可信total或末页/ID证据、详情缺口、字段披露、更新/下架与反向失败样本均可核；未知类型不强填，失败不推进完成游标 |
+| D 交付与自然运行 | 原Base Excel投影/导入/verify/switch，MCP查询和详情核对同一已接受版本；至少2轮计划运行并逐源完整性验收 | 每轮固定分母完整、每源实际成功，accepted=served=Base账本对应版本，MCP真查询一致；两轮运行不替代每源验收 |
+
+单个源授权不可得、上游范围不明或预算不足时，保留条件缺口和目标未达；不得删源、造字段、把attempt/partial/空结果包装为success。数据仍由现有accepted库统一承担，Base和MCP是投影/读取出口，不建第二套权威库。
+
+### 0.3 成功方法如何沉淀与低成本扩源
+
+现有[方法索引](collection-methods/README.md)已有A1分页(Workday及回归)、A2列表详情(51job/tupu360)、A3动态入口(HeadlessSource/Feishu及回归)、A5多入口；历史51job百事/马夸特campus、讯飞campus13条是代表成功案例，不代表所有公司。方法与adapter/公司参数/字段映射/样本/正式run证据的统一绑定仍须补齐；现有源码与历史文档已含部分规则和版本，不能宣称一概没有。
+
+“成功方法完成”须同时具备：正式运行使用同入口代码；可复用公司配置（租户/入口/scope/预算）；字段映射；可执行SOP与失败恢复；脱敏真实代表样本与回归；正式版本和真实终态证据。同平台共一个SOP，公司只填参数与差异，沿[模板](collection-methods/TEMPLATE.md)补证据，不复制全流程。运行状态由配置/账本生成，方法文档不复写每日计数；AI用于一次性修方法，不能成为每日日更重新探索的依赖。后续扩源仅同平台加配置或新平台薄adapter，未经批准的新公司不启用。
+
+AIHOT仅借鉴固定新版 `6e67a9d9e8d87b95b8118a8a0b328a9bebd2bb48` 的[信源](https://github.com/KKKKhazix/AIHOT/blob/6e67a9d9e8d87b95b8118a8a0b328a9bebd2bb48/docs/sources.md)与[架构](https://github.com/KKKKhazix/AIHOT/blob/6e67a9d9e8d87b95b8118a8a0b328a9bebd2bb48/docs/architecture.md)：类型化配置/未知参数拒绝、preview同正式逻辑、失败不推进cursor、一个public read layer。禁止照搬资讯评分筛选、旧文/日期过滤、首次限量或模型付费流水；不迁Node+PG、不重搭平台。
+
+### 0.4 分工、记录与恢复边界
+
+总控只设goal、派阶段合同、核回执与独立验收；命名执行者在隔离分支实现，独立审查者核最新版代码与Windows证据后再放行部署。官方本机dsh可分担机械盘点/简单执行，限定私有草稿写权，不给生产/Git主写权；现有供应商成本授权只适用已指定范围，不新购、不换供应商。
+
+本轮dsh `0.1.5-rc.1` 实际provider/model=`deepseek-official/deepseek-flash`，session `7d871e9d-db61-4ec9-b8d8-29072de2212b`，退出0、持久化turn/end completed且草稿存在；人工核对后采纳绑定字段建议，纠正“真实发布仅这些案例”“无版本/合并规则”等过度断言。私有收据位于 `/Users/maxzhl/Projects/qiuzhao-lzh-handoff-20261002/phase-20261008/`，stderr含内部推理不上传。
+
+阶段状态/阻断只续本节，方法只续方法库，事故只续[踩坑正文](qiuzhao-collection-pitfalls.md)；不另建平行PROGRESS/BLOCKED正文，不扩大重hash/重扫/health，阶段0当时不修改PR27分支；该限制已由B授权解除，继续保留旧heartbeat暂停。阶段0等待已结束，现按active goal逐阶段执行并读回终态。
+
+### 0.5 阶段A终态（2026-10-08，只读对齐与方法投影）
+
+Windows `C:\mcp-suite-collector` 小源码/config先复制到D隔离审计目录，再在本机以 `python -B` 离线加载；未在C导入或写入。10/8原plan逐key实测：**1124个名称键、3372个唯一company/scope键，campus/intern/social各1124；registry-only/plan-only/main-only均0**。这是运行固定范围，非法律实体公司数。用户本轮明确授权按1124/3372现状范围实现，本轮不增源不删分母、不重复逐公司索审批；额外12条禁用声明单独保留为条件缺口，不计作活动1124，也不因禁用推断授权已撤销或scope不适用。basic6源与独立tencent另列，未混入P1名称分母。
+
+main与Windows的p1_pipeline源码同SHA `fff52389c4aad220183c77db6c29e63186afe1736c0f340e535a2d0a04cda0aa`；22个活动adapter对应源码全部同main。配置却不同：Windows新增Moka16/Workday10/Dayee11个key，并替换main中的3个REDACTED占位key；这些37个真实参数key及既有名称覆盖关系使Windows多35个登记名称。35个名称及逐参数差异留私有 `config-difference.json/windows-registry.json`；禁止用main全树覆盖生产配置。优先50名单在源码明确标user-approved； broader已配置范围有运行plan证据，但本轮未找到单独的人类审批逐项台账，原外盘all-companies文件当前不可访问，不把发现清单或映射包当批准证明。该授权溯源缺口保留，不阻断已配置固定范围的修复。
+
+私有 `phase-20261008/generate-method-bindings.py` 从捕获版本与指定三份历史status生成投影，**不手编、不是第二公司真源**；输入/源码SHA、官网观测、配置、adapter、字段表达式、正式入口、历史样本与测试/缺口均可追溯。投影1136行=1124登记+12禁用声明。分类仅candidate，所有登记项明确per-company-verification-pending；54名称仍为代码内参数，55名称协议方法未分类，22名称尚无绑定的专用测试路径，974名称未覆盖本次保留的平台代表样本。静态表达式不等于语义映射完成，已存在shared代码的继承字段需继续补指针。
+
+历史9/29、9/30、10/2快照中，任一scope曾success+complete的名称1057，三个scope跨历史均曾成功的名称871；按scope为944/939/1007，**均不代表当前成功或同一轮全成功**。coverage.published标志也不等于服务器accepted。三个平台SOP（Workday/51job/飞书）沿[获取正文](collection-methods/acquisition.md#2026-10-08-平台-sop-绑定代表样本不是全来源验收)固化，3份真实小样本合计92KiB，对应现有回归46 passed/0 skipped；严格成功方法所需历史运行字节关联与每源当前验收尚未完成，已验证方法数不能报为1124。
+
+生成器独立GPT-6.1 Sol low复审PASS，SHA `e7667da3e98990bbd0b930352e1179b966bd6b51c551fe483e72a8a5deb1f59c`，只代表投影正确性。阶段A盘点终态已完成；后续B修复PR27已发现的JSON空白解析缺陷并独审/Windows隔离重放，C补齐上述绑定及逐源完整性。未启动heartbeat、未采集、未部署或发布。
+
+**B阶段性收据：** 原PR27追加修复head `50062ac9362516b528b392eb8f5a7a18776bb79b`，实际JSON空白解析已独立复审 `PARSER_FIX_PASS / OVERALL_NOT_PASS`；实现与独审均101 passed/0 failed/0 skipped。只修解析器/新增17回归/验证记录，代码SHA `c63f645e63483a651d0b0a9f14879291ed756738ae69ad695481ea541318adfe`。完整tracked checkout已物化约110MB；跨环境freeze、真实Windows隔离/内存/Scheduler及现有业务回归仍待，不部署。尤其retry冻结集含公司配置，repo与Windows配置SHA不同；目标冻结必须保留1124范围，不能盲用repo配置覆盖。
+
+### 0.6 B目标环境边界（2026-10-08，安装前）
+
+最终代码头cfa4ad28（后续文档提交不改运行字节），源码纳管与目标冻结独审已准五文件C安装/normalize-only，未批准采集或数据发布。最新10/8 staging一次稳定复制D：814080217 bytes/107859…，178833条；真实业务check229.782s/峰值31.5MB，完整normalize258.485s/峰值30.1MB，输出f6f9ada…；原位黄金对照297无ID历史记录保留、重复ID余量0、非归一化字段不变、所有变化record与旧真实业务函数整dict相等。3240填充/567非空变化不是新增岗位量。
+
+D真实retry inspect0/apply0、normalized-not-published，原已采阶段/预算/deadline/collection stopped/delivery pending/P1status保留；真实msvcrt、NTFS失败保全与成功替换、超时子孙清理通过。124本机聚焦通过；Win123通过/1个POSIX mode bits skip（NTFS另测），fullgit扩展head22 fail/326 pass/39 skip、同D base22 fail/325 pass/39 skip，新增失败0。receiver Linux fcntl及P1 timeout/锁等失败须按各实际平台/路径区分；本次未采P1，不把同baseline自动当安全通过。
+
+验证矩阵：collector/normalize/retry真实Win；MCP正式Linux、同100当前真样本POSIX HTTP七调用parity通过；Win既有/dev/fd不支持并非本项目要移植的服务目标，旧9/11夹具未取得，未冒充替代。D-only manifest绝不用于C，另有C专用五文件签署与现场条件。生产安装及三层恢复仍待实际终态，不据代码合并写B完成。
+
+原Base f770于22:39 schema_snapshot明确failed，projection/xlsx/samples均已完成；空CLI stdout失败已用原参数只读复查国家/地点选项正常返回，23:14:50仅续同版本失败阶段，23:22:08 schema_snapshot完成并进入import，未开新批或并行writer。Mac余约1GB，新raw不传回，后续容量/归档与长期非Mac执行器缺口仍须实核。
+
 记录的事件发生在 **2026-09-24（北京时间）**，文中时间均为该日，除非另行注明。
 
 ## 2026-10-02 Pro 修复候选：尚未部署
@@ -281,3 +348,10 @@
 10/2 第7个 P1 段后 normalize 的生产日志确认 `json.load → fp.read → UTF-8 decode → MemoryError`；05:42:11 receipt 为 partial-or-failed、collection stopped、publication pending。第6段最后 accepted 记录为 `c808646a...`，这里只作历史收据，不冒充当前 served/Base。前6次 normalize 均成功且 tables_loaded=false，因此缺 normalize_tables.json 不是该 MemoryError 的直接证据。20:54 回滚后 staging 为 806,915,187 bytes / SHA256 `372f47f3...`，不是失败瞬间输入的位级副本；历史 RAM/pagefile、当前三层状态本证据未查询。
 
 PR #27 第二轮针对该真实失败路径修复长记录重复解析并补安全冻结门，仍为 draft、未部署；新字节须重新独审及 Windows 完整 checkout/目标环境验证。恢复边界不变：不重采、不重置预算、不延截止、不发布、不调用 Base。
+
+
+## 2026-10-08 B安装阶段实际回执
+
+PR27已合main `b643a16f5831c8a70a5a65935035f8aec4166534`，合并树13个运行/必要资产SHA与独审一致，目标normalization table依然合法缺失。C五文件在原runner锁/Scheduler安全/相关writer检查/旧15指纹/原容量门下备份并安装，23:33实际终态installed-byte-verified；备份目录`C:\mcp-suite-collector\recovery\normalize-code-backup-20261008T153341374443Z`，新依赖/入口及冻结清单逐件回读通过。仅原normalize被替换，其余四件此前缺失；没有安装源配置（生产已有相同3b2参数）、旧表、地点迁移或其他服务文件。
+
+当前仅绑定现场source/receipt并执行C normalize-only，仍未发布；原P1/basic/tencent不运行，旧预算/deadline不延长。B不得据安装完成宣告三层交付完成。五文件安装helper已独审及真实原子复制三项测试；可捕获异常回滚，强杀/断电须按真实journal+backup人工恢复，不称硬中断自动恢复。
