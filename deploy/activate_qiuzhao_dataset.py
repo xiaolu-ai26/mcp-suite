@@ -7,7 +7,7 @@ live only here:
 
   under the receiver's own collector.lock (so no publication can replace jobs.json between
   sampling and verification) -> sample size/mtime/sha256 -> stop mcp-suite.service, wait until
-  the old PID is gone -> start it once -> one bounded warm request (<= 120 s) -> verify the
+  the old PID is gone -> start it once -> one bounded warm request (<= 180 s) -> verify the
   served sha256 equals the sampled one -> re-check the file did not change -> receipt.
 
 Modes: ``--hourly`` (cron, top of the hour; activates only a version that differs from the
@@ -43,7 +43,8 @@ HEALTH_URL = 'http://127.0.0.1:8768/health'      # nginx maps /qiuzhao/ onto thi
 LOCK_WAIT_SECONDS = 600
 LOCK_POLL_SECONDS = 5
 STOP_WAIT_SECONDS = 90
-WARM_SECONDS = 120
+WARM_SECONDS = 180
+RECONCILE_SECONDS = 20
 
 
 class ActivationFailed(RuntimeError):
@@ -140,6 +141,39 @@ def restart_and_verify(target):
     return result
 
 
+def reconcile_served(target):
+    """Verify an already running dataset; no stop/start or accepted-data write."""
+    pid = main_pid()
+    if not pid_alive(pid):
+        raise ActivationFailed('no live service PID to reconcile')
+    try:
+        health = health_once(time.monotonic() + RECONCILE_SECONDS)
+    except (ValueError, TypeError) as error:
+        raise ActivationFailed('invalid health JSON/schema') from error
+    if (not isinstance(health, dict) or not isinstance(health.get('served'), dict)
+            or not isinstance(health.get('file'), dict)):
+        raise ActivationFailed('invalid health response schema')
+    served = health['served']
+    file_state = health['file']
+    loaded_at = served.get('loaded_at')
+    try:
+        loaded = dt.datetime.fromisoformat(loaded_at.replace('Z', '+00:00'))
+        if loaded.tzinfo is None or loaded.utcoffset() is None:
+            raise ValueError('timezone missing')
+    except (AttributeError, TypeError, ValueError) as error:
+        raise ActivationFailed('served loaded_at missing or invalid') from error
+    if (health.get('status') != 'ok' or health.get('reload_pending')
+            or any(served.get(k) != target[k] for k in ('sha256', 'size', 'mtime_ns'))
+            or any(file_state.get(k) != target[k] for k in ('size', 'mtime_ns'))):
+        raise ActivationFailed('running service is not the current sampled file')
+    if main_pid() != pid or not pid_alive(pid):
+        raise ActivationFailed('service PID changed during reconciliation')
+    if sample() != target:
+        raise ActivationFailed('jobs.json changed during reconciliation')
+    return {'new_pid': pid, 'served': served,
+            'health': {k: health.get(k) for k in ('status', 'jobs', 'data_as_of', 'reload_pending')}}
+
+
 def acquire(path, wait_seconds):
     handle = open(path, 'a')
     deadline = time.monotonic() + wait_seconds
@@ -178,6 +212,27 @@ def run(mode, expected_sha=None, retry_failed=False, lock_wait=LOCK_WAIT_SECONDS
                 receipt.update(outcome='refused', reason='jobs.json is not the requested accepted version')
                 record(receipt)
                 return 2, receipt
+            if mode == 'reconcile':
+                try:
+                    receipt['service'] = reconcile_served(target)
+                except (ActivationFailed, OSError, subprocess.SubprocessError) as error:
+                    receipt.update(outcome='deferred', reason=str(error)[:600],
+                                   note='control state and accepted data unchanged; no restart')
+                    record(receipt)
+                    return 75, receipt
+                prior_failure = state.pop('failed', None)
+                if prior_failure:
+                    state['previous_failed_activation'] = prior_failure
+                state.pop('activating', None)
+                if active != target['sha256']:
+                    state['previous'] = state.get('active')
+                served = receipt['service']['served']
+                state['active'] = {**target, 'activated_at': served['loaded_at'],
+                                   'mode': 'reconciled_served', 'reconciled_at': now()}
+                save_state(state)
+                receipt.update(outcome='reconciled_served', prior_failure=prior_failure)
+                record(receipt)
+                return 0, receipt
             if target['sha256'] == active:
                 receipt.update(outcome='unchanged', reason='already the active version; no restart')
                 record(receipt)
@@ -234,11 +289,13 @@ def main(argv=None):
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--hourly', action='store_true')
     group.add_argument('--activate', metavar='SHA256')
+    group.add_argument('--reconcile-served', metavar='SHA256',
+                       help='synchronize control only if this file is already served; never restart')
     parser.add_argument('--retry-failed', action='store_true')
     parser.add_argument('--lock-wait', type=int, default=LOCK_WAIT_SECONDS)
     a = parser.parse_args(argv)
-    mode = 'hourly' if a.hourly else 'manual'
-    code, receipt = run(mode, expected_sha=a.activate, retry_failed=a.retry_failed, lock_wait=a.lock_wait)
+    mode = 'reconcile' if a.reconcile_served else ('hourly' if a.hourly else 'manual')
+    code, receipt = run(mode, expected_sha=a.reconcile_served or a.activate, retry_failed=a.retry_failed, lock_wait=a.lock_wait)
     print(json.dumps(receipt, ensure_ascii=False))
     return code
 
