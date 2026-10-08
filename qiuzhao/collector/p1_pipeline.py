@@ -349,9 +349,12 @@ def company_scopes(company, scopes=None):
     return [scope for scope in requested if scope in allowed]
 
 
-def platform_group(company):
+def platform_group(company, scope=None):
     """Upstream host family used for the per-platform concurrency gate."""
     module = REGISTRY.get(company)
+    if module=='qiuzhao.collector.p1_platform_51job' and scope is not None:
+        from .p1_platform_51job import scope_route
+        if scope_route(company,scope) is not None:return 'zhiye.com'
     return PLATFORM_HOST_GROUPS.get(module) or 'company:' + str(company)
 
 
@@ -1392,14 +1395,19 @@ def run(data_dir, run_dir, companies, scopes, timeout=600, apply=False, resume=F
         else:
             # Same-host platform units are capped and spaced; adapters keep their
             # own internal request pacing.
-            platform = platform_group(company)
-            gate.acquire(platform)
             try:
-                if time.monotonic() >= deadline:
-                    return 'deadline'
-                result = collect_process(company, scope, output, min(timeout, max(1, deadline - time.monotonic())))
-            finally:
-                gate.release(platform)
+                platform = platform_group(company,scope)
+            except ValueError as error:
+                result = blocked(f'scope route rejected: {type(error).__name__}: {error}')
+                result['coverage'].update(failure_phase='scope_route',error_type=type(error).__name__)
+            else:
+                gate.acquire(platform)
+                try:
+                    if time.monotonic() >= deadline:
+                        return 'deadline'
+                    result = collect_process(company, scope, output, min(timeout, max(1, deadline - time.monotonic())))
+                finally:
+                    gate.release(platform)
             atomic_json(output / 'validated.json', result)
             attempted_now = True
         # publish() serializes on the p1-publish.lock file lock; the status append is
