@@ -117,7 +117,11 @@ def collect_inovance(scope,out):
 def collect_lixiang(scope,out):
     host='https://api-web.lixiang.com';entry='https://www.lixiang.com/employ/campus/list.html';c=shared.coverage(entry);jobs=[];session=shared.make_session();selected=[];seen_all=set();totals={}
     def classify(row):
-        mode=str(row.get('job_mode'));hire=row.get('hire_mode')
+        rawmode=row.get('job_mode');mode=str(rawmode);hire=row.get('hire_mode')
+        # This tenant explicitly labels 102 as outsourced social recruitment.
+        # Resolve this mode first: another label must not bypass its strict gate.
+        if mode=='102':
+            return 'social' if isinstance(rawmode,str) and type(hire) is int and hire==1 and row.get('job_mode_name')=='外包' else None
         if mode=='202' or row.get('job_mode_name')=='实习':return 'intern'
         if mode in ('101','201') and hire==2:return 'campus'
         if mode=='101' and hire==1:return 'social'
@@ -150,6 +154,13 @@ def collect_lixiang(scope,out):
             description=d.get('description') or '';requirements=d.get('requirements') or ''
             if not shared.text(description) and not shared.text(requirements):raise ValueError('Li Auto has no real description')
             j=shared.job('理想汽车',scope,ident,d['title'],'https://www.lixiang.com/employ/detail/'+str(ident)+'.html',description+'\n任职要求\n'+requirements,d.get('location_title') or row.get('location_title') or '',{**d,'qualification':requirements})
+            if str(d.get('job_mode'))=='102':
+                disclosure='官网披露为外包岗位；具体用工主体未披露，不能据此认定公司直聘。'
+                j['employment_relationship_raw']='外包'
+                j['description_raw']=disclosure+'\n'+j['description_raw']
+                j['detail_presentation']=disclosure
+                j['status_note']=disclosure
+                j['source_fields'].update({key:d.get(key) for key in ('hire_mode','job_mode','job_mode_name')})
             j['scope_evidence']=f'Official hire_mode={d.get("hire_mode")};job_mode={d.get("job_mode")};job_mode_name={d.get("job_mode_name")}';j['campaign_cohort_raw']=d.get('subject_name') or '';j['campaign_scope']='project';j['campaign_url']=entry;j['recruitment_unit']='理想汽车 / '+str(d.get('department_title') or '');return j
         with ThreadPoolExecutor(max_workers=3) as pool:
             futures={pool.submit(detail,row):row['id'] for row in selected}
