@@ -9,6 +9,7 @@ from pathlib import Path
 from types import SimpleNamespace
 import pytest
 from deploy import windows_normalize_retry as retry
+from deploy import windows_recover_run as recovery
 from qiuzhao.normalization_io import normalize_path
 
 try:
@@ -75,6 +76,24 @@ def invoke(s, **kwargs):
               expected_receipt=retry.digest(s.run/'receipt.json'), task_is_running=lambda:False)
     args.update(kwargs)
     return retry.retry_normalization(s.runner,s.run,**args)
+
+
+@pytest.mark.parametrize('state,unsafe', [(0, True), (1, False), (2, True), (3, False), (4, True)])
+def test_actual_scheduler_parser_for_controlled_com_states(monkeypatch, state, unsafe):
+    # The parser is real; only the external PowerShell result is simulated.
+    monkeypatch.setattr(recovery, 'os', SimpleNamespace(name='nt'))
+    result = SimpleNamespace(returncode=0, stdout=str(state), stderr='')
+    monkeypatch.setattr(recovery, 'subprocess', SimpleNamespace(run=lambda *a, **k: result))
+    assert recovery.task_is_running() is unsafe
+
+
+@pytest.mark.parametrize('returncode,stdout', [(1, ''), (0, ''), (0, '5'), (0, 'not-a-state')])
+def test_actual_scheduler_parser_refuses_errors_and_unknown_values(monkeypatch, returncode, stdout):
+    monkeypatch.setattr(recovery, 'os', SimpleNamespace(name='nt'))
+    result = SimpleNamespace(returncode=returncode, stdout=stdout, stderr='controlled failure')
+    monkeypatch.setattr(recovery, 'subprocess', SimpleNamespace(run=lambda *a, **k: result))
+    with pytest.raises((RuntimeError, ValueError)):
+        recovery.task_is_running()
 
 
 def test_inspection_changes_no_jobs_receipt_or_budget(setup):
