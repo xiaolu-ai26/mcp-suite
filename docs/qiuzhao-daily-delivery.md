@@ -47,7 +47,7 @@ AIHOT仅借鉴固定新版 `6e67a9d9e8d87b95b8118a8a0b328a9bebd2bb48` 的[信源
 
 ### 0.5 阶段A终态（2026-10-08，只读对齐与方法投影）
 
-Windows `C:\mcp-suite-collector` 小源码/config先复制到D隔离审计目录，再在本机以 `python -B` 离线加载；未在C导入或写入。10/8原plan逐key实测：**1124个名称键、3372个唯一company/scope键，campus/intern/social各1124；registry-only/plan-only/main-only均0**。这是运行固定范围，非法律实体公司数。1124来自原固定运行配置，本轮不增源不删分母；额外12条禁用声明单独保留为条件缺口，不计作活动1124，也不因禁用推断授权已撤销或scope不适用。basic6源与独立tencent另列，未混入P1名称分母。
+Windows `C:\mcp-suite-collector` 小源码/config先复制到D隔离审计目录，再在本机以 `python -B` 离线加载；未在C导入或写入。10/8原plan逐key实测：**1124个名称键、3372个唯一company/scope键，campus/intern/social各1124；registry-only/plan-only/main-only均0**。这是运行固定范围，非法律实体公司数。用户本轮明确授权按1124/3372现状范围实现，本轮不增源不删分母、不重复逐公司索审批；额外12条禁用声明单独保留为条件缺口，不计作活动1124，也不因禁用推断授权已撤销或scope不适用。basic6源与独立tencent另列，未混入P1名称分母。
 
 main与Windows的p1_pipeline源码同SHA `fff52389c4aad220183c77db6c29e63186afe1736c0f340e535a2d0a04cda0aa`；22个活动adapter对应源码全部同main。配置却不同：Windows新增Moka16/Workday10/Dayee11个key，并替换main中的3个REDACTED占位key；这些37个真实参数key及既有名称覆盖关系使Windows多35个登记名称。35个名称及逐参数差异留私有 `config-difference.json/windows-registry.json`；禁止用main全树覆盖生产配置。优先50名单在源码明确标user-approved； broader已配置范围有运行plan证据，但本轮未找到单独的人类审批逐项台账，原外盘all-companies文件当前不可访问，不把发现清单或映射包当批准证明。该授权溯源缺口保留，不阻断已配置固定范围的修复。
 
