@@ -418,3 +418,95 @@ def test_windows_collector_diff_counts_failure_is_reporting_only(tmp_path, monke
     assert changes['diff_error'].startswith('RuntimeError: diff exploded')
     assert 'added' not in changes
     assert 'basic-new' in read_ids(tmp_path / 'data' / 'jobs.json')
+
+
+@pytest.mark.parametrize('failure', ['merge-memory', 'source-stop', 'write'])
+def test_basic_failure_phase_receipt_never_claims_parsed_boc_was_committed(tmp_path, monkeypatch, failure):
+    previous = [dict(fake_job('boc-old'), status='open')]
+    original_bytes = json.dumps(previous, ensure_ascii=False).encode()
+    (tmp_path / 'jobs.json').write_bytes(original_bytes)
+    collector = R.Collector(tmp_path, delay=0)
+    def parsed_boc():
+        if failure == 'source-stop':
+            hidden_credential = 'DO_NOT_RECORD_LOCAL_CREDENTIAL'
+            raise StopIteration()
+        collector.states['boc'] = {'status': 'success', 'complete': True, 'collected_jobs': 14}
+        return [fake_job('boc-new-' + str(i)) for i in range(14)]
+    monkeypatch.setattr(collector, 'boc', parsed_boc)
+    if failure == 'merge-memory':
+        monkeypatch.setattr(R.copy, 'deepcopy', lambda *_args: (_ for _ in ()).throw(MemoryError()))
+    elif failure == 'write':
+        original_replace = R.os.replace
+        def fail_job_replace(candidate, destination):
+            if Path(destination).name == 'jobs.json':
+                raise OSError('simulated job write failure')
+            return original_replace(candidate, destination)
+        monkeypatch.setattr(R.os, 'replace', fail_job_replace)
+    assert collector.run('boc', 0) == 1
+    assert (tmp_path / 'jobs.json').read_bytes() == original_bytes
+    assert not (tmp_path / 'jobs.json.tmp').exists()
+    state = json.loads((tmp_path / 'source_state.json').read_text())['boc']
+    assert state['status'] == 'failed' and state['complete'] is False
+    assert state['source_committed'] is False
+    expected_phase = {'merge-memory': 'merge', 'source-stop': 'collect_parse', 'write': 'source_write'}[failure]
+    expected_type = {'merge-memory': 'MemoryError', 'source-stop': 'StopIteration', 'write': 'OSError'}[failure]
+    assert state['failure_phase'] == expected_phase and state['error_type'] == expected_type
+    if failure != 'source-stop':
+        assert state['parse_success'] and state['parsed_jobs'] == 14
+        assert state['collected_jobs'] == 0
+    alert = json.loads((tmp_path / 'alerts.json').read_text())['alerts'][0]
+    assert alert['failure_phase'] == expected_phase and alert['error_type'] == expected_type
+    assert 0 < len(alert['error_stack']) <= 8
+    assert all(set(frame) == {'file', 'function', 'line'} for frame in alert['error_stack'])
+    assert 'DO_NOT_RECORD_LOCAL_CREDENTIAL' not in json.dumps(alert)
+    assert json.loads((tmp_path / 'summary.json').read_text())['refreshed_jobs'] == 0
+
+
+def test_atomic_basic_write_failure_keeps_original_and_cleans_candidate(tmp_path, monkeypatch):
+    destination = tmp_path / 'jobs.json'
+    destination.write_bytes(b'original data')
+    def failed_replace(*_args):
+        raise OSError('simulated replace failure')
+    monkeypatch.setattr(R.os, 'replace', failed_replace)
+    with pytest.raises(OSError):
+        R.write_json(destination, [{'id': 'new'}])
+    assert destination.read_bytes() == b'original data'
+    assert not destination.with_suffix('.json.tmp').exists()
+
+
+@pytest.mark.parametrize('failure', ['memory', 'write'])
+def test_finalization_failure_has_typed_receipt_and_cannot_leave_complete(tmp_path, monkeypatch, failure):
+    collector = R.Collector(tmp_path, delay=0)
+    monkeypatch.setattr(collector, 'boc', success_source(collector, 'boc', 'boc-1'))
+    def out_of_memory(*_args):
+        raise MemoryError()
+    if failure == 'memory':
+        monkeypatch.setattr(R, 'normalize_records', out_of_memory)
+    else:
+        original_replace = R.os.replace
+        writes = 0
+        def fail_final_replace(candidate, destination):
+            nonlocal writes
+            if Path(destination).name == 'jobs.json':
+                writes += 1
+                if writes == 2:
+                    raise OSError('simulated final write failure')
+            return original_replace(candidate, destination)
+        monkeypatch.setattr(R.os, 'replace', fail_final_replace)
+    assert collector.run('boc', 0) == 1
+    state = json.loads((tmp_path / 'source_state.json').read_text())
+    assert state['_finalization']['error_type'] == ('MemoryError' if failure == 'memory' else 'OSError')
+    assert state['_finalization']['failure_phase'] == ('final_normalize' if failure == 'memory' else 'final_write')
+    assert not (tmp_path / 'jobs.json.tmp').exists()
+    assert not state['boc']['complete'] and state['boc']['status'] == 'failed'
+    # The prior per-source atomic checkpoint remains, but exit 1 refuses the
+    # basic stage for the existing caller's rollback; it is not final success.
+    assert state['boc']['source_committed'] and not state['boc']['finalization_complete']
+
+
+def test_failure_diagnostics_redact_labelled_credentials_and_url_secrets():
+    secret = 'SYNTHETIC_CREDENTIAL'
+    error = RuntimeError('Authorization: Bearer ' + secret + '\nhttps://user:password@official.example/path?token=' + secret)
+    detail = R.failure_details(error, 'collect_parse')
+    assert secret not in json.dumps(detail)
+    assert 'user:password' not in detail['error']

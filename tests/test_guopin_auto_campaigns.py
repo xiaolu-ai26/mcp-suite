@@ -148,3 +148,85 @@ def test_advertised_2027_banner_is_discovered_end_to_end(tmp_path, monkeypatch):
     assert 'brandnew2027' in collector.states['guopin']['discovered']
     assert any(j['source_group_key'] == 'brandnew2027'
                and j['campaign_url'].startswith('https://brandnew2027.iguopin.com') for j in rows)
+
+
+def test_missing_job_navigation_keeps_restricted_config_and_typed_phase(tmp_path, monkeypatch):
+    api, _ = _fake_api([_banner('zgyd')])
+    def missing_navigation(collector, url, payload=None):
+        data = api(collector, url, payload)
+        if '/api/activity/exclusive/v1/info' in url:
+            data['content'] = json.dumps({'params': {'nav': [{'type': 'other', 'route': '/info'}]}})
+            data['access_token'] = 'DO_NOT_RECORD_CREDENTIAL'
+        return data
+    monkeypatch.setattr(G, 'public_api', missing_navigation)
+    monkeypatch.setattr(G, 'CAMPAIGNS', (('zgyd', '测试集团'),))
+    collector = R.Collector(tmp_path, delay=0)
+    assert G.collect_guopin(collector) == []
+    state = collector.states['guopin']['campaigns']['zgyd']
+    assert state['error_type'] == 'ValueError' and state['failure_phase'] == 'navigation_parse'
+    assert 'job navigation missing' in state['error'] and state['complete'] is False
+    evidence = json.loads((collector.evidence / 'guopin-zgyd-config-raw.json').read_text())
+    assert json.loads(evidence['content'])['params']['nav'][0]['type'] == 'other'
+    assert 'access_token' not in evidence
+    assert 'DO_NOT_RECORD_CREDENTIAL' not in json.dumps(evidence)
+    alert = collector.alerts[0]
+    assert alert['failure_phase'] == 'navigation_parse' and alert['error_type'] == 'ValueError'
+    assert all(set(frame) == {'file', 'function', 'line'} for frame in alert['error_stack'])
+
+
+def test_bad_config_json_keeps_preparse_evidence(tmp_path, monkeypatch):
+    api, _ = _fake_api([_banner('zgyd')])
+    def bad_config(collector, url, payload=None):
+        data = api(collector, url, payload)
+        if '/api/activity/exclusive/v1/info' in url:
+            data['content'] = '{broken navigation json'
+        return data
+    monkeypatch.setattr(G, 'public_api', bad_config)
+    monkeypatch.setattr(G, 'CAMPAIGNS', (('zgyd', '测试集团'),))
+    collector = R.Collector(tmp_path, delay=0)
+    assert G.collect_guopin(collector) == []
+    state = collector.states['guopin']['campaigns']['zgyd']
+    assert state['error_type'] == 'JSONDecodeError' and state['failure_phase'] == 'navigation_parse'
+    evidence = json.loads((collector.evidence / 'guopin-zgyd-config-raw.json').read_text())
+    assert evidence['content'] == '{broken navigation json'
+
+
+def test_restricted_preparse_config_bounds_and_redacts_content(tmp_path, monkeypatch):
+    api, _ = _fake_api([_banner('zgyd')])
+    def config_with_extra_credentials(collector, url, payload=None):
+        data = api(collector, url, payload)
+        if '/api/activity/exclusive/v1/info' in url:
+            data['content'] = '{"accessToken":"SYNTHETIC_CONTENT_SECRET","padding":"' + 'x' * 66000
+            data['appSecret'] = 'SYNTHETIC_OUTSIDE_SECRET'
+        return data
+    monkeypatch.setattr(G, 'public_api', config_with_extra_credentials)
+    monkeypatch.setattr(G, 'CAMPAIGNS', (('zgyd', '测试集团'),))
+    collector = R.Collector(tmp_path, delay=0)
+    G.collect_guopin(collector)
+    evidence = json.loads((collector.evidence / 'guopin-zgyd-config-raw.json').read_text())
+    assert evidence['content_truncated'] and evidence['content_redacted']
+    assert len(evidence['content']) <= 65536
+    assert len(evidence['content_sha256']) == 64
+    assert 'SYNTHETIC_CONTENT_SECRET' not in json.dumps(evidence)
+    assert 'SYNTHETIC_OUTSIDE_SECRET' not in json.dumps(evidence)
+
+
+def test_short_repeated_secret_redaction_cannot_expand_saved_content_past_cap(tmp_path, monkeypatch):
+    api, _ = _fake_api([_banner('zgyd')])
+    content = '[' + ','.join(['{"token":"x"}'] * 4680) + ']'
+    assert len(content) < 65536
+    def repeated_secrets(collector, url, payload=None):
+        data = api(collector, url, payload)
+        if '/api/activity/exclusive/v1/info' in url:
+            data['content'] = content
+        return data
+    monkeypatch.setattr(G, 'public_api', repeated_secrets)
+    monkeypatch.setattr(G, 'CAMPAIGNS', (('zgyd', '测试集团'),))
+    collector = R.Collector(tmp_path, delay=0)
+    G.collect_guopin(collector)
+    evidence = json.loads((collector.evidence / 'guopin-zgyd-config-raw.json').read_text())
+    assert evidence['content_redacted']
+    assert not evidence['content_truncated']
+    assert evidence['redacted_content_truncated']
+    assert len(evidence['content']) <= 65536
+    assert '"token":"x"' not in evidence['content']
