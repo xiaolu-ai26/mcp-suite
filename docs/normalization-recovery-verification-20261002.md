@@ -71,3 +71,13 @@ python -S tests/probes/normalization_memory_probe.py --module qiuzhao/normalize.
 第二轮网页沙盒聚焦测试为 **84 passed**。旧 head 的独立 GPT-6.1 Sol low 审查记录仍是：新测试79 PASS；company/business_value/portable-lock 60 PASS + 1 skip；graduation/location 因受限目录缺真实 `export_csv/tools` 未收集。仓库已确认这些真实模块存在，但当前网页容器 GitHub clone 因 DNS 失败，无法物化完整 checkout，因此缺失组和完整既有回归仍必须在精灵真实 checkout 执行；不使用占位 stub 冒充通过。第二轮是新字节，旧独审不覆盖。
 
 仍待目标验证：真实 Windows 锁竞争、Scheduler unknown/queued/running、NTFS ACL/replace、子进程 timeout/termination、当前 staging 隔离重放及峰值内存。normalize-only 边界不变：不重采、不重置预算、不延截止、不发布、不调用 Base。
+
+## 2026-10-08 本机最新字节整改（第三轮）
+
+独立审查真实复跑 b8b0bd9 得到聚焦 **74 passed / 10 failed**，不是网页沙盒记录的84通过。根因是 `normalization_io.iter_records.peek` 的字符集合写成字面反斜杠和t/r/n，拒绝实际JSON换行/tab/CR，却接受非法尾随n/t/r/反斜杠。
+
+本轮在完整qiuzhao/deploy/tests/docs稀疏检出、真实模块与现有项目venv上最小修正为实际space/tab/CR/LF。新增10个实际空白边界用例（五种空白×chunk1/7）及7个非法尾随字符/字面转义用例；后者调用真实normalize_path并核输入字节不变、无残留候选文件。原84项保留，未删/skip/放松断言。
+
+实际命令：`PYTHONDONTWRITEBYTECODE=1 /Users/maxzhl/Projects/mcp-suite/.venv/bin/python -m pytest -q -p no:cacheprovider tests/test_normalization_io.py tests/test_windows_normalize_retry.py`。结果 **101 passed / 0 failed / 0 skipped**，0.53s；私有 `phase-20261008/pr27-whitespace-focused.log` 与 exit=0收据。`git diff --check`通过。该结果证明本机聚焦范围，Scheduler/runner测试stub边界仍沿原说明。
+
+待核仍包括：修复后最终字节独审、完整checkout既有回归与冻结清单两个新增漂移问题、真实Windows隔离重放/NTFS/锁/Scheduler/超时/峰值内存。部署环境pending/null仍原样拒绝，不机械刷新PASS；本轮未安装、采集、重试--apply、发布或改服务。生产额外35来源的真实配置须保留，不能用main占位配置全树覆盖。

@@ -65,7 +65,7 @@ def iter_records(stream: TextIO, *, chunk_chars: int = CHUNK_CHARS,
     def peek() -> str:
         nonlocal position
         while True:
-            while position < len(buffer) and buffer[position] in ' \\t\\r\\n':
+            while position < len(buffer) and buffer[position] in ' \t\r\n':
                 position += 1
             if position < len(buffer):
                 return buffer[position]

@@ -45,6 +45,24 @@ def test_empty_array(payload):
     assert list(nio.iter_records(io.StringIO(payload), chunk_chars=1)) == []
 
 
+@pytest.mark.parametrize('whitespace', [' ', '\t', '\r', '\n', ' \t\r\n'])
+@pytest.mark.parametrize('chunk', [1, 7])
+def test_actual_json_whitespace_accepted_at_array_boundaries(whitespace, chunk):
+    payload = whitespace + '[' + whitespace + '{}' + whitespace + ',' + whitespace + '{}' + whitespace + ']' + whitespace
+    assert list(nio.iter_records(io.StringIO(payload), chunk_chars=chunk)) == [{}, {}]
+
+
+@pytest.mark.parametrize('suffix', ['n', 't', 'r', '\\', r'\t', r'\r', r'\n'])
+def test_literal_escape_characters_are_not_trailing_json_whitespace(tmp_path, suffix):
+    path = tmp_path / 'jobs.json'
+    path.write_text('[{}]' + suffix, encoding='utf-8')
+    original = path.read_bytes()
+    with pytest.raises(nio.NormalizationInputError):
+        run(path)
+    assert path.read_bytes() == original
+    assert list(tmp_path.glob('*.tmp')) == []
+
+
 @pytest.mark.parametrize('payload', [
     '', '{}', 'null', '[1]', '[null]', '[[]]', '["s"]', '[true]',
     '[{},]', '[{}, 1]', '[{}', '[{"x":', '[{}]{}', '[{}]x',
