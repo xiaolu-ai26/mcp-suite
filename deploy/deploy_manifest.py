@@ -25,6 +25,9 @@ def entries(manifest):
 
 def check(manifest, repo=REPO, require_frozen=False, environments=None):
     rows, failures = [], []
+    if environments is not None:
+        unknown = set(environments) - set(manifest["environments"])
+        failures.extend("unknown environment: " + name for name in sorted(unknown))
     for env, entry in entries(manifest):
         if environments is not None and env not in environments:
             continue
@@ -40,6 +43,8 @@ def check(manifest, repo=REPO, require_frozen=False, environments=None):
         elif require_frozen and (pending or not entry.get('sha256')):
             failures.append(entry['repo'] + ': not frozen')
         rows.append(row)
+    if require_frozen and not rows:
+        failures.append("no deploy entries selected")
     return rows, failures
 
 

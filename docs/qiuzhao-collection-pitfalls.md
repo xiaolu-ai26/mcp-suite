@@ -58,3 +58,6 @@
 B补交时Mac余量紧张，初步按两个旧delivered work目录的`du`逻辑大小约651/657MiB估计可释放系统盘。受审归档helper在首件祖先lstat检查拒绝，未传归档、未删除；两version目录实际均为软链接，payload已在财富密码1的20261003归档，物理设备16777238，而本机/Users为16777232。因此本次系统盘释放为0，不能称已归档腾空间；没有改为跟随外盘链接强行通过。
 
 最小修正：候选先逐祖先lstat/strict resolve确认物理位置，再按目标st_dev与系统盘比较；可回收量按实际allocated bytes（st_blocks×512）计算，不用链接逻辑size。链接/硬链/跨设备收益分别列出，保护current accepted/served、Baseactive/last、inflight/prepared/工作基线及回滚artifact/ledger；仅白名单已验证副本才可处置。当前受保护原始artifact不因版本角色变化盲删。证据沿唯一日更正文及私有phase/archive-physical-device-correction.json，不新增平行进度正文。
+
+
+2026-10-09 冻结检查分母：`deploy_manifest.check` 对拼错/不存在的环境曾返回0条、0失败、exit0；本次空结果是invalid evidence，不能倒推或替代B已有逐文件/14项真实实核。补未知环境和冻结检查零条拒绝反例；有效环境必须有非零选中项并与受审集合相等。验收工具本身也有分母和反例，换对一次字符串不等于关闭此类缺陷。

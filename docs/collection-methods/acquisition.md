@@ -83,10 +83,15 @@
 
 正式入口仍为 `deploy/windows_collector.py → p1_pipeline → p1_platform_beisen.collect`。同一 logical run、UTC 日、租户、配置入口/实际 Origin、PortalId、完整 POST 参数和配置文件 SHA 相同，才复用完整列表；仅存储 Code=200、Count 非负整数且各页一致、唯一 Id 数=Count、末页为空的原始响应。失败、截断、未知/重复 ID、新 run、参数或配置漂移均重新请求，不能冒充空成功。scope 独立分类、selected ID、分页与详情缺口证据照旧保存。
 
-缓存命中后仍请求当前详情。核对 Id/CategoryId 后，以新详情的标题/职责等内容映射并绑定实际详情时间；缺字段显式记录 gap，冲突隔离，详情失败仅保留旧列表事实及旧列表时间。原始列表快照不变，不用缓存命中刷新 detail_checked_at。列表缓存是可丢弃优化，删除该 run 的独占缓存后按同一入口恢复；不修改 accepted 数据或运行预算。
+缓存命中后仍请求当前详情。核对 Id/CategoryId 后，详情明确披露的新内容优先；GET DTO缺键/null/空数组不能证明招聘方清空，保留同一 run 已验证列表事实及原时间，并区分详情缺字段、整个来源缺字段与两个来源差异。新 Require不拼接旧专业条件，学历只在明确硬下限与条款语义支持时主展示，等效资格/偏好/无法可靠解析保留全文及公开说明。字段来源、各自时间和旧 Degree通过既有detail_presentation/status_note可查；未修改全局normalize/carry-forward。详情失败仅保留列表事实及旧时间。原始快照不变，不用缓存命中刷新 detail_checked_at。列表缓存是可丢弃优化，删除该 run 的独占缓存后按同一入口恢复；不修改 accepted 数据或运行预算。
 
 隔离预览命令已用实际 `--help` 核验：`python -B -m qiuzhao.collector.p1_platform_beisen 'AIVA汽车' --scope campus --output-dir <独占目录> --max-requests 20`。此请求上限只适用于协议验证，不作为正式全量验收上限。正式流程设置 `QIUZHAO_P1_LOGICAL_RUN_ID` 与 `QIUZHAO_P1_DETAIL_CACHE_ROOT`；公司参数继续来自唯一 `p1_platform_companies.json`，不复制公司说明。
 
-代表原始协议：2026-09-29 AIVA 官方原始 5 页，总 Count=174、唯一 Id=174、末页空；campus 历史 selected=172 是不同分母。私有 `beisen-original-protocol-validation.json` 绑定源路径与每页 SHA。北森+Moka 离线回归25通过；独审覆盖新详情内容变化、字段缺失、身份/类别冲突、失败保旧时间与 run/参数失配。Windows 实际 20,000 条/401 页探针核缓存落盘读取、真实 NTFS WinError5 保原及释放后新版本替换；峰值256,757,760 bytes 是含原行、序列化和读取副本的整个探针进程，不能等同 collector 峰值。缓存 O(列表大小)，没有全局常驻状态，scope 子进程退出释放；磁盘缓存沿现有 run 生命周期保留。
+代表原始协议：2026-09-29 AIVA 官方原始 5 页，总 Count=174、唯一 Id=174、末页空；campus 历史 selected=172 是不同分母。私有 `beisen-original-protocol-validation.json` 绑定源路径与每页 SHA。初版缓存北森+Moka 离线回归25通过；字段融合增量独审北森37+平台Moka9=46通过，Windows北森37+缓存Moka11=48通过，实际collect→证据校验→merge→normalize→V4→公开详情链核教育替代/硬下限与DTO地点保留。有限资格规则不保证任意语言全部结构化，当前cfg组合另含3个租户分类反例；不将不同集合数互换。Windows 实际 20,000 条/401 页探针核缓存落盘读取、真实 NTFS WinError5 保原及释放后新版本替换；峰值256,757,760 bytes 是含原行、序列化和读取副本的整个探针进程，不能等同 collector 峰值。缓存 O(列表大小)，没有全局常驻状态，scope 子进程退出释放；磁盘缓存沿现有 run 生命周期保留。
 
 证据等级：受审代码、真实历史官方响应、Windows 隔离验证；尚不证明当前481名称全部完整、实际网络请求节约比例或当前自然 run 成功。当前状态仍只维护在日更正文。
+
+
+北森租户分类补例（2026-10-09）：神州数码集团 `digitalchina` 历史官方原 list0/list3 明确 CategoryId4“AI专项招聘(社招)”与5“AI专项招聘(校招)”，配置只增加4→social、5→campus，默认1社招/2校招/3实习保留。私有 `beisen-scope-evidence.json` 绑定10份原文件SHA、PortalId/租户/Id/标签；历史源码关联unknown。代表页控制回归不冒充原Count355完整回放，名称与3372计划键不变。
+
+迅销4/5/7为技术研发/项目管理/系统运维职能，津电4的Category为JSON null，均不能强归社招；代表raw无独立可用招聘性质字段。未知仍partial，未观察实习类别不等于不适用。租户配置映射需官方语义，供应商默认数字不能代替该租户验收。
