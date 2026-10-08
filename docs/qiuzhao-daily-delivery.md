@@ -6,7 +6,7 @@
 
 **目标：固定的已批准公司官网岗位，每日完整获取列表和详情、统一字段进入一个权威库，并同版交付原飞书 Base 与 MCP。** 全部固定来源成功且三层回执通过才完成；部分交付如实保留。
 
-**阶段状态：0方案完成；A盘点完成、已验证方法仍有缺口；B进入独审修复，C/D未开始。** 本次仅盘点与文档，未采集、部署、发布或改调度。下列10/8生产事实来自总控本轮只读核验；后面的9/24–10/1章节是历史，尤其3.6的automation ACTIVE不代表当前：automation-4现为PAUSED，不启动旧heartbeat。
+**阶段状态：0方案/A盘点完成；B真实Windows隔离与最终字节独审已通过，进入受限安装和已采补交；C/D未开始。** 阶段0当时仅盘点与文档；现goal已active且B获完整执行授权，后续实际动作按本节阶段收据记录。下列10/8生产事实来自总控本轮只读核验；后面的9/24–10/1章节是历史，尤其3.6的automation ACTIVE不代表当前：automation-4现为PAUSED，不启动旧heartbeat。
 
 ### 0.1 当前事实与固定范围
 
@@ -43,7 +43,7 @@ AIHOT仅借鉴固定新版 `6e67a9d9e8d87b95b8118a8a0b328a9bebd2bb48` 的[信源
 
 本轮dsh `0.1.5-rc.1` 实际provider/model=`deepseek-official/deepseek-flash`，session `7d871e9d-db61-4ec9-b8d8-29072de2212b`，退出0、持久化turn/end completed且草稿存在；人工核对后采纳绑定字段建议，纠正“真实发布仅这些案例”“无版本/合并规则”等过度断言。私有收据位于 `/Users/maxzhl/Projects/qiuzhao-lzh-handoff-20261002/phase-20261008/`，stderr含内部推理不上传。
 
-阶段状态/阻断只续本节，方法只续方法库，事故只续[踩坑正文](qiuzhao-collection-pitfalls.md)；不另建平行PROGRESS/BLOCKED正文，不扩大重hash/重扫/health，不修改PR27分支，不启用旧heartbeat。阶段0结束等待派发，后续逐阶段读回终态。
+阶段状态/阻断只续本节，方法只续方法库，事故只续[踩坑正文](qiuzhao-collection-pitfalls.md)；不另建平行PROGRESS/BLOCKED正文，不扩大重hash/重扫/health，阶段0当时不修改PR27分支；该限制已由B授权解除，继续保留旧heartbeat暂停。阶段0等待已结束，现按active goal逐阶段执行并读回终态。
 
 ### 0.5 阶段A终态（2026-10-08，只读对齐与方法投影）
 
@@ -58,6 +58,16 @@ main与Windows的p1_pipeline源码同SHA `fff52389c4aad220183c77db6c29e63186afe1
 生成器独立GPT-6.1 Sol low复审PASS，SHA `e7667da3e98990bbd0b930352e1179b966bd6b51c551fe483e72a8a5deb1f59c`，只代表投影正确性。阶段A盘点终态已完成；后续B修复PR27已发现的JSON空白解析缺陷并独审/Windows隔离重放，C补齐上述绑定及逐源完整性。未启动heartbeat、未采集、未部署或发布。
 
 **B阶段性收据：** 原PR27追加修复head `50062ac9362516b528b392eb8f5a7a18776bb79b`，实际JSON空白解析已独立复审 `PARSER_FIX_PASS / OVERALL_NOT_PASS`；实现与独审均101 passed/0 failed/0 skipped。只修解析器/新增17回归/验证记录，代码SHA `c63f645e63483a651d0b0a9f14879291ed756738ae69ad695481ea541318adfe`。完整tracked checkout已物化约110MB；跨环境freeze、真实Windows隔离/内存/Scheduler及现有业务回归仍待，不部署。尤其retry冻结集含公司配置，repo与Windows配置SHA不同；目标冻结必须保留1124范围，不能盲用repo配置覆盖。
+
+### 0.6 B目标环境边界（2026-10-08，安装前）
+
+最终代码头cfa4ad28（后续文档提交不改运行字节），源码纳管与目标冻结独审已准五文件C安装/normalize-only，未批准采集或数据发布。最新10/8 staging一次稳定复制D：814080217 bytes/107859…，178833条；真实业务check229.782s/峰值31.5MB，完整normalize258.485s/峰值30.1MB，输出f6f9ada…；原位黄金对照297无ID历史记录保留、重复ID余量0、非归一化字段不变、所有变化record与旧真实业务函数整dict相等。3240填充/567非空变化不是新增岗位量。
+
+D真实retry inspect0/apply0、normalized-not-published，原已采阶段/预算/deadline/collection stopped/delivery pending/P1status保留；真实msvcrt、NTFS失败保全与成功替换、超时子孙清理通过。124本机聚焦通过；Win123通过/1个POSIX mode bits skip（NTFS另测），fullgit扩展head22 fail/326 pass/39 skip、同D base22 fail/325 pass/39 skip，新增失败0。receiver Linux fcntl及P1 timeout/锁等失败须按各实际平台/路径区分；本次未采P1，不把同baseline自动当安全通过。
+
+验证矩阵：collector/normalize/retry真实Win；MCP正式Linux、同100当前真样本POSIX HTTP七调用parity通过；Win既有/dev/fd不支持并非本项目要移植的服务目标，旧9/11夹具未取得，未冒充替代。D-only manifest绝不用于C，另有C专用五文件签署与现场条件。生产安装及三层恢复仍待实际终态，不据代码合并写B完成。
+
+原Base f770于22:39 schema_snapshot明确failed，projection/xlsx/samples均已完成；空CLI stdout失败已用原参数只读复查国家/地点选项正常返回，于23:xx仅续同版本失败阶段，未开新批或并行writer。Mac余约1GB，新raw不传回，后续容量/归档与长期非Mac执行器缺口仍须实核。
 
 记录的事件发生在 **2026-09-24（北京时间）**，文中时间均为该日，除非另行注明。
 
