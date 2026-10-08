@@ -52,3 +52,9 @@
 - 根因：直接失败点已证实为约800MB级 jobs.json 的整文件读取/文本解码内存分配失败。历史 RAM/pagefile 压力未知；20:54 的 806,915,187-byte staging 是回滚后版本，不证明与失败瞬间输入相同。
 - 最小修复：PR #27 流式逐对象处理；第二轮把长对象改为增量边界扫描、完整对象只严格解码一次，并补齐安全依赖冻结门。normalize-only 恢复仍不采集、不发布、不改预算/截止/Base。
 - 验证：第二轮网页沙盒聚焦84 passed；新字节仍待独审和 Windows 锁/Scheduler/NTFS/timeout/staging 重放。前6次成功 normalize 均 `tables_loaded=false`，不盲补历史 normalize_tables.json。
+
+## 2026-10-09 冷目录逻辑大小误算成本机收益
+
+B补交时Mac余量紧张，初步按两个旧delivered work目录的`du`逻辑大小约651/657MiB估计可释放系统盘。受审归档helper在首件祖先lstat检查拒绝，未传归档、未删除；两version目录实际均为软链接，payload已在财富密码1的20261003归档，物理设备16777238，而本机/Users为16777232。因此本次系统盘释放为0，不能称已归档腾空间；没有改为跟随外盘链接强行通过。
+
+最小修正：候选先逐祖先lstat/strict resolve确认物理位置，再按目标st_dev与系统盘比较；可回收量按实际allocated bytes（st_blocks×512）计算，不用链接逻辑size。链接/硬链/跨设备收益分别列出，保护current accepted/served、Baseactive/last、inflight/prepared/工作基线及回滚artifact/ledger；仅白名单已验证副本才可处置。当前受保护原始artifact不因版本角色变化盲删。证据沿唯一日更正文及私有phase/archive-physical-device-correction.json，不新增平行进度正文。

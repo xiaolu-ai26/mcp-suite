@@ -6,9 +6,9 @@
 
 **目标：固定的已批准公司官网岗位，每日完整获取列表和详情、统一字段进入一个权威库，并同版交付原飞书 Base 与 MCP。** 全部固定来源成功且三层回执通过才完成；部分交付如实保留。
 
-**阶段状态：0方案/A盘点完成；B真实Windows隔离与最终字节独审已通过，进入受限安装和已采补交；C/D未开始。** 阶段0当时仅盘点与文档；现goal已active且B获完整执行授权，后续实际动作按本节阶段收据记录。下列10/8生产事实来自总控本轮只读核验；后面的9/24–10/1章节是历史，尤其3.6的automation ACTIVE不代表当前：automation-4现为PAUSED，不启动旧heartbeat。
+**阶段状态（2026-10-09入口核对）：0方案/A盘点完成；B五文件受审安装和normalize-only已完成，10/8已采成果补交尚待；C实现/独审中；D全来源真实两轮验收未达。** 固定范围已在0.5实测为1124名称键/3372 company-scope键，basic6源与独立tencent另列；全部目标未完成。后面的9/24–10/2章节是历史，尤其3.6的automation ACTIVE不代表当前：本轮automation-4保持PAUSED，不启动旧heartbeat。0.1保留本轮开始时快照，当前B/C状态以0.7的小收据为准。
 
-### 0.1 当前事实与固定范围
+### 0.1 本轮开始时历史快照与固定范围（2026-10-08，阶段A/B实施前）
 
 源码基线 `main=bcae6e546a025a3a84c5bfe4aa9d619a38db9c79`。正式入口 [windows_collector.steps_for](../deploy/windows_collector.py) 顺序是basic、tencent、分段P1、normalize，再按受控发布/交付链处理。basic的 [run.py](../qiuzhao/collector/run.py) 声明6个源：postal/chnenergy/telecom/boc/ccb/guopin；tencent由 [auto_collect.py](../qiuzhao/collector/auto_collect.py) 单独运行。
 
@@ -68,6 +68,16 @@ D真实retry inspect0/apply0、normalized-not-published，原已采阶段/预算
 验证矩阵：collector/normalize/retry真实Win；MCP正式Linux、同100当前真样本POSIX HTTP七调用parity通过；Win既有/dev/fd不支持并非本项目要移植的服务目标，旧9/11夹具未取得，未冒充替代。D-only manifest绝不用于C，另有C专用五文件签署与现场条件。生产安装及三层恢复仍待实际终态，不据代码合并写B完成。
 
 原Base f770于22:39 schema_snapshot明确failed，projection/xlsx/samples均已完成；空CLI stdout失败已用原参数只读复查国家/地点选项正常返回，23:14:50仅续同版本失败阶段，23:22:08 schema_snapshot完成并进入import，未开新批或并行writer。Mac余约1GB，新raw不传回，后续容量/归档与长期非Mac执行器缺口仍须实核。
+
+### 0.7 当前B/C状态与私有证据（2026-10-09核对）
+
+PR #27已合并为`b643a16f5831c8a70a5a65935035f8aec4166534`，PR #28已合并为`89d0211559d66adf27acc51cfad64e7063c7b2c9`。10/8生产五文件安装收据为`installed-byte-verified`，normalize inspect/apply均退出0，终态`normalized-not-published`；原run20261008仍collection stopped/publication pending，未重采、未延长原deadline。私有证据目录沿用`/Users/maxzhl/Projects/qiuzhao-lzh-handoff-20261002/phase-20261008/`：`production-install.json`、`production-normalize-driver-receipt.txt`。10/9 `publication-only-review-20261009.json`仅为conditional PASS；本次核对所据阶段记录为避01:00 Daily尚未启动补发，不将候选写成accepted或已交Base。
+
+此前已接受的f770版本于**2026-10-09 00:47:37（北京时间）**完成原Base交付：12表176849行，ledger active=null、last_delivered=f770；核验包含核心必需字段全行检查，全部23字段仅固定24样本，非23字段全量逐格验收。这是旧已接受版本补交完成，不能代替10/8新归一化成果待补交的状态。私有Base证据根为`/Users/maxzhl/Projects/mcp-suite-recovery-20260921/feishu-20260923/delivery/`：`ledger.json`、`versions/f770ed9659f6936b42af02387809ba4e0e1ce7b464ffb85b0ba09d24243e8cd9/state.json`及该版本目录下`work/runs/20261008T232209/{verify,switch}-receipt.json`。
+
+10/9阶段容量收据`next-daily-capacity.json`记录C空闲19.818GB、原门5.369GB通过、D空闲8.417GB，只证明该启动门，不证明整日容量可持续。`archive-physical-device-correction.json`证实2ddc/8ab版本父目录已为外盘symlink，原Mac释放1.3GB计划无效且脚本安全拒绝；实际零删除/零释放，不继续这两件搬运。
+
+C北森在隔离树`/Users/maxzhl/Projects/mcp-suite-beisen-c-20261009`实现/独审中；尚不能称为生产已修复或逐源验收完成。第二轮机械草稿已有私有`c-deepseek-result.md`，仅供人工核对；私有推理日志不作为正文或上传材料。D固定全来源真实两轮验收仍未达，1124/3372固定分母与basic6/tencent分列保持不变。
 
 记录的事件发生在 **2026-09-24（北京时间）**，文中时间均为该日，除非另行注明。
 
