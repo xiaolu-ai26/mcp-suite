@@ -67,7 +67,7 @@ D真实retry inspect0/apply0、normalized-not-published，原已采阶段/预算
 
 验证矩阵：collector/normalize/retry真实Win；MCP正式Linux、同100当前真样本POSIX HTTP七调用parity通过；Win既有/dev/fd不支持并非本项目要移植的服务目标，旧9/11夹具未取得，未冒充替代。D-only manifest绝不用于C，另有C专用五文件签署与现场条件。生产安装及三层恢复仍待实际终态，不据代码合并写B完成。
 
-原Base f770于22:39 schema_snapshot明确failed，projection/xlsx/samples均已完成；空CLI stdout失败已用原参数只读复查国家/地点选项正常返回，于23:xx仅续同版本失败阶段，未开新批或并行writer。Mac余约1GB，新raw不传回，后续容量/归档与长期非Mac执行器缺口仍须实核。
+原Base f770于22:39 schema_snapshot明确failed，projection/xlsx/samples均已完成；空CLI stdout失败已用原参数只读复查国家/地点选项正常返回，23:14:50仅续同版本失败阶段，23:22:08 schema_snapshot完成并进入import，未开新批或并行writer。Mac余约1GB，新raw不传回，后续容量/归档与长期非Mac执行器缺口仍须实核。
 
 记录的事件发生在 **2026-09-24（北京时间）**，文中时间均为该日，除非另行注明。
 
@@ -348,3 +348,10 @@ D真实retry inspect0/apply0、normalized-not-published，原已采阶段/预算
 10/2 第7个 P1 段后 normalize 的生产日志确认 `json.load → fp.read → UTF-8 decode → MemoryError`；05:42:11 receipt 为 partial-or-failed、collection stopped、publication pending。第6段最后 accepted 记录为 `c808646a...`，这里只作历史收据，不冒充当前 served/Base。前6次 normalize 均成功且 tables_loaded=false，因此缺 normalize_tables.json 不是该 MemoryError 的直接证据。20:54 回滚后 staging 为 806,915,187 bytes / SHA256 `372f47f3...`，不是失败瞬间输入的位级副本；历史 RAM/pagefile、当前三层状态本证据未查询。
 
 PR #27 第二轮针对该真实失败路径修复长记录重复解析并补安全冻结门，仍为 draft、未部署；新字节须重新独审及 Windows 完整 checkout/目标环境验证。恢复边界不变：不重采、不重置预算、不延截止、不发布、不调用 Base。
+
+
+## 2026-10-08 B安装阶段实际回执
+
+PR27已合main `b643a16f5831c8a70a5a65935035f8aec4166534`，合并树13个运行/必要资产SHA与独审一致，目标normalization table依然合法缺失。C五文件在原runner锁/Scheduler安全/相关writer检查/旧15指纹/原容量门下备份并安装，23:33实际终态installed-byte-verified；备份目录`C:\mcp-suite-collector\recovery\normalize-code-backup-20261008T153341374443Z`，新依赖/入口及冻结清单逐件回读通过。仅原normalize被替换，其余四件此前缺失；没有安装源配置（生产已有相同3b2参数）、旧表、地点迁移或其他服务文件。
+
+当前仅绑定现场source/receipt并执行C normalize-only，仍未发布；原P1/basic/tencent不运行，旧预算/deadline不延长。B不得据安装完成宣告三层交付完成。五文件安装helper已独审及真实原子复制三项测试；可捕获异常回滚，强杀/断电须按真实journal+backup人工恢复，不称硬中断自动恢复。
