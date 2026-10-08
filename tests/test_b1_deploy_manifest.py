@@ -68,6 +68,14 @@ def test_a_fully_frozen_copy_passes(tmp_path):
     assert X.frozen_failures(repo / 'deploy' / 'feishu_r1', manifest=manifest, repo=repo) == []
 
 
+def test_missing_streaming_normalization_dependency_refuses_delivery(tmp_path):
+    repo, manifest = frozen_copy(tmp_path)
+    files = manifest['environments']['delivery_mac']['files']
+    files[:] = [entry for entry in files if entry['repo'] != 'qiuzhao/normalization_io.py']
+    failures = X.frozen_failures(repo / 'deploy/feishu_r1', manifest=manifest, repo=repo)
+    assert 'qiuzhao/normalization_io.py: runtime dependency not in delivery_mac' in failures
+
+
 @pytest.mark.parametrize('case', ['pending', 'missing_dependency', 'drift', 'other_scripts_dir'])
 def test_pending_missing_or_drifted_code_is_refused(tmp_path, case):
     repo, manifest = frozen_copy(tmp_path)
