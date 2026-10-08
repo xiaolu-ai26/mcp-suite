@@ -6,7 +6,7 @@
 
 **目标：固定的已批准公司官网岗位，每日完整获取列表和详情、统一字段进入一个权威库，并同版交付原飞书 Base 与 MCP。** 全部固定来源成功且三层回执通过才完成；部分交付如实保留。
 
-**阶段状态：0方案完成；A/B/C/D均未开始。** 本次仅盘点与文档，未采集、部署、发布或改调度。下列10/8生产事实来自总控本轮只读核验；后面的9/24–10/1章节是历史，尤其3.6的automation ACTIVE不代表当前：automation-4现为PAUSED，不启动旧heartbeat。
+**阶段状态：0方案完成；A盘点完成、已验证方法仍有缺口；B进入独审修复，C/D未开始。** 本次仅盘点与文档，未采集、部署、发布或改调度。下列10/8生产事实来自总控本轮只读核验；后面的9/24–10/1章节是历史，尤其3.6的automation ACTIVE不代表当前：automation-4现为PAUSED，不启动旧heartbeat。
 
 ### 0.1 当前事实与固定范围
 
@@ -44,6 +44,18 @@ AIHOT仅借鉴固定新版 `6e67a9d9e8d87b95b8118a8a0b328a9bebd2bb48` 的[信源
 本轮dsh `0.1.5-rc.1` 实际provider/model=`deepseek-official/deepseek-flash`，session `7d871e9d-db61-4ec9-b8d8-29072de2212b`，退出0、持久化turn/end completed且草稿存在；人工核对后采纳绑定字段建议，纠正“真实发布仅这些案例”“无版本/合并规则”等过度断言。私有收据位于 `/Users/maxzhl/Projects/qiuzhao-lzh-handoff-20261002/phase-20261008/`，stderr含内部推理不上传。
 
 阶段状态/阻断只续本节，方法只续方法库，事故只续[踩坑正文](qiuzhao-collection-pitfalls.md)；不另建平行PROGRESS/BLOCKED正文，不扩大重hash/重扫/health，不修改PR27分支，不启用旧heartbeat。阶段0结束等待派发，后续逐阶段读回终态。
+
+### 0.5 阶段A终态（2026-10-08，只读对齐与方法投影）
+
+Windows `C:\mcp-suite-collector` 小源码/config先复制到D隔离审计目录，再在本机以 `python -B` 离线加载；未在C导入或写入。10/8原plan逐key实测：**1124个名称键、3372个唯一company/scope键，campus/intern/social各1124；registry-only/plan-only/main-only均0**。这是运行固定范围，非法律实体公司数。1124来自原固定运行配置，本轮不增源不删分母；额外12条禁用声明单独保留为条件缺口，不计作活动1124，也不因禁用推断授权已撤销或scope不适用。basic6源与独立tencent另列，未混入P1名称分母。
+
+main与Windows的p1_pipeline源码同SHA `fff52389c4aad220183c77db6c29e63186afe1736c0f340e535a2d0a04cda0aa`；22个活动adapter对应源码全部同main。配置却不同：Windows新增Moka16/Workday10/Dayee11个key，并替换main中的3个REDACTED占位key；这些37个真实参数key及既有名称覆盖关系使Windows多35个登记名称。35个名称及逐参数差异留私有 `config-difference.json/windows-registry.json`；禁止用main全树覆盖生产配置。优先50名单在源码明确标user-approved； broader已配置范围有运行plan证据，但本轮未找到单独的人类审批逐项台账，原外盘all-companies文件当前不可访问，不把发现清单或映射包当批准证明。该授权溯源缺口保留，不阻断已配置固定范围的修复。
+
+私有 `phase-20261008/generate-method-bindings.py` 从捕获版本与指定三份历史status生成投影，**不手编、不是第二公司真源**；输入/源码SHA、官网观测、配置、adapter、字段表达式、正式入口、历史样本与测试/缺口均可追溯。投影1136行=1124登记+12禁用声明。分类仅candidate，所有登记项明确per-company-verification-pending；54名称仍为代码内参数，55名称协议方法未分类，22名称尚无绑定的专用测试路径，974名称未覆盖本次保留的平台代表样本。静态表达式不等于语义映射完成，已存在shared代码的继承字段需继续补指针。
+
+历史9/29、9/30、10/2快照中，任一scope曾success+complete的名称1057，三个scope跨历史均曾成功的名称871；按scope为944/939/1007，**均不代表当前成功或同一轮全成功**。coverage.published标志也不等于服务器accepted。三个平台SOP（Workday/51job/飞书）沿[获取正文](collection-methods/acquisition.md#2026-10-08-平台-sop-绑定代表样本不是全来源验收)固化，3份真实小样本合计92KiB，对应现有回归46 passed/0 skipped；严格成功方法所需历史运行字节关联与每源当前验收尚未完成，已验证方法数不能报为1124。
+
+生成器独立GPT-6.1 Sol low复审PASS，SHA `e7667da3e98990bbd0b930352e1179b966bd6b51c551fe483e72a8a5deb1f59c`，只代表投影正确性。阶段A盘点终态已完成；后续B修复PR27已发现的JSON空白解析缺陷并独审/Windows隔离重放，C补齐上述绑定及逐源完整性。未启动heartbeat、未采集、未部署或发布。
 
 记录的事件发生在 **2026-09-24（北京时间）**，文中时间均为该日，除非另行注明。
 
