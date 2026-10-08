@@ -4,11 +4,11 @@ No account, signatures, personal/paid search endpoints, or browser dependency.
 Explicitly allowlisted current campaigns only; source placeholders are excluded.
 """
 from __future__ import annotations
-import argparse, datetime as dt, gzip, json, logging, math, re, time
+import argparse, datetime as dt, gzip, hashlib, json, logging, math, re, time
 from pathlib import Path
 from urllib.parse import urlencode, urlsplit
 from urllib.request import Request, urlopen
-from .run import Collector, base_job, clean, now, write_json, UA
+from .run import Collector, base_job, clean, now, write_json, UA, failure_details, redact_diagnostic_text
 
 HOST='https://gp-api.iguopin.com'
 # Guarantee list only. The real campaign set is discovered daily from the official
@@ -146,8 +146,10 @@ def campaign_pages(collector,endpoint,request,domain,config,scan):
 def collect_guopin(collector):
     ads_url=HOST+'/api/base/ads/v1/list?'+urlencode({'page':1,'page_size':100,'alias':BANNER_ALIAS})
     discovered=[];skipped=[];fallback_used=False;directory_ok=False;adrows=[];adpath=None
+    phase='directory_fetch'
     try:
         ads=public_api(collector,ads_url)
+        phase='directory_parse'
         adrows=[{k:r.get(k) for k in ('id','title','link_url','content_url')} for r in ads['list']]
         adpath=collector.evidence_file('guopin-official-campaign-directory.json',json.dumps({'source_url':ads_url,'reviewed_at':now(),'list':adrows},ensure_ascii=False,indent=2))
         directory_ok=True
@@ -155,9 +157,11 @@ def collect_guopin(collector):
     except Exception as error:
         # Discovery is best-effort: it must not sink the source. Keep the guarantee
         # list below and record the failure as an alert plus fallback_used.
-        collector.alert('guopin:discovery',error);fallback_used=True
+        collector.alert('guopin:discovery',error,phase=phase);fallback_used=True
     alljobs=[]; excluded=[]; states={}; global_seen=set()
     for domain,group in merge_campaigns(discovered):
+        phase='directory_match'
+        raw_config_path=None
         try:
             ad=next((r for r in adrows if urlsplit(r['link_url'] or '').hostname==domain+'.iguopin.com' and YEAR_MARKER in str(r.get('title') or '')),None)
             if not ad:
@@ -166,14 +170,40 @@ def collect_guopin(collector):
                 # directory proof rather than dropping the whole source.
                 ad={'title':group,'link_url':''}
             config_url=HOST+'/api/activity/exclusive/v1/info?'+urlencode({'domain':domain})
+            phase='config_fetch'
             config=public_api(collector,config_url)
-            parsed=json.loads(config['content'])
+            phase='config_evidence'
+            content=config.get('content')
+            raw_content=content if isinstance(content,str) else ''
+            company=config.get('company') if isinstance(config.get('company'),dict) else {}
+            content_excerpt=raw_content[:65536]
+            safe_content=redact_diagnostic_text(content_excerpt)
+            raw_config_path=collector.evidence_file('guopin-'+domain+'-config-raw.json',json.dumps({
+                'source_url':config_url,'reviewed_at':now(),'company_id':config.get('company_id'),
+                'company':{k:company.get(k) for k in ('id','name','show_name','nature_cn')},
+                'title':config.get('title'),'content':safe_content[:65536],
+                'content_redacted':safe_content!=content_excerpt,
+                'redacted_content_truncated':len(safe_content)>65536,
+                'content_sha256':hashlib.sha256(raw_content.encode()).hexdigest(),
+                'content_length':len(raw_content),'content_truncated':len(raw_content)>65536,
+                'content_field_type':type(content).__name__},ensure_ascii=False,indent=2))
+            phase='navigation_parse'
+            if not isinstance(content,str):raise ValueError('Guopin config content must be JSON text')
+            parsed=json.loads(content)
             # The first job navigation item is the standard campus campaign; later
             # AI/social/special tracks are not silently mixed into this scope.
-            nav=next(n for n in parsed['params']['nav'] if n.get('type')=='job')
-            props=nav.get('props',{});project_id=props.get('projectId')
+            params=parsed.get('params') if isinstance(parsed,dict) else None
+            navigation=params.get('nav') if isinstance(params,dict) else None
+            if not isinstance(navigation,list):raise ValueError('Guopin config navigation list missing or invalid')
+            nav=next((n for n in navigation if isinstance(n,dict) and n.get('type')=='job'),None)
+            if nav is None:raise ValueError('Guopin job navigation missing in official config')
+            props=nav.get('props',{})
+            if not isinstance(props,dict):raise ValueError('Guopin job navigation props invalid')
+            project_id=props.get('projectId')
+            phase='campaign_identity'
             if not config.get('company_id') or not (config.get('company') or {}).get('name'):raise ValueError('Official enterprise identity missing')
             group=config['company']['name']
+            phase='campaign_config_evidence'
             configpath=collector.evidence_file('guopin-'+domain+'-config.json',json.dumps({
                 'source_url':config_url,'reviewed_at':now(),'directory_ad':ad,
                 'company_id':config['company_id'],'company':{k:(config.get('company') or {}).get(k) for k in ('id','name','show_name','nature_cn')},
@@ -184,6 +214,7 @@ def collect_guopin(collector):
             if project_id:request['project_id']=[project_id]
             else:request.update(company_id_with_sub=config['company_id'],sort_scene=props.get('sort_scene',1))
             campaign_url='https://'+domain+'.iguopin.com'+nav['route']
+            phase='campaign_list_parse'
             jobs=[]; seen=set(); scan={}
             for safe,checked,path in campaign_pages(collector,endpoint,request,domain,config,scan):
                 for r in safe:
@@ -225,8 +256,9 @@ def collect_guopin(collector):
                 'collected_jobs':len(jobs),'complete':True,'campaign_url':campaign_url,'group_name':group}
             alljobs.extend(jobs)
         except Exception as error:
-            collector.alert('guopin:'+domain,error)
-            states[domain]={'status':'failed','checked_at':now(),'error':str(error)[:250]}
+            collector.alert('guopin:'+domain,error,phase=phase)
+            states[domain]={'status':'failed','complete':False,'checked_at':now(),
+                            'raw_config_evidence_path':raw_config_path,**failure_details(error,phase)}
     write_json(collector.out/'guopin_excluded_records.json',excluded)
     complete=all(x['status']=='success' for x in states.values())
     # Per-campaign states stay in campaigns/alerts; a top-level 'errors' key or a

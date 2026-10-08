@@ -2,7 +2,7 @@
 Run: python -m qiuzhao.collector.run --output-dir /var/lib/mcp-suite
 """
 from __future__ import annotations
-import argparse, copy, datetime as dt, gzip, hashlib, json, logging, os, re, time
+import argparse, copy, datetime as dt, gzip, hashlib, json, logging, os, re, time, traceback
 from pathlib import Path
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
@@ -21,8 +21,38 @@ def clean(value): return BeautifulSoup(str(value or ''), 'html.parser').get_text
 def write_json(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + '.tmp')
-    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
-    os.replace(tmp, path)
+    try:
+        tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
+        os.replace(tmp, path)
+    except BaseException:
+        try: tmp.unlink(missing_ok=True)
+        except OSError: pass
+        raise
+
+def redact_diagnostic_text(value):
+    """Bound diagnostic text and remove labelled secrets and URL credentials."""
+    text = str(value or '')
+    text = re.sub(r'(?i)(["\']?(?:access_?token|refresh_?token|token|secret|password|authorization|api[_-]?key|appsecret)["\']?\s*[:=]\s*)("[^"\n]*"|\'[^\'\n]*\'|[^,;\n}]+)',
+                  lambda match: match.group(1) + '"[redacted]"', text)
+    text = re.sub(r'(https?://)[^/\s@]+@', r'\1[redacted]@', text)
+    text = re.sub(r'(https?://[^\s?]+)\?[^\s]+', r'\1?[redacted]', text)
+    return text
+
+
+def failure_details(error, phase):
+    # No formatted traceback/source lines, locals, exception repr or chained
+    # exception payloads: only a bounded set of file/function/line coordinates.
+    stack = []
+    if isinstance(error, BaseException):
+        for frame, line in traceback.walk_tb(error.__traceback__):
+            stack.append({'file': Path(frame.f_code.co_filename).name,
+                          'function': frame.f_code.co_name, 'line': line})
+            if len(stack) > 8: stack.pop(0)
+    kind = type(error).__name__
+    message = redact_diagnostic_text(str(error))[:300] or kind
+    return {'error': message, 'error_type': kind, 'failure_phase': phase,
+            'error_stack': stack}
+
 
 def base_job(identifier, group, title, source, reviewed):
     return dict(id=identifier, recruitment_unit=group, contracting_entity='', job_title=title,
@@ -55,9 +85,10 @@ class Collector:
         p = self.evidence / name
         p.write_text(content, encoding='utf-8')
         return str(p.relative_to(self.out))
-    def alert(self, source, error):
-        self.alerts.append({'source':source, 'observed_at':now(), 'error':str(error)[:300]})
-        logging.error('%s: %s', source, error)
+    def alert(self, source, error, phase='unknown'):
+        detail = failure_details(error, phase)
+        self.alerts.append({'source': source, 'observed_at': now(), **detail})
+        logging.error('%s: %s phase=%s: %s', source, detail['error_type'], phase, detail['error'])
     def postal(self):
         announcement = self.fetch(POSTAL_ANNOUNCEMENT)
         anntext = clean(announcement)
@@ -223,20 +254,26 @@ class Collector:
         from .ccb import collect_ccb
         from .guopin import collect_guopin
         previous=json.loads((self.out/'jobs.json').read_text()) if (self.out/'jobs.json').exists() else []
-        merged={j.get("id") or f"auto-{i}":j for i,j in enumerate(previous)}; fetched=[]; succeeded=[]
+        merged={j.get("id") or f"auto-{i}":j for i,j in enumerate(previous)}; fetched_count=0; succeeded=[]
         for name,fn in [('postal',self.postal),('chnenergy',lambda:self.chnenergy(chn_limit)),('telecom',self.telecom),('boc',self.boc),('ccb',lambda:collect_ccb(self)),('guopin',lambda:collect_guopin(self))]:
             if source not in ('all',name): continue
             source_before=merged
+            phase='collect_parse'
+            parse_success=False
+            parsed_jobs=0
             try:
                 rows=fn()
+                parse_success=True
+                parsed_jobs=len(rows)
+                phase='validate_snapshot'
                 state=self.states[name]
                 if state.get('status') not in {'success','partial'} or state.get('errors'):
                     raise ValueError('source did not return a validated successful/partial snapshot')
                 if any(not isinstance(j,dict) or not j.get('id') for j in rows):
                     raise ValueError('source row missing stable identity')
-                source_before=merged
+                phase='merge'
                 merged=copy.deepcopy(merged)
-                fetched.extend(rows); seen={j['id'] for j in rows}
+                seen={j['id'] for j in rows}
                 if name=='guopin':
                     complete_groups={k for k,v in self.states[name].get('campaigns',{}).items() if v.get('status')=='success' and v.get('complete') and any(j.get('source_group_key') == k for j in rows)}
                     for key,old in merged.items():
@@ -257,24 +294,46 @@ class Collector:
                             if not row.get(field) and value is not None and value!='' and value!=[]:row[field]=value
                         carry_forward_location(row,old)
                     merged[row['id']]=row
+                phase='source_write'
                 write_json(self.out/'jobs.json',list(merged.values()))
+                fetched_count+=len(rows)
                 succeeded.append(name)
+                state.update(parse_success=True, parsed_jobs=parsed_jobs, source_committed=True, committed_jobs=len(rows))
             except Exception as error:
                 merged=source_before
-                self.alert(name,error)
+                self.alert(name,error,phase=phase)
                 # Preserve per-scope detail (e.g. guopin campaigns) the source already recorded.
                 prior=self.states.get(name) or {}
-                self.states[name]={**prior,'status':'failed','checked_at':now(),'error':str(error)[:300]}
-        jobs=[j for j in merged.values() if not re.search(r'需登录|请登录|投递入口|报名入口|招聘公告',j['job_title'])]; today=now()[:10]
-        for j in jobs:
-            if j.get('deadline') and j['deadline']<today and j.get('status')!='removed':j['status']='expired'
-        filled=normalize_records(jobs); logging.info('normalize_records filled: %s',filled)
-        write_json(self.out/'jobs.json',jobs)
+                self.states[name]={**prior,'status':'failed','complete':False,'checked_at':now(),
+                    'parse_success':parse_success,'parsed_jobs':parsed_jobs,'source_committed':False,
+                    'committed_jobs':0,'collected_jobs':0,**failure_details(error,phase)}
+        jobs=list(merged.values())
+        finalization_failed=False
+        if succeeded:
+            phase='final_normalize'
+            try:
+                jobs=[j for j in jobs if not re.search(r'需登录|请登录|投递入口|报名入口|招聘公告',j['job_title'])]
+                today=now()[:10]
+                for j in jobs:
+                    if j.get('deadline') and j['deadline']<today and j.get('status')!='removed':j['status']='expired'
+                filled=normalize_records(jobs); logging.info('normalize_records filled: %s',filled)
+                phase='final_write'
+                write_json(self.out/'jobs.json',jobs)
+            except Exception as error:
+                finalization_failed=True
+                self.alert('basic:finalization',error,phase=phase)
+                self.states['_finalization']={'status':'failed','complete':False,'checked_at':now(),
+                                              **failure_details(error,phase)}
+                for name in succeeded:
+                    self.states[name].update(status='failed', complete=False, finalization_complete=False,
+                                             **failure_details(error,phase))
+        # With no source commit, leave the original jobs bytes untouched. In
+        # particular do not retry a failed write or normalize old data as new work.
         statuses={s:sum(j.get('status')==s for j in jobs) for s in ['open','expired','unverified','removed']}
         summary={'updated_at':max((r for r in (j.get('reviewed_at') for j in jobs) if r),default=None),'run_finished_at':now(),
             'job_count':len(jobs),'status_counts':statuses,'group_count':len({j['recruitment_unit'] for j in jobs}),
             'named_recruiting_entity_count':len({j.get('recruiting_unit_raw') or j.get('contracting_entity') for j in jobs if j.get('recruiting_unit_raw') or j.get('contracting_entity')}),
-            'distinct_source_urls':len({j['source_url'] for j in jobs}), 'refreshed_jobs':len(fetched),
+            'distinct_source_urls':len({j['source_url'] for j in jobs}), 'refreshed_jobs':fetched_count,
             'added_jobs':len(set(merged)-{j.get('id') for j in previous}),'alerts_count':len(self.alerts),
             'counting_note':'One original role ID per record; no city multiplication; named recruiting entities are publisher labels, not independent legal verification.'}
         write_json(self.out/'summary.json',summary);write_json(self.out/'source_state.json',self.states)
@@ -283,6 +342,7 @@ class Collector:
         # Exit contract: 0 = every attempted source validated; 2 = at least one source
         # validated and merged while another failed (keep partial output); 1 = nothing
         # trustworthy was produced (callers must roll back).
+        if finalization_failed: return 1
         if not self.alerts: return 0
         return 2 if succeeded else 1
 
