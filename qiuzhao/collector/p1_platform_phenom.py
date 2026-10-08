@@ -448,10 +448,14 @@ def is_china(job):
 
 
 def _job_id(job):
-    ident = str(job.get('jobId') or job.get('reqId') or job.get('jobSeqNo') or '').strip()
-    if not ident:
-        raise ValueError('Phenom posting without jobId')
-    return ident
+    for field in ('jobId', 'reqId', 'jobSeqNo'):
+        ident = job.get(field)
+        if ident is None or isinstance(ident, str) and not ident.strip():
+            continue
+        if isinstance(ident, bool) or not isinstance(ident, (str, int)):
+            raise ValueError(f'Invalid Phenom {field} type')
+        return str(ident).strip()
+    raise ValueError('Phenom posting without jobId')
 
 
 def _location_text(job):
@@ -583,32 +587,52 @@ def collect(company, scope, output_dir, max_requests=None):
                     continue
             else:
                 payload = headless.widget(body)
-            result = payload.get('refineSearch') or {}
+            if not isinstance(payload, dict) or not isinstance(payload.get('refineSearch'), dict):
+                coverage['errors'].append('Invalid Phenom list response/refineSearch')
+                break
+            result = payload['refineSearch']
             if result.get('status') != 200 or not isinstance(result.get('data'), dict):
-                raise ValueError(
+                coverage['errors'].append(
                     f'Phenom refineSearch refused: status={result.get("status")} '
                     f'error={str(result.get("error"))[:200]}')
+                break
             data = result['data']
             evidence_name = f'{key}-list-{scope}-{offset}.json'
             (output_dir / evidence_name).write_text(
-                json.dumps(data, ensure_ascii=False), encoding='utf-8')
+                json.dumps(result, ensure_ascii=False), encoding='utf-8')
             evidence.append(evidence_name)
             coverage['pages_scanned'] += 1
-            page = data.get('jobs') or []
-            if total is None:
-                total = result.get('totalHits')
+            if not isinstance(data.get('jobs'), list):
+                coverage['errors'].append('Invalid Phenom jobs list')
+                break
+            page = data['jobs']
+            if 'totalHits' in result:
+                count = result['totalHits']
+                if isinstance(count, bool) or not isinstance(count, int) or count < 0:
+                    coverage['errors'].append('Invalid Phenom totalHits')
+                    break
+                if total is not None and count != total:
+                    coverage['errors'].append('Phenom totalHits changed during scan')
+                    break
+                total = count
             if not page:
-                listing_exhausted = True
+                listing_exhausted = total is None or len(seen_ids) == total
+                if not listing_exhausted:
+                    coverage['errors'].append(f'Incomplete Phenom list: {len(seen_ids)} vs {total}')
                 last_page_evidence = (f'key={key};scope={scope};from={offset};rows=0;'
                                       f'totalHits={total}')
                 break
             fresh = 0
             for job in page:
                 try:
+                    if not isinstance(job, dict):
+                        raise ValueError('Invalid Phenom job row')
                     ident = _job_id(job)
-                except ValueError:
+                except ValueError as error:
+                    coverage['errors'].append(str(error))
                     continue
                 if ident in seen_ids:
+                    coverage['errors'].append(f'Repeated Phenom job id {ident}')
                     continue
                 seen_ids.add(ident)
                 fresh += 1
@@ -621,13 +645,17 @@ def collect(company, scope, output_dir, max_requests=None):
                     ' Phenom pagination repeated an already-listed page; '
                     'listing completeness cannot be confirmed')
                 break
-            # Only a positive totalHits ends the scan; 0 with real rows is a site
-            # contradiction and must not be read as an exhausted listing.
-            if total and offset >= int(total):
-                listing_exhausted = True
+            # A supplied total must match unique observed rows exactly.
+            # No-total protocols still require an explicit empty terminal page.
+            if total is not None and offset >= total:
+                listing_exhausted = len(seen_ids) == total and offset == total
+                if not listing_exhausted:
+                    coverage['errors'].append(f'Incomplete Phenom list: {len(seen_ids)} unique/{offset} rows vs {total}')
                 last_page_evidence = (f'key={key};scope={scope};from={offset};'
                                       f'totalHits={total};rows_read={len(seen_ids)}')
                 break
+        listing_exhausted = listing_exhausted and not coverage['errors']
+        coverage['list_total'] = total
         selected = select_jobs(collected, scope, key)
         coverage['expected_total'] = len(selected)
         coverage['list_observed_ids'] = sorted(seen_ids)

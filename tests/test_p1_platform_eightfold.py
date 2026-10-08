@@ -29,8 +29,11 @@ def stamp(detail, position_id):
 
 def run(company, scope, tmp_path, pages=None, detail=None, max_requests=None):
     """Drive collect() against the recorded payloads instead of the network."""
-    pages = pages if pages is not None else [fixture('eightfold_search_hp_page0.json'),
-                                             fixture('eightfold_search_empty.json')]
+    # Trimmed recordings are not a complete count=16 dataset. Parsing tests
+    # use the valid no-total protocol; explicit-count tests supply all pages.
+    pages = pages if pages is not None else [
+        {k: v for k, v in fixture(name).items() if k != 'count'}
+        for name in ('eightfold_search_hp_page0.json', 'eightfold_search_empty.json')]
     detail = detail if detail is not None else fixture('eightfold_detail_hp.json')
     by_start = {}
     cursor = 0
@@ -190,8 +193,8 @@ def test_direct_refusal_switches_to_the_public_page_and_keeps_evidence(tmp_path,
             self.page_loads += 1
             seen.append(f'headless:{start}')
             if start == 0:
-                return fixture('eightfold_search_hp_page0.json')
-            return fixture('eightfold_search_empty.json')
+                return {k: v for k, v in fixture('eightfold_search_hp_page0.json').items() if k != 'count'}
+            return {'positions': []}
 
         def get_json(self, url):
             seen.append('headless-detail')
@@ -225,3 +228,90 @@ def test_evidence_files_are_the_files_actually_written(tmp_path):
     result2, _ = run('惠普', 'intern', tmp_path,
                      detail=fixture('eightfold_detail_hp_intern.json'))
     assert 'adapter.log' not in result2['coverage']['evidence_files']
+
+
+import pytest
+
+
+@pytest.mark.parametrize('payload', [None, [], {}, {'data': None}, {'data': {}},
+    {'data': {'positions': None}}, {'data': {'positions': {}}},
+    {'data': {'positions': [], 'count': 3}},
+    *[{'data': {'positions': [], 'count': value}} for value in (-1, True, '0', 1.5)]])
+def test_invalid_list_contract_cannot_be_empty_success(tmp_path, monkeypatch, payload):
+    monkeypatch.setattr(ef, '_http_json', lambda *args: payload)
+    result = ef.collect('惠普', 'campus', tmp_path)
+    assert not result['coverage']['complete']
+    assert result['coverage']['errors']
+
+
+@pytest.mark.parametrize('case', ['drift', 'truncated', 'duplicate', 'missing-id', 'bad-row', 'bad-next-envelope'])
+def test_pagination_inconsistency_keeps_valid_observations_partial(tmp_path, monkeypatch, case):
+    rows = fixture('eightfold_search_hp_page0.json')['positions'][:2]
+    first = {'positions': rows[:1], 'count': 2}
+    second = {'positions': rows[1:], 'count': 2}
+    if case == 'drift':
+        second['count'] = 3
+    elif case == 'truncated':
+        second['positions'] = []
+    elif case == 'duplicate':
+        second['positions'] = rows[:1]
+    elif case == 'missing-id':
+        second['positions'][0].pop('id')
+    elif case == 'bad-row':
+        second['positions'] = [None]
+    else:
+        second = None
+    pages = iter([{'data': first}, {'data': second}])
+    def request(session, url, budget, referer):
+        if '/search?' in url:
+            return next(pages)
+        ident = url.split('position_id=', 1)[1].split('&', 1)[0]
+        return {'data': stamp(fixture('eightfold_detail_hp.json'), ident)}
+    monkeypatch.setattr(ef, '_http_json', request)
+    result = ef.collect('惠普', 'social', tmp_path)
+    coverage = result['coverage']
+    assert not coverage['complete'] and not coverage['pagination_exhausted']
+    assert coverage['errors'] and coverage['expected_total'] == 1
+    assert len(result['jobs']) == 1 and coverage['status'] == 'partial'
+    assert coverage['list_total'] == 2
+
+
+@pytest.mark.parametrize('has_total', [True, False])
+def test_valid_empty_list_with_optional_total(tmp_path, has_total):
+    data = {'positions': []}
+    if has_total:
+        data['count'] = 0
+    result, _ = run('惠普', 'campus', tmp_path, pages=[data])
+    assert result['coverage']['complete'] and result['coverage']['pagination_exhausted']
+    assert result['coverage']['expected_total'] == 0
+    assert 'rows=0' in result['coverage']['last_page_evidence']
+
+
+def test_recorded_trimmed_listing_is_partial_when_original_total_is_supplied(tmp_path):
+    result, _ = run('惠普', 'intern', tmp_path,
+                    pages=[fixture('eightfold_search_hp_page0.json'),
+                           dict(fixture('eightfold_search_empty.json'), count=16)],
+                    detail=fixture('eightfold_detail_hp_intern.json'))
+    assert result['coverage']['status'] == 'partial'
+    assert not result['coverage']['complete']
+    assert result['coverage']['list_total'] == 16
+    assert result['coverage']['expected_total'] == 1
+    assert len(result['jobs']) == 1
+
+
+@pytest.mark.parametrize('ident', [{}, {'id': 1}, [], ['1'], True, False, 1.5])
+def test_malformed_typed_id_outside_scope_cannot_prove_empty_success(tmp_path, ident):
+    position = {'id': ident, 'name': 'Experienced engineer', 'locations': ['Paris, France']}
+    result, _ = run('惠普', 'campus', tmp_path,
+                    pages=[{'positions': [position], 'count': 1}])
+    coverage = result['coverage']
+    assert result['jobs'] == []
+    assert not coverage['complete'] and not coverage['pagination_exhausted']
+    assert coverage['status'] == 'blocked'
+    assert any('id type' in error for error in coverage['errors'])
+    assert coverage['list_observed_ids'] == []
+
+
+@pytest.mark.parametrize('ident, expected', [(' 123 ', '123'), (123, '123')])
+def test_position_id_accepts_only_valid_scalar_identity(ident, expected):
+    assert ef._position_id({'id': ident}) == expected
