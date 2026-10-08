@@ -218,6 +218,158 @@ def _job_from(row, name, scope, host, key, detail_source):
     return job
 
 
+def _require_sentences(value):
+    return [x.strip() for x in re.split(r'[\n。；;]', shared.text(value)) if x.strip()]
+
+
+def _hard_education(value):
+    """Only explicit requirements; preferences/equivalent experience are not gates."""
+    hard = []
+    ambiguous = False
+    degree = r'(?:博士(?:研究生)?|硕士(?:研究生)?|本科|学士|大专|专科|中专|高中)'
+    sentences = _require_sentences(value)
+    for index, sentence in enumerate(sentences):
+        if not re.search(degree + r'|bachelor|master|ph\.?d', sentence, re.I):
+            continue
+        # Commas do not end qualification semantics: an adjacent alternative
+        # can replace the degree, so inspect the full sentence first.
+        context = sentence
+        if index + 1 < len(sentences) and re.match(r'^(?:或|同等|等同|具有同等|具备同等)', sentences[index + 1]):
+            context += '；' + sentences[index + 1]
+        qualification_parts = re.split(r'[，,；;]', context)
+        alternative = re.search(r'(?:或|或者|亦可|也可).*?(?:同等|等同|equivalent)|经验替代', context, re.I)
+        uncertain_equivalence = any(
+            re.search(r'同等|等同|equivalent', part, re.I)
+            and not re.search(r'优先|优选|preferred', part, re.I)
+            for part in qualification_parts)
+        if alternative or uncertain_equivalence or re.search(r'不限|不限制|不要求|无需', context):
+            ambiguous = True
+            continue
+        for clause in re.split(r'[，,]', sentence):
+            if not re.search(degree + r'|bachelor|master|ph\.?d', clause, re.I):
+                continue
+            # Preference belongs to this degree clause, not every degree in
+            # the sentence. Alternatives above still bind across commas.
+            if re.search(r'优先|优选|preferred', clause, re.I):
+                ambiguous = True
+                continue
+            if (re.search(degree + r'(?:及以上|以上)?(?:学历|学位)', clause)
+                    or re.search(r'学历(?:要求)?[：:为\s]*' + degree, clause)
+                    or re.search(r'(?:不低于|至少(?:具有|具备)?|最低(?:为)?)\s*(?:大学)?' + degree, clause)
+                    or re.search(degree + r'(?:及以上|以上)', clause)):
+                hard.append(clause.strip())
+            else:
+                ambiguous = True
+    return '；'.join(dict.fromkeys(hard)), ambiguous
+
+
+def _education_levels(value):
+    levels = set()
+    for expression, level in ((r'高中|中专', 1), (r'大专|专科', 2),
+                              (r'本科|学士', 3), (r'硕士', 4), (r'博士', 5)):
+        if re.search(expression, str(value or '')):
+            levels.add(level)
+    if levels and re.search(r'及以上|以上|不低于|至少', str(value or '')):
+        levels.update(range(min(levels), 6))
+    return levels
+
+
+def _annotate_fields(job, row, listed, detail, list_checked_at, detail_checked_at, list_file):
+    """Expose per-field observation origins; never turn omitted keys into missing facts."""
+    detail = detail or {}
+    detail_file = 'detail-' + str(row['Id']) + '.json'
+    provenance = {}
+    def record(output, fields):
+        origins = []
+        for field in fields:
+            incoming = field in detail
+            value = row.get(field)
+            origins.append({'field': field,
+                            'source': 'official_detail' if incoming else 'official_list',
+                            'checked_at': detail_checked_at if incoming else list_checked_at,
+                            'evidence_file': detail_file if incoming else list_file,
+                            'value_state': ('explicit_null' if value is None and field in row else
+                                            'explicit_empty' if value == [] or (isinstance(value, str) and not value.strip()) else
+                                            'provided' if field in row else 'not_disclosed')})
+        sources = {x['source'] for x in origins}
+        provenance[output] = {'source': next(iter(sources)) if len(sources) == 1 else 'official_list_and_detail',
+                              'checked_at': min(x['checked_at'] for x in origins),
+                              'components': origins}
+        if len(origins) == 1:
+            provenance[output]['value_state'] = origins[0]['value_state']
+    mappings = {'job_title': ['JobAdName'], 'description_raw': ['Duty', 'Require'],
+                'cities': ['LocNames'], 'education_raw': ['Degree'] if shared.text(row.get('Degree')) else ['Require'],
+                'major_requirements_raw': ['Require'], 'published_at': ['PostDate'],
+                'deadline_raw': ['EndTime'], 'source_updated_at': ['ChangeDate'],
+                'experience_raw': ['YearsOfWorking'], 'recruitment_type_raw': ['CategoryId', 'Category']}
+    for output, fields in mappings.items():
+        record(output, fields)
+    notes = []
+    list_degree = shared.text(listed.get('Degree'))
+    if 'Degree' in row:
+        job['source_fields']['Degree'] = row['Degree']
+    if 'Degree' in listed:
+        job['source_fields']['beisen_list_Degree'] = listed['Degree']
+    if 'Require' in detail:
+        require = shared.text(detail.get('Require'))
+        job['major_requirements_raw'] = '；'.join(x for x in _require_sentences(require)
+            if re.search(r'专业|major|degree in', x, re.I))
+        hard, ambiguous = _hard_education(require)
+        if hard:
+            job['education_raw'] = hard
+            record('education_raw', ['Require'])
+            if list_degree:
+                prior_levels, required_levels = _education_levels(list_degree), _education_levels(hard)
+                # A plain list label is a summary, not an exact exclusion set.
+                # Disjoint labels alone cannot establish a true contradiction.
+                list_scope_explicit = bool(re.search(r'仅限|只限|限于|及以上|以上|不低于', list_degree))
+                relation = ('compatible' if prior_levels and required_levels and prior_levels & required_levels else
+                            'conflicting' if prior_levels and required_levels and list_scope_explicit else 'unresolved')
+                job['field_observation_differences'] = {'education_raw': {
+                    'list_degree': list_degree, 'requirement_clause': hard, 'relation': relation,
+                    'selection_basis': 'explicit_requirement_semantics_not_fetch_recency',
+                    'list_checked_at': list_checked_at, 'detail_checked_at': detail_checked_at}}
+                label = {'compatible': '兼容表述差异', 'conflicting': '官方表述冲突，待核验',
+                         'unresolved': '表述关系未能确认，待核验'}[relation]
+                notes.append(f'学历主展示按明确任职条款“{hard}”；列表摘要“{list_degree}”（{list_checked_at}），'
+                             f'详情条款（{detail_checked_at}）：{label}。')
+                if relation != 'compatible':
+                    job['status_note'] = label + '；学历主展示按明确任职条款，原摘要与时点见来源说明。'
+        elif ambiguous:
+            # Structured disclosure is retained; a preference is not a mandatory degree.
+            job['education_raw'] = shared.text(row.get('Degree'))
+            record('education_raw', ['Degree'])
+            job['status_note'] = '详情学历涉及偏好、资格替代或未能可靠解析；完整原文保留，未结构化为硬性学历门槛，待核验。'
+            notes.append(f'保留官网学历摘要“{job["education_raw"]}”；详情表述“{require}”不作为硬性门槛。'
+                         f'列表核验{list_checked_at}；详情核验{detail_checked_at}。')
+    if 'Degree' in detail and list_degree and not _hard_education(detail.get('Require'))[0]:
+        new_degree = shared.text(detail.get('Degree'))
+        if new_degree != list_degree:
+            disclosure = new_degree or '未披露'
+            notes.append(f'列表学历摘要“{list_degree}”（{list_checked_at}）；详情学历字段“{disclosure}”'
+                         f'（{detail_checked_at}），明确空值不以旧摘要回填。')
+    if detail:
+        labels = {'job_title': '标题', 'description_raw': '职责/要求', 'cities': '城市',
+                  'education_raw': '学历', 'major_requirements_raw': '专业', 'published_at': '发布日期',
+                  'deadline_raw': '截止日期', 'experience_raw': '经验', 'recruitment_type_raw': '招聘类别'}
+        retained = [labels[k] for k, v in provenance.items() if k in labels
+                    and job.get(k) not in (None, '', [])
+                    and any(c['source'] == 'official_list' and c['value_state'] == 'provided' for c in v['components'])]
+        if retained:
+            notes.insert(0, '详情未重述的' + '、'.join(dict.fromkeys(retained))
+                         + f'保留同一运行官网列表事实（核验{list_checked_at}）；详情核验{detail_checked_at}。')
+    job['field_provenance'] = provenance
+    if notes:
+        job['detail_presentation'] = ' '.join(notes)
+    used = [v for k, v in provenance.items() if job.get(k) not in (None, '', [], {})]
+    checked = min(v['checked_at'] for v in used) if used else list_checked_at
+    job['verified_at'] = checked
+    job['reviewed_at'] = checked
+    if detail and any(c['source'] == 'official_list' and c['value_state'] == 'provided'
+                      for v in used for c in v['components']):
+        job['detail_source'] = 'official_list_and_detail'
+
+
 def _list_identity(key, entry_host, host, body):
     # Bind both the configured entry and its verified redirect origin. Scope is
     # deliberately absent: categories are interpreted separately by each call.
@@ -356,6 +508,7 @@ def collect(company, scope, output_dir, max_requests=None):
             return payload_json
 
         selected = []
+        list_files = {}
         seen = set()
         total = None
         index = 0
@@ -380,6 +533,7 @@ def collect(company, scope, output_dir, max_requests=None):
                 if not ident or ident in seen:
                     raise ValueError('Repeated Beisen pagination GUID')
                 seen.add(ident)
+                list_files[ident] = f'list-{index}.json'
                 actual = str(row.get('CategoryId'))
                 if actual not in categories:
                     unmapped[actual] = row.get('Category')
@@ -404,10 +558,13 @@ def collect(company, scope, output_dir, max_requests=None):
             coverage['errors'].append(f'Unknown official Beisen category {category}: {label}')
 
         for position, row in enumerate(selected):
+            listed = row
+            detail_for_fields = None
             description = _description(row)
             verified = False
             detail_checked_at = ''
             detail_missing_fields = []
+            detail_unprovided_fields = []
             if _has_budget(budget) and (position < DETAIL_VERIFY_LIMIT or not description):
                 try:
                     params = {'jobAdId': row['Id'], 'portalId': portal,
@@ -432,12 +589,23 @@ def collect(company, scope, output_dir, max_requests=None):
                         else:
                             required = {'JobAdName', 'Duty', 'Require', 'LocNames', 'Category'}
                             missing = sorted((required | set(row)) - set(detail))
-                            if missing:
-                                coverage['errors'].append(
-                                    f'{row["Id"]}: incomplete detail business fields: {missing}')
-                            # Identity-checked fresh detail owns current business
-                            # content. Missing fields remain gaps, never old-list facts.
-                            row = dict(detail)
+                            # Usable new detail values win. A GET DTO omission
+                            # or empty value is not proof that known facts were cleared.
+                            row = dict(row)
+                            detail_for_fields = {}
+                            detail_unprovided_fields = []
+                            for field, value in detail.items():
+                                unprovided = (value is None or value == []
+                                              or isinstance(value, str) and not value.strip())
+                                known_list = (field in row and row[field] is not None and row[field] != []
+                                              and not (isinstance(row[field], str) and not row[field].strip()))
+                                # This GET DTO is not a PATCH: null/empty alone
+                                # does not prove the employer cleared known facts.
+                                if unprovided and known_list:
+                                    detail_unprovided_fields.append(field)
+                                    continue
+                                row[field] = value
+                                detail_for_fields[field] = value
                             description = _description(row)
                             verified = True
                             detail_checked_at = datetime.now(timezone.utc).isoformat()
@@ -454,14 +622,25 @@ def collect(company, scope, output_dir, max_requests=None):
             job = _job_from(row, name, scope, host, key,
                             'official_detail' if verified else 'official_list')
             job['list_checked_at'] = list_checked_at
-            job['verified_at'] = detail_checked_at if verified else list_checked_at
-            job['reviewed_at'] = job['verified_at']
+            _annotate_fields(job, row, listed, detail_for_fields, list_checked_at,
+                             detail_checked_at, list_files[row['Id']])
             if verified:
                 job['detail_checked_at'] = detail_checked_at
                 job['detail_verified'] = True
                 job['detail_missing_fields'] = detail_missing_fields
-                job['source_missing_fields'] = sorted(set(
-                    job.get('source_missing_fields', []) + detail_missing_fields))
+                job['detail_unprovided_fields'] = detail_unprovided_fields
+                labels = {'JobAdName': '标题', 'Duty': '职责', 'Require': '任职要求',
+                          'LocNames': '城市', 'Degree': '学历', 'Category': '招聘类别',
+                          'PostDate': '发布日期', 'EndTime': '截止日期', 'YearsOfWorking': '经验'}
+                unprovided = [labels[field] for field in detail_unprovided_fields if field in labels]
+                if unprovided:
+                    prior_note = job.get('detail_presentation') or ''
+                    job['detail_presentation'] = (prior_note + ' 官网详情本次未提供'
+                        + '、'.join(unprovided)
+                        + f'的新披露；这不能证明招聘方清空已有条件，保留本运行官网列表事实（{list_checked_at}），'
+                        + f'详情观察{detail_checked_at}。').strip()
+                # A missing detail key is not a source-wide missing field when
+                # the verified list disclosed it; shared.job uses merged facts.
             jobs.append(job)
         coverage['detail_verified_count'] = sum(1 for j in jobs if j.get('detail_verified'))
         coverage['list_only_count'] = sum(1 for j in jobs if not j.get('detail_verified'))

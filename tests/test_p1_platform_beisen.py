@@ -353,7 +353,7 @@ def test_cached_detail_category_conflict_is_quarantined(tmp_path, monkeypatch):
     assert any('identity/category mismatch' in error for error in result['coverage']['errors'])
 
 
-def test_incomplete_fresh_detail_keeps_gaps_without_old_list_fields(tmp_path, monkeypatch):
+def test_detail_omission_retains_list_values_without_source_missing(tmp_path, monkeypatch):
     enable_cache(monkeypatch, tmp_path)
     old, _ = cached_collect(tmp_path / 'old', 'campus')
     for missing in ('Duty', 'Require', 'LocNames', 'JobAdName', 'Category'):
@@ -362,15 +362,13 @@ def test_incomplete_fresh_detail_keeps_gaps_without_old_list_fields(tmp_path, mo
         result, session = collect_with_detail(tmp_path / missing, detail)
         job = result['jobs'][0]
         assert session.posts == []
-        assert job['title'] == ('' if missing == 'JobAdName' else 'NEW title')
-        assert job['cities'] == ([] if missing == 'LocNames' else ['北京'])
-        assert job['detail_source'] == 'official_detail' and job['detail_verified']
-        assert job['verified_at'] == job['reviewed_at'] == job['detail_checked_at']
-        assert job['list_checked_at'] == old['jobs'][0]['list_checked_at']
-        assert job['verified_at'] != job['list_checked_at']
-        assert missing in job['detail_missing_fields'] and missing in job['source_missing_fields']
-        assert not result['coverage']['complete']
-        assert any('incomplete detail' in error for error in result['coverage']['errors'])
+        assert job['title'] == ('校招' if missing == 'JobAdName' else 'NEW title')
+        assert job['cities'] == ['北京']
+        assert job['detail_source'] == 'official_list_and_detail' and job['detail_verified']
+        assert job['verified_at'] == job['reviewed_at'] == old['jobs'][0]['list_checked_at']
+        assert missing in job['detail_missing_fields'] and missing not in job['source_missing_fields']
+        assert result['coverage']['complete']
+        assert job['detail_presentation']
 
 
 def test_cache_hit_failed_detail_preserves_list_fact_time(tmp_path, monkeypatch):
@@ -390,3 +388,253 @@ def test_cache_hit_failed_detail_preserves_list_fact_time(tmp_path, monkeypatch)
     assert job['detail_source'] == 'official_list' and not job.get('detail_verified')
     assert job['verified_at'] == job['reviewed_at'] == old['jobs'][0]['list_checked_at']
     assert 'detail_checked_at' not in job and result['coverage']['detail_fetch_errors']
+
+
+def collect_rich_list_detail(tmp_path, detail, monkeypatch, list_degree='硕士'):
+    row = dict(cache_pages()[0]['Data'][0], LocNames=['北京市', '上海市'], Degree=list_degree,
+               Duty='负责旧职责。', Require='机械工程专业，硕士及以上。',
+               PostDate='2026-09-01', EndTime='2026-12-31', YearsOfWorking='应届')
+    pages = {0: {'Code': 200, 'Count': 1, 'Data': [row]},
+             1: {'Code': 200, 'Count': 1, 'Data': []}}
+    def call(path, payload=None):
+        session = CacheSession(pages)
+        original_get = session.get
+        def get(url, **kwargs):
+            if payload is not None and 'GetJobAdInfo' in url:
+                return FakeResponse(payload={'Code': 200, 'Data': payload})
+            return original_get(url, **kwargs)
+        session.get = get
+        with patch.object(beisen, '_make_session', return_value=session):
+            return beisen.collect('中信建投', 'campus', path), session
+    enable_cache(monkeypatch, tmp_path)
+    old, _ = call(tmp_path / 'old')
+    fresh, session = call(tmp_path / 'fresh', detail)
+    return old, fresh, session
+
+
+def test_detail_omitted_fields_keep_same_run_list_facts_and_public_projection(tmp_path, monkeypatch):
+    from qiuzhao.v4_fields import to_item
+    detail = {'Id': 'campus-id', 'CategoryId': '2', 'JobAdName': '新标题',
+              'Duty': '负责新职责。', 'Require': '统计学专业。'}
+    old, result, session = collect_rich_list_detail(tmp_path, detail, monkeypatch)
+    job = result['jobs'][0]
+    public = to_item(job)
+    assert session.posts == [] and result['coverage']['complete']
+    assert public['cities'] == ['北京', '上海'] and public['education_raw'] == '硕士'
+    assert public['job_title'] == '新标题' and public['major_requirements_raw'] == '统计学专业'
+    assert '机械工程' not in public['major_requirements_raw']
+    checked = old['coverage']['list_checked_at']
+    assert job['field_provenance']['cities']['source'] == 'official_list'
+    assert job['field_provenance']['cities']['checked_at'] == checked
+    assert job['field_provenance']['education_raw']['checked_at'] == checked
+    assert public['reviewed_at'] == job['verified_at'] == checked
+    assert job['field_provenance']['major_requirements_raw']['source'] == 'official_detail'
+    assert job['field_provenance']['major_requirements_raw']['checked_at'] == job['detail_checked_at']
+    assert 'Degree' in job['detail_missing_fields'] and 'Degree' not in job['source_missing_fields']
+    assert job['detail_source'] == 'official_list_and_detail'
+
+
+def test_get_dto_null_and_empty_keep_verified_facts_not_patch_clear(tmp_path, monkeypatch):
+    from qiuzhao.v4_fields import to_item
+    detail = {'Id': 'campus-id', 'CategoryId': '2', 'Category': '校园招聘',
+              'JobAdName': '新标题', 'Duty': '新职责', 'Require': None,
+              'LocNames': [], 'Degree': None, 'PostDate': None, 'EndTime': ''}
+    old, result, _ = collect_rich_list_detail(tmp_path, detail, monkeypatch)
+    job = result['jobs'][0]
+    public = to_item(job)
+    assert public['cities'] == ['北京', '上海'] and public['education_raw'] == '硕士'
+    assert public['major_requirements_raw'] == '机械工程专业，硕士及以上'
+    assert public['published_at'] == '2026-09-01' and job['deadline_raw'] == '2026-12-31'
+    assert '新职责' in public['description_raw'] and '机械工程' in public['description_raw']
+    assert job['field_provenance']['cities']['source'] == 'official_list'
+    assert job['field_provenance']['cities']['checked_at'] == old['coverage']['list_checked_at']
+    assert public['reviewed_at'] == old['coverage']['list_checked_at']
+    assert set(job['detail_unprovided_fields']) == {'Require', 'LocNames', 'Degree', 'PostDate', 'EndTime'}
+    assert not job['source_missing_fields']
+    assert '未提供' in public['detail_presentation'] and '不能证明招聘方清空' in public['detail_presentation']
+
+
+def test_latest_require_is_only_major_source_and_prior_degree_remains_evidence(tmp_path, monkeypatch):
+    from qiuzhao.v4_fields import to_item
+    detail = {'Id': 'campus-id', 'CategoryId': '2', 'JobAdName': '新标题',
+              'Duty': '负责新职责。', 'Require': '计算机科学与技术专业，本科及以上学历。'}
+    old, result, _ = collect_rich_list_detail(tmp_path, detail, monkeypatch)
+    job = result['jobs'][0]
+    public = to_item(job)
+    assert public['major_requirements_raw'] == '计算机科学与技术专业，本科及以上学历'
+    assert '机械工程' not in public['major_requirements_raw']
+    assert public['education_raw'] == '本科及以上学历'
+    assert job['source_fields']['Degree'] == '硕士'
+    assert job['field_observation_differences']['education_raw']['list_checked_at'] == old['coverage']['list_checked_at']
+    assert job['field_provenance']['education_raw']['source'] == 'official_detail'
+    assert job['field_observation_differences']['education_raw']['relation'] == 'compatible'
+    assert '硕士' in public['detail_presentation'] and '本科及以上学历' in public['detail_presentation']
+    assert '兼容表述差异' in public['detail_presentation']
+    from datetime import date
+    from qiuzhao.tools import Jobs
+    exported = Jobs.public(public, date(2026, 10, 9))
+    assert exported['detail_presentation'] == public['detail_presentation']
+    assert exported['reviewed_at'] == old['coverage']['list_checked_at']
+
+
+def test_education_preference_is_not_a_hard_gate_and_is_publicly_explained(tmp_path, monkeypatch):
+    from qiuzhao.v4_fields import to_item
+    detail = {'Id': 'campus-id', 'CategoryId': '2', 'JobAdName': '新标题',
+              'Duty': '新职责', 'Require': '计算机专业，本科优先或同等经验。'}
+    old, result, _ = collect_rich_list_detail(tmp_path, detail, monkeypatch)
+    job = result['jobs'][0]
+    public = to_item(job)
+    assert public['education_raw'] == '硕士'
+    assert job['field_provenance']['education_raw']['source'] == 'official_list'
+    assert job['field_provenance']['education_raw']['checked_at'] == old['coverage']['list_checked_at']
+    assert '硬性学历门槛' in public['status_note'] and '待核验' in public['status_note']
+    assert '本科优先或同等经验' in public['detail_presentation']
+    assert 'Degree' not in job['source_missing_fields']
+
+
+def test_true_education_difference_keeps_both_observations_and_public_note(tmp_path, monkeypatch):
+    from qiuzhao.v4_fields import to_item
+    detail = {'Id': 'campus-id', 'CategoryId': '2', 'JobAdName': '新标题',
+              'Duty': '新职责', 'Require': '博士学历，计算机专业。'}
+    old, result, _ = collect_rich_list_detail(tmp_path, detail, monkeypatch, list_degree='仅限硕士学历')
+    job = result['jobs'][0]
+    public = to_item(job)
+    assert public['education_raw'] == '博士学历'
+    difference = job['field_observation_differences']['education_raw']
+    assert difference['relation'] == 'conflicting' and difference['list_degree'] == '仅限硕士学历'
+    assert difference['list_checked_at'] == old['coverage']['list_checked_at']
+    assert difference['detail_checked_at'] == job['detail_checked_at']
+    assert '冲突' in public['status_note'] and '待核验' in public['status_note']
+    assert '硕士' in public['detail_presentation'] and '博士学历' in public['detail_presentation']
+    assert 'Degree' not in job['source_missing_fields']
+    from datetime import date
+    from qiuzhao.tools import Jobs
+    assert '冲突' in Jobs.public(public, date(2026, 10, 9))['status_note']
+
+
+def test_plain_degree_summary_is_not_declared_a_true_conflict(tmp_path, monkeypatch):
+    from qiuzhao.v4_fields import to_item
+    detail = {'Id': 'campus-id', 'CategoryId': '2', 'JobAdName': '新标题',
+              'Duty': '新职责', 'Require': '博士学历，计算机专业。'}
+    _, result, _ = collect_rich_list_detail(tmp_path, detail, monkeypatch)
+    job = result['jobs'][0]
+    assert job['field_observation_differences']['education_raw']['relation'] == 'unresolved'
+    public = to_item(job)
+    assert public['education_raw'] == '博士学历'
+    assert '未能确认' in public['detail_presentation'] and '待核验' in public['status_note']
+    assert job['source_fields']['beisen_list_Degree'] == '硕士'
+
+
+def rich_collect_to_public_chain(tmp_path, detail, monkeypatch):
+    from datetime import date
+    from qiuzhao.collector import p1_pipeline as pipeline
+    from qiuzhao.normalize import normalize_records
+    from qiuzhao.v4_fields import to_item
+    from qiuzhao.tools import Jobs
+    old, result, _ = collect_rich_list_detail(tmp_path, detail, monkeypatch)
+    before = pipeline.validate_result(old, '中信建投', 'campus', tmp_path / 'old')
+    previous, _ = pipeline.merge_records([], [('中信建投', 'campus', before)])
+    after = pipeline.validate_result(result, '中信建投', 'campus', tmp_path / 'fresh')
+    merged, _ = pipeline.merge_records(previous, [('中信建投', 'campus', after)])
+    normalize_records(merged)
+    assert len(merged) == 1
+    return old, merged[0], Jobs.public(to_item(merged[0]), date(2026, 10, 9))
+
+
+def test_complete_qualification_sentence_does_not_drop_experience_alternative(tmp_path, monkeypatch):
+    clause = '本科及以上学历，或具有同等工作经验。'
+    detail = {'Id': 'campus-id', 'CategoryId': '2', 'JobAdName': '新标题',
+              'Duty': '新职责', 'Require': clause}
+    old, job, public = rich_collect_to_public_chain(tmp_path, detail, monkeypatch)
+    assert public['education_raw'] == '硕士'
+    assert clause in public['description_raw']
+    assert '同等工作经验' in public['detail_presentation']
+    assert '未结构化' in public['status_note']
+    assert job['field_provenance']['education_raw']['source'] == 'official_list'
+    assert public['reviewed_at'] == old['coverage']['list_checked_at']
+    assert 'Degree' not in public.get('source_missing_fields', [])
+
+
+def test_explicit_prefix_minimum_qualification_survives_public_chain(tmp_path, monkeypatch):
+    clause = '学历要求不低于本科。'
+    detail = {'Id': 'campus-id', 'CategoryId': '2', 'JobAdName': '新标题',
+              'Duty': '新职责', 'Require': clause}
+    old, job, public = rich_collect_to_public_chain(tmp_path, detail, monkeypatch)
+    assert public['education_raw'] == '学历要求不低于本科'
+    assert job['field_provenance']['education_raw']['source'] == 'official_detail'
+    assert '硕士' in public['detail_presentation'] and '兼容表述差异' in public['detail_presentation']
+    assert job['source_fields']['beisen_list_Degree'] == '硕士'
+    assert public['reviewed_at'] == old['coverage']['list_checked_at']
+
+
+import pytest
+
+
+@pytest.mark.parametrize('disclosure', ['omitted', 'null', 'empty', 'new_value'])
+def test_list_city_fact_semantics_survive_actual_merge_and_public_chain(tmp_path, monkeypatch, disclosure):
+    detail = {'Id': 'campus-id', 'CategoryId': '2', 'JobAdName': '新标题',
+              'Duty': '新职责', 'Require': '统计学专业。'}
+    if disclosure == 'null':
+        detail['LocNames'] = None
+    elif disclosure == 'empty':
+        detail['LocNames'] = []
+    elif disclosure == 'new_value':
+        detail['LocNames'] = ['深圳市']
+    old, job, public = rich_collect_to_public_chain(tmp_path, detail, monkeypatch)
+    if disclosure == 'new_value':
+        assert public['cities'] == ['深圳']
+        assert job['field_provenance']['cities']['source'] == 'official_detail'
+        assert job['field_provenance']['cities']['checked_at'] == job['detail_checked_at']
+    else:
+        assert public['cities'] == ['北京', '上海']
+        assert job['field_provenance']['cities']['source'] == 'official_list'
+        assert job['field_provenance']['cities']['checked_at'] == old['coverage']['list_checked_at']
+        assert public['reviewed_at'] == old['coverage']['list_checked_at']
+        assert '城市' in public['detail_presentation']
+    assert 'LocNames' not in public.get('source_missing_fields', [])
+    assert not job.get('location_clear_marker')
+
+
+def test_adjacent_qualification_alternative_is_preserved_unstructured(tmp_path, monkeypatch):
+    clause = '本科及以上学历。或具有同等工作经验。'
+    detail = {'Id': 'campus-id', 'CategoryId': '2', 'JobAdName': '新标题',
+              'Duty': '新职责', 'Require': clause}
+    _, _, public = rich_collect_to_public_chain(tmp_path, detail, monkeypatch)
+    assert public['education_raw'] == '硕士'
+    assert clause in public['description_raw'] and '未结构化' in public['status_note']
+
+
+def test_leading_at_least_requirement_is_not_lost_in_public_chain(tmp_path, monkeypatch):
+    detail = {'Id': 'campus-id', 'CategoryId': '2', 'JobAdName': '新标题',
+              'Duty': '新职责', 'Require': '学历要求至少本科。'}
+    _, job, public = rich_collect_to_public_chain(tmp_path, detail, monkeypatch)
+    assert public['education_raw'] == '学历要求至少本科'
+    assert public['education'] == '本科'
+    assert job['field_provenance']['education_raw']['source'] == 'official_detail'
+    assert '兼容表述差异' in public['detail_presentation']
+
+
+@pytest.mark.parametrize('clause', [
+    '本科及以上学历，硕士优先。',
+    '本科及以上学历，计算机专业，有互联网经验者优先。',
+    '本科及以上学历，具有同等岗位经验者优先。',
+])
+def test_independent_preference_does_not_erase_explicit_minimum_public_chain(tmp_path, monkeypatch, clause):
+    detail = {'Id': 'campus-id', 'CategoryId': '2', 'JobAdName': '新标题',
+              'Duty': '新职责', 'Require': clause}
+    _, job, public = rich_collect_to_public_chain(tmp_path, detail, monkeypatch)
+    assert public['education_raw'] == '本科及以上学历'
+    assert public['education'] == '本科'
+    assert clause in public['description_raw']
+    assert job['field_provenance']['education_raw']['source'] == 'official_detail'
+    assert '硕士优先' not in public['education_raw']
+
+
+@pytest.mark.parametrize('clause, hard, ambiguous', [
+    ('学历要求不低于本科。', '学历要求不低于本科', False),
+    ('本科及以上学历者优先。', '', True),
+    ('本科及以上学历，硕士优先。', '本科及以上学历', True),
+    ('本科及以上学历，或具有同等工作经验。', '', True),
+])
+def test_four_narrow_qualification_semantics(clause, hard, ambiguous):
+    assert beisen._hard_education(clause) == (hard, ambiguous)
