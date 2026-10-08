@@ -638,3 +638,86 @@ def test_independent_preference_does_not_erase_explicit_minimum_public_chain(tmp
 ])
 def test_four_narrow_qualification_semantics(clause, hard, ambiguous):
     assert beisen._hard_education(clause) == (hard, ambiguous)
+
+
+# Public identity/category projections from the privately retained 2026-10-02
+# raw samples. Duty/Require/location are synthetic test fields. These controlled
+# complete pages are not the original digitalchina Count=355 snapshot.
+def scope_sample_row(ident, category, label, title):
+    return {'Id': ident, 'CategoryId': category, 'Category': label,
+            'JobAdName': title, 'Duty': 'fixture duty', 'Require': 'fixture requirement',
+            'LocNames': ['北京']}
+
+
+def collect_scope_sample(tmp_path, company, tenant, scope, rows):
+    pages = {0: {'Code': 200, 'Count': len(rows), 'Data': rows},
+             1: {'Code': 200, 'Count': len(rows), 'Data': []}}
+    class TenantSession(FakeSession):
+        def get(self, url, **kwargs):
+            if 'GetJobAdInfo' in url:
+                return super().get(url, **kwargs)
+            return FakeResponse(text=self.text, url='https://' + tenant + '.zhiye.com/')
+    session = TenantSession(entry_html(), pages)
+    with patch.object(beisen, '_make_session', return_value=session):
+        return beisen.collect(company, scope, tmp_path)
+
+
+def test_digitalchina_official_ai_special_labels_are_tenant_scoped(tmp_path):
+    rows = [
+        scope_sample_row('35d8b015-5948-4acf-8cff-c55d6b41146d', '1', '社会招聘',
+                         'AI Agent产品经理(J22992)'),
+        scope_sample_row('7d95c240-31cc-4f26-99d9-a6339671ff8b', '2', '校园招聘',
+                         '2027届校招-Agent开发工程师(J23759)'),
+        scope_sample_row('55069846-3b0d-4f04-8eda-46ffc5588fcb', '3', '实习生招聘',
+                         '初级AI解决方案咨询师（实习）(J21325)'),
+        scope_sample_row('14079ca1-c697-43a5-8c73-ea6dbc95c7b4', '4', 'AI专项招聘(社招)',
+                         'AI研究员(J23434)'),
+        scope_sample_row('59a7f6a5-9de5-487b-8e2b-aefd92d3fe4f', '5', 'AI专项招聘(校招)',
+                         '2027届校招-集团英才- AI开发工程师(J23615)'),
+    ]
+    expected = {'social': {rows[0]['Id'], rows[3]['Id']},
+                'campus': {rows[1]['Id'], rows[4]['Id']}, 'intern': {rows[2]['Id']}}
+    assert beisen.categories_for('digitalchina') == {
+        '1': 'social', '2': 'campus', '3': 'intern', '4': 'social', '5': 'campus'}
+    for scope, ids in expected.items():
+        result = collect_scope_sample(tmp_path / scope, '神州数码集团', 'digitalchina', scope, rows)
+        coverage = result['coverage']
+        assert coverage['complete'] and coverage['status'] == 'success'
+        assert coverage['list_total'] == 5 and coverage['expected_total'] == len(ids)
+        assert {job['source_record_id'] for job in result['jobs']} == ids
+        assert coverage['unmapped_categories'] == {}
+        assert coverage['scope_request']['params']['tenant'] == 'digitalchina'
+        for job in result['jobs']:
+            assert job['company_name'] == '神州数码集团'
+            assert job['recruitment_type_raw']['Category'] == next(
+                row['Category'] for row in rows if row['Id'] == job['source_record_id'])
+
+
+def test_frsh_function_labels_remain_unknown_partial(tmp_path):
+    rows = [
+        scope_sample_row('f29b3240-5ea0-4756-81cb-791cfe0b48ee', '1', '社会招聘', '鞋楦・版型技术员（鞋类）'),
+        scope_sample_row('d00a78e1-d70c-48ed-a65d-782ead8af79d', '4', '技术研发', 'Global Finance System Specialist'),
+        scope_sample_row('0ac4af13-ae17-4f31-90e2-77fa7e103e48', '5', '项目管理', 'SCM Senior BA/PM'),
+        scope_sample_row('374a03c2-5aa7-46ab-8aef-63b6c2606cd7', '7', '系统运维', 'Global HR System Specialist'),
+    ]
+    result = collect_scope_sample(tmp_path, '迅销（上海）企业管理咨询有限公司', 'frsh', 'social', rows)
+    coverage = result['coverage']
+    assert not coverage['complete'] and coverage['status'] == 'partial'
+    assert coverage['unmapped_categories'] == {'4': '技术研发', '5': '项目管理', '7': '系统运维'}
+    assert coverage['expected_total'] == 1
+    assert {job['source_record_id'] for job in result['jobs']} == {rows[0]['Id']}
+    assert all('Unknown official Beisen category ' + category in ' '.join(coverage['errors'])
+               for category in ('4', '5', '7'))
+
+
+def test_tjaemc_null_category_label_does_not_inherit_matching_title_scope(tmp_path):
+    rows = [
+        scope_sample_row('9400c46d-65c7-48c1-8297-7ccfbc92793f', '2', '校园招聘', '电力电子博士研究生'),
+        scope_sample_row('8419cc7c-3319-4b68-8bc9-d4051d00bb9c', '4', None, '电力电子博士研究生'),
+    ]
+    result = collect_scope_sample(tmp_path, '航空工业津电', 'tjaemc', 'campus', rows)
+    coverage = result['coverage']
+    assert not coverage['complete'] and coverage['status'] == 'partial'
+    assert coverage['unmapped_categories'] == {'4': None}
+    assert coverage['expected_total'] == 1
+    assert {job['source_record_id'] for job in result['jobs']} == {rows[0]['Id']}

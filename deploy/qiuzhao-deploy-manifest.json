@@ -4,86 +4,710 @@
     "windows_collector": {
       "interpreter": "collector venv python (Windows), same one the scheduled task runs",
       "files": [
-        {"repo": "deploy/windows_collector.py", "target": "<collector root>/deploy/windows_collector.py", "owner": "delivery", "sha256": "1b5468413cabc9863cd7eab07f4da5a2d93e2b7b89257e86770397e3f6ef05f5", "status": "reviewed 2026-10-01: zero-P1-segment recovery guard; deploy pending"},
-        {"repo": "deploy/windows_rebase.py", "target": "<collector root>/deploy/windows_rebase.py", "owner": "delivery", "sha256": null, "status": "unchanged since main"},
-        {"repo": "qiuzhao/normalize.py", "target": "<collector root>/qiuzhao/normalize.py", "owner": "location", "sha256": "c9380fa12808b2f52050c5f7873e3a09270e5cc7ddaa5ba47e14b88d8dd39a03", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"},
-        {"repo": "qiuzhao/v4_fields.py", "target": "<collector root>/qiuzhao/v4_fields.py", "owner": "location", "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
-        {"repo": "qiuzhao/collector/run.py", "target": "<collector root>/qiuzhao/collector/run.py", "owner": "location", "sha256": "14961256980c23cb91d8e6cb54dc13364da49e1b0cc3b3708b3b5df5d4855ae2", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
-        {"repo": "qiuzhao/collector/auto_collect.py", "target": "<collector root>/qiuzhao/collector/auto_collect.py", "owner": "location", "sha256": "caf752a66308f840242ce80e962dd937c973a37acf7d94f41c558128a1caa639", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
-        {"repo": "qiuzhao/collector/p1_pipeline.py", "target": "<collector root>/qiuzhao/collector/p1_pipeline.py", "owner": "location", "sha256": "fff52389c4aad220183c77db6c29e63186afe1736c0f340e535a2d0a04cda0aa", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
-        {"repo": "qiuzhao/collector/p1_sources_11_20.py", "target": "<collector root>/qiuzhao/collector/p1_sources_11_20.py", "owner": "location", "sha256": "daf48cd94b6e27a22c0e8783f2bc679c655d89ff06ab81a2fb21f7b6560c4031", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
-        {"repo": "qiuzhao/normalization_io.py", "target": "<collector root>/qiuzhao/normalization_io.py", "owner": "collector-recovery", "sha256": "c63f645e63483a651d0b0a9f14879291ed756738ae69ad695481ea541318adfe", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"}
+        {
+          "repo": "deploy/windows_collector.py",
+          "target": "<collector root>/deploy/windows_collector.py",
+          "owner": "delivery",
+          "sha256": "1b5468413cabc9863cd7eab07f4da5a2d93e2b7b89257e86770397e3f6ef05f5",
+          "status": "reviewed 2026-10-01: zero-P1-segment recovery guard; deploy pending"
+        },
+        {
+          "repo": "deploy/windows_rebase.py",
+          "target": "<collector root>/deploy/windows_rebase.py",
+          "owner": "delivery",
+          "sha256": null,
+          "status": "unchanged since main"
+        },
+        {
+          "repo": "qiuzhao/normalize.py",
+          "target": "<collector root>/qiuzhao/normalize.py",
+          "owner": "location",
+          "sha256": "c9380fa12808b2f52050c5f7873e3a09270e5cc7ddaa5ba47e14b88d8dd39a03",
+          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+        },
+        {
+          "repo": "qiuzhao/v4_fields.py",
+          "target": "<collector root>/qiuzhao/v4_fields.py",
+          "owner": "location",
+          "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860",
+          "status": "frozen 2026-09-28: location review PASS (batch 2)"
+        },
+        {
+          "repo": "qiuzhao/collector/run.py",
+          "target": "<collector root>/qiuzhao/collector/run.py",
+          "owner": "location",
+          "sha256": "4789566ada84511da0ff4549c0df945159fd0a11b17240a407e7d17e5aacc104",
+          "status": "frozen 2026-10-09: independent typed basic diagnostics/protection review PASS; Windows39 tests; actual source problem closure separate"
+        },
+        {
+          "repo": "qiuzhao/collector/auto_collect.py",
+          "target": "<collector root>/qiuzhao/collector/auto_collect.py",
+          "owner": "location",
+          "sha256": "caf752a66308f840242ce80e962dd937c973a37acf7d94f41c558128a1caa639",
+          "status": "frozen 2026-09-28: location review PASS (batch 2)"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_pipeline.py",
+          "target": "<collector root>/qiuzhao/collector/p1_pipeline.py",
+          "owner": "location",
+          "sha256": "fff52389c4aad220183c77db6c29e63186afe1736c0f340e535a2d0a04cda0aa",
+          "status": "frozen 2026-09-28: location review PASS (batch 2)"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_sources_11_20.py",
+          "target": "<collector root>/qiuzhao/collector/p1_sources_11_20.py",
+          "owner": "location",
+          "sha256": "daf48cd94b6e27a22c0e8783f2bc679c655d89ff06ab81a2fb21f7b6560c4031",
+          "status": "frozen 2026-09-28: location review PASS (batch 2)"
+        },
+        {
+          "repo": "qiuzhao/normalization_io.py",
+          "target": "<collector root>/qiuzhao/normalization_io.py",
+          "owner": "collector-recovery",
+          "sha256": "c63f645e63483a651d0b0a9f14879291ed756738ae69ad695481ea541318adfe",
+          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+        }
       ],
       "resources": [
-        {"repo": "qiuzhao/normalize_tables.json", "target": "<collector root>/qiuzhao/normalize_tables.json", "owner": "location", "sha256": null, "status": "pending: absent on the collector (measured 2026-09-25 00:16:51); its 未披露 defaults must be fixed and tested with the location rules before it is installed. The collector reports it in receipt.resources.missing until then."}
+        {
+          "repo": "qiuzhao/normalize_tables.json",
+          "target": "<collector root>/qiuzhao/normalize_tables.json",
+          "owner": "location",
+          "sha256": null,
+          "status": "pending: absent on the collector (measured 2026-09-25 00:16:51); its 未披露 defaults must be fixed and tested with the location rules before it is installed. The collector reports it in receipt.resources.missing until then."
+        }
+      ]
+    },
+    "windows_p1_adapters": {
+      "_runtime": "Same formal pipeline loads all active registry adapters; bind unchanged dependencies as identities, without claiming their source completeness. normalize_tables.json target absence/presence is separately bound by the target review permit; do not install the repo table. Install only after natural writer exit under the original lock.",
+      "files": [
+        {
+          "repo": "deploy/deploy_manifest.py",
+          "target": "<collector root>/deploy/deploy_manifest.py",
+          "owner": "daily-source-delivery",
+          "sha256": "8a4ee3a05813ee4d4f301cea6a82ad321801a478241693c6f7d16cf078cbf042",
+          "status": "frozen 2026-10-09: independent unknown/empty environment gate review PASS; target install separate"
+        },
+        {
+          "repo": "deploy/windows_collector.py",
+          "target": "<collector root>/deploy/windows_collector.py",
+          "owner": "daily-source-delivery",
+          "sha256": "1b5468413cabc9863cd7eab07f4da5a2d93e2b7b89257e86770397e3f6ef05f5",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "deploy/windows_rebase.py",
+          "target": "<collector root>/deploy/windows_rebase.py",
+          "owner": "daily-source-delivery",
+          "sha256": "515be2885756fdc6ae22f96a6185b92e1775ba7368f6ad5bc55a5ec3d0535d8f",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "deploy/windows_recover_run.py",
+          "target": "<collector root>/deploy/windows_recover_run.py",
+          "owner": "daily-source-delivery",
+          "sha256": "65df0f75abab44e28444670cb13183b85659077e7209fd8d27f09f37fb32fc4e",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/__init__.py",
+          "target": "<collector root>/qiuzhao/__init__.py",
+          "owner": "daily-source-delivery",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "status": "frozen 2026-10-09: existing transitive runtime identity; not source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/__init__.py",
+          "target": "<collector root>/qiuzhao/collector/__init__.py",
+          "owner": "daily-source-delivery",
+          "sha256": "9e1b7b607744bcca9719afdc61ab22490adc9357d6d436981e0e459cf466b04d",
+          "status": "frozen 2026-10-09: existing transitive runtime identity; not source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/alibaba_headless.py",
+          "target": "<collector root>/qiuzhao/collector/alibaba_headless.py",
+          "owner": "daily-source-delivery",
+          "sha256": "1b8eb2f7050a045994d6fb3ce0605d1c6ad5627723a0e503c0bf8edce947d227",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/base_headless.py",
+          "target": "<collector root>/qiuzhao/collector/base_headless.py",
+          "owner": "daily-source-delivery",
+          "sha256": "0734e508b08c81f5d9fbde437219f025bebf5a276b5e71ea7c8c683cdefa7021",
+          "status": "frozen 2026-10-09: existing transitive runtime identity; not source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/bytedance.py",
+          "target": "<collector root>/qiuzhao/collector/bytedance.py",
+          "owner": "daily-source-delivery",
+          "sha256": "07922a5111dd6356d97d289d472ae78bf177dd95bf8f401db6284e8e18140c8d",
+          "status": "frozen 2026-10-09: existing transitive runtime identity; not source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/collection_gap.py",
+          "target": "<collector root>/qiuzhao/collector/collection_gap.py",
+          "owner": "daily-source-delivery",
+          "sha256": "4268cb1e9e1829d420d41dccae110f6fa339df4b7c01c75a33cb6f4ae903bfbf",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/guopin.py",
+          "target": "<collector root>/qiuzhao/collector/guopin.py",
+          "owner": "daily-source-delivery",
+          "sha256": "b8ea2117684c0d89e7887ce4a2928183d3036af43a4e3f8360979fa80f2934df",
+          "status": "frozen 2026-10-09: independent typed basic diagnostics/protection review PASS; Windows39 tests; actual source problem closure separate"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_banks_01.py",
+          "target": "<collector root>/qiuzhao/collector/p1_banks_01.py",
+          "owner": "daily-source-delivery",
+          "sha256": "25e2399812f64ee1762b7686849bf7241c8e1353d7203347562f9794223ffb19",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_bytedance_public.py",
+          "target": "<collector root>/qiuzhao/collector/p1_bytedance_public.py",
+          "owner": "daily-source-delivery",
+          "sha256": "bc2926472037e24c212f47a0d62750ca9cd921a7b01df5af6dbe0f56d5c160e6",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_feishu_public.py",
+          "target": "<collector root>/qiuzhao/collector/p1_feishu_public.py",
+          "owner": "daily-source-delivery",
+          "sha256": "03f732d8824d973aab5b52e6a6ea5a2ff9c34fb62af5b725d10088f1ec9bba66",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_foreign_01.py",
+          "target": "<collector root>/qiuzhao/collector/p1_foreign_01.py",
+          "owner": "daily-source-delivery",
+          "sha256": "98b348af95f2a56fe64eebec2786346ec28e5e133d81d6565b8f859794f2b7e6",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_midea_public.py",
+          "target": "<collector root>/qiuzhao/collector/p1_midea_public.py",
+          "owner": "daily-source-delivery",
+          "sha256": "509b9a502d7e1010c478896fc1312ae380aa97a3847412bdef8cb48bc2c97186",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_pending_index.py",
+          "target": "<collector root>/qiuzhao/collector/p1_pending_index.py",
+          "owner": "daily-source-delivery",
+          "sha256": "fb700b64b0e82dea610e11d1c329e4e70ab4fc42e3060d0d38ba6316b3dab506",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_pipeline.py",
+          "target": "<collector root>/qiuzhao/collector/p1_pipeline.py",
+          "owner": "daily-source-delivery",
+          "sha256": "fff52389c4aad220183c77db6c29e63186afe1736c0f340e535a2d0a04cda0aa",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_platform_51job.py",
+          "target": "<collector root>/qiuzhao/collector/p1_platform_51job.py",
+          "owner": "daily-source-delivery",
+          "sha256": "efbf7c03f1d0714f6d2a1ed18c7ebd3763ca689c7fde5c9b7ebecab11d92dea6",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_platform_avature.py",
+          "target": "<collector root>/qiuzhao/collector/p1_platform_avature.py",
+          "owner": "daily-source-delivery",
+          "sha256": "f2ebdd6f5eefe0702acf8407e081cb644f2afc5904778d67259d07e093ab29cd",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_platform_beisen.py",
+          "target": "<collector root>/qiuzhao/collector/p1_platform_beisen.py",
+          "owner": "daily-source-delivery",
+          "sha256": "22efbcc54e69add1365f9e6370851b02651cc06ad25c04064873f8bd101b7612",
+          "status": "frozen 2026-10-09: independent finite field-provenance/public-chain review PASS; Windows two-file regression PASS; production installation separate"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_platform_companies.json",
+          "target": "<collector root>/qiuzhao/collector/p1_platform_companies.json",
+          "owner": "daily-source-delivery",
+          "sha256": "7b6e7c6d37fff4607f5edc00e1d9e2c99c67491089ba58233fb285f6ae4b465c",
+          "status": "frozen 2026-10-09: independent C code/config byte review PASS; target installation separate"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_platform_eightfold.py",
+          "target": "<collector root>/qiuzhao/collector/p1_platform_eightfold.py",
+          "owner": "daily-source-delivery",
+          "sha256": "0cf70aa36a7143975e26865b28d3ce73eb560d60f05fcf3fd181a94d7e0e809c",
+          "status": "frozen 2026-10-09: independent C code/config byte review PASS; target installation separate"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_platform_icims.py",
+          "target": "<collector root>/qiuzhao/collector/p1_platform_icims.py",
+          "owner": "daily-source-delivery",
+          "sha256": "132d6a046781c4455cd61cf8ca00a006a18af49fe1d09d4ccef8e3805293e4ea",
+          "status": "frozen 2026-10-09: existing transitive runtime identity; not source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_platform_moka.py",
+          "target": "<collector root>/qiuzhao/collector/p1_platform_moka.py",
+          "owner": "daily-source-delivery",
+          "sha256": "6feb25535ae38386b5d13450d246aec07f368f478495aa8e26450eb69b7eb758",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_platform_orc.py",
+          "target": "<collector root>/qiuzhao/collector/p1_platform_orc.py",
+          "owner": "daily-source-delivery",
+          "sha256": "d15d3a8b29f2207bda2b949b0523e71f91d2be9b15d00db715bff63e06900422",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_platform_phenom.py",
+          "target": "<collector root>/qiuzhao/collector/p1_platform_phenom.py",
+          "owner": "daily-source-delivery",
+          "sha256": "b20bcb2b5206f74cd26fb3ec438c0c3dcb688d157274da9da8734ccc0655d9fb",
+          "status": "frozen 2026-10-09: independent C code/config byte review PASS; target installation separate"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_platform_successfactors.py",
+          "target": "<collector root>/qiuzhao/collector/p1_platform_successfactors.py",
+          "owner": "daily-source-delivery",
+          "sha256": "2f69a6e6470e34e66d25165790d5a2524c872d1346a5bc8c6dbdebc56803b2e4",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_platform_tupu360.py",
+          "target": "<collector root>/qiuzhao/collector/p1_platform_tupu360.py",
+          "owner": "daily-source-delivery",
+          "sha256": "c6d4acde5463d04ac1d74b40aba2ab242d51a6c618643b14ff9863dc03d68f57",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_platform_workday.py",
+          "target": "<collector root>/qiuzhao/collector/p1_platform_workday.py",
+          "owner": "daily-source-delivery",
+          "sha256": "046587fb32eb25a5ae795904d7bbc7f1412c0a180d9606dbc4c792ef7a5fc1ed",
+          "status": "frozen 2026-10-09: independent C code/config byte review PASS; target installation separate"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_sources_01_10.py",
+          "target": "<collector root>/qiuzhao/collector/p1_sources_01_10.py",
+          "owner": "daily-source-delivery",
+          "sha256": "619a9b39c23826ff8bf749e1ee8e67c57a28558c2c117df21b3f481b83065bfa",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_sources_11_20.py",
+          "target": "<collector root>/qiuzhao/collector/p1_sources_11_20.py",
+          "owner": "daily-source-delivery",
+          "sha256": "daf48cd94b6e27a22c0e8783f2bc679c655d89ff06ab81a2fb21f7b6560c4031",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_sources_21_30.py",
+          "target": "<collector root>/qiuzhao/collector/p1_sources_21_30.py",
+          "owner": "daily-source-delivery",
+          "sha256": "8b6b1505749dc8189afcbb9b0db49bda8aa58acfd3aed5aa8874bce898b6fed7",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_sources_31_40.py",
+          "target": "<collector root>/qiuzhao/collector/p1_sources_31_40.py",
+          "owner": "daily-source-delivery",
+          "sha256": "73382cdea5de8a0e71be02e37da5a0f319e8c12e46b9e6d8a715392b4160a70d",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_sources_41_50.py",
+          "target": "<collector root>/qiuzhao/collector/p1_sources_41_50.py",
+          "owner": "daily-source-delivery",
+          "sha256": "5362281a9e770f719ea03a69eb25436941e2f1efd54fb1dabad655f35a10f98d",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/portable_runtime.py",
+          "target": "<collector root>/qiuzhao/collector/portable_runtime.py",
+          "owner": "daily-source-delivery",
+          "sha256": "0975506c4a1b4732ca39f240b9c2f4546fe26d4d008b991fd376f0aef1450b19",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/collector/run.py",
+          "target": "<collector root>/qiuzhao/collector/run.py",
+          "owner": "daily-source-delivery",
+          "sha256": "4789566ada84511da0ff4549c0df945159fd0a11b17240a407e7d17e5aacc104",
+          "status": "frozen 2026-10-09: independent typed basic diagnostics/protection review PASS; Windows39 tests; actual source problem closure separate"
+        },
+        {
+          "repo": "qiuzhao/collector/tencent_music.py",
+          "target": "<collector root>/qiuzhao/collector/tencent_music.py",
+          "owner": "daily-source-delivery",
+          "sha256": "7d19cbc34b45dfc5e31c3d9b7ed41dd51c638c5adb6c62bf6e0330904f3d3787",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/company_names.py",
+          "target": "<collector root>/qiuzhao/company_names.py",
+          "owner": "daily-source-delivery",
+          "sha256": "ee0943560d6ed0523b4bd70f6363b529e8190b60333fad2fc7a6678ec4198851",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/data/company_aliases.json",
+          "target": "<collector root>/qiuzhao/data/company_aliases.json",
+          "owner": "daily-source-delivery",
+          "sha256": "ae311e93b754b5f76372f7668aa1076fd6666e79c51ca45ff2113b7642539e6f",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/normalization_io.py",
+          "target": "<collector root>/qiuzhao/normalization_io.py",
+          "owner": "daily-source-delivery",
+          "sha256": "c63f645e63483a651d0b0a9f14879291ed756738ae69ad695481ea541318adfe",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/normalize.py",
+          "target": "<collector root>/qiuzhao/normalize.py",
+          "owner": "daily-source-delivery",
+          "sha256": "c9380fa12808b2f52050c5f7873e3a09270e5cc7ddaa5ba47e14b88d8dd39a03",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        },
+        {
+          "repo": "qiuzhao/v4_fields.py",
+          "target": "<collector root>/qiuzhao/v4_fields.py",
+          "owner": "daily-source-delivery",
+          "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860",
+          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+        }
       ]
     },
     "windows_normalize_retry": {
       "interpreter": "collector venv python (Windows); normalize-only recovery; independent re-review required",
       "_runtime": "PR27 second-round safety boundary. Deliberately pending: --apply must fail until final bytes are independently reviewed and exact runtime hashes are frozen. normalize_tables.json is not installed by this recovery; the target review manifest binds its observed absence/presence.",
       "files": [
-        {"repo": "qiuzhao/normalize.py", "target": "<collector root>/qiuzhao/normalize.py", "owner": "collector-recovery", "sha256": "c9380fa12808b2f52050c5f7873e3a09270e5cc7ddaa5ba47e14b88d8dd39a03", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"},
-        {"repo": "qiuzhao/normalization_io.py", "target": "<collector root>/qiuzhao/normalization_io.py", "owner": "collector-recovery", "sha256": "c63f645e63483a651d0b0a9f14879291ed756738ae69ad695481ea541318adfe", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"},
-        {"repo": "qiuzhao/company_names.py", "target": "<collector root>/qiuzhao/company_names.py", "owner": "collector-recovery", "sha256": "ee0943560d6ed0523b4bd70f6363b529e8190b60333fad2fc7a6678ec4198851", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"},
-        {"repo": "qiuzhao/v4_fields.py", "target": "<collector root>/qiuzhao/v4_fields.py", "owner": "collector-recovery", "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"},
-        {"repo": "qiuzhao/collector/portable_runtime.py", "target": "<collector root>/qiuzhao/collector/portable_runtime.py", "owner": "collector-recovery", "sha256": "0975506c4a1b4732ca39f240b9c2f4546fe26d4d008b991fd376f0aef1450b19", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"},
-        {"repo": "qiuzhao/collector/p1_pipeline.py", "target": "<collector root>/qiuzhao/collector/p1_pipeline.py", "owner": "collector-recovery", "sha256": "fff52389c4aad220183c77db6c29e63186afe1736c0f340e535a2d0a04cda0aa", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"},
-        {"repo": "deploy/deploy_manifest.py", "target": "<collector root>/deploy/deploy_manifest.py", "owner": "collector-recovery", "sha256": "babeca2b6c80fb059af4960ab66328db85c96107213a2e7420e08a0b3378c8fc", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"},
-        {"repo": "deploy/windows_collector.py", "target": "<collector root>/deploy/windows_collector.py", "owner": "collector-recovery", "sha256": "1b5468413cabc9863cd7eab07f4da5a2d93e2b7b89257e86770397e3f6ef05f5", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"},
-        {"repo": "deploy/windows_rebase.py", "target": "<collector root>/deploy/windows_rebase.py", "owner": "collector-recovery", "sha256": "515be2885756fdc6ae22f96a6185b92e1775ba7368f6ad5bc55a5ec3d0535d8f", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"},
-        {"repo": "deploy/windows_recover_run.py", "target": "<collector root>/deploy/windows_recover_run.py", "owner": "collector-recovery", "sha256": "65df0f75abab44e28444670cb13183b85659077e7209fd8d27f09f37fb32fc4e", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"},
-        {"repo": "deploy/windows_normalize_retry.py", "target": "<collector root>/deploy/windows_normalize_retry.py", "owner": "collector-recovery", "sha256": "4ccc0495aaef13af05d55ab152384a6715ce20b243d77d1fbab2dc8f6c5b135e", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"},
-        {"repo": "qiuzhao/data/company_aliases.json", "target": "<collector root>/qiuzhao/data/company_aliases.json", "owner": "collector-recovery", "sha256": "ae311e93b754b5f76372f7668aa1076fd6666e79c51ca45ff2113b7642539e6f", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"},
-        {"repo": "qiuzhao/collector/p1_platform_companies.json", "target": "<collector root>/qiuzhao/collector/p1_platform_companies.json", "owner": "collector-recovery", "sha256": "3b2dedf9e86c1af0557b7dbaf4919a62afca0aa8d1fc00402eef7f664c6078d1", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"}
+        {
+          "repo": "qiuzhao/normalize.py",
+          "target": "<collector root>/qiuzhao/normalize.py",
+          "owner": "collector-recovery",
+          "sha256": "c9380fa12808b2f52050c5f7873e3a09270e5cc7ddaa5ba47e14b88d8dd39a03",
+          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+        },
+        {
+          "repo": "qiuzhao/normalization_io.py",
+          "target": "<collector root>/qiuzhao/normalization_io.py",
+          "owner": "collector-recovery",
+          "sha256": "c63f645e63483a651d0b0a9f14879291ed756738ae69ad695481ea541318adfe",
+          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+        },
+        {
+          "repo": "qiuzhao/company_names.py",
+          "target": "<collector root>/qiuzhao/company_names.py",
+          "owner": "collector-recovery",
+          "sha256": "ee0943560d6ed0523b4bd70f6363b529e8190b60333fad2fc7a6678ec4198851",
+          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+        },
+        {
+          "repo": "qiuzhao/v4_fields.py",
+          "target": "<collector root>/qiuzhao/v4_fields.py",
+          "owner": "collector-recovery",
+          "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860",
+          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+        },
+        {
+          "repo": "qiuzhao/collector/portable_runtime.py",
+          "target": "<collector root>/qiuzhao/collector/portable_runtime.py",
+          "owner": "collector-recovery",
+          "sha256": "0975506c4a1b4732ca39f240b9c2f4546fe26d4d008b991fd376f0aef1450b19",
+          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_pipeline.py",
+          "target": "<collector root>/qiuzhao/collector/p1_pipeline.py",
+          "owner": "collector-recovery",
+          "sha256": "fff52389c4aad220183c77db6c29e63186afe1736c0f340e535a2d0a04cda0aa",
+          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+        },
+        {
+          "repo": "deploy/deploy_manifest.py",
+          "target": "<collector root>/deploy/deploy_manifest.py",
+          "owner": "collector-recovery",
+          "sha256": "8a4ee3a05813ee4d4f301cea6a82ad321801a478241693c6f7d16cf078cbf042",
+          "status": "frozen 2026-10-09: independent unknown/empty environment gate review PASS; target install separate"
+        },
+        {
+          "repo": "deploy/windows_collector.py",
+          "target": "<collector root>/deploy/windows_collector.py",
+          "owner": "collector-recovery",
+          "sha256": "1b5468413cabc9863cd7eab07f4da5a2d93e2b7b89257e86770397e3f6ef05f5",
+          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+        },
+        {
+          "repo": "deploy/windows_rebase.py",
+          "target": "<collector root>/deploy/windows_rebase.py",
+          "owner": "collector-recovery",
+          "sha256": "515be2885756fdc6ae22f96a6185b92e1775ba7368f6ad5bc55a5ec3d0535d8f",
+          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+        },
+        {
+          "repo": "deploy/windows_recover_run.py",
+          "target": "<collector root>/deploy/windows_recover_run.py",
+          "owner": "collector-recovery",
+          "sha256": "65df0f75abab44e28444670cb13183b85659077e7209fd8d27f09f37fb32fc4e",
+          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+        },
+        {
+          "repo": "deploy/windows_normalize_retry.py",
+          "target": "<collector root>/deploy/windows_normalize_retry.py",
+          "owner": "collector-recovery",
+          "sha256": "4ccc0495aaef13af05d55ab152384a6715ce20b243d77d1fbab2dc8f6c5b135e",
+          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+        },
+        {
+          "repo": "qiuzhao/data/company_aliases.json",
+          "target": "<collector root>/qiuzhao/data/company_aliases.json",
+          "owner": "collector-recovery",
+          "sha256": "ae311e93b754b5f76372f7668aa1076fd6666e79c51ca45ff2113b7642539e6f",
+          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_platform_companies.json",
+          "target": "<collector root>/qiuzhao/collector/p1_platform_companies.json",
+          "owner": "collector-recovery",
+          "sha256": "7b6e7c6d37fff4607f5edc00e1d9e2c99c67491089ba58233fb285f6ae4b465c",
+          "status": "frozen 2026-10-09: independent digitalchina category mapping byte review PASS; 1124 names/3372 scopes unchanged; target installation separate"
+        }
       ],
       "_asset_boundary": "normalize_tables.json absence/presence is bound by the independent target review manifest; production absence remains valid, historical table must not be installed."
     },
     "server": {
       "interpreter": "/opt/mcp-suite/.venv/bin/python (receiver, activation); python3 for the rotation module",
       "files": [
-        {"repo": "deploy/windows_receiver.py", "target": "/opt/mcp-suite/deploy/windows_receiver.py", "owner": "delivery", "sha256": "3ade75a0dc40c0e713560f8eb19595b50e48baef1b55dc562ae77d5bf0800213", "status": "live since 2026-09-28 14:53 (PR #12, capacity marker); live before: 95890f03"},
-        {"repo": "deploy/windows_receiver_rotation.py", "target": "/var/lib/mcp-suite/jobs.json.bak.windows.rotation.py", "owner": "delivery", "sha256": "95911ed44db62253c0225a3d32841a039ac0b734570cb529bfcb1b7f3500bff3", "status": "identical to live"},
-        {"repo": "deploy/activate_qiuzhao_dataset.py", "target": "/opt/mcp-suite/deploy/activate_qiuzhao_dataset.py", "owner": "delivery", "sha256": "202f39545a61ae0a5bd11ad5077634f7824efd2ec9b7f59e76d4f14af5bba01e", "status": "frozen 2026-10-09: independent activation reconcile/warm code review PASS; production receipt separate"},
-        {"repo": "deploy/qiuzhao-dataset-activation.cron", "target": "/etc/cron.d/qiuzhao-dataset-activation", "owner": "delivery", "sha256": null, "status": "unchanged since main"},
-        {"repo": "core/server.py", "target": "/opt/mcp-suite/core/server.py", "owner": "location", "sha256": "686555f2c959b472b31505c5741a48c406894128a5119cd36f727daa8ae3b675", "status": "frozen 2026-09-28: location review PASS (batch 2); restart mcp-suite.service only"},
-        {"repo": "qiuzhao/tools.py", "target": "/opt/mcp-suite/qiuzhao/tools.py", "owner": "location", "sha256": "8d4c7fa0f8714c639f8fee11327b085157e2523ac2b2634e16d4278d66695b43", "status": "frozen 2026-09-28: location review PASS (batch 2); restart mcp-suite.service only"},
-        {"repo": "qiuzhao/v4_fields.py", "target": "/opt/mcp-suite/qiuzhao/v4_fields.py", "owner": "location", "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860", "status": "frozen 2026-09-28: location review PASS (batch 2); restart mcp-suite.service only"}
+        {
+          "repo": "deploy/windows_receiver.py",
+          "target": "/opt/mcp-suite/deploy/windows_receiver.py",
+          "owner": "delivery",
+          "sha256": "3ade75a0dc40c0e713560f8eb19595b50e48baef1b55dc562ae77d5bf0800213",
+          "status": "live since 2026-09-28 14:53 (PR #12, capacity marker); live before: 95890f03"
+        },
+        {
+          "repo": "deploy/windows_receiver_rotation.py",
+          "target": "/var/lib/mcp-suite/jobs.json.bak.windows.rotation.py",
+          "owner": "delivery",
+          "sha256": "95911ed44db62253c0225a3d32841a039ac0b734570cb529bfcb1b7f3500bff3",
+          "status": "identical to live"
+        },
+        {
+          "repo": "deploy/activate_qiuzhao_dataset.py",
+          "target": "/opt/mcp-suite/deploy/activate_qiuzhao_dataset.py",
+          "owner": "delivery",
+          "sha256": "202f39545a61ae0a5bd11ad5077634f7824efd2ec9b7f59e76d4f14af5bba01e",
+          "status": "frozen 2026-10-09: independent activation reconcile/warm code review PASS; production receipt separate"
+        },
+        {
+          "repo": "deploy/qiuzhao-dataset-activation.cron",
+          "target": "/etc/cron.d/qiuzhao-dataset-activation",
+          "owner": "delivery",
+          "sha256": null,
+          "status": "unchanged since main"
+        },
+        {
+          "repo": "core/server.py",
+          "target": "/opt/mcp-suite/core/server.py",
+          "owner": "location",
+          "sha256": "686555f2c959b472b31505c5741a48c406894128a5119cd36f727daa8ae3b675",
+          "status": "frozen 2026-09-28: location review PASS (batch 2); restart mcp-suite.service only"
+        },
+        {
+          "repo": "qiuzhao/tools.py",
+          "target": "/opt/mcp-suite/qiuzhao/tools.py",
+          "owner": "location",
+          "sha256": "8d4c7fa0f8714c639f8fee11327b085157e2523ac2b2634e16d4278d66695b43",
+          "status": "frozen 2026-09-28: location review PASS (batch 2); restart mcp-suite.service only"
+        },
+        {
+          "repo": "qiuzhao/v4_fields.py",
+          "target": "/opt/mcp-suite/qiuzhao/v4_fields.py",
+          "owner": "location",
+          "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860",
+          "status": "frozen 2026-09-28: location review PASS (batch 2); restart mcp-suite.service only"
+        }
       ]
     },
     "delivery_mac": {
       "interpreter": "the explicit @PYTHON@ of the launchd job, with openpyxl; lark-cli on the job's PATH, logged in as the Base owner. Measured 2026-09-28 on the delivery Mac: system python 3.13.5, openpyxl 3.1.5, lark-cli 1.0.89. deliver-latest probes both before each run.",
       "_runtime": "Every file windows_excel_delivery.py executes or reads (DELIVERY_RUNTIME_FILES). Before any --apply action it requires each to be listed here with a matching sha256 and no pending status; one pending or drifted entry refuses the run. Frozen 2026-09-28 after the delivery (batch 1) and location (batch 2) reviews both passed. p1_pipeline.py also imports the collector modules at import time; they do not shape the projection and are not listed. This manifest is not listed: it cannot carry its own hash.",
       "files": [
-        {"repo": "deploy/windows_excel_delivery.py", "target": "run from the repo checkout", "owner": "delivery", "sha256": "442003c5c7e2a22f77caa7864cda0efafeb09deb203c7c6f774f5dc5a1194e9c", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"},
-        {"repo": "deploy/deploy_manifest.py", "target": "run from the repo checkout (frozen check)", "owner": "delivery", "sha256": "babeca2b6c80fb059af4960ab66328db85c96107213a2e7420e08a0b3378c8fc", "status": "frozen 2026-09-28: delivery review PASS (batch 1: deliver-latest, settlement gate, manual quota)"},
-        {"repo": "deploy/feishu_r1/run_step2_import_r1.py", "target": "loaded by windows_excel_delivery.py", "owner": "delivery", "sha256": "2e9b27422a85e91da0ee41683ad16d8960c5963241bb469f286518943be5bbfb", "status": "frozen 2026-10-01: independent GPT-6.1 Sol low review PASS (complete bounded table pagination and exact ticket success)"},
-        {"repo": "deploy/feishu_r1/run_step4_switch_r1.py", "target": "loaded by windows_excel_delivery.py", "owner": "delivery", "sha256": "b71a34fc914c01eb9ff02a9162f18db9aacc2ce1e3920b4a54e13cda5e35e033", "status": "frozen 2026-09-28: byte-identical to the external R1 script used for the 2026-09-24 deliveries"},
-        {"repo": "deploy/feishu_r1/sprite_build_projection_r1.py", "target": "loaded by windows_excel_delivery.py", "owner": "location", "sha256": "7e0bb5bf0d77c28d2b508fda0e1465cc0ffff83178c812c5e3a20e432301f41d", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
-        {"repo": "deploy/feishu_r1/build_xlsx_r1.py", "target": "loaded by windows_excel_delivery.py", "owner": "location", "sha256": "b8d21682add3ba751aa062d943ea2977eace0f6ee988af05dce6fea7c4bfa9b4", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
-        {"repo": "deploy/feishu_r1/build_prod_schema_snapshot.py", "target": "loaded by windows_excel_delivery.py", "owner": "location", "sha256": "f8abaa47111f42b35cb6532b858578cc6d28e44bfebb625e1749293d66f1fb2b", "status": "frozen 2026-09-28: byte-identical to the external R1 script used for the 2026-09-24 deliveries"},
-        {"repo": "deploy/feishu_r1/run_step3_schema_verify_r1.py", "target": "loaded by windows_excel_delivery.py", "owner": "location", "sha256": "c7d16dd3d0bca23c4804af616afedf2e3b11e288f99f18a153bed14a7769b3ab", "status": "frozen 2026-10-01: independent GPT-6.1 Sol low review PASS (import alias, metadata, stderr, exact staging binding, same-version resume and bounded explicit field-limit retry)"},
-        {"repo": "qiuzhao/__init__.py", "target": "imported from the repo checkout", "owner": "delivery", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "status": "frozen 2026-09-28: unchanged since main b9c5971"},
-        {"repo": "qiuzhao/collector/__init__.py", "target": "imported from the repo checkout", "owner": "delivery", "sha256": "9e1b7b607744bcca9719afdc61ab22490adc9357d6d436981e0e459cf466b04d", "status": "frozen 2026-09-28: unchanged since main b9c5971"},
-        {"repo": "qiuzhao/collector/p1_pipeline.py", "target": "imported by windows_excel_delivery.py (atomic_json)", "owner": "collector", "sha256": "fff52389c4aad220183c77db6c29e63186afe1736c0f340e535a2d0a04cda0aa", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
-        {"repo": "qiuzhao/collector/portable_runtime.py", "target": "imported by windows_excel_delivery.py (fcntl)", "owner": "collector", "sha256": "0975506c4a1b4732ca39f240b9c2f4546fe26d4d008b991fd376f0aef1450b19", "status": "frozen 2026-09-28: unchanged since main b9c5971"},
-        {"repo": "qiuzhao/v4_fields.py", "target": "imported by the R1 projection", "owner": "location", "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
-        {"repo": "qiuzhao/collector/lark_sync_enrichment.py", "target": "imported by the R1 projection", "owner": "location", "sha256": "6e1256ec35afa125ac073a079341de2057bc7435c07d9c7d72aea072e2d7c746", "status": "frozen 2026-09-28: unchanged since main b9c5971"},
-        {"repo": "qiuzhao/collector/sync_lark_multivalue.py", "target": "imported by the R1 projection", "owner": "location", "sha256": "8fa3d2b7690467ffabafe632c0e635bed38bfa5dfe5239e97b139b6426d8e0cc", "status": "frozen 2026-09-28: location review PASS (batch 2)"},
-        {"repo": "qiuzhao/normalize.py", "target": "imported by the R1 projection (via sync_lark_multivalue)", "owner": "location", "sha256": "c9380fa12808b2f52050c5f7873e3a09270e5cc7ddaa5ba47e14b88d8dd39a03", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"},
-        {"repo": "qiuzhao/company_names.py", "target": "imported by normalize.py", "owner": "location", "sha256": "ee0943560d6ed0523b4bd70f6363b529e8190b60333fad2fc7a6678ec4198851", "status": "frozen 2026-09-28: unchanged since main b9c5971"},
-        {"repo": "qiuzhao/normalization_io.py", "target": "imported by normalize.normalize_file", "owner": "collector-recovery", "sha256": "c63f645e63483a651d0b0a9f14879291ed756738ae69ad695481ea541318adfe", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"}
+        {
+          "repo": "deploy/windows_excel_delivery.py",
+          "target": "run from the repo checkout",
+          "owner": "delivery",
+          "sha256": "442003c5c7e2a22f77caa7864cda0efafeb09deb203c7c6f774f5dc5a1194e9c",
+          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+        },
+        {
+          "repo": "deploy/deploy_manifest.py",
+          "target": "run from the repo checkout (frozen check)",
+          "owner": "delivery",
+          "sha256": "8a4ee3a05813ee4d4f301cea6a82ad321801a478241693c6f7d16cf078cbf042",
+          "status": "frozen 2026-10-09: independent unknown/empty environment gate review PASS; target install separate"
+        },
+        {
+          "repo": "deploy/feishu_r1/run_step2_import_r1.py",
+          "target": "loaded by windows_excel_delivery.py",
+          "owner": "delivery",
+          "sha256": "2e9b27422a85e91da0ee41683ad16d8960c5963241bb469f286518943be5bbfb",
+          "status": "frozen 2026-10-01: independent GPT-6.1 Sol low review PASS (complete bounded table pagination and exact ticket success)"
+        },
+        {
+          "repo": "deploy/feishu_r1/run_step4_switch_r1.py",
+          "target": "loaded by windows_excel_delivery.py",
+          "owner": "delivery",
+          "sha256": "b71a34fc914c01eb9ff02a9162f18db9aacc2ce1e3920b4a54e13cda5e35e033",
+          "status": "frozen 2026-09-28: byte-identical to the external R1 script used for the 2026-09-24 deliveries"
+        },
+        {
+          "repo": "deploy/feishu_r1/sprite_build_projection_r1.py",
+          "target": "loaded by windows_excel_delivery.py",
+          "owner": "location",
+          "sha256": "7e0bb5bf0d77c28d2b508fda0e1465cc0ffff83178c812c5e3a20e432301f41d",
+          "status": "frozen 2026-09-28: location review PASS (batch 2)"
+        },
+        {
+          "repo": "deploy/feishu_r1/build_xlsx_r1.py",
+          "target": "loaded by windows_excel_delivery.py",
+          "owner": "location",
+          "sha256": "b8d21682add3ba751aa062d943ea2977eace0f6ee988af05dce6fea7c4bfa9b4",
+          "status": "frozen 2026-09-28: location review PASS (batch 2)"
+        },
+        {
+          "repo": "deploy/feishu_r1/build_prod_schema_snapshot.py",
+          "target": "loaded by windows_excel_delivery.py",
+          "owner": "location",
+          "sha256": "f8abaa47111f42b35cb6532b858578cc6d28e44bfebb625e1749293d66f1fb2b",
+          "status": "frozen 2026-09-28: byte-identical to the external R1 script used for the 2026-09-24 deliveries"
+        },
+        {
+          "repo": "deploy/feishu_r1/run_step3_schema_verify_r1.py",
+          "target": "loaded by windows_excel_delivery.py",
+          "owner": "location",
+          "sha256": "c7d16dd3d0bca23c4804af616afedf2e3b11e288f99f18a153bed14a7769b3ab",
+          "status": "frozen 2026-10-01: independent GPT-6.1 Sol low review PASS (import alias, metadata, stderr, exact staging binding, same-version resume and bounded explicit field-limit retry)"
+        },
+        {
+          "repo": "qiuzhao/__init__.py",
+          "target": "imported from the repo checkout",
+          "owner": "delivery",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "status": "frozen 2026-09-28: unchanged since main b9c5971"
+        },
+        {
+          "repo": "qiuzhao/collector/__init__.py",
+          "target": "imported from the repo checkout",
+          "owner": "delivery",
+          "sha256": "9e1b7b607744bcca9719afdc61ab22490adc9357d6d436981e0e459cf466b04d",
+          "status": "frozen 2026-09-28: unchanged since main b9c5971"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_pipeline.py",
+          "target": "imported by windows_excel_delivery.py (atomic_json)",
+          "owner": "collector",
+          "sha256": "fff52389c4aad220183c77db6c29e63186afe1736c0f340e535a2d0a04cda0aa",
+          "status": "frozen 2026-09-28: location review PASS (batch 2)"
+        },
+        {
+          "repo": "qiuzhao/collector/portable_runtime.py",
+          "target": "imported by windows_excel_delivery.py (fcntl)",
+          "owner": "collector",
+          "sha256": "0975506c4a1b4732ca39f240b9c2f4546fe26d4d008b991fd376f0aef1450b19",
+          "status": "frozen 2026-09-28: unchanged since main b9c5971"
+        },
+        {
+          "repo": "qiuzhao/v4_fields.py",
+          "target": "imported by the R1 projection",
+          "owner": "location",
+          "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860",
+          "status": "frozen 2026-09-28: location review PASS (batch 2)"
+        },
+        {
+          "repo": "qiuzhao/collector/lark_sync_enrichment.py",
+          "target": "imported by the R1 projection",
+          "owner": "location",
+          "sha256": "6e1256ec35afa125ac073a079341de2057bc7435c07d9c7d72aea072e2d7c746",
+          "status": "frozen 2026-09-28: unchanged since main b9c5971"
+        },
+        {
+          "repo": "qiuzhao/collector/sync_lark_multivalue.py",
+          "target": "imported by the R1 projection",
+          "owner": "location",
+          "sha256": "8fa3d2b7690467ffabafe632c0e635bed38bfa5dfe5239e97b139b6426d8e0cc",
+          "status": "frozen 2026-09-28: location review PASS (batch 2)"
+        },
+        {
+          "repo": "qiuzhao/normalize.py",
+          "target": "imported by the R1 projection (via sync_lark_multivalue)",
+          "owner": "location",
+          "sha256": "c9380fa12808b2f52050c5f7873e3a09270e5cc7ddaa5ba47e14b88d8dd39a03",
+          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+        },
+        {
+          "repo": "qiuzhao/company_names.py",
+          "target": "imported by normalize.py",
+          "owner": "location",
+          "sha256": "ee0943560d6ed0523b4bd70f6363b529e8190b60333fad2fc7a6678ec4198851",
+          "status": "frozen 2026-09-28: unchanged since main b9c5971"
+        },
+        {
+          "repo": "qiuzhao/normalization_io.py",
+          "target": "imported by normalize.normalize_file",
+          "owner": "collector-recovery",
+          "sha256": "c63f645e63483a651d0b0a9f14879291ed756738ae69ad695481ea541318adfe",
+          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+        }
       ],
       "resources": [
-        {"repo": "qiuzhao/normalize_tables.json", "target": "read by normalize.py", "owner": "location", "sha256": "a936edefd0ca3ace46dadf41237774e91c55cf428e77c8bee9d267554c5443ef", "status": "frozen 2026-09-28: unchanged since main b9c5971"},
-        {"repo": "qiuzhao/data/company_aliases.json", "target": "read by company_names.py", "owner": "location", "sha256": "ae311e93b754b5f76372f7668aa1076fd6666e79c51ca45ff2113b7642539e6f", "status": "frozen 2026-09-28: unchanged since main b9c5971"},
-        {"repo": "qiuzhao/collector/p1_platform_companies.json", "target": "read by company_names.py", "owner": "location", "sha256": "3b2dedf9e86c1af0557b7dbaf4919a62afca0aa8d1fc00402eef7f664c6078d1", "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"}
+        {
+          "repo": "qiuzhao/normalize_tables.json",
+          "target": "read by normalize.py",
+          "owner": "location",
+          "sha256": "a936edefd0ca3ace46dadf41237774e91c55cf428e77c8bee9d267554c5443ef",
+          "status": "frozen 2026-09-28: unchanged since main b9c5971"
+        },
+        {
+          "repo": "qiuzhao/data/company_aliases.json",
+          "target": "read by company_names.py",
+          "owner": "location",
+          "sha256": "ae311e93b754b5f76372f7668aa1076fd6666e79c51ca45ff2113b7642539e6f",
+          "status": "frozen 2026-09-28: unchanged since main b9c5971"
+        },
+        {
+          "repo": "qiuzhao/collector/p1_platform_companies.json",
+          "target": "read by company_names.py",
+          "owner": "location",
+          "sha256": "7b6e7c6d37fff4607f5edc00e1d9e2c99c67491089ba58233fb285f6ae4b465c",
+          "status": "frozen 2026-10-09: independent digitalchina category mapping byte review PASS; 1124 names/3372 scopes unchanged; target installation separate"
+        }
       ]
     },
     "delivery_mac_ops": {
       "interpreter": "not loaded by windows_excel_delivery.py; frozen and deployed on their own",
       "files": [
-        {"repo": "deploy/server_backup_retention.py", "target": "run from the repo checkout", "owner": "delivery", "sha256": null, "status": "on main since b0f71da (PR #13); run by the operator, not by the delivery job"},
-        {"repo": "deploy/launchd/qiuzhao-feishu-deliver-latest.plist.template", "target": "~/Library/LaunchAgents (filled copy)", "owner": "delivery", "sha256": "515e112ebb7d891ddcc9c157e9e32376f52fc56bb93479b69d633206a7d26c47", "status": "frozen 2026-09-28: delivery review PASS (batch 1); template, not installed"}
+        {
+          "repo": "deploy/server_backup_retention.py",
+          "target": "run from the repo checkout",
+          "owner": "delivery",
+          "sha256": null,
+          "status": "on main since b0f71da (PR #13); run by the operator, not by the delivery job"
+        },
+        {
+          "repo": "deploy/launchd/qiuzhao-feishu-deliver-latest.plist.template",
+          "target": "~/Library/LaunchAgents (filled copy)",
+          "owner": "delivery",
+          "sha256": "515e112ebb7d891ddcc9c157e9e32376f52fc56bb93479b69d633206a7d26c47",
+          "status": "frozen 2026-09-28: delivery review PASS (batch 1); template, not installed"
+        }
       ]
     }
   }

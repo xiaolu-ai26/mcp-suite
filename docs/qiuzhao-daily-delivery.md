@@ -6,7 +6,7 @@
 
 **目标：固定的已批准公司官网岗位，每日完整获取列表和详情、统一字段进入一个权威库，并同版交付原飞书 Base 与 MCP。** 全部固定来源成功且三层回执通过才完成；部分交付如实保留。
 
-**阶段状态（2026-10-09入口核对）：0方案/A盘点完成；B五文件受审安装和normalize-only已完成，10/8已采成果补交尚待；C实现/独审中；D全来源真实两轮验收未达。** 固定范围已在0.5实测为1124名称键/3372 company-scope键，basic6源与独立tencent另列；全部目标未完成。后面的9/24–10/2章节是历史，尤其3.6的automation ACTIVE不代表当前：本轮automation-4保持PAUSED，不启动旧heartbeat。0.1保留本轮开始时快照，当前B/C状态以0.7的小收据为准。
+**阶段状态（2026-10-09入口核对）：0方案/A盘点完成；B五文件受审安装和normalize-only已完成，10/8已采成果补交尚待；C多项代码已合并、当前运行依赖未安装，字段融合与具体源补齐继续；D全来源真实两轮验收未达。** 固定范围已在0.5实测为1124名称键/3372 company-scope键，basic6源与独立tencent另列；全部目标未完成。后面的9/24–10/2章节是历史，尤其3.6的automation ACTIVE不代表当前：本轮automation-4保持PAUSED，不启动旧heartbeat。0.1保留本轮开始时快照，当前B/C状态以0.7的小收据为准。
 
 ### 0.1 本轮开始时历史快照与固定范围（2026-10-08，阶段A/B实施前）
 
@@ -78,6 +78,12 @@ PR #27已合并为`b643a16f5831c8a70a5a65935035f8aec4166534`，PR #28已合并�
 10/9阶段容量收据`next-daily-capacity.json`记录C空闲19.818GB、原门5.369GB通过、D空闲8.417GB，只证明该启动门，不证明整日容量可持续。`archive-physical-device-correction.json`证实2ddc/8ab版本父目录已为外盘symlink，原Mac释放1.3GB计划无效且脚本安全拒绝；实际零删除/零释放，不继续这两件搬运。
 
 C北森同run完整列表复用已独审25项通过、Windows隔离真实缓存/NTFS失败保原与后续替换验证通过，PR #30已合main（`faf56be4372bba1d01a168ada9266ff391ffcb45`）；Eightfold/Phenom空成功与typed-ID缺陷已独审95项通过，Windows同字节95项通过，PR #31已合main（`3df0f740e04365bb9fc7f982ad67464c8ce88f4e`）。均未部署当前运行依赖，不代表各名称完整采集或提速已实测。私有证据为`beisen-independent-review-round2.json`、`beisen-windows-cache-result.json`、`beisen-original-protocol-validation.json`、`ef-phenom-independent-review-round2.json`、`ef-phenom-windows-regression.json`，方法沿原方法正文维护。第二轮机械草稿已有私有`c-deepseek-result.md`，仅供人工核对；私有推理日志不作为正文或上传材料。D固定全来源真实两轮验收仍未达，1124/3372固定分母与basic6/tencent分列保持不变。
+
+10/9自然run20261009截至05:17小收据仍在P1，已接受5段，最新`c4a92b6c…`于05:00:54接受；3372唯一计划键与720结果相交、额外0，375 success/136 partial/209 blocked为当前技术状态，2652尚无结果，不能替代逐源完整验收。basic退出2、tencent退出0，原72000秒预算与21:38:24截止未改。03:00激活曾在03:02:09超时报失败，但实际新进程03:02:11已served e471；受审单文件修复PR #35已安装，服务未由本次安装重启，04:00与05:00原定时激活均真实通过，05:03实际served/control=c4，Base仍为f770，三层尚非同版。证据为`natural-run-20261009-progress-current.json`、`activation-production-install.json`、`activation-natural-0400.json`、`retention-server-protection.json`。
+
+Workday可信分页与basic有类型/阶段的失败收据修复PR #33/#34已合并；神州数码官方4/5招聘性质配置、完整运行依赖冻结与北森字段级来源保留尚在集成。北森字段融合独审北森37+平台Moka9=46项通过，另亲自复核有限资格规则的真实公开链路反例；D北森37+缓存Moka11=48项通过，配置读取测试另补显式UTF-8；不代表任意资格语言或481名称本轮全量正确。BOC复用已取得官方列表内嵌正文和适用共同条件实施，旧14公告角色保留其粒度，不能计为14个ATS完整岗位。
+
+05:28容量处置收据：受审34件冷gzip范围共4,435,750,227B，首件129,994,170B已在财富密码1原物理卷持久归档并核压缩及原数据SHA；原receiver锁忙，工具安全拒删。实际删除0/释放0，其余未开始，保留归档续用，不强抢正常发布锁。`retention-reviewed-candidate-plan.json`区分inner plan与外层文件SHA，实际终态以`retention-apply-receipt.json`为准；余量与计划只按实时门验证，不保证整日持续。
 
 记录的事件发生在 **2026-09-24（北京时间）**，文中时间均为该日，除非另行注明。
 

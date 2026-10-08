@@ -131,3 +131,32 @@ def test_launchd_template_sets_path_and_an_explicit_interpreter_without_private_
     assert job['ProgramArguments'][0] == '@PYTHON@'
     assert job['EnvironmentVariables'] == {'PATH': '@PATH@', 'HOME': '@HOME@'}
     assert job['ProgramArguments'][-1] == '--apply' and '@CONFIG@' in job['ProgramArguments']
+
+
+def test_unknown_environment_cannot_pass_with_zero_entries(tmp_path):
+    manifest = {'environments': {'collector': {'files': []}}}
+    rows, failures = M.check(manifest, repo=tmp_path, require_frozen=True,
+                             environments={'colletor'})
+    assert rows == []
+    assert any('unknown environment: colletor' in item for item in failures)
+
+
+def test_empty_environment_selection_cannot_pass(tmp_path):
+    manifest = {'environments': {'collector': {'files': []}}}
+    rows, failures = M.check(manifest, repo=tmp_path, require_frozen=True, environments=set())
+    assert rows == []
+    assert failures
+
+
+def test_known_environment_without_deploy_entries_cannot_pass(tmp_path):
+    manifest = {'environments': {'collector': {'files': []}}}
+    rows, failures = M.check(manifest, repo=tmp_path, require_frozen=True, environments={'collector'})
+    assert rows == []
+    assert any('no deploy entries selected' in item for item in failures)
+
+
+def test_unknown_environment_is_also_rejected_without_frozen_mode(tmp_path):
+    rows, failures = M.check({'environments': {'collector': {'files': []}}},
+                             repo=tmp_path, environments={'typo'})
+    assert rows == []
+    assert 'unknown environment: typo' in failures
