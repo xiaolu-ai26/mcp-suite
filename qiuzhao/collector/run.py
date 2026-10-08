@@ -15,6 +15,9 @@ TZ = dt.timezone(dt.timedelta(hours=8))
 POSTAL_ANNOUNCEMENT = 'https://www.chinapost.com.cn/cn/report/2609/1176-1.htm'
 POSTAL_PORTAL = 'https://chinapost2027.zhaopin.com/job/index.html'
 CHN = 'https://zhaopin.chnenergy.com.cn'
+BOC_CAMPAIGN_PAGE = 'https://campus.chinahr.com/pages/2027-boc/'
+BOC_CAMPAIGN_NAME = '中国银行2027年全球校园招聘'
+BOC_CONDITIONS_TITLE = '中国银行股份有限公司2027年全球校园招聘条件'
 
 def now(): return dt.datetime.now(TZ).isoformat(timespec='seconds')
 def clean(value): return BeautifulSoup(str(value or ''), 'html.parser').get_text(' ', strip=True)
@@ -224,7 +227,7 @@ class Collector:
             rows.append(job)
         self.states['telecom']={'status':'success','checked_at':now(),'collected_jobs':len(rows),'complete':False,'coverage':'latest campus page plus all previously imported roles','list_url':listing}
         return rows
-    def boc(self):
+    def boc_announcements(self):
         url='https://www.boc.cn/aboutboc/bi4/202609/t20260903_25689311.html'
         raw=self.fetch(url); text=clean(raw); checked=now()
         if '2026年10月9日24点' not in text or '2027年全球校园招聘' not in text: raise ValueError('BOC campaign changed')
@@ -245,11 +248,28 @@ class Collector:
                     deadline='2026-10-09',deadline_type='explicit',deadline_scope='campaign_announcement',
                     status='expired' if checked[:10]>'2026-10-09' else 'open',published_at='2026-09-03',
                     application_url='https://campus.chinahr.com/pages/2027-boc',source_name='中国银行官网2027校招公告',
-                    description_raw=para.strip(),evidence_path=path,record_kind='announcement_explicit_role')
+                    description_raw=para.strip(),evidence_path=path,record_kind='announcement_explicit_role',
+                    detail_presentation='官网公告明确披露的机构×岗位类别，不等同于ATS原生具体岗位；保留公告原角色及稳定ID，未推断与原生岗位一一对应。',
+                    status_note='公告机构×岗位类别记录；原生具体岗位另列，不能据公告角色数量证明全公司岗位完整。')
                 rows.append(job)
         if len(rows)<10: raise ValueError('BOC explicit institutional role parser incomplete')
-        self.states['boc']={'status':'success','checked_at':now(),'collected_jobs':len(rows),'complete':True,'coverage':'only explicitly named head-office affiliated institution roles; excludes unnamed branch roles','announcement_url':url}
+        self.states['boc']={'status':'success','checked_at':now(),'collected_jobs':len(rows),'complete':False,'coverage':'only explicitly named head-office affiliated institution roles; excludes unnamed branch roles','announcement_url':url}
         return rows
+    def boc(self):
+        from .chinahr_public import collect_campaign
+        announcements = self.boc_announcements()
+        native, native_state = collect_campaign(self, page_url=BOC_CAMPAIGN_PAGE,
+            campaign=BOC_CAMPAIGN_NAME, conditions_title=BOC_CONDITIONS_TITLE,
+            group='中国银行股份有限公司')
+        self.states['boc'] = {'status': native_state['status'], 'complete': native_state['complete'],
+            'checked_at': now(), 'collected_jobs': len(announcements) + len(native),
+            'announcement_roles': len(announcements), 'native_jobs': len(native), 'native_directory': native_state,
+            'counting_note': 'Announcement institution-role categories and ATS native job IDs have separate counts; no one-to-one equivalence inferred',
+            'coverage': 'official campaign third-level selectors; announcement roles retained separately'}
+        if not native_state['complete']:
+            self.alert('boc:native_directory', 'Native listing or applicable conditions incomplete; validated roles retained')
+        return announcements + native
+
     def run(self, source, chn_limit):
         from .ccb import collect_ccb
         from .guopin import collect_guopin
@@ -280,7 +300,7 @@ class Collector:
                         if key.startswith('guopin-') and old.get('source_group_key') in complete_groups and key not in seen:
                             old.update(status='removed',reviewed_at=now(),removal_reason='Absent from complete current enterprise campaign listing',source_is_active=False,source_status_raw='closed',source_status_evidence={'list_status':'closed','reason':'complete_snapshot_absence','source':name,'scope':old.get('source_group_key') or name,'complete':True,'checked_at':now()})
                 elif rows and self.states[name].get('status') == 'success' and self.states[name]['complete']:
-                    prefix={'postal':'postal-','chnenergy':'chn-','telecom':'telecom-','boc':'boc-','ccb':'ccb-'}[name]
+                    prefix={'postal':'postal-','chnenergy':'chn-','telecom':'telecom-','boc':'boc-ats-','ccb':'ccb-'}[name]
                     for key,old in merged.items():
                         if key.startswith(prefix) and key not in seen:
                             old.update(status='removed',reviewed_at=now(),removal_reason='Absent from complete current public listing',source_is_active=False,source_status_raw='closed',source_status_evidence={'list_status':'closed','reason':'complete_snapshot_absence','source':name,'scope':old.get('source_group_key') or name,'complete':True,'checked_at':now()})
