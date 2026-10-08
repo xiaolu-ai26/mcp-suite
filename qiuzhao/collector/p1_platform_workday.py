@@ -378,17 +378,41 @@ def collect(company, scope, output_dir, max_requests=None):
             payload = _list_page(session, tenant, region, site, query, offset, {}, budget, output_dir)
             coverage['pages_scanned'] += 1
             pages += 1
-            rows = payload.get('jobPostings') or []
-            if total is None:
-                total = payload.get('total')
+            if not isinstance(payload, dict) or not isinstance(payload.get('jobPostings'), list):
+                coverage['errors'].append('Invalid Workday list response/jobPostings')
+                break
+            rows = payload['jobPostings']
+            if 'total' in payload:
+                count = payload['total']
+                if isinstance(count, bool) or not isinstance(count, int) or count < 0:
+                    coverage['errors'].append('Invalid Workday total')
+                    break
+                # Recorded CXS: offset=0 supplies total=36; offset=20
+                # returns total=0 with 16 rows. Later zero is a sentinel,
+                # not a replacement for the first authoritative total.
+                if pages == 1 or total is None and count > 0:
+                    total = count
+                elif count != 0 and count != total:
+                    coverage['errors'].append('Workday positive total changed during scan')
+                    break
             if not rows:
-                list_complete = True
+                list_complete = total is None or len(seen) == total
+                if not list_complete:
+                    coverage['errors'].append(f'Incomplete Workday list: {len(seen)} vs {total}')
                 coverage['last_page_evidence'] = (f'offset={offset};rows=0;'
                                                   f'prior_total={total};total={payload.get("total")}')
                 break
             for posting in rows:
+                if not isinstance(posting, dict):
+                    coverage['errors'].append('Invalid Workday posting row')
+                    continue
                 external_path = posting.get('externalPath')
-                if not external_path or external_path in seen:
+                # externalPath is the official detail path, not a generic GUID.
+                if not isinstance(external_path, str) or not external_path.strip() or not external_path.startswith('/'):
+                    coverage['errors'].append('Invalid Workday externalPath')
+                    continue
+                if external_path in seen:
+                    coverage['errors'].append('Repeated Workday externalPath ' + external_path)
                     continue
                 seen.add(external_path)
                 observed.append({'externalPath': external_path, 'title': posting.get('title'),
@@ -396,18 +420,21 @@ def collect(company, scope, output_dir, max_requests=None):
                 if (_scope_of(posting.get('title'), key) == scope
                         and _location_candidate(posting.get('locationsText'), country)):
                     selected.append(posting)
-            offset += PAGE_SIZE
-            # Only a *positive* site total can end the scan: a total of 0 next to real
-            # rows is the site contradicting itself, and treating it as the end would
-            # report an exhausted listing after one page. The empty-page path below is
-            # the other (and only other) terminator.
-            if total and offset >= int(total):
-                list_complete = True
+            offset += len(rows)
+            if total is not None and offset >= total:
+                list_complete = len(seen) == total and offset == total and not coverage['errors']
+                if not list_complete:
+                    coverage['errors'].append(
+                        f'Incomplete Workday list: {len(seen)} unique/{offset} rows vs {total}')
                 coverage['last_page_evidence'] = (f'offset={offset};reached_total={total};'
                                                   f'scanned={len(seen)}')
                 break
-            if not _has_budget(budget):
+            if coverage['errors'] or not _has_budget(budget):
                 break
+        list_complete = list_complete and not coverage['errors']
+        if pages >= max_pages and not list_complete and not coverage['errors']:
+            coverage['list_page_limit_reached'] = True
+            coverage['errors'].append('Workday list page limit reached without exhaustion')
         coverage['list_total'] = total
         coverage['list_observed_ids'] = sorted({o['externalPath'] for o in observed})
         coverage['list_observed_titles'] = sorted({o['title'] for o in observed if o['title']})

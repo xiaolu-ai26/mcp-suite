@@ -18,7 +18,7 @@ def fixture(name):
 
 class FakeResponse:
     def __init__(self, payload=None, status=200):
-        self._payload = payload if payload is not None else {}
+        self._payload = payload
         self.status_code = status
         self.encoding = 'utf-8'
         self.text = ''
@@ -135,3 +135,133 @@ def test_real_config_is_registered_in_pipeline():
     assert p1_pipeline.REGISTRY['英伟达'] == 'qiuzhao.collector.p1_platform_workday'
     assert p1_pipeline.REGISTRY['花旗银行'] == 'qiuzhao.collector.p1_platform_workday'
     assert p1_pipeline.REGISTRY['思爱普'] == 'qiuzhao.collector.p1_platform_successfactors'
+
+
+import pytest
+
+
+def campus_posting(path='/job/China-Shanghai/NCG-SWE_JR1'):
+    return {'title': 'New College Graduate Software Engineer',
+            'externalPath': path, 'locationsText': 'Shanghai, China'}
+
+
+@pytest.mark.parametrize('case', ['sparse-total', 'premature-empty', 'bad-envelope', 'missing-id'])
+def test_invalid_pagination_preserves_valid_job_but_never_completes(tmp_path, case):
+    row = campus_posting()
+    pages = {0: {'total': 100, 'jobPostings': [row]}}
+    if case == 'sparse-total':
+        pages[0]['total'] = 20
+    elif case == 'premature-empty':
+        pages[1] = {'total': 100, 'jobPostings': []}
+    elif case == 'bad-envelope':
+        pages[1] = {}
+    else:
+        pages[0] = {'total': 2, 'jobPostings': [row, {'title': 'Graduate', 'locationsText': 'China'}]}
+    result = run('英伟达', 'campus', tmp_path, pages=pages)
+    coverage = result['coverage']
+    assert len(result['jobs']) == 1 and coverage['expected_total'] == 1
+    assert coverage['status'] == 'partial'
+    assert not coverage['complete'] and not coverage['pagination_exhausted']
+    assert coverage['errors']
+
+
+@pytest.mark.parametrize('payload', [None, [], {}, {'jobPostings': None},
+    {'jobPostings': {}}, {'jobPostings': 'rows'},
+    *[{'total': value, 'jobPostings': []} for value in (None, True, -1, '1', 1.5)]])
+def test_invalid_list_contract_cannot_claim_exhaustion(tmp_path, payload):
+    result = run('英伟达', 'campus', tmp_path, pages={0: payload})
+    assert not result['coverage']['complete']
+    assert not result['coverage'].get('pagination_exhausted')
+    assert result['coverage']['errors']
+
+
+@pytest.mark.parametrize('path', [None, '', ' ', {}, {'path': '/job/x'}, [], True, False, 123, 1.5])
+def test_invalid_external_path_cannot_be_ignored_by_business_filter(tmp_path, path):
+    row = {'externalPath': path, 'title': 'Senior Engineer', 'locationsText': 'US, California'}
+    result = run('英伟达', 'campus', tmp_path, pages={0: {'total': 1, 'jobPostings': [row]}})
+    assert not result['coverage'].get('pagination_exhausted')
+    assert result['coverage']['errors']
+
+
+def test_default_page_cap_retains_partial_and_scope_denominator(tmp_path):
+    pages = {}
+    for offset in range(0, 400, 20):
+        rows = [dict(campus_posting(f'/job/{offset+i}'), title='Senior Engineer') for i in range(20)]
+        if offset == 0:
+            rows[0] = campus_posting()
+        pages[offset] = {'total': 401, 'jobPostings': rows}
+    result = run('英伟达', 'campus', tmp_path, pages=pages, max_requests=None)
+    coverage = result['coverage']
+    assert coverage['pages_scanned'] == 20 and coverage['list_total'] == 401
+    assert len(coverage['list_observed_ids']) == 400
+    assert len(result['jobs']) == 1 and coverage['expected_total'] == 1
+    assert coverage['status'] == 'partial' and not coverage['complete']
+    assert not coverage['pagination_exhausted']
+
+
+def test_workday_later_zero_total_sentinel_keeps_first_global_total(tmp_path):
+    rows = [dict(campus_posting(f'/job/{i}'), title='Senior Engineer') for i in range(36)]
+    rows[0] = campus_posting()
+    pages = {0: {'total': 36, 'jobPostings': rows[:20]},
+             20: {'total': 0, 'jobPostings': rows[20:]}}
+    result = run('英伟达', 'campus', tmp_path, pages=pages)
+    coverage = result['coverage']
+    assert coverage['status'] == 'success' and coverage['complete']
+    assert coverage['list_total'] == len(coverage['list_observed_ids']) == 36
+    assert coverage['pages_scanned'] == 2 and coverage['expected_total'] == 1
+    assert coverage['last_page_evidence'] == 'offset=36;reached_total=36;scanned=36'
+
+
+def test_valid_no_total_protocol_requires_explicit_empty_terminal_page(tmp_path):
+    result = run('英伟达', 'campus', tmp_path, pages={
+        0: {'jobPostings': [campus_posting()]}, 1: {'jobPostings': []}})
+    coverage = result['coverage']
+    assert coverage['complete'] and coverage['pagination_exhausted']
+    assert coverage['list_total'] is None
+    assert coverage['pages_scanned'] == 2
+    assert 'offset=1;rows=0;' in coverage['last_page_evidence']
+
+
+@pytest.mark.parametrize('case', ['positive-drift', 'duplicate', 'bad-row', 'zero-first-with-rows'])
+def test_invalid_global_count_or_rows_preserve_available_detail(tmp_path, case):
+    row = campus_posting()
+    pages = {0: {'total': 2, 'jobPostings': [row]}}
+    if case == 'positive-drift':
+        pages[1] = {'total': 3, 'jobPostings': [campus_posting('/job/second')]}
+    elif case == 'duplicate':
+        pages[1] = {'total': 0, 'jobPostings': [row]}
+    elif case == 'bad-row':
+        pages[0]['jobPostings'].append(None)
+    else:
+        pages[0]['total'] = 0
+    result = run('英伟达', 'campus', tmp_path, pages=pages)
+    coverage = result['coverage']
+    assert coverage['status'] == 'partial' and not coverage['complete']
+    assert not coverage['pagination_exhausted'] and coverage['errors']
+    assert coverage['expected_total'] == len(result['jobs']) == 1
+
+
+def test_short_valid_page_advances_by_actual_observed_rows(tmp_path):
+    row = campus_posting()
+    pages = {0: {'total': 2, 'jobPostings': [row]},
+             1: {'total': 0, 'jobPostings': [dict(row, externalPath='/job/second', title='Senior')]}}
+    result = run('英伟达', 'campus', tmp_path, pages=pages)
+    assert result['coverage']['complete']
+    assert result['coverage']['list_total'] == len(result['coverage']['list_observed_ids']) == 2
+    assert (tmp_path / 'list-1.json').exists()
+
+
+def test_search_country_and_facet_request_contract_unchanged(tmp_path):
+    seen = []
+    class CapturingSession(FakeSession):
+        def post(self, url, **kwargs):
+            seen.append(kwargs['json'])
+            return super().post(url, **kwargs)
+    session = CapturingSession({0: fixture('workday_list_offset0.json')},
+                              {'/job/China-Shanghai/NCG-SWE_JR1': fixture('workday_detail_campus.json')})
+    with patch.object(workday, '_make_session', return_value=session):
+        result = workday.collect('英伟达', 'campus', tmp_path)
+    assert result['coverage']['complete']
+    assert seen == [{'appliedFacets': {}, 'limit': 20, 'offset': 0, 'searchText': 'China'}]
+    assert result['coverage']['scope_request']['params']['country'] == 'China'
+    assert workday.search_text_for('jj/wd5/JJ', 'campus') == '应届'

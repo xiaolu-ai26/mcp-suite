@@ -54,3 +54,10 @@
 正 total 的过早空页、重复/缺 ID、无效行、total 漂移或错误保留有效岗位为 partial/blocked 和 errors，不推进完整性或下架判断。list_total 是全局分母，expected_total 是 scope 选择分母。Phenom 原始分页证据保存完整 refineSearch（status/totalHits/data）。恢复仍沿原入口和预算，不手改 complete，不把返回数当新增数。
 
 原坏合同27项中19失败，typed-ID 被过滤反例原14项均失败；修后两个平台95测试独审通过。录制 fixture 截取部分列表，原 total16/56 与 observed10/12 明确 partial；合法 no-total 测试只证明该协议，不改 fixture 或宣称全量。私有 ef-phenom-independent-review-round2.json 绑定受审字节。尚不证明上游当前协议、全部公司完整或历史零结果触发缺陷；当前状态只维护在日更正文。
+
+
+## Workday 专属总数与终止证据（2026-10-09）
+
+正式入口仍为 `p1_pipeline → p1_platform_workday.collect`。校验 jobPostings 列表、行、externalPath 和可信非负整数总数；保留首可信 total，允许已存真实 3M 协议后页 total=0 sentinel，不套其它平台每页 total 一致规则。实际返回行数推进 offset，唯一 ID 数与可信总数一致才 reached_total；合法无 total 协议需要显式终止空页。坏 envelope/行/ID、重复、总数漂移或提前空页留下 errors 与有效岗位 partial，正常页限也显式 partial；不能冒充空成功或下架依据。
+
+原始3M官方响应离线回放：首 total36/20行、后 total0/16行，36 unique，实习 expected1/jobs1，2页 complete；原始样本和配置不改。42专项离线测试独审通过，私有 workday-independent-review.json 绑定源码及回放。公司/地域/query/facets 参数未改：当前 China/应届关键词命中集不等于全官网或真实中国地域全集；真实 raw 有独立国家 facet 且 queryChina 返回印度行。地域取数口径和官方 UI 请求仍需另核，不用本修复宣称69名称全部完整。恢复沿原预算与同一入口，异常证据留原 run，不改分母。
