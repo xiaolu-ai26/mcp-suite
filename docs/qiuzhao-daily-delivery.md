@@ -2,6 +2,49 @@
 
 本文件是秋招岗位库日更链路的唯一维护正文：交付口径、当前基线、已实现的计划、真实交付时序、代码与一次性工具的边界、遗留风险和待审批的优化都在这里维护。`README.md` 只保留摘要和链接。私有证据（运行收据、状态文件、账本、审查记录、数据快照）不进本仓库，下文以“本地恢复证据目录”加相对文件名引用。
 
+## 0. 2026-10-08 实施方案与阶段状态（入口）
+
+**目标：固定的已批准公司官网岗位，每日完整获取列表和详情、统一字段进入一个权威库，并同版交付原飞书 Base 与 MCP。** 全部固定来源成功且三层回执通过才完成；部分交付如实保留。
+
+**阶段状态：0方案完成；A/B/C/D均未开始。** 本次仅盘点与文档，未采集、部署、发布或改调度。下列10/8生产事实来自总控本轮只读核验；后面的9/24–10/1章节是历史，尤其3.6的automation ACTIVE不代表当前：automation-4现为PAUSED，不启动旧heartbeat。
+
+### 0.1 当前事实与固定范围
+
+源码基线 `main=bcae6e546a025a3a84c5bfe4aa9d619a38db9c79`。正式入口 [windows_collector.steps_for](../deploy/windows_collector.py) 顺序是basic、tencent、分段P1、normalize，再按受控发布/交付链处理。basic的 [run.py](../qiuzhao/collector/run.py) 声明6个源：postal/chnenergy/telecom/boc/ccb/guopin；tencent由 [auto_collect.py](../qiuzhao/collector/auto_collect.py) 单独运行。
+
+P1权威代码入口为 [p1_pipeline.py](../qiuzhao/collector/p1_pipeline.py) 的COMPANIES/REGISTRY/DEFAULT_COMPANIES；固定优先名单50项，平台参数主要来自 [p1_platform_companies.json](../qiuzhao/collector/p1_platform_companies.json)，其13个平台节合计注册前配置条目含禁用项，不可直接当公司数。本轮完整qiuzhao/deploy检出离线导入得到REGISTRY和DEFAULT_COMPANIES **1089个名称键**、21个实际adapter模块；不是集团或实体去重数。默认rotation=1，正式P1入口不传公司子集；新增范围须审批。
+
+历史10/8计划3372单元、3252未开始；3372÷3仅推算1124，不能证明公司名单，因为适用scope、禁用配置、名称冲突和运行版本可能不同。阶段A须把Windows实际registry、已批准名单/历史计划每key与本地1089逐项对齐，保留所有差异，**不得用较小本地名单删除原分母**。交接清单及5275映射/7111可见记录非固定范围证明。Windows配置差异及固定实体数仍未知。
+
+PR #27 draft/open head=`b8b0bd991cf549f3d8fc7b33a022919626c703ec`；作者记录84聚焦测试，最新版独审与完整Windows回归未完成，旧8fa审查不覆盖新字节。生产normalize SHA仍`8590fd48eab7f84126866a31486286c8c72f680ad86292f51ae7bbaa43c4e02b`，normalization_io.py/windows_normalize_retry.py缺失。10/8 01:00:03–01:31:58在json.load/fp.read/UTF8 MemoryError停：collection stopped/publication pending/feishu not_requested；10/6–7也normalize失败，但10/7已有accepted f770…，不能说数日完全无成果。10/2 after-rollback staging 806915187字节/372f47…是恢复后样本，非故障瞬间原样本；故障证据沿用私有pr27-evidence-20261002，勿重搬2GB。
+
+### 0.2 阶段目标、方法与验收
+
+| 阶段 | 执行与产物 | 放行条件 |
+|---|---|---|
+| A 固定范围→方法绑定 | 逐key冻结已批准公司/租户/官方入口/适用scope/adapter/配置路径/方法ID/字段映射/样本/受审版本；未知保留。绑定存现有配置与可生成清单，方法索引只导航 | 全清单都有已验证方法或明确缺口；覆盖清单不等于全采成功，分母及差异可复算 |
+| B 恢复归一化与已采补交 | 只审PR27最新字节；完整checkout与真实Windows隔离重放，验证长记录/内存/依赖冻结/数据保持；通过后按备份与回滚合同合并部署，先normalize-only，再补交已采成果 | 独审、Windows终态、版本SHA及差异真实可核；不重置旧预算、不补造历史采集success；accepted/served/Base分别核验 |
+| C 补齐固定来源日更 | 按源原因修列表分页/详情、真实字段/稳定ID、内容更新与保守下架；失败隔离、有界重试、域名/租户并发、时间/内存/存储预算；预览共用正式解析与校验入口 | 每源可信total或末页/ID证据、详情缺口、字段披露、更新/下架与反向失败样本均可核；未知类型不强填，失败不推进完成游标 |
+| D 交付与自然运行 | 原Base Excel投影/导入/verify/switch，MCP查询和详情核对同一已接受版本；至少2轮计划运行并逐源完整性验收 | 每轮固定分母完整、每源实际成功，accepted=served=Base账本对应版本，MCP真查询一致；两轮运行不替代每源验收 |
+
+单个源授权不可得、上游范围不明或预算不足时，保留条件缺口和目标未达；不得删源、造字段、把attempt/partial/空结果包装为success。数据仍由现有accepted库统一承担，Base和MCP是投影/读取出口，不建第二套权威库。
+
+### 0.3 成功方法如何沉淀与低成本扩源
+
+现有[方法索引](collection-methods/README.md)已有A1分页(Workday及回归)、A2列表详情(51job/tupu360)、A3动态入口(HeadlessSource/Feishu及回归)、A5多入口；历史51job百事/马夸特campus、讯飞campus13条是代表成功案例，不代表所有公司。方法与adapter/公司参数/字段映射/样本/正式run证据的统一绑定仍须补齐；现有源码与历史文档已含部分规则和版本，不能宣称一概没有。
+
+“成功方法完成”须同时具备：正式运行使用同入口代码；可复用公司配置（租户/入口/scope/预算）；字段映射；可执行SOP与失败恢复；脱敏真实代表样本与回归；正式版本和真实终态证据。同平台共一个SOP，公司只填参数与差异，沿[模板](collection-methods/TEMPLATE.md)补证据，不复制全流程。运行状态由配置/账本生成，方法文档不复写每日计数；AI用于一次性修方法，不能成为每日日更重新探索的依赖。后续扩源仅同平台加配置或新平台薄adapter，未经批准的新公司不启用。
+
+AIHOT仅借鉴固定新版 `6e67a9d9e8d87b95b8118a8a0b328a9bebd2bb48` 的[信源](https://github.com/KKKKhazix/AIHOT/blob/6e67a9d9e8d87b95b8118a8a0b328a9bebd2bb48/docs/sources.md)与[架构](https://github.com/KKKKhazix/AIHOT/blob/6e67a9d9e8d87b95b8118a8a0b328a9bebd2bb48/docs/architecture.md)：类型化配置/未知参数拒绝、preview同正式逻辑、失败不推进cursor、一个public read layer。禁止照搬资讯评分筛选、旧文/日期过滤、首次限量或模型付费流水；不迁Node+PG、不重搭平台。
+
+### 0.4 分工、记录与恢复边界
+
+总控只设goal、派阶段合同、核回执与独立验收；命名执行者在隔离分支实现，独立审查者核最新版代码与Windows证据后再放行部署。官方本机dsh可分担机械盘点/简单执行，限定私有草稿写权，不给生产/Git主写权；现有供应商成本授权只适用已指定范围，不新购、不换供应商。
+
+本轮dsh `0.1.5-rc.1` 实际provider/model=`deepseek-official/deepseek-flash`，session `7d871e9d-db61-4ec9-b8d8-29072de2212b`，退出0、持久化turn/end completed且草稿存在；人工核对后采纳绑定字段建议，纠正“真实发布仅这些案例”“无版本/合并规则”等过度断言。私有收据位于 `/Users/maxzhl/Projects/qiuzhao-lzh-handoff-20261002/phase-20261008/`，stderr含内部推理不上传。
+
+阶段状态/阻断只续本节，方法只续方法库，事故只续[踩坑正文](qiuzhao-collection-pitfalls.md)；不另建平行PROGRESS/BLOCKED正文，不扩大重hash/重扫/health，不修改PR27分支，不启用旧heartbeat。阶段0结束等待派发，后续逐阶段读回终态。
+
 记录的事件发生在 **2026-09-24（北京时间）**，文中时间均为该日，除非另行注明。
 
 ## 1. 交付目标与口径
