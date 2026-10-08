@@ -73,11 +73,11 @@ D真实retry inspect0/apply0、normalized-not-published，原已采阶段/预算
 
 PR #27已合并为`b643a16f5831c8a70a5a65935035f8aec4166534`，PR #28已合并为`89d0211559d66adf27acc51cfad64e7063c7b2c9`。10/8生产五文件安装收据为`installed-byte-verified`，normalize inspect/apply均退出0，终态`normalized-not-published`；原run20261008仍collection stopped/publication pending，未重采、未延长原deadline。私有证据目录沿用`/Users/maxzhl/Projects/qiuzhao-lzh-handoff-20261002/phase-20261008/`：`production-install.json`、`production-normalize-driver-receipt.txt`。10/9 `publication-only-review-20261009.json`仅为conditional PASS；本次核对所据阶段记录为避01:00 Daily尚未启动补发，不将候选写成accepted或已交Base。
 
-此前已接受的f770版本于**2026-10-09 00:47:37（北京时间）**完成原Base交付：12表176849行，ledger active=null、last_delivered=f770；核验包含核心必需字段全行检查，全部23字段仅固定24样本，非23字段全量逐格验收。这是旧已接受版本补交完成，不能代替10/8新归一化成果待补交的状态。私有Base证据根为`/Users/maxzhl/Projects/mcp-suite-recovery-20260921/feishu-20260923/delivery/`：`ledger.json`、`versions/f770ed9659f6936b42af02387809ba4e0e1ce7b464ffb85b0ba09d24243e8cd9/state.json`及该版本目录下`work/runs/20261008T232209/{verify,switch}-receipt.json`。
+此前已接受的f770版本于**2026-10-09 00:47:37（北京时间）**完成原Base交付：12表176849行，ledger active=null、last_delivered=f770；核验包含核心必需字段全行检查，全部23字段仅固定24样本，非23字段全量逐格验收。这是旧已接受版本补交完成，不能代替10/8新归一化成果待补交的状态。 同版本服务器实际MCP检索、同ID详情、校园招聘筛选已通过；默认检索172494与包含已截止/下线等记录176849的差4355是正式默认有效性过滤，不是Base漏行。`server-mcp-current-f770.json`保存实际响应与未变服务PID/既有live served版本绑定，响应自身不含SHA。私有Base证据根为`/Users/maxzhl/Projects/mcp-suite-recovery-20260921/feishu-20260923/delivery/`：`ledger.json`、`versions/f770ed9659f6936b42af02387809ba4e0e1ce7b464ffb85b0ba09d24243e8cd9/state.json`及该版本目录下`work/runs/20261008T232209/{verify,switch}-receipt.json`。
 
 10/9阶段容量收据`next-daily-capacity.json`记录C空闲19.818GB、原门5.369GB通过、D空闲8.417GB，只证明该启动门，不证明整日容量可持续。`archive-physical-device-correction.json`证实2ddc/8ab版本父目录已为外盘symlink，原Mac释放1.3GB计划无效且脚本安全拒绝；实际零删除/零释放，不继续这两件搬运。
 
-C北森在隔离树`/Users/maxzhl/Projects/mcp-suite-beisen-c-20261009`实现/独审中；尚不能称为生产已修复或逐源验收完成。第二轮机械草稿已有私有`c-deepseek-result.md`，仅供人工核对；私有推理日志不作为正文或上传材料。D固定全来源真实两轮验收仍未达，1124/3372固定分母与basic6/tencent分列保持不变。
+C北森同run完整列表复用已独审25项通过、Windows隔离真实缓存/NTFS失败保原与后续替换验证通过，PR #30已合main（`faf56be4372bba1d01a168ada9266ff391ffcb45`）；Eightfold/Phenom空成功与typed-ID缺陷已独审95项通过，Windows同字节95项通过，PR #31已合main（`3df0f740e04365bb9fc7f982ad67464c8ce88f4e`）。均未部署当前运行依赖，不代表各名称完整采集或提速已实测。私有证据为`beisen-independent-review-round2.json`、`beisen-windows-cache-result.json`、`beisen-original-protocol-validation.json`、`ef-phenom-independent-review-round2.json`、`ef-phenom-windows-regression.json`，方法沿原方法正文维护。第二轮机械草稿已有私有`c-deepseek-result.md`，仅供人工核对；私有推理日志不作为正文或上传材料。D固定全来源真实两轮验收仍未达，1124/3372固定分母与basic6/tencent分列保持不变。
 
 记录的事件发生在 **2026-09-24（北京时间）**，文中时间均为该日，除非另行注明。
 
