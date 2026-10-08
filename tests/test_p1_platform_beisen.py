@@ -45,7 +45,12 @@ class FakeSession:
 
     def get(self, url, **kwargs):
         if 'GetJobAdInfo' in url:
-            return FakeResponse(payload=fixture('beisen_detail.json'))
+            ident = kwargs['params']['jobAdId']
+            if ident == 'job-campus-2':
+                return FakeResponse(payload=fixture('beisen_detail.json'))
+            row = next(row for page in self.pages.values() for row in page['Data']
+                       if row['Id'] == ident)
+            return FakeResponse(payload={'Code': 200, 'Data': row})
         return FakeResponse(text=self.text)
 
     def post(self, url, **kwargs):
@@ -137,3 +142,251 @@ def test_real_config_is_registered_in_pipeline():
     assert p1_pipeline.REGISTRY['中信建投'] == 'qiuzhao.collector.p1_platform_beisen'
     assert p1_pipeline.REGISTRY['浙江民泰商业银行'] == 'qiuzhao.collector.p1_platform_beisen'
     assert p1_pipeline.REGISTRY['安踏集团'] == 'qiuzhao.collector.p1_platform_moka'
+
+
+class CacheSession(FakeSession):
+    def __init__(self, pages, text=None):
+        super().__init__(text or entry_html(), pages)
+        self.posts = []
+        self.details = []
+
+    def post(self, url, **kwargs):
+        self.posts.append(kwargs['json'])
+        return super().post(url, **kwargs)
+
+    def get(self, url, **kwargs):
+        if 'GetJobAdInfo' in url:
+            ident = kwargs['params']['jobAdId']
+            self.details.append(ident)
+            row = next(row for page in self.pages.values() for row in page['Data']
+                       if row['Id'] == ident)
+            return FakeResponse(payload={'Code': 200, 'Data': row})
+        return super().get(url, **kwargs)
+
+
+def cache_pages():
+    rows = [{'Id': 'campus-id', 'CategoryId': '2', 'Category': '校园招聘',
+             'JobAdName': '校招', 'Duty': '职责', 'Require': '要求', 'LocNames': ['北京']},
+            {'Id': 'social-id', 'CategoryId': '1', 'Category': '社会招聘',
+             'JobAdName': '社招', 'Duty': '职责', 'Require': '要求', 'LocNames': ['上海']}]
+    return {0: {'Code': 200, 'Count': 2, 'Data': rows},
+            1: {'Code': 200, 'Count': 2, 'Data': []}}
+
+
+def cached_collect(tmp_path, scope, pages=None, text=None):
+    session = CacheSession(pages if pages is not None else cache_pages(), text)
+    with patch.object(beisen, '_make_session', return_value=session):
+        result = beisen.collect('中信建投', scope, tmp_path)
+    return result, session
+
+
+def enable_cache(monkeypatch, tmp_path):
+    monkeypatch.setenv('QIUZHAO_P1_LOGICAL_RUN_ID', 'offline-run')
+    monkeypatch.setenv('QIUZHAO_P1_DETAIL_CACHE_ROOT', str(tmp_path / 'cache'))
+
+
+def test_same_run_list_reuse_keeps_scope_details_evidence_and_time(tmp_path, monkeypatch):
+    enable_cache(monkeypatch, tmp_path)
+    first, a = cached_collect(tmp_path / 'campus', 'campus')
+    second, b = cached_collect(tmp_path / 'social', 'social')
+    assert len(a.posts) == 2 and b.posts == []
+    assert a.details == ['campus-id'] and b.details == ['social-id']
+    assert first['coverage']['complete'] and second['coverage']['complete']
+    assert second['coverage']['expected_total'] == 1
+    assert second['coverage']['scope_request']['scope'] == 'social'
+    assert second['jobs'][0]['source_record_id'] == 'social-id'
+    assert second['jobs'][0]['list_checked_at'] == first['jobs'][0]['list_checked_at']
+    assert second['jobs'][0]['detail_checked_at'] != first['jobs'][0]['detail_checked_at']
+    assert second['coverage']['list_cache_reused'] is True
+    for evidence in second['coverage']['evidence_files']:
+        assert (tmp_path / 'social' / evidence).is_file()
+
+
+def test_cache_identity_changes_miss(tmp_path, monkeypatch):
+    enable_cache(monkeypatch, tmp_path)
+    cached_collect(tmp_path / 'initial', 'campus')
+    monkeypatch.setenv('QIUZHAO_P1_LOGICAL_RUN_ID', 'another-run')
+    assert len(cached_collect(tmp_path / 'new-run', 'social')[1].posts) == 2
+    monkeypatch.setenv('QIUZHAO_P1_LOGICAL_RUN_ID', 'offline-run')
+    # Fixture portal values are discovered without assuming their spelling.
+    import re
+    changed_html = re.sub(r'("PortalId"\s*:\s*")[^"]+', r'\1another-portal', entry_html())
+    assert len(cached_collect(tmp_path / 'portal', 'social', text=changed_html)[1].posts) == 2
+    with patch.object(beisen, 'FIELDS', beisen.FIELDS + ['AnotherField']):
+        assert len(cached_collect(tmp_path / 'fields', 'social')[1].posts) == 2
+    config = tmp_path / 'config.json'
+    config.write_text(beisen.CONFIG_PATH.read_text() + '\n', encoding='utf-8')
+    with patch.object(beisen, 'CONFIG_PATH', config):
+        assert len(cached_collect(tmp_path / 'config', 'social')[1].posts) == 2
+    body = {'PortalId': 'p', 'PageIndex': 0, 'PageSize': 50, 'Category': [],
+            'KeyWords': '', 'SpecialType': 0, 'DisplayFields': beisen.FIELDS}
+    identity = beisen._list_identity('tenant', 'https://a.example', 'https://a.example', body)
+    baseline = beisen._list_cache_path(tmp_path, identity)
+    for field, value in [('PageSize', 100), ('PageIndex', 1), ('KeyWords', 'query'),
+                         ('Category', ['2']), ('SpecialType', 1)]:
+        changed = beisen._list_identity('tenant', 'https://a.example', 'https://a.example',
+                                        dict(body, **{field: value}))
+        assert beisen._list_cache_path(tmp_path, changed) != baseline
+    assert beisen._list_cache_path(tmp_path, dict(identity, entry_origin='https://other:443')) != baseline
+    assert beisen._list_cache_path(tmp_path, dict(identity, tenant='other')) != baseline
+    assert beisen._list_cache_path(tmp_path, dict(identity, origin='https://other:443')) != baseline
+
+
+def test_incomplete_drifting_duplicate_or_failed_lists_not_cached(tmp_path, monkeypatch):
+    enable_cache(monkeypatch, tmp_path)
+    import copy
+    variants = []
+    for mutation in ('drift', 'duplicate', 'truncated', 'failed', 'unknown-total'):
+        pages = copy.deepcopy(cache_pages())
+        if mutation == 'drift':
+            pages[1]['Count'] = 3
+        elif mutation == 'duplicate':
+            pages[0]['Data'][1]['Id'] = 'campus-id'
+        elif mutation == 'truncated':
+            pages[0]['Count'] = pages[1]['Count'] = 3
+        elif mutation == 'failed':
+            pages[0]['Code'] = 500
+        else:
+            pages[0]['Count'] = None
+        variants.append(pages)
+    for index, pages in enumerate(variants):
+        result, _ = cached_collect(tmp_path / str(index), 'campus', pages)
+        assert not result['coverage']['complete']
+        assert not list((tmp_path / 'cache').rglob('*.json'))
+    result, session = cached_collect(tmp_path / 'budget', 'campus')
+    assert result['coverage']['complete'] and len(session.posts) == 2
+
+
+def test_corrupt_missing_and_invalid_cached_pages_fall_back(tmp_path, monkeypatch):
+    enable_cache(monkeypatch, tmp_path)
+    cached_collect(tmp_path / 'initial', 'campus')
+    path = next((tmp_path / 'cache').rglob('*.json'))
+    good = json.loads(path.read_text())
+    import copy
+    invalid = []
+    for field, value in [('complete', False), ('list_checked_at', 'bad'),
+                         ('fetched_on', '2000-01-01')]:
+        bad = dict(good, **{field: value})
+        invalid.append(json.dumps(bad))
+    bad = copy.deepcopy(good)
+    bad['pages'][0]['Data'][1]['Id'] = 'campus-id'
+    invalid.extend([json.dumps(bad), '{broken'])
+    bad = copy.deepcopy(good)
+    bad['pages'][0]['Data'][0]['Duty'] = 'silently changed valid row'
+    invalid.append(json.dumps(bad))
+    from datetime import datetime, timedelta, timezone
+    invalid.append(json.dumps(dict(good, list_checked_at=(
+        datetime.now(timezone.utc) + timedelta(minutes=10)).isoformat())))
+    bad = copy.deepcopy(good)
+    bad['pages'].pop()
+    invalid.append(json.dumps(bad))
+    for index, content in enumerate(invalid):
+        path.write_text(content)
+        result, session = cached_collect(tmp_path / f'bad-{index}', 'social')
+        assert len(session.posts) == 2 and result['coverage']['complete']
+    path.unlink()
+    assert len(cached_collect(tmp_path / 'missing', 'social')[1].posts) == 2
+
+
+def test_budget_failure_does_not_store_snapshot(tmp_path, monkeypatch):
+    enable_cache(monkeypatch, tmp_path)
+    session = CacheSession(cache_pages())
+    with patch.object(beisen, '_make_session', return_value=session):
+        result = beisen.collect('中信建投', 'campus', tmp_path / 'scope', max_requests=2)
+    assert not result['coverage']['complete']
+    assert not list((tmp_path / 'cache').rglob('*.json'))
+
+
+def test_list_only_hit_preserves_actual_verification_time(tmp_path, monkeypatch):
+    enable_cache(monkeypatch, tmp_path)
+    with patch.object(beisen, 'DETAIL_VERIFY_LIMIT', 0):
+        first, _ = cached_collect(tmp_path / 'initial', 'campus')
+        second, session = cached_collect(tmp_path / 'again', 'campus')
+    assert session.posts == [] and session.details == []
+    old = first['jobs'][0]['list_checked_at']
+    job = second['jobs'][0]
+    assert job['list_checked_at'] == job['verified_at'] == job['reviewed_at'] == old
+    assert 'detail_checked_at' not in job
+
+
+def collect_with_detail(tmp_path, detail):
+    session = CacheSession(cache_pages())
+    original_get = session.get
+    def get(url, **kwargs):
+        if 'GetJobAdInfo' in url and kwargs['params']['jobAdId'] == 'campus-id':
+            return FakeResponse(payload={'Code': 200, 'Data': detail})
+        return original_get(url, **kwargs)
+    session.get = get
+    with patch.object(beisen, '_make_session', return_value=session):
+        return beisen.collect('中信建投', 'campus', tmp_path), session
+
+
+def test_cached_list_fresh_detail_replaces_business_content(tmp_path, monkeypatch):
+    enable_cache(monkeypatch, tmp_path)
+    old, _ = cached_collect(tmp_path / 'old', 'campus')
+    cache_path = next((tmp_path / 'cache').rglob('*.json'))
+    raw_before = cache_path.read_bytes()
+    detail = dict(cache_pages()[0]['Data'][0], JobAdName='NEW title',
+                  Duty='NEW duty', Require='NEW requirement', LocNames=['深圳'],
+                  Category='NEW official campus label')
+    fresh, session = collect_with_detail(tmp_path / 'fresh', detail)
+    job = fresh['jobs'][0]
+    assert session.posts == []
+    assert job['title'] == 'NEW title' and job['cities'] == ['深圳']
+    assert 'NEW duty' in job['description_raw'] and 'NEW requirement' in job['description_raw']
+    assert job['recruitment_type_raw']['Category'] == 'NEW official campus label'
+    assert job['detail_source'] == 'official_detail' and job['detail_verified']
+    assert job['verified_at'] == job['reviewed_at'] == job['detail_checked_at']
+    assert job['list_checked_at'] == old['jobs'][0]['list_checked_at']
+    assert job['verified_at'] != job['list_checked_at']
+    assert cache_path.read_bytes() == raw_before
+
+
+def test_cached_detail_category_conflict_is_quarantined(tmp_path, monkeypatch):
+    enable_cache(monkeypatch, tmp_path)
+    cached_collect(tmp_path / 'old', 'campus')
+    detail = dict(cache_pages()[0]['Data'][0], CategoryId='1', Category='社会招聘')
+    result, session = collect_with_detail(tmp_path / 'conflict', detail)
+    assert session.posts == [] and result['jobs'] == []
+    assert not result['coverage']['complete'] and not result['coverage']['detail_complete']
+    assert result['coverage']['expected_total'] == 1
+    assert any('identity/category mismatch' in error for error in result['coverage']['errors'])
+
+
+def test_incomplete_fresh_detail_keeps_gaps_without_old_list_fields(tmp_path, monkeypatch):
+    enable_cache(monkeypatch, tmp_path)
+    old, _ = cached_collect(tmp_path / 'old', 'campus')
+    for missing in ('Duty', 'Require', 'LocNames', 'JobAdName', 'Category'):
+        detail = dict(cache_pages()[0]['Data'][0], JobAdName='NEW title', Duty='NEW duty')
+        detail.pop(missing)
+        result, session = collect_with_detail(tmp_path / missing, detail)
+        job = result['jobs'][0]
+        assert session.posts == []
+        assert job['title'] == ('' if missing == 'JobAdName' else 'NEW title')
+        assert job['cities'] == ([] if missing == 'LocNames' else ['北京'])
+        assert job['detail_source'] == 'official_detail' and job['detail_verified']
+        assert job['verified_at'] == job['reviewed_at'] == job['detail_checked_at']
+        assert job['list_checked_at'] == old['jobs'][0]['list_checked_at']
+        assert job['verified_at'] != job['list_checked_at']
+        assert missing in job['detail_missing_fields'] and missing in job['source_missing_fields']
+        assert not result['coverage']['complete']
+        assert any('incomplete detail' in error for error in result['coverage']['errors'])
+
+
+def test_cache_hit_failed_detail_preserves_list_fact_time(tmp_path, monkeypatch):
+    enable_cache(monkeypatch, tmp_path)
+    old, _ = cached_collect(tmp_path / 'old', 'campus')
+    session = CacheSession(cache_pages())
+    original_get = session.get
+    def get(url, **kwargs):
+        if 'GetJobAdInfo' in url:
+            return FakeResponse(payload={'Code': 500, 'Data': {}})
+        return original_get(url, **kwargs)
+    session.get = get
+    with patch.object(beisen, '_make_session', return_value=session):
+        result = beisen.collect('中信建投', 'campus', tmp_path / 'failed')
+    job = result['jobs'][0]
+    assert session.posts == [] and job['title'] == '校招'
+    assert job['detail_source'] == 'official_list' and not job.get('detail_verified')
+    assert job['verified_at'] == job['reviewed_at'] == old['jobs'][0]['list_checked_at']
+    assert 'detail_checked_at' not in job and result['coverage']['detail_fetch_errors']
