@@ -177,3 +177,100 @@ def test_file_changing_during_activation_is_reported_not_trusted(env, monkeypatc
     monkeypatch.setattr(A, 'systemctl', sneaky)
     code, receipt = A.run('hourly')
     assert code == 1 and 'changed during activation' in receipt['error']
+
+
+def cached_health(service, target):
+    service.calls.append('health')
+    return {'status': 'ok', 'jobs': 3, 'reload_pending': False,
+            'served': {**target, 'loaded_at': '2026-10-09T03:02:11+08:00'},
+            'file': {k: target[k] for k in ('size', 'mtime_ns')}}
+
+
+def test_reconcile_false_timeout_without_restart_preserves_failure_history(env, monkeypatch):
+    root, service = env
+    sha = write(root / 'jobs.json', '[1,2]')
+    target = A.sample()
+    original = {'active': {'sha256': 'old'}, 'failed': {'sha256': sha, 'error': 'TimeoutError'}}
+    A.save_state(original)
+    monkeypatch.setattr(A, 'health_once', lambda deadline: cached_health(service, target))
+    code, receipt = A.run('reconcile', expected_sha=sha)
+    assert code == 0 and receipt['outcome'] == 'reconciled_served'
+    assert service.calls == ['health']
+    state = A.load_state()
+    assert state['active']['sha256'] == sha
+    assert state['active']['activated_at'] == '2026-10-09T03:02:11+08:00'
+    assert state['previous']['sha256'] == 'old'
+    assert state['previous_failed_activation'] == original['failed']
+    assert 'failed' not in state
+
+
+@pytest.mark.parametrize('mutation', ['wrong_sha', 'wrong_stat', 'reload_pending', 'pid_change', 'file_change'])
+def test_reconcile_refuses_nonmatching_or_racing_live_evidence(env, monkeypatch, mutation):
+    root, service = env
+    sha = write(root / 'jobs.json', '[1]')
+    target = A.sample()
+    A.save_state({'active': {'sha256': 'old'}, 'failed': {'sha256': sha}})
+    before = A.STATE.read_bytes()
+    def health(deadline):
+        response = cached_health(service, target)
+        if mutation == 'wrong_sha': response['served']['sha256'] = 'different'
+        if mutation == 'wrong_stat': response['file']['size'] += 1
+        if mutation == 'reload_pending': response['reload_pending'] = True
+        if mutation == 'pid_change': service.pid += 1
+        if mutation == 'file_change': write(root / 'jobs.json', '[2]')
+        return response
+    monkeypatch.setattr(A, 'health_once', health)
+    code, receipt = A.run('reconcile', expected_sha=sha)
+    assert code == 75 and receipt['outcome'] == 'deferred'
+    assert A.STATE.read_bytes() == before
+    assert service.calls == ['health']
+
+
+def test_reconcile_old_requested_version_refuses_new_accepted_file_before_health(env):
+    root, service = env
+    old = write(root / 'jobs.json', '[1]')
+    write(root / 'jobs.json', '[1,2]')
+    code, receipt = A.run('reconcile', expected_sha=old)
+    assert code == 2 and receipt['outcome'] == 'refused'
+    assert service.calls == []
+
+
+def test_warm_window_is_finite_and_extended_for_observed_startup_margin():
+    assert A.WARM_SECONDS == 180
+    with pytest.raises(A.ActivationFailed, match='warm window'):
+        A.health_once(A.time.monotonic() - 1)
+
+
+@pytest.mark.parametrize('bad', [None, [], {'served': []}, {'served': {}, 'file': []},
+                               {'status': 'ok', 'served': {}, 'file': {}},
+                               'invalid-json'])
+def test_reconcile_malformed_health_has_deferred_receipt_and_no_state_write(env, monkeypatch, bad):
+    root, service = env
+    sha = write(root / 'jobs.json', '[1]')
+    A.save_state({'active': {'sha256': 'old'}, 'failed': {'sha256': sha}})
+    before = A.STATE.read_bytes()
+    def health(deadline):
+        service.calls.append('health')
+        if bad == 'invalid-json': raise json.JSONDecodeError('bad', 'x', 0)
+        return bad
+    monkeypatch.setattr(A, 'health_once', health)
+    code, receipt = A.run('reconcile', expected_sha=sha)
+    assert code == 75 and receipt['outcome'] == 'deferred'
+    assert A.STATE.read_bytes() == before and service.calls == ['health']
+
+
+@pytest.mark.parametrize('stamp', [None, '', 'not-a-date', '2026-10-09T03:02:11', 123])
+def test_reconcile_missing_or_invalid_load_time_never_invents_activation_time(env, monkeypatch, stamp):
+    root, service = env
+    sha = write(root / 'jobs.json', '[1]')
+    target = A.sample()
+    A.save_state({'active': {'sha256': 'old'}})
+    before = A.STATE.read_bytes()
+    def health(deadline):
+        response = cached_health(service, target)
+        response['served']['loaded_at'] = stamp
+        return response
+    monkeypatch.setattr(A, 'health_once', health)
+    code, receipt = A.run('reconcile', expected_sha=sha)
+    assert code == 75 and 'loaded_at' in receipt['reason']
+    assert A.STATE.read_bytes() == before
