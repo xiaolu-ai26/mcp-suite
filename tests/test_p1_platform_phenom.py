@@ -28,13 +28,18 @@ def detail_job(name='phenom_detail_pg.json'):
 
 
 def envelope(name, total_hits):
-    return {'refineSearch': {'status': 200, 'totalHits': total_hits, 'data': search_data(name)}}
+    result = {'status': 200, 'data': search_data(name)}
+    if total_hits is not None:
+        result['totalHits'] = total_hits
+    return {'refineSearch': result}
 
 
 def run(company, scope, tmp_path, pages=None, detail=None, max_requests=None):
     """Drive collect() against the recorded envelopes instead of the network."""
-    pages = pages if pages is not None else [envelope('phenom_search_pg.json', 56),
-                                             envelope('phenom_search_empty.json', 56)]
+    # The recording has 12 of 56 rows. Normal parsing tests explicitly model
+    # a valid no-total protocol; truncation tests retain a supplied total.
+    pages = pages if pages is not None else [envelope('phenom_search_pg.json', None),
+                                             envelope('phenom_search_empty.json', None)]
     detail = detail if detail is not None else detail_job()
     by_offset = {}
     cursor = 0
@@ -51,7 +56,7 @@ def run(company, scope, tmp_path, pages=None, detail=None, max_requests=None):
             budget['used'] += 1
         calls.append(body)
         if body.get('ddoKey') == 'refineSearch':
-            return by_offset.get(str(body.get('from')), envelope('phenom_search_empty.json', 56))
+            return by_offset.get(str(body.get('from')), envelope('phenom_search_empty.json', None))
         return {'jobDetail': {'status': 200, 'data': {'job': {**detail, 'jobId': body['jobId']}}}}
 
     original = ph._post_json
@@ -118,8 +123,8 @@ def test_scope_uses_only_official_early_career_labels():
 
 def test_recorded_campus_page_splits_scope_and_region(tmp_path):
     result, calls = run('宝洁', 'campus', tmp_path,
-                        pages=[envelope('phenom_search_pg.json', 56),
-                               envelope('phenom_search_empty.json', 56)],
+                        pages=[envelope('phenom_search_pg.json', None),
+                               envelope('phenom_search_empty.json', None)],
                         detail=detail_job('phenom_detail_pg_campus.json'))
     assert result['coverage']['status'] == 'success'
     assert result['coverage']['complete'] is True
@@ -165,8 +170,8 @@ def test_exhausted_listing_with_no_matching_posting_is_an_empty_success(tmp_path
 
 def test_pagination_advances_by_the_returned_row_count(tmp_path):
     result, calls = run('宝洁', 'intern', tmp_path,
-                        pages=[envelope('phenom_search_pg.json', 56),
-                               envelope('phenom_search_empty.json', 56)])
+                        pages=[envelope('phenom_search_pg.json', None),
+                               envelope('phenom_search_empty.json', None)])
     offsets = [c['from'] for c in calls if c['ddoKey'] == 'refineSearch']
     assert offsets == [0, 12]
     assert result['coverage']['pagination_exhausted'] is True
@@ -207,8 +212,8 @@ def test_refused_widget_switches_to_the_public_page(tmp_path, monkeypatch):
             if body.get('ddoKey') == 'refineSearch':
                 self.pages += 1
                 if self.pages == 1:
-                    return envelope('phenom_search_pg.json', 56)
-                return envelope('phenom_search_empty.json', 56)
+                    return envelope('phenom_search_pg.json', None)
+                return envelope('phenom_search_empty.json', None)
             return {'jobDetail': {'status': 200, 'data': {
                 'job': {**detail_job(), 'jobId': body['jobId']}}}}
 
@@ -240,18 +245,132 @@ def test_evidence_files_are_the_files_actually_written(tmp_path):
     assert 'adapter.log' not in again['coverage']['evidence_files']
 
 
-def test_zero_total_hits_next_to_real_rows_never_ends_the_scan(tmp_path):
+def test_zero_total_hits_next_to_real_rows_never_confirms_exhaustion(tmp_path):
     """A ``totalHits`` of 0 next to real rows is the site contradicting itself.
 
-    Regression: ``offset >= int(total)`` held on the first page, so the scan stopped there
-    and still reported ``pagination_exhausted``.
+    A supplied zero cannot confirm exhaustion when real rows were observed.
+    Those valid observations remain available as partial results.
     """
     result, calls = run('宝洁', 'campus', tmp_path,
                         pages=[envelope('phenom_search_pg.json', 0),
                                envelope('phenom_search_empty.json', 0)])
     searches = [call for call in calls if call['ddoKey'] == 'refineSearch']
-    assert len(searches) == 2, 'page 2 must still be requested'
+    assert len(searches) == 1  # Contradictory count is sufficient to reject completeness.
     coverage = result['coverage']
-    assert coverage['pagination_exhausted'] is True     # the empty page is the real end
-    assert coverage['last_page_evidence'].endswith('rows=0;totalHits=0')
+    assert coverage['pagination_exhausted'] is False
+    assert coverage['complete'] is False and coverage['errors']
     assert coverage['list_observed_ids']
+
+
+import pytest
+
+
+@pytest.mark.parametrize('payload', [None, [], {}, {'refineSearch': None},
+    {'refineSearch': []}, {'refineSearch': {'status': 200, 'data': {}}},
+    *[{'refineSearch': {'status': 200, 'data': {'jobs': value}}}
+      for value in (None, {}, 'jobs')],
+    *[{'refineSearch': {'status': 200, 'totalHits': value, 'data': {'jobs': []}}}
+      for value in (3, -1, True, '0', 1.5)]])
+def test_invalid_list_contract_cannot_be_empty_success(tmp_path, monkeypatch, payload):
+    monkeypatch.setattr(ph, '_post_json', lambda *args: payload)
+    result = ph.collect('宝洁', 'campus', tmp_path)
+    assert not result['coverage']['complete']
+    assert result['coverage']['errors']
+
+
+def test_missing_id_row_cannot_be_silently_complete(tmp_path):
+    page = envelope('phenom_search_pg.json', 12)
+    row = page['refineSearch']['data']['jobs'][0]
+    for field in ('jobId', 'reqId', 'jobSeqNo'):
+        row.pop(field, None)
+    result, _ = run('宝洁', 'campus', tmp_path, pages=[page])
+    assert not result['coverage']['complete']
+    assert any('without jobId' in error for error in result['coverage']['errors'])
+
+
+@pytest.mark.parametrize('case', ['drift', 'truncated', 'duplicate', 'bad-row', 'bad-next-envelope'])
+def test_pagination_inconsistency_keeps_valid_observations_partial(tmp_path, monkeypatch, case):
+    rows = search_data()['jobs'][:2]
+    first = {'refineSearch': {'status': 200, 'totalHits': 2, 'data': {'jobs': rows[:1]}}}
+    second = {'refineSearch': {'status': 200, 'totalHits': 2, 'data': {'jobs': rows[1:]}}}
+    if case == 'drift':
+        second['refineSearch']['totalHits'] = 3
+    elif case == 'truncated':
+        second['refineSearch']['data']['jobs'] = []
+    elif case == 'duplicate':
+        second['refineSearch']['data']['jobs'] = rows[:1]
+    elif case == 'bad-row':
+        second['refineSearch']['data']['jobs'] = [None]
+    else:
+        second = None
+    pages = iter([first, second])
+    def request(session, entry, body, budget):
+        if body['ddoKey'] == 'refineSearch':
+            return next(pages)
+        return {'jobDetail': {'data': {'job': dict(detail_job(), jobId=body['jobId'])}}}
+    monkeypatch.setattr(ph, '_post_json', request)
+    scope = ph.classify_scope(rows[0], 'PGBPGCCN')
+    result = ph.collect('宝洁', scope, tmp_path)
+    coverage = result['coverage']
+    assert not coverage['complete'] and not coverage['pagination_exhausted']
+    assert coverage['errors'] and coverage['expected_total'] == 1
+    assert len(result['jobs']) == 1 and coverage['status'] == 'partial'
+    assert coverage['list_total'] == 2
+
+
+@pytest.mark.parametrize('has_total', [True, False])
+def test_valid_empty_list_with_optional_total(tmp_path, has_total):
+    result, _ = run('宝洁', 'campus', tmp_path,
+                    pages=[envelope('phenom_search_empty.json', 0 if has_total else None)])
+    assert result['coverage']['complete'] and result['coverage']['pagination_exhausted']
+    assert result['coverage']['expected_total'] == 0
+    assert 'rows=0' in result['coverage']['last_page_evidence']
+
+
+def test_valid_explicit_total_counts_unique_global_rows_before_scope_filter(tmp_path):
+    result, _ = run('宝洁', 'campus', tmp_path,
+                    pages=[envelope('phenom_search_pg.json', 12)])
+    assert result['coverage']['complete'] and result['coverage']['list_total'] == 12
+    assert len(result['coverage']['list_observed_ids']) == 12
+    assert result['coverage']['expected_total'] == 3
+
+
+def test_recorded_trimmed_listing_is_partial_when_original_total_is_supplied(tmp_path):
+    result, _ = run('宝洁', 'campus', tmp_path,
+                    pages=[envelope('phenom_search_pg.json', 56),
+                           envelope('phenom_search_empty.json', 56)])
+    assert result['coverage']['status'] == 'partial'
+    assert not result['coverage']['complete']
+    assert result['coverage']['list_total'] == 56
+    assert result['coverage']['expected_total'] == 3
+    assert len(result['jobs']) == 3
+
+
+@pytest.mark.parametrize('ident', [{}, {'id': 1}, [], ['1'], True, False, 1.5])
+def test_malformed_typed_primary_id_outside_scope_cannot_prove_empty_success(tmp_path, ident):
+    job = {'jobId': ident, 'reqId': 'valid-fallback', 'jobSeqNo': 'valid-sequence',
+           'title': 'Experienced engineer', 'country': 'France'}
+    page = {'refineSearch': {'status': 200, 'totalHits': 1, 'data': {'jobs': [job]}}}
+    result, _ = run('宝洁', 'campus', tmp_path, pages=[page])
+    coverage = result['coverage']
+    assert result['jobs'] == []
+    assert not coverage['complete'] and not coverage['pagination_exhausted']
+    assert coverage['status'] == 'blocked'
+    assert any('jobId type' in error for error in coverage['errors'])
+    assert coverage['list_observed_ids'] == []
+
+
+@pytest.mark.parametrize('job, expected', [({'jobId': ' 123 '}, '123'),
+    ({'jobId': 123}, '123'), ({'reqId': 'req-123'}, 'req-123'),
+    ({'jobId': '', 'reqId': 'req-123'}, 'req-123'),
+    ({'jobId': None, 'reqId': '', 'jobSeqNo': 'seq-123'}, 'seq-123'),
+    ({'reqId': 123}, '123'), ({'jobSeqNo': 123}, '123')])
+def test_job_id_preserves_valid_scalar_fallbacks(job, expected):
+    assert ph._job_id(job) == expected
+
+
+@pytest.mark.parametrize('job', [{'reqId': {}}, {'reqId': [], 'jobSeqNo': 'seq'},
+                                {'jobSeqNo': True}])
+def test_malformed_fallback_identifier_is_not_stringified(job):
+    with pytest.raises(ValueError, match='type'):
+        ph._job_id(job)

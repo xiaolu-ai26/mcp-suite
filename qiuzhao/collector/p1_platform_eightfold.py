@@ -335,7 +335,10 @@ class _HeadlessReader:
         self.page_loads += 1
         if not captured:
             raise RuntimeError(f'no /api/pcsx/search response on page start={start}')
-        return (captured['payload'] or {}).get('data') or {}
+        payload = captured['payload']
+        if not isinstance(payload, dict) or not isinstance(payload.get('data'), dict):
+            raise ValueError('Invalid Eightfold list response/data')
+        return payload['data']
 
     def get_json(self, url):
         self._ensure()
@@ -459,9 +462,11 @@ def _location_text(position):
 
 def _position_id(position):
     ident = position.get('id')
-    if ident is None or str(ident).strip() == '':
+    if ident is None or isinstance(ident, str) and not ident.strip():
         raise ValueError('Eightfold position without id')
-    return str(ident)
+    if isinstance(ident, bool) or not isinstance(ident, (str, int)):
+        raise ValueError('Invalid Eightfold position id type')
+    return str(ident).strip()
 
 
 def select_positions(positions, scope, key=None, seen=None):
@@ -566,7 +571,10 @@ def collect(company, scope, output_dir, max_requests=None):
                 try:
                     payload = _http_json(session, search_url(entry, start), budget,
                                          careers_url(entry, start))
-                    data = payload.get('data') or {}
+                    if not isinstance(payload, dict) or not isinstance(payload.get('data'), dict):
+                        coverage['errors'].append('Invalid Eightfold list response/data')
+                        break
+                    data = payload['data']
                 except DirectRefused as refused:
                     coverage['note'] = (f'direct API refused ({refused}); switched to the '
                                         'public careers page in headless Chromium')
@@ -580,17 +588,36 @@ def collect(company, scope, output_dir, max_requests=None):
                 json.dumps(data, ensure_ascii=False), encoding='utf-8')
             evidence.append(evidence_name)
             coverage['pages_scanned'] += 1
-            page = data.get('positions') or []
-            if total is None:
-                total = data.get('count')
+            if not isinstance(data, dict) or not isinstance(data.get('positions'), list):
+                coverage['errors'].append('Invalid Eightfold positions list')
+                break
+            page = data['positions']
+            if 'count' in data:
+                count = data['count']
+                if isinstance(count, bool) or not isinstance(count, int) or count < 0:
+                    coverage['errors'].append('Invalid Eightfold count')
+                    break
+                if total is not None and count != total:
+                    coverage['errors'].append('Eightfold count changed during scan')
+                    break
+                total = count
             if not page:
-                listing_exhausted = True
+                listing_exhausted = total is None or len(seen_ids) == total
+                if not listing_exhausted:
+                    coverage['errors'].append(f'Incomplete Eightfold list: {len(seen_ids)} vs {total}')
                 last_page_evidence = f'key={key};scope={scope};start={start};rows=0;count={total}'
                 break
             fresh = 0
             for position in page:
-                ident = _position_id(position)
+                try:
+                    if not isinstance(position, dict):
+                        raise ValueError('Invalid Eightfold position row')
+                    ident = _position_id(position)
+                except ValueError as error:
+                    coverage['errors'].append(str(error))
+                    continue
                 if ident in seen_ids:
+                    coverage['errors'].append(f'Repeated Eightfold position id {ident}')
                     continue
                 seen_ids.add(ident)
                 fresh += 1
@@ -603,13 +630,17 @@ def collect(company, scope, output_dir, max_requests=None):
                     ' Eightfold pagination repeated an already-listed page; '
                     'listing completeness cannot be confirmed')
                 break
-            # Only a positive count ends the scan; 0 with real rows is a site
-            # contradiction and must not be read as an exhausted listing.
-            if total and start >= int(total):
-                listing_exhausted = True
+            # A supplied total must match unique observed rows exactly.
+            # No-total protocols still require an explicit empty terminal page.
+            if total is not None and start >= total:
+                listing_exhausted = len(seen_ids) == total and start == total
+                if not listing_exhausted:
+                    coverage['errors'].append(f'Incomplete Eightfold list: {len(seen_ids)} unique/{start} rows vs {total}')
                 last_page_evidence = (f'key={key};scope={scope};start={start};count={total};'
                                       f'rows_read={len(seen_ids)}')
                 break
+        listing_exhausted = listing_exhausted and not coverage['errors']
+        coverage['list_total'] = total
         selected = select_positions(positions, scope, key)
         coverage['expected_total'] = len(selected)
         coverage['list_observed_ids'] = sorted(seen_ids)

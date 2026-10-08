@@ -45,3 +45,12 @@
 **失败反例**：跨租户复用同 ID；有 raw detail 文件就跳过；缓存命中刷新 reviewed_at；按低产出降低列表频率后漏掉修改或状态变化。
 
 **验收**：跨租户/范围/run 隔离；指纹失配确实调用详情；命中时 detail_checked_at 不变；每 run 列表重新取得。**费用/登录**：减少已证明冗余请求，缓存有磁盘成本；缓存不得存凭据或复用私人登录态。
+
+
+## Eightfold / Phenom 空列表与分页契约（2026-10-09）
+
+正式 `p1_pipeline → adapter.collect` 入口只接受类型正确的官方 response/data/list；缺 envelope 或 list 不解释为零岗位。total 存在时必须为非负非 bool 整数、各页一致，观察到的唯一合法 ID 数与 total 一致才完整；合法无 total 协议仍可由明确终止空页完成。ID 只接受非空字符串或非 bool 整数；Phenom 允许缺值/空值回退 reqId/jobSeqNo，已提供但畸形的主 ID 不用 fallback 掩盖。即使该行被地域过滤，畸形 ID 也不能证明可信空列表。
+
+正 total 的过早空页、重复/缺 ID、无效行、total 漂移或错误保留有效岗位为 partial/blocked 和 errors，不推进完整性或下架判断。list_total 是全局分母，expected_total 是 scope 选择分母。Phenom 原始分页证据保存完整 refineSearch（status/totalHits/data）。恢复仍沿原入口和预算，不手改 complete，不把返回数当新增数。
+
+原坏合同27项中19失败，typed-ID 被过滤反例原14项均失败；修后两个平台95测试独审通过。录制 fixture 截取部分列表，原 total16/56 与 observed10/12 明确 partial；合法 no-total 测试只证明该协议，不改 fixture 或宣称全量。私有 ef-phenom-independent-review-round2.json 绑定受审字节。尚不证明上游当前协议、全部公司完整或历史零结果触发缺陷；当前状态只维护在日更正文。
