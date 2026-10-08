@@ -19,7 +19,7 @@ import re
 import sys
 import time
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, urljoin, parse_qs
 
 try:
     from . import p1_sources_01_10 as shared
@@ -455,6 +455,214 @@ def _store_list_snapshot(path, identity, pages, checked_at):
                                  'pages_sha256': _pages_digest(pages)})
     except OSError:
         pass  # An unavailable optimization must not invalidate a real list.
+
+
+def validate_legacy_route(route, scope='social'):
+    """One explicitly configured old Social HTML protocol; no inferred scopes."""
+    required = {'adapter','method','host','list_path','tenant_title','recruitment_label'}
+    if not isinstance(route,dict) or set(route)!=required or scope!='social':
+        raise ValueError('Unknown Beisen legacy route parameters/scope')
+    host=urlsplit(route['host']) if isinstance(route['host'],str) else None
+    if (host is None or host.scheme!='https' or not re.fullmatch(r'[a-z0-9-]+\.zhiye\.com',host.netloc)
+            or host.path or host.query or host.fragment or route['adapter']!='beisen_legacy'
+            or route['method']!='GET' or route['list_path']!='/Social'
+            or route['recruitment_label']!='社会招聘'
+            or not isinstance(route['tenant_title'],str) or not route['tenant_title'].strip()):
+        raise ValueError('Unverified Beisen legacy host/method/identity')
+    return route
+
+
+def _legacy_identity(soup,route):
+    title=soup.title.get_text(strip=True) if soup.title else ''
+    if not title.startswith(route['tenant_title']+'招聘系统--'):
+        raise ValueError('Legacy Beisen tenant identity mismatch')
+
+
+def _legacy_page(raw,url,route):
+    from bs4 import BeautifulSoup
+    soup=BeautifulSoup(raw,'html.parser');_legacy_identity(soup,route)
+    if not soup.title.get_text(strip=True).endswith('--'+route['recruitment_label']):
+        raise ValueError('Legacy list recruitment scope not verified')
+    tables=soup.select('.positionlist-newtemplate table.listtable')
+    counts=soup.select('.positionlist-newtemplate .tablenote')
+    footers=soup.select('.positionlist-newtemplate .tablefooter')
+    if len(tables)!=1 or len(counts)!=1 or len(footers)!=1:
+        raise ValueError('Legacy list envelope/pagination missing or ambiguous')
+    count=re.fullmatch(r'共\s*(\d+)\s*条记录',counts[0].get_text(strip=True))
+    paging=re.findall(r'当前第\s*(\d+)\s*/\s*(\d+)\s*页',footers[0].get_text(' ',strip=True))
+    if count is None or len(paging)!=1:raise ValueError('Legacy list total/page unknown')
+    total=int(count[1]);current,pages=map(int,paging[0])
+    if not 1<=current<=pages<=10000:raise ValueError('Legacy page range invalid')
+    rows=[];problems=[]
+    for tr in tables[0].find_all('tr'):
+        if tr.find('th'):continue
+        cells=tr.find_all('td',recursive=False)
+        if not cells:continue
+        if total==0 and not tr.find('a',href=True):continue
+        anchors=tr.select('a[href]')
+        if len(cells)!=4 or len(anchors)!=1:
+            problems.append('Legacy list row shape/ID unknown');continue
+        anchor=anchors[0];link=urljoin(url,anchor['href']);parts=urlsplit(link)
+        ident=re.fullmatch(r'/zpdetail/(\d+)',parts.path)
+        title=(anchor.get('title') or anchor.get_text(' ',strip=True)).strip()
+        if (parts.scheme+'://'+parts.netloc!=route['host'] or parts.query or parts.fragment
+                or ident is None or anchor.get('jobadid')!=(ident[1] if ident else None)
+                or not title or '...' in title or '…' in title):
+            problems.append('Legacy list native ID/title/host not verified');continue
+        rows.append({'Id':ident[1],'JobAdName':title,'detail_url':link,
+                     'LocNames':[cells[2].get('title') or cells[2].get_text(' ',strip=True)],
+                     'PostDate':cells[3].get_text(' ',strip=True)})
+    next_links=[a for a in footers[0].find_all('a') if a.get_text(strip=True)=='下一页' and a.get('href')]
+    next_url=None
+    if current<pages:
+        if len(next_links)!=1:problems.append('Legacy next page evidence missing/ambiguous')
+        else:
+            candidate=urljoin(url,next_links[0]['href']);parts=urlsplit(candidate);query=parse_qs(parts.query,keep_blank_values=True)
+            if (parts.scheme+'://'+parts.netloc!=route['host'] or parts.path.rstrip('/').lower()!='/social'
+                    or parts.fragment or query!={'PageIndex':[str(current+1)]}):
+                problems.append('Legacy next page has unverified parameters/host')
+            else:next_url=candidate
+    elif next_links:problems.append('Legacy terminal page still links next')
+    if total and not rows:problems.append('Legacy positive total has no valid rows')
+    return total,current,pages,rows,next_url,problems
+
+
+def _legacy_detail(raw,ident,route):
+    from bs4 import BeautifulSoup
+    soup=BeautifulSoup(raw,'html.parser');_legacy_identity(soup,route)
+    titles=soup.select('.xiangqingtitle');containers=soup.select('.xiangqingcontain')
+    if len(titles)!=1 or len(containers)!=1:raise ValueError('Legacy detail envelope unknown')
+    title=titles[0].get_text(' ',strip=True);body=containers[0];fields={}
+    for label in body.select('li.ntitle'):
+        value=label.find_next_sibling('li')
+        key=label.get_text(strip=True).rstrip('：:')
+        if key in fields or value is None or 'nvalue' not in value.get('class',[]):
+            raise ValueError('Legacy detail field shape/ambiguity')
+        fields[key]=value.get_text(' ',strip=True)
+    apply=soup.select('#apply[url]')
+    apply_parts=urlsplit(apply[0]['url']) if len(apply)==1 else None
+    apply_query=parse_qs(apply_parts.query,keep_blank_values=True) if apply_parts else {}
+    if (apply_parts is None or apply_parts.scheme or apply_parts.netloc or apply_parts.fragment
+            or apply_parts.path!='/Portal/Resume/ResumeItem' or set(apply_query)-{'jid','r'}
+            or apply_query.get('jid')!=[ident]
+            or ('r' in apply_query and apply_query['r']!=['/zpdetail/'+ident])
+            or fields.get('招聘类别')!=route['recruitment_label'] or not title):
+        raise ValueError('Legacy detail native identity/scope mismatch')
+    sections={};blocks=body.select('.xiangqingtext')
+    if len(blocks)!=1:raise ValueError('Legacy detail role section missing/ambiguous')
+    paragraphs=blocks[0].find_all('p');used_values=set()
+    def paragraph_text(paragraph):
+        # Old html.parser/bs4 can nest subsequent paragraphs under a void br.
+        # Own paragraph text excludes descendant p sections so neither label nor
+        # another section's body is borrowed into this paragraph.
+        return '\n'.join(str(node).strip() for node in paragraph.strings
+                         if node.find_parent('p') is paragraph and str(node).strip())
+    names=('工作地点','工作职责','任职资格')
+    for index,label in enumerate(paragraphs):
+        key=paragraph_text(label).rstrip('：:')
+        if key not in names:continue
+        if key in sections:raise ValueError('Legacy detail repeated requirement section')
+        value=paragraphs[index+1] if index+1<len(paragraphs) else None
+        text=paragraph_text(value) if value is not None else ''
+        if text.rstrip('：:') in names:text=''
+        elif text:
+            if id(value) in used_values:raise ValueError('Legacy detail body reused across sections')
+            used_values.add(id(value))
+        sections[key]=text
+    return {'Id':ident,'JobAdName':title,'Category':fields['招聘类别'],
+            'Kind':fields.get('工作性质',''),'HeadCount':fields.get('招聘人数',''),
+            'PostDate':fields.get('发布时间',''),'EndTime':fields.get('截止时间',''),
+            'LocNames':[sections['工作地点']] if sections.get('工作地点') else [],
+            'Duty':sections.get('工作职责',''),'Require':sections.get('任职资格','')}
+
+
+def collect_legacy(company,scope,output_dir,route,max_requests=None):
+    """Legacy HTML branch reached only by a typed, explicit scope route."""
+    out=Path(output_dir);out.mkdir(parents=True,exist_ok=True)
+    coverage=shared.coverage(str(route.get('host','')) if isinstance(route,dict) else '')
+    jobs=[];budget={'limit':_budget_limit(max_requests),'used':0};saved=[];listed={}
+    try:
+        validate_legacy_route(route,scope)
+        host=route['host'];url=host+route['list_path'];session=_make_session()
+        coverage['source_url']=url
+        coverage['scope_request']={'company':company,'scope':scope,'source_url':url,'params':dict(route)}
+        coverage['scope_evidence']='Official tenant Social HTML label='+route['recruitment_label']
+        expected=None;expected_pages=None;page_number=1
+        def fetch(link):
+            response=_get(session,link,budget,timeout=(10,30),allow_redirects=False)
+            if response.status_code!=200 or response.url!=link:
+                raise ValueError('Legacy response status/origin changed')
+            response.encoding='utf-8'
+            return response.text,datetime.now(timezone.utc).isoformat()
+        while url:
+            raw,checked=fetch(url);filename=f'legacy-list-{page_number}.html'
+            (out/filename).write_text(raw,encoding='utf-8');saved.append(filename)
+            coverage['pages_scanned']+=1
+            total,current,pages,rows,next_url,problems=_legacy_page(raw,url,route)
+            if expected is None:
+                expected=total;expected_pages=pages;coverage['expected_total']=total
+            if total!=expected or pages!=expected_pages or current!=page_number:
+                raise ValueError('Legacy total/page identity drift')
+            coverage['errors'].extend(problems)
+            for row in rows:
+                if row['Id'] in listed:raise ValueError('Legacy duplicate native ID across pages')
+                listed[row['Id']]={**row,'list_checked_at':checked,'list_file':filename}
+            coverage['list_checked_at']=checked
+            coverage['last_page_evidence']=f'{filename}; page={current}/{pages}; total={total}; unique={len(listed)}'
+            if current==pages:
+                coverage['pagination_exhausted']=not problems and len(listed)==total
+                break
+            if next_url is None:break
+            url=next_url;page_number+=1
+        if expected is None or len(listed)!=expected or not coverage.get('pagination_exhausted'):
+            coverage['errors'].append('Legacy listing not proven complete')
+        for ident,row in listed.items():
+            try:
+                raw,checked=fetch(row['detail_url']);filename=f'legacy-detail-{ident}.html'
+                (out/filename).write_text(raw,encoding='utf-8');saved.append(filename)
+                detail=_legacy_detail(raw,ident,route)
+                if not _description(detail):raise ValueError('Legacy detail has no role body')
+                location_from_list=not detail['LocNames'] and bool(row['LocNames'])
+                if location_from_list:detail['LocNames']=row['LocNames']
+                publication_from_list=not detail['PostDate'] and bool(row['PostDate'])
+                if publication_from_list:detail['PostDate']=row['PostDate']
+                job=_job_from(detail,company,scope,host,urlsplit(host).hostname,'official_detail')
+                for field in ('source_url','detail_url','application_url'):job[field]=row['detail_url']
+                job.update(recruitment_type_raw={'Category':detail['Category']},
+                    scope_evidence='Official legacy detail 招聘类别='+detail['Category'],
+                    recruiting_unit_raw=route['tenant_title'],employment_type_raw=detail['Kind'],
+                    headcount_raw=detail['HeadCount'],list_checked_at=row['list_checked_at'],
+                    detail_checked_at=checked,detail_verified=True,evidence_path=filename,
+                    description_source='official legacy detail 工作职责/任职资格',
+                    field_provenance={'description_raw':{'source':'official_detail','checked_at':checked,'evidence_file':filename},
+                                      'cities':{'source':'official_list' if location_from_list else 'official_detail',
+                                                'checked_at':row['list_checked_at'] if location_from_list else checked,
+                                                'evidence_file':row['list_file'] if location_from_list else filename},
+                                      'published_at':{'source':'official_list' if publication_from_list else 'official_detail',
+                                                      'checked_at':row['list_checked_at'] if publication_from_list else checked,
+                                                      'evidence_file':row['list_file'] if publication_from_list else filename}})
+                facts=[label+'：'+detail[field] for label,field in (('招聘类别','Category'),('工作性质','Kind'),('招聘人数','HeadCount'),('发布时间','PostDate')) if detail.get(field) and not (field=='PostDate' and publication_from_list)]
+                job['description_raw']='\n'.join(facts)+'\n'+job['description_raw']
+                retained=[label for used,label in ((location_from_list,'地点'),(publication_from_list,'发布日期')) if used]
+                if retained:
+                    job['detail_source']='official_list_and_detail'
+                    job['detail_presentation']='官网详情本次未单独披露'+'、'.join(retained)+'，保留本次官网列表事实；来源时间 '+row['list_checked_at']
+                job['verified_at']=job['reviewed_at']=row['list_checked_at'] if retained else checked
+                missing=[k for k in ('Duty','Require') if not detail[k]]
+                job['detail_missing_fields']=missing
+                job['source_missing_fields']=[label for field,label in (('Duty','description'),('Require','requirement')) if field in missing]
+                if missing:coverage['errors'].append(f'Legacy detail {ident} missing '+','.join(missing))
+                jobs.append(job)
+            except BudgetExhausted:
+                coverage['request_budget_exhausted']=True;break
+            except Exception as error:coverage['errors'].append(f'detail {ident}: {type(error).__name__}: {error}')
+        coverage['detail_complete']=expected is not None and len(jobs)==expected and not coverage['errors']
+    except BudgetExhausted:coverage['request_budget_exhausted']=True
+    except Exception as error:coverage['errors'].append(f'{type(error).__name__}: {error}')
+    coverage.update(list_observed_ids=sorted(listed),selected_job_ids=sorted(listed),
+                    evidence=saved,evidence_files=saved,request_budget=budget)
+    if coverage.get('request_budget_exhausted'):coverage['errors'].append('Legacy request budget exhausted')
+    return shared.finish(jobs,coverage)
 
 
 def collect(company, scope, output_dir, max_requests=None):

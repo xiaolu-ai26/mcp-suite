@@ -262,6 +262,17 @@ def parse_postings(page_html, page_url, problems=None):
     return postings
 
 
+def scope_route(company,scope):
+    key=resolve(company);entry=_entry(key)
+    if 'scope_routes' not in entry:return None
+    routes=entry['scope_routes']
+    if not isinstance(routes,dict) or any(k not in shared.TYPES for k in routes):
+        raise ValueError('Unknown 51job scope routing configuration')
+    if scope not in routes:return None
+    from .p1_platform_beisen import validate_legacy_route
+    return validate_legacy_route(routes[scope],scope)
+
+
 def collect(company, scope, output_dir, max_requests=None):
     output_dir = Path(output_dir).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -270,6 +281,18 @@ def collect(company, scope, output_dir, max_requests=None):
     key = resolve(company)
     entry = _entry(key)
     name = COMPANIES[key]
+    try:
+        route=scope_route(company,scope)
+    except ValueError as error:
+        coverage=shared.coverage(site_url(key));coverage['errors'].append(str(error))
+        return shared.finish([],coverage)
+    if route is not None:
+        from .p1_platform_beisen import collect_legacy
+        return collect_legacy(name,scope,output_dir,route,max_requests=max_requests)
+    if entry.get('scope_routes') is not None and scope!=str(entry.get('scope') or 'campus'):
+        coverage=shared.coverage(site_url(key));coverage['errors'].append('source_scope_not_verified')
+        coverage['scope_request']={'company':name,'scope':scope,'source_url':site_url(key),'params':{'configured_scope':entry.get('scope')}}
+        return shared.finish([],coverage)
     configured_scope = str(entry.get('scope') or 'campus')
     url = site_url(key)
     budget = {'limit': _budget_limit(max_requests), 'used': 0}

@@ -3510,6 +3510,16 @@
       "name": "ENGEL",
       "url": "https://campus.51job.com/engel2027/introduction.html",
       "scope": "campus",
+      "scope_routes": {
+        "social": {
+          "adapter": "beisen_legacy",
+          "method": "GET",
+          "host": "https://engel.zhiye.com",
+          "list_path": "/Social",
+          "tenant_title": "恩格尔机械（上海）有限公司",
+          "recruitment_label": "社会招聘"
+        }
+      },
       "note": "discovered 2026-09-19 (foreign discovery, campus.51job.com micro-site)"
     },
     "nskchina": {
