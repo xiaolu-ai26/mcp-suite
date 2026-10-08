@@ -12,6 +12,8 @@ stay polite in front of the Beisen WAF, which would truncate a large tenant.
 """
 from __future__ import annotations
 import json
+import hashlib
+from datetime import datetime, timezone
 import os
 import re
 import sys
@@ -216,6 +218,93 @@ def _job_from(row, name, scope, host, key, detail_source):
     return job
 
 
+def _list_identity(key, entry_host, host, body):
+    # Bind both the configured entry and its verified redirect origin. Scope is
+    # deliberately absent: categories are interpreted separately by each call.
+    return {'source': 'beisen', 'version': 1, 'tenant': key,
+            'entry_origin': shared.moka_host_origin(entry_host),
+            'origin': shared.moka_host_origin(host),
+            'endpoint': '/api/Jobad/GetJobAdPageList', 'params': body,
+            'config_sha256': hashlib.sha256(CONFIG_PATH.read_bytes()).hexdigest()}
+
+
+def _complete_pages(pages):
+    """Validate the raw list, including the terminal page and every total."""
+    if not isinstance(pages, list) or not pages:
+        return False
+    total = None
+    seen = set()
+    for index, page in enumerate(pages):
+        if not isinstance(page, dict) or page.get('Code') != 200:
+            return False
+        rows, count = page.get('Data'), page.get('Count')
+        if (not isinstance(rows, list) or isinstance(count, bool)
+                or not isinstance(count, int) or count < 0):
+            return False
+        if total is not None and count != total:
+            return False
+        total = count
+        if not rows:
+            return index == len(pages) - 1 and len(seen) == total
+        for row in rows:
+            if not isinstance(row, dict):
+                return False
+            ident = row.get('Id')
+            if not isinstance(ident, str) or not ident or ident in seen:
+                return False
+            seen.add(ident)
+    return False
+
+
+def _list_cache_path(output_dir, identity):
+    run_id = shared.current_logical_run()
+    if (not run_id or not os.environ.get('QIUZHAO_P1_DETAIL_CACHE_ROOT')
+            or not identity['origin'] or not identity['entry_origin']):
+        return None
+    digest = hashlib.sha256(json.dumps([identity, run_id], sort_keys=True,
+                                      ensure_ascii=False).encode()).hexdigest()
+    return shared.moka_cache_root(output_dir) / 'beisen-lists' / (digest + '.json')
+
+
+def _pages_digest(pages):
+    return hashlib.sha256(json.dumps(pages, sort_keys=True,
+                                     ensure_ascii=False).encode()).hexdigest()
+
+
+def _load_list_snapshot(path, identity):
+    if path is None:
+        return None
+    payload = shared._read_json(path)
+    if (not isinstance(payload, dict) or payload.get('identity') != identity
+            or payload.get('run_id') != shared.current_logical_run()
+            or payload.get('complete') is not True
+            or payload.get('fetched_on') != shared.moka_today()):
+        return None
+    stamp = shared.parse_moka_time(payload.get('list_checked_at'))
+    if (stamp is None or stamp.date().isoformat() != shared.moka_today()
+            or stamp > datetime.now(timezone.utc) + shared.MOKA_TIME_FUTURE_SKEW
+            or not _complete_pages(payload.get('pages'))
+            or payload.get('pages_sha256') != _pages_digest(payload['pages'])):
+        return None
+    return payload
+
+
+def _store_list_snapshot(path, identity, pages, checked_at):
+    if path is None or not _complete_pages(pages):
+        return
+    stamp = shared.parse_moka_time(checked_at)
+    if stamp is None or stamp.date().isoformat() != shared.moka_today():
+        return
+    try:
+        shared._write_json(path, {'identity': identity,
+                                 'run_id': shared.current_logical_run(),
+                                 'fetched_on': stamp.date().isoformat(), 'complete': True,
+                                 'list_checked_at': checked_at, 'pages': pages,
+                                 'pages_sha256': _pages_digest(pages)})
+    except OSError:
+        pass  # An unavailable optimization must not invalidate a real list.
+
+
 def collect(company, scope, output_dir, max_requests=None):
     output_dir = Path(output_dir).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -244,11 +333,22 @@ def collect(company, scope, output_dir, max_requests=None):
         body = {'PortalId': portal, 'PageIndex': 0, 'PageSize': 50, 'Category': [],
                 'KeyWords': '', 'SpecialType': 0, 'DisplayFields': FIELDS}
 
+        identity = _list_identity(key, host_for(key), host, body)
+        cache_path = _list_cache_path(output_dir, identity)
+        snapshot = _load_list_snapshot(cache_path, identity)
+        raw_pages = []
+        list_checked_at = snapshot['list_checked_at'] if snapshot else ''
+        coverage['list_cache_reused'] = snapshot is not None
+
         def list_page(index):
             payload = dict(body, PageIndex=index)
-            response = _post(session, host + '/api/Jobad/GetJobAdPageList', budget,
-                             json=payload, timeout=(10, 45))
-            payload_json = response.json()
+            if snapshot is not None:
+                payload_json = snapshot['pages'][index]
+            else:
+                response = _post(session, host + '/api/Jobad/GetJobAdPageList', budget,
+                                 json=payload, timeout=(10, 45))
+                payload_json = response.json()
+            raw_pages.append(payload_json)
             (output_dir / f'list-{index}.json').write_text(json.dumps(payload_json, ensure_ascii=False))
             coverage['pages_scanned'] += 1
             if payload_json.get('Code') != 200:
@@ -263,6 +363,12 @@ def collect(company, scope, output_dir, max_requests=None):
             payload_json = list_page(index)
             rows = payload_json.get('Data') or []
             count = payload_json.get('Count')
+            if (not isinstance(payload_json.get('Data'), list)
+                    or isinstance(count, bool) or not isinstance(count, int) or count < 0):
+                raise ValueError('Invalid Beisen list rows/count')
+            if total is not None and count != total:
+                raise ValueError('Official count changed during scan')
+            total = count
             if not rows:
                 coverage['pagination_exhausted'] = True
                 coverage['last_page_evidence'] = (f'index={index};rows=0;'
@@ -282,12 +388,15 @@ def collect(company, scope, output_dir, max_requests=None):
                     continue
                 if categories[actual] == scope:
                     selected.append(row)
-            if total is not None and count != total:
-                raise ValueError('Official count changed during scan')
-            total = count
             index += 1
         if total is not None and len(seen) != total:
             raise ValueError(f'Incomplete list: {len(seen)} vs {total}')
+        if not _complete_pages(raw_pages):
+            raise ValueError('Incomplete Beisen list snapshot')
+        if snapshot is None:
+            list_checked_at = datetime.now(timezone.utc).isoformat()
+            _store_list_snapshot(cache_path, identity, raw_pages, list_checked_at)
+        coverage['list_checked_at'] = list_checked_at
         coverage['list_total'] = total
         coverage['expected_total'] = len(selected)
         coverage['unmapped_categories'] = {k: v for k, v in unmapped.items()}
@@ -297,6 +406,8 @@ def collect(company, scope, output_dir, max_requests=None):
         for position, row in enumerate(selected):
             description = _description(row)
             verified = False
+            detail_checked_at = ''
+            detail_missing_fields = []
             if _has_budget(budget) and (position < DETAIL_VERIFY_LIMIT or not description):
                 try:
                     params = {'jobAdId': row['Id'], 'portalId': portal,
@@ -314,13 +425,23 @@ def collect(company, scope, output_dir, max_requests=None):
                         detail = detail_env.get('Data') or {}
                         if (detail.get('Id') != row['Id']
                                 or str(detail.get('CategoryId')) != str(row.get('CategoryId'))):
-                            coverage.setdefault('detail_fetch_errors', []).append(
-                                f'{row["Id"]}: detail identity/category mismatch')
+                            message = f'{row["Id"]}: detail identity/category mismatch'
+                            coverage.setdefault('detail_fetch_errors', []).append(message)
+                            coverage['errors'].append(message)
+                            continue  # Conflicting official identity/scope is quarantined.
                         else:
-                            if not description:
-                                row = detail
-                                description = _description(row)
+                            required = {'JobAdName', 'Duty', 'Require', 'LocNames', 'Category'}
+                            missing = sorted((required | set(row)) - set(detail))
+                            if missing:
+                                coverage['errors'].append(
+                                    f'{row["Id"]}: incomplete detail business fields: {missing}')
+                            # Identity-checked fresh detail owns current business
+                            # content. Missing fields remain gaps, never old-list facts.
+                            row = dict(detail)
+                            description = _description(row)
                             verified = True
+                            detail_checked_at = datetime.now(timezone.utc).isoformat()
+                            detail_missing_fields = missing
                 except BudgetExhausted:
                     coverage['request_budget_exhausted'] = True
                     break
@@ -332,8 +453,15 @@ def collect(company, scope, output_dir, max_requests=None):
                 continue
             job = _job_from(row, name, scope, host, key,
                             'official_detail' if verified else 'official_list')
+            job['list_checked_at'] = list_checked_at
+            job['verified_at'] = detail_checked_at if verified else list_checked_at
+            job['reviewed_at'] = job['verified_at']
             if verified:
+                job['detail_checked_at'] = detail_checked_at
                 job['detail_verified'] = True
+                job['detail_missing_fields'] = detail_missing_fields
+                job['source_missing_fields'] = sorted(set(
+                    job.get('source_missing_fields', []) + detail_missing_fields))
             jobs.append(job)
         coverage['detail_verified_count'] = sum(1 for j in jobs if j.get('detail_verified'))
         coverage['list_only_count'] = sum(1 for j in jobs if not j.get('detail_verified'))

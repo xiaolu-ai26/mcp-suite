@@ -77,3 +77,16 @@
 失败恢复：保留result、pending_index、scope请求和原始响应，预算截断记partial；未知分类/租户不符/异常空页保持blocked或隔离；列表不完整不得下架。修复先回归对应样本，再从原run/checkpoint恢复，遵守[恢复与发布](recovery-and-publication.md)的单writer、原截止与CAS规则；不得新预算冒充旧日成功，不用历史success_flag替代服务器接受回执。
 
 本轮在 bcae 上真实运行上述三个测试文件：**46 passed，0 skipped**（0.44s，私有 platform-regression.log）。这证明现有离线回归，未运行新网络采集；三份代表样本、三个SOP及当前代码指针已固定，完整成功方法标准中的历史正式版本关联、每公司字段语义及当前完整性仍待B/C补证。每日数量只维护日更正文。
+
+
+## 北森同一运行的完整列表复用（2026-10-09）
+
+正式入口仍为 `deploy/windows_collector.py → p1_pipeline → p1_platform_beisen.collect`。同一 logical run、UTC 日、租户、配置入口/实际 Origin、PortalId、完整 POST 参数和配置文件 SHA 相同，才复用完整列表；仅存储 Code=200、Count 非负整数且各页一致、唯一 Id 数=Count、末页为空的原始响应。失败、截断、未知/重复 ID、新 run、参数或配置漂移均重新请求，不能冒充空成功。scope 独立分类、selected ID、分页与详情缺口证据照旧保存。
+
+缓存命中后仍请求当前详情。核对 Id/CategoryId 后，以新详情的标题/职责等内容映射并绑定实际详情时间；缺字段显式记录 gap，冲突隔离，详情失败仅保留旧列表事实及旧列表时间。原始列表快照不变，不用缓存命中刷新 detail_checked_at。列表缓存是可丢弃优化，删除该 run 的独占缓存后按同一入口恢复；不修改 accepted 数据或运行预算。
+
+隔离预览命令已用实际 `--help` 核验：`python -B -m qiuzhao.collector.p1_platform_beisen 'AIVA汽车' --scope campus --output-dir <独占目录> --max-requests 20`。此请求上限只适用于协议验证，不作为正式全量验收上限。正式流程设置 `QIUZHAO_P1_LOGICAL_RUN_ID` 与 `QIUZHAO_P1_DETAIL_CACHE_ROOT`；公司参数继续来自唯一 `p1_platform_companies.json`，不复制公司说明。
+
+代表原始协议：2026-09-29 AIVA 官方原始 5 页，总 Count=174、唯一 Id=174、末页空；campus 历史 selected=172 是不同分母。私有 `beisen-original-protocol-validation.json` 绑定源路径与每页 SHA。北森+Moka 离线回归25通过；独审覆盖新详情内容变化、字段缺失、身份/类别冲突、失败保旧时间与 run/参数失配。Windows 实际 20,000 条/401 页探针核缓存落盘读取、真实 NTFS WinError5 保原及释放后新版本替换；峰值256,757,760 bytes 是含原行、序列化和读取副本的整个探针进程，不能等同 collector 峰值。缓存 O(列表大小)，没有全局常驻状态，scope 子进程退出释放；磁盘缓存沿现有 run 生命周期保留。
+
+证据等级：受审代码、真实历史官方响应、Windows 隔离验证；尚不证明当前481名称全部完整、实际网络请求节约比例或当前自然 run 成功。当前状态仍只维护在日更正文。
