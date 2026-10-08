@@ -57,6 +57,8 @@ main与Windows的p1_pipeline源码同SHA `fff52389c4aad220183c77db6c29e63186afe1
 
 生成器独立GPT-6.1 Sol low复审PASS，SHA `e7667da3e98990bbd0b930352e1179b966bd6b51c551fe483e72a8a5deb1f59c`，只代表投影正确性。阶段A盘点终态已完成；后续B修复PR27已发现的JSON空白解析缺陷并独审/Windows隔离重放，C补齐上述绑定及逐源完整性。未启动heartbeat、未采集、未部署或发布。
 
+**B阶段性收据：** 原PR27追加修复head `50062ac9362516b528b392eb8f5a7a18776bb79b`，实际JSON空白解析已独立复审 `PARSER_FIX_PASS / OVERALL_NOT_PASS`；实现与独审均101 passed/0 failed/0 skipped。只修解析器/新增17回归/验证记录，代码SHA `c63f645e63483a651d0b0a9f14879291ed756738ae69ad695481ea541318adfe`。完整tracked checkout已物化约110MB；跨环境freeze、真实Windows隔离/内存/Scheduler及现有业务回归仍待，不部署。尤其retry冻结集含公司配置，repo与Windows配置SHA不同；目标冻结必须保留1124范围，不能盲用repo配置覆盖。
+
 记录的事件发生在 **2026-09-24（北京时间）**，文中时间均为该日，除非另行注明。
 
 ## 1. 交付目标与口径
