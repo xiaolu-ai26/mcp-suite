@@ -56,7 +56,7 @@
 
 **步骤**：建立主体+范围+站点集合+租户标识单元 → 保存官方入口出处 → 逐入口验证匿名可访问与分类语义 → 分别统计 total/分页/失败 → 同范围以官方 ID 合并 → 缺入口时保留部分状态 → 新入口先隔离，小批启用后按实际 run 验收。
 
-**代码与验证**：[飞书 sites_for 与 source_coverage](../../qiuzhao/collector/p1_feishu_public.py)、[阿里官方入口](../../qiuzhao/collector/alibaba_headless.py)、[多入口收据](../../pipeline-watch/RECEIPT-multi-entrance.md)。
+**代码与验证**：[飞书 sites_for 与 source_coverage](../../qiuzhao/collector/p1_feishu_public.py)、[阿里官方入口](../../qiuzhao/collector/alibaba_headless.py)、历史 `RECEIPT-multi-entrance.md`（当前公开树未收录，不作为可复查仓库证据；需从私有历史档案另核）。
 
 **失败反例**：REGISTRY.update 静默覆盖原适配器；平台相同就当租户相同；第二入口重复记录按新主体宣传；无公开范围仍靠标题猜分类。
 
@@ -79,6 +79,8 @@
 本轮在 bcae 上真实运行上述三个测试文件：**46 passed，0 skipped**（0.44s，私有 platform-regression.log）。这证明现有离线回归，未运行新网络采集；三份代表样本、三个SOP及当前代码指针已固定，完整成功方法标准中的历史正式版本关联、每公司字段语义及当前完整性仍待B/C补证。每日数量只维护日更正文。
 
 
+<a id="beisen-sop"></a>
+
 ## 北森同一运行的完整列表复用（2026-10-09）
 
 正式入口仍为 `deploy/windows_collector.py → p1_pipeline → p1_platform_beisen.collect`。同一 logical run、UTC 日、租户、配置入口/实际 Origin、PortalId、完整 POST 参数和配置文件 SHA 相同，才复用完整列表；仅存储 Code=200、Count 非负整数且各页一致、唯一 Id 数=Count、末页为空的原始响应。失败、截断、未知/重复 ID、新 run、参数或配置漂移均重新请求，不能冒充空成功。scope 独立分类、selected ID、分页与详情缺口证据照旧保存。
@@ -95,3 +97,46 @@
 北森租户分类补例（2026-10-09）：神州数码集团 `digitalchina` 历史官方原 list0/list3 明确 CategoryId4“AI专项招聘(社招)”与5“AI专项招聘(校招)”，配置只增加4→social、5→campus，默认1社招/2校招/3实习保留。私有 `beisen-scope-evidence.json` 绑定10份原文件SHA、PortalId/租户/Id/标签；历史源码关联unknown。代表页控制回归不冒充原Count355完整回放，名称与3372计划键不变。
 
 迅销4/5/7为技术研发/项目管理/系统运维职能，津电4的Category为JSON null，均不能强归社招；代表raw无独立可用招聘性质字段。未知仍partial，未观察实习类别不等于不适用。租户配置映射需官方语义，供应商默认数字不能代替该租户验收。
+
+
+<a id="platform-sop-execution"></a>
+
+## 平台 SOP 执行与证据绑定（2026-10-09）
+
+**执行顺序**：先检查配置中的注册名称、租户 host、入口与类别映射，核当前受审文件 SHA；随后用已有隔离证据回归，再由执行 owner 按正式运行入口安装与验收。文档内的预览命令会访问官方站点，只在已授权的来源探针任务中执行；本次整理没有运行它们。`--max-requests 20` 是诊断上限，达到上限的 partial 不能算正式完整。
+
+北森公开入口 HTML 提取唯一 `PortalId`，实际 Origin 来自响应 URL；列表 POST 为 `/api/Jobad/GetJobAdPageList`，参数 `PortalId/PageIndex/PageSize=50/Category=[]/KeyWords/SpecialType/DisplayFields` 由代码和唯一配置生成。`Code=200`、各页 Count 类型与一致性、唯一 Id=Count、终止空页均满足才写完整缓存。`_annotate_fields` 将 JobAdName→标题、Duty/Require→正文、地点/学历等官方字段及各自列表/详情时间写入公开说明；实际映射仍以源码为准，不在这里复制 DisplayFields 全表。恢复时失效缓存可丢弃；失败不写完整缓存、不推进最后完整时间、不改原预算。
+
+字段融合独审 `beisen-field-independent-final-review.json` 绑定适配器 `22efbcc54e69add1365f9e6370851b02651cc06ad25c04064873f8bd101b7612`；其 46 项为北森37+平台Moka9，`beisen-field-windows-regression.json` 的48项为北森37+缓存Moka11。20,000行缓存探针属于较早缓存字节 `676cb0a3…`，不能把该探针 SHA 写成字段融合最终版。成功案例、参数/run miss、真实 NTFS 替换拒绝保留原文件见 `beisen-windows-cache-result.json`；峰值是整个探针进程。已存在的跨平台 Moka 详情缓存策略与北森同 run **列表**缓存是不同优化，不合并统计。
+
+可离线复验入口：`python -B -m pytest -q tests/test_p1_platform_beisen.py tests/test_grok47_moka_cache.py`。先保证真实 fixtures/core 依赖完整，中文 JSON 显式 UTF-8；不得通过 deselect、改断言或放宽容量门制造通过。回归通过后仍需部署身份与自然 run 的真实完整性收据。TLS 本轮只有只读诊断及一次瞬态重试成功的证据，尚无统一自动修复，不在此作为已验证恢复方案。
+
+<a id="boc-sop"></a>
+
+## BOC 公开 campaign 目录与适用共同条件（2026-10-09）
+
+**入口与执行**：[Collector.boc](../../qiuzhao/collector/run.py) 合并原公告角色与 [collect_campaign](../../qiuzhao/collector/chinahr_public.py) 的原生目录。公开配置常量 `BOC_CAMPAIGN_PAGE` 指向 `https://campus.chinahr.com/pages/2027-boc/`；campaign 名、共同条件标题与集团名传给 `collect_campaign`。没有新增 company-scope，不改变正式 basic→发布链。隔离来源调用为 `python -B -m qiuzhao.collector.run --source boc --output-dir <新建独占目录> --delay 1.25`，该入口会取上游并在输出目录合并数据，**不是只读测试**；禁止指向生产 data 或已有 run 代替受控恢复。
+
+**具体协议**：读取公开页面的实际 campaign bootstrap → 校验 campaign 与共同条件标题 → `https://ats.chinahr.com/api/company/list` 取目录 → 遍历已核层级下的叶选择器 → `/api/job/list` 按 `companyId/page/pageSize=10000/callback` 分页。页面选择器在运行中使用，证据与错误输出不保存它。各页 totalCount 必须为非负整数且一致；唯一原生 ID 数等于 totalCount 才停止，100页安全上限、早空页、重复、孤儿或更深层级都留下 partial，不推进完整性。
+
+**字段来源与共同条件**：原生 id→`boc-ats-`稳定身份；name→标题；列表内 `jobDesc` 是官方嵌入正文，不另称已请求独立详情；workPlaceList→披露地点；education/experience/jobNo→原始字段；applyEndTime→有证据的截止；投递入口由原生 ID 构造。只有正文明确引用共同条件标题，且 `conditions_for` 对单位标题唯一匹配、专门岗位条款与岗位名精确唯一匹配，才附适用条件。没有精确匹配时保留嵌入正文与待核说明，detail_complete=false；禁止把总部条件借给分支、通用角色标题或未知专门岗位。
+
+**粒度与反例**：14个历史公告角色 ID 保留并公开粒度说明；它们不计入原生目录完整性分母。原生缺席退役只在 `boc-ats-`命名空间且符合既有门时适用。重复单位标题、泛化岗位名、跨选择器相同 ID 但字段冲突、截断树/列表均不能称完整。
+
+**验收与恢复**：先跑 `python -B -m pytest -q tests/test_chinahr_public.py tests/test_collector_partial_keep.py tests/test_guopin_auto_campaigns.py`；Windows 使用本次解释器 `-X utf8`或显式UTF-8读取，不改全机编码。逐 leaf 核 expected_total/observed_unique_ids、listing_complete 与条件缺口；失败保留有效原生行、公告角色及错误证据，从原正式 run 的预算/锁入口恢复，不直接重写 accepted。公开样本只证明历史266节点目录和一个leaf岗位；代表夹具的4节点/1岗位不代表完整266树。
+
+**版本与证据**：`boc-independent-review-round2.json`、`boc-independent-utf8-review.json`、`boc-windows-regression.json`；适配器 `f91ab486b8534e96dee19e59030bf7780fcd76a0d339cd6f33db5560e5424d1d`、run `4672f6d4…`。独审 Mac 三文件67通过/7项原容量门失败，Windows完整同三文件74通过、0失败/skip/deselect；二者不能互相改写。UTF-8增量审查未重跑完整Windows业务，完整执行由Windows收据证明。未证明生产安装或全campaign当前完整。公开HTTP与本地计算成本，无登录、投递或新付费API；不公开项目选择器和私有原始响应。
+
+<a id="liauto-sop"></a>
+
+## 理想汽车外包枚举的严格映射（2026-10-09，已合入未生产验收）
+
+**版本边界**：下述新规则来自已独审并合入 PR39 的实现 `p1_sources_31_40.py` SHA `ad4f88152f1b943907f8008bf6e7b6cfaaa814f8205ca5619f77ddc44ed50fe7`，对应测试 `634221fa5c5420f6605f375a3a842dd75e25c39b80a8c190ff25fc5c45a21cd8`；PR39 已合入，merge `a2f40003b89981b58ec7466b5a3a52b939b4bec7`、head `468c0b0da68d1b82ef4c56eb1da3acb9590bcbf8`。已核仓库 [现有模块入口](../../qiuzhao/collector/p1_sources_31_40.py) 与上述受审 SHA 一致；已合入不等于生产安装或当前全公司完整验收。
+
+**入口与参数**：正式 `p1_pipeline → p1_sources_31_40.collect → collect_lixiang`，公司登记参数保持理想汽车/lixiang与原scope。公开入口 `https://www.lixiang.com/employ/campus/list.html`；`api-web.lixiang.com/osd-hr-recruitment-website/v1/recruit/{school|social}/job-page` 使用 page/page_size=50，分别校验两个通道的total_count、page/total_pages与唯一ID；详情 `/v1/recruit/job/detail?job_id=<列表ID>`。隔离模块调用 `python -B -m qiuzhao.collector.p1_sources_31_40 '理想汽车' social <新建独占目录>` 为网络探针，非离线验收，本次未执行。
+
+**字段与严格门**：列表和详情均先校验分类。仅当原始 job_mode是字符串`"102"`、hire_mode是严格int1（排除bool/字符串）、job_mode_name精确为“外包”，才把该租户枚举映射为social。numeric102、冲突label、不同类型均拒绝；该门先于其它标签，不能以“实习”等标签绕过。原101/201/202规则保持，不推广102到其它公司。详情id与scope须匹配；title、description+requirements、location_title来自对应详情。外包披露写入 description_raw/detail_presentation/status_note/source_fields，明确具体用工主体未披露，不能认定公司直聘；不捏造雇主。
+
+**样本、反例与恢复**：既存官方详情20237的raw SHA `93c049e3705a1c97f43dd1a4d8651e2b0e3a4bf711db87626b50ff3add58fda6`仅证明该单个枚举组合，不证明当前15岗位全量。错误中的45字符串是3个键×15观察，不是45家公司。未知枚举留下errors/partial，列表不足不得下架，详情失败保留对应证据，不推进完整游标；按原run、deadline与单writer恢复，不用新预算抵销原失败。
+
+**验收与成本**：`python -B -m pytest -q tests/test_p1_sources_31_40.py tests/test_p1_platform_beisen.py`；独审 `liauto-independent-review-round2.json` 和隔离 `liauto-windows-regression.json` 均50通过+22subtests（subtests不算另22个顶层test）。实际collect数字102反例在列表与详情均拒绝，公开投影保留外包说明。受审实现已合入，仍未生产安装、未当前全公司完整验收。公开HTTP与计算成本，无登录/投递、新API计费；raw私有证据不复制进方法库。

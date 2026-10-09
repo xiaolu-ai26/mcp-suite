@@ -47,6 +47,8 @@
 **验收**：跨租户/范围/run 隔离；指纹失配确实调用详情；命中时 detail_checked_at 不变；每 run 列表重新取得。**费用/登录**：减少已证明冗余请求，缓存有磁盘成本；缓存不得存凭据或复用私人登录态。
 
 
+<a id="ef-phenom-contract"></a>
+
 ## Eightfold / Phenom 空列表与分页契约（2026-10-09）
 
 正式 `p1_pipeline → adapter.collect` 入口只接受类型正确的官方 response/data/list；缺 envelope 或 list 不解释为零岗位。total 存在时必须为非负非 bool 整数、各页一致，观察到的唯一合法 ID 数与 total 一致才完整；合法无 total 协议仍可由明确终止空页完成。ID 只接受非空字符串或非 bool 整数；Phenom 允许缺值/空值回退 reqId/jobSeqNo，已提供但畸形的主 ID 不用 fallback 掩盖。即使该行被地域过滤，畸形 ID 也不能证明可信空列表。
@@ -56,8 +58,44 @@
 原坏合同27项中19失败，typed-ID 被过滤反例原14项均失败；修后两个平台95测试独审通过。录制 fixture 截取部分列表，原 total16/56 与 observed10/12 明确 partial；合法 no-total 测试只证明该协议，不改 fixture 或宣称全量。私有 ef-phenom-independent-review-round2.json 绑定受审字节。尚不证明上游当前协议、全部公司完整或历史零结果触发缺陷；当前状态只维护在日更正文。
 
 
+<a id="workday-contract"></a>
+
 ## Workday 专属总数与终止证据（2026-10-09）
 
 正式入口仍为 `p1_pipeline → p1_platform_workday.collect`。校验 jobPostings 列表、行、externalPath 和可信非负整数总数；保留首可信 total，允许已存真实 3M 协议后页 total=0 sentinel，不套其它平台每页 total 一致规则。实际返回行数推进 offset，唯一 ID 数与可信总数一致才 reached_total；合法无 total 协议需要显式终止空页。坏 envelope/行/ID、重复、总数漂移或提前空页留下 errors 与有效岗位 partial，正常页限也显式 partial；不能冒充空成功或下架依据。
 
 原始3M官方响应离线回放：首 total36/20行、后 total0/16行，36 unique，实习 expected1/jobs1，2页 complete；原始样本和配置不改。42专项离线测试独审通过，私有 workday-independent-review.json 绑定源码及回放。公司/地域/query/facets 参数未改：当前 China/应届关键词命中集不等于全官网或真实中国地域全集；真实 raw 有独立国家 facet 且 queryChina 返回印度行。地域取数口径和官方 UI 请求仍需另核，不用本修复宣称69名称全部完整。恢复沿原预算与同一入口，异常证据留原 run，不改分母。
+
+
+<a id="pagination-sop"></a>
+
+## 分页平台的执行参数、字段来源与恢复（2026-10-09）
+
+本节补充上面两份契约的可复用步骤，不复制公司表。正式配置以 [p1_platform_companies.json](../../qiuzhao/collector/p1_platform_companies.json) 中平台节为准，经 registry绑定 `p1_pipeline → adapter.collect`。公开入口参数必须来自配置/官方请求证据，不因为回归通过就自行修改国家、query或范围。
+
+| 平台 | 官方请求与配置 | 字段来源 |
+|---|---|---|
+| Eightfold | `_base(entry)/api/pcsx/search` GET；domain/location/start/sort_by/remote/hl来自entry，详情`position_details`以position_id绑定；必要的公开页面fallback仍沿既有代码 | typed id→稳定身份，name→标题；position_details.jobDescription→正文（源码可回退列表jobDescription）；locations/standardizedLocations→地点；postedTs→发布时间；地域与scope分类在ID合法性之后 |
+| Phenom | entry.host + `/widgets` POST；ref/lang/country/site_type/location固定到租户，refineSearch的from/size推进；detail_body绑定该岗位，证据保留完整refineSearch envelope | `_record`映射title，详情description/ml_Description（可回退列表descriptionTeaser）→正文，city/state/country等原始字段→地点；ID按合法主id或缺值时reqId/jobSeqNo回退；提供畸形主ID不回退；totalHits属于全局列表，不等于scope expected_total |
+| Workday | `/wday/cxs/<tenant>/<site>/jobs` POST，实际路径由源码构造；tenant/region/site/search_text/country/max_list_pages来自原配置；低层_list_page支持appliedFacets，但当前正式collect每页硬传{}，尚未贯穿配置facet；显式空searchText也会回退默认China。offset按实际页行数推进；详情GET同site+externalPath | jobPostingInfo.id/externalPath→身份，title→标题，jobDescription→正文，location/additionalLocations→地点，startDate/endDate→日期；没有届别字段不猜；China关键词不能替代真实地域全集 |
+
+逐个读取三个模块各自 `__main__` 的 argparse 后确认：每个都只有 company 位置参数，`--scope`默认campus、`--output-dir`为必填Path、`--max-requests`为可选int；入口随后调用各自collect。预览CLI形状为：`python -B -m qiuzhao.collector.<p1_platform_eightfold|p1_platform_phenom|p1_platform_workday> '<已注册名称>' --scope <campus|intern|social> --output-dir <独占目录> --max-requests 20`。尖括号是待替换参数，禁止直接把该模板当命令；它是受预算的网络取证入口，本次未执行。离线复验分别运行 `python -B -m pytest -q tests/test_p1_platform_eightfold.py tests/test_p1_platform_phenom.py` 与 `python -B -m pytest -q tests/test_p1_platform_workday.py`，无需调用供应商。
+
+逐页保存响应→先校验envelope/list/行/ID→记录可信总数和末页→按scope/地域选择→绑定详情→统一validate_result。一个异常页不能抹去前页有效岗位，也不能提升complete；页限与预算不足保留partial。恢复使用原run保存的失败页与配置身份，修复后离线重放→owner按原截止续跑；未校验通过不推进完整时间/下架，回归通过不直接推进生产游标。
+
+独审与Windows `ef-phenom-independent-review-round2.json`、`ef-phenom-windows-regression.json`分别95通过；EF源码`0cf70aa3…`、Phenom`b20bcb2b…`。Workday `workday-independent-review.json`、`workday-windows-regression.json`分别42通过，源码`046587fb…`；3M36unique/实习1的已存真实两页为零total哨兵成功样本，不是当前网络验收。前述截取fixture、filtered-out畸形ID、正total提前空页、短页offset、total漂移皆保留失败边界。官方接口无新增付费调用；公开访问阻断仍记录原因，不登录、不绕限制。
+
+
+科思创真实小样证明国家facet可精确查询，且Full time与Regular不证明社会招聘；Student/Intern/Trainee混合桶也不能全判实习。现_scope_of非关键词默认social不满足这一新契约，候选接入仍待typed query/facet贯穿、官方性质证据与用户地域选择；不能沿当前默认值宣称公司官网全范围。
+
+### CLI 源码签名核对（2026-10-09，无采集）
+
+| 入口 | 实际 argparse 签名 | 正文命令核对 |
+|---|---|---|
+| `p1_platform_eightfold.__main__` | company；--scope choices=shared.TYPES/default campus；--output-dir required/Path；--max-requests int | 与上述模块预览模板一致 |
+| `p1_platform_phenom.__main__` | 独立 parser 声明 company；--scope choices=shared.TYPES/default campus；--output-dir required/Path；--max-requests int | 与上述模块预览模板一致；字段函数实际名为 `_record` |
+| `p1_platform_workday.__main__` | 独立 parser 声明 company；--scope choices=shared.TYPES/default campus；--output-dir required/Path；--max-requests int | 与上述模块预览模板一致 |
+| `run.main`（BOC） | --output-dir Path/default库data；--source choices含boc/default all；--chn-limit int/default0；--delay float/default1.25 | 正文显式source=boc、独占output-dir与delay，不沿用三个平台的位置参数 |
+| `p1_sources_31_40.__main__`（LiAuto） | company、scope（campus/intern/social）、output_dir三个位置参数；无--scope/--max-requests | 正文理想汽车、social、独占目录三个位置参数匹配 |
+
+先逐模块读取当前 main 的五段 parser、字段映射与配置路径，owner随后实际执行上述五模块及p1_pipeline的`python3 -B -m ... --help`，六个入口均退出0，未进行岗位采集、网络请求或供方健康检查。私有`method-library-cli-help-actual.json`保存原命令与完整help；这证明入口参数可解析，不能代替供方运行验收。复用命令前替换模板参数；默认data路径与basic来源入口会写输出，不可拿它们当只读探针。新版本实际供方/生产验收另由 owner 收据证明。
