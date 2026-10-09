@@ -64,13 +64,18 @@ def test_landing_page_without_application_anchor_is_blocked(tmp_path):
     assert any('CtmID' in error for error in result['coverage']['errors'])
 
 
-def test_scope_without_a_micro_site_page_is_empty_success(tmp_path):
+def test_unverified_scope_is_blocked_without_claiming_company_empty(tmp_path):
     calls = []
     result = run('百事', 'intern', tmp_path, calls=calls)
-    assert calls == []                          # never fetches a page that cannot exist
+    assert calls == []                          # no verified route exists; absence is unknown
     assert result['jobs'] == []
-    assert result['coverage']['status'] == 'success'
+    assert result['coverage']['status'] == 'blocked'
+    assert result['coverage']['complete'] is False
+    assert result['coverage']['errors'] == ['source_scope_not_verified']
     assert 'campus' in result['coverage']['note']
+    from qiuzhao.collector.p1_pipeline import validate_result
+    checked = validate_result(result, '百事', 'intern', evidence_dir=tmp_path)
+    assert checked['coverage']['complete'] is False
 
 
 def test_budget_is_honoured(tmp_path):

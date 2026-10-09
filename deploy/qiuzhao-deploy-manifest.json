@@ -1,5 +1,5 @@
 {
-  "_note": "What each environment runs for the qiuzhao daily chain, and where it comes from. `sha256` is filled only when a reviewed version is frozen for deployment (deploy/deploy_manifest.py --check compares it with the repo file); `pending` entries are still being changed and must not be deployed from this manifest. Deployment targets are installed files, not the whole tree.",
+  "_note": "What each environment runs for the qiuzhao daily chain, and where it comes from. `sha256` is filled only when a reviewed version is frozen for deployment (deploy/deploy_manifest.py --environment <name> --require-frozen compares it with the repo file); `pending` entries are still being changed and must not be deployed from this manifest. Deployment targets are installed files, not the whole tree.",
   "environments": {
     "windows_collector": {
       "interpreter": "collector venv python (Windows), same one the scheduled task runs",
@@ -183,8 +183,8 @@
           "repo": "qiuzhao/collector/p1_foreign_01.py",
           "target": "<collector root>/qiuzhao/collector/p1_foreign_01.py",
           "owner": "daily-source-delivery",
-          "sha256": "98b348af95f2a56fe64eebec2786346ec28e5e133d81d6565b8f859794f2b7e6",
-          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+          "sha256": "cf363c101c49b28ae978ba38874432e795082fa82d7d978e16f53c497fa5921c",
+          "status": "frozen 2026-10-09: independent Dayee/51job scope-evidence review; Windows regressions retain explicit baseline/skip boundaries; production install separate"
         },
         {
           "repo": "qiuzhao/collector/p1_midea_public.py",
@@ -211,8 +211,8 @@
           "repo": "qiuzhao/collector/p1_platform_51job.py",
           "target": "<collector root>/qiuzhao/collector/p1_platform_51job.py",
           "owner": "daily-source-delivery",
-          "sha256": "6b7302901240cdd8d6614a8f7ce24d5c2a637a18efa2acc8c7b7f0a127235c61",
-          "status": "frozen 2026-10-09: ENGEL PR40 independent code and Windows original HTML replay; production install pending"
+          "sha256": "c7a9b3f6907edc0f7413f4208b9b3507b250936ba4df9a5072be6a7cc9fb1eec",
+          "status": "frozen 2026-10-09: independent Dayee/51job scope-evidence review; Windows regressions retain explicit baseline/skip boundaries; production install separate"
         },
         {
           "repo": "qiuzhao/collector/p1_platform_avature.py",

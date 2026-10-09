@@ -99,3 +99,16 @@
 | `p1_sources_31_40.__main__`（LiAuto） | company、scope（campus/intern/social）、output_dir三个位置参数；无--scope/--max-requests | 正文理想汽车、social、独占目录三个位置参数匹配 |
 
 先逐模块读取当前 main 的五段 parser、字段映射与配置路径，owner随后实际执行上述五模块及p1_pipeline的`python3 -B -m ... --help`，六个入口均退出0，未进行岗位采集、网络请求或供方健康检查。私有`method-library-cli-help-actual.json`保存原命令与完整help；这证明入口参数可解析，不能代替供方运行验收。复用命令前替换模板参数；默认data路径与basic来源入口会写输出，不可拿它们当只读探针。新版本实际供方/生产验收另由 owner 收据证明。
+
+
+<a id="dayee-request-scope"></a>
+
+## 请求级性质证据与可信空列表（Dayee / 51job）
+
+正式入口为 `p1_pipeline → p1_foreign_01.collect`，复用配置节 `dayee` 的原租户 key、名称及 `_host_for` 主机；请求性质沿已有 `RECRUIT_TYPE` 映射（campus=1、intern=12、social=2），不能以返回零行推出整家公司没有该类岗位。列表与详情仍使用已有 `listPosition`/`listPositionDetail` 同租户接口，pageSize=10，postId绑定正文、岗位名称、地点及原日期；届别未披露不补。
+
+先保存实际响应，再校验官方state、pageForm、pageData数组与非负整型dataCount/totalPage；首可信dataCount是不可缩小的分母，后页漂移、正总数提前空页及终页唯一ID数不足均保留有效岗位为partial。请求级 `scope_evidence`、`scope_response_evidence` 和 `scope_checked_at` 在合法响应校验之后产生，空列表不依赖jobs拼证据。shared.finish和正式validate_result仍保留原验证门；预算耗尽不改小首分母、不推进下架。Dayee没有已证Workday后页0哨兵协议，不跨平台套用。
+
+离线复验：`python -B -m pytest -q tests/test_p1_foreign_01.py tests/test_p1_platform_51job.py tests/test_beisen_legacy_engel.py`。原益海嘉里实习157B响应（SHA109ee4…）在Mac与Windows都经实际collect→validate_result重放，合法0/0、请求12与响应文件/时间证据对应；没有新HTTP或当前源重采。坏envelope、总数缩小、空页矛盾、预算partial是回归反例。受审Dayee源码cf363c…、51job c7a9b3…；独审收据 `dayee-51job-independent-review-round2.json`，Win完整集合收据 `dayee-51job-windows-regression-complete.json`。Win保留旧literal REDACTED租户配置断言失败与既有私有Mac原HTML路径skip，不能概括为全套通过。
+
+51job仅配置campus而未验证其他官方route时，返回blocked/source_scope_not_verified，无HTTP与空success；不缩计划、不下架。已验证ENGEL social route与原campus路线照旧。恢复先核真正官方替代入口，修配置/协议后离线回放，再按原预算运行；改阻断标签不等于补齐公司官网范围。费用沿既有请求预算，未新增付费、登录或绕过访问限制。当前运行版本/每日成功数量只维护在日更正文。

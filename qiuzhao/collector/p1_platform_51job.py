@@ -303,13 +303,13 @@ def collect(company, scope, output_dir, max_requests=None):
     session = _make_session()
     try:
         if scope != configured_scope:
-            coverage['status'] = 'success'
-            coverage['complete'] = True
-            coverage['note'] = (f'micro-site publishes only the official '
-                                f'{configured_scope} programme; scope={scope} has no page')
+            coverage['errors'].append('source_scope_not_verified')
+            coverage['note'] = (f'Configured micro-site verifies only {configured_scope}; '
+                                f'official {scope} channel has not been verified. '
+                                'This is not evidence that the company has no such jobs.')
             coverage['scope_request'] = {'company': name, 'scope': scope, 'source_url': url,
                                          'params': {'configured_scope': configured_scope}}
-            return {'jobs': [], 'coverage': coverage}
+            return shared.finish([], coverage)
         page_html = _get(session, url, budget)
         (output_dir / f'{key}-list-1.html').write_text(page_html, encoding='utf-8')
         saved.append(f'{key}-list-1.html')

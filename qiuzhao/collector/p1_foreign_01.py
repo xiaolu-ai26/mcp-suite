@@ -241,6 +241,7 @@ def collect(company, scope, output_dir, max_requests=None):
     observed = []
     seen = set()
     list_complete = False
+    first_data_count = None
     session = _make_session()
     try:
         page = 1
@@ -252,9 +253,34 @@ def collect(company, scope, output_dir, max_requests=None):
             (output_dir / f'{su}-list-{scope}-{page}.json').write_text(
                 json.dumps(payload, ensure_ascii=False))
             coverage['pages_scanned'] += 1
-            page_form = ((payload.get('data') or {}).get('pageForm') or {})
-            rows = page_form.get('pageData') or []
+            data = payload.get('data')
+            page_form = data.get('pageForm') if isinstance(data, dict) else None
+            if not isinstance(page_form, dict) or not isinstance(page_form.get('pageData'), list):
+                raise ValueError('Dayee list requires official pageForm.pageData array')
+            rows = page_form['pageData']
             total_page = page_form.get('totalPage')
+            data_count = page_form.get('dataCount')
+            for key, value in (('totalPage', total_page), ('dataCount', data_count)):
+                if type(value) is not int or value < 0:
+                    raise ValueError('Dayee invalid nonnegative integer ' + key)
+            if first_data_count is None:
+                first_data_count = data_count
+                coverage['expected_total'] = first_data_count
+            elif data_count != first_data_count:
+                raise ValueError('Dayee dataCount changed during list scan')
+            if not rows and data_count != len(seen):
+                raise ValueError('Dayee empty page contradicts observed count/dataCount')
+            if rows and data_count == 0:
+                raise ValueError('Dayee nonempty page contradicts zero dataCount')
+            checked_at = datetime.now(timezone.utc).isoformat()
+            coverage['scope_evidence'] = (
+                f'Official Dayee request recruitType={recruit_type} ({scope}); '
+                f'su={su}; validated pageForm; response={su}-list-{scope}-{page}.json')
+            coverage['scope_checked_at'] = checked_at
+            coverage['scope_response_evidence'] = {
+                'response_file': f'{su}-list-{scope}-{page}.json',
+                'checked_at': checked_at, 'recruitType': recruit_type,
+                'page': page, 'dataCount': data_count, 'totalPage': total_page}
             if not rows:
                 list_complete = True
                 coverage['last_page_evidence'] = (f'su={su};scope={scope};page={page};rows=0;'
@@ -306,7 +332,9 @@ def collect(company, scope, output_dir, max_requests=None):
                 list_complete = True
                 break
             page += 1
-        coverage['expected_total'] = len(seen)
+        if list_complete and first_data_count != len(seen):
+            raise ValueError('Dayee terminal dataCount differs from unique observed IDs')
+        coverage['expected_total'] = first_data_count
         coverage['list_observed_ids'] = sorted(o['id'] for o in observed)
         coverage['list_observed_titles'] = sorted(o['title'] for o in observed if o['title'])
         coverage['pagination_exhausted'] = list_complete
@@ -319,7 +347,7 @@ def collect(company, scope, output_dir, max_requests=None):
     except BudgetExhausted:
         coverage['request_budget_exhausted'] = True
         if 'list_observed_ids' not in coverage and observed:
-            coverage['expected_total'] = len(seen)
+            coverage['expected_total'] = first_data_count if first_data_count is not None else len(seen)
             coverage['list_observed_ids'] = sorted(o['id'] for o in observed)
             coverage['list_observed_titles'] = sorted(o['title'] for o in observed if o['title'])
     except Exception as error:
