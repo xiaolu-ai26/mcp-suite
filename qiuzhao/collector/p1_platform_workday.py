@@ -26,6 +26,7 @@ nothing is inferred. ``Early Careers / Campus / Graduate`` titles map to
 posting title; every job records the exact official title as ``scope_evidence``.
 """
 from __future__ import annotations
+import hashlib
 import json
 import os
 import re
@@ -349,18 +350,58 @@ def _job(name, scope, info, posting, host, site, key, query):
     return job
 
 
-def collect(company, scope, output_dir, max_requests=None):
+def _strict_scope(info):
+    title=str(info.get('title') or '').lower();body=shared.text(info.get('jobDescription')).lower()
+    explicit=info.get('recruitmentType');labels={'校园招聘':'campus','社会招聘':'social','实习招聘':'intern'}
+    claimed=labels.get(explicit) if isinstance(explicit,str) else None
+    internship_title=bool(re.search(r'\bintern(?:ship)?\b|实习',title))
+    graduate_title=bool(re.search(r'graduate|应届|校招',title))
+    if (claimed=='intern' or internship_title) and re.search(r'not\s+(?:an?\s+)?internship|非实习|不是实习',body):return None
+    if (claimed=='campus' or graduate_title) and re.search(r'not\s+(?:a\s+)?graduate\s+(?:role|position)|非应届|不是校招',body):return None
+    if claimed:return claimed
+    # An intern/graduate can be the managed or recruited population, not this
+    # applicant's nature. No broad NLP: unclear roles stay real but unclassified.
+    if re.search(r'manager|recruit(?:er|ment)|mentor|supervisor|coordinator|管理|招聘',title):return None
+    eligible_student=bool(re.search(r'current\s+(?:undergraduate|graduate|university|college)[^.!?\n]{0,45}\bstudent\b|currently\s+enrolled|在读|在校',body))
+    if internship_title and eligible_student:return 'intern'
+    eligible_graduate=bool(re.search(r'(?:open to|for|seeking|looking for)[^.!?\n]{0,35}recent graduates|(?:candidate|applicant)s?[^.!?\n]{0,35}(?:recent graduate|应届)|应聘者[^。\n]{0,30}(?:应届|毕业生)',body))
+    if graduate_title and eligible_graduate:return 'campus'
+    return None
+
+
+def _source_config(value):
+    required={'key','search_text','applied_facets','country','region_confirmed'}
+    if not isinstance(value,dict) or set(value)-required-{'max_list_pages'} or not required.issubset(value):
+        raise ValueError('unknown typed Workday source_config')
+    key=value['key'];parts=key.split('/') if isinstance(key,str) else []
+    if (len(parts)!=3 or not re.fullmatch(r'[a-z0-9-]+',parts[0]) or not re.fullmatch(r'wd\d+',parts[1])
+            or not re.fullmatch(r'[A-Za-z0-9_-]+',parts[2]) or not isinstance(value['search_text'],str)
+            or value['region_confirmed'] is not True):
+        raise ValueError('Workday source identity/query/region not confirmed')
+    facets=value['applied_facets']
+    if not isinstance(facets,dict) or any(not isinstance(k,str) or not re.fullmatch(r'[A-Za-z0-9_]+',k)
+        or not isinstance(v,list) or not v or any(not isinstance(x,str) or not x for x in v) for k,v in facets.items()):
+        raise ValueError('Workday source facets invalid')
+    if value['country'] is not None and (not isinstance(value['country'],str) or not value['country']):
+        raise ValueError('Workday source country invalid')
+    if 'max_list_pages' in value and (type(value['max_list_pages']) is not int or value['max_list_pages']<1):
+        raise ValueError('Workday page bound invalid')
+    return value
+
+
+def collect(company, scope, output_dir, max_requests=None, *, source_config=None):
     output_dir = Path(output_dir).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     if scope not in shared.TYPES:
         raise ValueError('invalid scope')
-    key = resolve(company)
-    name = COMPANIES[key]
+    explicit=_source_config(source_config) if source_config is not None else None
+    key = explicit['key'] if explicit else resolve(company)
+    name = str(company) if explicit else COMPANIES[key]
     tenant, region, site = key.split('/')
-    host = host_for(key)
-    query = search_text_for(key, scope)
-    country = country_for(key)
-    max_pages = max_list_pages_for(key)
+    host = f'https://{tenant}.{region}.myworkdayjobs.com' if explicit else host_for(key)
+    query = explicit['search_text'] if explicit else search_text_for(key, scope)
+    country = explicit['country'] if explicit else country_for(key)
+    max_pages = explicit.get('max_list_pages',DEFAULT_MAX_LIST_PAGES) if explicit else max_list_pages_for(key)
     budget = {'limit': _budget_limit(max_requests), 'used': 0}
     coverage = shared.coverage(host)
     coverage['source_url'] = host
@@ -375,7 +416,7 @@ def collect(company, scope, output_dir, max_requests=None):
         offset = 0
         pages = 0
         while pages < max_pages:
-            payload = _list_page(session, tenant, region, site, query, offset, {}, budget, output_dir)
+            payload = _list_page(session, tenant, region, site, query, offset, explicit['applied_facets'] if explicit else {}, budget, output_dir)
             coverage['pages_scanned'] += 1
             pages += 1
             if not isinstance(payload, dict) or not isinstance(payload.get('jobPostings'), list):
@@ -417,9 +458,9 @@ def collect(company, scope, output_dir, max_requests=None):
                 seen.add(external_path)
                 observed.append({'externalPath': external_path, 'title': posting.get('title'),
                                  'locationsText': posting.get('locationsText')})
-                if (_scope_of(posting.get('title'), key) == scope
-                        and _location_candidate(posting.get('locationsText'), country)):
-                    selected.append(posting)
+                if ((explicit or _scope_of(posting.get('title'), key) == scope)
+                        and (country is None or _location_candidate(posting.get('locationsText'), country))):
+                    selected.append({**posting,'_list_file':f'list-{offset}.json'})
             offset += len(rows)
             if total is not None and offset >= total:
                 list_complete = len(seen) == total and offset == total and not coverage['errors']
@@ -439,6 +480,7 @@ def collect(company, scope, output_dir, max_requests=None):
         coverage['list_observed_ids'] = sorted({o['externalPath'] for o in observed})
         coverage['list_observed_titles'] = sorted({o['title'] for o in observed if o['title']})
         filtered_country = 0
+        filtered_scope = 0
         for posting in selected:
             if not _has_budget(budget):
                 coverage['request_budget_exhausted'] = True
@@ -456,13 +498,34 @@ def collect(company, scope, output_dir, max_requests=None):
                 coverage.setdefault('detail_fetch_errors', []).append(
                     'No official Workday description for ' + str(posting.get('externalPath')))
                 continue
-            if not _country_ok(info, country):
+            if country is not None and not _country_ok(info, country):
                 filtered_country += 1
                 continue
-            jobs.append(_job(name, scope, info, posting, host, site, key, query))
+            actual=_strict_scope(info) if explicit else scope
+            if actual is not None and actual!=scope:
+                filtered_scope+=1
+                continue
+            record=_job(name,actual,info,posting,host,site,key,query)
+            if explicit:
+                observed=datetime.now(timezone.utc).isoformat()
+                list_file=posting['_list_file'];detail_file=f'detail-{info["id"]}.json'
+                record['classification_status']='unclassified' if actual is None else 'verified'
+                record['classification_evidence']={'protocol':'workday_cxs','namespace':key,
+                    'reason':'official_type_not_disclosed' if actual is None else 'official_title_body',
+                    'observed_at':observed,'list_file':list_file,'detail_file':detail_file,
+                    'list_sha256':hashlib.sha256((output_dir/list_file).read_bytes()).hexdigest(),
+                    'detail_sha256':hashlib.sha256((output_dir/detail_file).read_bytes()).hexdigest()}
+                if actual is None:
+                    record['detail_presentation']='官方职位及正文已核验；本轮官网未披露可确认的招聘性质，显示未注明，不将全职/Regular推定为社招。'
+                    record['scope_evidence']='Official Workday list/detail native record; recruitment type unclassified'
+                    record['source_missing_fields']=list(dict.fromkeys((record.get('source_missing_fields') or [])+['recruitment_type']))
+            jobs.append(record)
             if len(jobs) % 100 == 0:
                 shared.partial_checkpoint(jobs, coverage, name, scope, output_dir)
-        coverage['expected_total'] = max(len(selected) - filtered_country, 0)
+        coverage['unclassified_count']=sum(j.get('classification_status')=='unclassified' for j in jobs)
+        coverage['known_scope_count']=len(jobs)-coverage['unclassified_count']
+        coverage['expected_total'] = None if coverage['unclassified_count'] else max(len(selected) - filtered_country - filtered_scope, 0)
+        if coverage['unclassified_count']:coverage['errors'].append('Official recruitment type unresolved; real records retained')
         coverage['location_filtered_count'] = filtered_country
         coverage['pagination_exhausted'] = list_complete
         coverage['detail_complete'] = (not coverage['errors']
@@ -477,7 +540,7 @@ def collect(company, scope, output_dir, max_requests=None):
         coverage['scope_request'] = {'company': name, 'scope': scope, 'source_url': host,
                                      'params': {'tenant': tenant, 'region': region, 'site': site,
                                                 'searchText': query, 'limit': PAGE_SIZE,
-                                                'offset': 0, 'country': country}}
+                                                'offset': 0, 'country': country, **({'appliedFacets':explicit['applied_facets']} if explicit else {})}}
     except BudgetExhausted:
         coverage['request_budget_exhausted'] = True
     except Exception as error:  # noqa: BLE001 - never let a source corrupt the pipeline

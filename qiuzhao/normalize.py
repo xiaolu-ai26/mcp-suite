@@ -356,6 +356,10 @@ def _fill_industry(record, stats):
 # ---------------------------------------------------------------- 招聘类型
 
 def _fill_recruitment_type(record, stats):
+    if record.get('classification_status') == 'unclassified':
+        if record.get('recruitment_type') != '未注明':
+            raise ValueError('unclassified record requires explicit 未注明')
+        return
     if not _is_empty(record.get("recruitment_type")):
         return
     src = record.get("source_name")

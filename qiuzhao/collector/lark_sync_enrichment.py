@@ -52,6 +52,8 @@ def qualification_note(raw):
             parts.append('一般活动条件（不覆盖更具体的岗位资格）：'+str(campaign))
     if raw.get('source_is_active') is False and raw.get('status_note'):
         parts.append('招聘状态说明：'+str(raw['status_note']))
+    if raw.get('classification_status')=='unclassified' and raw.get('detail_presentation'):
+        parts.append('招聘性质说明：'+str(raw['detail_presentation']))
     if parts:return '\n'.join(parts)
     if cohort:
         return '历史届别标签：'+cohort+'。缺少可核对的岗位资格原句，待回源核实。'
@@ -137,7 +139,7 @@ def new_fields(raw):
     table,industry=route(raw['p1_company']);v,_=V.convert(raw)
     fields={'job_id':raw['id'],'岗位名称':v['job_title'],'公司名称':raw['p1_company'],
             '招聘单位':raw.get('recruiting_unit_raw') or raw.get('recruitment_unit') or raw['p1_company'],
-            '行业':[industry],'招聘性质':[{'校园招聘':'校招','实习招聘':'实习','社会招聘':'社招'}[raw['recruitment_type']]],
+            '行业':[industry],'招聘性质':[{'校园招聘':'校招','实习招聘':'实习','社会招聘':'社招','未注明':'未知'}[raw['recruitment_type']]],
             '岗位大类':[v['job_category']],'状态':[raw.get('status') or 'unverified'],
             '原链接':raw.get('source_url') or raw['detail_url'],'投递入口':raw.get('application_url') or raw['detail_url'],
             '复核时间':str(raw.get('reviewed_at') or ''),'来源':raw.get('source_name') or raw['p1_company']+'官方招聘',
@@ -311,7 +313,7 @@ def business_fields(raw):
             '投递入口':raw.get('application_url') or raw.get('detail_url') or '',
             '来源':raw.get('source_name') or '', '投递截止':str(raw.get('deadline') or ''),
             '岗位大类':[v['job_category']],
-            '招聘性质':[{'校园招聘':'校招','实习招聘':'实习','社会招聘':'社招'}.get(raw.get('recruitment_type'), '未注明')],
+            '招聘性质':[{'校园招聘':'校招','实习招聘':'实习','社会招聘':'社招','未注明':'未知'}.get(raw.get('recruitment_type'), '未知')],
             '岗位描述':str(raw.get('description_raw') or '')}
 
 

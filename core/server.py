@@ -355,7 +355,7 @@ Education = Annotated[str, TextIn, Field(
     description="用户本人的学历，只能填列出的值（研究生→硕士、专科→大专 会自动归一）；返回最低学历要求不高于它的岗位；不限 只看写明学历不限的岗位",
     json_schema_extra=_enum(V.EDUCATIONS if PRODUCT == "qiuzhao" else []))]
 RecruitmentType = Annotated[str, TextIn, Field(
-    description="招聘类型，只能填列出的值（校招、秋招→校园招聘，实习→实习招聘，社招→社会招聘）；不传时三种都返回",
+    description="招聘类型，只能填列出的值（校招、秋招→校园招聘，实习→实习招聘，社招→社会招聘）；不传时返回三种已披露类型及未注明；未注明表示未取得官方类型证据",
     json_schema_extra=_enum(V.RECRUITMENT_TYPES if PRODUCT == "qiuzhao" else []))]
 Industry = Annotated[str, TextIn, Field(
     description="行业，只能填列出的值（国企、央企→国企/央企，互联网→互联网/科技 会自动归一）",
@@ -408,7 +408,7 @@ def jobs_search(
     """【岗位搜索】按条件找秋招、实习、社招岗位。每条返回全部业务字段（岗位描述、城市、届别、学历、专业、截止日、投递链接、原公告链接）和匹配依据 match。
 【何时用】用户要看具体岗位时用，例如“北京有哪些产品岗”“字节在招算法吗”“我是27届计算机硕士能投什么”“这周截止的校招”“国企的财务岗”。只问数量、分布、排名（“哪个城市最多”“有几家公司”）时，先用 jobs_stats。
 【参数来源】keyword、company、city、major 取自用户原话。job_category、graduation_year、education、recruitment_type、industry、sort 只能填 schema 列出的值，“27届”“校招”“研究生”这类说法服务端会自动归一。也可以把 jobs_stats.groups[i].value 原样填到 jobs_stats.fill_param 指定的参数。offset 只能取上一次返回的 next_offset。
-【参数用法】各条件需同时满足。city、country、company 可用英文逗号写多个，满足任一即可。地点分 city（城市）、country（国家/地区）、state（州/省）和 work_mode（远程/混合/现场），远程不是城市；city、country、state 同时给出时按同一个工作地点匹配。届别、城市、专业、学历四个条件分三档返回并按此排序：明确匹配（岗位写明、活动标题写明、全国、专业不限、学历不限）→ 推断匹配（按招聘季推断、来源专场注明、实习未写届别）→ 含未注明（含“推断为其他届别”：原文没写届别，按招聘季或来源专场推断的是别的届）；同一档内，岗位写明的城市、专业、学历、届别排在 全国、专业不限、学历不限、活动标题写明 之前；每条的 match 写明档次和依据。用户说“只看写明的”时传 explicit_only=true（只留明确匹配）。按届别筛选时社招岗位不返回（社招不限届别，excluded_social_total 给出条数），要看社招请加 recruitment_type=社会招聘。education 填用户本人的学历，返回最低学历要求不高于它的岗位。recruitment_type 不传时校招、实习、社招都返回。deadline_within_days=N 只返回今天起 N 天内有明确截止日的岗位（招满即止和没写截止日的不返回），一般配 sort=deadline_asc。默认不返回已截止岗位。
+【参数用法】各条件需同时满足。city、country、company 可用英文逗号写多个，满足任一即可。地点分 city（城市）、country（国家/地区）、state（州/省）和 work_mode（远程/混合/现场），远程不是城市；city、country、state 同时给出时按同一个工作地点匹配。届别、城市、专业、学历四个条件分三档返回并按此排序：明确匹配（岗位写明、活动标题写明、全国、专业不限、学历不限）→ 推断匹配（按招聘季推断、来源专场注明、实习未写届别）→ 含未注明（含“推断为其他届别”：原文没写届别，按招聘季或来源专场推断的是别的届）；同一档内，岗位写明的城市、专业、学历、届别排在 全国、专业不限、学历不限、活动标题写明 之前；每条的 match 写明档次和依据。用户说“只看写明的”时传 explicit_only=true（只留明确匹配）。按届别筛选时社招岗位不返回（社招不限届别，excluded_social_total 给出条数），要看社招请加 recruitment_type=社会招聘。education 填用户本人的学历，返回最低学历要求不高于它的岗位。recruitment_type 不传时校招、实习、社招及未注明均返回；未注明保留官方原内容与类型缺口说明。deadline_within_days=N 只返回今天起 N 天内有明确截止日的岗位（招满即止和没写截止日的不返回），一般配 sort=deadline_asc。默认不返回已截止岗位。
 【返回】applied_filters（服务端实际使用、已归一的条件；与你传的不一致又没有 notices 说明时，说明客户端丢了参数，要告诉用户，不要重复同样的调用）、total、explicit_total、inferred_total、unspecified_total、分页信息（returned、has_next、next_offset、truncated）、data_as_of、notices（参数被归一或调整时的说明），以及 jobs[]。
 【下一步】has_next=true 且用户要更多时，用 next_offset 翻页。要对比或复查某几个岗位时，把 jobs[i].id 传给 jobs_detail。要看分布时，用相同条件调 jobs_stats。
 【限制】page_size 默认 10、最大 20。一页超过约 60KB 时，在完整岗位处截断并置 truncated=true，用 next_offset 接着取。城市只认城市名，不认省份。数据只包含公告里写了的信息：回答时把明确匹配、推断匹配和未注明分开说，推断和未注明都不代表一定符合条件，并附 source_url 和 data_as_of。"""

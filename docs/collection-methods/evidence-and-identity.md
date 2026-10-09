@@ -77,7 +77,7 @@
 |---|---|---|
 | Eightfold | `_base(entry)/api/pcsx/search` GET；domain/location/start/sort_by/remote/hl来自entry，详情`position_details`以position_id绑定；必要的公开页面fallback仍沿既有代码 | typed id→稳定身份，name→标题；position_details.jobDescription→正文（源码可回退列表jobDescription）；locations/standardizedLocations→地点；postedTs→发布时间；地域与scope分类在ID合法性之后 |
 | Phenom | entry.host + `/widgets` POST；ref/lang/country/site_type/location固定到租户，refineSearch的from/size推进；detail_body绑定该岗位，证据保留完整refineSearch envelope | `_record`映射title，详情description/ml_Description（可回退列表descriptionTeaser）→正文，city/state/country等原始字段→地点；ID按合法主id或缺值时reqId/jobSeqNo回退；提供畸形主ID不回退；totalHits属于全局列表，不等于scope expected_total |
-| Workday | `/wday/cxs/<tenant>/<site>/jobs` POST，实际路径由源码构造；tenant/region/site/search_text/country/max_list_pages来自原配置；低层_list_page支持appliedFacets，但当前正式collect每页硬传{}，尚未贯穿配置facet；显式空searchText也会回退默认China。offset按实际页行数推进；详情GET同site+externalPath | jobPostingInfo.id/externalPath→身份，title→标题，jobDescription→正文，location/additionalLocations→地点，startDate/endDate→日期；没有届别字段不猜；China关键词不能替代真实地域全集 |
+| Workday | `/wday/cxs/<tenant>/<site>/jobs` POST，实际路径由源码构造；tenant/region/site/search_text/country/max_list_pages来自原配置；既有69公司source_config=None路径仍每页硬传{}、空searchText回退China；新显式typed source_config支持每页真实facets与保留空query，未注册或激活地域配置。offset按实际页行数推进；详情GET同site+externalPath | jobPostingInfo.id/externalPath→身份，title→标题，jobDescription→正文，location/additionalLocations→地点，startDate/endDate→日期；没有届别字段不猜；China关键词不能替代真实地域全集 |
 
 逐个读取三个模块各自 `__main__` 的 argparse 后确认：每个都只有 company 位置参数，`--scope`默认campus、`--output-dir`为必填Path、`--max-requests`为可选int；入口随后调用各自collect。预览CLI形状为：`python -B -m qiuzhao.collector.<p1_platform_eightfold|p1_platform_phenom|p1_platform_workday> '<已注册名称>' --scope <campus|intern|social> --output-dir <独占目录> --max-requests 20`。尖括号是待替换参数，禁止直接把该模板当命令；它是受预算的网络取证入口，本次未执行。离线复验分别运行 `python -B -m pytest -q tests/test_p1_platform_eightfold.py tests/test_p1_platform_phenom.py` 与 `python -B -m pytest -q tests/test_p1_platform_workday.py`，无需调用供应商。
 
@@ -86,7 +86,7 @@
 独审与Windows `ef-phenom-independent-review-round2.json`、`ef-phenom-windows-regression.json`分别95通过；EF源码`0cf70aa3…`、Phenom`b20bcb2b…`。Workday `workday-independent-review.json`、`workday-windows-regression.json`分别42通过，源码`046587fb…`；3M36unique/实习1的已存真实两页为零total哨兵成功样本，不是当前网络验收。前述截取fixture、filtered-out畸形ID、正total提前空页、短页offset、total漂移皆保留失败边界。官方接口无新增付费调用；公开访问阻断仍记录原因，不登录、不绕限制。
 
 
-科思创真实小样证明国家facet可精确查询，且Full time与Regular不证明社会招聘；Student/Intern/Trainee混合桶也不能全判实习。现_scope_of非关键词默认social不满足这一新契约，候选接入仍待typed query/facet贯穿、官方性质证据与用户地域选择；不能沿当前默认值宣称公司官网全范围。
+科思创真实小样证明国家facet可精确查询，且Full time与Regular不证明社会招聘；Student/Intern/Trainee混合桶也不能全判实习。现_scope_of非关键词默认social不满足这一新契约，新显式接口已支持typed query/facet与官方证明；正式scope路由接入及用户地域选择仍待确认；不能沿当前默认值宣称公司官网全范围。
 
 ### CLI 源码签名核对（2026-10-09，无采集）
 
@@ -112,3 +112,16 @@
 离线复验：`python -B -m pytest -q tests/test_p1_foreign_01.py tests/test_p1_platform_51job.py tests/test_beisen_legacy_engel.py`。原益海嘉里实习157B响应（SHA109ee4…）在Mac与Windows都经实际collect→validate_result重放，合法0/0、请求12与响应文件/时间证据对应；没有新HTTP或当前源重采。坏envelope、总数缩小、空页矛盾、预算partial是回归反例。受审Dayee源码cf363c…、51job c7a9b3…；独审收据 `dayee-51job-independent-review-round2.json`，Win完整集合收据 `dayee-51job-windows-regression-complete.json`。Win保留旧literal REDACTED租户配置断言失败与既有私有Mac原HTML路径skip，不能概括为全套通过。
 
 51job仅配置campus而未验证其他官方route时，返回blocked/source_scope_not_verified，无HTTP与空success；不缩计划、不下架。已验证ENGEL social route与原campus路线照旧。恢复先核真正官方替代入口，修配置/协议后离线回放，再按原预算运行；改阻断标签不等于补齐公司官网范围。费用沿既有请求预算，未新增付费、登录或绕过访问限制。当前运行版本/每日成功数量只维护在日更正文。
+
+
+<a id="unclassified-official-records"></a>
+
+## 未注明岗位的同库接纳与稳定身份
+
+显式接口为 `p1_platform_workday.collect(company,scope,output_dir,max_requests=None,*,source_config=None)`，现CLI没有source_config开关。配置只允许key（tenant/wdN/site）、search_text、applied_facets、country、region_confirmed和可选正整数max_list_pages；region_confirmed不是True即HTTP前拒。没有注册新配置，不改旧69公司或用户未选择的地域。正式接入仍沿原pipeline/同SourceResult.jobs，不创建第四scope或第二库。
+
+未注明行必须有同官方namespace/native ID、列表/详情SHA及完整已读正文证明；普通三scope严格验证照旧，派生key不能脱离证明晋升类型。主字段未注明，分类coverage保持partial；3372键不变。身份不含请求scope，跨scope只一条；旧schema仅同公司、验证过的namespace/native ID及旧URL精确匹配才桥接保旧ID，多候选歧义拒绝。merge每Result建立短期候选索引，不每incoming扫全库、不用全局缓存或第二持久身份库。
+
+没有本轮性质证明时不拿旧默认社招/校招作确认；历史官方性质保原值/证据/时间并公开标历史，旧未证明值标历史未核。scope阴性不误下架未分类行；normalize明确未注明不猜校园；MCP默认/详情返回未注明，三已知类型过滤不误选；Base单向投影到既有未知选项，不新增同义选项。原文、类型缺口和历史说明沿现有公开字段保留，不用pending_index清正文。
+
+离线回归：`python -B -m pytest -q tests/test_unclassified_official.py`，包含原Covestro小样、真旧schema迁移、拷key删proof拒、管理/否定句反例、后获类型保ID、阴性保护及179000行规模计数。源码/范围见私有unclassified-official-independent-review.json与unclassified-native-index-independent-review.json；小样和合成规模不证明69公司、本轮完整性或生产内存。管理实习项目或招聘毕业生不等本人岗位性质，不可靠时保全文与unknown，不扩通用NLP。先原样本离线链及正式环境验收，再按原预算运行；地域、业务完成口径和正式路由配置仍待确认，不手改complete。
