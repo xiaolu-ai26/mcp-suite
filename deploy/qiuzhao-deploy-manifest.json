@@ -22,15 +22,15 @@
           "repo": "qiuzhao/normalize.py",
           "target": "<collector root>/qiuzhao/normalize.py",
           "owner": "location",
-          "sha256": "c9380fa12808b2f52050c5f7873e3a09270e5cc7ddaa5ba47e14b88d8dd39a03",
-          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+          "sha256": "63bc3d7b5eaf32bc57aa0b895d6958ee0554c4e3b3d6e94518610430ec52d2d2",
+          "status": "frozen 2026-10-09: independent unclassified proof/identity/index and public projection review; per-target installation separate"
         },
         {
           "repo": "qiuzhao/v4_fields.py",
           "target": "<collector root>/qiuzhao/v4_fields.py",
           "owner": "location",
-          "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860",
-          "status": "frozen 2026-09-28: location review PASS (batch 2)"
+          "sha256": "96954b92fe4df598f5e2cfc9bc0d468c21b147b59dea08f1f965b9b83affbd86",
+          "status": "frozen 2026-10-09: independent unclassified proof/identity/index and public projection review; per-target installation separate"
         },
         {
           "repo": "qiuzhao/collector/run.py",
@@ -50,8 +50,8 @@
           "repo": "qiuzhao/collector/p1_pipeline.py",
           "target": "<collector root>/qiuzhao/collector/p1_pipeline.py",
           "owner": "location",
-          "sha256": "bc093abd98ea469c15c2d5f67fb8c243e904964d61d4bef2a241a69ee9d0da9c",
-          "status": "frozen 2026-10-09: ENGEL PR40 independently reviewed bytes; per-target installation remains separate"
+          "sha256": "75626dc1b7a9eb51dc66afc2b2fb7d82941473c649e26632136f79066b41abec",
+          "status": "frozen 2026-10-09: independent unclassified proof/identity/index and public projection review; per-target installation separate"
         },
         {
           "repo": "qiuzhao/collector/p1_sources_11_20.py",
@@ -204,8 +204,8 @@
           "repo": "qiuzhao/collector/p1_pipeline.py",
           "target": "<collector root>/qiuzhao/collector/p1_pipeline.py",
           "owner": "daily-source-delivery",
-          "sha256": "bc093abd98ea469c15c2d5f67fb8c243e904964d61d4bef2a241a69ee9d0da9c",
-          "status": "frozen 2026-10-09: ENGEL PR40 independent code and Windows original HTML replay; production install pending"
+          "sha256": "75626dc1b7a9eb51dc66afc2b2fb7d82941473c649e26632136f79066b41abec",
+          "status": "frozen 2026-10-09: independent unclassified proof/identity/index and public projection review; per-target installation separate"
         },
         {
           "repo": "qiuzhao/collector/p1_platform_51job.py",
@@ -288,15 +288,15 @@
           "repo": "qiuzhao/collector/p1_platform_workday.py",
           "target": "<collector root>/qiuzhao/collector/p1_platform_workday.py",
           "owner": "daily-source-delivery",
-          "sha256": "046587fb32eb25a5ae795904d7bbc7f1412c0a180d9606dbc4c792ef7a5fc1ed",
-          "status": "frozen 2026-10-09: independent C code/config byte review PASS; target installation separate"
+          "sha256": "0ef84f8c9094a6c8bf1252aaeced68233da05adad7db5d41ba310e2841c0a6ea",
+          "status": "frozen 2026-10-09: independent unclassified proof/identity/index and public projection review; per-target installation separate"
         },
         {
           "repo": "qiuzhao/collector/p1_sources_01_10.py",
           "target": "<collector root>/qiuzhao/collector/p1_sources_01_10.py",
           "owner": "daily-source-delivery",
-          "sha256": "619a9b39c23826ff8bf749e1ee8e67c57a28558c2c117df21b3f481b83065bfa",
-          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+          "sha256": "176482a6b9bb0f122c49d58023fec8530699b5658b288923f8c1eb72e4d77f96",
+          "status": "frozen 2026-10-09: independent unclassified proof/identity/index and public projection review; per-target installation separate"
         },
         {
           "repo": "qiuzhao/collector/p1_sources_11_20.py",
@@ -379,15 +379,15 @@
           "repo": "qiuzhao/normalize.py",
           "target": "<collector root>/qiuzhao/normalize.py",
           "owner": "daily-source-delivery",
-          "sha256": "c9380fa12808b2f52050c5f7873e3a09270e5cc7ddaa5ba47e14b88d8dd39a03",
-          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+          "sha256": "63bc3d7b5eaf32bc57aa0b895d6958ee0554c4e3b3d6e94518610430ec52d2d2",
+          "status": "frozen 2026-10-09: independent unclassified proof/identity/index and public projection review; per-target installation separate"
         },
         {
           "repo": "qiuzhao/v4_fields.py",
           "target": "<collector root>/qiuzhao/v4_fields.py",
           "owner": "daily-source-delivery",
-          "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860",
-          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+          "sha256": "96954b92fe4df598f5e2cfc9bc0d468c21b147b59dea08f1f965b9b83affbd86",
+          "status": "frozen 2026-10-09: independent unclassified proof/identity/index and public projection review; per-target installation separate"
         }
       ]
     },
@@ -399,8 +399,8 @@
           "repo": "qiuzhao/normalize.py",
           "target": "<collector root>/qiuzhao/normalize.py",
           "owner": "collector-recovery",
-          "sha256": "c9380fa12808b2f52050c5f7873e3a09270e5cc7ddaa5ba47e14b88d8dd39a03",
-          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+          "sha256": "63bc3d7b5eaf32bc57aa0b895d6958ee0554c4e3b3d6e94518610430ec52d2d2",
+          "status": "frozen 2026-10-09: independent unclassified proof/identity/index and public projection review; per-target installation separate"
         },
         {
           "repo": "qiuzhao/normalization_io.py",
@@ -420,8 +420,8 @@
           "repo": "qiuzhao/v4_fields.py",
           "target": "<collector root>/qiuzhao/v4_fields.py",
           "owner": "collector-recovery",
-          "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860",
-          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+          "sha256": "96954b92fe4df598f5e2cfc9bc0d468c21b147b59dea08f1f965b9b83affbd86",
+          "status": "frozen 2026-10-09: independent unclassified proof/identity/index and public projection review; per-target installation separate"
         },
         {
           "repo": "qiuzhao/collector/portable_runtime.py",
@@ -434,8 +434,8 @@
           "repo": "qiuzhao/collector/p1_pipeline.py",
           "target": "<collector root>/qiuzhao/collector/p1_pipeline.py",
           "owner": "collector-recovery",
-          "sha256": "bc093abd98ea469c15c2d5f67fb8c243e904964d61d4bef2a241a69ee9d0da9c",
-          "status": "frozen 2026-10-09: ENGEL PR40 independent code and Windows original HTML replay; production install pending"
+          "sha256": "75626dc1b7a9eb51dc66afc2b2fb7d82941473c649e26632136f79066b41abec",
+          "status": "frozen 2026-10-09: independent unclassified proof/identity/index and public projection review; per-target installation separate"
         },
         {
           "repo": "deploy/deploy_manifest.py",
@@ -524,8 +524,8 @@
           "repo": "core/server.py",
           "target": "/opt/mcp-suite/core/server.py",
           "owner": "location",
-          "sha256": "686555f2c959b472b31505c5741a48c406894128a5119cd36f727daa8ae3b675",
-          "status": "frozen 2026-09-28: location review PASS (batch 2); restart mcp-suite.service only"
+          "sha256": "f542f8057313c9fa974a16ed598838839f205ece5739a1c881b6cc474f868c6b",
+          "status": "frozen 2026-10-09: independent unclassified proof/identity/index and public projection review; per-target installation separate"
         },
         {
           "repo": "qiuzhao/tools.py",
@@ -538,8 +538,8 @@
           "repo": "qiuzhao/v4_fields.py",
           "target": "/opt/mcp-suite/qiuzhao/v4_fields.py",
           "owner": "location",
-          "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860",
-          "status": "frozen 2026-09-28: location review PASS (batch 2); restart mcp-suite.service only"
+          "sha256": "96954b92fe4df598f5e2cfc9bc0d468c21b147b59dea08f1f965b9b83affbd86",
+          "status": "frozen 2026-10-09: independent unclassified proof/identity/index and public projection review; per-target installation separate"
         }
       ]
     },
@@ -621,8 +621,8 @@
           "repo": "qiuzhao/collector/p1_pipeline.py",
           "target": "imported by windows_excel_delivery.py (atomic_json)",
           "owner": "collector",
-          "sha256": "bc093abd98ea469c15c2d5f67fb8c243e904964d61d4bef2a241a69ee9d0da9c",
-          "status": "frozen 2026-10-09: ENGEL PR40 independently reviewed bytes; per-target installation remains separate"
+          "sha256": "75626dc1b7a9eb51dc66afc2b2fb7d82941473c649e26632136f79066b41abec",
+          "status": "frozen 2026-10-09: independent unclassified proof/identity/index and public projection review; per-target installation separate"
         },
         {
           "repo": "qiuzhao/collector/portable_runtime.py",
@@ -635,15 +635,15 @@
           "repo": "qiuzhao/v4_fields.py",
           "target": "imported by the R1 projection",
           "owner": "location",
-          "sha256": "cf062f1a43dadfbb5be51d34a65d29091c3f2675d656eff7c9a4684a2b0bb860",
-          "status": "frozen 2026-09-28: location review PASS (batch 2)"
+          "sha256": "96954b92fe4df598f5e2cfc9bc0d468c21b147b59dea08f1f965b9b83affbd86",
+          "status": "frozen 2026-10-09: independent unclassified proof/identity/index and public projection review; per-target installation separate"
         },
         {
           "repo": "qiuzhao/collector/lark_sync_enrichment.py",
           "target": "imported by the R1 projection",
           "owner": "location",
-          "sha256": "6e1256ec35afa125ac073a079341de2057bc7435c07d9c7d72aea072e2d7c746",
-          "status": "frozen 2026-09-28: unchanged since main b9c5971"
+          "sha256": "f9b25a63148883149982038d0f785723050f3f2133579c4074a5e622573b5a70",
+          "status": "frozen 2026-10-09: independent unclassified proof/identity/index and public projection review; per-target installation separate"
         },
         {
           "repo": "qiuzhao/collector/sync_lark_multivalue.py",
@@ -656,8 +656,8 @@
           "repo": "qiuzhao/normalize.py",
           "target": "imported by the R1 projection (via sync_lark_multivalue)",
           "owner": "location",
-          "sha256": "c9380fa12808b2f52050c5f7873e3a09270e5cc7ddaa5ba47e14b88d8dd39a03",
-          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+          "sha256": "63bc3d7b5eaf32bc57aa0b895d6958ee0554c4e3b3d6e94518610430ec52d2d2",
+          "status": "frozen 2026-10-09: independent unclassified proof/identity/index and public projection review; per-target installation separate"
         },
         {
           "repo": "qiuzhao/company_names.py",

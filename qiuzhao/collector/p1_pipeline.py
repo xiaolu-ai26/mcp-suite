@@ -19,6 +19,7 @@ from pathlib import Path
 import signal
 import shutil
 import subprocess
+import re
 import sys
 import tempfile
 import threading
@@ -505,6 +506,51 @@ def blocked(reason, status='blocked'):
             'pages_scanned': 0, 'errors': [reason], 'checked_at': now()}}
 
 
+def _official_native_evidence(row, evidence_dir, unclassified):
+    """Opt-in Workday evidence: saved complete body, list membership and native ID."""
+    from . import p1_sources_01_10 as shared
+    ev=row.get('classification_evidence')
+    required={'protocol','namespace','reason','observed_at','list_file','detail_file','list_sha256','detail_sha256'}
+    if not isinstance(ev,dict) or set(ev)!=required or ev['protocol']!='workday_cxs':
+        raise ValueError('official classification evidence incomplete')
+    if ev['reason']!=('official_type_not_disclosed' if unclassified else 'official_title_body'):
+        raise ValueError('classification evidence reason invalid')
+    parts=ev['namespace'].split('/') if isinstance(ev['namespace'],str) else []
+    if len(parts)!=3 or not re.fullmatch(r'[a-z0-9-]+',parts[0]) or not re.fullmatch(r'wd\d+',parts[1]) or not re.fullmatch(r'[A-Za-z0-9_-]+',parts[2]):
+        raise ValueError('official native namespace invalid')
+    observed=dt.datetime.fromisoformat(ev['observed_at'])
+    if observed.tzinfo is None:raise ValueError('official observation time missing timezone')
+    if evidence_dir is None:raise ValueError('unclassified/native record requires saved official evidence')
+    root=Path(evidence_dir).resolve();documents=[]
+    for field in ('list','detail'):
+        name=ev[field+'_file']
+        if not isinstance(name,str) or Path(name).name!=name:raise ValueError('official evidence path invalid')
+        path=root/name
+        if path.is_symlink() or not path.is_file():raise ValueError('official evidence file missing/linked')
+        data=path.read_bytes()
+        if hashlib.sha256(data).hexdigest()!=ev[field+'_sha256']:raise ValueError('official evidence SHA mismatch')
+        documents.append(json.loads(data))
+    listing,detail=documents;info=detail.get('jobPostingInfo') if isinstance(detail,dict) else None
+    if not isinstance(info,dict) or not isinstance(info.get('id'),str) or not re.fullmatch(r'[A-Za-z0-9_-]+',info['id']) or info['id']!=row['source_record_id']:
+        raise ValueError('official detail native ID mismatch')
+    host=f'https://{parts[0]}.{parts[1]}.myworkdayjobs.com'
+    url=info.get('externalUrl');prefix=host+'/'+parts[2]
+    if not isinstance(url,str) or not url.startswith(prefix+'/job/') or url!=row['detail_url']:
+        raise ValueError('official native URL mismatch')
+    path=url[len(prefix):]
+    postings=listing.get('jobPostings') if isinstance(listing,dict) else None
+    if not isinstance(postings,list) or len([p for p in postings if isinstance(p,dict) and p.get('externalPath')==path])!=1:
+        raise ValueError('official list membership missing/ambiguous')
+    if row['job_title']!=info.get('title') or row['description_raw']!=shared.text(info.get('jobDescription')):
+        raise ValueError('official complete title/body changed or absent')
+    if not row['description_raw'].strip():raise ValueError('official full body missing')
+    from .p1_platform_workday import _strict_scope
+    actual=_strict_scope(info)
+    if (unclassified and actual is not None) or (not unclassified and (row.get('classification_status')!='verified' or actual!=row.get('p1_scope'))):
+        raise ValueError('official classification proof conflicts with claimed state')
+    return hashlib.sha256((row['p1_company']+'|'+ev['namespace']+'|'+row['source_record_id']).encode()).hexdigest()
+
+
 def validate_result(payload, company, scope, evidence_dir=None):
     """Reject malformed evidence instead of letting a source corrupt the shared store."""
     if not isinstance(payload, dict) or not isinstance(payload.get('jobs'), list):
@@ -542,9 +588,21 @@ def validate_result(payload, company, scope, evidence_dir=None):
         row['source_url'] = row.get('source_url') or url
         row['application_url'] = row.get('application_url') or url
         row['p1_company'] = company
-        row['p1_scope'] = scope
-        if row.get('recruitment_type') != SCOPES[scope]:
-            raise ValueError('job recruitment_type conflicts with requested scope')
+        unclassified=row.get('recruitment_type')=='未注明'
+        if unclassified:
+            if row.get('classification_status')!='unclassified' or coverage.get('complete') is True:
+                raise ValueError('unclassified record requires explicit partial classification')
+            coverage['status']='partial'
+            row['p1_scope']=None;row['collection_scope']=scope
+        else:
+            row['p1_scope']=scope
+            if row.get('classification_status')=='unclassified' or row.get('recruitment_type') != SCOPES[scope]:
+                raise ValueError('job recruitment_type conflicts with requested scope')
+        supplied_native_key=row.pop('native_identity_key',None)
+        if supplied_native_key is not None and row.get('classification_evidence') is None:
+            raise ValueError('derived native identity requires official proof')
+        if unclassified or row.get('classification_evidence') is not None:
+            row['native_identity_key']=_official_native_evidence(row,evidence_dir,unclassified)
         row['canonical_company'] = company
         # Search company aliases without replacing the true hiring/legal unit.
         row['parent_unit_raw'] = ' / '.join(dict.fromkeys([company, str(row.get('parent_unit_raw') or company)]))
@@ -558,7 +616,9 @@ def validate_result(payload, company, scope, evidence_dir=None):
         # must match the adapter-supplied id, so no other adapter changes identity.
         prefix = str(coverage.get('stable_id_prefix') or '')
         supplied = str(row.get('id') or '')
-        if prefix and supplied.startswith(prefix) and len(supplied) > len(prefix):
+        if row.get('native_identity_key'):
+            row['id']='p1n-'+row['native_identity_key'][:24]
+        elif prefix and supplied.startswith(prefix) and len(supplied) > len(prefix):
             row['id'] = supplied
         else:
             row['id'] = 'p1-' + hashlib.sha256(f'{company}|{scope}|{source_id}'.encode()).hexdigest()[:24]
@@ -571,6 +631,10 @@ def validate_result(payload, company, scope, evidence_dir=None):
             note = '官方列表仍公开，但明确届别较旧；请核验当前是否接受申请。'
             if note not in str(row.get('status_note') or ''):
                 row['status_note'] = str(row.get('status_note') or '') + note
+    if any(row.get('classification_status')=='unclassified' for row in rows):
+        coverage['unclassified_count']=sum(row.get('classification_status')=='unclassified' for row in rows)
+        coverage['known_scope_count']=len(rows)-coverage['unclassified_count']
+        coverage['status']='partial';coverage['complete']=False
     for row in pending:
         if row['source_record_id'] in identities:raise ValueError('same source ID appears in jobs and pending_index')
         identities.add(row['source_record_id'])
@@ -795,6 +859,15 @@ def merge_records(previous, results):
             url = row.get('detail_url') or row.get('source_url')
             if url and row.get('id'):
                 by_url.setdefault((url, row.get('recruitment_type')), []).append(index)
+        by_native={};by_legacy_native={}
+        def index_native(position):
+            prior=merged[position]
+            owner=prior.get('canonical_company') or prior.get('p1_company') or prior.get('recruitment_unit')
+            if owner!=company:return
+            native=prior.get('native_identity_key')
+            if native:by_native.setdefault((owner,native),set()).add(position)
+            else:by_legacy_native.setdefault((owner,str(prior.get('source_record_id') or '')),set()).add(position)
+        for position in range(len(merged)):index_native(position)
         by_source_uuid = {}
         for index, row in enumerate(merged):
             identity = official_uuid(row)
@@ -823,6 +896,22 @@ def merge_records(previous, results):
             canonical = incoming['p1_identity']
             normalize_records([incoming])
             index = by_id.get(canonical)
+            if incoming.get('native_identity_key'):
+                # Verified new evidence can bridge an actual pre-mechanism row
+                # across requested scopes; never use its old inferred type.
+                matches=[]
+                candidates=(by_native.get((company,incoming['native_identity_key']),set())
+                            |by_legacy_native.get((company,incoming['source_record_id']),set()))
+                for position in candidates:
+                    prior=merged[position]
+                    owner=prior.get('canonical_company') or prior.get('p1_company') or prior.get('recruitment_unit')
+                    same_key=prior.get('native_identity_key')==incoming['native_identity_key']
+                    legacy=(not prior.get('native_identity_key')
+                            and str(prior.get('source_record_id') or '')==incoming['source_record_id']
+                            and (prior.get('detail_url') or prior.get('source_url'))==incoming['detail_url'])
+                    if owner==company and (same_key or legacy):matches.append(position)
+                if len(matches)>1:raise ValueError('ambiguous official native identity/legacy bridge')
+                if matches:index=matches[0]
             if index is None and official_uuid(incoming):
                 candidates = by_source_uuid.get(official_uuid(incoming), [])
                 if len(candidates) == 1 and candidates[0] not in adopted_indices:
@@ -839,11 +928,23 @@ def merge_records(previous, results):
                 merged.append(incoming)
                 by_id[canonical] = len(merged) - 1
                 changes['added'] += 1
+                index_native(len(merged)-1)
             else:
                 old = merged[index]
+                if incoming.get('classification_status')=='unclassified':
+                    historical=old.get('last_confirmed_recruitment_type')
+                    if old.get('classification_status')=='verified' and old.get('classification_evidence'):
+                        historical={'value':old['recruitment_type'],'checked_at':old['classification_evidence']['observed_at'],
+                                    'evidence':copy.deepcopy(old['classification_evidence'])}
+                    if historical:
+                        incoming['last_confirmed_recruitment_type']=copy.deepcopy(historical)
+                        incoming['detail_presentation']=(incoming.get('detail_presentation') or '')+' 历史官网确认招聘性质：'+historical['value']+'（'+historical['checked_at']+'）；本轮未披露，不能当作本轮确认。'
                 # Incoming evidence is authoritative; retaining old raw fields
                 # could silently carry a stale cohort/campaign into new rows.
                 incoming['id'] = old['id']
+                if incoming.get('native_identity_key'):
+                    incoming['p1_identity']=old.get('p1_identity') or old['id']
+                    canonical=incoming['p1_identity']
                 if incoming.get('index_only') and old.get('description_raw'):
                     # A failed/empty current detail never destroys earlier verified prose.
                     retained=copy.deepcopy(old)
@@ -866,6 +967,7 @@ def merge_records(previous, results):
                     if prior == old:
                         merged[twin] = copy.deepcopy(incoming)
                 adopted_indices.add(index)
+                index_native(index)
                 by_id[canonical] = index
                 from qiuzhao.normalize import business_value
                 changes['updated'] += int(business_value(old) != business_value(incoming))
@@ -873,7 +975,7 @@ def merge_records(previous, results):
         if coverage.get('complete') is True and coverage.get('status') == 'success' and result['jobs']:
             reviewed = coverage.get('checked_at') or now()
             for index, row in enumerate(merged):
-                if row.get('p1_company') == company and row.get('p1_scope') == scope and (row.get('p1_identity') or row.get('id')) not in seen:
+                if row.get('classification_status')!='unclassified' and row.get('p1_company') == company and row.get('p1_scope') == scope and (row.get('p1_identity') or row.get('id')) not in seen:
                     if row.get('status') != 'removed':
                         changes['removed'] += 1
                     row = dict(row)

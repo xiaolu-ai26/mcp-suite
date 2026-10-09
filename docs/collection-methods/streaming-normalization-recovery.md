@@ -1,6 +1,6 @@
 # R3 流式归一化与单阶段恢复
 
-最后验证：2026-10-02。证据级别：**本项目源码修改 + 实际本地合成回归**；Windows、10/2 真实故障重放和独立审查尚未完成。此条不声称已修复生产事故，也不把历史文件准备审查当成本次代码批准。
+最后验证：2026-10-08后续恢复。证据级别：**独立代码审查 + 真实Windows隔离重放 + 五文件受限生产normalize-only**。原10/2报告保留当时本地回归边界；后续以私有phase的review-manifest-c-normalize-only-cfa4ad28.json、production-install.json及production-normalize-driver-receipt.txt为准。生产输出f6f9ada…、normalize_exit=0、action=normalized-not-published；原预算/截止/采集状态保留，publication仍pending，不把归一化成功说成三层交付完成。
 
 ## 适用与选型
 
