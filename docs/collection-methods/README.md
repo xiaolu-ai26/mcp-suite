@@ -10,13 +10,13 @@
 | 完整性、空列表、不适用、schema 漂移、稳定身份、字段更新、缓存 | [证据与身份](evidence-and-identity.md)：E1–E3 |
 | 断点、有界重试、失败隔离、单 writer、CAS、未知接受 | [恢复与发布](recovery-and-publication.md)：R1–R2 |
 | 容量、保留、NTFS 压缩、幂等交付、真实阶段监控 | [容量与交付](capacity-and-delivery.md)：D1–D3 |
-| 已采快照归一化失败、大 JSON 内存与原子恢复 | [流式归一化与单阶段恢复](streaming-normalization-recovery.md)：R3（本地回归，未生产验收） |
+| 已采快照归一化失败、大 JSON 内存与原子恢复 | [流式归一化与单阶段恢复](streaming-normalization-recovery.md)：R3（独审、真实Windows及生产normalize-only通过，发布另验） |
 | 实际踩坑后回填 | [条目与验收模板](TEMPLATE.md) |
 
 ## 证据等级
 
 - **本项目运行实证**：运营正文引用真实收据；仅证明对应历史事件，不证明下一次自然运行成功。
-- **本次实际本地回归**：R3 的可运行测试与受限内存探针见 [验证报告](../normalization-recovery-verification-20261002.md)；不代表 Windows 或供应商实测，独立审查待完成。
+- **R3阶段实证**：10/2的历史本地回归见[验证报告](../normalization-recovery-verification-20261002.md)；10/8后续已完成独审、真实Windows隔离重放及受限生产normalize-only。私有phase的production-normalize-driver-receipt.txt确认输出f6f9ada…/normalized-not-published，production-install.json绑定五文件安装；归一化成功不代表发布、MCP激活或Base交付完成。
 - **本项目源码与回归覆盖**：存在实现、夹具或测试，本次文档工作核对源码和测试内容，未重新运行测试，也未访问供应商。
 - **参考未实施**：AIHOT 固定只读快照 `f6c2952a9984d4840442558be114ac959b512b0c`；借鉴设计，未安装、运行或接入本项目。Fable 两轮建议也是建议，不能升格为部署事实。
 
