@@ -66,7 +66,8 @@ def test_two_page_scan_maps_official_fields_and_never_infers_cohort(tmp_path):
 
 def test_detail_missing_end_date_stays_blank(tmp_path):
     page = fixture('dayee_list_campus_p1.json')
-    page['data']['pageForm'].update(totalPage=1, pageData=page['data']['pageForm']['pageData'][:1])
+    # This is a synthetic one-row detail-field case, not the original full list.
+    page['data']['pageForm'].update(totalPage=1, dataCount=1, pageData=page['data']['pageForm']['pageData'][:1])
     page['data']['pageForm']['pageData'][0].update(endDate='', publishDate='')
     detail = fixture('dayee_detail_1.json')
     detail['endDate'] = ''
@@ -152,3 +153,59 @@ def test_zero_total_page_next_to_real_rows_never_ends_the_scan(tmp_path):
     coverage = result['coverage']
     assert coverage['pagination_exhausted'] is True
     assert coverage['status'] == 'success' and coverage['complete'] is True
+
+
+def test_empty_official_intern_response_keeps_request_scope_through_validation(tmp_path):
+    from qiuzhao.collector.p1_pipeline import validate_result
+    result = run('德勤', 'intern', tmp_path,
+                 pages={1: fixture('dayee_list_empty.json')})
+    checked = validate_result(result, '德勤', 'intern', evidence_dir=tmp_path)
+    coverage = checked['coverage']
+    assert checked['jobs'] == []
+    assert coverage['complete'] is True
+    assert coverage['expected_total'] == 0
+    assert 'recruitType=12' in coverage['scope_evidence']
+    proof = coverage['scope_response_evidence']
+    assert proof['recruitType'] == 12 and proof['dataCount'] == 0
+    assert proof['checked_at'] == coverage['scope_checked_at']
+    assert (tmp_path / proof['response_file']).is_file()
+
+
+def test_missing_or_contradictory_empty_page_never_becomes_complete(tmp_path):
+    import copy
+    bad_pages = [{'state': '200', 'data': {}},
+                 {'state': '200', 'data': {'pageForm': {'pageData': None}}}]
+    for count in (1, True, -1, '0'):
+        payload = copy.deepcopy(fixture('dayee_list_empty.json'))
+        payload['data']['pageForm']['dataCount'] = count
+        bad_pages.append(payload)
+    for number, payload in enumerate(bad_pages):
+        result = run('德勤', 'intern', tmp_path / str(number), pages={1: payload})
+        assert result['coverage']['complete'] is False
+        assert result['coverage']['status'] == 'blocked'
+        assert result['coverage']['errors']
+        assert result['jobs'] == []
+
+
+def test_trimmed_original_positive_total_is_partial_not_complete(tmp_path):
+    page = fixture('dayee_list_campus_p1.json')
+    page['data']['pageForm'].update(totalPage=1, pageData=page['data']['pageForm']['pageData'][:1])
+    result = run('德勤', 'campus', tmp_path, pages={1: page})
+    assert result['jobs']
+    assert result['coverage']['status'] == 'partial'
+    assert result['coverage']['complete'] is False
+    assert any('dataCount differs' in e for e in result['coverage']['errors'])
+
+
+def test_decreasing_terminal_total_cannot_erase_first_official_denominator(tmp_path):
+    first = fixture('dayee_list_campus_p1.json')
+    first['data']['pageForm'].update(totalPage=2, dataCount=2,
+                                    pageData=first['data']['pageForm']['pageData'][:1])
+    terminal = fixture('dayee_list_empty.json')
+    terminal['data']['pageForm'].update(dataCount=1, currentPage=2)
+    result = run('德勤', 'campus', tmp_path, pages={1:first, 2:terminal})
+    assert len(result['jobs']) == 1
+    assert result['coverage']['expected_total'] == 2
+    assert not result['coverage']['complete']
+    assert result['coverage']['status'] == 'partial'
+    assert any('dataCount changed' in e for e in result['coverage']['errors'])

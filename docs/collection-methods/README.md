@@ -46,3 +46,5 @@
 | 理想汽车严格外包枚举与公开用工说明 | [LiAuto SOP](acquisition.md#liauto-sop) |
 
 新增条目的私有证据根为 `/Users/maxzhl/Projects/qiuzhao-lzh-handoff-20261002/phase-20261008/`，正文只列脱敏收据文件名。方法初稿基线为公开 main `95bed58d77196af8905044022dbd34ef47662026`（含 PR37/38）；2026-10-09 最终核对的实际树 HEAD 为 `a2f40003b89981b58ec7466b5a3a52b939b4bec7`（PR39 merge，head `468c0b0da68d1b82ef4c56eb1da3acb9590bcbf8`）。只更新方法正文，不覆盖源码；具体实现仍按受审文件 SHA 绑定。独审与 Windows 隔离回归证明受审方法，尚不证明新版本生产安装、逐公司完整成功或请求节约比例。固定 1124 名称 / 3372 company-scope 的目标与每日真实状态仍仅维护在日更正文。
+
+Dayee合法空列表的请求级性质证据与51job未验证scope纠错见[同一证据正文](evidence-and-identity.md#dayee-request-scope)，平台契约不可互套。

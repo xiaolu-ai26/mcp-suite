@@ -323,9 +323,11 @@ def test_duplicate_descendant_section_label_still_rejected(tmp_path,monkeypatch)
     assert any('repeated requirement section' in error for error in result['coverage']['errors'])
 
 
-def test_absent_route_key_keeps_original_51job_semantics_only(tmp_path,monkeypatch):
+def test_absent_route_key_does_not_verify_unconfigured_social_scope(tmp_path,monkeypatch):
     entries=copy.deepcopy(J._read_platform());del entries['engel2027']['scope_routes']
     monkeypatch.setattr(J,'_read_platform',lambda:entries)
     result,calls=collect(tmp_path,monkeypatch)
-    assert calls==[] and result['coverage']['complete']
+    assert calls==[] and not result['coverage']['complete']
+    assert result['coverage']['status']=='blocked'
+    assert result['coverage']['errors']==['source_scope_not_verified']
     assert J.scope_route('ENGEL','social') is None
