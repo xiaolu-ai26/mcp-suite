@@ -81,9 +81,13 @@ C北森同run完整列表复用已独审25项通过、Windows隔离真实缓存/
 
 10/9自然run20261009截至05:17小收据仍在P1，已接受5段，最新`c4a92b6c…`于05:00:54接受；3372唯一计划键与720结果相交、额外0，375 success/136 partial/209 blocked为当前技术状态，2652尚无结果，不能替代逐源完整验收。basic退出2、tencent退出0，原72000秒预算与21:38:24截止未改。03:00激活曾在03:02:09超时报失败，但实际新进程03:02:11已served e471；受审单文件修复PR #35已安装，服务未由本次安装重启，04:00与05:00原定时激活均真实通过，05:03实际served/control=c4，Base仍为f770，三层尚非同版。证据为`natural-run-20261009-progress-current.json`、`activation-production-install.json`、`activation-natural-0400.json`、`retention-server-protection.json`。
 
-Workday可信分页与basic有类型/阶段的失败收据修复PR #33/#34已合并；神州数码官方4/5招聘性质配置、完整运行依赖冻结与北森字段级来源保留尚在集成。北森字段融合独审北森37+平台Moka9=46项通过，另亲自复核有限资格规则的真实公开链路反例；D北森37+缓存Moka11=48项通过，配置读取测试另补显式UTF-8；不代表任意资格语言或481名称本轮全量正确。BOC复用已取得官方列表内嵌正文和适用共同条件实施，旧14公告角色保留其粒度，不能计为14个ATS完整岗位。
+Workday可信分页、basic类型/阶段收据、神州数码4/5配置与完整运行依赖、北森字段保留、BOC原生岗位与LiAuto外包枚举均已分别合入PR #33–#39；ENGEL仅原名称social路由的legacy协议薄分支已合PR #40（merge 74e2687）。这些新采集依赖尚未安装到健康运行的C。北森字段融合独审北森37+平台Moka9=46项通过，另亲自复核有限资格规则的真实公开链路反例；D北森37+缓存Moka11=48项通过，配置读取测试另补显式UTF-8；不代表任意资格语言或481名称本轮全量正确。BOC复用已取得官方列表内嵌正文和适用共同条件实施，旧14公告角色保留其粒度，不能计为14个ATS完整岗位。
 
 05:28容量处置收据：受审34件冷gzip范围共4,435,750,227B，首件129,994,170B已在财富密码1原物理卷持久归档并核压缩及原数据SHA；原receiver锁忙，工具安全拒删。实际删除0/释放0，其余未开始，保留归档续用，不强抢正常发布锁。`retention-reviewed-candidate-plan.json`区分inner plan与外层文件SHA，实际终态以`retention-apply-receipt.json`为准；余量与计划只按实时门验证，不保证整日持续。
+
+10/9后续容量证据：Linux原34件名单已完成11件删除（1,432,359,564B），第12件已归档但原receiver锁忙拒删，继续单receipt安全窗口；不冒称仍运行。C06外盘保全已核20241文件/3,148,626,248原logical，tar 3,185,397,760B/SHA6eb205…、完整inventory438f8c…，逐member字节/SHA匹配并durable落盘；C原件仍留。D失败重复generation已受审精确回收，卷余量升2,976,694,272B，不算C收益。`windows-cold-external-copy-receipt.json`、`discard-failed-cold-partial-apply.json`与原`retention-apply-receipt.json`分别为权威小收据，当前C删除尚未放行。 C06原归一化失败且未发布，未证明成果被消费；原jobs、before基线、receipt/P1恢复元数据仍在线保留，卷路径不等于artifact依赖。
+08:11本轮自然run仍validate-and-publish：1191个结果（702success/189partial/300blocked），2181个尚无结果并非已证未开始；已接受9版、latest794e79…，Base仍f770。随后现场intent已出现且Linux有正式上传临时文件，retention原剩余23件精确子集核验通过但暂缓apply。一期“未注明”同库兼容正在隔离树实现，原3372分类验收仍partial；Base现有选项为“未知”，地域与来源完成口径仍待业务澄清。 外盘后续读取报Device not configured且当前无external physical设备节点，Linux归档与C06删除暂缓；原C未发布成果保留，不在失效挂载路径新建替代目录。
+
 
 记录的事件发生在 **2026-09-24（北京时间）**，文中时间均为该日，除非另行注明。
 

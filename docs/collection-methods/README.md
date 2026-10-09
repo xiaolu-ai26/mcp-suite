@@ -1,6 +1,6 @@
 # 数据采集方法库
 
-最后核对：2026-10-02（新增 R3 本地回归；其余条目仍是各自标明的历史验证）。范围：当前仓库源码、测试及历史运行收据；这是方法索引，不是今日运营状态。当前状态只维护在 [日更交付正文](../qiuzhao-daily-delivery.md)。本文不触发采集、付费调用、部署或平台写入。
+最后核对：2026-10-09（增补平台 SOP 执行与证据绑定；各方法的历史验证时间分别保留）。范围：当前仓库源码、测试及历史运行收据；这是方法索引，不是今日运营状态。当前状态只维护在 [日更交付正文](../qiuzhao-daily-delivery.md)。本文不触发采集、付费调用、部署或平台写入。
 
 方法可迁移到资讯、商品、公告、目录、岗位等数据。`company/scope/job` 在复用时分别对应来源主体、采集范围、记录；涉及招聘分类及飞书交付的契约仍是本项目专用，不能原样套到其他业务。
 
@@ -33,3 +33,16 @@
 ## 2026-10-08 成功方法绑定标准
 
 成功方法必须绑定正式运行同入口代码、可复用公司/租户/入口/scope配置、字段映射、可执行SOP及失败恢复、脱敏真实代表样本/回归、受审版本与真实运行终态证据。公司参数与method_id沿现有配置/生成清单维护；同平台共用一个SOP，不逐公司复制流程。配置/账本产生runtime状态，本库不重复每日计数。AI辅助修方法，不作为日更重新探索的依赖。固定范围与阶段状态见[唯一日更正文](../qiuzhao-daily-delivery.md#0-2026-10-08-实施方案与阶段状态入口)。
+
+
+## 平台 SOP 导航（2026-10-09）
+
+| 复用场景 | 唯一方法位置 |
+|---|---|
+| 北森完整同 run 列表缓存、字段融合与租户枚举 | [北森 SOP](acquisition.md#beisen-sop)、[执行与证据绑定](acquisition.md#platform-sop-execution) |
+| Eightfold / Phenom 严格列表契约、分页与字段来源 | [完整性契约](evidence-and-identity.md#ef-phenom-contract)、[执行补充](evidence-and-identity.md#pagination-sop) |
+| Workday 首总数与后页零哨兵 | [Workday 契约](evidence-and-identity.md#workday-contract)、[执行补充](evidence-and-identity.md#pagination-sop) |
+| BOC 公告与原生岗位双粒度、嵌入正文及共同条件 | [BOC SOP](acquisition.md#boc-sop) |
+| 理想汽车严格外包枚举与公开用工说明 | [LiAuto SOP](acquisition.md#liauto-sop) |
+
+新增条目的私有证据根为 `/Users/maxzhl/Projects/qiuzhao-lzh-handoff-20261002/phase-20261008/`，正文只列脱敏收据文件名。方法初稿基线为公开 main `95bed58d77196af8905044022dbd34ef47662026`（含 PR37/38）；2026-10-09 最终核对的实际树 HEAD 为 `a2f40003b89981b58ec7466b5a3a52b939b4bec7`（PR39 merge，head `468c0b0da68d1b82ef4c56eb1da3acb9590bcbf8`）。只更新方法正文，不覆盖源码；具体实现仍按受审文件 SHA 绑定。独审与 Windows 隔离回归证明受审方法，尚不证明新版本生产安装、逐公司完整成功或请求节约比例。固定 1124 名称 / 3372 company-scope 的目标与每日真实状态仍仅维护在日更正文。

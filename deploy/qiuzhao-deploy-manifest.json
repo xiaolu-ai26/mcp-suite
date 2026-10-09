@@ -36,8 +36,8 @@
           "repo": "qiuzhao/collector/run.py",
           "target": "<collector root>/qiuzhao/collector/run.py",
           "owner": "location",
-          "sha256": "4789566ada84511da0ff4549c0df945159fd0a11b17240a407e7d17e5aacc104",
-          "status": "frozen 2026-10-09: independent typed basic diagnostics/protection review PASS; Windows39 tests; actual source problem closure separate"
+          "sha256": "4672f6d444a5c76685d1966864aa398b2e6a3d9e90d1ec8ea8738961c497436b",
+          "status": "frozen 2026-10-09: independent BOC native public campaign and legacy-grain review PASS; Windows full 74 tests PASS; target installation separate"
         },
         {
           "repo": "qiuzhao/collector/auto_collect.py",
@@ -50,8 +50,8 @@
           "repo": "qiuzhao/collector/p1_pipeline.py",
           "target": "<collector root>/qiuzhao/collector/p1_pipeline.py",
           "owner": "location",
-          "sha256": "fff52389c4aad220183c77db6c29e63186afe1736c0f340e535a2d0a04cda0aa",
-          "status": "frozen 2026-09-28: location review PASS (batch 2)"
+          "sha256": "bc093abd98ea469c15c2d5f67fb8c243e904964d61d4bef2a241a69ee9d0da9c",
+          "status": "frozen 2026-10-09: ENGEL PR40 independently reviewed bytes; per-target installation remains separate"
         },
         {
           "repo": "qiuzhao/collector/p1_sources_11_20.py",
@@ -204,15 +204,15 @@
           "repo": "qiuzhao/collector/p1_pipeline.py",
           "target": "<collector root>/qiuzhao/collector/p1_pipeline.py",
           "owner": "daily-source-delivery",
-          "sha256": "fff52389c4aad220183c77db6c29e63186afe1736c0f340e535a2d0a04cda0aa",
-          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+          "sha256": "bc093abd98ea469c15c2d5f67fb8c243e904964d61d4bef2a241a69ee9d0da9c",
+          "status": "frozen 2026-10-09: ENGEL PR40 independent code and Windows original HTML replay; production install pending"
         },
         {
           "repo": "qiuzhao/collector/p1_platform_51job.py",
           "target": "<collector root>/qiuzhao/collector/p1_platform_51job.py",
           "owner": "daily-source-delivery",
-          "sha256": "efbf7c03f1d0714f6d2a1ed18c7ebd3763ca689c7fde5c9b7ebecab11d92dea6",
-          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+          "sha256": "6b7302901240cdd8d6614a8f7ce24d5c2a637a18efa2acc8c7b7f0a127235c61",
+          "status": "frozen 2026-10-09: ENGEL PR40 independent code and Windows original HTML replay; production install pending"
         },
         {
           "repo": "qiuzhao/collector/p1_platform_avature.py",
@@ -225,15 +225,15 @@
           "repo": "qiuzhao/collector/p1_platform_beisen.py",
           "target": "<collector root>/qiuzhao/collector/p1_platform_beisen.py",
           "owner": "daily-source-delivery",
-          "sha256": "22efbcc54e69add1365f9e6370851b02651cc06ad25c04064873f8bd101b7612",
-          "status": "frozen 2026-10-09: independent finite field-provenance/public-chain review PASS; Windows two-file regression PASS; production installation separate"
+          "sha256": "3b0bc19a9d5e1caee6e7dcaa30be5db3f83c5e3f6812a85b224a2feea37d0d45",
+          "status": "frozen 2026-10-09: ENGEL PR40 independent code and Windows original HTML replay; production install pending"
         },
         {
           "repo": "qiuzhao/collector/p1_platform_companies.json",
           "target": "<collector root>/qiuzhao/collector/p1_platform_companies.json",
           "owner": "daily-source-delivery",
-          "sha256": "7b6e7c6d37fff4607f5edc00e1d9e2c99c67491089ba58233fb285f6ae4b465c",
-          "status": "frozen 2026-10-09: independent C code/config byte review PASS; target installation separate"
+          "sha256": "0815f1c91d6dec2c46220be9497bf1fd238e5e17fbce95fb5e95532e81d3283e",
+          "status": "frozen 2026-10-09: ENGEL PR40 independent code and Windows original HTML replay; production install pending"
         },
         {
           "repo": "qiuzhao/collector/p1_platform_eightfold.py",
@@ -316,8 +316,8 @@
           "repo": "qiuzhao/collector/p1_sources_31_40.py",
           "target": "<collector root>/qiuzhao/collector/p1_sources_31_40.py",
           "owner": "daily-source-delivery",
-          "sha256": "73382cdea5de8a0e71be02e37da5a0f319e8c12e46b9e6d8a715392b4160a70d",
-          "status": "frozen 2026-10-09: existing runtime byte identity, not per-source business acceptance"
+          "sha256": "ad4f88152f1b943907f8008bf6e7b6cfaaa814f8205ca5619f77ddc44ed50fe7",
+          "status": "frozen 2026-10-09: independent official typed LiAuto outsourcing review PASS; Windows 50 tests and 22 subtests PASS; target installation separate"
         },
         {
           "repo": "qiuzhao/collector/p1_sources_41_50.py",
@@ -337,8 +337,15 @@
           "repo": "qiuzhao/collector/run.py",
           "target": "<collector root>/qiuzhao/collector/run.py",
           "owner": "daily-source-delivery",
-          "sha256": "4789566ada84511da0ff4549c0df945159fd0a11b17240a407e7d17e5aacc104",
-          "status": "frozen 2026-10-09: independent typed basic diagnostics/protection review PASS; Windows39 tests; actual source problem closure separate"
+          "sha256": "4672f6d444a5c76685d1966864aa398b2e6a3d9e90d1ec8ea8738961c497436b",
+          "status": "frozen 2026-10-09: independent BOC native public campaign and legacy-grain review PASS; Windows full 74 tests PASS; target installation separate"
+        },
+        {
+          "repo": "qiuzhao/collector/chinahr_public.py",
+          "target": "<collector root>/qiuzhao/collector/chinahr_public.py",
+          "owner": "daily-source-delivery",
+          "sha256": "f91ab486b8534e96dee19e59030bf7780fcd76a0d339cd6f33db5560e5424d1d",
+          "status": "frozen 2026-10-09: independent BOC public contract and Windows full regression PASS; current campaign completeness and installation separate"
         },
         {
           "repo": "qiuzhao/collector/tencent_music.py",
@@ -427,8 +434,8 @@
           "repo": "qiuzhao/collector/p1_pipeline.py",
           "target": "<collector root>/qiuzhao/collector/p1_pipeline.py",
           "owner": "collector-recovery",
-          "sha256": "fff52389c4aad220183c77db6c29e63186afe1736c0f340e535a2d0a04cda0aa",
-          "status": "frozen 2026-10-08: independent PR27 parser/config/dependency byte review PASS; Windows deployment acceptance is separate"
+          "sha256": "bc093abd98ea469c15c2d5f67fb8c243e904964d61d4bef2a241a69ee9d0da9c",
+          "status": "frozen 2026-10-09: ENGEL PR40 independent code and Windows original HTML replay; production install pending"
         },
         {
           "repo": "deploy/deploy_manifest.py",
@@ -476,8 +483,8 @@
           "repo": "qiuzhao/collector/p1_platform_companies.json",
           "target": "<collector root>/qiuzhao/collector/p1_platform_companies.json",
           "owner": "collector-recovery",
-          "sha256": "7b6e7c6d37fff4607f5edc00e1d9e2c99c67491089ba58233fb285f6ae4b465c",
-          "status": "frozen 2026-10-09: independent digitalchina category mapping byte review PASS; 1124 names/3372 scopes unchanged; target installation separate"
+          "sha256": "0815f1c91d6dec2c46220be9497bf1fd238e5e17fbce95fb5e95532e81d3283e",
+          "status": "frozen 2026-10-09: ENGEL PR40 independent code and Windows original HTML replay; production install pending"
         }
       ],
       "_asset_boundary": "normalize_tables.json absence/presence is bound by the independent target review manifest; production absence remains valid, historical table must not be installed."
@@ -614,8 +621,8 @@
           "repo": "qiuzhao/collector/p1_pipeline.py",
           "target": "imported by windows_excel_delivery.py (atomic_json)",
           "owner": "collector",
-          "sha256": "fff52389c4aad220183c77db6c29e63186afe1736c0f340e535a2d0a04cda0aa",
-          "status": "frozen 2026-09-28: location review PASS (batch 2)"
+          "sha256": "bc093abd98ea469c15c2d5f67fb8c243e904964d61d4bef2a241a69ee9d0da9c",
+          "status": "frozen 2026-10-09: ENGEL PR40 independently reviewed bytes; per-target installation remains separate"
         },
         {
           "repo": "qiuzhao/collector/portable_runtime.py",
@@ -686,8 +693,8 @@
           "repo": "qiuzhao/collector/p1_platform_companies.json",
           "target": "read by company_names.py",
           "owner": "location",
-          "sha256": "7b6e7c6d37fff4607f5edc00e1d9e2c99c67491089ba58233fb285f6ae4b465c",
-          "status": "frozen 2026-10-09: independent digitalchina category mapping byte review PASS; 1124 names/3372 scopes unchanged; target installation separate"
+          "sha256": "0815f1c91d6dec2c46220be9497bf1fd238e5e17fbce95fb5e95532e81d3283e",
+          "status": "frozen 2026-10-09: ENGEL PR40 reviewed configuration identity; actual target install separate"
         }
       ]
     },
